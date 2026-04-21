@@ -41,6 +41,7 @@ graph TD
     style C fill:#c0392b,color:#fff
     style D fill:#8e44ad,color:#fff
     style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
 ```
 
 
@@ -180,6 +181,7 @@ graph TD
     style DD fill:#2d8659,color:#fff
     style DT fill:#3498db,color:#fff
     style DC fill:#e67e22,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
 ```
 
 ### The Parallel Trends Assumption
@@ -408,6 +410,7 @@ graph TD
     style PT fill:#c0392b,color:#fff
     style FE fill:#e67e22,color:#fff
     style EV fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
 ```
 
 1. **DD compares changes over time** between treatment and control groups, removing time-invariant confounders.

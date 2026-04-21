@@ -41,6 +41,7 @@ graph TD
     style C fill:#8e44ad,color:#fff
     style D fill:#e67e22,color:#fff
     style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
 ```
 
 
@@ -387,6 +388,7 @@ graph TD
     style OVB fill:#e67e22,color:#fff
     style SENS fill:#2d8659,color:#fff
     style BC fill:#c0392b,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
 ```
 
 1. **Regression approximates an experiment** by comparing treated and untreated observations that share the same values of control variables.

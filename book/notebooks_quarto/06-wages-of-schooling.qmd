@@ -41,6 +41,7 @@ graph TD
     style C fill:#8e44ad,color:#fff
     style D fill:#e67e22,color:#fff
     style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
 ```
 
 
@@ -504,6 +505,7 @@ graph TD
     style IV fill:#3498db,color:#fff
     style RD fill:#e67e22,color:#fff
     style SYN fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
 ```
 
 1. **OLS returns to schooling (~11%)** are likely inflated by ability bias.
