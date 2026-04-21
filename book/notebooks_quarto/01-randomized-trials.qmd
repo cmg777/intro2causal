@@ -7,14 +7,9 @@ execute:
 
 ![](../images/ch01_visual_summary.svg)
 
-<div class="chapter-resources">
-<a href="#" class="resource-btn">AI Slides</a>
-<a href="#" class="resource-btn">Quiz</a>
-<a href="#" class="resource-btn">AI Tutor</a>
-</div>
 
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -49,12 +44,12 @@ graph TD
 ```
 
 
-# Does Health Insurance Improve Health?
+## Does Health Insurance Improve Health?
 
 The United States spends more on health care than any other developed country, yet millions of Americans remain uninsured. A natural question arises: **does having health insurance actually make people healthier?**
 
 ::: {.callout-note}
-## Intuition Builder: The Road Not Taken
+### Intuition Builder: The Road Not Taken
 
 Imagine standing at a fork in a road. One path leads through a world where you have health insurance; the other through a world where you don't. You can only walk one path --- you'll never know what would have happened on the other. This is the **fundamental problem of causal inference**: we observe one outcome per person, but the causal effect requires comparing two.
 :::
@@ -83,7 +78,7 @@ nhis.head(3)
 
 The dataset contains a health index (1 = poor, 5 = excellent), insurance status (1 = insured, 0 = uninsured), and demographic characteristics for married couples.
 
-## A First Look: Insured vs. Uninsured
+### A First Look: Insured vs. Uninsured
 
 Let's start with the simplest possible comparison. What is the average health of insured people versus uninsured people?
 
@@ -99,12 +94,12 @@ nhis.groupby("insurance")["health"].mean().round(2).reset_index().rename(
 
 Insured people *are* healthier. But can we conclude that insurance *caused* this difference?
 
-## The Problem: Other Differences Between Groups
+### The Problem: Other Differences Between Groups
 
 Before drawing causal conclusions, let's check whether insured and uninsured people differ in other ways too.
 
 ::: {.callout-note}
-## Regression as a comparison tool
+### Regression as a comparison tool
 
 A simple but powerful trick: if you regress an outcome $Y$ on a dummy variable $D$ (where $D = 1$ for treated, $D = 0$ for untreated), the regression gives you:
 
@@ -116,7 +111,7 @@ This is exactly the same as computing group means and their difference --- but r
 :::
 
 ::: {.callout-note}
-## How to read regression results
+### How to read regression results
 
 Throughout this study guide, we report regression results with **standard errors** (SE) in parentheses.
 
@@ -155,7 +150,7 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-warning}
-## The red flags of selection bias
+### The red flags of selection bias
 
 The insured are healthier --- but they are also:
 
@@ -167,11 +162,11 @@ These are *enormous* differences. People who choose insurance are fundamentally 
 :::
 
 
-# Why Naive Comparisons Fail: Selection Bias
+## Why Naive Comparisons Fail: Selection Bias
 
 The NHIS comparison illustrates a deep problem in causal inference. To understand it precisely, we need a framework for thinking about what *would have happened* under different circumstances.
 
-## The Potential Outcomes Framework
+### The Potential Outcomes Framework
 
 Imagine person $i$ stands at a fork in the road. One path leads to having insurance; the other doesn't. Each path leads to a health outcome:
 
@@ -180,7 +175,7 @@ Imagine person $i$ stands at a fork in the road. One path leads to having insura
 
 The **causal effect** of insurance for person $i$ is $Y_{1i} - Y_{0i}$ --- the difference between the two roads. But here's the catch: each person takes only one road. We observe $Y_{1i}$ or $Y_{0i}$, never both.
 
-### Seeing It Through an Example
+#### Seeing It Through an Example
 
 | | **Anika** | **Ben** |
 |:---|:---:|:---:|
@@ -197,12 +192,12 @@ Anika, who is prone to illness, buys insurance --- it improves her health by 1 p
 **What do we observe?** Anika's health is 4; Ben's is 5. The naive comparison ($4 - 5 = -1$) suggests insurance is *harmful*! The true effect on Anika is +1, but the comparison is polluted by the fact that Ben was healthier to begin with.
 
 ::: {.callout-warning}
-## Common Misconception
+### Common Misconception
 
 "Insured people are healthier, so insurance must work." This confuses correlation with causation. The Anika/Ben example shows that even when the treated group looks *worse*, the true treatment effect can be positive. The observed comparison reflects both the causal effect and the pre-existing differences between people who choose treatment and those who don't. You cannot read causation from a simple comparison --- ever.
 :::
 
-## The Decomposition
+### The Decomposition
 
 This leads to a fundamental equation. Any observed comparison can be split into two pieces:
 
@@ -236,15 +231,15 @@ graph TD
 ```
 
 ::: {.callout-important}
-## The Fundamental Problem of Causal Inference
+### The Fundamental Problem of Causal Inference
 
 We want $\kappa$ (the causal effect), but what we observe is $\kappa$ **plus** selection bias. We cannot separate the two without a strategy that eliminates the bias.
 :::
 
 
-# The Solution: Random Assignment
+## The Solution: Random Assignment
 
-## The Core Idea
+### The Core Idea
 
 What if, instead of letting people *choose* insurance, we assigned it randomly --- like a coin flip? This is the insight behind **randomized controlled trials (RCTs)**.
 
@@ -257,7 +252,7 @@ When treatment is randomly assigned:
 The **Law of Large Numbers** guarantees this: in large random samples, group averages converge to the population average. So both groups end up looking alike.
 
 ::: {.callout-note}
-## Intuition Builder: The Dice Analogy
+### Intuition Builder: The Dice Analogy
 
 Roll a fair die once --- you might get 1 or 6, far from the expected value of 3.5. Roll it 10 times --- the average gets closer. Roll it 10,000 times --- the average is almost exactly 3.5. This is why **casinos always win in the long run**: any single bet is a toss-up, but over thousands of plays, the house edge reliably prevails. Random assignment works the same way: with enough people, the treatment and control groups converge to being identical on *every* characteristic --- even ones we can't see.
 :::
@@ -281,7 +276,7 @@ graph TD
     style D fill:#2c3e50,color:#fff
 ```
 
-## Why It Works Mathematically
+### Why It Works Mathematically
 
 With random assignment, the expected baseline health is the same in both groups:
 
@@ -291,15 +286,15 @@ This makes the selection bias term **zero**, so the observed difference equals t
 
 $$E[Y_i \mid D_i = 1] - E[Y_i \mid D_i = 0] = \kappa$$
 
-## Checking for Balance
+### Checking for Balance
 
 Even in a randomized experiment, good practice requires us to **check for balance**: verify that baseline characteristics look similar across treatment groups. If they do, we can be confident that randomization worked and that the comparison is credible.
 
 
 
-# Case Study 1: The RAND Health Insurance Experiment
+## Case Study 1: The RAND Health Insurance Experiment
 
-## Background
+### Background
 
 The **RAND Health Insurance Experiment (HIE)**, running from 1974 to 1982, remains one of the most influential social experiments ever conducted. Nearly 4,000 people from six U.S. sites were randomly assigned to insurance plans with varying levels of generosity:
 
@@ -317,7 +312,7 @@ The experiment asked two questions:
 1. When health care is cheaper, do people use more of it?
 2. Does using more health care improve health?
 
-## Step 1: Verify Randomization (Balance Check)
+### Step 1: Verify Randomization (Balance Check)
 
 First, we check whether randomization created comparable groups. We regress each baseline characteristic on plan-type dummies. The **catastrophic plan is the omitted reference group**, so each coefficient represents the difference between that plan group and the catastrophic group.
 
@@ -349,7 +344,7 @@ result.summary().tables[1]
 The **intercept** (32.4) is the average age in the catastrophic group. The coefficients on the plan dummies (0.43 to 0.97) are the age differences --- all small and statistically insignificant. Age is balanced.
 
 ::: {.callout-note collapse="true"}
-## Why do we cluster standard errors by family?
+### Why do we cluster standard errors by family?
 
 In the RAND HIE, all members of a family were assigned to the **same** insurance plan. This means observations within a family are not independent --- knowing one family member's plan tells you the other's. **Clustering** standard errors at the family level corrects for this correlation, preventing us from overstating the precision of our estimates.
 :::
@@ -388,7 +383,7 @@ pd.DataFrame(rows)
 **Verdict:** Differences are small, go in both directions, and almost none are statistically significant. Randomization worked. Compare this to the NHIS table earlier, where insured and uninsured groups differed dramatically on *every* dimension.
 
 
-## Step 2: Estimate Causal Effects on Health-Care Use
+### Step 2: Estimate Causal Effects on Health-Care Use
 
 Now we turn to outcomes. Because treatment was randomly assigned, the same regression approach that checked balance now gives us **causal effects**. The coefficient on each plan dummy tells us how much that plan changed health-care use *relative to having no insurance*.
 
@@ -429,7 +424,7 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-note}
-## Interpretation: The demand for health care
+### Interpretation: The demand for health care
 
 The free plan caused large increases in utilization:
 
@@ -441,7 +436,7 @@ This is the **demand curve** at work: when insurance lowers the out-of-pocket pr
 :::
 
 
-## Step 3: Estimate Causal Effects on Health
+### Step 3: Estimate Causal Effects on Health
 
 Here is the crucial test. All that extra spending bought more health care --- but did it buy better **health**? These outcomes were measured 3--5 years after random assignment.
 
@@ -479,7 +474,7 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-important}
-## The RAND Paradox: More Care ≠ Better Health
+### The RAND Paradox: More Care ≠ Better Health
 
 The results are striking. Across all four health measures --- general health, cholesterol, blood pressure, and mental health --- the differences between plan groups are **small and statistically insignificant**.
 
@@ -488,7 +483,7 @@ Despite consuming **45% more health care**, participants in the free plan showed
 This is a **precisely estimated null**: the standard errors are small enough to rule out large health benefits. The experiment was not too small to detect an effect --- the effect simply wasn't there.
 :::
 
-### What Did We Learn from the RAND HIE?
+#### What Did We Learn from the RAND HIE?
 
 The RAND experiment delivered three key lessons:
 
@@ -499,21 +494,21 @@ The RAND experiment delivered three key lessons:
 These findings directly shaped the policy debate around the **Affordable Care Act** (2010). Proponents argued for universal coverage to improve health; skeptics cited RAND to argue that subsidized insurance mainly increases spending. The truth, as we'll see from Oregon, is more nuanced.
 
 ::: {.callout-note}
-## Connection to Chapter 3: Non-Compliance
+### Connection to Chapter 3: Non-Compliance
 
 In the Oregon lottery, only about **25% of winners** actually enrolled in Medicaid (the rest failed paperwork or were ineligible). This means the simple winner/loser comparison understates the true effect on those who gained insurance. Adjusting for this non-compliance requires **instrumental variables** (Chapter 3): divide the winner/loser difference by the enrollment rate. This is a preview of the IV method.
 :::
 
 
-# Case Study 2: The Oregon Health Plan
+## Case Study 2: The Oregon Health Plan
 
-## Why a Second Experiment?
+### Why a Second Experiment?
 
 The RAND HIE was groundbreaking, but it studied **middle-class families** who all had at least catastrophic coverage. Today's uninsured Americans are different: younger, poorer, less educated. Would insurance help *them* more?
 
 In 2008, the state of Oregon ran a **health insurance lottery**. About 75,000 low-income adults applied for Medicaid expansion; roughly 30,000 were randomly selected to apply for coverage. Economist Amy Finkelstein and colleagues studied the results.
 
-## Results at a Glance
+### Results at a Glance
 
 | Outcome | Effect of Winning the Lottery |
 |:---|:---|
@@ -528,7 +523,7 @@ In 2008, the state of Oregon ran a **health insurance lottery**. About 75,000 lo
 
 : Oregon Health Plan lottery results (Finkelstein et al., 2012; Baicker et al., 2013) {#tbl-ohp .striped}
 
-## Comparing the Two Experiments
+### Comparing the Two Experiments
 
 | | RAND HIE (1974--1982) | Oregon OHP (2008) |
 |:---|:---:|:---:|
@@ -543,7 +538,7 @@ In 2008, the state of Oregon ran a **health insurance lottery**. About 75,000 lo
 The two experiments, conducted decades apart on very different populations, reached remarkably similar conclusions about physical health. The Oregon study added two important insights: insurance provides **financial protection** (less medical debt) and **mental health benefits** --- which may be its primary value for low-income populations.
 
 
-# Historical Perspective: Pioneers of Randomization
+## Historical Perspective: Pioneers of Randomization
 
 The idea of using controlled comparisons did not appear overnight. Key milestones in the development of experimental methods:
 
@@ -575,15 +570,15 @@ timeline
 - **R.A. Fisher** (1920s--30s) formalized the theory of random assignment and experimental design, launching the modern era of RCTs
 
 
-# Statistical Inference Toolkit
+## Statistical Inference Toolkit
 
 Throughout this chapter, we reported regression results with standard errors. Here is a brief guide to interpreting these numbers.
 
-## The Core Problem: Sampling Variability
+### The Core Problem: Sampling Variability
 
 Any estimate from a sample could differ if we drew a different sample from the same population. **Statistical inference** quantifies this uncertainty.
 
-## Key Concepts
+### Key Concepts
 
 | Concept | Symbol | Plain English |
 |:---|:---:|:---|
@@ -594,10 +589,10 @@ Any estimate from a sample could differ if we drew a different sample from the s
 
 : Key inference tools. {.striped}
 
-## The Rule of Thumb
+### The Rule of Thumb
 
 ::: {.callout-tip}
-## When is a result "statistically significant"?
+### When is a result "statistically significant"?
 
 If the **t-statistic** (coefficient divided by its standard error) exceeds **2** in absolute value, the result is statistically significant at the 5% level. This means it is unlikely to have arisen by chance alone.
 
@@ -606,7 +601,7 @@ If the **t-statistic** (coefficient divided by its standard error) exceeds **2**
 **For treatment effects**: significant results provide evidence of a real causal effect.
 :::
 
-## A Crucial Caveat
+### A Crucial Caveat
 
 Statistical significance measures **precision**, not **importance**:
 
@@ -617,7 +612,7 @@ Statistical significance measures **precision**, not **importance**:
 Always consider both the **size** of a coefficient and its **statistical precision**.
 
 
-# Key Takeaways
+## Key Takeaways
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -660,12 +655,12 @@ graph TD
 8. **The Oregon OHP** confirmed these findings and showed that insurance helps with financial protection and mental health.
 
 
-# Exercises
+## Exercises
 
-## Conceptual Questions
+### Conceptual Questions
 
 ::: {.callout-caution}
-## Conceptual Questions
+### Conceptual Questions
 
 1. **Spotting selection bias**: A study reports that people who eat organic food live 3 years longer. List three reasons why this comparison might reflect selection bias rather than a causal effect of organic food.
 
@@ -678,10 +673,10 @@ graph TD
 5. **Designing an RCT**: You want to test whether free school lunches improve student test scores. (a) How would you randomly assign treatment? (b) What outcome would you measure? (c) What balance check would you run? (d) Why might some students assigned to "free lunch" not actually eat it, and what problem does this create?
 :::
 
-## Research Tasks
+### Research Tasks
 
 ::: {.callout-caution}
-## Research Tasks
+### Research Tasks
 
 1. **Binary balance check**: Using `rand_balance.csv`, run a balance check using the single dummy `any_insurance` (instead of the three plan dummies). Regress `age`, `education`, and `health_index` on `any_insurance` with family-clustered SEs. Do you reach the same conclusion about balance as the three-dummy specification?
 
@@ -691,9 +686,9 @@ graph TD
 :::
 
 
-# Solutions
+## Solutions
 
-## Conceptual Questions
+### Conceptual Questions
 
 **Q1.** Three sources of selection bias in the organic food comparison: (a) People who buy organic food tend to have higher incomes, and wealthier people have better access to health care and live longer regardless of diet. (b) Organic food buyers are likely more health-conscious overall --- they exercise more, smoke less, and manage stress better. (c) Education is correlated with both organic food consumption and longevity; more-educated people make healthier choices across many domains.
 
@@ -705,7 +700,7 @@ graph TD
 
 **Q5.** (a) Randomly select classrooms or schools to receive the program (cluster randomization), or randomly assign individual students within each school. (b) Measure standardized test scores at the end of the semester/year. (c) Compare baseline characteristics (prior test scores, demographics, family income) between treatment and control groups to verify balance. (d) Some students may refuse the lunch, share it, or already receive food from other sources. This is a *non-compliance* problem: the intent-to-treat effect (being offered lunch) may differ from the effect of actually eating it. This foreshadows the instrumental variables approach in Chapter 3.
 
-## Research Tasks
+### Research Tasks
 
 **R1.**
 

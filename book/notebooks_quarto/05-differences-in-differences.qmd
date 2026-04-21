@@ -7,14 +7,9 @@ execute:
 
 ![](../images/ch05_visual_summary.svg)
 
-<div class="chapter-resources">
-<a href="#" class="resource-btn">AI Slides</a>
-<a href="#" class="resource-btn">Quiz</a>
-<a href="#" class="resource-btn">AI Tutor</a>
-</div>
 
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -49,9 +44,9 @@ graph TD
 ```
 
 
-# A Mississippi Experiment
+## A Mississippi Experiment
 
-## The Great Depression and the Fed
+### The Great Depression and the Fed
 
 In 1930, the collapse of Caldwell and Company, a Nashville banking giant, triggered a cascade of bank failures across the American South. Within weeks, dozens of banks closed. The question for policymakers: **could aggressive central bank intervention have prevented the collapse?**
 
@@ -88,7 +83,7 @@ banks = load_csv("ch5/banks_clean.csv")
 banks
 ```
 
-## Visualizing the DD
+### Visualizing the DD
 
 ```{python}
 #| label: fig-banks
@@ -111,7 +106,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Computing the DD
+### Computing the DD
 
 The DD calculation compares **changes** across groups, which removes any fixed differences between the districts:
 
@@ -139,13 +134,13 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-important}
-## Key finding
+### Key finding
 
 The Atlanta Fed's easy money policy saved approximately **19--23 banks** relative to the restrictive St. Louis Fed approach. The DD works by subtracting the control group's change from the treated group's change, removing any common trends.
 :::
 
 ::: {.callout-note}
-## Intuition Builder: The Diet Analogy
+### Intuition Builder: The Diet Analogy
 
 Suppose you and a friend both plan to eat well over the holidays. You go on a new diet; your friend doesn't. After the holidays, you gained 2 lbs and your friend gained 7 lbs. Did the diet work?
 
@@ -156,9 +151,9 @@ The key assumption: without the diet, you would have gained the same 7 lbs as yo
 :::
 
 
-# The DD Framework
+## The DD Framework
 
-## The Core Logic
+### The Core Logic
 
 DD compares changes over time in a treatment group with changes in a control group:
 
@@ -189,10 +184,10 @@ graph TD
     style DC fill:#e67e22,color:#fff
 ```
 
-## The Parallel Trends Assumption
+### The Parallel Trends Assumption
 
 ::: {.callout-warning}
-## The key assumption
+### The key assumption
 
 DD requires that, **absent treatment**, the treated and control groups would have followed **parallel trends**. The treatment and control groups can start at different levels --- but their *changes over time* must be similar.
 
@@ -200,15 +195,15 @@ If this assumption fails (e.g., the treated group was already on a different tra
 :::
 
 ::: {.callout-warning}
-## Common Misconception: DD does NOT require equal levels
+### Common Misconception: DD does NOT require equal levels
 
 Students often think DD requires the treatment and control groups to have the same *level* of the outcome. This is wrong. The 6th District had 135 banks and the 8th had 165 --- very different levels. What matters is that they would have *changed at the same rate* without the intervention. Groups can start miles apart; DD only needs them to travel in the same direction at the same speed.
 :::
 
 
-# Case Study: MLDA and Death Rates
+## Case Study: MLDA and Death Rates
 
-## The Policy Variation
+### The Policy Variation
 
 After Prohibition ended in 1933, states set their own drinking ages. In 1984, federal legislation pushed all states to adopt a minimum legal drinking age of 21, but states complied at different times. This staggered adoption creates variation for a DD analysis.
 
@@ -220,7 +215,7 @@ deaths = load_csv("ch5/deaths_clean.csv")
 deaths.head(3)
 ```
 
-## The Regression DD Model
+### The Regression DD Model
 
 With many states and years, DD is implemented as a regression with **fixed effects**:
 
@@ -233,7 +228,7 @@ where $Y_{st}$ is the death rate (`mrate`) in state $s$ at time $t$, and $D_{st}
 - **$\delta$** is the DD estimate: the causal effect of legal drinking access on the death rate
 
 ::: {.callout-note}
-## Why cluster standard errors by state?
+### Why cluster standard errors by state?
 
 The treatment variable (`legal`) changes at the state level, and death rates within a state are correlated over time. **Clustering** standard errors at the state level accounts for this serial correlation, preventing us from overstating precision.
 :::
@@ -300,7 +295,7 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-important}
-## Interpreting the DD results
+### Interpreting the DD results
 
 - **Legal drinking access increases the death rate** by approximately **7--10 per 100,000** among 18--20 year olds
 - **Motor vehicle accidents** account for most of the effect (~5--7 deaths)
@@ -309,13 +304,13 @@ pd.DataFrame(rows)
 :::
 
 
-# Robustness Checks
+## Robustness Checks
 
-## State-Specific Trends
+### State-Specific Trends
 
 Adding state-specific linear time trends is a more demanding test. It allows each state to have its own background trajectory and asks whether the MLDA effect is a **deviation from this trend** rather than a continuation of pre-existing patterns. The results hold up.
 
-## Beer Tax Control
+### Beer Tax Control
 
 Some states may have changed beer taxes at the same time as their MLDA. Controlling for beer taxes tests whether the MLDA effect is confounded by other alcohol-control policies:
 
@@ -342,7 +337,7 @@ pd.DataFrame(rows)
 The MLDA coefficients are largely unchanged after controlling for beer taxes, reinforcing the causal interpretation.
 
 
-# Historical Perspective: John Snow
+## Historical Perspective: John Snow
 
 Long before modern econometrics, **John Snow** (1813--1858) used DD reasoning to solve one of the great public health mysteries: the cause of cholera.
 
@@ -353,7 +348,7 @@ Snow compared the *change* in cholera death rates before and after Lambeth's mov
 This was a DD analysis avant la lettre: two groups (water companies), a treatment that changed for one but not the other, and a comparison of changes in outcomes.
 
 
-## How DD Compares to Other Methods
+### How DD Compares to Other Methods
 
 | Feature | RCT (Ch 1) | IV (Ch 3) | RD (Ch 4) | **DD (This Chapter)** |
 |:---|:---|:---|:---|:---|
@@ -365,7 +360,7 @@ This was a DD analysis avant la lettre: two groups (water companies), a treatmen
 : Comparing the four causal inference methods covered so far {.striped}
 
 ::: {.callout-note}
-## Connection to Chapters 1 and 4
+### Connection to Chapters 1 and 4
 
 DD complements the other methods:
 
@@ -374,7 +369,7 @@ DD complements the other methods:
 :::
 
 
-# Key Takeaways
+## Key Takeaways
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -414,12 +409,12 @@ graph TD
 6. **Robustness checks** include state-specific trends, population weighting, and placebo tests on unaffected outcomes.
 
 
-# Exercises
+## Exercises
 
-## Conceptual Questions
+### Conceptual Questions
 
 ::: {.callout-caution}
-## Conceptual Questions
+### Conceptual Questions
 
 1. **Parallel trends**: A city implements a minimum wage increase in 2020. You plan to compare employment changes in that city with a neighboring city that didn't raise the minimum wage. What would it mean if the two cities already had diverging employment trends before 2020? How would this affect your DD estimate?
 
@@ -432,10 +427,10 @@ graph TD
 5. **Placebo test design**: You are studying whether a new air pollution regulation reduced asthma hospitalizations. Propose a placebo outcome that should NOT be affected by the regulation. Why would finding a significant effect on your placebo outcome be concerning?
 :::
 
-## Research Tasks
+### Research Tasks
 
 ::: {.callout-caution}
-## Research Tasks
+### Research Tasks
 
 1. **DD for suicide deaths**: Using `deaths_clean.csv`, run the DD regression for suicide deaths (`dtype == "suicide"`) with state and year fixed effects and state-clustered SEs. Is the effect of legal drinking significant for suicides? How does the coefficient compare to the all-cause result?
 
@@ -445,9 +440,9 @@ graph TD
 :::
 
 
-# Solutions
+## Solutions
 
-## Conceptual Questions
+### Conceptual Questions
 
 **Q1.** If the two cities already had diverging employment trends before the minimum wage increase, the parallel trends assumption is violated. The DD estimate would capture both the causal effect of the policy *and* the pre-existing trend difference. For example, if the treatment city's employment was already declining faster, the DD estimate would overstate the negative effect of the minimum wage. You could test for this by plotting pre-treatment trends and checking whether they are parallel.
 
@@ -457,7 +452,7 @@ graph TD
 
 **Q4.** Adding `C(state):year` allows each state to have its own linear time trend. This is more demanding than standard DD because it asks: did the MLDA effect cause a *deviation* from the state's own trend, not just from the national average trend? The DD estimate might change substantially if some states were on different trajectories for reasons unrelated to MLDA (e.g., southern states experiencing rapid economic changes). A large change would suggest the standard parallel trends assumption is questionable and that state-specific trends are needed to get a reliable estimate.
 
-## Research Tasks
+### Research Tasks
 
 **R1.**
 

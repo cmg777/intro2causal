@@ -7,14 +7,9 @@ execute:
 
 ![](../images/ch04_visual_summary.svg)
 
-<div class="chapter-resources">
-<a href="#" class="resource-btn">AI Slides</a>
-<a href="#" class="resource-btn">Quiz</a>
-<a href="#" class="resource-btn">AI Tutor</a>
-</div>
 
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -49,19 +44,19 @@ graph TD
 ```
 
 
-# Rules Create Experiments
+## Rules Create Experiments
 
 Many policies have sharp eligibility rules. You can vote at 18 but not at 17. You qualify for Medicare at 65 but not at 64. You can legally drink at 21 but not at 20. These cutoffs create a powerful opportunity: people just above and just below the threshold are nearly identical in every way --- except that one group receives the treatment and the other doesn't.
 
 This is the logic of **Regression Discontinuity (RD)** designs. The causal effect is identified by the **jump** in outcomes at the cutoff.
 
 ::: {.callout-note}
-## Intuition Builder: The Speed Limit Analogy
+### Intuition Builder: The Speed Limit Analogy
 
 Think of a speed limit sign on a highway. The road is the same on both sides of the sign --- same surface, same weather, same cars. But drivers caught going 66 mph vs. 64 mph face very different consequences if the limit is 65. The sign creates a sharp rule that affects behavior, even though the drivers on both sides are virtually identical. RD exploits exactly this kind of rule: people just above and just below a threshold are nearly interchangeable, but the rule treats them differently.
 :::
 
-## The MLDA Question
+### The MLDA Question
 
 The **minimum legal drinking age (MLDA)** is 21 in the United States. Does reaching this threshold actually affect health? Specifically, does turning 21 --- and gaining legal access to alcohol --- increase mortality?
 
@@ -97,7 +92,7 @@ mlda = load_csv("ch4/mlda_clean.csv")
 mlda.head(3)
 ```
 
-## Visualizing the Discontinuity
+### Visualizing the Discontinuity
 
 The first step in any RD analysis is to **plot the data**. If the causal effect is real, we should see a visible jump in mortality at age 21.
 
@@ -120,15 +115,15 @@ plt.show()
 There is a visible jump right at age 21. Let's now estimate its size formally.
 
 ::: {.callout-warning}
-## Common Misconception: RD is not just "controlling for" the running variable
+### Common Misconception: RD is not just "controlling for" the running variable
 
 In standard regression (Chapter 2), we control for confounders to make treated and untreated groups comparable. RD is fundamentally different: there is **no value of the running variable where we observe both treated and untreated individuals**. Everyone over 21 is treated; everyone under 21 is untreated. Instead, RD *extrapolates* the trend from one side of the cutoff to estimate what would have happened without the jump. This is why the functional form (linear vs. quadratic) matters --- it determines how we extrapolate.
 :::
 
 
-# The Sharp RD Regression
+## The Sharp RD Regression
 
-## What Is a Running Variable?
+### What Is a Running Variable?
 
 In an RD design, the **running variable** is the variable that determines treatment. Here, age is the running variable and 21 is the **cutoff**. The treatment --- legal access to alcohol --- switches on deterministically at the cutoff:
 
@@ -139,7 +134,7 @@ where $a$ is age (the running variable) and $D_a$ is the treatment indicator. In
 This is a **sharp RD**: treatment switches completely on at the cutoff, with no exceptions.
 
 ::: {.callout-note}
-## How RD regression works
+### How RD regression works
 
 We regress the outcome $M_a$ (mortality rate at age $a$) on the treatment dummy $D_a$ and a smooth function of the running variable:
 
@@ -168,7 +163,7 @@ result.summary().tables[1]
 The coefficient on `over21` is approximately **7.7 deaths per 100,000** --- a substantial increase caused by gaining legal access to alcohol.
 
 
-# Robustness: Does the Specification Matter?
+## Robustness: Does the Specification Matter?
 
 A critical question in RD is whether the estimated jump depends on how we model the age trend. We test robustness in two ways:
 
@@ -216,7 +211,7 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-important}
-## Key findings
+### Key findings
 
 - **All-cause mortality**: jumps by 7--10 deaths per 100,000 across all specifications
 - **Motor vehicle accidents**: the primary driver (4--6 extra deaths) --- drunk driving is the main mechanism
@@ -227,7 +222,7 @@ Why is the **internal causes** placebo so powerful? Diseases like cancer, heart 
 :::
 
 
-# Visualizing the RD with Fitted Lines
+## Visualizing the RD with Fitted Lines
 
 ```{python}
 #| label: fig-rd-fitted
@@ -279,7 +274,7 @@ plt.show()
 ```
 
 
-# Sharp vs. Fuzzy RD
+## Sharp vs. Fuzzy RD
 
 The MLDA example is a **sharp RD**: everyone over 21 can legally drink, no exceptions. But many policy cutoffs are less precise.
 
@@ -296,7 +291,7 @@ Fuzzy RD is analyzed using **IV/2SLS**, with the cutoff dummy as the instrument 
 : Sharp vs. fuzzy regression discontinuity designs {.striped}
 
 ::: {.callout-note}
-## Connection to Chapter 3: Fuzzy RD is IV at a Cutoff
+### Connection to Chapter 3: Fuzzy RD is IV at a Cutoff
 
 Fuzzy RD is a special case of instrumental variables. The cutoff dummy serves as the instrument, the treatment probability jumps at the cutoff (first stage), and the outcome may jump too (reduced form). The ratio --- reduced form / first stage --- gives the LATE for compliers at the cutoff. If you understand IV from Chapter 3, you already understand fuzzy RD.
 :::
@@ -304,14 +299,14 @@ Fuzzy RD is a special case of instrumental variables. The cutoff dummy serves as
 Research on Boston exam schools found that peer quality jumped by 0.8 standard deviations at the admissions cutoff, but student achievement showed **no corresponding jump**. This challenges the widely held belief that attending a more selective school --- with higher-ability peers --- causally improves outcomes. The policy implication is that reallocating students across schools of different selectivity may not improve achievement, even though the raw correlation between school quality and student outcomes is strong (selection bias at work again).
 
 
-# Historical Perspective: Donald Campbell
+## Historical Perspective: Donald Campbell
 
 The RD design was invented by **Donald Thistlethwaite and Donald Campbell** in 1960. They studied whether receiving National Merit Scholarship recognition affected students' career plans. Their RD analysis at the recognition cutoff found minimal effects --- one of the first applications of this now-ubiquitous method.
 
 Campbell went on to pioneer quasi-experimental methods more broadly, co-authoring influential textbooks on research design that shaped how social scientists think about causal inference outside of true experiments.
 
 
-# Key Takeaways
+## Key Takeaways
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -354,12 +349,12 @@ graph TD
 7. **Fuzzy RD** handles cases where treatment probability (not treatment itself) jumps, using IV at the cutoff.
 
 
-# Exercises
+## Exercises
 
-## Conceptual Questions
+### Conceptual Questions
 
 ::: {.callout-caution}
-## Conceptual Questions
+### Conceptual Questions
 
 1. **Identifying RD opportunities**: A scholarship program awards funding to students who score above 80 on an entrance exam. (a) What is the running variable? (b) What is the cutoff? (c) Is this a sharp or fuzzy RD? (d) What assumption must hold for the RD estimate to be causal?
 
@@ -372,10 +367,10 @@ graph TD
 5. **Local vs. global effects**: The RD estimate tells us about the effect of legal drinking for people *at* the age-21 cutoff. Why might this effect differ from the effect at age 18 or age 25? What does "local" mean in this context?
 :::
 
-## Research Tasks
+### Research Tasks
 
 ::: {.callout-caution}
-## Research Tasks
+### Research Tasks
 
 1. **Alcohol-related deaths**: Using `mlda_clean.csv`, run the linear RD regression for `alcohol`-related deaths (instead of all-cause). Is the jump at age 21 statistically significant? How does the effect size compare to the `mva` result?
 
@@ -385,9 +380,9 @@ graph TD
 :::
 
 
-# Solutions
+## Solutions
 
-## Conceptual Questions
+### Conceptual Questions
 
 **Q1.** (a) The running variable is the entrance exam score. (b) The cutoff is 80. (c) If all students above 80 receive funding and none below do, it is a sharp RD. If some above 80 decline and some below 80 receive funding through appeals, it is fuzzy. (d) The key assumption is that all other factors affecting the outcome vary *smoothly* at the cutoff --- students scoring 79 and 81 must be comparable in every way except scholarship receipt.
 
@@ -397,7 +392,7 @@ graph TD
 
 **Q4.** If people can manipulate the running variable to land on their preferred side of the cutoff, the groups just above and just below are no longer comparable --- those who manipulated are systematically different. Age cannot be manipulated (you cannot choose your birthday), which is why the MLDA design is strong. Exam scores, however, can be manipulated: students might retake exams, cheat, or receive score adjustments. A concerning example would be a tax threshold where accountants manipulate reported income to fall just below the cutoff for a higher tax rate.
 
-## Research Tasks
+### Research Tasks
 
 **R1.**
 

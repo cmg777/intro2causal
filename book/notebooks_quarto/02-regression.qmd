@@ -7,14 +7,9 @@ execute:
 
 ![](../images/ch02_visual_summary.svg)
 
-<div class="chapter-resources">
-<a href="#" class="resource-btn">AI Slides</a>
-<a href="#" class="resource-btn">Quiz</a>
-<a href="#" class="resource-btn">AI Tutor</a>
-</div>
 
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -49,14 +44,14 @@ graph TD
 ```
 
 
-# Is a Private College Worth It?
+## Is a Private College Worth It?
 
 Students at elite private universities in the United States pay roughly $20,000 more per year in tuition than those at public universities. Graduates of Harvard, Stanford, and Yale earn substantially more than graduates of state schools. But does the private school *cause* higher earnings, or are the students who attend these schools simply different --- smarter, more motivated, better connected --- in ways that would lead to high earnings regardless?
 
 This is the same selection bias problem we met in Chapter 1. But here, we can't run a randomized experiment (Harvard's admissions office won't flip a coin). Instead, we reach for regression.
 
 ::: {.callout-note}
-## Intuition Builder: Regression as Automated Matching
+### Intuition Builder: Regression as Automated Matching
 
 Think of regression as a matchmaking service. It finds pairs of students who look similar on paper --- same test scores, same family income, same types of schools applied to --- but one went private and the other went public. The regression estimate is like averaging the earnings difference across all these matched pairs.
 
@@ -64,9 +59,9 @@ When the matching is on **all the right variables**, regression approximates wha
 :::
 
 
-# How Regression Works
+## How Regression Works
 
-## The Regression Model
+### The Regression Model
 
 A regression links an outcome ($Y_i$) to a treatment variable ($P_i$) while holding control variables ($X_i$) constant:
 
@@ -82,17 +77,17 @@ where:
 **OLS (Ordinary Least Squares)** chooses $\alpha$, $\beta$, and $\gamma$ to minimize the sum of squared residuals --- making the model's predictions as close to the actual data as possible.
 
 ::: {.callout-note}
-## Connection to Chapter 1
+### Connection to Chapter 1
 
 In Chapter 1, we regressed outcomes on a treatment dummy with no controls. The coefficient was the difference in means between treated and untreated. Adding controls is the key innovation of Chapter 2: regression holds the controls constant, producing an "other things equal" comparison within groups that share the same control values.
 :::
 
 
-# Seeing OVB with Simulated Data
+## Seeing OVB with Simulated Data
 
 To understand omitted variables bias, let's create a dataset where we **know the truth** --- because we designed it ourselves. This makes it easy to see when regression gets it right and when it goes wrong.
 
-## The Data-Generating Process
+### The Data-Generating Process
 
 We simulate 1,000 students choosing between private and public colleges:
 
@@ -131,7 +126,7 @@ students.head(5)
 ```
 
 ::: {.callout-important}
-## The Ground Truth
+### The Ground Truth
 
 We built this data so that:
 
@@ -141,7 +136,7 @@ We built this data so that:
 :::
 
 
-## The Short Regression (Omitting Ability)
+### The Short Regression (Omitting Ability)
 
 What happens if we regress earnings on `private` without controlling for ability?
 
@@ -157,7 +152,7 @@ short.summary().tables[1]
 The coefficient on `private` is well above $5,000. This is **omitted variables bias** --- the regression attributes some of ability's effect to the private school dummy because the two are correlated.
 
 
-## The Long Regression (Including Ability)
+### The Long Regression (Including Ability)
 
 Now add ability as a control:
 
@@ -173,15 +168,15 @@ long.summary().tables[1]
 With ability controlled, the private school coefficient drops to approximately $5,000 --- close to the true causal effect we built into the data.
 
 ::: {.callout-warning}
-## Common Misconception: "Just add more controls"
+### Common Misconception: "Just add more controls"
 
 Adding controls helps *only* when the controls are confounders (variables that affect both treatment and outcome). Adding irrelevant variables wastes statistical precision. And adding **bad controls** --- variables that are *caused by* the treatment --- can actually introduce bias. We return to this danger in Chapter 6.
 :::
 
 
-# The OVB Formula
+## The OVB Formula
 
-## The Most Important Equation in Econometrics
+### The Most Important Equation in Econometrics
 
 The relationship between the short and long regression coefficients follows a precise formula:
 
@@ -195,7 +190,7 @@ where:
 - $\gamma$ = coefficient on the **omitted variable** in the long regression
 
 ::: {.callout-note}
-## Intuition Builder: The Missing Ingredient
+### Intuition Builder: The Missing Ingredient
 
 Think of baking a cake. The recipe calls for flour, sugar, and eggs. If you forget the sugar (omitted variable), the cake will taste different from what you intended. The OVB formula tells you *how much* the taste changes and *in what direction*:
 
@@ -206,7 +201,7 @@ Think of baking a cake. The recipe calls for flour, sugar, and eggs. If you forg
 If either factor is zero --- the omitted variable is unrelated to treatment, or it doesn't affect the outcome --- there's no bias.
 :::
 
-## Verifying the OVB Formula
+### Verifying the OVB Formula
 
 Let's check that the formula works with our simulated data:
 
@@ -243,7 +238,7 @@ The formula matches. The two components reveal *why* the bias exists:
 - **$\gamma > 0$**: Higher ability increases earnings
 - **OVB = positive $\times$ positive = positive**: The short regression overstates the private school effect
 
-## Predicting the Direction of Bias
+### Predicting the Direction of Bias
 
 Even when we can't observe the omitted variable, the OVB formula lets us **predict the direction of bias** by reasoning about the signs of $\pi_1$ and $\gamma$:
 
@@ -257,9 +252,9 @@ Even when we can't observe the omitted variable, the OVB formula lets us **predi
 : The sign of OVB depends on the signs of both components {.striped}
 
 
-# Case Study: The Private College Premium
+## Case Study: The Private College Premium
 
-## Dale and Krueger's Self-Revelation Model
+### Dale and Krueger's Self-Revelation Model
 
 Economists Stacy Dale and Alan Krueger studied the earnings of over 14,000 college students using the **College and Beyond (C&B)** dataset. Their key insight was that the schools students *applied to* reveal information about their ambition and ability.
 
@@ -272,14 +267,14 @@ Economists Stacy Dale and Alan Krueger studied the earnings of over 14,000 colle
 - Controlling for the specific schools applied to (the "self-revelation" model) reduced it to **close to zero**
 
 ::: {.callout-important}
-## Key Finding: The Private School Premium is Mostly Selection
+### Key Finding: The Private School Premium is Mostly Selection
 
 Once you compare students who were equally ambitious (applied to similar schools), the earnings advantage of attending an elite private college **largely disappears**. Most of the raw earnings gap reflects who attends private school, not what private school does.
 
 This is a textbook demonstration of OVB at work: when you add the right controls, the treatment effect shrinks dramatically.
 :::
 
-## Regression Sensitivity Analysis
+### Regression Sensitivity Analysis
 
 The Dale and Krueger results illustrate an important robustness check: **sensitivity analysis**. When adding controls doesn't change the estimate much, we can be more confident that the remaining estimate isn't driven by further omitted variables.
 
@@ -289,10 +284,10 @@ In their data:
 - The OVB formula explains why: conditional on application behavior, private school attendance was **no longer correlated** with these variables ($\pi_1 \approx 0$), so omitting them caused little bias
 
 
-# When Controls Go Wrong: Bad Controls
+## When Controls Go Wrong: Bad Controls
 
 ::: {.callout-warning}
-## Not All Controls Are Good Controls
+### Not All Controls Are Good Controls
 
 A **bad control** is a variable that is *caused by* the treatment. Controlling for it blocks the causal pathway and distorts the estimate.
 
@@ -302,13 +297,13 @@ A **bad control** is a variable that is *caused by* the treatment. Controlling f
 :::
 
 ::: {.callout-note}
-## Connection to Chapter 6
+### Connection to Chapter 6
 
 Chapter 6 revisits bad controls in the context of returns to schooling. Controlling for occupation when estimating the effect of education is a classic bad-control mistake. The lesson is the same: controls must be *pre-treatment* characteristics, not downstream outcomes.
 :::
 
 
-# How Regression Connects to Every Other Chapter
+## How Regression Connects to Every Other Chapter
 
 Regression is not just a standalone method --- it is the **building block** for every other tool in this book:
 
@@ -323,20 +318,20 @@ Regression is not just a standalone method --- it is the **building block** for 
 : Regression is the foundation of all five methods in the book {.striped}
 
 
-# Historical Perspective: Galton and Yule
+## Historical Perspective: Galton and Yule
 
-## Francis Galton and "Regression to the Mean"
+### Francis Galton and "Regression to the Mean"
 
 The word "regression" comes from **Sir Francis Galton** (1886), who studied the heights of parents and children. He observed that very tall parents tend to have children who are tall but *less extreme* than their parents --- heights "regress toward the mean." Galton's finding was about a statistical regularity, not causation, but the mathematical tool he developed to describe it became the foundation of modern regression analysis.
 
-## George Udny Yule and Social Statistics
+### George Udny Yule and Social Statistics
 
 **George Udny Yule** (1899) was among the first to apply regression to social policy questions. He studied the causes of changes in pauperism (poverty) in England, using regression to control for multiple factors simultaneously. Yule's work pioneered the use of regression with multiple control variables --- exactly the approach we've been learning.
 
 Both Galton and Yule worked in an era before causal inference was formalized. Their statistical tools were designed for description and prediction. The causal interpretation of regression --- asking whether $\beta$ represents a causal effect --- is a modern contribution that depends on the assumptions we've discussed (correct controls, no omitted variables).
 
 
-# Key Takeaways
+## Key Takeaways
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -381,12 +376,12 @@ graph TD
 7. **The private college premium** largely disappears once you match students by the schools they applied to --- most of the raw gap is selection, not causation.
 
 
-# Exercises
+## Exercises
 
-## Conceptual Questions
+### Conceptual Questions
 
 ::: {.callout-caution}
-## Conceptual Questions
+### Conceptual Questions
 
 1. **OVB direction**: A study estimates the effect of job training on wages but does not control for prior work experience. Workers with more experience are more likely to receive training AND earn higher wages. Using the OVB formula, predict: is the training coefficient biased upward or downward?
 
@@ -399,10 +394,10 @@ graph TD
 5. **Regression vs. RCT**: A regression of health on exercise, controlling for age, income, and diet, finds that exercise improves health. Under what conditions would this estimate be causal? What could still go wrong?
 :::
 
-## Research Tasks
+### Research Tasks
 
 ::: {.callout-caution}
-## Research Tasks
+### Research Tasks
 
 1. **Change the true effect**: In the simulated data code above, change `true_effect` from 5000 to 0 (no causal effect). Re-run the short and long regressions. Does the short regression still show a positive coefficient? What does this demonstrate about selection bias?
 
@@ -412,9 +407,9 @@ graph TD
 :::
 
 
-# Solutions
+## Solutions
 
-## Conceptual Questions
+### Conceptual Questions
 
 **Q1.** Using the OVB formula: $\pi_1$ = relationship between experience and training (positive, since experienced workers get more training). $\gamma$ = effect of experience on wages in the long regression (positive, since experience raises wages). OVB = positive × positive = **positive**. The training coefficient is biased **upward** --- it overstates the true effect of training because it partly captures the effect of experience.
 
@@ -426,7 +421,7 @@ graph TD
 
 **Q5.** The regression estimate is causal if age, income, and diet are the *only* confounders (conditional independence assumption). But unobserved factors could still bias the result: genetics (some people are naturally healthier AND more inclined to exercise), motivation, social support, or pre-existing health conditions. Without random assignment of exercise, we can never be sure we've controlled for everything. This is why the book's methods beyond regression (IV, RD, DD) exist.
 
-## Research Tasks
+### Research Tasks
 
 **R1.**
 

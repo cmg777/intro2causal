@@ -7,14 +7,9 @@ execute:
 
 ![](../images/ch03_visual_summary.svg)
 
-<div class="chapter-resources">
-<a href="#" class="resource-btn">AI Slides</a>
-<a href="#" class="resource-btn">Quiz</a>
-<a href="#" class="resource-btn">AI Tutor</a>
-</div>
 
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -49,13 +44,13 @@ graph TD
 ```
 
 
-# When Experiments Break Down
+## When Experiments Break Down
 
 Randomized experiments are the gold standard for causal inference (Chapter 1). But in practice, experiments rarely go exactly as planned. Police officers may not follow their assigned protocol. Patients may not take their assigned medication. Lottery winners may not enroll in the program they won.
 
 When the treatment people **receive** differs from the treatment they were **assigned**, we face the problem of **non-compliance**. Simply comparing outcomes by *received* treatment reintroduces selection bias, because the choice to comply may be related to the outcome.
 
-## The Minneapolis Domestic Violence Experiment
+### The Minneapolis Domestic Violence Experiment
 
 The **Minneapolis Domestic Violence Experiment (MDVE)** illustrates this perfectly. In the early 1980s, researchers randomly assigned police officers responding to domestic violence calls to one of three actions:
 
@@ -118,13 +113,13 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-warning}
-## Asymmetric compliance
+### Asymmetric compliance
 
 Officers followed arrest orders **99% of the time** but deviated from advise and separate assignments much more often (78% and 73%). When they deviated, they almost always chose to arrest instead --- likely because the suspect was particularly aggressive. This means the group that *actually received* arrest includes both randomly assigned arrests and the most dangerous cases from other assignments. Comparing outcomes by delivered treatment would be biased.
 :::
 
 ::: {.callout-note}
-## Intuition Builder: IV as a Chain Reaction
+### Intuition Builder: IV as a Chain Reaction
 
 Think of IV as tracing a chain of dominoes:
 
@@ -137,9 +132,9 @@ The instrument must push the first domino (relevance) and must *only* work throu
 :::
 
 
-# The IV Framework
+## The IV Framework
 
-## The Core Idea
+### The Core Idea
 
 Instrumental variables solves the compliance problem by using the **random assignment** (the instrument) instead of the actual treatment to estimate causal effects. The logic is a chain reaction:
 
@@ -167,7 +162,7 @@ $$\lambda_{LATE} = \frac{\rho}{\phi} = \frac{\text{Reduced form (effect of } Z \
 
 where $\rho$ (rho) is the reduced-form effect of the instrument on the outcome, and $\phi$ (phi) is the first-stage effect of the instrument on the treatment.
 
-## Three Requirements for a Valid Instrument
+### Three Requirements for a Valid Instrument
 
 1. **Relevance**: The instrument must affect the treatment. In the MDVE, random assignment must actually change what police do (first stage $\neq$ 0).
 
@@ -175,7 +170,7 @@ where $\rho$ (rho) is the reduced-form effect of the instrument on the outcome, 
 
 3. **Exclusion restriction**: The instrument affects the outcome **only through** the treatment. The random assignment shouldn't directly affect recidivism except through the police action taken.
 
-## Applying the IV Formula to the MDVE
+### Applying the IV Formula to the MDVE
 
 Let's compute the IV estimate step by step using the MDVE data. We simplify to a binary comparison: **arrest** ($Z = 0$) vs. **coddle** (advise or separate, $Z = 1$).
 
@@ -212,13 +207,13 @@ pd.DataFrame({
 ```
 
 ::: {.callout-important}
-## Key finding
+### Key finding
 
 Coddling (advise/separate) **increases recidivism by 14.5 percentage points** among compliers --- those officers who followed their assignment. This is much larger than the naive comparison of delivered treatments (8.7 pp) would suggest, because the naive estimate is contaminated by selection bias.
 :::
 
 ::: {.callout-warning}
-## Common Misconception: LATE is not the Average Treatment Effect
+### Common Misconception: LATE is not the Average Treatment Effect
 
 The IV estimate of 14.5 pp applies **only to compliers** --- officers who followed whatever their assignment form said. It tells us nothing about:
 
@@ -229,7 +224,7 @@ Different instruments identify effects for *different subpopulations*. A KIPP lo
 :::
 
 
-# The Four Types of Subjects
+## The Four Types of Subjects
 
 In any IV setting, subjects fall into four categories based on how they would respond to the instrument:
 
@@ -243,13 +238,13 @@ In any IV setting, subjects fall into four categories based on how they would re
 : The four complier types in an IV framework {.striped}
 
 ::: {.callout-note}
-## LATE is the effect for compliers only
+### LATE is the effect for compliers only
 
 The IV estimate tells us the causal effect **specifically for compliers** --- people whose treatment was determined by the instrument. It does not necessarily apply to always-takers or never-takers. In the MDVE, compliers are officers who followed whatever assignment they received. The LATE tells us what happens when *these particular officers* arrest vs. coddle.
 :::
 
 
-# Case Study: KIPP Charter School Lotteries
+## Case Study: KIPP Charter School Lotteries
 
 The **Knowledge Is Power Program (KIPP)** is a network of charter schools with extended school days and a "no excuses" discipline culture. KIPP Lynn in Massachusetts became oversubscribed after 2005, so admission was decided by lottery --- creating a natural instrument.
 
@@ -274,7 +269,7 @@ A half standard deviation improvement in math in one year is a remarkable effect
 This lottery-based evidence has been influential in education policy. Charter school supporters cite KIPP's results as proof that intensive, structured programs can close achievement gaps for disadvantaged students. Critics note that LATE applies only to lottery compliers (motivated families who applied), and the effect might not generalize to all students.
 
 
-# Case Study: Does Family Size Reduce Children's Education?
+## Case Study: Does Family Size Reduce Children's Education?
 
 The quantity-quality tradeoff hypothesis suggests that larger families dilute parental investment, reducing each child's education. The naive correlation supports this: children with more siblings get less schooling (-0.15 years per sibling in OLS).
 
@@ -287,7 +282,7 @@ But is this causal? Less-educated parents tend to have more children *and* less-
 **Results**: Both instruments show a reduced form of approximately **zero** --- no effect of family size on children's education. The 2SLS estimate using both instruments is +0.24 (SE: 0.13), completely reversing the negative OLS estimate.
 
 ::: {.callout-important}
-## Selection bias explains the naive correlation
+### Selection bias explains the naive correlation
 
 The strong negative OLS relationship between family size and education appears to be entirely driven by selection bias. When we use instruments that generate exogenous variation in family size, the effect vanishes. Less-educated parents have more children AND less-educated children --- but one does not cause the other.
 :::
@@ -295,7 +290,7 @@ The strong negative OLS relationship between family size and education appears t
 This finding has major **policy implications**. For decades, governments promoted smaller families based on the belief that fewer children means more investment per child (the "quantity-quality tradeoff"). China's one-child policy and India's forced sterilization programs were partly justified by this logic. The IV evidence suggests the tradeoff is much weaker than previously thought --- the naive correlation was driven by confounders, not causation.
 
 
-## When to Use IV vs. Other Methods
+### When to Use IV vs. Other Methods
 
 | Feature | RCT (Chapter 1) | OLS with Controls | IV / 2SLS (This Chapter) |
 |:---|:---|:---|:---|
@@ -307,7 +302,7 @@ This finding has major **policy implications**. For decades, governments promote
 : When to use which method {.striped}
 
 
-# Two-Stage Least Squares (2SLS)
+## Two-Stage Least Squares (2SLS)
 
 The IV formula $\lambda = \rho / \phi$ works for a single binary instrument. In practice, we often have multiple instruments, covariates, or non-binary treatments. **Two-Stage Least Squares** handles all of these.
 
@@ -318,12 +313,12 @@ $$D_i = \alpha_1 + \phi Z_i + \gamma_1 X_i + e_{1i}$$
 $$Y_i = \alpha_2 + \lambda_{2SLS} \hat{D}_i + \gamma_2 X_i + e_{2i}$$
 
 ::: {.callout-warning}
-## Never run 2SLS by hand
+### Never run 2SLS by hand
 
 If you manually run two separate regressions and use fitted values from the first in the second, you will get the right coefficient but **wrong standard errors**. Always use dedicated IV software that computes correct standard errors automatically.
 :::
 
-## 2SLS in Python
+### 2SLS in Python
 
 In Python, the `linearmodels` library provides `IV2SLS`. The formula syntax uses **square brackets** to indicate the endogenous variable and its instrument:
 
@@ -356,7 +351,7 @@ print("  [D ~ Z] means: instrument D using Z")
 We will see `IV2SLS` in action with real data in Chapter 6, where we estimate the returns to schooling using quarter-of-birth instruments.
 
 
-# Weak Instruments
+## Weak Instruments
 
 An instrument is **weak** when it has only a small effect on the treatment (small first stage). Weak instruments cause:
 
@@ -365,19 +360,19 @@ An instrument is **weak** when it has only a small effect on the treatment (smal
 - Unreliable inference
 
 ::: {.callout-tip}
-## The F > 10 rule of thumb
+### The F > 10 rule of thumb
 
 Test the joint significance of instruments in the first-stage regression. If the **F-statistic is below 10**, the instruments may be too weak. When in doubt, check the reduced form --- if the instrument's direct effect on the outcome isn't visible, the IV estimate is likely unreliable.
 :::
 
 ::: {.callout-warning}
-## Common Misconception: More data doesn't fix weak instruments
+### Common Misconception: More data doesn't fix weak instruments
 
 Unlike standard estimation, where larger samples give more precise estimates, **weak-instrument bias does not vanish with more data**. Even with a million observations, if the first-stage F-statistic is below 10, the 2SLS estimate can be severely biased toward OLS. The solution is a stronger instrument, not a bigger sample.
 :::
 
 ::: {.callout-note}
-## Connection to Chapters 1 and 4
+### Connection to Chapters 1 and 4
 
 IV connects the methods from other chapters:
 
@@ -386,14 +381,14 @@ IV connects the methods from other chapters:
 :::
 
 
-# Historical Perspective: Philip Wright
+## Historical Perspective: Philip Wright
 
 The identification problem --- how to separate supply from demand when both are determined simultaneously --- was solved by **Philip G. Wright** in 1928. In an appendix to his book on tariffs, Wright introduced "external factors" (what we now call instruments) that shift one curve without affecting the other.
 
 Wright's innovation lay dormant for decades before being rediscovered. His son **Sewall Wright**, a geneticist, contributed the mathematical framework of path analysis. Together, they pioneered the idea that researchers must find sources of variation that affect one part of a system without directly affecting the outcome of interest.
 
 
-# Key Takeaways
+## Key Takeaways
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -436,12 +431,12 @@ graph TD
 7. **Weak instruments** (F < 10) produce unreliable estimates. Always check the first stage.
 
 
-# Exercises
+## Exercises
 
-## Conceptual Questions
+### Conceptual Questions
 
 ::: {.callout-caution}
-## Conceptual Questions
+### Conceptual Questions
 
 1. **Classifying complier types**: In a medical trial, patients are randomly assigned to receive a new drug or placebo, but some placebo patients obtain the drug on their own, and some drug patients refuse to take it. (a) Who are the always-takers? (b) Who are the compliers? (c) If 80% of the drug group takes the drug and 10% of the placebo group obtains it, what is the first stage?
 
@@ -454,10 +449,10 @@ graph TD
 5. **Monotonicity**: The IV framework assumes there are no "defiers" (people who do the opposite of their assignment). In the MDVE, a defier would be an officer who arrests when told to coddle and coddles when told to arrest. Why is this assumption reasonable in the MDVE context? Can you think of a setting where it might fail?
 :::
 
-## Research Tasks
+### Research Tasks
 
 ::: {.callout-caution}
-## Research Tasks
+### Research Tasks
 
 1. **Compliance by assignment group**: Using `mdve_clean.csv`, compute the compliance rate separately for each of the three assignment groups (Arrest, Advise, Separate). Which group has the highest compliance? What does this asymmetry suggest about how police exercise discretion?
 
@@ -467,9 +462,9 @@ graph TD
 :::
 
 
-# Solutions
+## Solutions
 
-## Conceptual Questions
+### Conceptual Questions
 
 **Q1.** (a) Always-takers are patients who take the drug regardless of assignment --- those in the placebo group who obtain it on their own. (b) Compliers are patients who follow their assignment: they take the drug when assigned to drug, and don't take it when assigned to placebo. (c) The first stage is: $P(\text{take drug} | \text{assigned drug}) - P(\text{take drug} | \text{assigned placebo}) = 0.80 - 0.10 = 0.70$.
 
@@ -479,7 +474,7 @@ graph TD
 
 **Q4.** The IV estimate is a Local Average Treatment Effect --- it applies specifically to compliers, whose treatment was changed by the instrument. In the MDVE, compliers are officers who followed their random assignment. For always-takers (officers who arrested regardless of what the form said), the instrument didn't change their behavior, so IV cannot tell us anything about the treatment effect for them. Always-takers may respond differently to arrest --- perhaps they are more experienced officers who arrest only when necessary, making arrest more effective for their cases. But IV is silent on this.
 
-## Research Tasks
+### Research Tasks
 
 **R1.**
 

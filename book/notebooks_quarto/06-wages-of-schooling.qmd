@@ -7,14 +7,9 @@ execute:
 
 ![](../images/ch06_visual_summary.svg)
 
-<div class="chapter-resources">
-<a href="#" class="resource-btn">AI Slides</a>
-<a href="#" class="resource-btn">Quiz</a>
-<a href="#" class="resource-btn">AI Tutor</a>
-</div>
 
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -49,7 +44,7 @@ graph TD
 ```
 
 
-# Does Education Make You Richer?
+## Does Education Make You Richer?
 
 College graduates earn roughly twice as much as high school graduates. But does education *cause* higher earnings, or do smarter, more motivated people simply stay in school longer and earn more regardless?
 
@@ -66,9 +61,9 @@ where $\rho$ is the true causal return to schooling and $\hat{\rho}_{OLS}$ is th
 - **For most people**, the standard view probably holds: the college-dropout billionaires are rare exceptions. But the ambiguity is important because it means we cannot assume the direction of OLS bias without evidence.
 
 
-# Strategy 1: Twin Comparisons
+## Strategy 1: Twin Comparisons
 
-## The Logic
+### The Logic
 
 Identical twins share genes and family upbringing --- the very factors we suspect drive ability bias. If one twin gets more education than the other, the earnings difference within the pair reflects the causal return, not ability.
 
@@ -101,7 +96,7 @@ twins = load_csv("ch6/twins_clean.csv")
 twins.head(3)
 ```
 
-## OLS Baseline
+### OLS Baseline
 
 ```{python}
 #| label: tbl-twins-ols
@@ -116,7 +111,7 @@ ols.summary().tables[1]
 
 The OLS return is about **11% per year of schooling**. But this may be inflated by ability bias.
 
-## Within-Twin Differences
+### Within-Twin Differences
 
 By taking the difference within each twin pair, we eliminate everything shared between them:
 
@@ -141,19 +136,19 @@ twin_fe.summary().tables[1]
 The twin estimate drops to about **6%** --- nearly half the OLS estimate. This suggests ability bias pushes OLS upward.
 
 ::: {.callout-warning}
-## Common Misconception: A lower estimate is not necessarily a better estimate
+### Common Misconception: A lower estimate is not necessarily a better estimate
 
 The twin FE gives 0.06, while OLS gives 0.11. Students often assume the lower number is "more correct" because it controls for more. But the twin FE estimate has its own bias: **measurement error**. When twins report their education, small errors (misremembering a year) are amplified by differencing. The true variation in schooling within twin pairs is small, so even small reporting errors become a large fraction of the signal. This **attenuation bias** pushes the twin estimate *below* the true return.
 :::
 
-## IV: Using the Twin's Report as an Instrument
+### IV: Using the Twin's Report as an Instrument
 
 But the twin estimate may be biased *downward* by **measurement error** in self-reported education. If twins misremember their schooling, the differenced data amplifies noise relative to signal.
 
 The fix: use each twin's *report of the other's education* as an instrument. This report is correlated with true education but has independent measurement error, so it satisfies the IV requirements.
 
 ::: {.callout-note}
-## Reading the IV2SLS formula syntax
+### Reading the IV2SLS formula syntax
 
 In `linearmodels`, the IV formula uses **square brackets** to specify the endogenous variable and its instrument:
 
@@ -192,7 +187,7 @@ pd.DataFrame({
 ```
 
 ::: {.callout-important}
-## What the twin results tell us
+### What the twin results tell us
 
 | Method | Estimate | Interpretation |
 |:---|:---:|:---|
@@ -205,15 +200,15 @@ The true return is probably **8--11% per year**, with OLS slightly overstating a
 :::
 
 ::: {.callout-note}
-## Intuition Builder: The Bathroom Scale Analogy
+### Intuition Builder: The Bathroom Scale Analogy
 
 Imagine weighing yourself on a bathroom scale that randomly adds or subtracts 5 pounds. On average, the scale is right --- but any single reading is noisy. Now suppose you weigh yourself in the morning and evening to measure how much weight you gained during the day. The true gain might be 0.5 lbs, but the scale's error (±5 lbs in each reading) means the *difference* between readings is dominated by noise. This is exactly what happens with twin differences in education: the true within-pair variation is small (twins are similar), but measurement error stays the same size, so noise overwhelms the signal.
 :::
 
 
-# Strategy 2: Quarter-of-Birth IV
+## Strategy 2: Quarter-of-Birth IV
 
-## The Idea
+### The Idea
 
 Compulsory schooling laws allow students to drop out at age 16. Because school-entry rules are based on birth date cutoffs, children born later in the year start school younger and accumulate more schooling before reaching the dropout age.
 
@@ -228,7 +223,7 @@ qob = load_csv("ch6/qob_clean.csv")
 qob.head(3)
 ```
 
-## The IV Recipe: Step by Step
+### The IV Recipe: Step by Step
 
 ```{python}
 #| label: tbl-wald
@@ -258,7 +253,7 @@ pd.DataFrame({
 })
 ```
 
-## Visualizing the First Stage and Reduced Form
+### Visualizing the First Stage and Reduced Form
 
 ```{python}
 #| label: fig-qob
@@ -304,7 +299,7 @@ plt.show()
 ```
 
 ::: {.callout-note}
-## Reading the figures
+### Reading the figures
 
 The sawtooth pattern shows that Q4 births (filled circles) consistently have slightly more education and slightly higher earnings than Q1 births (open circles). The first-stage F-statistic is about 48, well above the weak-instrument threshold of 10. The IV estimate of **7--8%** is close to the OLS estimate, suggesting that ability bias may be modest.
 :::
@@ -312,9 +307,9 @@ The sawtooth pattern shows that Q4 births (filled circles) consistently have sli
 The returns to schooling are central to **education policy**. Should governments subsidize college tuition? Should compulsory schooling ages be raised? The answer depends critically on whether the 7--10% return is causal or inflated by ability. The convergence of evidence from twins, quarter of birth, and other strategies gives policymakers confidence that the return is real and substantial --- a year of schooling genuinely increases earnings by 7--10%, making education one of the best investments individuals and governments can make.
 
 
-# Strategy 3: Sheepskin Effects via RD
+## Strategy 3: Sheepskin Effects via RD
 
-## The Question
+### The Question
 
 Does the **diploma itself** boost earnings (the signaling/sheepskin view), or is it the **skills learned** that matter (the human capital view)?
 
@@ -392,7 +387,7 @@ plt.show()
 ```
 
 ::: {.callout-important}
-## The sheepskin verdict
+### The sheepskin verdict
 
 - **Diploma receipt** jumps by about **40 percentage points** at the cutoff (a strong first stage)
 - **Earnings** show **almost no jump** --- the RD effect is near zero
@@ -400,7 +395,7 @@ plt.show()
 :::
 
 
-## The Furious Five: A Capstone Comparison
+### The Furious Five: A Capstone Comparison
 
 This chapter applies multiple methods to one question. Here is how all five tools from the book compare:
 
@@ -415,12 +410,12 @@ This chapter applies multiple methods to one question. Here is how all five tool
 : The Furious Five methods and their role in estimating returns to schooling {.striped}
 
 ::: {.callout-note}
-## Connection to Chapter 4
+### Connection to Chapter 4
 
 The sheepskin RD applies the same logic as Chapter 4's MLDA analysis: exploit a sharp cutoff (exam passing threshold) to estimate a local causal effect. The difference is that here, the RD tests a *mechanism* (diploma vs. learning) rather than estimating the overall treatment effect. This shows how the same tool can answer different types of questions.
 :::
 
-# Synthesis: What Is the True Return to Schooling?
+## Synthesis: What Is the True Return to Schooling?
 
 | Method | Estimate | Main Bias | Direction |
 |:---|:---:|:---|:---:|
@@ -433,7 +428,7 @@ The sheepskin RD applies the same logic as Chapter 4's MLDA analysis: exploit a 
 : Comparing returns to schooling across methods {.striped}
 
 ::: {.callout-note}
-## The big picture
+### The big picture
 
 The true causal return to schooling is probably **7--10% per year**. OLS slightly overstates it (ability bias), while twin FE understates it (measurement error). The IV estimates, which address both biases, cluster around 7--10%. The near-zero sheepskin effect suggests that the return comes from actual learning, not just credential signaling.
 
@@ -441,7 +436,7 @@ No single method is perfect. The power of this chapter lies in seeing how **mult
 :::
 
 
-# Key Takeaways
+## Key Takeaways
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -489,12 +484,12 @@ graph TD
 7. **No single method is perfect.** The lesson is to use multiple approaches and look for convergence.
 
 
-# Exercises
+## Exercises
 
-## Conceptual Questions
+### Conceptual Questions
 
 ::: {.callout-caution}
-## Conceptual Questions
+### Conceptual Questions
 
 1. **Ability bias direction**: A friend argues that ability bias could go *downward* (smart people drop out to start businesses). Give one example supporting this view and one supporting the standard upward-bias view. Which do you find more convincing for the general population?
 
@@ -507,10 +502,10 @@ graph TD
 5. **Sheepskin interpretation**: The Texas RD shows a ~40 percentage point jump in diploma receipt but near-zero earnings effect. A skeptic says "this proves education doesn't matter." Explain why this conclusion is wrong. What does the sheepskin RD actually tell us about the *mechanism* through which education raises earnings?
 :::
 
-## Research Tasks
+### Research Tasks
 
 ::: {.callout-caution}
-## Research Tasks
+### Research Tasks
 
 1. **Returns for men only**: Using `twins_clean.csv`, restrict the sample to male twins (`female == 0`). Re-run the OLS and within-twin FE regressions. Do the returns to schooling differ for men compared to the full sample?
 
@@ -520,9 +515,9 @@ graph TD
 :::
 
 
-# Solutions
+## Solutions
 
-## Conceptual Questions
+### Conceptual Questions
 
 **Q1.** Downward bias example: Mark Zuckerberg dropped out of Harvard to build Facebook and became a billionaire. His high ability generated high earnings *without* completing his degree, so ability and schooling are negatively correlated for him. Upward bias example: A student with high IQ and supportive parents completes a PhD and earns a high salary. Her ability led to both more schooling and higher earnings independently. For the general population, upward bias is more convincing: most high-ability people complete more education (not fewer), because the education system selects on ability. The Zuckerberg-type dropouts are rare exceptions.
 
@@ -532,7 +527,7 @@ graph TD
 
 **Q4.** The similarity of OLS and IV could reflect offsetting biases rather than no bias. OLS is biased upward by ability (more able → more school AND higher earnings) but biased downward by measurement error (self-reported schooling has noise). These two biases work in opposite directions. IV using quarter of birth corrects both simultaneously, and the net result happens to be close to OLS. This doesn't mean there's no ability bias --- it means ability bias and attenuation bias approximately cancel. The twin evidence supports this: when we correct measurement error (IV with twin's report), the estimate rises; when we control for ability (twin FE), it falls.
 
-## Research Tasks
+### Research Tasks
 
 **R1.**
 
