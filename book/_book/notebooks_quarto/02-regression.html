@@ -423,18 +423,47 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
-  <ul class="collapse">
+  <ul>
   <li><a href="#is-a-private-college-worth-it" id="toc-is-a-private-college-worth-it" class="nav-link active" data-scroll-target="#is-a-private-college-worth-it">Is a Private College Worth It?</a></li>
-  <li><a href="#how-regression-works" id="toc-how-regression-works" class="nav-link" data-scroll-target="#how-regression-works">How Regression Works</a></li>
-  <li><a href="#seeing-ovb-with-simulated-data" id="toc-seeing-ovb-with-simulated-data" class="nav-link" data-scroll-target="#seeing-ovb-with-simulated-data">Seeing OVB with Simulated Data</a></li>
-  <li><a href="#the-ovb-formula" id="toc-the-ovb-formula" class="nav-link" data-scroll-target="#the-ovb-formula">The OVB Formula</a></li>
-  <li><a href="#case-study-the-private-college-premium" id="toc-case-study-the-private-college-premium" class="nav-link" data-scroll-target="#case-study-the-private-college-premium">Case Study: The Private College Premium</a></li>
+  <li><a href="#how-regression-works" id="toc-how-regression-works" class="nav-link" data-scroll-target="#how-regression-works">How Regression Works</a>
+  <ul class="collapse">
+  <li><a href="#the-regression-model" id="toc-the-regression-model" class="nav-link" data-scroll-target="#the-regression-model">The Regression Model</a></li>
+  </ul></li>
+  <li><a href="#seeing-ovb-with-simulated-data" id="toc-seeing-ovb-with-simulated-data" class="nav-link" data-scroll-target="#seeing-ovb-with-simulated-data">Seeing OVB with Simulated Data</a>
+  <ul class="collapse">
+  <li><a href="#the-data-generating-process" id="toc-the-data-generating-process" class="nav-link" data-scroll-target="#the-data-generating-process">The Data-Generating Process</a></li>
+  <li><a href="#the-short-regression-omitting-ability" id="toc-the-short-regression-omitting-ability" class="nav-link" data-scroll-target="#the-short-regression-omitting-ability">The Short Regression (Omitting Ability)</a></li>
+  <li><a href="#the-long-regression-including-ability" id="toc-the-long-regression-including-ability" class="nav-link" data-scroll-target="#the-long-regression-including-ability">The Long Regression (Including Ability)</a></li>
+  </ul></li>
+  <li><a href="#the-ovb-formula" id="toc-the-ovb-formula" class="nav-link" data-scroll-target="#the-ovb-formula">The OVB Formula</a>
+  <ul class="collapse">
+  <li><a href="#the-most-important-equation-in-econometrics" id="toc-the-most-important-equation-in-econometrics" class="nav-link" data-scroll-target="#the-most-important-equation-in-econometrics">The Most Important Equation in Econometrics</a></li>
+  <li><a href="#verifying-the-ovb-formula" id="toc-verifying-the-ovb-formula" class="nav-link" data-scroll-target="#verifying-the-ovb-formula">Verifying the OVB Formula</a></li>
+  <li><a href="#predicting-the-direction-of-bias" id="toc-predicting-the-direction-of-bias" class="nav-link" data-scroll-target="#predicting-the-direction-of-bias">Predicting the Direction of Bias</a></li>
+  </ul></li>
+  <li><a href="#case-study-the-private-college-premium" id="toc-case-study-the-private-college-premium" class="nav-link" data-scroll-target="#case-study-the-private-college-premium">Case Study: The Private College Premium</a>
+  <ul class="collapse">
+  <li><a href="#dale-and-kruegers-self-revelation-model" id="toc-dale-and-kruegers-self-revelation-model" class="nav-link" data-scroll-target="#dale-and-kruegers-self-revelation-model">Dale and Krueger’s Self-Revelation Model</a></li>
+  <li><a href="#regression-sensitivity-analysis" id="toc-regression-sensitivity-analysis" class="nav-link" data-scroll-target="#regression-sensitivity-analysis">Regression Sensitivity Analysis</a></li>
+  </ul></li>
   <li><a href="#when-controls-go-wrong-bad-controls" id="toc-when-controls-go-wrong-bad-controls" class="nav-link" data-scroll-target="#when-controls-go-wrong-bad-controls">When Controls Go Wrong: Bad Controls</a></li>
   <li><a href="#how-regression-connects-to-every-other-chapter" id="toc-how-regression-connects-to-every-other-chapter" class="nav-link" data-scroll-target="#how-regression-connects-to-every-other-chapter">How Regression Connects to Every Other Chapter</a></li>
-  <li><a href="#historical-perspective-galton-and-yule" id="toc-historical-perspective-galton-and-yule" class="nav-link" data-scroll-target="#historical-perspective-galton-and-yule">Historical Perspective: Galton and Yule</a></li>
+  <li><a href="#historical-perspective-galton-and-yule" id="toc-historical-perspective-galton-and-yule" class="nav-link" data-scroll-target="#historical-perspective-galton-and-yule">Historical Perspective: Galton and Yule</a>
+  <ul class="collapse">
+  <li><a href="#francis-galton-and-regression-to-the-mean" id="toc-francis-galton-and-regression-to-the-mean" class="nav-link" data-scroll-target="#francis-galton-and-regression-to-the-mean">Francis Galton and “Regression to the Mean”</a></li>
+  <li><a href="#george-udny-yule-and-social-statistics" id="toc-george-udny-yule-and-social-statistics" class="nav-link" data-scroll-target="#george-udny-yule-and-social-statistics">George Udny Yule and Social Statistics</a></li>
+  </ul></li>
   <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
-  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
+  <ul class="collapse">
+  <li><a href="#conceptual-questions" id="toc-conceptual-questions" class="nav-link" data-scroll-target="#conceptual-questions">Conceptual Questions</a></li>
+  <li><a href="#research-tasks" id="toc-research-tasks" class="nav-link" data-scroll-target="#research-tasks">Research Tasks</a></li>
+  </ul></li>
+  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a>
+  <ul class="collapse">
+  <li><a href="#conceptual-questions-2" id="toc-conceptual-questions-2" class="nav-link" data-scroll-target="#conceptual-questions-2">Conceptual Questions</a></li>
+  <li><a href="#research-tasks-2" id="toc-research-tasks-2" class="nav-link" data-scroll-target="#research-tasks-2">Research Tasks</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>

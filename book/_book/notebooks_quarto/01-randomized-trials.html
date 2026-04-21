@@ -423,17 +423,55 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
+  <ul>
+  <li><a href="#does-health-insurance-improve-health" id="toc-does-health-insurance-improve-health" class="nav-link active" data-scroll-target="#does-health-insurance-improve-health">Does Health Insurance Improve Health?</a>
   <ul class="collapse">
-  <li><a href="#does-health-insurance-improve-health" id="toc-does-health-insurance-improve-health" class="nav-link active" data-scroll-target="#does-health-insurance-improve-health">Does Health Insurance Improve Health?</a></li>
-  <li><a href="#why-naive-comparisons-fail-selection-bias" id="toc-why-naive-comparisons-fail-selection-bias" class="nav-link" data-scroll-target="#why-naive-comparisons-fail-selection-bias">Why Naive Comparisons Fail: Selection Bias</a></li>
-  <li><a href="#the-solution-random-assignment" id="toc-the-solution-random-assignment" class="nav-link" data-scroll-target="#the-solution-random-assignment">The Solution: Random Assignment</a></li>
-  <li><a href="#case-study-1-the-rand-health-insurance-experiment" id="toc-case-study-1-the-rand-health-insurance-experiment" class="nav-link" data-scroll-target="#case-study-1-the-rand-health-insurance-experiment">Case Study 1: The RAND Health Insurance Experiment</a></li>
-  <li><a href="#case-study-2-the-oregon-health-plan" id="toc-case-study-2-the-oregon-health-plan" class="nav-link" data-scroll-target="#case-study-2-the-oregon-health-plan">Case Study 2: The Oregon Health Plan</a></li>
+  <li><a href="#a-first-look-insured-vs.-uninsured" id="toc-a-first-look-insured-vs.-uninsured" class="nav-link" data-scroll-target="#a-first-look-insured-vs.-uninsured">A First Look: Insured vs.&nbsp;Uninsured</a></li>
+  <li><a href="#the-problem-other-differences-between-groups" id="toc-the-problem-other-differences-between-groups" class="nav-link" data-scroll-target="#the-problem-other-differences-between-groups">The Problem: Other Differences Between Groups</a></li>
+  </ul></li>
+  <li><a href="#why-naive-comparisons-fail-selection-bias" id="toc-why-naive-comparisons-fail-selection-bias" class="nav-link" data-scroll-target="#why-naive-comparisons-fail-selection-bias">Why Naive Comparisons Fail: Selection Bias</a>
+  <ul class="collapse">
+  <li><a href="#the-potential-outcomes-framework" id="toc-the-potential-outcomes-framework" class="nav-link" data-scroll-target="#the-potential-outcomes-framework">The Potential Outcomes Framework</a></li>
+  <li><a href="#the-decomposition" id="toc-the-decomposition" class="nav-link" data-scroll-target="#the-decomposition">The Decomposition</a></li>
+  </ul></li>
+  <li><a href="#the-solution-random-assignment" id="toc-the-solution-random-assignment" class="nav-link" data-scroll-target="#the-solution-random-assignment">The Solution: Random Assignment</a>
+  <ul class="collapse">
+  <li><a href="#the-core-idea" id="toc-the-core-idea" class="nav-link" data-scroll-target="#the-core-idea">The Core Idea</a></li>
+  <li><a href="#why-it-works-mathematically" id="toc-why-it-works-mathematically" class="nav-link" data-scroll-target="#why-it-works-mathematically">Why It Works Mathematically</a></li>
+  <li><a href="#checking-for-balance" id="toc-checking-for-balance" class="nav-link" data-scroll-target="#checking-for-balance">Checking for Balance</a></li>
+  </ul></li>
+  <li><a href="#case-study-1-the-rand-health-insurance-experiment" id="toc-case-study-1-the-rand-health-insurance-experiment" class="nav-link" data-scroll-target="#case-study-1-the-rand-health-insurance-experiment">Case Study 1: The RAND Health Insurance Experiment</a>
+  <ul class="collapse">
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a></li>
+  <li><a href="#step-1-verify-randomization-balance-check" id="toc-step-1-verify-randomization-balance-check" class="nav-link" data-scroll-target="#step-1-verify-randomization-balance-check">Step 1: Verify Randomization (Balance Check)</a></li>
+  <li><a href="#step-2-estimate-causal-effects-on-health-care-use" id="toc-step-2-estimate-causal-effects-on-health-care-use" class="nav-link" data-scroll-target="#step-2-estimate-causal-effects-on-health-care-use">Step 2: Estimate Causal Effects on Health-Care Use</a></li>
+  <li><a href="#step-3-estimate-causal-effects-on-health" id="toc-step-3-estimate-causal-effects-on-health" class="nav-link" data-scroll-target="#step-3-estimate-causal-effects-on-health">Step 3: Estimate Causal Effects on Health</a></li>
+  </ul></li>
+  <li><a href="#case-study-2-the-oregon-health-plan" id="toc-case-study-2-the-oregon-health-plan" class="nav-link" data-scroll-target="#case-study-2-the-oregon-health-plan">Case Study 2: The Oregon Health Plan</a>
+  <ul class="collapse">
+  <li><a href="#why-a-second-experiment" id="toc-why-a-second-experiment" class="nav-link" data-scroll-target="#why-a-second-experiment">Why a Second Experiment?</a></li>
+  <li><a href="#results-at-a-glance" id="toc-results-at-a-glance" class="nav-link" data-scroll-target="#results-at-a-glance">Results at a Glance</a></li>
+  <li><a href="#comparing-the-two-experiments" id="toc-comparing-the-two-experiments" class="nav-link" data-scroll-target="#comparing-the-two-experiments">Comparing the Two Experiments</a></li>
+  </ul></li>
   <li><a href="#historical-perspective-pioneers-of-randomization" id="toc-historical-perspective-pioneers-of-randomization" class="nav-link" data-scroll-target="#historical-perspective-pioneers-of-randomization">Historical Perspective: Pioneers of Randomization</a></li>
-  <li><a href="#statistical-inference-toolkit" id="toc-statistical-inference-toolkit" class="nav-link" data-scroll-target="#statistical-inference-toolkit">Statistical Inference Toolkit</a></li>
+  <li><a href="#statistical-inference-toolkit" id="toc-statistical-inference-toolkit" class="nav-link" data-scroll-target="#statistical-inference-toolkit">Statistical Inference Toolkit</a>
+  <ul class="collapse">
+  <li><a href="#the-core-problem-sampling-variability" id="toc-the-core-problem-sampling-variability" class="nav-link" data-scroll-target="#the-core-problem-sampling-variability">The Core Problem: Sampling Variability</a></li>
+  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link" data-scroll-target="#key-concepts">Key Concepts</a></li>
+  <li><a href="#the-rule-of-thumb" id="toc-the-rule-of-thumb" class="nav-link" data-scroll-target="#the-rule-of-thumb">The Rule of Thumb</a></li>
+  <li><a href="#a-crucial-caveat" id="toc-a-crucial-caveat" class="nav-link" data-scroll-target="#a-crucial-caveat">A Crucial Caveat</a></li>
+  </ul></li>
   <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
-  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
+  <ul class="collapse">
+  <li><a href="#conceptual-questions" id="toc-conceptual-questions" class="nav-link" data-scroll-target="#conceptual-questions">Conceptual Questions</a></li>
+  <li><a href="#research-tasks" id="toc-research-tasks" class="nav-link" data-scroll-target="#research-tasks">Research Tasks</a></li>
+  </ul></li>
+  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a>
+  <ul class="collapse">
+  <li><a href="#conceptual-questions-2" id="toc-conceptual-questions-2" class="nav-link" data-scroll-target="#conceptual-questions-2">Conceptual Questions</a></li>
+  <li><a href="#research-tasks-2" id="toc-research-tasks-2" class="nav-link" data-scroll-target="#research-tasks-2">Research Tasks</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
