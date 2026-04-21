@@ -11,6 +11,7 @@ This project provides an interactive Quarto book with Python notebooks that walk
 | Chapter | Method | Case Studies |
 |:--------|:-------|:-------------|
 | [Ch 1: Randomized Trials](notebooks_quarto/01-randomized-trials.qmd) | RCTs, potential outcomes, selection bias | NHIS, RAND HIE, Oregon Health Plan |
+| [Ch 2: Regression](notebooks_quarto/02-regression.qmd) | OLS, omitted variable bias, bad controls | Private college premium (simulated data), Dale & Krueger |
 | [Ch 3: Instrumental Variables](notebooks_quarto/03-instrumental-variables.qmd) | IV/2SLS, LATE, complier types | MDVE, KIPP lotteries, family size |
 | [Ch 4: Regression Discontinuity](notebooks_quarto/04-regression-discontinuity.qmd) | Sharp and fuzzy RD | MLDA and mortality, Boston exam schools |
 | [Ch 5: Differences-in-Differences](notebooks_quarto/05-differences-in-differences.qmd) | DD with fixed effects, parallel trends | Great Depression banking, MLDA deaths |
