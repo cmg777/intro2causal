@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Tutors - Mastering Causal Metrics</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    :root {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --blue: #38bdf8;
+      --purple: #a78bfa;
+      --green: #34d399;
+      --border: rgba(255,255,255,0.1);
+    }
+    .light {
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --blue: #2563eb;
+      --purple: #7c3aed;
+      --green: #059669;
+      --border: #e2e8f0;
+    }
+    body { background-color: var(--bg); color: var(--text); transition: background-color 0.3s, color 0.3s; }
+    .card { background-color: var(--bg-card); border: 1px solid var(--border); transition: all 0.3s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
+    .text-blue { color: var(--blue); }
+    .text-purple { color: var(--purple); }
+    .text-green { color: var(--green); }
+    .text-muted { color: var(--text-muted); }
+    .nav-link { color: var(--text-muted); transition: color 0.2s; }
+    .nav-link:hover { color: var(--blue); }
+    .tutor-icon {
+      width: 64px; height: 64px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin-bottom: 1rem;
+    }
+    .tutor-btn {
+      display: inline-block; padding: 0.5rem 1.25rem; border-radius: 8px;
+      font-size: 0.85rem; font-weight: 600; text-decoration: none;
+      transition: all 0.2s;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(15,23,42,0.85);">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="text-lg font-bold" style="color: var(--blue);">Mastering Causal Metrics</a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="book/_book/index.html" class="nav-link text-sm">Book</a>
+        <a href="tutors.html" class="nav-link text-sm font-semibold" style="color: var(--blue);">AI Tutors</a>
+        <a href="https://github.com/cmg777/intro2causal" target="_blank" class="nav-link text-sm">GitHub</a>
+        <button id="theme-toggle" class="nav-link text-sm cursor-pointer" aria-label="Toggle theme">
+          <span id="theme-icon">&#9790;</span>
+        </button>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden nav-link text-xl cursor-pointer" aria-label="Menu">&#9776;</button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
+      <a href="index.html" class="block py-2 nav-link text-sm">Home</a>
+      <a href="book/_book/index.html" class="block py-2 nav-link text-sm">Book</a>
+      <a href="tutors.html" class="block py-2 nav-link text-sm">AI Tutors</a>
+      <button id="theme-toggle-mobile" class="block py-2 nav-link text-sm cursor-pointer text-left w-full">Toggle Theme</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="pt-32 pb-12 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--green);">AI-Enhanced Learning</p>
+      <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4">
+        Choose Your <span class="text-purple">AI Tutor</span>
+      </h1>
+      <p class="text-lg max-w-2xl mx-auto mb-6 text-muted">
+        4 AI tutors, 4 learning styles. Each tutor is a customized Google Gemini Gem with a distinct pedagogical approach to causal inference.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center text-sm text-muted">
+        <span>6 chapters</span>
+        <span>&middot;</span>
+        <span>5 causal methods</span>
+        <span>&middot;</span>
+        <span>Python code</span>
+        <span>&middot;</span>
+        <span>Real datasets</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tutor Grid -->
+  <section class="py-12 px-4">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+
+      <!-- Learning Coach -->
+      <div class="card rounded-xl p-6">
+        <div class="tutor-icon" style="background: rgba(56,189,248,0.15); color: var(--blue);">&#127891;</div>
+        <h3 class="text-xl font-semibold mb-1 text-blue">Learning Coach</h3>
+        <p class="text-xs text-muted mb-3">Recommended for first-time learners</p>
+        <p class="text-sm text-muted mb-4">
+          Your step-by-step guide through causal inference. Breaks down complex concepts into manageable pieces,
+          provides worked examples, and checks understanding at each stage. Ideal for working through the material
+          chapter by chapter.
+        </p>
+        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Structured learning, homework help, building intuition</p>
+        <a href="#" class="tutor-btn" style="background: rgba(56,189,248,0.15); color: var(--blue);">Start Learning &rarr;</a>
+      </div>
+
+      <!-- Socratic Challenger -->
+      <div class="card rounded-xl p-6">
+        <div class="tutor-icon" style="background: rgba(167,139,250,0.15); color: var(--purple);">&#129300;</div>
+        <h3 class="text-xl font-semibold mb-1 text-purple">Socratic Challenger</h3>
+        <p class="text-xs text-muted mb-3">For deeper understanding</p>
+        <p class="text-sm text-muted mb-4">
+          Teaches through questions rather than answers. Challenges your assumptions about causation, pushes you
+          to think about identification strategies, and helps you develop the critical thinking skills needed
+          for research design.
+        </p>
+        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Critical thinking, research design, exam preparation</p>
+        <a href="#" class="tutor-btn" style="background: rgba(167,139,250,0.15); color: var(--purple);">Start Thinking &rarr;</a>
+      </div>
+
+      <!-- Code-First Experimenter -->
+      <div class="card rounded-xl p-6">
+        <div class="tutor-icon" style="background: rgba(52,211,153,0.15); color: var(--green);">&#128187;</div>
+        <h3 class="text-xl font-semibold mb-1 text-green">Code-First Experimenter</h3>
+        <p class="text-xs text-muted mb-3">For hands-on learners</p>
+        <p class="text-sm text-muted mb-4">
+          Learns by doing. Starts with Python code and real data, then builds up to the theory. Helps you modify
+          and extend the chapter notebooks, run your own analyses, and understand causal methods through
+          computational experimentation.
+        </p>
+        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Python practice, data analysis, extending examples</p>
+        <a href="#" class="tutor-btn" style="background: rgba(52,211,153,0.15); color: var(--green);">Start Coding &rarr;</a>
+      </div>
+
+      <!-- Exam Coach -->
+      <div class="card rounded-xl p-6">
+        <div class="tutor-icon" style="background: rgba(251,191,36,0.15); color: #fbbf24;">&#128221;</div>
+        <h3 class="text-xl font-semibold mb-1" style="color: #fbbf24;">Exam Coach</h3>
+        <p class="text-xs text-muted mb-3">For test preparation</p>
+        <p class="text-sm text-muted mb-4">
+          Focused on assessment readiness. Provides practice questions, identifies knowledge gaps, and drills
+          key concepts and formulas. Covers the distinction between methods, when each applies, and common
+          exam pitfalls in causal inference courses.
+        </p>
+        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Exam review, self-assessment, concept retention</p>
+        <a href="#" class="tutor-btn" style="background: rgba(251,191,36,0.15); color: #fbbf24;">Start Practicing &rarr;</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-16 px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-8">How It Works</h2>
+      <div class="grid md:grid-cols-3 gap-6 text-sm">
+        <div>
+          <div class="text-3xl mb-3">1</div>
+          <h4 class="font-semibold mb-2">Choose a Tutor</h4>
+          <p class="text-muted">Pick the learning style that matches your needs and goals.</p>
+        </div>
+        <div>
+          <div class="text-3xl mb-3">2</div>
+          <h4 class="font-semibold mb-2">Ask Anything</h4>
+          <p class="text-muted">Ask about any chapter, concept, or dataset. The tutor knows the full curriculum.</p>
+        </div>
+        <div>
+          <div class="text-3xl mb-3">3</div>
+          <h4 class="font-semibold mb-2">Learn by Doing</h4>
+          <p class="text-muted">Follow the tutor's guidance, run code in Colab, and build your causal inference skills.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 px-4" style="border-top: 1px solid var(--border);">
+    <div class="max-w-5xl mx-auto text-center">
+      <p class="text-sm text-muted mb-2">
+        <strong style="color: var(--text);">Mastering Causal Metrics</strong> &mdash; An AI-Powered Study Guide
+      </p>
+      <p class="text-xs text-muted">
+        <a href="index.html" style="color: var(--blue);">Home</a>
+        &middot;
+        <a href="book/_book/index.html" style="color: var(--blue);">Book</a>
+        &middot;
+        <a href="https://github.com/cmg777/intro2causal" target="_blank" style="color: var(--blue);">GitHub</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const body = document.body;
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') body.classList.add('light');
+
+    function toggleTheme() {
+      body.classList.toggle('light');
+      localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
+      document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
+    }
+
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+    const mt = document.getElementById('theme-toggle-mobile');
+    if (mt) mt.addEventListener('click', toggleTheme);
+    document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
+    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

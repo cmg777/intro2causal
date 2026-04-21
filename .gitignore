@@ -8,6 +8,11 @@ __pycache__/
 # Quarto rendered output (regenerated from .qmd)
 notebooks_quarto/*.html
 
+# Quarto book project
+book/_book/
+book/.quarto/
+book/**/*.quarto_ipynb
+
 # Large data files (download from masteringmetrics.com/resources/)
 *.dta
 data/ch1/*.xlsx

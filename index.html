@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mastering Causal Metrics</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    code, .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Dark mode defaults */
+    :root {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --blue: #38bdf8;
+      --purple: #a78bfa;
+      --green: #34d399;
+      --border: rgba(255,255,255,0.1);
+    }
+    .light {
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --blue: #2563eb;
+      --purple: #7c3aed;
+      --green: #059669;
+      --border: #e2e8f0;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .text-blue { color: var(--blue); }
+    .text-purple { color: var(--purple); }
+    .text-green { color: var(--green); }
+    .text-muted { color: var(--text-muted); }
+    .bg-blue { background-color: var(--blue); }
+
+    .nav-link {
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--blue); }
+
+    .chapter-row {
+      border-bottom: 1px solid var(--border);
+      transition: background-color 0.15s;
+    }
+    .chapter-row:hover {
+      background-color: rgba(56, 189, 248, 0.05);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+    }
+    .btn-secondary {
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: border-color 0.2s, color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .pillar-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(15,23,42,0.85);">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="text-lg font-bold" style="color: var(--blue);">Mastering Causal Metrics</a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="book/_book/index.html" class="nav-link text-sm">Book</a>
+        <a href="tutors.html" class="nav-link text-sm">AI Tutors</a>
+        <a href="https://github.com/cmg777/intro2causal" target="_blank" class="nav-link text-sm">GitHub</a>
+        <button id="theme-toggle" class="nav-link text-sm cursor-pointer" aria-label="Toggle theme">
+          <span id="theme-icon">&#9790;</span>
+        </button>
+      </div>
+      <!-- Mobile menu button -->
+      <button id="mobile-menu-btn" class="md:hidden nav-link text-xl cursor-pointer" aria-label="Menu">&#9776;</button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
+      <a href="book/_book/index.html" class="block py-2 nav-link text-sm">Book</a>
+      <a href="tutors.html" class="block py-2 nav-link text-sm">AI Tutors</a>
+      <a href="https://github.com/cmg777/intro2causal" target="_blank" class="block py-2 nav-link text-sm">GitHub</a>
+      <button id="theme-toggle-mobile" class="block py-2 nav-link text-sm cursor-pointer text-left w-full">Toggle Theme</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="pt-32 pb-16 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--purple);">An AI-Powered Study Guide</p>
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+        Mastering <span class="text-blue">Causal</span> <span class="text-purple">Metrics</span>
+      </h1>
+      <p class="text-lg max-w-2xl mx-auto mb-8 text-muted">
+        A hands-on Python companion to <em>Mastering 'Metrics</em> by Angrist &amp; Pischke.
+        Learn the five tools of causal inference with interactive notebooks and AI-powered learning.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="book/_book/index.html" class="btn-primary">Read the Book</a>
+        <a href="https://github.com/cmg777/intro2causal" target="_blank" class="btn-secondary">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three Pillars -->
+  <section class="py-16 px-4">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-6">
+      <div class="card rounded-xl p-6">
+        <div class="pillar-icon mb-4" style="background-color: rgba(37,99,235,0.15); color: var(--blue);">&#9881;</div>
+        <h3 class="text-lg font-semibold mb-2 text-blue">Causal Foundations</h3>
+        <p class="text-sm text-muted">Rigorous econometric methods grounded in Angrist &amp; Pischke's framework. Five tools from RCTs to Differences-in-Differences.</p>
+      </div>
+      <div class="card rounded-xl p-6">
+        <div class="pillar-icon mb-4" style="background-color: rgba(124,58,237,0.15); color: var(--purple);">&#128187;</div>
+        <h3 class="text-lg font-semibold mb-2 text-purple">Python Notebooks</h3>
+        <p class="text-sm text-muted">Zero-installation Google Colab notebooks. Real datasets, working code, and complete implementations of every method.</p>
+      </div>
+      <div class="card rounded-xl p-6">
+        <div class="pillar-icon mb-4" style="background-color: rgba(5,150,105,0.15); color: var(--green);">&#129302;</div>
+        <h3 class="text-lg font-semibold mb-2 text-green">AI-Powered Learning</h3>
+        <p class="text-sm text-muted">Multiple AI tutors with distinct pedagogical styles, visual roadmaps, interactive quizzes, and concept summaries.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Curriculum -->
+  <section class="py-16 px-4">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold mb-2 text-center">Curriculum</h2>
+      <p class="text-center text-muted mb-10">6 chapters organized around the five tools of causal inference</p>
+
+      <!-- Part I -->
+      <div class="mb-8">
+        <h3 class="text-xs font-semibold tracking-widest uppercase mb-3" style="color: var(--purple);">Part I &mdash; The Framework</h3>
+        <div class="card rounded-lg overflow-hidden">
+          <div class="chapter-row flex items-center justify-between px-4 py-3">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-mono text-muted">01</span>
+              <a href="book/_book/notebooks_quarto/01-randomized-trials.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Randomized Trials</a>
+            </div>
+            <span class="text-xs text-muted hidden sm:inline">Selection Bias &middot; Potential Outcomes &middot; RAND HIE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Part II -->
+      <div class="mb-8">
+        <h3 class="text-xs font-semibold tracking-widest uppercase mb-3" style="color: var(--purple);">Part II &mdash; The Five Tools</h3>
+        <div class="card rounded-lg overflow-hidden">
+          <div class="chapter-row flex items-center justify-between px-4 py-3">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-mono text-muted">02</span>
+              <a href="book/_book/notebooks_quarto/02-regression.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Regression</a>
+              <span class="text-xs px-2 py-0.5 rounded-full" style="background: rgba(124,58,237,0.15); color: var(--purple);">coming soon</span>
+            </div>
+            <span class="text-xs text-muted hidden sm:inline">OLS &middot; Omitted Variable Bias &middot; Bad Controls</span>
+          </div>
+          <div class="chapter-row flex items-center justify-between px-4 py-3">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-mono text-muted">03</span>
+              <a href="book/_book/notebooks_quarto/03-instrumental-variables.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Instrumental Variables</a>
+            </div>
+            <span class="text-xs text-muted hidden sm:inline">LATE &middot; Compliers &middot; Minneapolis DV Experiment</span>
+          </div>
+          <div class="chapter-row flex items-center justify-between px-4 py-3">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-mono text-muted">04</span>
+              <a href="book/_book/notebooks_quarto/04-regression-discontinuity.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Regression Discontinuity</a>
+            </div>
+            <span class="text-xs text-muted hidden sm:inline">Sharp RD &middot; Bandwidth &middot; MLDA and Mortality</span>
+          </div>
+          <div class="chapter-row flex items-center justify-between px-4 py-3">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-mono text-muted">05</span>
+              <a href="book/_book/notebooks_quarto/05-differences-in-differences.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Differences-in-Differences</a>
+            </div>
+            <span class="text-xs text-muted hidden sm:inline">Parallel Trends &middot; Two-Way FE &middot; Great Depression Banking</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Part III -->
+      <div class="mb-8">
+        <h3 class="text-xs font-semibold tracking-widest uppercase mb-3" style="color: var(--purple);">Part III &mdash; Synthesis</h3>
+        <div class="card rounded-lg overflow-hidden">
+          <div class="chapter-row flex items-center justify-between px-4 py-3">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-mono text-muted">06</span>
+              <a href="book/_book/notebooks_quarto/06-wages-of-schooling.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">The Wages of Schooling</a>
+            </div>
+            <span class="text-xs text-muted hidden sm:inline">Twins &middot; Quarter of Birth &middot; Sheepskin Effects</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 px-4" style="border-top: 1px solid var(--border);">
+    <div class="max-w-5xl mx-auto text-center">
+      <p class="text-sm text-muted mb-2">
+        <strong style="color: var(--text);">Mastering Causal Metrics</strong> &mdash; An AI-Powered Study Guide
+      </p>
+      <p class="text-xs text-muted mb-4">
+        By <a href="https://carlos-mendez.org" target="_blank" style="color: var(--blue);">Carlos Mendez</a>
+        &middot; Based on <em>Mastering 'Metrics</em> by Angrist &amp; Pischke (Princeton University Press)
+      </p>
+      <p class="text-xs text-muted">
+        <a href="https://github.com/cmg777/intro2causal" target="_blank" style="color: var(--blue);">GitHub</a>
+        &middot;
+        <a href="book/_book/index.html" style="color: var(--blue);">Read Online</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode toggle
+    const body = document.body;
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') body.classList.add('light');
+
+    function toggleTheme() {
+      body.classList.toggle('light');
+      localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
+      document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
+    }
+
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+    const mobileToggle = document.getElementById('theme-toggle-mobile');
+    if (mobileToggle) mobileToggle.addEventListener('click', toggleTheme);
+
+    // Set initial icon
+    document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
+
+    // Mobile menu
+    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

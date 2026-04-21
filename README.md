@@ -1,8 +1,10 @@
-# Introduction to Causal Inference
+# Mastering Causal Metrics
 
-A Python-based study guide for **Mastering 'Metrics: The Path from Cause to Effect** by Joshua D. Angrist and Jorn-Steffen Pischke (Princeton University Press, 2015).
+**An AI-Powered Study Guide** for *Mastering 'Metrics: The Path from Cause to Effect* by Joshua D. Angrist and Jorn-Steffen Pischke (Princeton University Press, 2015).
 
-This project provides interactive Quarto notebooks that walk students through the core methods of causal inference using real data and Python code. Each chapter pairs conceptual explanations with hands-on replication of the book's key empirical tables and figures.
+This project provides an interactive Quarto book with Python notebooks that walk students through the core methods of causal inference using real data. Each chapter pairs conceptual explanations with hands-on replication of the book's key empirical tables and figures, enhanced with AI-powered learning tools.
+
+**[Read Online](https://cmg777.github.io/intro2causal/book/_book/)** | **[AI Tutors](https://cmg777.github.io/intro2causal/tutors.html)** | **[GitHub](https://github.com/cmg777/intro2causal)**
 
 ## Study Guides
 
@@ -27,12 +29,19 @@ Each guide includes:
 
 ```
 intro2causal/
-├── notebooks_quarto/          # Quarto study guides (.qmd)
-│   ├── 01-randomized-trials.qmd
-│   ├── 03-instrumental-variables.qmd
-│   ├── 04-regression-discontinuity.qmd
-│   ├── 05-differences-in-differences.qmd
-│   └── 06-wages-of-schooling.qmd
+├── book/                      # Quarto book project
+│   ├── _quarto.yml            # Book configuration (parts, chapters, theme)
+│   ├── custom.css             # Branded CSS (dark/light mode)
+│   ├── index.qmd              # Preface / landing page
+│   ├── notebooks_quarto/      # Study guides (book versions)
+│   │   ├── 01-randomized-trials.qmd
+│   │   ├── 02-regression.qmd       # (under development)
+│   │   ├── 03-instrumental-variables.qmd
+│   │   ├── 04-regression-discontinuity.qmd
+│   │   ├── 05-differences-in-differences.qmd
+│   │   └── 06-wages-of-schooling.qmd
+│   └── images/                # Visual summaries, cover, badges (SVG)
+├── notebooks_quarto/          # Study guides (standalone versions)
 ├── data/                      # Clean CSV datasets (ready to use)
 │   ├── ch1/                   # NHIS, RAND HIE
 │   ├── ch3/                   # MDVE
@@ -41,16 +50,12 @@ intro2causal/
 │   └── ch6/                   # Twins, QOB, sheepskin
 ├── code/
 │   ├── python/                # Python scripts by chapter
-│   │   ├── ch1/prepare_data.py    # Data prep (raw .dta → clean .csv)
-│   │   ├── ch1/table1_1_nhis.py   # Standalone replication scripts
-│   │   ├── ...
-│   │   └── ch6/
 │   └── stata/                 # Original Stata do files
-│       ├── ch1/
-│       ├── ...
-│       └── ch6/
-├── original-book/             # Chapter text (markdown)
-├── .claude/skills/            # Claude Code custom skills
+├── original-book/             # Chapter text (markdown reference)
+├── tutors/                    # AI tutor system prompts
+├── index.html                 # Project website (GitHub Pages)
+├── tutors.html                # AI tutors page
+├── favicon.svg                # Site favicon
 ├── pyproject.toml             # Python dependencies
 └── uv.lock                   # Dependency lock file
 ```
@@ -96,17 +101,17 @@ uv run python code/python/ch6/prepare_data.py
 
 > **Note:** The twins data for Chapter 6 (`pubtwins.dta`) must be downloaded separately from [Princeton DataSpace](https://dataspace.princeton.edu/handle/88435/dsp01rv042t084).
 
-### Render the Study Guides
+### Render the Book
 
 ```bash
-# Render a single chapter
-uv run quarto render notebooks_quarto/01-randomized-trials.qmd
+# Render the full book (recommended)
+uv run quarto render book/
 
-# Render all chapters
-for f in notebooks_quarto/*.qmd; do uv run quarto render "$f"; done
+# Render a single standalone chapter
+uv run quarto render notebooks_quarto/01-randomized-trials.qmd
 ```
 
-The rendered HTML files will appear in `notebooks_quarto/`.
+The book output appears in `book/_book/`. Open `book/_book/index.html` to view it locally.
 
 ## Python Libraries
 

@@ -1,0 +1,191 @@
+project:
+  type: book
+  output-dir: _book
+
+execute:
+  freeze: auto
+
+book:
+  title: "Mastering Causal Metrics"
+  subtitle: "An AI-Powered Study Guide"
+  author: "Carlos Mendez"
+  date: "2026-04-21"
+  date-format: "MMMM D, YYYY [(in progress)]"
+  search: true
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - part: "The Framework"
+      chapters:
+        - notebooks_quarto/01-randomized-trials.qmd
+    - part: "The Five Tools"
+      chapters:
+        - notebooks_quarto/02-regression.qmd
+        - notebooks_quarto/03-instrumental-variables.qmd
+        - notebooks_quarto/04-regression-discontinuity.qmd
+        - notebooks_quarto/05-differences-in-differences.qmd
+    - part: "Synthesis"
+      chapters:
+        - notebooks_quarto/06-wages-of-schooling.qmd
+
+format:
+  html:
+    theme:
+      dark: darkly
+      light: cosmo
+    respect-user-color-scheme: false
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    code-fold: false
+    code-tools: true
+    code-copy: hover
+    code-overflow: wrap
+    highlight-style: github
+    smooth-scroll: true
+    anchor-sections: true
+    link-external-icon: true
+    link-external-newwindow: true
+    fontsize: 1.05em
+    linestretch: 1.6
+    mainfont: "Inter"
+    monofont: "JetBrains Mono"
+    css: custom.css
+    include-before-body:
+      text: |
+        <div id="google_translate_element" style="padding: 8px 0;"></div>
+        <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+          }, 'google_translate_element');
+        }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    include-after-body:
+      text: |
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          /* ── Book cover image in right sidebar ── */
+          var tocNav = document.getElementById('TOC');
+          if (tocNav) {
+            var coverDiv = document.createElement('div');
+            coverDiv.id = 'toc-cover-image';
+            var img = document.createElement('img');
+            var path = window.location.pathname;
+            if (path.indexOf('/notebooks_quarto/') !== -1) {
+              img.src = '../images/book1cover.svg';
+            } else {
+              img.src = 'images/book1cover.svg';
+            }
+            img.alt = 'Mastering Causal Metrics';
+            coverDiv.appendChild(img);
+            tocNav.parentNode.insertBefore(coverDiv, tocNav);
+          }
+
+          /* ── Mobile TOC: nav bar button + slide-in panel ── */
+          var toc = document.getElementById('TOC');
+          if (!toc) return;
+          var tocList = toc.querySelector('ul');
+          if (!tocList || tocList.children.length === 0) return;
+
+          var overlay = document.createElement('div');
+          overlay.className = 'mobile-toc-overlay';
+
+          var panel = document.createElement('div');
+          panel.className = 'mobile-toc-panel';
+
+          var header = document.createElement('div');
+          header.className = 'mobile-toc-header';
+          var title = document.createElement('h3');
+          title.textContent = 'On this page';
+          var closeBtn = document.createElement('button');
+          closeBtn.className = 'mobile-toc-close';
+          closeBtn.setAttribute('aria-label', 'Close');
+          closeBtn.innerHTML = '\u00d7';
+          header.appendChild(title);
+          header.appendChild(closeBtn);
+
+          var content = document.createElement('div');
+          content.className = 'mobile-toc-content';
+          var tocClone = tocList.cloneNode(true);
+          tocClone.classList.remove('collapse');
+          tocClone.style.display = 'block';
+          content.appendChild(tocClone);
+
+          panel.appendChild(header);
+          panel.appendChild(content);
+          document.body.appendChild(overlay);
+          document.body.appendChild(panel);
+
+          function openPanel() {
+            panel.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+          function closePanel() {
+            panel.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+
+          overlay.addEventListener('click', closePanel);
+          closeBtn.addEventListener('click', closePanel);
+          content.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', closePanel);
+          });
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && panel.classList.contains('active')) {
+              closePanel();
+            }
+          });
+
+          var secondaryNav = document.querySelector('.quarto-secondary-nav .container-fluid');
+          if (secondaryNav) {
+            var tocBtn = document.createElement('button');
+            tocBtn.type = 'button';
+            tocBtn.className = 'quarto-btn-toggle btn mobile-toc-nav-btn';
+            tocBtn.setAttribute('aria-label', 'Table of contents');
+            tocBtn.title = 'On this page';
+            tocBtn.innerHTML = '<i class="bi bi-list-nested"></i>';
+            tocBtn.addEventListener('click', openPanel);
+            var sidebarToggle = secondaryNav.querySelector('.quarto-btn-toggle');
+            if (sidebarToggle) {
+              sidebarToggle.parentNode.insertBefore(tocBtn, sidebarToggle.nextSibling);
+            }
+          }
+
+          /* ── Desktop sidebar toggle buttons ─�� */
+          if (window.innerWidth >= 992) {
+            if (localStorage.getItem('left-collapsed') === 'true') {
+              document.body.classList.add('left-collapsed');
+            }
+            if (localStorage.getItem('toc-collapsed') === 'true') {
+              document.body.classList.add('toc-collapsed');
+            }
+
+            var leftBtn = document.createElement('button');
+            leftBtn.className = 'sidebar-toggle sidebar-toggle-left';
+            leftBtn.setAttribute('aria-label', 'Toggle book navigation');
+            leftBtn.title = 'Toggle book navigation';
+            leftBtn.innerHTML = '<i class="bi bi-chevron-left"></i>';
+            document.body.appendChild(leftBtn);
+            leftBtn.addEventListener('click', function() {
+              document.body.classList.toggle('left-collapsed');
+              localStorage.setItem('left-collapsed', document.body.classList.contains('left-collapsed'));
+            });
+
+            var rightBtn = document.createElement('button');
+            rightBtn.className = 'sidebar-toggle sidebar-toggle-right';
+            rightBtn.setAttribute('aria-label', 'Toggle table of contents');
+            rightBtn.title = 'Toggle table of contents';
+            rightBtn.innerHTML = '<i class="bi bi-chevron-right"></i>';
+            document.body.appendChild(rightBtn);
+            rightBtn.addEventListener('click', function() {
+              document.body.classList.toggle('toc-collapsed');
+              localStorage.setItem('toc-collapsed', document.body.classList.contains('toc-collapsed'));
+            });
+          }
+        });
+        </script>

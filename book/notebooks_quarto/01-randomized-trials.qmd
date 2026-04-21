@@ -1,18 +1,17 @@
 ---
-title: "Chapter 1: Randomized Trials"
-subtitle: "A Study Guide for *Mastering 'Metrics* by Angrist & Pischke"
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    code-tools: true
-    number-sections: true
-    theme: cosmo
-    self-contained: true
+title: "1. Randomized Trials"
 execute:
   warning: false
   message: false
 ---
+
+![](../images/ch01_visual_summary.svg)
+
+<div class="chapter-resources">
+<a href="#" class="resource-btn">AI Slides</a>
+<a href="#" class="resource-btn">Quiz</a>
+<a href="#" class="resource-btn">AI Tutor</a>
+</div>
 
 ::: {.callout-tip}
 ## Learning Objectives
@@ -66,8 +65,19 @@ At first glance, the answer seems obvious. We can look at survey data and compar
 import pandas as pd
 import statsmodels.formula.api as smf
 
+# --- Data source (GitHub URL with local fallback) ---
+GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+LOCAL_DATA_PATH = "../../data/"
+
+def load_csv(path):
+    """Load CSV from GitHub raw URL; fall back to local path if unavailable."""
+    try:
+        return pd.read_csv(GITHUB_DATA_URL + path)
+    except Exception:
+        return pd.read_csv(LOCAL_DATA_PATH + path)
+
 # Load pre-cleaned NHIS 2009 data (married couples aged 26-59)
-nhis = pd.read_csv("../data/ch1/nhis_clean.csv")
+nhis = load_csv("ch1/nhis_clean.csv")
 nhis.head(3)
 ```
 
@@ -313,7 +323,7 @@ First, we check whether randomization created comparable groups. We regress each
 
 ```{python}
 # Load pre-cleaned RAND HIE baseline data
-rand = pd.read_csv("../data/ch1/rand_balance.csv")
+rand = load_csv("ch1/rand_balance.csv")
 rand.head(3)
 ```
 
@@ -384,7 +394,7 @@ Now we turn to outcomes. Because treatment was randomly assigned, the same regre
 
 ```{python}
 # Load pre-cleaned RAND HIE utilization data (person-year panel)
-hie = pd.read_csv("../data/ch1/rand_utilization.csv")
+hie = load_csv("ch1/rand_utilization.csv")
 hie.head(3)
 ```
 
@@ -437,7 +447,7 @@ Here is the crucial test. All that extra spending bought more health care --- bu
 
 ```{python}
 # Load pre-cleaned RAND HIE exit health measures
-health = pd.read_csv("../data/ch1/rand_health_outcomes.csv")
+health = load_csv("ch1/rand_health_outcomes.csv")
 health.head(3)
 ```
 
@@ -706,7 +716,7 @@ graph TD
 import pandas as pd
 import statsmodels.formula.api as smf
 
-rand = pd.read_csv("../data/ch1/rand_balance.csv")
+rand = load_csv("ch1/rand_balance.csv")
 
 # Run balance check using single binary dummy (any_insurance)
 rows = []
@@ -733,7 +743,7 @@ All t-statistics are small (well below 2), confirming that balance holds regardl
 #| label: tbl-sol-pct-increase
 #| tbl-cap: "Percentage increase in utilization for the free plan relative to catastrophic"
 
-hie = pd.read_csv("../data/ch1/rand_utilization.csv")
+hie = load_csv("ch1/rand_utilization.csv")
 
 # Compute the free plan effect as a percentage of the catastrophic mean
 rows = []
@@ -765,7 +775,7 @@ Outpatient expenses show the largest relative increase (~68%), followed by face-
 #| label: tbl-sol-gender
 #| tbl-cap: "Selection bias by gender: comparing insured vs. uninsured separately for husbands and wives"
 
-nhis = pd.read_csv("../data/ch1/nhis_clean.csv")
+nhis = load_csv("ch1/nhis_clean.csv")
 
 rows = []
 for gender in ["husband", "wife"]:

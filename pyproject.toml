@@ -1,7 +1,7 @@
 [project]
 name = "intro2causal"
 version = "0.1.0"
-description = "Add your description here"
+description = "Mastering Causal Metrics: An AI-Powered Study Guide for Mastering 'Metrics by Angrist & Pischke"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

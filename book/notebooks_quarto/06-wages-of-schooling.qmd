@@ -1,18 +1,17 @@
 ---
-title: "Chapter 6: The Wages of Schooling"
-subtitle: "A Study Guide for *Mastering 'Metrics* by Angrist & Pischke"
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    code-tools: true
-    number-sections: true
-    theme: cosmo
-    self-contained: true
+title: "6. The Wages of Schooling"
 execute:
   warning: false
   message: false
 ---
+
+![](../images/ch06_visual_summary.svg)
+
+<div class="chapter-resources">
+<a href="#" class="resource-btn">AI Slides</a>
+<a href="#" class="resource-btn">Quiz</a>
+<a href="#" class="resource-btn">AI Tutor</a>
+</div>
 
 ::: {.callout-tip}
 ## Learning Objectives
@@ -80,7 +79,18 @@ import numpy as np
 import statsmodels.formula.api as smf
 from linearmodels.iv import IV2SLS
 
-twins = pd.read_csv("../data/ch6/twins_clean.csv")
+# --- Data source (GitHub URL with local fallback) ---
+GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+LOCAL_DATA_PATH = "../../data/"
+
+def load_csv(path):
+    """Load CSV from GitHub raw URL; fall back to local path if unavailable."""
+    try:
+        return pd.read_csv(GITHUB_DATA_URL + path)
+    except Exception:
+        return pd.read_csv(LOCAL_DATA_PATH + path)
+
+twins = load_csv("ch6/twins_clean.csv")
 
 # Key variables:
 #   lwage  = log weekly wage; educ = own years of education
@@ -211,7 +221,7 @@ This creates an instrument: **quarter of birth** affects schooling (through comp
 
 ```{python}
 # Load clean quarter-of-birth data (Angrist & Krueger 1991, 329k men born 1930-1939)
-qob = pd.read_csv("../data/ch6/qob_clean.csv")
+qob = load_csv("ch6/qob_clean.csv")
 
 # Key variables: lnw = log weekly earnings, s = years of schooling
 # qob = quarter of birth (1-4), yob = year of birth, q1-q4 = quarter dummies
@@ -312,7 +322,7 @@ Texas high school students must pass an exit exam to receive their diploma. Stud
 
 ```{python}
 # Load clean sheepskin RD data (Texas last-chance exam)
-sheep = pd.read_csv("../data/ch6/sheepskin_clean.csv")
+sheep = load_csv("ch6/sheepskin_clean.csv")
 
 # Key variables: minscore = test score relative to passing cutoff (0 = cutoff)
 # pass_exam = 1 if passed, receivehsd = fraction receiving diploma
@@ -533,7 +543,7 @@ graph TD
 import pandas as pd
 import statsmodels.formula.api as smf
 
-twins = pd.read_csv("../data/ch6/twins_clean.csv")
+twins = load_csv("ch6/twins_clean.csv")
 
 # Full sample OLS and twin FE
 ols_all = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins).fit(cov_type="HC1")
@@ -571,7 +581,7 @@ The male-only estimates may differ from the full sample because the returns to s
 import numpy as np
 from linearmodels.iv import IV2SLS
 
-qob = pd.read_csv("../data/ch6/qob_clean.csv")
+qob = load_csv("ch6/qob_clean.csv")
 
 # Single instrument: Q4 only
 iv_q4 = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
@@ -611,7 +621,7 @@ Using all three quarter dummies as instruments (with year-of-birth controls) sli
 #| label: tbl-sol-race
 #| tbl-cap: "Returns to schooling by race (OLS, twins data)"
 
-twins = pd.read_csv("../data/ch6/twins_clean.csv")
+twins = load_csv("ch6/twins_clean.csv")
 
 rows = []
 for race, label in [(1, "White"), (0, "Non-white")]:

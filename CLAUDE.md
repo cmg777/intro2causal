@@ -8,13 +8,22 @@ This is a **pedagogical causal inference project** built around *Mastering 'Metr
 
 | Path | Purpose |
 |------|---------|
-| `notebooks_quarto/*.qmd` | **Study guides** — the main deliverable. Quarto documents with prose, code, and mermaid diagrams. |
-| `data/chN/*.csv` | **Clean datasets** — ready for analysis. Loaded by the study guides. |
+| `book/` | **Quarto book project** — renders the full book with `quarto render book/`. |
+| `book/_quarto.yml` | Book configuration (parts, chapters, theme, CSS, JS). |
+| `book/custom.css` | Branded CSS with dark/light mode (CausalBlue/MethodPurple palette). |
+| `book/index.qmd` | Preface/landing page for the book. |
+| `book/notebooks_quarto/*.qmd` | **Study guides** (book versions) — minimal YAML, inherits from `_quarto.yml`. |
+| `book/images/` | Visual summaries (SVG), book cover, badges. |
+| `notebooks_quarto/*.qmd` | **Study guides** (standalone versions) — self-contained YAML for individual rendering. |
+| `data/chN/*.csv` | **Clean datasets** — loaded via GitHub raw URLs in the notebooks. |
 | `data/chN/*.dta` | Raw Stata files (not in git — too large). Downloaded from masteringmetrics.com. |
 | `code/python/chN/prepare_data.py` | Data prep scripts: raw `.dta` → clean `.csv`. |
 | `code/python/chN/*.py` | Standalone Python replication scripts (one per table/figure). |
 | `code/stata/chN/*.do` | Original Stata do files from the book's website. |
 | `original-book/*.md` | Chapter text in markdown (reference material). |
+| `index.html` | Project website landing page (GitHub Pages). |
+| `tutors.html` | AI tutors page. |
+| `tutors/*.md` | AI tutor system prompts for Google Gemini Gems. |
 | `.claude/skills/study-guide/` | Custom `/study-guide` skill for generating new chapters. |
 
 ## Tech Stack
@@ -35,10 +44,13 @@ uv sync
 # Run a data preparation script
 uv run python code/python/ch1/prepare_data.py
 
-# Render a study guide
+# Render the full book (all chapters)
+uv run quarto render book/
+
+# Render a single standalone study guide
 uv run quarto render notebooks_quarto/01-randomized-trials.qmd
 
-# Render all study guides
+# Render all standalone study guides
 for f in notebooks_quarto/*.qmd; do uv run quarto render "$f"; done
 ```
 
@@ -47,7 +59,7 @@ for f in notebooks_quarto/*.qmd; do uv run quarto render "$f"; done
 ### Study Guides (.qmd files)
 
 - **Structure**: Learning objectives → roadmap mermaid → motivating question → data → theory → case studies with code → historical perspective → key takeaways with concept map → exercises
-- **Data loading**: Plain inline `pd.read_csv(...)` followed by `df.head(3)`. No `code-fold`, no `#| label:`, no `#| tbl-cap:` on load blocks.
+- **Data loading**: Use GitHub raw URLs for self-contained notebooks: `GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"` then `pd.read_csv(GITHUB_DATA_URL + "chN/filename.csv")`. Followed by `df.head(3)`. No `code-fold`, no `#| label:`, no `#| tbl-cap:` on load blocks.
 - **Analysis code**: Always visible (never folded). Must have `#| label: tbl-*` or `fig-*` and `#| tbl-cap:` or `fig-cap:`. Must include `#` comments explaining each step.
 - **Equations**: Use standard math notation ($Y$, $D$, $\rho$) with an explicit bridge to the code variable names in surrounding text (e.g., "where $Y_{st}$ is the death rate (`mrate`)").
 - **Regression**: Use `smf.ols()` / `smf.wls()` for OLS. Use `IV2SLS.from_formula()` for IV. Always specify `cov_type` for robust or clustered SEs.
@@ -99,11 +111,21 @@ Generates a complete Quarto study guide for a chapter. Reads the original chapte
 Raw .dta files (not in git)
     ↓ code/python/chN/prepare_data.py
 Clean .csv files (in git, in data/chN/)
-    ↓ loaded by notebooks_quarto/NN-chapter.qmd
-Rendered .html (not in git, in notebooks_quarto/)
+    ↓ loaded via GitHub raw URLs by book/notebooks_quarto/NN-chapter.qmd
+Rendered book (not in git, in book/_book/)
 ```
 
 Students only need the clean CSVs (already in the repo). The `.dta` files are only needed if rebuilding from scratch.
+
+## Book Project (`book/`)
+
+The `book/` directory is a Quarto book project. Chapters in `book/notebooks_quarto/` use minimal YAML (just `title:` and `execute:`); all format settings inherit from `book/_quarto.yml`. The book uses:
+
+- **Dark/light theme toggle** (darkly/cosmo) with custom CSS
+- **`execute: freeze: auto`** so code does not re-run on every render
+- **Self-contained data loading** via GitHub raw URLs (no local path dependencies)
+- **Visual summaries** (SVG concept cards) and **resource buttons** per chapter
+- **Google Translate** widget and **mobile TOC** panel
 
 ## What Not To Do
 
