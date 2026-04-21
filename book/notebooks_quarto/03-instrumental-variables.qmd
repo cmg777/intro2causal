@@ -64,20 +64,12 @@ The goal was to learn which response best prevented future violence. But police 
 import pandas as pd
 import statsmodels.formula.api as smf
 
-# --- Data source (GitHub URL with local fallback) ---
-GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
-LOCAL_DATA_PATH = "../../data/"
-
-def load_csv(path):
-    """Load CSV from GitHub raw URL; fall back to local path if unavailable."""
-    try:
-        return pd.read_csv(GITHUB_DATA_URL + path)
-    except Exception:
-        return pd.read_csv(LOCAL_DATA_PATH + path)
+# --- Data source ---
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # Load clean MDVE data: each row is one domestic violence case
 # 'assigned' = what police were told to do; 'delivered' = what they actually did
-mdve = load_csv("ch3/mdve_clean.csv")
+mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
 mdve.head(3)
 ```
 
@@ -98,15 +90,18 @@ ct
 #| tbl-cap: "Compliance rates by assignment group. Officers almost always followed arrest orders but frequently deviated from advise/separate assignments."
 
 # Compute compliance rate for each assignment group
+# Loop through each assignment type and count how many officers followed orders
 rows = []
 for group in ["Arrest", "Advise", "Separate"]:
     group_data = mdve[mdve["assigned"] == group]
     complied = (group_data["delivered"] == group).sum()
+    # Calculate the percentage of officers who complied
+    rate = round(100 * complied / len(group_data), 1)
     rows.append({
         "Assigned": group,
         "N": len(group_data),
         "Complied": complied,
-        "Compliance Rate": f"{complied / len(group_data):.1%}",
+        "Compliance Rate": str(rate) + "%",
     })
 
 pd.DataFrame(rows)
@@ -185,24 +180,26 @@ mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)
 # D = treatment: actually coddled (advise or separate) vs. arrested
 mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)
 
-# Step 1: FIRST STAGE — does assignment affect actual treatment?
-# Fraction coddled when assigned to coddle vs. assigned to arrest
+# Step 1: FIRST STAGE — does assignment (Z) affect actual treatment (D)?
+# Compute the mean of D for each value of Z
+# .loc[] selects rows where the condition is true, then takes the mean of d_coddle
 fs_coddle = mdve.loc[mdve["z_coddle"] == 1, "d_coddle"].mean()
 fs_arrest = mdve.loc[mdve["z_coddle"] == 0, "d_coddle"].mean()
 first_stage = fs_coddle - fs_arrest
 
-# Step 2: REDUCED FORM — does assignment affect recidivism?
+# Step 2: REDUCED FORM — does assignment (Z) affect recidivism (Y)?
 # (We don't have recidivism in this clean dataset, so we use published numbers)
 reduced_form = 0.211 - 0.097  # from the original study
 
 # Step 3: LATE = reduced form / first stage
+# This isolates the causal effect for compliers
 late = reduced_form / first_stage
 
 pd.DataFrame({
     "Step": ["First stage (coddled if assigned coddle)", "First stage (coddled if assigned arrest)",
              "First stage (difference)", "Reduced form (recidivism difference)", "LATE = RF / FS"],
-    "Value": [f"{fs_coddle:.3f}", f"{fs_arrest:.3f}", f"{first_stage:.3f}",
-              f"{reduced_form:.3f}", f"{late:.3f}"],
+    "Value": [round(fs_coddle, 3), round(fs_arrest, 3), round(first_stage, 3),
+              round(reduced_form, 3), round(late, 3)],
 })
 ```
 
@@ -484,18 +481,21 @@ graph TD
 
 import pandas as pd
 
-mdve = load_csv("ch3/mdve_clean.csv")
+mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
 
 # Compute compliance rate: fraction who received their assigned treatment
+# Loop through each assignment type and count how many officers followed orders
 rows = []
 for group in ["Arrest", "Advise", "Separate"]:
     group_data = mdve[mdve["assigned"] == group]
     complied = (group_data["delivered"] == group).sum()
+    # Calculate the percentage of officers who complied
+    rate = round(100 * complied / len(group_data), 1)
     rows.append({
         "Assigned": group,
         "N": len(group_data),
         "Complied": complied,
-        "Compliance rate": f"{complied / len(group_data):.1%}",
+        "Compliance rate": str(rate) + "%",
     })
 
 pd.DataFrame(rows)
@@ -513,11 +513,12 @@ Arrest has the highest compliance (99%). Officers almost always arrest when told
 mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)
 mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)
 
+# Compute the fraction coddled in each assignment group
 fs_binary = mdve.groupby("z_coddle")["d_coddle"].mean()
 print("Binary first stage:")
-print(f"  P(coddled | assigned coddle) = {fs_binary[1]:.3f}")
-print(f"  P(coddled | assigned arrest) = {fs_binary[0]:.3f}")
-print(f"  Difference = {fs_binary[1] - fs_binary[0]:.3f}")
+print("  P(coddled | assigned coddle) = " + str(round(fs_binary[1], 3)))
+print("  P(coddled | assigned arrest) = " + str(round(fs_binary[0], 3)))
+print("  Difference = " + str(round(fs_binary[1] - fs_binary[0], 3)))
 
 # Multi-category: full cross-tabulation
 print("\nFull cross-tabulation:")

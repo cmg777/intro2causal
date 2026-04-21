@@ -77,18 +77,10 @@ sns.set_style("whitegrid")
 #   age2, over_age, over_age2 = polynomial/interaction terms for flexible RD models
 #   all, mva, suicide, homicide, internal, alcohol = death rates by cause
 
-# --- Data source (GitHub URL with local fallback) ---
-GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
-LOCAL_DATA_PATH = "../../data/"
+# --- Data source ---
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
-def load_csv(path):
-    """Load CSV from GitHub raw URL; fall back to local path if unavailable."""
-    try:
-        return pd.read_csv(GITHUB_DATA_URL + path)
-    except Exception:
-        return pd.read_csv(LOCAL_DATA_PATH + path)
-
-mlda = load_csv("ch4/mlda_clean.csv")
+mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
 mlda.head(3)
 ```
 
@@ -154,9 +146,10 @@ The key insight: because age varies smoothly, any **sudden jump** at the cutoff 
 #| tbl-cap: "Sharp RD estimate of the MLDA effect on all-cause mortality. The over21 coefficient is the causal jump at the cutoff."
 
 # Simple linear RD regression
-result = smf.ols("all ~ over21 + age", data=mlda).fit(cov_type="HC1")
+model = smf.ols("all ~ over21 + age", data=mlda)
+result = model.fit(cov_type="HC1")
 
-# Display the coefficient table
+# Show the regression coefficient table
 result.summary().tables[1]
 ```
 
@@ -174,34 +167,52 @@ A critical question in RD is whether the estimated jump depends on how we model 
 #| label: tbl-rd-robust
 #| tbl-cap: "RD estimates across specifications and bandwidths for multiple causes of death. Robust standard errors in parentheses."
 
-# Define narrow bandwidth subsample
+# Define narrow bandwidth subsample (ages 20-22 only)
 narrow = mlda[(mlda["agecell"] >= 20) & (mlda["agecell"] <= 22)]
 
-# Outcomes to test
+# Outcomes to test: each cause of death
 outcomes = {"all": "All causes", "mva": "Motor vehicle", "suicide": "Suicide",
             "internal": "Internal causes", "alcohol": "Alcohol-related"}
 
+# For each cause of death, run 4 RD specifications:
+#   1. Linear trend, full sample (ages 19-22)
+#   2. Quadratic trend, full sample
+#   3. Linear trend, narrow bandwidth (ages 20-22)
+#   4. Quadratic trend, narrow bandwidth
+# This tests whether the RD estimate is robust to model choice and sample window.
 rows = []
 for var, label in outcomes.items():
     specs = []
 
     # Spec 1: Linear, full sample
-    r1 = smf.ols(f"{var} ~ over21 + age", data=mlda).fit(cov_type="HC1")
-    specs.append(f"{r1.params['over21']:.2f} ({r1.bse['over21']:.2f})")
+    model1 = smf.ols(f"{var} ~ over21 + age", data=mlda)
+    r1 = model1.fit(cov_type="HC1")
+    coef1 = round(r1.params["over21"], 2)
+    se1 = round(r1.bse["over21"], 2)
+    specs.append(str(coef1) + " (" + str(se1) + ")")
 
     # Spec 2: Quadratic, full sample
-    r2 = smf.ols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
-                  data=mlda).fit(cov_type="HC1")
-    specs.append(f"{r2.params['over21']:.2f} ({r2.bse['over21']:.2f})")
+    model2 = smf.ols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
+                      data=mlda)
+    r2 = model2.fit(cov_type="HC1")
+    coef2 = round(r2.params["over21"], 2)
+    se2 = round(r2.bse["over21"], 2)
+    specs.append(str(coef2) + " (" + str(se2) + ")")
 
     # Spec 3: Linear, narrow bandwidth
-    r3 = smf.ols(f"{var} ~ over21 + age", data=narrow).fit(cov_type="HC1")
-    specs.append(f"{r3.params['over21']:.2f} ({r3.bse['over21']:.2f})")
+    model3 = smf.ols(f"{var} ~ over21 + age", data=narrow)
+    r3 = model3.fit(cov_type="HC1")
+    coef3 = round(r3.params["over21"], 2)
+    se3 = round(r3.bse["over21"], 2)
+    specs.append(str(coef3) + " (" + str(se3) + ")")
 
     # Spec 4: Quadratic, narrow bandwidth
-    r4 = smf.ols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
-                  data=narrow).fit(cov_type="HC1")
-    specs.append(f"{r4.params['over21']:.2f} ({r4.bse['over21']:.2f})")
+    model4 = smf.ols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
+                      data=narrow)
+    r4 = model4.fit(cov_type="HC1")
+    coef4 = round(r4.params["over21"], 2)
+    se4 = round(r4.bse["over21"], 2)
+    specs.append(str(coef4) + " (" + str(se4) + ")")
 
     rows.append({"Cause of death": label, "Linear (full)": specs[0],
                  "Quadratic (full)": specs[1], "Linear (narrow)": specs[2],
@@ -258,10 +269,12 @@ fig, ax = plt.subplots(figsize=(9, 5))
 ax.scatter(mlda["agecell"], mlda["mva"], color="steelblue", alpha=0.6, s=30, label="Motor vehicle")
 ax.scatter(mlda["agecell"], mlda["internal"], color="darkorange", alpha=0.6, s=30, label="Internal causes")
 
-# Fit separate lines on each side of cutoff, for each cause
+# Fit separate regression lines on each side of the cutoff, for each cause of death.
+# The outer loop picks the death cause; the inner loop picks below-21 vs. above-21.
 for var, color in [("mva", "steelblue"), ("internal", "darkorange")]:
     for subset in [below, above]:
-        fit = smf.ols(f"{var} ~ age", data=subset).fit()
+        model = smf.ols(f"{var} ~ age", data=subset)
+        fit = model.fit()
         ax.plot(subset["agecell"], fit.predict(subset), color=color, linewidth=2)
 
 ax.axvline(x=21, color="red", linestyle="--", alpha=0.5)  # cutoff line
@@ -403,12 +416,14 @@ graph TD
 import pandas as pd
 import statsmodels.formula.api as smf
 
-mlda = load_csv("ch4/mlda_clean.csv")
+mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
 
 # Compare RD estimates for alcohol and MVA deaths
+# Loop through two causes of death and run the same RD regression for each
 rows = []
 for var, label in [("alcohol", "Alcohol-related"), ("mva", "Motor vehicle")]:
-    r = smf.ols(f"{var} ~ over21 + age", data=mlda).fit(cov_type="HC1")
+    model = smf.ols(f"{var} ~ over21 + age", data=mlda)
+    r = model.fit(cov_type="HC1")
     rows.append({
         "Cause": label,
         "RD estimate (over21)": round(r.params["over21"], 2),
@@ -465,13 +480,15 @@ The visual shows a modest upward jump at age 21, consistent with the regression 
 import pandas as pd
 import statsmodels.formula.api as smf
 
-mlda = load_csv("ch4/mlda_clean.csv")
+mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
 
 # Linear specification
-r_lin = smf.ols("all ~ over21 + age", data=mlda).fit(cov_type="HC1")
+model_lin = smf.ols("all ~ over21 + age", data=mlda)
+r_lin = model_lin.fit(cov_type="HC1")
 
 # Quadratic specification with interactions
-r_quad = smf.ols("all ~ over21 + age + age2 + over_age + over_age2", data=mlda).fit(cov_type="HC1")
+model_quad = smf.ols("all ~ over21 + age + age2 + over_age + over_age2", data=mlda)
+r_quad = model_quad.fit(cov_type="HC1")
 
 pd.DataFrame({
     "Specification": ["Linear", "Quadratic (interacted)"],

@@ -259,6 +259,25 @@ a:hover {
   margin-bottom: 0.75rem;
 }
 
+/* Top-level TOC items (## sections) — full weight */
+#TOC > ul > li > a.nav-link {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Nested TOC items (### subsections) — indented, smaller, lighter */
+#TOC > ul > li > ul {
+  padding-left: 0.75rem;
+  border-left: 1px solid #e2e8f0;
+  margin-left: 0.5rem;
+}
+
+#TOC > ul > li > ul > li > a.nav-link {
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: #64748b !important;
+}
+
 #TOC a.nav-link {
   color: #2d3748 !important;
   padding: 0.25rem 0.5rem;
@@ -570,6 +589,15 @@ main li {
 .quarto-dark #TOC h2 {
   color: #a78bfa !important;
   border-bottom-color: #38bdf8;
+}
+
+/* Nested TOC items — dark mode indent line */
+.quarto-dark #TOC > ul > li > ul {
+  border-left-color: rgba(255, 255, 255, 0.1);
+}
+
+.quarto-dark #TOC > ul > li > ul > li > a.nav-link {
+  color: #94a3b8 !important;
 }
 
 .quarto-dark #TOC a.nav-link {

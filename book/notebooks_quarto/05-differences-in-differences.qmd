@@ -66,20 +66,12 @@ import seaborn as sns
 import statsmodels.formula.api as smf
 sns.set_style("whitegrid")
 
-# --- Data source (GitHub URL with local fallback) ---
-GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
-LOCAL_DATA_PATH = "../../data/"
-
-def load_csv(path):
-    """Load CSV from GitHub raw URL; fall back to local path if unavailable."""
-    try:
-        return pd.read_csv(GITHUB_DATA_URL + path)
-    except Exception:
-        return pd.read_csv(LOCAL_DATA_PATH + path)
+# --- Data source ---
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # bib6 = banks in business (6th district), bib8 = banks in business (8th district)
 # counterfactual = what 6th district would look like under parallel trends
-banks = load_csv("ch5/banks_clean.csv")
+banks = pd.read_csv(DATA + "ch5/banks_clean.csv")
 banks
 ```
 
@@ -115,12 +107,18 @@ The DD calculation compares **changes** across groups, which removes any fixed d
 #| tbl-cap: "Difference-in-differences calculation for bank survival. The DD estimate represents the causal effect of Fed intervention."
 
 # Compute DD for each post-crisis year
+# Get the 1930 baseline values for each district
+pre_6 = banks.loc[banks["year"] == 1930, "bib6"].values[0]
+pre_8 = banks.loc[banks["year"] == 1930, "bib8"].values[0]
+
+# Loop over each year after 1930
 rows = []
-pre = banks[banks["year"] == 1930].iloc[0]
-for _, row in banks[banks["year"] > 1930].iterrows():
+post_years = banks[banks["year"] > 1930]
+for _, row in post_years.iterrows():
     # Change in each district relative to 1930
-    change_6 = row["bib6"] - pre["bib6"]
-    change_8 = row["bib8"] - pre["bib8"]
+    change_6 = row["bib6"] - pre_6
+    change_8 = row["bib8"] - pre_8
+    # DD = treated change minus control change
     dd = change_6 - change_8
 
     rows.append({
@@ -211,7 +209,7 @@ After Prohibition ended in 1933, states set their own drinking ages. In 1984, fe
 # Load clean MLDA death rate data (state-year panel, 18-20 year olds, 1970-1983)
 # mrate = death rate per 100,000; legal = fraction of 18-20 yr olds who can legally drink
 # dtype = cause of death (all, MVA, suicide, internal); pop = state population of 18-20 yr olds
-deaths = load_csv("ch5/deaths_clean.csv")
+deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 deaths.head(3)
 ```
 
@@ -243,9 +241,10 @@ Let's start with a single regression for all-cause mortality:
 allcause = deaths[deaths["dtype"] == "all"]
 
 # DD regression with state and year fixed effects
-result = smf.ols(
-    "mrate ~ legal + C(state) + C(year)", data=allcause
-).fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+model = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause)
+
+# Cluster standard errors by state because treatment (legal) varies at the state level
+result = model.fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
 
 # Show just the key coefficient
 coef_table = pd.DataFrame({
@@ -263,7 +262,11 @@ Now let's check across multiple causes of death and specifications:
 #| label: tbl-dd-full
 #| tbl-cap: "Regression DD estimates of MLDA effects on death rates across causes and specifications. Standard errors clustered at the state level."
 
-# Four specifications for each cause of death
+# Compare three specifications for each cause of death:
+#   Spec 1 — Unweighted OLS with state + year fixed effects
+#   Spec 2 — Add state-specific linear trends (each state gets its own slope over time)
+#   Spec 3 — Population-weighted WLS (larger states count more)
+
 dtype_labels = {"all": "All causes", "MVA": "Motor vehicle", "suicide": "Suicide", "internal": "Internal"}
 
 rows = []
@@ -271,24 +274,29 @@ for dtype_val, label in dtype_labels.items():
     s = deaths[deaths["dtype"] == dtype_val].copy()
 
     # Spec 1: State + Year FE, unweighted
-    r1 = smf.ols("mrate ~ legal + C(state) + C(year)", data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})
+    model1 = smf.ols("mrate ~ legal + C(state) + C(year)", data=s)
+    r1 = model1.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
 
     # Spec 2: Add state-specific linear trends
     # C(state):year = interaction of state dummies with year, giving each state its own slope
-    r2 = smf.ols("mrate ~ legal + C(state) + C(year) + C(state):year", data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})
+    model2 = smf.ols("mrate ~ legal + C(state) + C(year) + C(state):year", data=s)
+    r2 = model2.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
 
     # Spec 3: Population-weighted (WLS)
     # Weight by state population so larger states count more (more reliable death rates)
-    r3 = smf.wls("mrate ~ legal + C(state) + C(year)", data=s, weights=s["pop"]).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})
+    model3 = smf.wls("mrate ~ legal + C(state) + C(year)", data=s, weights=s["pop"])
+    r3 = model3.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
+
+    # Format each result as "coefficient (standard error)"
+    coef1 = str(round(r1.params["legal"], 2)) + " (" + str(round(r1.bse["legal"], 2)) + ")"
+    coef2 = str(round(r2.params["legal"], 2)) + " (" + str(round(r2.bse["legal"], 2)) + ")"
+    coef3 = str(round(r3.params["legal"], 2)) + " (" + str(round(r3.bse["legal"], 2)) + ")"
 
     rows.append({
         "Cause": label,
-        "Unweighted": f"{r1.params['legal']:.2f} ({r1.bse['legal']:.2f})",
-        "With state trends": f"{r2.params['legal']:.2f} ({r2.bse['legal']:.2f})",
-        "Pop. weighted": f"{r3.params['legal']:.2f} ({r3.bse['legal']:.2f})",
+        "Unweighted": coef1,
+        "With state trends": coef2,
+        "Pop. weighted": coef3,
     })
 
 pd.DataFrame(rows)
@@ -318,17 +326,23 @@ Some states may have changed beer taxes at the same time as their MLDA. Controll
 #| label: tbl-beertax
 #| tbl-cap: "DD estimates controlling for beer taxes. MLDA effects remain robust."
 
+# Check if MLDA effects hold after controlling for beer taxes
 rows = []
 for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle")]:
     s = deaths[deaths["dtype"] == dtype_val].dropna(subset=["beertax"]).copy()
 
-    r = smf.ols("mrate ~ legal + beertax + C(state) + C(year)", data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})
+    model = smf.ols("mrate ~ legal + beertax + C(state) + C(year)", data=s)
+    # Cluster standard errors by state
+    r = model.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
+
+    # Format results as "coefficient (standard error)"
+    legal_str = str(round(r.params["legal"], 2)) + " (" + str(round(r.bse["legal"], 2)) + ")"
+    tax_str = str(round(r.params["beertax"], 2)) + " (" + str(round(r.bse["beertax"], 2)) + ")"
 
     rows.append({
         "Cause": label,
-        "Legal effect": f"{r.params['legal']:.2f} ({r.bse['legal']:.2f})",
-        "Beer tax effect": f"{r.params['beertax']:.2f} ({r.bse['beertax']:.2f})",
+        "Legal effect": legal_str,
+        "Beer tax effect": tax_str,
     })
 
 pd.DataFrame(rows)
@@ -463,13 +477,15 @@ graph TD
 import pandas as pd
 import statsmodels.formula.api as smf
 
-deaths = load_csv("ch5/deaths_clean.csv")
+deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 
+# Compare all-cause and suicide DD regressions
 rows = []
 for dtype_val, label in [("all", "All causes"), ("suicide", "Suicide")]:
     s = deaths[deaths["dtype"] == dtype_val].copy()
-    r = smf.ols("mrate ~ legal + C(state) + C(year)", data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})
+    model = smf.ols("mrate ~ legal + C(state) + C(year)", data=s)
+    # Cluster standard errors by state
+    r = model.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
     rows.append({
         "Cause": label,
         "Legal effect": round(r.params["legal"], 2),
@@ -488,15 +504,18 @@ The suicide effect is much smaller than the all-cause effect and is not statisti
 #| label: tbl-sol-banks-dd
 #| tbl-cap: "DD estimate for each post-crisis year relative to 1930"
 
-banks = load_csv("ch5/banks_clean.csv")
+banks = pd.read_csv(DATA + "ch5/banks_clean.csv")
+
+# Get the 1930 baseline values for each district
+pre_6 = banks.loc[banks["year"] == 1930, "bib6"].values[0]
+pre_8 = banks.loc[banks["year"] == 1930, "bib8"].values[0]
 
 # Compute DD for each year relative to 1930 baseline
-pre = banks[banks["year"] == 1930].iloc[0]
 rows = []
 for _, row in banks[banks["year"] > 1930].iterrows():
-    change_6 = row["bib6"] - pre["bib6"]   # change in treated (6th district)
-    change_8 = row["bib8"] - pre["bib8"]   # change in control (8th district)
-    dd = change_6 - change_8               # DD = treated change - control change
+    change_6 = row["bib6"] - pre_6   # change in treated (6th district)
+    change_8 = row["bib8"] - pre_8   # change in control (8th district)
+    dd = change_6 - change_8         # DD = treated change - control change
 
     rows.append({
         "Year": int(row["year"]),
@@ -521,16 +540,16 @@ The DD effect grows from 19 banks in 1931 to 23 in 1932, then stabilizes around 
 import pandas as pd
 import statsmodels.formula.api as smf
 
-deaths = load_csv("ch5/deaths_clean.csv")
+deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 allcause = deaths[deaths["dtype"] == "all"]
 
-# Unweighted
-r_uw = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause).fit(
-    cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+# Unweighted OLS
+model_uw = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause)
+r_uw = model_uw.fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
 
-# Population-weighted
-r_wt = smf.wls("mrate ~ legal + C(state) + C(year)", data=allcause, weights=allcause["pop"]).fit(
-    cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+# Population-weighted WLS (larger states count more)
+model_wt = smf.wls("mrate ~ legal + C(state) + C(year)", data=allcause, weights=allcause["pop"])
+r_wt = model_wt.fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
 
 pd.DataFrame({
     "Specification": ["Unweighted OLS", "Population-weighted WLS"],

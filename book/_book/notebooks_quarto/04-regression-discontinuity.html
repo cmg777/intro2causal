@@ -557,7 +557,7 @@ Figure&nbsp;4.1: Roadmap for Chapter 4
 <section id="the-mlda-question" class="level3">
 <h3 class="anchored" data-anchor-id="the-mlda-question">The MLDA Question</h3>
 <p>The <strong>minimum legal drinking age (MLDA)</strong> is 21 in the United States. Does reaching this threshold actually affect health? Specifically, does turning 21 — and gaining legal access to alcohol — increase mortality?</p>
-<div id="6c67e0e4" class="cell" data-execution_count="1">
+<div id="6bde20d6" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
@@ -574,19 +574,11 @@ Figure&nbsp;4.1: Roadmap for Chapter 4
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   age2, over_age, over_age2 = polynomial/interaction terms for flexible RD models</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   all, mva, suicide, homicide, internal, alcohol = death rates by cause</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Data source (GitHub URL with local fallback) ---</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>GITHUB_DATA_URL <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>LOCAL_DATA_PATH <span class="op">=</span> <span class="st">"../../data/"</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_csv(path):</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Load CSV from GitHub raw URL; fall back to local path if unavailable."""</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.read_csv(GITHUB_DATA_URL <span class="op">+</span> path)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span>:</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.read_csv(LOCAL_DATA_PATH <span class="op">+</span> path)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> load_csv(<span class="st">"ch4/mlda_clean.csv"</span>)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>mlda.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Data source ---</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>mlda.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div>
 
@@ -740,10 +732,11 @@ Figure&nbsp;4.2: All-cause mortality rate by age. Each dot is one monthly age ce
 </div>
 <div class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple linear RD regression</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the coefficient table</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>result.summary().tables[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>mlda)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the regression coefficient table</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>result.summary().tables[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="tbl-rd-simple" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rd-simple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -807,40 +800,58 @@ Table&nbsp;4.1: Sharp RD estimate of the MLDA effect on all-cause mortality. The
 <li><strong>Bandwidth</strong>: full sample (ages 19–22) vs.&nbsp;narrow window (ages 20–22)</li>
 </ol>
 <div class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define narrow bandwidth subsample</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define narrow bandwidth subsample (ages 20-22 only)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>narrow <span class="op">=</span> mlda[(mlda[<span class="st">"agecell"</span>] <span class="op">&gt;=</span> <span class="dv">20</span>) <span class="op">&amp;</span> (mlda[<span class="st">"agecell"</span>] <span class="op">&lt;=</span> <span class="dv">22</span>)]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcomes to test</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcomes to test: each cause of death</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>outcomes <span class="op">=</span> {<span class="st">"all"</span>: <span class="st">"All causes"</span>, <span class="st">"mva"</span>: <span class="st">"Motor vehicle"</span>, <span class="st">"suicide"</span>: <span class="st">"Suicide"</span>,</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"internal"</span>: <span class="st">"Internal causes"</span>, <span class="st">"alcohol"</span>: <span class="st">"Alcohol-related"</span>}</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> outcomes.items():</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    specs <span class="op">=</span> []</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 1: Linear, full sample</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    r1 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="ss">f"</span><span class="sc">{</span>r1<span class="sc">.</span>params[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss"> (</span><span class="sc">{</span>r1<span class="sc">.</span>bse[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 2: Quadratic, full sample</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    r2 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age + age2 + over_age + over_age2"</span>,</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                  data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="ss">f"</span><span class="sc">{</span>r2<span class="sc">.</span>params[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss"> (</span><span class="sc">{</span>r2<span class="sc">.</span>bse[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 3: Linear, narrow bandwidth</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    r3 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>narrow).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="ss">f"</span><span class="sc">{</span>r3<span class="sc">.</span>params[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss"> (</span><span class="sc">{</span>r3<span class="sc">.</span>bse[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># For each cause of death, run 4 RD specifications:</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   1. Linear trend, full sample (ages 19-22)</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   2. Quadratic trend, full sample</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   3. Linear trend, narrow bandwidth (ages 20-22)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   4. Quadratic trend, narrow bandwidth</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># This tests whether the RD estimate is robust to model choice and sample window.</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> outcomes.items():</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    specs <span class="op">=</span> []</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 1: Linear, full sample</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    model1 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>mlda)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    r1 <span class="op">=</span> model1.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    coef1 <span class="op">=</span> <span class="bu">round</span>(r1.params[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    se1 <span class="op">=</span> <span class="bu">round</span>(r1.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="bu">str</span>(coef1) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(se1) <span class="op">+</span> <span class="st">")"</span>)</span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 4: Quadratic, narrow bandwidth</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    r4 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age + age2 + over_age + over_age2"</span>,</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                  data<span class="op">=</span>narrow).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="ss">f"</span><span class="sc">{</span>r4<span class="sc">.</span>params[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss"> (</span><span class="sc">{</span>r4<span class="sc">.</span>bse[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"Cause of death"</span>: label, <span class="st">"Linear (full)"</span>: specs[<span class="dv">0</span>],</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Quadratic (full)"</span>: specs[<span class="dv">1</span>], <span class="st">"Linear (narrow)"</span>: specs[<span class="dv">2</span>],</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Quadratic (narrow)"</span>: specs[<span class="dv">3</span>]})</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 2: Quadratic, full sample</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    model2 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age + age2 + over_age + over_age2"</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                      data<span class="op">=</span>mlda)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    r2 <span class="op">=</span> model2.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    coef2 <span class="op">=</span> <span class="bu">round</span>(r2.params[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    se2 <span class="op">=</span> <span class="bu">round</span>(r2.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="bu">str</span>(coef2) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(se2) <span class="op">+</span> <span class="st">")"</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 3: Linear, narrow bandwidth</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    model3 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>narrow)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    r3 <span class="op">=</span> model3.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    coef3 <span class="op">=</span> <span class="bu">round</span>(r3.params[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    se3 <span class="op">=</span> <span class="bu">round</span>(r3.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="bu">str</span>(coef3) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(se3) <span class="op">+</span> <span class="st">")"</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 4: Quadratic, narrow bandwidth</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    model4 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age + age2 + over_age + over_age2"</span>,</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>                      data<span class="op">=</span>narrow)</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    r4 <span class="op">=</span> model4.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    coef4 <span class="op">=</span> <span class="bu">round</span>(r4.params[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    se4 <span class="op">=</span> <span class="bu">round</span>(r4.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="bu">str</span>(coef4) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(se4) <span class="op">+</span> <span class="st">")"</span>)</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"Cause of death"</span>: label, <span class="st">"Linear (full)"</span>: specs[<span class="dv">0</span>],</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Quadratic (full)"</span>: specs[<span class="dv">1</span>], <span class="st">"Linear (narrow)"</span>: specs[<span class="dv">2</span>],</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Quadratic (narrow)"</span>: specs[<span class="dv">3</span>]})</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="tbl-rd-robust" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rd-robust-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -882,16 +893,16 @@ Table&nbsp;4.2: RD estimates across specifications and bandwidths for multiple c
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
 <td>Suicide</td>
-<td>1.79 (0.50)</td>
+<td>1.79 (0.5)</td>
 <td>1.81 (0.78)</td>
 <td>1.72 (0.73)</td>
-<td>1.30 (1.14)</td>
+<td>1.3 (1.14)</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
 <td>Internal causes</td>
 <td>0.39 (0.54)</td>
-<td>1.07 (0.80)</td>
+<td>1.07 (0.8)</td>
 <td>1.69 (0.74)</td>
 <td>1.25 (1.01)</td>
 </tr>
@@ -899,7 +910,7 @@ Table&nbsp;4.2: RD estimates across specifications and bandwidths for multiple c
 <th data-quarto-table-cell-role="th">4</th>
 <td>Alcohol-related</td>
 <td>0.44 (0.21)</td>
-<td>0.80 (0.32)</td>
+<td>0.8 (0.32)</td>
 <td>0.74 (0.33)</td>
 <td>1.03 (0.41)</td>
 </tr>
@@ -973,19 +984,21 @@ Figure&nbsp;4.3: RD estimate with fitted regression lines on each side of the cu
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"mva"</span>], color<span class="op">=</span><span class="st">"steelblue"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">30</span>, label<span class="op">=</span><span class="st">"Motor vehicle"</span>)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"internal"</span>], color<span class="op">=</span><span class="st">"darkorange"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">30</span>, label<span class="op">=</span><span class="st">"Internal causes"</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit separate lines on each side of cutoff, for each cause</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, color <span class="kw">in</span> [(<span class="st">"mva"</span>, <span class="st">"steelblue"</span>), (<span class="st">"internal"</span>, <span class="st">"darkorange"</span>)]:</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subset <span class="kw">in</span> [below, above]:</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        fit <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ age"</span>, data<span class="op">=</span>subset).fit()</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        ax.plot(subset[<span class="st">"agecell"</span>], fit.predict(subset), color<span class="op">=</span>color, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)  <span class="co"># cutoff line</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"RD by cause: Motor vehicle accidents vs. internal causes"</span>)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit separate regression lines on each side of the cutoff, for each cause of death.</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># The outer loop picks the death cause; the inner loop picks below-21 vs. above-21.</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, color <span class="kw">in</span> [(<span class="st">"mva"</span>, <span class="st">"steelblue"</span>), (<span class="st">"internal"</span>, <span class="st">"darkorange"</span>)]:</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subset <span class="kw">in</span> [below, above]:</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ age"</span>, data<span class="op">=</span>subset)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        fit <span class="op">=</span> model.fit()</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        ax.plot(subset[<span class="st">"agecell"</span>], fit.predict(subset), color<span class="op">=</span>color, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)  <span class="co"># cutoff line</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"RD by cause: Motor vehicle accidents vs. internal causes"</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-rd-causes" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1166,20 +1179,22 @@ Figure&nbsp;4.5: How the key concepts of Chapter 4 connect
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> load_csv(<span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare RD estimates for alcohol and MVA deaths</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> [(<span class="st">"alcohol"</span>, <span class="st">"Alcohol-related"</span>), (<span class="st">"mva"</span>, <span class="st">"Motor vehicle"</span>)]:</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cause"</span>: label,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"RD estimate (over21)"</span>: <span class="bu">round</span>(r.params[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t-stat"</span>: <span class="bu">round</span>(r.tvalues[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through two causes of death and run the same RD regression for each</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> [(<span class="st">"alcohol"</span>, <span class="st">"Alcohol-related"</span>), (<span class="st">"mva"</span>, <span class="st">"Motor vehicle"</span>)]:</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>mlda)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cause"</span>: label,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"RD estimate (over21)"</span>: <span class="bu">round</span>(r.params[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t-stat"</span>: <span class="bu">round</span>(r.tvalues[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="tbl-sol-alcohol" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="7">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sol-alcohol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1270,19 +1285,21 @@ Figure&nbsp;4.6: RD plot for suicide deaths around the MLDA cutoff
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> load_csv(<span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear specification</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>r_lin <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Quadratic specification with interactions</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>r_quad <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age + age2 + over_age + over_age2"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Specification"</span>: [<span class="st">"Linear"</span>, <span class="st">"Quadratic (interacted)"</span>],</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RD estimate (over21)"</span>: [<span class="bu">round</span>(r_lin.params[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.params[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SE"</span>: [<span class="bu">round</span>(r_lin.bse[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>model_lin <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>mlda)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>r_lin <span class="op">=</span> model_lin.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Quadratic specification with interactions</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>model_quad <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age + age2 + over_age + over_age2"</span>, data<span class="op">=</span>mlda)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>r_quad <span class="op">=</span> model_quad.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Specification"</span>: [<span class="st">"Linear"</span>, <span class="st">"Quadratic (interacted)"</span>],</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RD estimate (over21)"</span>: [<span class="bu">round</span>(r_lin.params[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.params[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SE"</span>: [<span class="bu">round</span>(r_lin.bse[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="tbl-sol-quadratic" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="9">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sol-quadratic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1895,410 +1912,427 @@ Table&nbsp;4.4: Linear vs.&nbsp;quadratic RD specification for all-cause mortali
 <span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a><span class="co">#   age2, over_age, over_age2 = polynomial/interaction terms for flexible RD models</span></span>
 <span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a><span class="co">#   all, mva, suicide, homicide, internal, alcohol = death rates by cause</span></span>
 <span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Data source (GitHub URL with local fallback) ---</span></span>
-<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>GITHUB_DATA_URL <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
-<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>LOCAL_DATA_PATH <span class="op">=</span> <span class="st">"../../data/"</span></span>
-<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_csv(path):</span>
-<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Load CSV from GitHub raw URL; fall back to local path if unavailable."""</span></span>
-<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.read_csv(GITHUB_DATA_URL <span class="op">+</span> path)</span>
-<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span>:</span>
-<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.read_csv(LOCAL_DATA_PATH <span class="op">+</span> path)</span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Data source ---</span></span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>mlda.head(<span class="dv">3</span>)</span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualizing the Discontinuity</span></span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>The first step in any RD analysis is to **plot the data**. If the causal effect is real, we should see a visible jump in mortality at age 21.</span>
 <span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> load_csv(<span class="st">"ch4/mlda_clean.csv"</span>)</span>
-<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>mlda.head(<span class="dv">3</span>)</span>
-<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualizing the Discontinuity</span></span>
+<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-scatter</span></span>
+<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "All-cause mortality rate by age. Each dot is one monthly age cell. The vertical dashed line marks the 21st birthday (MLDA cutoff)."</span></span>
 <span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a>The first step in any RD analysis is to **plot the data**. If the causal effect is real, we should see a visible jump in mortality at age 21.</span>
-<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-scatter</span></span>
-<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "All-cause mortality rate by age. Each dot is one monthly age cell. The vertical dashed line marks the 21st birthday (MLDA cutoff)."</span></span>
-<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot: mortality rate vs. age in months</span></span>
-<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
-<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"all"</span>], color<span class="op">=</span><span class="st">"gray"</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, s<span class="op">=</span><span class="dv">40</span>)  <span class="co"># one dot per age cell</span></span>
-<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">"MLDA cutoff"</span>)  <span class="co"># mark the cutoff</span></span>
-<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
-<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
-<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"All-cause mortality around the 21st birthday"</span>)</span>
-<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot: mortality rate vs. age in months</span></span>
+<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
+<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"all"</span>], color<span class="op">=</span><span class="st">"gray"</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, s<span class="op">=</span><span class="dv">40</span>)  <span class="co"># one dot per age cell</span></span>
+<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">"MLDA cutoff"</span>)  <span class="co"># mark the cutoff</span></span>
+<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
+<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
+<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"All-cause mortality around the 21st birthday"</span>)</span>
+<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>There is a visible jump right at age 21. Let's now estimate its size formally.</span>
+<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common Misconception: RD is not just "controlling for" the running variable</span></span>
+<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a>In standard regression (Chapter 2), we control for confounders to make treated and untreated groups comparable. RD is fundamentally different: there is **no value of the running variable where we observe both treated and untreated individuals**. Everyone over 21 is treated; everyone under 21 is untreated. Instead, RD *extrapolates* the trend from one side of the cutoff to estimate what would have happened without the jump. This is why the functional form (linear vs. quadratic) matters --- it determines how we extrapolate.</span>
+<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a>There is a visible jump right at age 21. Let's now estimate its size formally.</span>
-<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
-<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common Misconception: RD is not just "controlling for" the running variable</span></span>
+<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Sharp RD Regression</span></span>
+<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Is a Running Variable?</span></span>
 <span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a>In standard regression (Chapter 2), we control for confounders to make treated and untreated groups comparable. RD is fundamentally different: there is **no value of the running variable where we observe both treated and untreated individuals**. Everyone over 21 is treated; everyone under 21 is untreated. Instead, RD *extrapolates* the trend from one side of the cutoff to estimate what would have happened without the jump. This is why the functional form (linear vs. quadratic) matters --- it determines how we extrapolate.</span>
-<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a>In an RD design, the **running variable** is the variable that determines treatment. Here, age is the running variable and 21 is the **cutoff**. The treatment --- legal access to alcohol --- switches on deterministically at the cutoff:</span>
+<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a>$$D_a = \begin{cases} 1 &amp; \text{if } a \geq 21 <span class="sc">\\</span> 0 &amp; \text{if } a &lt; 21 \end{cases}$$</span>
 <span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Sharp RD Regression</span></span>
+<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a>where $a$ is age (the running variable) and $D_a$ is the treatment indicator. In our data, these correspond to the columns <span class="in">`agecell`</span> and <span class="in">`over21`</span>.</span>
 <span id="cb10-131"><a href="#cb10-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Is a Running Variable?</span></span>
+<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a>This is a **sharp RD**: treatment switches completely on at the cutoff, with no exceptions.</span>
 <span id="cb10-133"><a href="#cb10-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a>In an RD design, the **running variable** is the variable that determines treatment. Here, age is the running variable and 21 is the **cutoff**. The treatment --- legal access to alcohol --- switches on deterministically at the cutoff:</span>
-<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-136"><a href="#cb10-136" aria-hidden="true" tabindex="-1"></a>$$D_a = \begin{cases} 1 &amp; \text{if } a \geq 21 <span class="sc">\\</span> 0 &amp; \text{if } a &lt; 21 \end{cases}$$</span>
-<span id="cb10-137"><a href="#cb10-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a>where $a$ is age (the running variable) and $D_a$ is the treatment indicator. In our data, these correspond to the columns <span class="in">`agecell`</span> and <span class="in">`over21`</span>.</span>
-<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a>This is a **sharp RD**: treatment switches completely on at the cutoff, with no exceptions.</span>
-<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a><span class="fu">### How RD regression works</span></span>
+<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a><span class="fu">### How RD regression works</span></span>
+<span id="cb10-136"><a href="#cb10-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-137"><a href="#cb10-137" aria-hidden="true" tabindex="-1"></a>We regress the outcome $M_a$ (mortality rate at age $a$) on the treatment dummy $D_a$ and a smooth function of the running variable:</span>
+<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a>$$M_a = \alpha + \rho \, D_a + \gamma \, a + e_a$$</span>
+<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Intercept** ($\alpha$) = predicted mortality just below the cutoff</span>
+<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**$\rho$** = the **jump at the cutoff** --- this is the causal effect we want</span>
+<span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**$\gamma$** = the background age trend (mortality naturally changes with age)</span>
 <span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>We regress the outcome $M_a$ (mortality rate at age $a$) on the treatment dummy $D_a$ and a smooth function of the running variable:</span>
+<span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>In Python, this is: <span class="in">`smf.ols("all ~ over21 + age", data=mlda)`</span> --- where <span class="in">`all`</span> is $M_a$, <span class="in">`over21`</span> is $D_a$, and <span class="in">`age`</span> is $a$.</span>
 <span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a>$$M_a = \alpha + \rho \, D_a + \gamma \, a + e_a$$</span>
-<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Intercept** ($\alpha$) = predicted mortality just below the cutoff</span>
-<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**$\rho$** = the **jump at the cutoff** --- this is the causal effect we want</span>
-<span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**$\gamma$** = the background age trend (mortality naturally changes with age)</span>
-<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>In Python, this is: <span class="in">`smf.ols("all ~ over21 + age", data=mlda)`</span> --- where <span class="in">`all`</span> is $M_a$, <span class="in">`over21`</span> is $D_a$, and <span class="in">`age`</span> is $a$.</span>
-<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>The key insight: because age varies smoothly, any **sudden jump** at the cutoff must be caused by the treatment.</span>
-<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-rd-simple</span></span>
-<span id="cb10-162"><a href="#cb10-162" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Sharp RD estimate of the MLDA effect on all-cause mortality. The over21 coefficient is the causal jump at the cutoff."</span></span>
+<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a>The key insight: because age varies smoothly, any **sudden jump** at the cutoff must be caused by the treatment.</span>
+<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-rd-simple</span></span>
+<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Sharp RD estimate of the MLDA effect on all-cause mortality. The over21 coefficient is the causal jump at the cutoff."</span></span>
+<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple linear RD regression</span></span>
+<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>mlda)</span>
+<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the regression coefficient table</span></span>
+<span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a>result.summary().tables[<span class="dv">1</span>]</span>
+<span id="cb10-162"><a href="#cb10-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb10-163"><a href="#cb10-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-164"><a href="#cb10-164" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple linear RD regression</span></span>
-<span id="cb10-165"><a href="#cb10-165" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb10-164"><a href="#cb10-164" aria-hidden="true" tabindex="-1"></a>The coefficient on <span class="in">`over21`</span> is approximately **7.7 deaths per 100,000** --- a substantial increase caused by gaining legal access to alcohol.</span>
+<span id="cb10-165"><a href="#cb10-165" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-166"><a href="#cb10-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the coefficient table</span></span>
-<span id="cb10-168"><a href="#cb10-168" aria-hidden="true" tabindex="-1"></a>result.summary().tables[<span class="dv">1</span>]</span>
-<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a><span class="fu">## Robustness: Does the Specification Matter?</span></span>
+<span id="cb10-168"><a href="#cb10-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a>A critical question in RD is whether the estimated jump depends on how we model the age trend. We test robustness in two ways:</span>
 <span id="cb10-170"><a href="#cb10-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-171"><a href="#cb10-171" aria-hidden="true" tabindex="-1"></a>The coefficient on <span class="in">`over21`</span> is approximately **7.7 deaths per 100,000** --- a substantial increase caused by gaining legal access to alcohol.</span>
-<span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-171"><a href="#cb10-171" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Polynomial order**: linear vs. quadratic trends</span>
+<span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Bandwidth**: full sample (ages 19--22) vs. narrow window (ages 20--22)</span>
 <span id="cb10-173"><a href="#cb10-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-174"><a href="#cb10-174" aria-hidden="true" tabindex="-1"></a><span class="fu">## Robustness: Does the Specification Matter?</span></span>
-<span id="cb10-175"><a href="#cb10-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-176"><a href="#cb10-176" aria-hidden="true" tabindex="-1"></a>A critical question in RD is whether the estimated jump depends on how we model the age trend. We test robustness in two ways:</span>
-<span id="cb10-177"><a href="#cb10-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-178"><a href="#cb10-178" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Polynomial order**: linear vs. quadratic trends</span>
-<span id="cb10-179"><a href="#cb10-179" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Bandwidth**: full sample (ages 19--22) vs. narrow window (ages 20--22)</span>
-<span id="cb10-180"><a href="#cb10-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-183"><a href="#cb10-183" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb10-184"><a href="#cb10-184" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-rd-robust</span></span>
-<span id="cb10-185"><a href="#cb10-185" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "RD estimates across specifications and bandwidths for multiple causes of death. Robust standard errors in parentheses."</span></span>
+<span id="cb10-176"><a href="#cb10-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb10-177"><a href="#cb10-177" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-rd-robust</span></span>
+<span id="cb10-178"><a href="#cb10-178" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "RD estimates across specifications and bandwidths for multiple causes of death. Robust standard errors in parentheses."</span></span>
+<span id="cb10-179"><a href="#cb10-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-180"><a href="#cb10-180" aria-hidden="true" tabindex="-1"></a><span class="co"># Define narrow bandwidth subsample (ages 20-22 only)</span></span>
+<span id="cb10-181"><a href="#cb10-181" aria-hidden="true" tabindex="-1"></a>narrow <span class="op">=</span> mlda[(mlda[<span class="st">"agecell"</span>] <span class="op">&gt;=</span> <span class="dv">20</span>) <span class="op">&amp;</span> (mlda[<span class="st">"agecell"</span>] <span class="op">&lt;=</span> <span class="dv">22</span>)]</span>
+<span id="cb10-182"><a href="#cb10-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-183"><a href="#cb10-183" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcomes to test: each cause of death</span></span>
+<span id="cb10-184"><a href="#cb10-184" aria-hidden="true" tabindex="-1"></a>outcomes <span class="op">=</span> {<span class="st">"all"</span>: <span class="st">"All causes"</span>, <span class="st">"mva"</span>: <span class="st">"Motor vehicle"</span>, <span class="st">"suicide"</span>: <span class="st">"Suicide"</span>,</span>
+<span id="cb10-185"><a href="#cb10-185" aria-hidden="true" tabindex="-1"></a>            <span class="st">"internal"</span>: <span class="st">"Internal causes"</span>, <span class="st">"alcohol"</span>: <span class="st">"Alcohol-related"</span>}</span>
 <span id="cb10-186"><a href="#cb10-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-187"><a href="#cb10-187" aria-hidden="true" tabindex="-1"></a><span class="co"># Define narrow bandwidth subsample</span></span>
-<span id="cb10-188"><a href="#cb10-188" aria-hidden="true" tabindex="-1"></a>narrow <span class="op">=</span> mlda[(mlda[<span class="st">"agecell"</span>] <span class="op">&gt;=</span> <span class="dv">20</span>) <span class="op">&amp;</span> (mlda[<span class="st">"agecell"</span>] <span class="op">&lt;=</span> <span class="dv">22</span>)]</span>
-<span id="cb10-189"><a href="#cb10-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-190"><a href="#cb10-190" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcomes to test</span></span>
-<span id="cb10-191"><a href="#cb10-191" aria-hidden="true" tabindex="-1"></a>outcomes <span class="op">=</span> {<span class="st">"all"</span>: <span class="st">"All causes"</span>, <span class="st">"mva"</span>: <span class="st">"Motor vehicle"</span>, <span class="st">"suicide"</span>: <span class="st">"Suicide"</span>,</span>
-<span id="cb10-192"><a href="#cb10-192" aria-hidden="true" tabindex="-1"></a>            <span class="st">"internal"</span>: <span class="st">"Internal causes"</span>, <span class="st">"alcohol"</span>: <span class="st">"Alcohol-related"</span>}</span>
-<span id="cb10-193"><a href="#cb10-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb10-195"><a href="#cb10-195" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> outcomes.items():</span>
-<span id="cb10-196"><a href="#cb10-196" aria-hidden="true" tabindex="-1"></a>    specs <span class="op">=</span> []</span>
-<span id="cb10-197"><a href="#cb10-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-198"><a href="#cb10-198" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 1: Linear, full sample</span></span>
-<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a>    r1 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb10-200"><a href="#cb10-200" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="ss">f"</span><span class="sc">{</span>r1<span class="sc">.</span>params[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss"> (</span><span class="sc">{</span>r1<span class="sc">.</span>bse[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
-<span id="cb10-201"><a href="#cb10-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-202"><a href="#cb10-202" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 2: Quadratic, full sample</span></span>
-<span id="cb10-203"><a href="#cb10-203" aria-hidden="true" tabindex="-1"></a>    r2 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age + age2 + over_age + over_age2"</span>,</span>
-<span id="cb10-204"><a href="#cb10-204" aria-hidden="true" tabindex="-1"></a>                  data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb10-205"><a href="#cb10-205" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="ss">f"</span><span class="sc">{</span>r2<span class="sc">.</span>params[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss"> (</span><span class="sc">{</span>r2<span class="sc">.</span>bse[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
-<span id="cb10-206"><a href="#cb10-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-207"><a href="#cb10-207" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 3: Linear, narrow bandwidth</span></span>
-<span id="cb10-208"><a href="#cb10-208" aria-hidden="true" tabindex="-1"></a>    r3 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>narrow).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb10-209"><a href="#cb10-209" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="ss">f"</span><span class="sc">{</span>r3<span class="sc">.</span>params[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss"> (</span><span class="sc">{</span>r3<span class="sc">.</span>bse[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
-<span id="cb10-210"><a href="#cb10-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-211"><a href="#cb10-211" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 4: Quadratic, narrow bandwidth</span></span>
-<span id="cb10-212"><a href="#cb10-212" aria-hidden="true" tabindex="-1"></a>    r4 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age + age2 + over_age + over_age2"</span>,</span>
-<span id="cb10-213"><a href="#cb10-213" aria-hidden="true" tabindex="-1"></a>                  data<span class="op">=</span>narrow).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb10-214"><a href="#cb10-214" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="ss">f"</span><span class="sc">{</span>r4<span class="sc">.</span>params[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss"> (</span><span class="sc">{</span>r4<span class="sc">.</span>bse[<span class="st">'over21'</span>]<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
-<span id="cb10-215"><a href="#cb10-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-216"><a href="#cb10-216" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"Cause of death"</span>: label, <span class="st">"Linear (full)"</span>: specs[<span class="dv">0</span>],</span>
-<span id="cb10-217"><a href="#cb10-217" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Quadratic (full)"</span>: specs[<span class="dv">1</span>], <span class="st">"Linear (narrow)"</span>: specs[<span class="dv">2</span>],</span>
-<span id="cb10-218"><a href="#cb10-218" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Quadratic (narrow)"</span>: specs[<span class="dv">3</span>]})</span>
-<span id="cb10-219"><a href="#cb10-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-220"><a href="#cb10-220" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
-<span id="cb10-221"><a href="#cb10-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-222"><a href="#cb10-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-223"><a href="#cb10-223" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
-<span id="cb10-224"><a href="#cb10-224" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key findings</span></span>
-<span id="cb10-225"><a href="#cb10-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-226"><a href="#cb10-226" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**All-cause mortality**: jumps by 7--10 deaths per 100,000 across all specifications</span>
-<span id="cb10-227"><a href="#cb10-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Motor vehicle accidents**: the primary driver (4--6 extra deaths) --- drunk driving is the main mechanism</span>
-<span id="cb10-228"><a href="#cb10-228" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Internal causes**: no significant jump --- this is a **placebo test**. Diseases shouldn't respond to the drinking age, and they don't. This validates the RD design.</span>
-<span id="cb10-229"><a href="#cb10-229" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Results are robust**: similar across linear/quadratic models and bandwidth choices</span>
+<span id="cb10-187"><a href="#cb10-187" aria-hidden="true" tabindex="-1"></a><span class="co"># For each cause of death, run 4 RD specifications:</span></span>
+<span id="cb10-188"><a href="#cb10-188" aria-hidden="true" tabindex="-1"></a><span class="co">#   1. Linear trend, full sample (ages 19-22)</span></span>
+<span id="cb10-189"><a href="#cb10-189" aria-hidden="true" tabindex="-1"></a><span class="co">#   2. Quadratic trend, full sample</span></span>
+<span id="cb10-190"><a href="#cb10-190" aria-hidden="true" tabindex="-1"></a><span class="co">#   3. Linear trend, narrow bandwidth (ages 20-22)</span></span>
+<span id="cb10-191"><a href="#cb10-191" aria-hidden="true" tabindex="-1"></a><span class="co">#   4. Quadratic trend, narrow bandwidth</span></span>
+<span id="cb10-192"><a href="#cb10-192" aria-hidden="true" tabindex="-1"></a><span class="co"># This tests whether the RD estimate is robust to model choice and sample window.</span></span>
+<span id="cb10-193"><a href="#cb10-193" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> outcomes.items():</span>
+<span id="cb10-195"><a href="#cb10-195" aria-hidden="true" tabindex="-1"></a>    specs <span class="op">=</span> []</span>
+<span id="cb10-196"><a href="#cb10-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-197"><a href="#cb10-197" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 1: Linear, full sample</span></span>
+<span id="cb10-198"><a href="#cb10-198" aria-hidden="true" tabindex="-1"></a>    model1 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>mlda)</span>
+<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a>    r1 <span class="op">=</span> model1.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb10-200"><a href="#cb10-200" aria-hidden="true" tabindex="-1"></a>    coef1 <span class="op">=</span> <span class="bu">round</span>(r1.params[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb10-201"><a href="#cb10-201" aria-hidden="true" tabindex="-1"></a>    se1 <span class="op">=</span> <span class="bu">round</span>(r1.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb10-202"><a href="#cb10-202" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="bu">str</span>(coef1) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(se1) <span class="op">+</span> <span class="st">")"</span>)</span>
+<span id="cb10-203"><a href="#cb10-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-204"><a href="#cb10-204" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 2: Quadratic, full sample</span></span>
+<span id="cb10-205"><a href="#cb10-205" aria-hidden="true" tabindex="-1"></a>    model2 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age + age2 + over_age + over_age2"</span>,</span>
+<span id="cb10-206"><a href="#cb10-206" aria-hidden="true" tabindex="-1"></a>                      data<span class="op">=</span>mlda)</span>
+<span id="cb10-207"><a href="#cb10-207" aria-hidden="true" tabindex="-1"></a>    r2 <span class="op">=</span> model2.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb10-208"><a href="#cb10-208" aria-hidden="true" tabindex="-1"></a>    coef2 <span class="op">=</span> <span class="bu">round</span>(r2.params[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb10-209"><a href="#cb10-209" aria-hidden="true" tabindex="-1"></a>    se2 <span class="op">=</span> <span class="bu">round</span>(r2.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb10-210"><a href="#cb10-210" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="bu">str</span>(coef2) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(se2) <span class="op">+</span> <span class="st">")"</span>)</span>
+<span id="cb10-211"><a href="#cb10-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-212"><a href="#cb10-212" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 3: Linear, narrow bandwidth</span></span>
+<span id="cb10-213"><a href="#cb10-213" aria-hidden="true" tabindex="-1"></a>    model3 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>narrow)</span>
+<span id="cb10-214"><a href="#cb10-214" aria-hidden="true" tabindex="-1"></a>    r3 <span class="op">=</span> model3.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb10-215"><a href="#cb10-215" aria-hidden="true" tabindex="-1"></a>    coef3 <span class="op">=</span> <span class="bu">round</span>(r3.params[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb10-216"><a href="#cb10-216" aria-hidden="true" tabindex="-1"></a>    se3 <span class="op">=</span> <span class="bu">round</span>(r3.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb10-217"><a href="#cb10-217" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="bu">str</span>(coef3) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(se3) <span class="op">+</span> <span class="st">")"</span>)</span>
+<span id="cb10-218"><a href="#cb10-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-219"><a href="#cb10-219" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spec 4: Quadratic, narrow bandwidth</span></span>
+<span id="cb10-220"><a href="#cb10-220" aria-hidden="true" tabindex="-1"></a>    model4 <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age + age2 + over_age + over_age2"</span>,</span>
+<span id="cb10-221"><a href="#cb10-221" aria-hidden="true" tabindex="-1"></a>                      data<span class="op">=</span>narrow)</span>
+<span id="cb10-222"><a href="#cb10-222" aria-hidden="true" tabindex="-1"></a>    r4 <span class="op">=</span> model4.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb10-223"><a href="#cb10-223" aria-hidden="true" tabindex="-1"></a>    coef4 <span class="op">=</span> <span class="bu">round</span>(r4.params[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb10-224"><a href="#cb10-224" aria-hidden="true" tabindex="-1"></a>    se4 <span class="op">=</span> <span class="bu">round</span>(r4.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)</span>
+<span id="cb10-225"><a href="#cb10-225" aria-hidden="true" tabindex="-1"></a>    specs.append(<span class="bu">str</span>(coef4) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(se4) <span class="op">+</span> <span class="st">")"</span>)</span>
+<span id="cb10-226"><a href="#cb10-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-227"><a href="#cb10-227" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">"Cause of death"</span>: label, <span class="st">"Linear (full)"</span>: specs[<span class="dv">0</span>],</span>
+<span id="cb10-228"><a href="#cb10-228" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Quadratic (full)"</span>: specs[<span class="dv">1</span>], <span class="st">"Linear (narrow)"</span>: specs[<span class="dv">2</span>],</span>
+<span id="cb10-229"><a href="#cb10-229" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Quadratic (narrow)"</span>: specs[<span class="dv">3</span>]})</span>
 <span id="cb10-230"><a href="#cb10-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-231"><a href="#cb10-231" aria-hidden="true" tabindex="-1"></a>Why is the **internal causes** placebo so powerful? Diseases like cancer, heart disease, and diabetes take years or decades to develop. There is no biological reason why crossing the age-21 threshold would suddenly cause internal organ failure. So if we found a jump in internal-cause deaths, something else must be changing at 21 (perhaps data reporting practices or insurance eligibility), and we couldn't trust the MVA result either. Finding no jump in this placebo outcome gives us confidence that the design is working as intended.</span>
-<span id="cb10-232"><a href="#cb10-232" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-231"><a href="#cb10-231" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
+<span id="cb10-232"><a href="#cb10-232" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb10-233"><a href="#cb10-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-234"><a href="#cb10-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-235"><a href="#cb10-235" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualizing the RD with Fitted Lines</span></span>
+<span id="cb10-234"><a href="#cb10-234" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb10-235"><a href="#cb10-235" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key findings</span></span>
 <span id="cb10-236"><a href="#cb10-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-239"><a href="#cb10-239" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb10-240"><a href="#cb10-240" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rd-fitted</span></span>
-<span id="cb10-241"><a href="#cb10-241" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "RD estimate with fitted regression lines on each side of the cutoff. The gap between the lines at age 21 is the causal effect."</span></span>
-<span id="cb10-242"><a href="#cb10-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-243"><a href="#cb10-243" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data at the cutoff</span></span>
-<span id="cb10-244"><a href="#cb10-244" aria-hidden="true" tabindex="-1"></a>below <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&lt;</span> <span class="dv">0</span>]   <span class="co"># under 21</span></span>
-<span id="cb10-245"><a href="#cb10-245" aria-hidden="true" tabindex="-1"></a>above <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&gt;=</span> <span class="dv">0</span>]  <span class="co"># 21 and over</span></span>
-<span id="cb10-246"><a href="#cb10-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-247"><a href="#cb10-247" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit separate linear regressions on each side</span></span>
-<span id="cb10-248"><a href="#cb10-248" aria-hidden="true" tabindex="-1"></a>fit_below <span class="op">=</span> smf.ols(<span class="st">"all ~ age"</span>, data<span class="op">=</span>below).fit()</span>
-<span id="cb10-249"><a href="#cb10-249" aria-hidden="true" tabindex="-1"></a>fit_above <span class="op">=</span> smf.ols(<span class="st">"all ~ age"</span>, data<span class="op">=</span>above).fit()</span>
-<span id="cb10-250"><a href="#cb10-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-251"><a href="#cb10-251" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot scatter + fitted lines</span></span>
-<span id="cb10-252"><a href="#cb10-252" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
-<span id="cb10-253"><a href="#cb10-253" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"all"</span>], color<span class="op">=</span><span class="st">"gray"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">35</span>)</span>
-<span id="cb10-254"><a href="#cb10-254" aria-hidden="true" tabindex="-1"></a>ax.plot(below[<span class="st">"agecell"</span>], fit_below.predict(below), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)   <span class="co"># left line</span></span>
-<span id="cb10-255"><a href="#cb10-255" aria-hidden="true" tabindex="-1"></a>ax.plot(above[<span class="st">"agecell"</span>], fit_above.predict(above), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)   <span class="co"># right line</span></span>
-<span id="cb10-256"><a href="#cb10-256" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb10-257"><a href="#cb10-257" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
-<span id="cb10-258"><a href="#cb10-258" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
-<span id="cb10-259"><a href="#cb10-259" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Sharp RD: All-cause mortality around the MLDA cutoff"</span>)</span>
-<span id="cb10-260"><a href="#cb10-260" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb10-261"><a href="#cb10-261" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb10-262"><a href="#cb10-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-263"><a href="#cb10-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-266"><a href="#cb10-266" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb10-267"><a href="#cb10-267" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rd-causes</span></span>
-<span id="cb10-268"><a href="#cb10-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "RD by cause of death. Motor vehicle accidents show a clear jump; internal causes (a placebo) show none."</span></span>
-<span id="cb10-269"><a href="#cb10-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-270"><a href="#cb10-270" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot two causes on the same figure: MVA (should jump) vs internal (should not)</span></span>
-<span id="cb10-271"><a href="#cb10-271" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
-<span id="cb10-272"><a href="#cb10-272" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"mva"</span>], color<span class="op">=</span><span class="st">"steelblue"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">30</span>, label<span class="op">=</span><span class="st">"Motor vehicle"</span>)</span>
-<span id="cb10-273"><a href="#cb10-273" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"internal"</span>], color<span class="op">=</span><span class="st">"darkorange"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">30</span>, label<span class="op">=</span><span class="st">"Internal causes"</span>)</span>
+<span id="cb10-237"><a href="#cb10-237" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**All-cause mortality**: jumps by 7--10 deaths per 100,000 across all specifications</span>
+<span id="cb10-238"><a href="#cb10-238" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Motor vehicle accidents**: the primary driver (4--6 extra deaths) --- drunk driving is the main mechanism</span>
+<span id="cb10-239"><a href="#cb10-239" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Internal causes**: no significant jump --- this is a **placebo test**. Diseases shouldn't respond to the drinking age, and they don't. This validates the RD design.</span>
+<span id="cb10-240"><a href="#cb10-240" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Results are robust**: similar across linear/quadratic models and bandwidth choices</span>
+<span id="cb10-241"><a href="#cb10-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-242"><a href="#cb10-242" aria-hidden="true" tabindex="-1"></a>Why is the **internal causes** placebo so powerful? Diseases like cancer, heart disease, and diabetes take years or decades to develop. There is no biological reason why crossing the age-21 threshold would suddenly cause internal organ failure. So if we found a jump in internal-cause deaths, something else must be changing at 21 (perhaps data reporting practices or insurance eligibility), and we couldn't trust the MVA result either. Finding no jump in this placebo outcome gives us confidence that the design is working as intended.</span>
+<span id="cb10-243"><a href="#cb10-243" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-244"><a href="#cb10-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-245"><a href="#cb10-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-246"><a href="#cb10-246" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualizing the RD with Fitted Lines</span></span>
+<span id="cb10-247"><a href="#cb10-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-250"><a href="#cb10-250" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb10-251"><a href="#cb10-251" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rd-fitted</span></span>
+<span id="cb10-252"><a href="#cb10-252" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "RD estimate with fitted regression lines on each side of the cutoff. The gap between the lines at age 21 is the causal effect."</span></span>
+<span id="cb10-253"><a href="#cb10-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-254"><a href="#cb10-254" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data at the cutoff</span></span>
+<span id="cb10-255"><a href="#cb10-255" aria-hidden="true" tabindex="-1"></a>below <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&lt;</span> <span class="dv">0</span>]   <span class="co"># under 21</span></span>
+<span id="cb10-256"><a href="#cb10-256" aria-hidden="true" tabindex="-1"></a>above <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&gt;=</span> <span class="dv">0</span>]  <span class="co"># 21 and over</span></span>
+<span id="cb10-257"><a href="#cb10-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-258"><a href="#cb10-258" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit separate linear regressions on each side</span></span>
+<span id="cb10-259"><a href="#cb10-259" aria-hidden="true" tabindex="-1"></a>fit_below <span class="op">=</span> smf.ols(<span class="st">"all ~ age"</span>, data<span class="op">=</span>below).fit()</span>
+<span id="cb10-260"><a href="#cb10-260" aria-hidden="true" tabindex="-1"></a>fit_above <span class="op">=</span> smf.ols(<span class="st">"all ~ age"</span>, data<span class="op">=</span>above).fit()</span>
+<span id="cb10-261"><a href="#cb10-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-262"><a href="#cb10-262" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot scatter + fitted lines</span></span>
+<span id="cb10-263"><a href="#cb10-263" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
+<span id="cb10-264"><a href="#cb10-264" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"all"</span>], color<span class="op">=</span><span class="st">"gray"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">35</span>)</span>
+<span id="cb10-265"><a href="#cb10-265" aria-hidden="true" tabindex="-1"></a>ax.plot(below[<span class="st">"agecell"</span>], fit_below.predict(below), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)   <span class="co"># left line</span></span>
+<span id="cb10-266"><a href="#cb10-266" aria-hidden="true" tabindex="-1"></a>ax.plot(above[<span class="st">"agecell"</span>], fit_above.predict(above), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)   <span class="co"># right line</span></span>
+<span id="cb10-267"><a href="#cb10-267" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb10-268"><a href="#cb10-268" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
+<span id="cb10-269"><a href="#cb10-269" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
+<span id="cb10-270"><a href="#cb10-270" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Sharp RD: All-cause mortality around the MLDA cutoff"</span>)</span>
+<span id="cb10-271"><a href="#cb10-271" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-272"><a href="#cb10-272" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb10-273"><a href="#cb10-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb10-274"><a href="#cb10-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-275"><a href="#cb10-275" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit separate lines on each side of cutoff, for each cause</span></span>
-<span id="cb10-276"><a href="#cb10-276" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, color <span class="kw">in</span> [(<span class="st">"mva"</span>, <span class="st">"steelblue"</span>), (<span class="st">"internal"</span>, <span class="st">"darkorange"</span>)]:</span>
-<span id="cb10-277"><a href="#cb10-277" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subset <span class="kw">in</span> [below, above]:</span>
-<span id="cb10-278"><a href="#cb10-278" aria-hidden="true" tabindex="-1"></a>        fit <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ age"</span>, data<span class="op">=</span>subset).fit()</span>
-<span id="cb10-279"><a href="#cb10-279" aria-hidden="true" tabindex="-1"></a>        ax.plot(subset[<span class="st">"agecell"</span>], fit.predict(subset), color<span class="op">=</span>color, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb10-277"><a href="#cb10-277" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb10-278"><a href="#cb10-278" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rd-causes</span></span>
+<span id="cb10-279"><a href="#cb10-279" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "RD by cause of death. Motor vehicle accidents show a clear jump; internal causes (a placebo) show none."</span></span>
 <span id="cb10-280"><a href="#cb10-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-281"><a href="#cb10-281" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)  <span class="co"># cutoff line</span></span>
-<span id="cb10-282"><a href="#cb10-282" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
-<span id="cb10-283"><a href="#cb10-283" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
-<span id="cb10-284"><a href="#cb10-284" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"RD by cause: Motor vehicle accidents vs. internal causes"</span>)</span>
-<span id="cb10-285"><a href="#cb10-285" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb10-286"><a href="#cb10-286" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb10-287"><a href="#cb10-287" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb10-288"><a href="#cb10-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-289"><a href="#cb10-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-290"><a href="#cb10-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-291"><a href="#cb10-291" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sharp vs. Fuzzy RD</span></span>
-<span id="cb10-292"><a href="#cb10-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-293"><a href="#cb10-293" aria-hidden="true" tabindex="-1"></a>The MLDA example is a **sharp RD**: everyone over 21 can legally drink, no exceptions. But many policy cutoffs are less precise.</span>
-<span id="cb10-294"><a href="#cb10-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-295"><a href="#cb10-295" aria-hidden="true" tabindex="-1"></a>**Boston exam schools** illustrate a **fuzzy RD**. Students are admitted based on a test score cutoff, but not everyone above the cutoff enrolls, and some below it get in through other channels. In a fuzzy RD, the *probability* of treatment jumps at the cutoff, but doesn't go from 0 to 1.</span>
-<span id="cb10-296"><a href="#cb10-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-297"><a href="#cb10-297" aria-hidden="true" tabindex="-1"></a>Fuzzy RD is analyzed using **IV/2SLS**, with the cutoff dummy as the instrument for actual treatment. The first stage captures the jump in treatment probability; the second stage estimates the causal effect on compliers.</span>
-<span id="cb10-298"><a href="#cb10-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-299"><a href="#cb10-299" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Feature <span class="pp">|</span> Sharp RD <span class="pp">|</span> Fuzzy RD <span class="pp">|</span></span>
-<span id="cb10-300"><a href="#cb10-300" aria-hidden="true" tabindex="-1"></a><span class="pp">|:---|:---|:---|</span></span>
-<span id="cb10-301"><a href="#cb10-301" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Treatment at cutoff <span class="pp">|</span> Switches completely on/off <span class="pp">|</span> Probability jumps <span class="pp">|</span></span>
-<span id="cb10-302"><a href="#cb10-302" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Estimation <span class="pp">|</span> OLS with running variable control <span class="pp">|</span> IV/2SLS with cutoff as instrument <span class="pp">|</span></span>
-<span id="cb10-303"><a href="#cb10-303" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Interpretation <span class="pp">|</span> Effect of treatment <span class="pp">|</span> LATE for compliers at the cutoff <span class="pp">|</span></span>
-<span id="cb10-304"><a href="#cb10-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-305"><a href="#cb10-305" aria-hidden="true" tabindex="-1"></a>: Sharp vs. fuzzy regression discontinuity designs {.striped}</span>
-<span id="cb10-306"><a href="#cb10-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-307"><a href="#cb10-307" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb10-308"><a href="#cb10-308" aria-hidden="true" tabindex="-1"></a><span class="fu">### Connection to Chapter 3: Fuzzy RD is IV at a Cutoff</span></span>
+<span id="cb10-281"><a href="#cb10-281" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot two causes on the same figure: MVA (should jump) vs internal (should not)</span></span>
+<span id="cb10-282"><a href="#cb10-282" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
+<span id="cb10-283"><a href="#cb10-283" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"mva"</span>], color<span class="op">=</span><span class="st">"steelblue"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">30</span>, label<span class="op">=</span><span class="st">"Motor vehicle"</span>)</span>
+<span id="cb10-284"><a href="#cb10-284" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"internal"</span>], color<span class="op">=</span><span class="st">"darkorange"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">30</span>, label<span class="op">=</span><span class="st">"Internal causes"</span>)</span>
+<span id="cb10-285"><a href="#cb10-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-286"><a href="#cb10-286" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit separate regression lines on each side of the cutoff, for each cause of death.</span></span>
+<span id="cb10-287"><a href="#cb10-287" aria-hidden="true" tabindex="-1"></a><span class="co"># The outer loop picks the death cause; the inner loop picks below-21 vs. above-21.</span></span>
+<span id="cb10-288"><a href="#cb10-288" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, color <span class="kw">in</span> [(<span class="st">"mva"</span>, <span class="st">"steelblue"</span>), (<span class="st">"internal"</span>, <span class="st">"darkorange"</span>)]:</span>
+<span id="cb10-289"><a href="#cb10-289" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subset <span class="kw">in</span> [below, above]:</span>
+<span id="cb10-290"><a href="#cb10-290" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ age"</span>, data<span class="op">=</span>subset)</span>
+<span id="cb10-291"><a href="#cb10-291" aria-hidden="true" tabindex="-1"></a>        fit <span class="op">=</span> model.fit()</span>
+<span id="cb10-292"><a href="#cb10-292" aria-hidden="true" tabindex="-1"></a>        ax.plot(subset[<span class="st">"agecell"</span>], fit.predict(subset), color<span class="op">=</span>color, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb10-293"><a href="#cb10-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-294"><a href="#cb10-294" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)  <span class="co"># cutoff line</span></span>
+<span id="cb10-295"><a href="#cb10-295" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
+<span id="cb10-296"><a href="#cb10-296" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
+<span id="cb10-297"><a href="#cb10-297" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"RD by cause: Motor vehicle accidents vs. internal causes"</span>)</span>
+<span id="cb10-298"><a href="#cb10-298" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb10-299"><a href="#cb10-299" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-300"><a href="#cb10-300" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb10-301"><a href="#cb10-301" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-302"><a href="#cb10-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-303"><a href="#cb10-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-304"><a href="#cb10-304" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sharp vs. Fuzzy RD</span></span>
+<span id="cb10-305"><a href="#cb10-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-306"><a href="#cb10-306" aria-hidden="true" tabindex="-1"></a>The MLDA example is a **sharp RD**: everyone over 21 can legally drink, no exceptions. But many policy cutoffs are less precise.</span>
+<span id="cb10-307"><a href="#cb10-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-308"><a href="#cb10-308" aria-hidden="true" tabindex="-1"></a>**Boston exam schools** illustrate a **fuzzy RD**. Students are admitted based on a test score cutoff, but not everyone above the cutoff enrolls, and some below it get in through other channels. In a fuzzy RD, the *probability* of treatment jumps at the cutoff, but doesn't go from 0 to 1.</span>
 <span id="cb10-309"><a href="#cb10-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-310"><a href="#cb10-310" aria-hidden="true" tabindex="-1"></a>Fuzzy RD is a special case of instrumental variables. The cutoff dummy serves as the instrument, the treatment probability jumps at the cutoff (first stage), and the outcome may jump too (reduced form). The ratio --- reduced form / first stage --- gives the LATE for compliers at the cutoff. If you understand IV from Chapter 3, you already understand fuzzy RD.</span>
-<span id="cb10-311"><a href="#cb10-311" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb10-312"><a href="#cb10-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-313"><a href="#cb10-313" aria-hidden="true" tabindex="-1"></a>Research on Boston exam schools found that peer quality jumped by 0.8 standard deviations at the admissions cutoff, but student achievement showed **no corresponding jump**. This challenges the widely held belief that attending a more selective school --- with higher-ability peers --- causally improves outcomes. The policy implication is that reallocating students across schools of different selectivity may not improve achievement, even though the raw correlation between school quality and student outcomes is strong (selection bias at work again).</span>
-<span id="cb10-314"><a href="#cb10-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-315"><a href="#cb10-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-316"><a href="#cb10-316" aria-hidden="true" tabindex="-1"></a><span class="fu">## Historical Perspective: Donald Campbell</span></span>
+<span id="cb10-310"><a href="#cb10-310" aria-hidden="true" tabindex="-1"></a>Fuzzy RD is analyzed using **IV/2SLS**, with the cutoff dummy as the instrument for actual treatment. The first stage captures the jump in treatment probability; the second stage estimates the causal effect on compliers.</span>
+<span id="cb10-311"><a href="#cb10-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-312"><a href="#cb10-312" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Feature <span class="pp">|</span> Sharp RD <span class="pp">|</span> Fuzzy RD <span class="pp">|</span></span>
+<span id="cb10-313"><a href="#cb10-313" aria-hidden="true" tabindex="-1"></a><span class="pp">|:---|:---|:---|</span></span>
+<span id="cb10-314"><a href="#cb10-314" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Treatment at cutoff <span class="pp">|</span> Switches completely on/off <span class="pp">|</span> Probability jumps <span class="pp">|</span></span>
+<span id="cb10-315"><a href="#cb10-315" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Estimation <span class="pp">|</span> OLS with running variable control <span class="pp">|</span> IV/2SLS with cutoff as instrument <span class="pp">|</span></span>
+<span id="cb10-316"><a href="#cb10-316" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Interpretation <span class="pp">|</span> Effect of treatment <span class="pp">|</span> LATE for compliers at the cutoff <span class="pp">|</span></span>
 <span id="cb10-317"><a href="#cb10-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-318"><a href="#cb10-318" aria-hidden="true" tabindex="-1"></a>The RD design was invented by **Donald Thistlethwaite and Donald Campbell** in 1960. They studied whether receiving National Merit Scholarship recognition affected students' career plans. Their RD analysis at the recognition cutoff found minimal effects --- one of the first applications of this now-ubiquitous method.</span>
+<span id="cb10-318"><a href="#cb10-318" aria-hidden="true" tabindex="-1"></a>: Sharp vs. fuzzy regression discontinuity designs {.striped}</span>
 <span id="cb10-319"><a href="#cb10-319" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-320"><a href="#cb10-320" aria-hidden="true" tabindex="-1"></a>Campbell went on to pioneer quasi-experimental methods more broadly, co-authoring influential textbooks on research design that shaped how social scientists think about causal inference outside of true experiments.</span>
-<span id="cb10-321"><a href="#cb10-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-320"><a href="#cb10-320" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb10-321"><a href="#cb10-321" aria-hidden="true" tabindex="-1"></a><span class="fu">### Connection to Chapter 3: Fuzzy RD is IV at a Cutoff</span></span>
 <span id="cb10-322"><a href="#cb10-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-323"><a href="#cb10-323" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
-<span id="cb10-324"><a href="#cb10-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-327"><a href="#cb10-327" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
-<span id="cb10-328"><a href="#cb10-328" aria-hidden="true" tabindex="-1"></a>%%| label: fig-concept-<span class="fu">map</span></span>
-<span id="cb10-329"><a href="#cb10-329" aria-hidden="true" tabindex="-1"></a>%%| fig-cap: <span class="ot">"</span><span class="st">How the key concepts of Chapter 4 connect</span><span class="ot">"</span></span>
+<span id="cb10-323"><a href="#cb10-323" aria-hidden="true" tabindex="-1"></a>Fuzzy RD is a special case of instrumental variables. The cutoff dummy serves as the instrument, the treatment probability jumps at the cutoff (first stage), and the outcome may jump too (reduced form). The ratio --- reduced form / first stage --- gives the LATE for compliers at the cutoff. If you understand IV from Chapter 3, you already understand fuzzy RD.</span>
+<span id="cb10-324"><a href="#cb10-324" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-325"><a href="#cb10-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-326"><a href="#cb10-326" aria-hidden="true" tabindex="-1"></a>Research on Boston exam schools found that peer quality jumped by 0.8 standard deviations at the admissions cutoff, but student achievement showed **no corresponding jump**. This challenges the widely held belief that attending a more selective school --- with higher-ability peers --- causally improves outcomes. The policy implication is that reallocating students across schools of different selectivity may not improve achievement, even though the raw correlation between school quality and student outcomes is strong (selection bias at work again).</span>
+<span id="cb10-327"><a href="#cb10-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-328"><a href="#cb10-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-329"><a href="#cb10-329" aria-hidden="true" tabindex="-1"></a><span class="fu">## Historical Perspective: Donald Campbell</span></span>
 <span id="cb10-330"><a href="#cb10-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-331"><a href="#cb10-331" aria-hidden="true" tabindex="-1"></a>graph TD</span>
-<span id="cb10-332"><a href="#cb10-332" aria-hidden="true" tabindex="-1"></a>    Q[<span class="ot">"</span><span class="st">Rigid rules create sharp cutoffs</span><span class="ot">"</span>]</span>
-<span id="cb10-333"><a href="#cb10-333" aria-hidden="true" tabindex="-1"></a>    RV[<span class="ot">"</span><span class="st">Running variable determines treatment</span><span class="ot">"</span>]</span>
-<span id="cb10-334"><a href="#cb10-334" aria-hidden="true" tabindex="-1"></a>    RD[<span class="ot">"</span><span class="st">RD: compare just above vs. just below</span><span class="ot">"</span>]</span>
-<span id="cb10-335"><a href="#cb10-335" aria-hidden="true" tabindex="-1"></a>    SPEC[<span class="ot">"</span><span class="st">Test robustness: polynomial order and bandwidth</span><span class="ot">"</span>]</span>
-<span id="cb10-336"><a href="#cb10-336" aria-hidden="true" tabindex="-1"></a>    PLAC[<span class="ot">"</span><span class="st">Placebo test: outcomes that should not jump</span><span class="ot">"</span>]</span>
-<span id="cb10-337"><a href="#cb10-337" aria-hidden="true" tabindex="-1"></a>    LOCAL[<span class="ot">"</span><span class="st">RD estimates are local: valid at the cutoff</span><span class="ot">"</span>]</span>
-<span id="cb10-338"><a href="#cb10-338" aria-hidden="true" tabindex="-1"></a>    FUZZY[<span class="ot">"</span><span class="st">Fuzzy RD: when treatment probability jumps, use IV</span><span class="ot">"</span>]</span>
-<span id="cb10-339"><a href="#cb10-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-340"><a href="#cb10-340" aria-hidden="true" tabindex="-1"></a>    Q --&gt; RV --&gt; RD</span>
-<span id="cb10-341"><a href="#cb10-341" aria-hidden="true" tabindex="-1"></a>    RD --&gt; SPEC</span>
-<span id="cb10-342"><a href="#cb10-342" aria-hidden="true" tabindex="-1"></a>    RD --&gt; PLAC</span>
-<span id="cb10-343"><a href="#cb10-343" aria-hidden="true" tabindex="-1"></a>    RD --&gt; LOCAL</span>
-<span id="cb10-344"><a href="#cb10-344" aria-hidden="true" tabindex="-1"></a>    RD --&gt; FUZZY</span>
-<span id="cb10-345"><a href="#cb10-345" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-346"><a href="#cb10-346" aria-hidden="true" tabindex="-1"></a>    style Q fill:<span class="co">#3498db,color:#fff</span></span>
-<span id="cb10-347"><a href="#cb10-347" aria-hidden="true" tabindex="-1"></a>    style RD fill:<span class="co">#8e44ad,color:#fff</span></span>
-<span id="cb10-348"><a href="#cb10-348" aria-hidden="true" tabindex="-1"></a>    style SPEC fill:<span class="co">#e67e22,color:#fff</span></span>
-<span id="cb10-349"><a href="#cb10-349" aria-hidden="true" tabindex="-1"></a>    style PLAC fill:<span class="co">#2d8659,color:#fff</span></span>
-<span id="cb10-350"><a href="#cb10-350" aria-hidden="true" tabindex="-1"></a>    style LOCAL fill:<span class="co">#2c3e50,color:#fff</span></span>
-<span id="cb10-351"><a href="#cb10-351" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-331"><a href="#cb10-331" aria-hidden="true" tabindex="-1"></a>The RD design was invented by **Donald Thistlethwaite and Donald Campbell** in 1960. They studied whether receiving National Merit Scholarship recognition affected students' career plans. Their RD analysis at the recognition cutoff found minimal effects --- one of the first applications of this now-ubiquitous method.</span>
+<span id="cb10-332"><a href="#cb10-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-333"><a href="#cb10-333" aria-hidden="true" tabindex="-1"></a>Campbell went on to pioneer quasi-experimental methods more broadly, co-authoring influential textbooks on research design that shaped how social scientists think about causal inference outside of true experiments.</span>
+<span id="cb10-334"><a href="#cb10-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-335"><a href="#cb10-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-336"><a href="#cb10-336" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb10-337"><a href="#cb10-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-340"><a href="#cb10-340" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb10-341"><a href="#cb10-341" aria-hidden="true" tabindex="-1"></a>%%| label: fig-concept-<span class="fu">map</span></span>
+<span id="cb10-342"><a href="#cb10-342" aria-hidden="true" tabindex="-1"></a>%%| fig-cap: <span class="ot">"</span><span class="st">How the key concepts of Chapter 4 connect</span><span class="ot">"</span></span>
+<span id="cb10-343"><a href="#cb10-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-344"><a href="#cb10-344" aria-hidden="true" tabindex="-1"></a>graph TD</span>
+<span id="cb10-345"><a href="#cb10-345" aria-hidden="true" tabindex="-1"></a>    Q[<span class="ot">"</span><span class="st">Rigid rules create sharp cutoffs</span><span class="ot">"</span>]</span>
+<span id="cb10-346"><a href="#cb10-346" aria-hidden="true" tabindex="-1"></a>    RV[<span class="ot">"</span><span class="st">Running variable determines treatment</span><span class="ot">"</span>]</span>
+<span id="cb10-347"><a href="#cb10-347" aria-hidden="true" tabindex="-1"></a>    RD[<span class="ot">"</span><span class="st">RD: compare just above vs. just below</span><span class="ot">"</span>]</span>
+<span id="cb10-348"><a href="#cb10-348" aria-hidden="true" tabindex="-1"></a>    SPEC[<span class="ot">"</span><span class="st">Test robustness: polynomial order and bandwidth</span><span class="ot">"</span>]</span>
+<span id="cb10-349"><a href="#cb10-349" aria-hidden="true" tabindex="-1"></a>    PLAC[<span class="ot">"</span><span class="st">Placebo test: outcomes that should not jump</span><span class="ot">"</span>]</span>
+<span id="cb10-350"><a href="#cb10-350" aria-hidden="true" tabindex="-1"></a>    LOCAL[<span class="ot">"</span><span class="st">RD estimates are local: valid at the cutoff</span><span class="ot">"</span>]</span>
+<span id="cb10-351"><a href="#cb10-351" aria-hidden="true" tabindex="-1"></a>    FUZZY[<span class="ot">"</span><span class="st">Fuzzy RD: when treatment probability jumps, use IV</span><span class="ot">"</span>]</span>
 <span id="cb10-352"><a href="#cb10-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-353"><a href="#cb10-353" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**RD exploits cutoff rules** where treatment switches on at a threshold of a running variable.</span>
-<span id="cb10-354"><a href="#cb10-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-355"><a href="#cb10-355" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The causal effect** is the jump in outcomes at the cutoff, after controlling for the smooth relationship between the running variable and the outcome.</span>
-<span id="cb10-356"><a href="#cb10-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-357"><a href="#cb10-357" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Always plot the data first.** Visual inspection is the most important step in RD.</span>
+<span id="cb10-353"><a href="#cb10-353" aria-hidden="true" tabindex="-1"></a>    Q --&gt; RV --&gt; RD</span>
+<span id="cb10-354"><a href="#cb10-354" aria-hidden="true" tabindex="-1"></a>    RD --&gt; SPEC</span>
+<span id="cb10-355"><a href="#cb10-355" aria-hidden="true" tabindex="-1"></a>    RD --&gt; PLAC</span>
+<span id="cb10-356"><a href="#cb10-356" aria-hidden="true" tabindex="-1"></a>    RD --&gt; LOCAL</span>
+<span id="cb10-357"><a href="#cb10-357" aria-hidden="true" tabindex="-1"></a>    RD --&gt; FUZZY</span>
 <span id="cb10-358"><a href="#cb10-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-359"><a href="#cb10-359" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Test robustness** by varying polynomial order (linear vs. quadratic) and bandwidth (wide vs. narrow).</span>
-<span id="cb10-360"><a href="#cb10-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-361"><a href="#cb10-361" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Placebo tests** on outcomes unaffected by treatment (e.g., internal causes of death) validate the design.</span>
-<span id="cb10-362"><a href="#cb10-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-363"><a href="#cb10-363" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**RD estimates are local** --- they apply to people near the cutoff and may not generalize to people far from it.</span>
-<span id="cb10-364"><a href="#cb10-364" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-365"><a href="#cb10-365" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**Fuzzy RD** handles cases where treatment probability (not treatment itself) jumps, using IV at the cutoff.</span>
-<span id="cb10-366"><a href="#cb10-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-359"><a href="#cb10-359" aria-hidden="true" tabindex="-1"></a>    style Q fill:<span class="co">#3498db,color:#fff</span></span>
+<span id="cb10-360"><a href="#cb10-360" aria-hidden="true" tabindex="-1"></a>    style RD fill:<span class="co">#8e44ad,color:#fff</span></span>
+<span id="cb10-361"><a href="#cb10-361" aria-hidden="true" tabindex="-1"></a>    style SPEC fill:<span class="co">#e67e22,color:#fff</span></span>
+<span id="cb10-362"><a href="#cb10-362" aria-hidden="true" tabindex="-1"></a>    style PLAC fill:<span class="co">#2d8659,color:#fff</span></span>
+<span id="cb10-363"><a href="#cb10-363" aria-hidden="true" tabindex="-1"></a>    style LOCAL fill:<span class="co">#2c3e50,color:#fff</span></span>
+<span id="cb10-364"><a href="#cb10-364" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-365"><a href="#cb10-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-366"><a href="#cb10-366" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**RD exploits cutoff rules** where treatment switches on at a threshold of a running variable.</span>
 <span id="cb10-367"><a href="#cb10-367" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-368"><a href="#cb10-368" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb10-368"><a href="#cb10-368" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The causal effect** is the jump in outcomes at the cutoff, after controlling for the smooth relationship between the running variable and the outcome.</span>
 <span id="cb10-369"><a href="#cb10-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-370"><a href="#cb10-370" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb10-370"><a href="#cb10-370" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Always plot the data first.** Visual inspection is the most important step in RD.</span>
 <span id="cb10-371"><a href="#cb10-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-372"><a href="#cb10-372" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb10-373"><a href="#cb10-373" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb10-374"><a href="#cb10-374" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-375"><a href="#cb10-375" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identifying RD opportunities**: A scholarship program awards funding to students who score above 80 on an entrance exam. (a) What is the running variable? (b) What is the cutoff? (c) Is this a sharp or fuzzy RD? (d) What assumption must hold for the RD estimate to be causal?</span>
-<span id="cb10-376"><a href="#cb10-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-377"><a href="#cb10-377" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The placebo test**: In our MLDA analysis, internal causes of death showed no jump at age 21. Why is this important for the credibility of the RD design? What would it mean if internal causes *did* show a significant jump?</span>
-<span id="cb10-378"><a href="#cb10-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-379"><a href="#cb10-379" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Bandwidth tradeoff**: Explain the tradeoff between using a narrow bandwidth (ages 20--22) and a wide bandwidth (ages 19--23) in an RD analysis. What does each gain and lose?</span>
+<span id="cb10-372"><a href="#cb10-372" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Test robustness** by varying polynomial order (linear vs. quadratic) and bandwidth (wide vs. narrow).</span>
+<span id="cb10-373"><a href="#cb10-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-374"><a href="#cb10-374" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Placebo tests** on outcomes unaffected by treatment (e.g., internal causes of death) validate the design.</span>
+<span id="cb10-375"><a href="#cb10-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-376"><a href="#cb10-376" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**RD estimates are local** --- they apply to people near the cutoff and may not generalize to people far from it.</span>
+<span id="cb10-377"><a href="#cb10-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-378"><a href="#cb10-378" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**Fuzzy RD** handles cases where treatment probability (not treatment itself) jumps, using IV at the cutoff.</span>
+<span id="cb10-379"><a href="#cb10-379" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-380"><a href="#cb10-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-381"><a href="#cb10-381" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Manipulation of the running variable**: Why is manipulation of the running variable a threat to RD validity? Can people manipulate their age? What about an exam score? Give an example where manipulation would be a serious concern.</span>
+<span id="cb10-381"><a href="#cb10-381" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
 <span id="cb10-382"><a href="#cb10-382" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-383"><a href="#cb10-383" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Local vs. global effects**: The RD estimate tells us about the effect of legal drinking for people *at* the age-21 cutoff. Why might this effect differ from the effect at age 18 or age 25? What does "local" mean in this context?</span>
-<span id="cb10-384"><a href="#cb10-384" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb10-385"><a href="#cb10-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-386"><a href="#cb10-386" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb10-383"><a href="#cb10-383" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb10-384"><a href="#cb10-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-385"><a href="#cb10-385" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb10-386"><a href="#cb10-386" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
 <span id="cb10-387"><a href="#cb10-387" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-388"><a href="#cb10-388" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb10-389"><a href="#cb10-389" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb10-390"><a href="#cb10-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-391"><a href="#cb10-391" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Alcohol-related deaths**: Using <span class="in">`mlda_clean.csv`</span>, run the linear RD regression for <span class="in">`alcohol`</span>-related deaths (instead of all-cause). Is the jump at age 21 statistically significant? How does the effect size compare to the <span class="in">`mva`</span> result?</span>
-<span id="cb10-392"><a href="#cb10-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-393"><a href="#cb10-393" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Visualizing the suicide RD**: Using <span class="in">`mlda_clean.csv`</span>, create an RD scatter plot for <span class="in">`suicide`</span> deaths with separate fitted lines on each side of the cutoff. Does the visual pattern match what the regression coefficient suggests?</span>
-<span id="cb10-394"><a href="#cb10-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-395"><a href="#cb10-395" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Quadratic vs. linear specification**: Using <span class="in">`mlda_clean.csv`</span>, run the quadratic RD model for all-cause mortality (including <span class="in">`age2`</span>, <span class="in">`over_age`</span>, <span class="in">`over_age2`</span>). Compare the coefficient on <span class="in">`over21`</span> with the linear model. Is the estimate sensitive to the polynomial order?</span>
-<span id="cb10-396"><a href="#cb10-396" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb10-397"><a href="#cb10-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-388"><a href="#cb10-388" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identifying RD opportunities**: A scholarship program awards funding to students who score above 80 on an entrance exam. (a) What is the running variable? (b) What is the cutoff? (c) Is this a sharp or fuzzy RD? (d) What assumption must hold for the RD estimate to be causal?</span>
+<span id="cb10-389"><a href="#cb10-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-390"><a href="#cb10-390" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The placebo test**: In our MLDA analysis, internal causes of death showed no jump at age 21. Why is this important for the credibility of the RD design? What would it mean if internal causes *did* show a significant jump?</span>
+<span id="cb10-391"><a href="#cb10-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-392"><a href="#cb10-392" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Bandwidth tradeoff**: Explain the tradeoff between using a narrow bandwidth (ages 20--22) and a wide bandwidth (ages 19--23) in an RD analysis. What does each gain and lose?</span>
+<span id="cb10-393"><a href="#cb10-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-394"><a href="#cb10-394" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Manipulation of the running variable**: Why is manipulation of the running variable a threat to RD validity? Can people manipulate their age? What about an exam score? Give an example where manipulation would be a serious concern.</span>
+<span id="cb10-395"><a href="#cb10-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-396"><a href="#cb10-396" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Local vs. global effects**: The RD estimate tells us about the effect of legal drinking for people *at* the age-21 cutoff. Why might this effect differ from the effect at age 18 or age 25? What does "local" mean in this context?</span>
+<span id="cb10-397"><a href="#cb10-397" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb10-398"><a href="#cb10-398" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-399"><a href="#cb10-399" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
+<span id="cb10-399"><a href="#cb10-399" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
 <span id="cb10-400"><a href="#cb10-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-401"><a href="#cb10-401" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb10-402"><a href="#cb10-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-403"><a href="#cb10-403" aria-hidden="true" tabindex="-1"></a>**Q1.** (a) The running variable is the entrance exam score. (b) The cutoff is 80. (c) If all students above 80 receive funding and none below do, it is a sharp RD. If some above 80 decline and some below 80 receive funding through appeals, it is fuzzy. (d) The key assumption is that all other factors affecting the outcome vary *smoothly* at the cutoff --- students scoring 79 and 81 must be comparable in every way except scholarship receipt.</span>
-<span id="cb10-404"><a href="#cb10-404" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-405"><a href="#cb10-405" aria-hidden="true" tabindex="-1"></a>**Q2.** Internal causes of death (diseases, cancer, etc.) should not be affected by legal drinking access at age 21 --- these conditions take years to develop. Finding no jump in internal causes confirms that the RD design is picking up the causal effect of alcohol access, not some other factor that changes at 21. If internal causes *did* show a significant jump, it would suggest that something other than drinking is changing at the cutoff (e.g., a change in health insurance eligibility or data reporting), casting doubt on the entire RD design.</span>
-<span id="cb10-406"><a href="#cb10-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-407"><a href="#cb10-407" aria-hidden="true" tabindex="-1"></a>**Q3.** A narrow bandwidth (e.g., ages 20--22) reduces bias because people very close to the cutoff are nearly identical, and nonlinear trends in the running variable have less room to confuse the estimate. However, it increases variance because fewer observations are used. A wide bandwidth (ages 19--23) uses more data, giving more precise estimates, but risks bias from nonlinear trends that could be mistaken for a discontinuity. The optimal choice balances this bias-variance tradeoff.</span>
-<span id="cb10-408"><a href="#cb10-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-409"><a href="#cb10-409" aria-hidden="true" tabindex="-1"></a>**Q4.** If people can manipulate the running variable to land on their preferred side of the cutoff, the groups just above and just below are no longer comparable --- those who manipulated are systematically different. Age cannot be manipulated (you cannot choose your birthday), which is why the MLDA design is strong. Exam scores, however, can be manipulated: students might retake exams, cheat, or receive score adjustments. A concerning example would be a tax threshold where accountants manipulate reported income to fall just below the cutoff for a higher tax rate.</span>
+<span id="cb10-401"><a href="#cb10-401" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb10-402"><a href="#cb10-402" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb10-403"><a href="#cb10-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-404"><a href="#cb10-404" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Alcohol-related deaths**: Using <span class="in">`mlda_clean.csv`</span>, run the linear RD regression for <span class="in">`alcohol`</span>-related deaths (instead of all-cause). Is the jump at age 21 statistically significant? How does the effect size compare to the <span class="in">`mva`</span> result?</span>
+<span id="cb10-405"><a href="#cb10-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-406"><a href="#cb10-406" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Visualizing the suicide RD**: Using <span class="in">`mlda_clean.csv`</span>, create an RD scatter plot for <span class="in">`suicide`</span> deaths with separate fitted lines on each side of the cutoff. Does the visual pattern match what the regression coefficient suggests?</span>
+<span id="cb10-407"><a href="#cb10-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-408"><a href="#cb10-408" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Quadratic vs. linear specification**: Using <span class="in">`mlda_clean.csv`</span>, run the quadratic RD model for all-cause mortality (including <span class="in">`age2`</span>, <span class="in">`over_age`</span>, <span class="in">`over_age2`</span>). Compare the coefficient on <span class="in">`over21`</span> with the linear model. Is the estimate sensitive to the polynomial order?</span>
+<span id="cb10-409"><a href="#cb10-409" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb10-410"><a href="#cb10-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-411"><a href="#cb10-411" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb10-412"><a href="#cb10-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-413"><a href="#cb10-413" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
-<span id="cb10-414"><a href="#cb10-414" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-417"><a href="#cb10-417" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb10-418"><a href="#cb10-418" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-alcohol</span></span>
-<span id="cb10-419"><a href="#cb10-419" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "RD estimates: alcohol-related vs. motor vehicle deaths"</span></span>
-<span id="cb10-420"><a href="#cb10-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-421"><a href="#cb10-421" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb10-422"><a href="#cb10-422" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb10-411"><a href="#cb10-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-412"><a href="#cb10-412" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
+<span id="cb10-413"><a href="#cb10-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-414"><a href="#cb10-414" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb10-415"><a href="#cb10-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-416"><a href="#cb10-416" aria-hidden="true" tabindex="-1"></a>**Q1.** (a) The running variable is the entrance exam score. (b) The cutoff is 80. (c) If all students above 80 receive funding and none below do, it is a sharp RD. If some above 80 decline and some below 80 receive funding through appeals, it is fuzzy. (d) The key assumption is that all other factors affecting the outcome vary *smoothly* at the cutoff --- students scoring 79 and 81 must be comparable in every way except scholarship receipt.</span>
+<span id="cb10-417"><a href="#cb10-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-418"><a href="#cb10-418" aria-hidden="true" tabindex="-1"></a>**Q2.** Internal causes of death (diseases, cancer, etc.) should not be affected by legal drinking access at age 21 --- these conditions take years to develop. Finding no jump in internal causes confirms that the RD design is picking up the causal effect of alcohol access, not some other factor that changes at 21. If internal causes *did* show a significant jump, it would suggest that something other than drinking is changing at the cutoff (e.g., a change in health insurance eligibility or data reporting), casting doubt on the entire RD design.</span>
+<span id="cb10-419"><a href="#cb10-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-420"><a href="#cb10-420" aria-hidden="true" tabindex="-1"></a>**Q3.** A narrow bandwidth (e.g., ages 20--22) reduces bias because people very close to the cutoff are nearly identical, and nonlinear trends in the running variable have less room to confuse the estimate. However, it increases variance because fewer observations are used. A wide bandwidth (ages 19--23) uses more data, giving more precise estimates, but risks bias from nonlinear trends that could be mistaken for a discontinuity. The optimal choice balances this bias-variance tradeoff.</span>
+<span id="cb10-421"><a href="#cb10-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-422"><a href="#cb10-422" aria-hidden="true" tabindex="-1"></a>**Q4.** If people can manipulate the running variable to land on their preferred side of the cutoff, the groups just above and just below are no longer comparable --- those who manipulated are systematically different. Age cannot be manipulated (you cannot choose your birthday), which is why the MLDA design is strong. Exam scores, however, can be manipulated: students might retake exams, cheat, or receive score adjustments. A concerning example would be a tax threshold where accountants manipulate reported income to fall just below the cutoff for a higher tax rate.</span>
 <span id="cb10-423"><a href="#cb10-423" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-424"><a href="#cb10-424" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> load_csv(<span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb10-424"><a href="#cb10-424" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
 <span id="cb10-425"><a href="#cb10-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-426"><a href="#cb10-426" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare RD estimates for alcohol and MVA deaths</span></span>
-<span id="cb10-427"><a href="#cb10-427" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb10-428"><a href="#cb10-428" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> [(<span class="st">"alcohol"</span>, <span class="st">"Alcohol-related"</span>), (<span class="st">"mva"</span>, <span class="st">"Motor vehicle"</span>)]:</span>
-<span id="cb10-429"><a href="#cb10-429" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb10-430"><a href="#cb10-430" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
-<span id="cb10-431"><a href="#cb10-431" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cause"</span>: label,</span>
-<span id="cb10-432"><a href="#cb10-432" aria-hidden="true" tabindex="-1"></a>        <span class="st">"RD estimate (over21)"</span>: <span class="bu">round</span>(r.params[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb10-433"><a href="#cb10-433" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb10-434"><a href="#cb10-434" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t-stat"</span>: <span class="bu">round</span>(r.tvalues[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb10-435"><a href="#cb10-435" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb10-426"><a href="#cb10-426" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
+<span id="cb10-427"><a href="#cb10-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-430"><a href="#cb10-430" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb10-431"><a href="#cb10-431" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-alcohol</span></span>
+<span id="cb10-432"><a href="#cb10-432" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "RD estimates: alcohol-related vs. motor vehicle deaths"</span></span>
+<span id="cb10-433"><a href="#cb10-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-434"><a href="#cb10-434" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-435"><a href="#cb10-435" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb10-436"><a href="#cb10-436" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-437"><a href="#cb10-437" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
-<span id="cb10-438"><a href="#cb10-438" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-439"><a href="#cb10-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-440"><a href="#cb10-440" aria-hidden="true" tabindex="-1"></a>The alcohol-related death jump is much smaller than the MVA jump (roughly one-fifth the size), but it is statistically significant. This makes sense: relatively few young people die directly from alcohol poisoning, but many die in alcohol-related car accidents. The dominant mechanism through which legal drinking kills is drunk driving, not direct alcohol toxicity.</span>
-<span id="cb10-441"><a href="#cb10-441" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-442"><a href="#cb10-442" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
-<span id="cb10-443"><a href="#cb10-443" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-446"><a href="#cb10-446" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb10-447"><a href="#cb10-447" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-sol-suicide</span></span>
-<span id="cb10-448"><a href="#cb10-448" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "RD plot for suicide deaths around the MLDA cutoff"</span></span>
-<span id="cb10-449"><a href="#cb10-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-450"><a href="#cb10-450" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb10-451"><a href="#cb10-451" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb10-452"><a href="#cb10-452" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">"whitegrid"</span>)</span>
-<span id="cb10-453"><a href="#cb10-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-454"><a href="#cb10-454" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data at the cutoff</span></span>
-<span id="cb10-455"><a href="#cb10-455" aria-hidden="true" tabindex="-1"></a>below <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&lt;</span> <span class="dv">0</span>]</span>
-<span id="cb10-456"><a href="#cb10-456" aria-hidden="true" tabindex="-1"></a>above <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&gt;=</span> <span class="dv">0</span>]</span>
-<span id="cb10-457"><a href="#cb10-457" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-458"><a href="#cb10-458" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit separate lines</span></span>
-<span id="cb10-459"><a href="#cb10-459" aria-hidden="true" tabindex="-1"></a>fit_below <span class="op">=</span> smf.ols(<span class="st">"suicide ~ age"</span>, data<span class="op">=</span>below).fit()</span>
-<span id="cb10-460"><a href="#cb10-460" aria-hidden="true" tabindex="-1"></a>fit_above <span class="op">=</span> smf.ols(<span class="st">"suicide ~ age"</span>, data<span class="op">=</span>above).fit()</span>
-<span id="cb10-461"><a href="#cb10-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-462"><a href="#cb10-462" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb10-463"><a href="#cb10-463" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
-<span id="cb10-464"><a href="#cb10-464" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"suicide"</span>], color<span class="op">=</span><span class="st">"gray"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">35</span>)</span>
-<span id="cb10-465"><a href="#cb10-465" aria-hidden="true" tabindex="-1"></a>ax.plot(below[<span class="st">"agecell"</span>], fit_below.predict(below), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb10-466"><a href="#cb10-466" aria-hidden="true" tabindex="-1"></a>ax.plot(above[<span class="st">"agecell"</span>], fit_above.predict(above), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb10-467"><a href="#cb10-467" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb10-468"><a href="#cb10-468" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
-<span id="cb10-469"><a href="#cb10-469" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
-<span id="cb10-470"><a href="#cb10-470" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Suicide deaths around the MLDA cutoff"</span>)</span>
-<span id="cb10-471"><a href="#cb10-471" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb10-472"><a href="#cb10-472" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb10-473"><a href="#cb10-473" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-474"><a href="#cb10-474" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-475"><a href="#cb10-475" aria-hidden="true" tabindex="-1"></a>The visual shows a modest upward jump at age 21, consistent with the regression estimate of about 1.8 deaths per 100,000. The effect is smaller and noisier than for motor vehicle accidents. Alcohol can contribute to suicide through impulsivity and impaired judgment, but the link is less direct than for drunk driving.</span>
+<span id="cb10-437"><a href="#cb10-437" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb10-438"><a href="#cb10-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-439"><a href="#cb10-439" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare RD estimates for alcohol and MVA deaths</span></span>
+<span id="cb10-440"><a href="#cb10-440" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through two causes of death and run the same RD regression for each</span></span>
+<span id="cb10-441"><a href="#cb10-441" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb10-442"><a href="#cb10-442" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> [(<span class="st">"alcohol"</span>, <span class="st">"Alcohol-related"</span>), (<span class="st">"mva"</span>, <span class="st">"Motor vehicle"</span>)]:</span>
+<span id="cb10-443"><a href="#cb10-443" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>mlda)</span>
+<span id="cb10-444"><a href="#cb10-444" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb10-445"><a href="#cb10-445" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
+<span id="cb10-446"><a href="#cb10-446" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cause"</span>: label,</span>
+<span id="cb10-447"><a href="#cb10-447" aria-hidden="true" tabindex="-1"></a>        <span class="st">"RD estimate (over21)"</span>: <span class="bu">round</span>(r.params[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb10-448"><a href="#cb10-448" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb10-449"><a href="#cb10-449" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t-stat"</span>: <span class="bu">round</span>(r.tvalues[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb10-450"><a href="#cb10-450" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb10-451"><a href="#cb10-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-452"><a href="#cb10-452" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
+<span id="cb10-453"><a href="#cb10-453" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-454"><a href="#cb10-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-455"><a href="#cb10-455" aria-hidden="true" tabindex="-1"></a>The alcohol-related death jump is much smaller than the MVA jump (roughly one-fifth the size), but it is statistically significant. This makes sense: relatively few young people die directly from alcohol poisoning, but many die in alcohol-related car accidents. The dominant mechanism through which legal drinking kills is drunk driving, not direct alcohol toxicity.</span>
+<span id="cb10-456"><a href="#cb10-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-457"><a href="#cb10-457" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
+<span id="cb10-458"><a href="#cb10-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-461"><a href="#cb10-461" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb10-462"><a href="#cb10-462" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-sol-suicide</span></span>
+<span id="cb10-463"><a href="#cb10-463" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "RD plot for suicide deaths around the MLDA cutoff"</span></span>
+<span id="cb10-464"><a href="#cb10-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-465"><a href="#cb10-465" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-466"><a href="#cb10-466" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb10-467"><a href="#cb10-467" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">"whitegrid"</span>)</span>
+<span id="cb10-468"><a href="#cb10-468" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-469"><a href="#cb10-469" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data at the cutoff</span></span>
+<span id="cb10-470"><a href="#cb10-470" aria-hidden="true" tabindex="-1"></a>below <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&lt;</span> <span class="dv">0</span>]</span>
+<span id="cb10-471"><a href="#cb10-471" aria-hidden="true" tabindex="-1"></a>above <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&gt;=</span> <span class="dv">0</span>]</span>
+<span id="cb10-472"><a href="#cb10-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-473"><a href="#cb10-473" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit separate lines</span></span>
+<span id="cb10-474"><a href="#cb10-474" aria-hidden="true" tabindex="-1"></a>fit_below <span class="op">=</span> smf.ols(<span class="st">"suicide ~ age"</span>, data<span class="op">=</span>below).fit()</span>
+<span id="cb10-475"><a href="#cb10-475" aria-hidden="true" tabindex="-1"></a>fit_above <span class="op">=</span> smf.ols(<span class="st">"suicide ~ age"</span>, data<span class="op">=</span>above).fit()</span>
 <span id="cb10-476"><a href="#cb10-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-477"><a href="#cb10-477" aria-hidden="true" tabindex="-1"></a>**Q5.** "Local" means the RD estimate applies specifically to people at the cutoff --- those just turning 21. At age 18, people may have less driving experience, so the mortality effect of alcohol access could be different. At age 25, people may drink more responsibly. The RD cannot tell us about these other ages without extrapolation, which requires stronger assumptions about how the treatment effect varies with age.</span>
-<span id="cb10-478"><a href="#cb10-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-479"><a href="#cb10-479" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
-<span id="cb10-480"><a href="#cb10-480" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-483"><a href="#cb10-483" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb10-484"><a href="#cb10-484" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-quadratic</span></span>
-<span id="cb10-485"><a href="#cb10-485" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Linear vs. quadratic RD specification for all-cause mortality"</span></span>
-<span id="cb10-486"><a href="#cb10-486" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-487"><a href="#cb10-487" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb10-488"><a href="#cb10-488" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb10-477"><a href="#cb10-477" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb10-478"><a href="#cb10-478" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
+<span id="cb10-479"><a href="#cb10-479" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"suicide"</span>], color<span class="op">=</span><span class="st">"gray"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">35</span>)</span>
+<span id="cb10-480"><a href="#cb10-480" aria-hidden="true" tabindex="-1"></a>ax.plot(below[<span class="st">"agecell"</span>], fit_below.predict(below), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb10-481"><a href="#cb10-481" aria-hidden="true" tabindex="-1"></a>ax.plot(above[<span class="st">"agecell"</span>], fit_above.predict(above), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb10-482"><a href="#cb10-482" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb10-483"><a href="#cb10-483" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
+<span id="cb10-484"><a href="#cb10-484" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
+<span id="cb10-485"><a href="#cb10-485" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Suicide deaths around the MLDA cutoff"</span>)</span>
+<span id="cb10-486"><a href="#cb10-486" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-487"><a href="#cb10-487" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb10-488"><a href="#cb10-488" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb10-489"><a href="#cb10-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-490"><a href="#cb10-490" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> load_csv(<span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb10-490"><a href="#cb10-490" aria-hidden="true" tabindex="-1"></a>The visual shows a modest upward jump at age 21, consistent with the regression estimate of about 1.8 deaths per 100,000. The effect is smaller and noisier than for motor vehicle accidents. Alcohol can contribute to suicide through impulsivity and impaired judgment, but the link is less direct than for drunk driving.</span>
 <span id="cb10-491"><a href="#cb10-491" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-492"><a href="#cb10-492" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear specification</span></span>
-<span id="cb10-493"><a href="#cb10-493" aria-hidden="true" tabindex="-1"></a>r_lin <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb10-494"><a href="#cb10-494" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-495"><a href="#cb10-495" aria-hidden="true" tabindex="-1"></a><span class="co"># Quadratic specification with interactions</span></span>
-<span id="cb10-496"><a href="#cb10-496" aria-hidden="true" tabindex="-1"></a>r_quad <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age + age2 + over_age + over_age2"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb10-497"><a href="#cb10-497" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-498"><a href="#cb10-498" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb10-499"><a href="#cb10-499" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Specification"</span>: [<span class="st">"Linear"</span>, <span class="st">"Quadratic (interacted)"</span>],</span>
-<span id="cb10-500"><a href="#cb10-500" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RD estimate (over21)"</span>: [<span class="bu">round</span>(r_lin.params[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.params[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
-<span id="cb10-501"><a href="#cb10-501" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SE"</span>: [<span class="bu">round</span>(r_lin.bse[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
-<span id="cb10-502"><a href="#cb10-502" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb10-503"><a href="#cb10-503" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-492"><a href="#cb10-492" aria-hidden="true" tabindex="-1"></a>**Q5.** "Local" means the RD estimate applies specifically to people at the cutoff --- those just turning 21. At age 18, people may have less driving experience, so the mortality effect of alcohol access could be different. At age 25, people may drink more responsibly. The RD cannot tell us about these other ages without extrapolation, which requires stronger assumptions about how the treatment effect varies with age.</span>
+<span id="cb10-493"><a href="#cb10-493" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-494"><a href="#cb10-494" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
+<span id="cb10-495"><a href="#cb10-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-498"><a href="#cb10-498" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb10-499"><a href="#cb10-499" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-quadratic</span></span>
+<span id="cb10-500"><a href="#cb10-500" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Linear vs. quadratic RD specification for all-cause mortality"</span></span>
+<span id="cb10-501"><a href="#cb10-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-502"><a href="#cb10-502" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-503"><a href="#cb10-503" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb10-504"><a href="#cb10-504" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-505"><a href="#cb10-505" aria-hidden="true" tabindex="-1"></a>The quadratic estimate is somewhat larger (~9.5 vs. ~7.7) because it allows the trend to curve differently on each side of the cutoff. Both estimates are statistically significant and in the same ballpark. The fact that the estimate is robust to polynomial order strengthens confidence in the RD design.</span>
+<span id="cb10-505"><a href="#cb10-505" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb10-506"><a href="#cb10-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-507"><a href="#cb10-507" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear specification</span></span>
+<span id="cb10-508"><a href="#cb10-508" aria-hidden="true" tabindex="-1"></a>model_lin <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>mlda)</span>
+<span id="cb10-509"><a href="#cb10-509" aria-hidden="true" tabindex="-1"></a>r_lin <span class="op">=</span> model_lin.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb10-510"><a href="#cb10-510" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-511"><a href="#cb10-511" aria-hidden="true" tabindex="-1"></a><span class="co"># Quadratic specification with interactions</span></span>
+<span id="cb10-512"><a href="#cb10-512" aria-hidden="true" tabindex="-1"></a>model_quad <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age + age2 + over_age + over_age2"</span>, data<span class="op">=</span>mlda)</span>
+<span id="cb10-513"><a href="#cb10-513" aria-hidden="true" tabindex="-1"></a>r_quad <span class="op">=</span> model_quad.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb10-514"><a href="#cb10-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-515"><a href="#cb10-515" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb10-516"><a href="#cb10-516" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Specification"</span>: [<span class="st">"Linear"</span>, <span class="st">"Quadratic (interacted)"</span>],</span>
+<span id="cb10-517"><a href="#cb10-517" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RD estimate (over21)"</span>: [<span class="bu">round</span>(r_lin.params[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.params[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
+<span id="cb10-518"><a href="#cb10-518" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SE"</span>: [<span class="bu">round</span>(r_lin.bse[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
+<span id="cb10-519"><a href="#cb10-519" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb10-520"><a href="#cb10-520" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-521"><a href="#cb10-521" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-522"><a href="#cb10-522" aria-hidden="true" tabindex="-1"></a>The quadratic estimate is somewhat larger (~9.5 vs. ~7.7) because it allows the trend to curve differently on each side of the cutoff. Both estimates are statistically significant and in the same ballpark. The fact that the estimate is robust to polynomial order strengthens confidence in the RD design.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

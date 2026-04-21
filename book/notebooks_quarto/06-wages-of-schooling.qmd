@@ -74,18 +74,10 @@ import numpy as np
 import statsmodels.formula.api as smf
 from linearmodels.iv import IV2SLS
 
-# --- Data source (GitHub URL with local fallback) ---
-GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
-LOCAL_DATA_PATH = "../../data/"
+# --- Data source ---
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
-def load_csv(path):
-    """Load CSV from GitHub raw URL; fall back to local path if unavailable."""
-    try:
-        return pd.read_csv(GITHUB_DATA_URL + path)
-    except Exception:
-        return pd.read_csv(LOCAL_DATA_PATH + path)
-
-twins = load_csv("ch6/twins_clean.csv")
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
 
 # Key variables:
 #   lwage  = log weekly wage; educ = own years of education
@@ -103,9 +95,10 @@ twins.head(3)
 #| tbl-cap: "OLS return to schooling using the Twinsburg twins data. Controls include age, age-squared, gender, and race."
 
 # OLS: regress log wages on education with demographic controls
-ols = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins).fit(cov_type="HC1")
+model = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins)
+ols = model.fit(cov_type="HC1")
 
-# Show the education coefficient
+# Show the regression coefficient table
 ols.summary().tables[1]
 ```
 
@@ -129,7 +122,10 @@ first = twins[twins["first"] == 1]
 # Regress wage difference on education difference
 # The "- 1" removes the intercept: when both twins have the same education,
 # we expect zero wage difference, so there's no constant term needed
-twin_fe = smf.ols("dlwage ~ deduc - 1", data=first).fit(cov_type="HC1")
+model = smf.ols("dlwage ~ deduc - 1", data=first)
+twin_fe = model.fit(cov_type="HC1")
+
+# Show the regression coefficient table
 twin_fe.summary().tables[1]
 ```
 
@@ -161,28 +157,36 @@ In `linearmodels`, the IV formula uses **square brackets** to specify the endoge
 #| label: tbl-twins-iv
 #| tbl-cap: "IV estimates using twin's report of education as instrument. Corrects for measurement error in self-reported schooling."
 
-# IV in levels: instrument own education (educ) with twin's report (educt_t)
-# The [educ ~ educt_t] tells IV2SLS: "educ is endogenous, use educt_t as instrument"
-iv_levels = IV2SLS.from_formula(
+# --- Step 1: IV in levels ---
+# The bracket syntax [endogenous ~ instrument] tells IV2SLS:
+#   educ is the endogenous variable, instrumented by educt_t (twin's report)
+# "~ 1" includes an intercept; controls (age, age2, etc.) are exogenous regressors
+iv_levels_model = IV2SLS.from_formula(
     "lwage ~ 1 + age + age2 + female + white + [educ ~ educt_t]", data=twins
-).fit(cov_type="robust")
+)
+iv_levels = iv_levels_model.fit(cov_type="robust")
 
-# IV in differences: instrument own-reported difference (deduc) with twin's report diff (deduct)
-# "~ 0" means no intercept (same logic as twin FE: differencing removes the constant)
+# --- Step 2: IV in differences ---
+# Same idea but using within-twin differences
+# deduc (own-reported education difference) is endogenous
+# deduct (twin's report of education difference) is the instrument
+# "~ 0" means no intercept (differencing removes the constant)
 first_iv = first[["dlwage", "deduc", "deduct"]].dropna()
-iv_diff = IV2SLS.from_formula(
+iv_diff_model = IV2SLS.from_formula(
     "dlwage ~ 0 + [deduc ~ deduct]", data=first_iv
-).fit(cov_type="robust")
+)
+iv_diff = iv_diff_model.fit(cov_type="robust")
 
-# Summary table
+# --- Step 3: Combine all four estimates into one table ---
+# Format each as "coefficient (standard error)"
+ols_str = str(round(ols.params["educ"], 3)) + " (" + str(round(ols.bse["educ"], 3)) + ")"
+fe_str = str(round(twin_fe.params["deduc"], 3)) + " (" + str(round(twin_fe.bse["deduc"], 3)) + ")"
+iv_lev_str = str(round(iv_levels.params["educ"], 3)) + " (" + str(round(iv_levels.std_errors["educ"], 3)) + ")"
+iv_dif_str = str(round(iv_diff.params["deduc"], 3)) + " (" + str(round(iv_diff.std_errors["deduc"], 3)) + ")"
+
 pd.DataFrame({
     "Method": ["OLS (levels)", "Twin FE (differences)", "IV (levels)", "IV (differences)"],
-    "Return to schooling": [
-        f"{ols.params['educ']:.3f} ({ols.bse['educ']:.3f})",
-        f"{twin_fe.params['deduc']:.3f} ({twin_fe.bse['deduc']:.3f})",
-        f"{iv_levels.params['educ']:.3f} ({iv_levels.std_errors['educ']:.3f})",
-        f"{iv_diff.params['deduc']:.3f} ({iv_diff.std_errors['deduc']:.3f})",
-    ],
+    "Return to schooling": [ols_str, fe_str, iv_lev_str, iv_dif_str],
 })
 ```
 
@@ -216,7 +220,7 @@ This creates an instrument: **quarter of birth** affects schooling (through comp
 
 ```{python}
 # Load clean quarter-of-birth data (Angrist & Krueger 1991, 329k men born 1930-1939)
-qob = load_csv("ch6/qob_clean.csv")
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
 
 # Key variables: lnw = log weekly earnings, s = years of schooling
 # qob = quarter of birth (1-4), yob = year of birth, q1-q4 = quarter dummies
@@ -230,25 +234,36 @@ qob.head(3)
 #| tbl-cap: "The IV recipe (Wald estimate): reduced form divided by first stage gives the causal return to schooling."
 
 # Step 1: Reduced form — does Q4 birth predict higher earnings?
-rf = smf.ols("lnw ~ q4", data=qob).fit(cov_type="HC1")
+rf_model = smf.ols("lnw ~ q4", data=qob)
+rf = rf_model.fit(cov_type="HC1")
+rf_coef = round(rf.params["q4"], 4)
+rf_se = round(rf.bse["q4"], 4)
 
 # Step 2: First stage — does Q4 birth predict more schooling?
-fs = smf.ols("s ~ q4", data=qob).fit(cov_type="HC1")
+fs_model = smf.ols("s ~ q4", data=qob)
+fs = fs_model.fit(cov_type="HC1")
+fs_coef = round(fs.params["q4"], 4)
+fs_se = round(fs.bse["q4"], 4)
 
 # Step 3: Wald estimate = reduced form / first stage
 wald = rf.params["q4"] / fs.params["q4"]
+wald_rounded = round(wald, 4)
 
 # Step 4: Verify with 2SLS
-iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+# [s ~ q4] means: s (schooling) is endogenous, instrumented by q4 (quarter-of-birth dummy)
+iv_model = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob)
+iv = iv_model.fit(cov_type="robust")
+iv_coef = round(iv.params["s"], 4)
+iv_se = round(iv.std_errors["s"], 4)
 
 pd.DataFrame({
     "Step": ["Reduced form (Q4 → earnings)", "First stage (Q4 → schooling)",
              "Wald estimate (RF / FS)", "2SLS verification"],
     "Estimate": [
-        f"{rf.params['q4']:.4f} ({rf.bse['q4']:.4f})",
-        f"{fs.params['q4']:.4f} ({fs.bse['q4']:.4f})",
-        f"{wald:.4f}",
-        f"{iv.params['s']:.4f} ({iv.std_errors['s']:.4f})",
+        str(rf_coef) + " (" + str(rf_se) + ")",
+        str(fs_coef) + " (" + str(fs_se) + ")",
+        str(wald_rounded),
+        str(iv_coef) + " (" + str(iv_se) + ")",
     ],
 })
 ```
@@ -262,9 +277,18 @@ pd.DataFrame({
 import matplotlib.pyplot as plt
 
 # Collapse to cell means by age (= birth cohort)
-cell = qob.groupby("age").agg(s=("s","mean"), lnw=("lnw","mean"),
-                                q4=("q4","mean"), q1=("q1","mean")).reset_index()
+# Each "age" value maps to one birth cohort, so we compute the average
+# schooling, earnings, and quarter indicators for each cohort
+cell = qob.groupby("age").agg(
+    s=("s", "mean"),       # average years of schooling
+    lnw=("lnw", "mean"),   # average log weekly earnings
+    q4=("q4", "mean"),     # fraction born in Q4
+    q1=("q1", "mean"),     # fraction born in Q1
+).reset_index()
+
+# Convert age to year of birth for the x-axis
 cell["yob"] = 80 - cell["age"]
+# Flag cohorts that are predominantly Q4 or Q1
 cell["is_q4"] = cell["q4"] > 0.5
 cell["is_q1"] = cell["q1"] > 0.5
 
@@ -317,7 +341,7 @@ Texas high school students must pass an exit exam to receive their diploma. Stud
 
 ```{python}
 # Load clean sheepskin RD data (Texas last-chance exam)
-sheep = load_csv("ch6/sheepskin_clean.csv")
+sheep = pd.read_csv(DATA + "ch6/sheepskin_clean.csv")
 
 # Key variables: minscore = test score relative to passing cutoff (0 = cutoff)
 # pass_exam = 1 if passed, receivehsd = fraction receiving diploma
@@ -332,20 +356,25 @@ sheep.head(3)
 
 fig, axes = plt.subplots(1, 2, figsize=(13, 5))
 
-# --- Panel 1: Diploma receipt ---
-ax = axes[0]
-ax.scatter(sheep["minscore"], sheep["receivehsd"], color="black", s=20, alpha=0.6)
-
-# Fit 4th-order polynomials on each side
+# --- Step 1: Split data into below-cutoff (left) and at-or-above-cutoff (right) ---
 left = sheep[sheep["minscore"] < 0]
 right = sheep[sheep["minscore"] >= 0]
 
-fit_l = smf.wls("receivehsd ~ pass_exam + left_1 + left_2 + left_3 + left_4",
-                 data=left, weights=left["n"]).fit()
-fit_r = smf.wls("receivehsd ~ pass_exam + right_1 + right_2 + right_3 + right_4",
-                 data=right, weights=right["n"]).fit()
+# === Panel 1: Diploma receipt (first stage) ===
+ax = axes[0]
+ax.scatter(sheep["minscore"], sheep["receivehsd"], color="black", s=20, alpha=0.6)
 
-# Predict fitted values for plotting
+# Step 2: Fit 4th-order WLS polynomials on each side of the cutoff
+# WLS weights by number of observations (n) so bins with more students count more
+model_l = smf.wls("receivehsd ~ pass_exam + left_1 + left_2 + left_3 + left_4",
+                    data=left, weights=left["n"])
+fit_l = model_l.fit()
+
+model_r = smf.wls("receivehsd ~ pass_exam + right_1 + right_2 + right_3 + right_4",
+                    data=right, weights=right["n"])
+fit_r = model_r.fit()
+
+# Step 3: Predict fitted values for plotting the smooth curves
 left_plot = sheep[sheep["minscore"] <= 0].copy()
 left_plot["fit"] = fit_l.predict(left_plot)
 right_plot = sheep[sheep["minscore"] >= 0].copy()
@@ -360,15 +389,23 @@ ax.set_title("Diploma Receipt (First Stage)")
 ax.set_xlim(-30, 15)
 ax.set_ylim(0, 1)
 
-# --- Panel 2: Earnings ---
+# === Panel 2: Earnings (reduced form) ===
 ax = axes[1]
 ax.scatter(sheep["minscore"], sheep["avgearnings"], color="black", s=20, alpha=0.6)
 
-earn_l = smf.wls("avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4",
-                  data=left[left["minscore"] >= -30], weights=left[left["minscore"] >= -30]["person_years"]).fit()
-earn_r = smf.wls("avgearnings ~ pass_exam + right_1 + right_2 + right_3 + right_4",
-                  data=right, weights=right["person_years"]).fit()
+# Step 4: Fit polynomial for earnings on each side
+# Restrict left side to scores >= -30 for a cleaner fit
+# Weight by person-years (more exposure = more reliable earnings estimate)
+left_earn_data = left[left["minscore"] >= -30]
+earn_model_l = smf.wls("avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4",
+                         data=left_earn_data, weights=left_earn_data["person_years"])
+earn_l = earn_model_l.fit()
 
+earn_model_r = smf.wls("avgearnings ~ pass_exam + right_1 + right_2 + right_3 + right_4",
+                         data=right, weights=right["person_years"])
+earn_r = earn_model_r.fit()
+
+# Step 5: Predict fitted values for the earnings curves
 left_earn = sheep[sheep["minscore"] <= 0].copy()
 left_earn["fit"] = earn_l.predict(left_earn)
 right_earn = sheep[sheep["minscore"] >= 0].copy()
@@ -538,18 +575,24 @@ graph TD
 import pandas as pd
 import statsmodels.formula.api as smf
 
-twins = load_csv("ch6/twins_clean.csv")
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
 
 # Full sample OLS and twin FE
-ols_all = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins).fit(cov_type="HC1")
+model_ols_all = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins)
+ols_all = model_ols_all.fit(cov_type="HC1")
+
 first_all = twins[twins["first"] == 1]
-fe_all = smf.ols("dlwage ~ deduc - 1", data=first_all).fit(cov_type="HC1")
+model_fe_all = smf.ols("dlwage ~ deduc - 1", data=first_all)
+fe_all = model_fe_all.fit(cov_type="HC1")
 
 # Men only
 men = twins[twins["female"] == 0]
-ols_men = smf.ols("lwage ~ educ + age + age2 + white", data=men).fit(cov_type="HC1")
+model_ols_men = smf.ols("lwage ~ educ + age + age2 + white", data=men)
+ols_men = model_ols_men.fit(cov_type="HC1")
+
 first_men = men[men["first"] == 1]
-fe_men = smf.ols("dlwage ~ deduc - 1", data=first_men).fit(cov_type="HC1")
+model_fe_men = smf.ols("dlwage ~ deduc - 1", data=first_men)
+fe_men = model_fe_men.fit(cov_type="HC1")
 
 pd.DataFrame({
     "Method": ["OLS (full sample)", "OLS (men only)", "Twin FE (full sample)", "Twin FE (men only)"],
@@ -576,26 +619,39 @@ The male-only estimates may differ from the full sample because the returns to s
 import numpy as np
 from linearmodels.iv import IV2SLS
 
-qob = load_csv("ch6/qob_clean.csv")
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
 
-# Single instrument: Q4 only
-iv_q4 = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+# --- Specification 1: Single instrument (Q4 only), no year-of-birth controls ---
+# [s ~ q4] means: schooling (s) is endogenous, instrumented by the Q4 dummy
+iv_q4_model = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob)
+iv_q4 = iv_q4_model.fit(cov_type="robust")
 
-# First-stage F-stat for Q4
-fs_q4 = smf.ols("s ~ q4", data=qob).fit()
+# First-stage F-statistic: how strongly does Q4 predict schooling?
+fs_q4_model = smf.ols("s ~ q4", data=qob)
+fs_q4 = fs_q4_model.fit()
 f_q4 = float(np.atleast_1d(fs_q4.f_test("q4 = 0").fvalue).flat[0])
 
-# Multiple instruments: Q2, Q3, Q4
+# --- Specification 2: Three instruments (Q2, Q3, Q4) with year-of-birth controls ---
+# Step A: Create year-of-birth dummy variables (one per birth year, drop first to avoid collinearity)
 yob_dummies = pd.get_dummies(qob["yob"].astype(int), prefix="yob", drop_first=True, dtype=float)
+
+# Step B: Combine the key variables with the year-of-birth dummies into one DataFrame
 iv_data = pd.concat([qob[["lnw", "s", "q2", "q3", "q4"]], yob_dummies], axis=1)
+
+# Step C: Build the formula string for year-of-birth controls
+# This creates "yob_31 + yob_32 + ... + yob_39" to include in the regression
 yob_str = " + ".join(yob_dummies.columns)
 
-iv_multi = IV2SLS.from_formula(
+# Step D: Run 2SLS with all three quarter dummies as instruments
+# [s ~ q2 + q3 + q4] means: s is endogenous, instrumented by Q2, Q3, and Q4
+iv_multi_model = IV2SLS.from_formula(
     f"lnw ~ 1 + {yob_str} + [s ~ q2 + q3 + q4]", data=iv_data
-).fit(cov_type="robust")
+)
+iv_multi = iv_multi_model.fit(cov_type="robust")
 
-# First-stage F-stat for multiple instruments
-fs_multi = smf.ols(f"s ~ q2 + q3 + q4 + {yob_str}", data=iv_data).fit()
+# Step E: First-stage F-statistic for the joint significance of all three instruments
+fs_multi_model = smf.ols(f"s ~ q2 + q3 + q4 + {yob_str}", data=iv_data)
+fs_multi = fs_multi_model.fit()
 f_multi = float(np.atleast_1d(fs_multi.f_test("q2 = 0, q3 = 0, q4 = 0").fvalue).flat[0])
 
 pd.DataFrame({
@@ -616,13 +672,15 @@ Using all three quarter dummies as instruments (with year-of-birth controls) sli
 #| label: tbl-sol-race
 #| tbl-cap: "Returns to schooling by race (OLS, twins data)"
 
-twins = load_csv("ch6/twins_clean.csv")
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
 
+# Compare OLS returns to schooling for white vs. non-white twins
 rows = []
 for race, label in [(1, "White"), (0, "Non-white")]:
     subset = twins[twins["white"] == race]
     if len(subset) > 10:
-        r = smf.ols("lwage ~ educ + age + age2 + female", data=subset).fit(cov_type="HC1")
+        model = smf.ols("lwage ~ educ + age + age2 + female", data=subset)
+        r = model.fit(cov_type="HC1")
         rows.append({
             "Group": label,
             "OLS return": round(r.params["educ"], 4),

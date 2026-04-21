@@ -60,19 +60,11 @@ At first glance, the answer seems obvious. We can look at survey data and compar
 import pandas as pd
 import statsmodels.formula.api as smf
 
-# --- Data source (GitHub URL with local fallback) ---
-GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
-LOCAL_DATA_PATH = "../../data/"
-
-def load_csv(path):
-    """Load CSV from GitHub raw URL; fall back to local path if unavailable."""
-    try:
-        return pd.read_csv(GITHUB_DATA_URL + path)
-    except Exception:
-        return pd.read_csv(LOCAL_DATA_PATH + path)
+# Data URL — all datasets are hosted on GitHub
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # Load pre-cleaned NHIS 2009 data (married couples aged 26-59)
-nhis = load_csv("ch1/nhis_clean.csv")
+nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
 nhis.head(3)
 ```
 
@@ -86,10 +78,12 @@ Let's start with the simplest possible comparison. What is the average health of
 #| label: tbl-means
 #| tbl-cap: "Average health by insurance status"
 
-# Simple group means: average health by insurance status
-nhis.groupby("insurance")["health"].mean().round(2).reset_index().rename(
-    columns={"insurance": "Insurance Status", "health": "Average Health (1-5)"}
-).replace({"Insurance Status": {0: "Uninsured", 1: "Insured"}})
+# Average health by insurance status
+means = nhis.groupby("insurance")["health"].mean()
+pd.DataFrame({
+    "Insurance Status": ["Uninsured", "Insured"],
+    "Average Health (1-5)": [round(means[0], 2), round(means[1], 2)]
+})
 ```
 
 Insured people *are* healthier. But can we conclude that insurance *caused* this difference?
@@ -131,12 +125,12 @@ Let's apply this to compare insured and uninsured people across multiple charact
 outcomes = ["health", "nonwhite", "age", "education",
             "family_size", "employed", "family_income"]
 
+# Run a separate regression for each variable and collect results
 rows = []
 for var in outcomes:
     # Regress each variable on insurance dummy (with survey weights and robust SEs)
-    result = smf.wls(
-        f"{var} ~ insurance", data=nhis, weights=nhis["weight"]
-    ).fit(cov_type="HC1")
+    model = smf.wls(f"{var} ~ insurance", data=nhis, weights=nhis["weight"])
+    result = model.fit(cov_type="HC1")
 
     # Intercept = uninsured mean; insurance coefficient = difference
     rows.append({
@@ -318,7 +312,7 @@ First, we check whether randomization created comparable groups. We regress each
 
 ```{python}
 # Load pre-cleaned RAND HIE baseline data
-rand = load_csv("ch1/rand_balance.csv")
+rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
 rand.head(3)
 ```
 
@@ -332,12 +326,12 @@ Before running the full table, let's see what a single balance check looks like.
 d = rand[["age", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
 # Regress age on plan-type dummies (catastrophic = omitted reference group)
-# Cluster standard errors by family (family members share the same plan)
-result = smf.ols(
-    "age ~ plan_free + plan_deductible + plan_coinsurance", data=d
-).fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+model = smf.ols("age ~ plan_free + plan_deductible + plan_coinsurance", data=d)
 
-# Display the regression coefficient table
+# Cluster standard errors by family (family members share the same plan)
+result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+
+# Show the regression coefficient table
 result.summary().tables[1]
 ```
 
@@ -359,22 +353,25 @@ Now let's run the full balance check across all baseline variables:
 balance_vars = ["female", "nonwhite", "age", "education", "family_income",
                 "health_index", "cholesterol", "blood_pressure", "mental_health"]
 
+# Run a separate regression for each variable and collect results
 rows = []
 for var in balance_vars:
     # Drop missing values for this variable
     d = rand[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
-    # Regress baseline variable on plan dummies, with family-clustered SEs
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    # Regress baseline variable on plan dummies
+    model = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d)
+
+    # Cluster standard errors by family (family members share the same plan)
+    r = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 
     # Store the intercept (catastrophic mean) and plan differences with SEs
     rows.append({
         "Variable": var,
         "Catastrophic mean": round(r.params["Intercept"], 1),
-        "Free − Catastrophic": f"{r.params['plan_free']:+.2f} ({r.bse['plan_free']:.2f})",
-        "Deductible − Catastrophic": f"{r.params['plan_deductible']:+.2f} ({r.bse['plan_deductible']:.2f})",
-        "Coinsurance − Catastrophic": f"{r.params['plan_coinsurance']:+.2f} ({r.bse['plan_coinsurance']:.2f})",
+        "Free − Catastrophic": f"{round(r.params['plan_free'], 2)} ({round(r.bse['plan_free'], 2)})",
+        "Deductible − Catastrophic": f"{round(r.params['plan_deductible'], 2)} ({round(r.bse['plan_deductible'], 2)})",
+        "Coinsurance − Catastrophic": f"{round(r.params['plan_coinsurance'], 2)} ({round(r.bse['plan_coinsurance'], 2)})",
     })
 
 pd.DataFrame(rows)
@@ -389,7 +386,7 @@ Now we turn to outcomes. Because treatment was randomly assigned, the same regre
 
 ```{python}
 # Load pre-cleaned RAND HIE utilization data (person-year panel)
-hie = load_csv("ch1/rand_utilization.csv")
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 hie.head(3)
 ```
 
@@ -401,23 +398,26 @@ hie.head(3)
 use_vars = ["visits", "outpatient_expenses", "admissions",
             "inpatient_expenses", "total_expenses"]
 
+# Run a separate regression for each variable and collect results
 rows = []
 for var in use_vars:
     # Drop missing values for this outcome
     d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
     # Regress outcome on plan dummies — gives causal effects (because of randomization!)
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    model = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d)
+
+    # Cluster standard errors by family (family members share the same plan)
+    r = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 
     # Intercept = control group (catastrophic plan) mean
     # Coefficients = causal effect of each plan relative to catastrophic
     rows.append({
         "Outcome": var,
-        "Catastrophic mean": round(r.params["Intercept"]),
-        "Free effect": f"{r.params['plan_free']:+.0f} ({r.bse['plan_free']:.0f})",
-        "Deductible effect": f"{r.params['plan_deductible']:+.0f} ({r.bse['plan_deductible']:.0f})",
-        "Coinsurance effect": f"{r.params['plan_coinsurance']:+.0f} ({r.bse['plan_coinsurance']:.0f})",
+        "Catastrophic mean": int(round(r.params["Intercept"])),
+        "Free effect": f"{int(round(r.params['plan_free']))} ({int(round(r.bse['plan_free']))})",
+        "Deductible effect": f"{int(round(r.params['plan_deductible']))} ({int(round(r.bse['plan_deductible']))})",
+        "Coinsurance effect": f"{int(round(r.params['plan_coinsurance']))} ({int(round(r.bse['plan_coinsurance']))})",
     })
 
 pd.DataFrame(rows)
@@ -442,7 +442,7 @@ Here is the crucial test. All that extra spending bought more health care --- bu
 
 ```{python}
 # Load pre-cleaned RAND HIE exit health measures
-health = load_csv("ch1/rand_health_outcomes.csv")
+health = pd.read_csv(DATA + "ch1/rand_health_outcomes.csv")
 health.head(3)
 ```
 
@@ -453,21 +453,24 @@ health.head(3)
 # Health outcome variables (measured at the end of the experiment)
 health_vars = ["health_index", "cholesterol", "blood_pressure", "mental_health"]
 
+# Run a separate regression for each variable and collect results
 rows = []
 for var in health_vars:
     # Drop missing values
     d = health[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
-    # Same regression approach — now for health outcomes
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    # Regress health outcome on plan dummies
+    model = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d)
+
+    # Cluster standard errors by family (family members share the same plan)
+    r = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 
     rows.append({
         "Health Measure": var,
         "Catastrophic mean": round(r.params["Intercept"], 1),
-        "Free effect": f"{r.params['plan_free']:+.2f} ({r.bse['plan_free']:.2f})",
-        "Deductible effect": f"{r.params['plan_deductible']:+.2f} ({r.bse['plan_deductible']:.2f})",
-        "Coinsurance effect": f"{r.params['plan_coinsurance']:+.2f} ({r.bse['plan_coinsurance']:.2f})",
+        "Free effect": f"{round(r.params['plan_free'], 2)} ({round(r.bse['plan_free'], 2)})",
+        "Deductible effect": f"{round(r.params['plan_deductible'], 2)} ({round(r.bse['plan_deductible'], 2)})",
+        "Coinsurance effect": f"{round(r.params['plan_coinsurance'], 2)} ({round(r.bse['plan_coinsurance'], 2)})",
     })
 
 pd.DataFrame(rows)
@@ -711,14 +714,19 @@ graph TD
 import pandas as pd
 import statsmodels.formula.api as smf
 
-rand = load_csv("ch1/rand_balance.csv")
+rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
 
-# Run balance check using single binary dummy (any_insurance)
+# Run a separate regression for each variable and collect results
 rows = []
 for var in ["age", "education", "health_index"]:
     d = rand[[var, "any_insurance", "family_id"]].dropna()
-    r = smf.ols(f"{var} ~ any_insurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+
+    # Regress baseline variable on single binary dummy
+    model = smf.ols(f"{var} ~ any_insurance", data=d)
+
+    # Cluster standard errors by family (family members share the same plan)
+    r = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+
     rows.append({
         "Variable": var,
         "Catastrophic mean": round(r.params["Intercept"], 1),
@@ -738,14 +746,18 @@ All t-statistics are small (well below 2), confirming that balance holds regardl
 #| label: tbl-sol-pct-increase
 #| tbl-cap: "Percentage increase in utilization for the free plan relative to catastrophic"
 
-hie = load_csv("ch1/rand_utilization.csv")
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 
-# Compute the free plan effect as a percentage of the catastrophic mean
+# Run a separate regression for each variable and collect results
 rows = []
 for var in ["visits", "outpatient_expenses", "admissions", "inpatient_expenses", "total_expenses"]:
     d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+
+    # Regress utilization on plan dummies
+    model = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d)
+
+    # Cluster standard errors by family (family members share the same plan)
+    r = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 
     # Intercept = catastrophic mean, plan_free coefficient = absolute increase
     cat_mean = r.params["Intercept"]
@@ -754,8 +766,8 @@ for var in ["visits", "outpatient_expenses", "admissions", "inpatient_expenses",
 
     rows.append({
         "Outcome": var,
-        "Catastrophic mean": round(cat_mean),
-        "Free plan effect": round(free_effect),
+        "Catastrophic mean": int(round(cat_mean)),
+        "Free plan effect": int(round(free_effect)),
         "% increase": round(pct_increase, 1),
     })
 
@@ -770,13 +782,17 @@ Outpatient expenses show the largest relative increase (~68%), followed by face-
 #| label: tbl-sol-gender
 #| tbl-cap: "Selection bias by gender: comparing insured vs. uninsured separately for husbands and wives"
 
-nhis = load_csv("ch1/nhis_clean.csv")
+nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
 
+# Run a separate regression for each gender-variable combination
 rows = []
 for gender in ["husband", "wife"]:
     subset = nhis[nhis["gender"] == gender]
     for var in ["health", "education", "family_income"]:
-        r = smf.wls(f"{var} ~ insurance", data=subset, weights=subset["weight"]).fit(cov_type="HC1")
+        # Regress each variable on insurance dummy (with survey weights and robust SEs)
+        model = smf.wls(f"{var} ~ insurance", data=subset, weights=subset["weight"])
+        r = model.fit(cov_type="HC1")
+
         rows.append({
             "Gender": gender,
             "Variable": var,

@@ -96,26 +96,31 @@ import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
 
-# Set seed for reproducibility
+# Set seed so everyone gets the same random numbers
 np.random.seed(42)
-n = 1000
+n = 1000  # number of simulated students
 
-# Step 1: Generate ABILITY (unobserved confounder)
-# Ability varies across students — some are high-ability, some low
+# --- Step 1: Generate ABILITY (the unobserved confounder) ---
+# Each student gets a random ability score (mean=50, sd=10)
 ability = np.random.normal(50, 10, n)
 
-# Step 2: Private school CHOICE depends on ability
-# Higher-ability students are more likely to attend private school
+# --- Step 2: Private school CHOICE depends on ability ---
+# Higher ability → higher probability of choosing private school (logistic function)
+# Students with ability above 50 have >50% chance; below 50 have <50% chance
 prob_private = 1 / (1 + np.exp(-(ability - 50) / 5))
+# Flip a coin for each student using their personal probability
 private = np.random.binomial(1, prob_private)
 
-# Step 3: EARNINGS depend on both private school AND ability
-# True causal effect of private school = $5,000
-# Ability also independently affects earnings
+# --- Step 3: EARNINGS depend on both private school AND ability ---
+# The TRUE causal effect of private school is exactly $5,000
 true_effect = 5000
-earnings = 30000 + true_effect * private + 800 * ability + np.random.normal(0, 5000, n)
+# Base pay ($30,000) + private school bonus + ability bonus + random noise
+earnings = (30000
+            + true_effect * private
+            + 800 * ability
+            + np.random.normal(0, 5000, n))
 
-# Combine into a clean dataset
+# --- Step 4: Combine into a clean dataset ---
 students = pd.DataFrame({
     "earnings": earnings,
     "private": private,
@@ -145,7 +150,10 @@ What happens if we regress earnings on `private` without controlling for ability
 #| tbl-cap: "Short regression: earnings on private school dummy only. The coefficient is biased upward because ability is omitted."
 
 # SHORT regression: omit the confounder (ability)
-short = smf.ols("earnings ~ private", data=students).fit()
+short_model = smf.ols("earnings ~ private", data=students)
+short = short_model.fit()
+
+# Show the regression coefficient table
 short.summary().tables[1]
 ```
 
@@ -161,7 +169,10 @@ Now add ability as a control:
 #| tbl-cap: "Long regression: earnings on private school dummy plus ability control. The coefficient is close to the true effect of $5,000."
 
 # LONG regression: include the confounder (ability)
-long = smf.ols("earnings ~ private + ability", data=students).fit()
+long_model = smf.ols("earnings ~ private + ability", data=students)
+long = long_model.fit()
+
+# Show the regression coefficient table
 long.summary().tables[1]
 ```
 
@@ -209,26 +220,43 @@ Let's check that the formula works with our simulated data:
 #| label: tbl-ovb
 #| tbl-cap: "Verifying the OVB formula: the product of the two components exactly equals the difference between short and long regression coefficients."
 
-# Step 1: Compute OVB directly (short minus long)
-ovb_direct = short.params["private"] - long.params["private"]
+# --- Step 1: Get the short and long coefficients on "private" ---
+beta_short = short.params["private"]
+beta_long = long.params["private"]
 
-# Step 2: Compute the two components of the OVB formula
-# pi_1: regress the omitted variable (ability) on the treatment (private)
-auxiliary = smf.ols("ability ~ private", data=students).fit()
-pi_1 = auxiliary.params["private"]
+# --- Step 2: Compute OVB directly (short minus long) ---
+ovb_direct = beta_short - beta_long
 
-# gamma: coefficient on ability in the long regression
-gamma = long.params["ability"]
+# --- Step 3: Compute the two components of the OVB formula ---
+# pi_1: regress the OMITTED variable (ability) on the TREATMENT (private)
+aux_model = smf.ols("ability ~ private", data=students)
+auxiliary = aux_model.fit()
+pi_1 = auxiliary.params["private"]  # how much ability differs by private status
 
-# OVB from formula
+# gamma: coefficient on ability in the LONG regression
+gamma = long.params["ability"]  # how much ability affects earnings
+
+# --- Step 4: OVB from the formula (should match Step 2) ---
 ovb_formula = pi_1 * gamma
 
+# --- Display results ---
 pd.DataFrame({
-    "Component": ["Short reg coefficient (private)", "Long reg coefficient (private)",
-                   "OVB (direct: short - long)", "pi_1 (ability ~ private)",
-                   "gamma (ability in long reg)", "OVB (formula: pi_1 x gamma)"],
-    "Value": [round(short.params["private"]), round(long.params["private"]),
-              round(ovb_direct), round(pi_1, 2), round(gamma), round(ovb_formula)],
+    "Component": [
+        "Short reg coefficient (private)",
+        "Long reg coefficient (private)",
+        "OVB (direct: short - long)",
+        "pi_1 (ability ~ private)",
+        "gamma (ability in long reg)",
+        "OVB (formula: pi_1 x gamma)",
+    ],
+    "Value": [
+        round(beta_short),
+        round(beta_long),
+        round(ovb_direct),
+        round(pi_1, 2),
+        round(gamma),
+        round(ovb_formula),
+    ],
 })
 ```
 
@@ -429,23 +457,39 @@ graph TD
 #| label: tbl-sol-zero
 #| tbl-cap: "With true effect = 0, the short regression still shows a positive (spurious) coefficient"
 
-# Regenerate data with NO causal effect
+# --- Regenerate data with NO causal effect (true_effect = 0) ---
 np.random.seed(42)
 ability2 = np.random.normal(50, 10, n)
+
+# Same logistic function for private school choice (ability still matters)
+# Higher ability → higher probability of choosing private school (logistic function)
 prob2 = 1 / (1 + np.exp(-(ability2 - 50) / 5))
 private2 = np.random.binomial(1, prob2)
-# True effect = 0 (private school does nothing)
+
+# KEY CHANGE: true effect is 0 — private school does nothing to earnings
 earnings2 = 30000 + 0 * private2 + 800 * ability2 + np.random.normal(0, 5000, n)
 
-students2 = pd.DataFrame({"earnings": earnings2, "private": private2, "ability": ability2})
+students2 = pd.DataFrame({
+    "earnings": earnings2,
+    "private": private2,
+    "ability": ability2,
+})
 
-# Short regression (biased) vs long regression (correct)
-short2 = smf.ols("earnings ~ private", data=students2).fit()
-long2 = smf.ols("earnings ~ private + ability", data=students2).fit()
+# Short regression (biased — omits ability)
+short2_model = smf.ols("earnings ~ private", data=students2)
+short2 = short2_model.fit()
 
+# Long regression (correct — includes ability)
+long2_model = smf.ols("earnings ~ private + ability", data=students2)
+long2 = long2_model.fit()
+
+# Compare the two coefficients against the true effect of zero
 pd.DataFrame({
     "Regression": ["Short (omit ability)", "Long (include ability)"],
-    "Private coefficient": [round(short2.params["private"]), round(long2.params["private"])],
+    "Private coefficient": [
+        round(short2.params["private"]),
+        round(long2.params["private"]),
+    ],
     "True effect": [0, 0],
 })
 ```
@@ -458,26 +502,56 @@ The short regression shows a positive coefficient even though the true effect is
 #| label: tbl-sol-strong
 #| tbl-cap: "Stronger confounder → larger OVB"
 
-# Stronger ability-private link (divide by 2 instead of 5)
+# --- KEY CHANGE: divide by 2 instead of 5 → stronger ability-private link ---
 np.random.seed(42)
 ability3 = np.random.normal(50, 10, n)
-prob3 = 1 / (1 + np.exp(-(ability3 - 50) / 2))  # stronger link
+
+# Steeper logistic: ability has a STRONGER effect on private school choice
+# Higher ability → higher probability of choosing private school (logistic function)
+prob3 = 1 / (1 + np.exp(-(ability3 - 50) / 2))
 private3 = np.random.binomial(1, prob3)
+
+# Earnings: same true effect of $5,000 as before
 earnings3 = 30000 + 5000 * private3 + 800 * ability3 + np.random.normal(0, 5000, n)
-students3 = pd.DataFrame({"earnings": earnings3, "private": private3, "ability": ability3})
 
-short3 = smf.ols("earnings ~ private", data=students3).fit()
-long3 = smf.ols("earnings ~ private + ability", data=students3).fit()
-aux3 = smf.ols("ability ~ private", data=students3).fit()
+students3 = pd.DataFrame({
+    "earnings": earnings3,
+    "private": private3,
+    "ability": ability3,
+})
 
-ovb3 = round(short3.params["private"] - long3.params["private"])
-formula3 = round(aux3.params["private"] * long3.params["ability"])
+# --- Run the three regressions ---
+# Short regression (omits ability)
+short3_model = smf.ols("earnings ~ private", data=students3)
+short3 = short3_model.fit()
 
+# Long regression (includes ability)
+long3_model = smf.ols("earnings ~ private + ability", data=students3)
+long3 = long3_model.fit()
+
+# Auxiliary regression (ability on private) to get pi_1
+aux3_model = smf.ols("ability ~ private", data=students3)
+aux3 = aux3_model.fit()
+
+# --- Compute OVB two ways ---
+ovb3_direct = round(short3.params["private"] - long3.params["private"])
+pi_1_val = round(aux3.params["private"], 2)
+gamma_val = round(long3.params["ability"])
+ovb3_formula = round(aux3.params["private"] * long3.params["ability"])
+
+# Display comparison
 pd.DataFrame({
-    "Metric": ["Short coef", "Long coef", "OVB (direct)", "pi_1", "gamma", "OVB (formula)"],
-    "Value": [round(short3.params["private"]), round(long3.params["private"]),
-              ovb3, round(aux3.params["private"], 2), round(long3.params["ability"]),
-              formula3],
+    "Metric": [
+        "Short coef", "Long coef",
+        "OVB (direct)", "pi_1",
+        "gamma", "OVB (formula)",
+    ],
+    "Value": [
+        round(short3.params["private"]),
+        round(long3.params["private"]),
+        ovb3_direct, pi_1_val,
+        gamma_val, ovb3_formula,
+    ],
 })
 ```
 
@@ -489,31 +563,58 @@ With a stronger ability-private link, $\pi_1$ increases and OVB grows. The short
 #| label: tbl-sol-twoconf
 #| tbl-cap: "Adding a second confounder: family income"
 
-# Add family_income as second confounder
+# --- KEY CHANGE: add family_income as a SECOND confounder ---
 np.random.seed(42)
 ability4 = np.random.normal(50, 10, n)
-family_income = np.random.normal(60000, 20000, n)
-# Both ability and income affect private school choice
-prob4 = 1 / (1 + np.exp(-((ability4 - 50) / 5 + (family_income - 60000) / 20000)))
+family_income = np.random.normal(60000, 20000, n)  # mean=$60k, sd=$20k
+
+# Both ability AND income affect private school choice
+# Higher ability → higher probability of choosing private school (logistic function)
+# Higher family income → also higher probability of choosing private school
+ability_part = (ability4 - 50) / 5
+income_part = (family_income - 60000) / 20000
+prob4 = 1 / (1 + np.exp(-(ability_part + income_part)))
 private4 = np.random.binomial(1, prob4)
-# Both ability and income affect earnings
-earnings4 = 10000 + 5000 * private4 + 800 * ability4 + 0.3 * family_income + np.random.normal(0, 5000, n)
+
+# Both ability AND income affect earnings (true private effect = $5,000)
+earnings4 = (10000
+             + 5000 * private4
+             + 800 * ability4
+             + 0.3 * family_income
+             + np.random.normal(0, 5000, n))
 
 students4 = pd.DataFrame({
-    "earnings": earnings4, "private": private4,
-    "ability": ability4, "family_income": family_income,
+    "earnings": earnings4,
+    "private": private4,
+    "ability": ability4,
+    "family_income": family_income,
 })
 
-# Three regressions: short, medium (only ability), long (both controls)
-r_short = smf.ols("earnings ~ private", data=students4).fit()
-r_medium = smf.ols("earnings ~ private + ability", data=students4).fit()
-r_long = smf.ols("earnings ~ private + ability + family_income", data=students4).fit()
+# --- Three regressions with increasing controls ---
+# Short: no controls at all
+r_short_model = smf.ols("earnings ~ private", data=students4)
+r_short = r_short_model.fit()
 
+# Medium: control for ability only (still omits family income)
+r_medium_model = smf.ols("earnings ~ private + ability", data=students4)
+r_medium = r_medium_model.fit()
+
+# Long: control for BOTH ability and family income
+r_long_model = smf.ols("earnings ~ private + ability + family_income", data=students4)
+r_long = r_long_model.fit()
+
+# Compare all three against the true effect
 pd.DataFrame({
-    "Regression": ["Short (no controls)", "Medium (ability only)", "Long (ability + income)"],
-    "Private coefficient": [round(r_short.params["private"]),
-                             round(r_medium.params["private"]),
-                             round(r_long.params["private"])],
+    "Regression": [
+        "Short (no controls)",
+        "Medium (ability only)",
+        "Long (ability + income)",
+    ],
+    "Private coefficient": [
+        round(r_short.params["private"]),
+        round(r_medium.params["private"]),
+        round(r_long.params["private"]),
+    ],
     "True effect": [5000, 5000, 5000],
 })
 ```
