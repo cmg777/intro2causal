@@ -1,0 +1,336 @@
+---
+title: "Chapter 4: Regression Discontinuity Designs"
+subtitle: "A Study Guide for *Mastering 'Metrics* by Angrist & Pischke"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-tools: true
+    number-sections: true
+    theme: cosmo
+    self-contained: true
+execute:
+  warning: false
+  message: false
+---
+
+::: {.callout-tip}
+## Learning Objectives
+
+By the end of this chapter, you will be able to:
+
+- Explain how **rigid rules and cutoffs** create natural experiments
+- Define the **running variable**, **cutoff**, and **treatment indicator** in an RD design
+- Distinguish between **sharp** and **fuzzy** RD designs
+- Estimate causal effects using **polynomial regression** at a discontinuity
+- Assess robustness through **bandwidth choice** and **specification checks**
+- Interpret the RD estimate as a **local causal effect** at the cutoff
+:::
+
+This chapter shows how bureaucratic rules --- the very things that seem to reduce randomness --- can actually *create* valuable natural experiments for causal inference.
+
+```{mermaid}
+%%| label: fig-roadmap
+%%| fig-cap: "Roadmap for Chapter 4"
+
+graph TD
+    A["THE QUESTION: Does legal drinking access increase mortality?"]
+    B["THE INSIGHT: The age-21 cutoff creates a natural experiment"]
+    C["THE METHOD: Compare outcomes just above vs. just below the cutoff"]
+    D["THE EVIDENCE: Sharp mortality jump at age 21, driven by car accidents"]
+    E["THE EXTENSION: Fuzzy RD when treatment probability jumps at a cutoff"]
+
+    A --> B --> C --> D --> E
+
+    style A fill:#3498db,color:#fff
+    style B fill:#e67e22,color:#fff
+    style C fill:#8e44ad,color:#fff
+    style D fill:#2d8659,color:#fff
+    style E fill:#2c3e50,color:#fff
+```
+
+
+# Rules Create Experiments
+
+Many policies have sharp eligibility rules. You can vote at 18 but not at 17. You qualify for Medicare at 65 but not at 64. You can legally drink at 21 but not at 20. These cutoffs create a powerful opportunity: people just above and just below the threshold are nearly identical in every way --- except that one group receives the treatment and the other doesn't.
+
+This is the logic of **Regression Discontinuity (RD)** designs. The causal effect is identified by the **jump** in outcomes at the cutoff.
+
+## The MLDA Question
+
+The **minimum legal drinking age (MLDA)** is 21 in the United States. Does reaching this threshold actually affect health? Specifically, does turning 21 --- and gaining legal access to alcohol --- increase mortality?
+
+```{python}
+import pandas as pd
+import numpy as np
+import statsmodels.formula.api as smf
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_style("whitegrid")
+
+# Load clean MLDA mortality data
+# Each row is one monthly age cell with death rates per 100,000
+# Key variables:
+#   agecell  = age in years (e.g., 19.08, 20.17, 21.00, ...)
+#   age      = centered at 21 (so age=0 is the cutoff; negative = under 21)
+#   over21   = treatment dummy (1 if age >= 21, 0 otherwise)
+#   age2, over_age, over_age2 = polynomial/interaction terms for flexible RD models
+#   all, mva, suicide, homicide, internal, alcohol = death rates by cause
+mlda = pd.read_csv("../data/ch4/mlda_clean.csv")
+mlda.head(3)
+```
+
+## Visualizing the Discontinuity
+
+The first step in any RD analysis is to **plot the data**. If the causal effect is real, we should see a visible jump in mortality at age 21.
+
+```{python}
+#| label: fig-scatter
+#| fig-cap: "All-cause mortality rate by age. Each dot is one monthly age cell. The vertical dashed line marks the 21st birthday (MLDA cutoff)."
+
+# Scatter plot: mortality rate vs. age in months
+fig, ax = plt.subplots(figsize=(9, 5))
+ax.scatter(mlda["agecell"], mlda["all"], color="gray", alpha=0.7, s=40)  # one dot per age cell
+ax.axvline(x=21, color="red", linestyle="--", alpha=0.5, label="MLDA cutoff")  # mark the cutoff
+ax.set_xlabel("Age (years)")
+ax.set_ylabel("Deaths per 100,000")
+ax.set_title("All-cause mortality around the 21st birthday")
+ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+There is a visible jump right at age 21. Let's now estimate its size formally.
+
+
+# The Sharp RD Regression
+
+## What Is a Running Variable?
+
+In an RD design, the **running variable** is the variable that determines treatment. Here, age is the running variable and 21 is the **cutoff**. The treatment --- legal access to alcohol --- switches on deterministically at the cutoff:
+
+$$D_a = \begin{cases} 1 & \text{if } a \geq 21 \\ 0 & \text{if } a < 21 \end{cases}$$
+
+where $a$ is age (the running variable) and $D_a$ is the treatment indicator. In our data, these correspond to the columns `agecell` and `over21`.
+
+This is a **sharp RD**: treatment switches completely on at the cutoff, with no exceptions.
+
+::: {.callout-note}
+## How RD regression works
+
+We regress the outcome $M_a$ (mortality rate at age $a$) on the treatment dummy $D_a$ and a smooth function of the running variable:
+
+$$M_a = \alpha + \rho \, D_a + \gamma \, a + e_a$$
+
+- **Intercept** ($\alpha$) = predicted mortality just below the cutoff
+- **$\rho$** = the **jump at the cutoff** --- this is the causal effect we want
+- **$\gamma$** = the background age trend (mortality naturally changes with age)
+
+In Python, this is: `smf.ols("all ~ over21 + age", data=mlda)` --- where `all` is $M_a$, `over21` is $D_a$, and `age` is $a$.
+
+The key insight: because age varies smoothly, any **sudden jump** at the cutoff must be caused by the treatment.
+:::
+
+```{python}
+#| label: tbl-rd-simple
+#| tbl-cap: "Sharp RD estimate of the MLDA effect on all-cause mortality. The over21 coefficient is the causal jump at the cutoff."
+
+# Simple linear RD regression
+result = smf.ols("all ~ over21 + age", data=mlda).fit(cov_type="HC1")
+
+# Display the coefficient table
+result.summary().tables[1]
+```
+
+The coefficient on `over21` is approximately **7.7 deaths per 100,000** --- a substantial increase caused by gaining legal access to alcohol.
+
+
+# Robustness: Does the Specification Matter?
+
+A critical question in RD is whether the estimated jump depends on how we model the age trend. We test robustness in two ways:
+
+1. **Polynomial order**: linear vs. quadratic trends
+2. **Bandwidth**: full sample (ages 19--22) vs. narrow window (ages 20--22)
+
+```{python}
+#| label: tbl-rd-robust
+#| tbl-cap: "RD estimates across specifications and bandwidths for multiple causes of death. Robust standard errors in parentheses."
+
+# Define narrow bandwidth subsample
+narrow = mlda[(mlda["agecell"] >= 20) & (mlda["agecell"] <= 22)]
+
+# Outcomes to test
+outcomes = {"all": "All causes", "mva": "Motor vehicle", "suicide": "Suicide",
+            "internal": "Internal causes", "alcohol": "Alcohol-related"}
+
+rows = []
+for var, label in outcomes.items():
+    specs = []
+
+    # Spec 1: Linear, full sample
+    r1 = smf.ols(f"{var} ~ over21 + age", data=mlda).fit(cov_type="HC1")
+    specs.append(f"{r1.params['over21']:.2f} ({r1.bse['over21']:.2f})")
+
+    # Spec 2: Quadratic, full sample
+    r2 = smf.ols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
+                  data=mlda).fit(cov_type="HC1")
+    specs.append(f"{r2.params['over21']:.2f} ({r2.bse['over21']:.2f})")
+
+    # Spec 3: Linear, narrow bandwidth
+    r3 = smf.ols(f"{var} ~ over21 + age", data=narrow).fit(cov_type="HC1")
+    specs.append(f"{r3.params['over21']:.2f} ({r3.bse['over21']:.2f})")
+
+    # Spec 4: Quadratic, narrow bandwidth
+    r4 = smf.ols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
+                  data=narrow).fit(cov_type="HC1")
+    specs.append(f"{r4.params['over21']:.2f} ({r4.bse['over21']:.2f})")
+
+    rows.append({"Cause of death": label, "Linear (full)": specs[0],
+                 "Quadratic (full)": specs[1], "Linear (narrow)": specs[2],
+                 "Quadratic (narrow)": specs[3]})
+
+pd.DataFrame(rows)
+```
+
+::: {.callout-important}
+## Key findings
+
+- **All-cause mortality**: jumps by 7--10 deaths per 100,000 across all specifications
+- **Motor vehicle accidents**: the primary driver (4--6 extra deaths) --- drunk driving is the main mechanism
+- **Internal causes**: no significant jump --- this is a **placebo test**. Diseases shouldn't respond to the drinking age, and they don't. This validates the RD design.
+- **Results are robust**: similar across linear/quadratic models and bandwidth choices
+:::
+
+
+# Visualizing the RD with Fitted Lines
+
+```{python}
+#| label: fig-rd-fitted
+#| fig-cap: "RD estimate with fitted regression lines on each side of the cutoff. The gap between the lines at age 21 is the causal effect."
+
+# Split data at the cutoff
+below = mlda[mlda["age"] < 0]   # under 21
+above = mlda[mlda["age"] >= 0]  # 21 and over
+
+# Fit separate linear regressions on each side
+fit_below = smf.ols("all ~ age", data=below).fit()
+fit_above = smf.ols("all ~ age", data=above).fit()
+
+# Plot scatter + fitted lines
+fig, ax = plt.subplots(figsize=(9, 5))
+ax.scatter(mlda["agecell"], mlda["all"], color="gray", alpha=0.6, s=35)
+ax.plot(below["agecell"], fit_below.predict(below), "k-", linewidth=2)   # left line
+ax.plot(above["agecell"], fit_above.predict(above), "k-", linewidth=2)   # right line
+ax.axvline(x=21, color="red", linestyle="--", alpha=0.5)
+ax.set_xlabel("Age (years)")
+ax.set_ylabel("Deaths per 100,000")
+ax.set_title("Sharp RD: All-cause mortality around the MLDA cutoff")
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| label: fig-rd-causes
+#| fig-cap: "RD by cause of death. Motor vehicle accidents show a clear jump; internal causes (a placebo) show none."
+
+# Plot two causes on the same figure: MVA (should jump) vs internal (should not)
+fig, ax = plt.subplots(figsize=(9, 5))
+ax.scatter(mlda["agecell"], mlda["mva"], color="steelblue", alpha=0.6, s=30, label="Motor vehicle")
+ax.scatter(mlda["agecell"], mlda["internal"], color="darkorange", alpha=0.6, s=30, label="Internal causes")
+
+# Fit separate lines on each side of cutoff, for each cause
+for var, color in [("mva", "steelblue"), ("internal", "darkorange")]:
+    for subset in [below, above]:
+        fit = smf.ols(f"{var} ~ age", data=subset).fit()
+        ax.plot(subset["agecell"], fit.predict(subset), color=color, linewidth=2)
+
+ax.axvline(x=21, color="red", linestyle="--", alpha=0.5)  # cutoff line
+ax.set_xlabel("Age (years)")
+ax.set_ylabel("Deaths per 100,000")
+ax.set_title("RD by cause: Motor vehicle accidents vs. internal causes")
+ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+
+# Sharp vs. Fuzzy RD
+
+The MLDA example is a **sharp RD**: everyone over 21 can legally drink, no exceptions. But many policy cutoffs are less precise.
+
+**Boston exam schools** illustrate a **fuzzy RD**. Students are admitted based on a test score cutoff, but not everyone above the cutoff enrolls, and some below it get in through other channels. In a fuzzy RD, the *probability* of treatment jumps at the cutoff, but doesn't go from 0 to 1.
+
+Fuzzy RD is analyzed using **IV/2SLS**, with the cutoff dummy as the instrument for actual treatment. The first stage captures the jump in treatment probability; the second stage estimates the causal effect on compliers.
+
+| Feature | Sharp RD | Fuzzy RD |
+|:---|:---|:---|
+| Treatment at cutoff | Switches completely on/off | Probability jumps |
+| Estimation | OLS with running variable control | IV/2SLS with cutoff as instrument |
+| Interpretation | Effect of treatment | LATE for compliers at the cutoff |
+
+: Sharp vs. fuzzy regression discontinuity designs {.striped}
+
+
+# Historical Perspective: Donald Campbell
+
+The RD design was invented by **Donald Thistlethwaite and Donald Campbell** in 1960. They studied whether receiving National Merit Scholarship recognition affected students' career plans. Their RD analysis at the recognition cutoff found minimal effects --- one of the first applications of this now-ubiquitous method.
+
+Campbell went on to pioneer quasi-experimental methods more broadly, co-authoring influential textbooks on research design that shaped how social scientists think about causal inference outside of true experiments.
+
+
+# Key Takeaways
+
+```{mermaid}
+%%| label: fig-concept-map
+%%| fig-cap: "How the key concepts of Chapter 4 connect"
+
+graph TD
+    Q["Rigid rules create sharp cutoffs"]
+    RV["Running variable determines treatment"]
+    RD["RD: compare just above vs. just below"]
+    SPEC["Test robustness: polynomial order and bandwidth"]
+    PLAC["Placebo test: outcomes that should not jump"]
+    LOCAL["RD estimates are local: valid at the cutoff"]
+    FUZZY["Fuzzy RD: when treatment probability jumps, use IV"]
+
+    Q --> RV --> RD
+    RD --> SPEC
+    RD --> PLAC
+    RD --> LOCAL
+    RD --> FUZZY
+
+    style Q fill:#3498db,color:#fff
+    style RD fill:#8e44ad,color:#fff
+    style SPEC fill:#e67e22,color:#fff
+    style PLAC fill:#2d8659,color:#fff
+    style LOCAL fill:#2c3e50,color:#fff
+```
+
+1. **RD exploits cutoff rules** where treatment switches on at a threshold of a running variable.
+
+2. **The causal effect** is the jump in outcomes at the cutoff, after controlling for the smooth relationship between the running variable and the outcome.
+
+3. **Always plot the data first.** Visual inspection is the most important step in RD.
+
+4. **Test robustness** by varying polynomial order (linear vs. quadratic) and bandwidth (wide vs. narrow).
+
+5. **Placebo tests** on outcomes unaffected by treatment (e.g., internal causes of death) validate the design.
+
+6. **RD estimates are local** --- they apply to people near the cutoff and may not generalize to people far from it.
+
+7. **Fuzzy RD** handles cases where treatment probability (not treatment itself) jumps, using IV at the cutoff.
+
+
+# Exercises
+
+::: {.callout-caution}
+## Practice Problems
+
+1. **Identifying RD opportunities**: A scholarship program awards funding to students who score above 80 on an entrance exam. (a) What is the running variable? (b) What is the cutoff? (c) Is this a sharp or fuzzy RD? (d) What assumption must hold for the RD estimate to be causal?
+
+2. **The placebo test**: In our MLDA analysis, internal causes of death showed no jump at age 21. Why is this important for the credibility of the RD design? What would it mean if internal causes *did* show a significant jump?
+
+3. **Bandwidth tradeoff**: Explain the tradeoff between using a narrow bandwidth (ages 20--22) and a wide bandwidth (ages 19--23) in an RD analysis. What does each gain and lose?
+
+4. **Sharp vs. fuzzy**: A city implements a rule that buildings over 50 years old receive historic preservation status, which restricts renovations. In practice, some old buildings are exempted and some newer buildings apply for status voluntarily. (a) Is this sharp or fuzzy RD? (b) How would you estimate the effect of preservation status on property values?
+:::

@@ -1,0 +1,25 @@
+# Virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Quarto rendered output (regenerated from .qmd)
+notebooks_quarto/*.html
+
+# Large data files (download from masteringmetrics.com/resources/)
+*.dta
+data/ch1/*.xlsx
+
+# OS files
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Claude plans (ephemeral)
+.claude/plans/
+.claude/tasks/
+.claude/image-cache/

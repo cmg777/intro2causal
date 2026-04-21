@@ -1,0 +1,40 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fswiss\fcharset0 Helvetica-Oblique;
+}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww14100\viewh11220\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 Mastering Metrics Replication Code\
+Readme for Tables 1.3 and 1.4 Code\
+\
+
+\f1\b0 Created by Hellary Zhang, uploaded on 3/29/2021\
+\
+\ul table13_rev.do: Replicates Table 1.3\ulnone \
+	- \ul Input dataset: \ulnone /RAND/Data/rand_initial_sample_2.dta - This dataset is a subset of the file rand_initial_sample.dta found in the replication archive of the Aron-Dine et al. paper (2013) and contains demographic information, as well as health variables at baseline and exit. Each observation is at the individual level.\
+	- \ul Table sample:\ulnone  The sample ultimately used to construct Table 1.3 consists of adult participants who are age 14 to 61 at the time of enrollment and who did not initially refuse enrollment in a plan (refused == 0). This sample is in line with the sample studied in Brook et al. (1983).\
+	- \ul Output: \ulnone table13_rev.doc\
+\
+\ul table14a_rev.do: Replicates Panel A of Table 1.4\ulnone \
+	- I\ul nput dataset: \ulnone \
+		- /RAND/Data/person_years.dta - This dataset comes from the replication of the Aron-Dine et al. paper (2013) and consists of administrative claims data. Each observation is at the individual-year level. \
+		- /RAND/Data/annual_spend.dta\
+	- \ul Table sample: \ulnone The sample used to construct Panel A of Table 1.4 consists of all participants (regardless of age at enrollment) who did not initially refuse enrollment in a plan (refused == 0). Note that this sample is slightly larger than the sample used in both Table 1.3 and Panel B of Table 1.4, because there is no restriction on age. This sample is in line with the 5,811 individuals outlined in Table 1 of the Aron-Dine et al. paper. \
+	- \ul Output:\ulnone  table14a_rev.doc\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \ul \ulc0 table14b_rev.do: Replicates Panel B of Table 1.4\ulnone \
+	- \ul Input dataset: \ulnone /RAND/Data/rand_initial_sample_2.dta - This dataset is a subset of the file rand_initial_sample.dta found in the replication archive of the Aron-Dine et al. paper (2013) and contains demographic information, as well as health variables at baseline and exit. Each observation is at the individual level.\
+	- \ul Table sample: \ulnone The sample ultimately used to construct Panel B of Table 1.4 consists of adult participants who are age 14 to 61 at the time of enrollment and who did not initially refuse enrollment in a plan (refused == 0). This sample is in line with the sample studied in Brook et al. (1983). The sample is the same as that used in Table 1.3. \
+	- \ul Output: \ulnone table14b_rev.doc\
+\
+\
+\ul References:\ulnone \
+Robert H. Brook et al., \'93Does Free Care Improve Adults\'92 Health? Results from a Randomized Controlled Trial,\'94 
+\f2\i New England Journal of Medicine
+\f1\i0 , vol. 309, no. 23, December 8, 1983, pages 1426-1434\
+Aviva Aron-Dine, Liran Einav, and Amy Finkelstein, \'93The RAND Health Insurance Experiment, Three Decades Later,\'94 
+\f2\i Journal of Economic Perspectives
+\f1\i0 , vol. 27, Winter 2013, pages 197-222. Replication archive: https://www.openicpsr.org/openicpsr/project/113919/version/V1/view}
