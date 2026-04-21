@@ -408,6 +408,42 @@ graph TD
 
 ## Exercises
 
+### Multiple Choice Questions
+
+::: {.callout-caution}
+### Multiple Choice Questions
+
+1. **What is the main purpose of adding control variables in a regression?**
+   a) To increase the R-squared of the model
+   b) To hold confounders constant and approximate an experimental comparison
+   c) To make the regression coefficients larger
+   d) To reduce the sample size needed for significance
+
+2. **Omitted variable bias pushes the treatment coefficient upward when the omitted variable is:**
+   a) Negatively correlated with both treatment and outcome
+   b) Positively correlated with treatment but negatively correlated with outcome
+   c) Positively correlated with both treatment and outcome
+   d) Uncorrelated with the treatment variable
+
+3. **A "bad control" is a variable that:**
+   a) Has missing values in the dataset
+   b) Is measured with error
+   c) Is caused by the treatment and should not be controlled for
+   d) Is correlated with the error term
+
+4. **According to the OVB formula, the bias is zero when:**
+   a) The sample size is very large
+   b) The R-squared of the regression is high
+   c) Either the omitted variable is uncorrelated with treatment, or it has no effect on the outcome
+   d) The treatment variable is binary
+
+5. **Dale and Krueger's study of private colleges found that the earnings premium of private school:**
+   a) Was even larger than OLS suggested
+   b) Was robust across all specifications
+   c) Largely disappeared when controlling for the selectivity of schools students applied to
+   d) Only existed for students from wealthy families
+:::
+
 ### Conceptual Questions
 
 ::: {.callout-caution}
@@ -438,6 +474,18 @@ graph TD
 
 
 ## Solutions
+
+### Multiple Choice Questions
+
+**MCQ1.** **(b)** Regression controls hold confounders constant, allowing us to compare treated and untreated individuals who share the same values of the control variables. This approximates the "other things equal" comparison we would get from a randomized experiment. Option (a) is a side effect, not the purpose; (c) is false — controls typically reduce the treatment coefficient; (d) is unrelated.
+
+**MCQ2.** **(c)** When the omitted variable is positively correlated with both treatment and outcome, the OVB formula gives: OVB = π₁ × γ, where both π₁ > 0 and γ > 0, so OVB > 0 (upward bias). In our simulation, ability was positively correlated with both private school attendance and earnings, inflating the OLS estimate above the true effect.
+
+**MCQ3.** **(c)** A bad control is a variable that lies on the causal pathway between treatment and outcome — it is *caused by* the treatment. Controlling for it blocks part of the treatment's effect and can introduce bias. For example, controlling for occupation when estimating the effect of education on earnings is problematic because education affects occupation choice.
+
+**MCQ4.** **(c)** The OVB formula is OVB = π₁ × γ. If π₁ = 0 (omitted variable uncorrelated with treatment) OR γ = 0 (omitted variable doesn't affect outcome), the product is zero and there is no bias. Options (a), (b), and (d) are unrelated to the formula.
+
+**MCQ5.** **(c)** Dale and Krueger found that when they controlled for the selectivity of schools students *applied to* (a proxy for unobserved ability and ambition), the private school premium largely disappeared. Students who applied to elite schools but attended public ones earned similar amounts to those who attended the elite schools — suggesting the premium reflected selection, not causation.
 
 ### Conceptual Questions
 

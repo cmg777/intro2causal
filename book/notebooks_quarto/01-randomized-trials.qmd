@@ -665,6 +665,42 @@ graph TD
 
 ## Exercises
 
+### Multiple Choice Questions
+
+::: {.callout-caution}
+### Multiple Choice Questions
+
+1. **What is the fundamental problem of causal inference?**
+   a) We cannot measure outcomes accurately
+   b) We can only observe one potential outcome per person
+   c) Random assignment is impossible in practice
+   d) Sample sizes are always too small
+
+2. **In the RAND Health Insurance Experiment, what happened to physical health when people received free insurance?**
+   a) It improved dramatically
+   b) It worsened due to overuse of care
+   c) It showed no significant improvement despite higher spending
+   d) It improved only for high-income participants
+
+3. **Selection bias occurs when:**
+   a) The sample size is too small for reliable estimates
+   b) The treatment and control groups differ in ways related to the outcome
+   c) Researchers choose which results to report
+   d) Survey respondents lie about their behavior
+
+4. **Why is random assignment considered the gold standard for causal inference?**
+   a) It guarantees a large sample size
+   b) It eliminates measurement error
+   c) It makes treatment and control groups comparable on all characteristics, even unobserved ones
+   d) It ensures perfect compliance with assigned treatment
+
+5. **A regression coefficient has a t-statistic of 3.5. This means:**
+   a) The effect is large in practical terms
+   b) The result is unlikely to have arisen by chance alone
+   c) The regression model fits the data well
+   d) The sample is representative of the population
+:::
+
 ### Conceptual Questions
 
 ::: {.callout-caution}
@@ -695,6 +731,18 @@ graph TD
 
 
 ## Solutions
+
+### Multiple Choice Questions
+
+**MCQ1.** **(b)** The fundamental problem of causal inference is that we can only observe one potential outcome per person — we see what happened, but never what *would have happened* under the alternative. Options (a) and (d) are practical concerns but not the fundamental problem; (c) is false — random assignment is used in many experiments.
+
+**MCQ2.** **(c)** Despite consuming 45% more health care, participants with free insurance showed no significant improvement in physical health measures (general health, cholesterol, blood pressure, mental health). The RAND experiment was large enough to detect meaningful effects — the effect simply wasn't there.
+
+**MCQ3.** **(b)** Selection bias arises when the people who receive treatment differ systematically from those who don't in ways that also affect the outcome. In the NHIS data, insured people were wealthier, more educated, and more likely to be employed — all factors that independently predict better health.
+
+**MCQ4.** **(c)** Random assignment ensures that, in expectation, treatment and control groups are identical on all characteristics — including ones we cannot observe or measure. This is what makes the selection bias term equal to zero. Options (a) and (b) are unrelated to randomization; (d) is wrong because non-compliance can still occur (as we see in Chapter 3).
+
+**MCQ5.** **(b)** A t-statistic above 2 indicates statistical significance at the 5% level, meaning the result is unlikely due to chance. Option (a) confuses statistical significance with practical importance — a large t-stat can come from a precise estimate of a small effect. Options (c) and (d) are unrelated to the t-statistic.
 
 ### Conceptual Questions
 

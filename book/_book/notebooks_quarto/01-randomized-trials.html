@@ -464,11 +464,13 @@ window.Quarto = {
   <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
   <ul class="collapse">
+  <li><a href="#multiple-choice-questions" id="toc-multiple-choice-questions" class="nav-link" data-scroll-target="#multiple-choice-questions">Multiple Choice Questions</a></li>
   <li><a href="#conceptual-questions" id="toc-conceptual-questions" class="nav-link" data-scroll-target="#conceptual-questions">Conceptual Questions</a></li>
   <li><a href="#research-tasks" id="toc-research-tasks" class="nav-link" data-scroll-target="#research-tasks">Research Tasks</a></li>
   </ul></li>
   <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a>
   <ul class="collapse">
+  <li><a href="#multiple-choice-questions-2" id="toc-multiple-choice-questions-2" class="nav-link" data-scroll-target="#multiple-choice-questions-2">Multiple Choice Questions</a></li>
   <li><a href="#conceptual-questions-2" id="toc-conceptual-questions-2" class="nav-link" data-scroll-target="#conceptual-questions-2">Conceptual Questions</a></li>
   <li><a href="#research-tasks-2" id="toc-research-tasks-2" class="nav-link" data-scroll-target="#research-tasks-2">Research Tasks</a></li>
   </ul></li>
@@ -579,7 +581,7 @@ Figure&nbsp;1.1: Roadmap for Chapter 1
 </div>
 </div>
 <p>At first glance, the answer seems obvious. We can look at survey data and compare the health of insured and uninsured people. Let’s do exactly that using the <strong>National Health Interview Survey (NHIS)</strong>, an annual survey of the U.S. population.</p>
-<div id="834f3e2d" class="cell" data-execution_count="1">
+<div id="cfda12a0" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1122,7 +1124,7 @@ Figure&nbsp;1.4: In an RCT, random assignment ensures the two groups are compara
 <section id="step-1-verify-randomization-balance-check" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-verify-randomization-balance-check">Step 1: Verify Randomization (Balance Check)</h3>
 <p>First, we check whether randomization created comparable groups. We regress each baseline characteristic on plan-type dummies. The <strong>catastrophic plan is the omitted reference group</strong>, so each coefficient represents the difference between that plan group and the catastrophic group.</p>
-<div id="2c8ca4b2" class="cell" data-execution_count="4">
+<div id="2c4a9258" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-cleaned RAND HIE baseline data</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>rand <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch1/rand_balance.csv"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>rand.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1439,7 +1441,7 @@ Table&nbsp;1.4: Baseline balance across RAND HIE plan groups. Each row is a sepa
 <section id="step-2-estimate-causal-effects-on-health-care-use" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-estimate-causal-effects-on-health-care-use">Step 2: Estimate Causal Effects on Health-Care Use</h3>
 <p>Now we turn to outcomes. Because treatment was randomly assigned, the same regression approach that checked balance now gives us <strong>causal effects</strong>. The coefficient on each plan dummy tells us how much that plan changed health-care use <em>relative to having no insurance</em>.</p>
-<div id="fa6fd047" class="cell" data-execution_count="7">
+<div id="20e1c4aa" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-cleaned RAND HIE utilization data (person-year panel)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>hie <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch1/rand_utilization.csv"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>hie.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1635,7 +1637,7 @@ Table&nbsp;1.5: Causal effects of insurance on health-care use (RAND HIE). Spend
 <section id="step-3-estimate-causal-effects-on-health" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-estimate-causal-effects-on-health">Step 3: Estimate Causal Effects on Health</h3>
 <p>Here is the crucial test. All that extra spending bought more health care — but did it buy better <strong>health</strong>? These outcomes were measured 3–5 years after random assignment.</p>
-<div id="a6fef4b2" class="cell" data-execution_count="9">
+<div id="67c94c56" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-cleaned RAND HIE exit health measures</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>health <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch1/rand_health_outcomes.csv"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>health.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2116,6 +2118,58 @@ Figure&nbsp;1.6: How the key concepts of Chapter 1 connect.
 </section>
 <section id="exercises" class="level2">
 <h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<section id="multiple-choice-questions" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-choice-questions">Multiple Choice Questions</h3>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Multiple Choice Questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>What is the fundamental problem of causal inference?</strong>
+<ol type="a">
+<li>We cannot measure outcomes accurately</li>
+<li>We can only observe one potential outcome per person</li>
+<li>Random assignment is impossible in practice</li>
+<li>Sample sizes are always too small</li>
+</ol></li>
+<li><strong>In the RAND Health Insurance Experiment, what happened to physical health when people received free insurance?</strong>
+<ol type="a">
+<li>It improved dramatically</li>
+<li>It worsened due to overuse of care</li>
+<li>It showed no significant improvement despite higher spending</li>
+<li>It improved only for high-income participants</li>
+</ol></li>
+<li><strong>Selection bias occurs when:</strong>
+<ol type="a">
+<li>The sample size is too small for reliable estimates</li>
+<li>The treatment and control groups differ in ways related to the outcome</li>
+<li>Researchers choose which results to report</li>
+<li>Survey respondents lie about their behavior</li>
+</ol></li>
+<li><strong>Why is random assignment considered the gold standard for causal inference?</strong>
+<ol type="a">
+<li>It guarantees a large sample size</li>
+<li>It eliminates measurement error</li>
+<li>It makes treatment and control groups comparable on all characteristics, even unobserved ones</li>
+<li>It ensures perfect compliance with assigned treatment</li>
+</ol></li>
+<li><strong>A regression coefficient has a t-statistic of 3.5. This means:</strong>
+<ol type="a">
+<li>The effect is large in practical terms</li>
+<li>The result is unlikely to have arisen by chance alone</li>
+<li>The regression model fits the data well</li>
+<li>The sample is representative of the population</li>
+</ol></li>
+</ol>
+</div>
+</div>
+</section>
 <section id="conceptual-questions" class="level3">
 <h3 class="anchored" data-anchor-id="conceptual-questions">Conceptual Questions</h3>
 <div class="callout callout-style-default callout-caution callout-titled">
@@ -2161,6 +2215,14 @@ Figure&nbsp;1.6: How the key concepts of Chapter 1 connect.
 </section>
 <section id="solutions" class="level2">
 <h2 class="anchored" data-anchor-id="solutions">Solutions</h2>
+<section id="multiple-choice-questions-2" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-choice-questions-2">Multiple Choice Questions</h3>
+<p><strong>MCQ1.</strong> <strong>(b)</strong> The fundamental problem of causal inference is that we can only observe one potential outcome per person — we see what happened, but never what <em>would have happened</em> under the alternative. Options (a) and (d) are practical concerns but not the fundamental problem; (c) is false — random assignment is used in many experiments.</p>
+<p><strong>MCQ2.</strong> <strong>(c)</strong> Despite consuming 45% more health care, participants with free insurance showed no significant improvement in physical health measures (general health, cholesterol, blood pressure, mental health). The RAND experiment was large enough to detect meaningful effects — the effect simply wasn’t there.</p>
+<p><strong>MCQ3.</strong> <strong>(b)</strong> Selection bias arises when the people who receive treatment differ systematically from those who don’t in ways that also affect the outcome. In the NHIS data, insured people were wealthier, more educated, and more likely to be employed — all factors that independently predict better health.</p>
+<p><strong>MCQ4.</strong> <strong>(c)</strong> Random assignment ensures that, in expectation, treatment and control groups are identical on all characteristics — including ones we cannot observe or measure. This is what makes the selection bias term equal to zero. Options (a) and (b) are unrelated to randomization; (d) is wrong because non-compliance can still occur (as we see in Chapter 3).</p>
+<p><strong>MCQ5.</strong> <strong>(b)</strong> A t-statistic above 2 indicates statistical significance at the 5% level, meaning the result is unlikely due to chance. Option (a) confuses statistical significance with practical importance — a large t-stat can come from a precise estimate of a small effect. Options (c) and (d) are unrelated to the t-statistic.</p>
+</section>
 <section id="conceptual-questions-2" class="level3">
 <h3 class="anchored" data-anchor-id="conceptual-questions-2">Conceptual Questions</h3>
 <p><strong>Q1.</strong> Three sources of selection bias in the organic food comparison: (a) People who buy organic food tend to have higher incomes, and wealthier people have better access to health care and live longer regardless of diet. (b) Organic food buyers are likely more health-conscious overall — they exercise more, smoke less, and manage stress better. (c) Education is correlated with both organic food consumption and longevity; more-educated people make healthier choices across many domains.</p>
@@ -3600,150 +3662,198 @@ Table&nbsp;1.11: Selection bias by gender: comparing insured vs.&nbsp;uninsured 
 <span id="cb14-697"><a href="#cb14-697" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-698"><a href="#cb14-698" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
 <span id="cb14-699"><a href="#cb14-699" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-700"><a href="#cb14-700" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb14-700"><a href="#cb14-700" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multiple Choice Questions</span></span>
 <span id="cb14-701"><a href="#cb14-701" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-702"><a href="#cb14-702" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb14-703"><a href="#cb14-703" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb14-703"><a href="#cb14-703" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multiple Choice Questions</span></span>
 <span id="cb14-704"><a href="#cb14-704" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-705"><a href="#cb14-705" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Spotting selection bias**: A study reports that people who eat organic food live 3 years longer. List three reasons why this comparison might reflect selection bias rather than a causal effect of organic food.</span>
-<span id="cb14-706"><a href="#cb14-706" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-707"><a href="#cb14-707" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Reading a regression**: In the balance check above, the coefficient on <span class="in">`plan_free`</span> for <span class="in">`family_income`</span> is approximately −976 with SE ≈ 1,345. (a) What is the t-statistic? (b) Is this difference statistically significant? (c) What does your answer tell us about whether randomization worked for this variable?</span>
-<span id="cb14-708"><a href="#cb14-708" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-709"><a href="#cb14-709" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**The RAND paradox**: Your friend says "The RAND experiment proves health insurance is worthless." Write a short paragraph explaining why this is an oversimplification. What did the Oregon experiment show that insurance *is* good for?</span>
+<span id="cb14-705"><a href="#cb14-705" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**What is the fundamental problem of causal inference?**</span>
+<span id="cb14-706"><a href="#cb14-706" aria-hidden="true" tabindex="-1"></a>   a) We cannot measure outcomes accurately</span>
+<span id="cb14-707"><a href="#cb14-707" aria-hidden="true" tabindex="-1"></a>   b) We can only observe one potential outcome per person</span>
+<span id="cb14-708"><a href="#cb14-708" aria-hidden="true" tabindex="-1"></a>   c) Random assignment is impossible in practice</span>
+<span id="cb14-709"><a href="#cb14-709" aria-hidden="true" tabindex="-1"></a>   d) Sample sizes are always too small</span>
 <span id="cb14-710"><a href="#cb14-710" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-711"><a href="#cb14-711" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Random assignment and selection bias**: Using the decomposition equation from this chapter, explain step by step why random assignment makes the selection bias term equal to zero. What role does the Law of Large Numbers play?</span>
-<span id="cb14-712"><a href="#cb14-712" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-713"><a href="#cb14-713" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Designing an RCT**: You want to test whether free school lunches improve student test scores. (a) How would you randomly assign treatment? (b) What outcome would you measure? (c) What balance check would you run? (d) Why might some students assigned to "free lunch" not actually eat it, and what problem does this create?</span>
-<span id="cb14-714"><a href="#cb14-714" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-715"><a href="#cb14-715" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-716"><a href="#cb14-716" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb14-717"><a href="#cb14-717" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-718"><a href="#cb14-718" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb14-719"><a href="#cb14-719" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb14-720"><a href="#cb14-720" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-721"><a href="#cb14-721" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Binary balance check**: Using <span class="in">`rand_balance.csv`</span>, run a balance check using the single dummy <span class="in">`any_insurance`</span> (instead of the three plan dummies). Regress <span class="in">`age`</span>, <span class="in">`education`</span>, and <span class="in">`health_index`</span> on <span class="in">`any_insurance`</span> with family-clustered SEs. Do you reach the same conclusion about balance as the three-dummy specification?</span>
+<span id="cb14-711"><a href="#cb14-711" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**In the RAND Health Insurance Experiment, what happened to physical health when people received free insurance?**</span>
+<span id="cb14-712"><a href="#cb14-712" aria-hidden="true" tabindex="-1"></a>   a) It improved dramatically</span>
+<span id="cb14-713"><a href="#cb14-713" aria-hidden="true" tabindex="-1"></a>   b) It worsened due to overuse of care</span>
+<span id="cb14-714"><a href="#cb14-714" aria-hidden="true" tabindex="-1"></a>   c) It showed no significant improvement despite higher spending</span>
+<span id="cb14-715"><a href="#cb14-715" aria-hidden="true" tabindex="-1"></a>   d) It improved only for high-income participants</span>
+<span id="cb14-716"><a href="#cb14-716" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-717"><a href="#cb14-717" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Selection bias occurs when:**</span>
+<span id="cb14-718"><a href="#cb14-718" aria-hidden="true" tabindex="-1"></a>   a) The sample size is too small for reliable estimates</span>
+<span id="cb14-719"><a href="#cb14-719" aria-hidden="true" tabindex="-1"></a>   b) The treatment and control groups differ in ways related to the outcome</span>
+<span id="cb14-720"><a href="#cb14-720" aria-hidden="true" tabindex="-1"></a>   c) Researchers choose which results to report</span>
+<span id="cb14-721"><a href="#cb14-721" aria-hidden="true" tabindex="-1"></a>   d) Survey respondents lie about their behavior</span>
 <span id="cb14-722"><a href="#cb14-722" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-723"><a href="#cb14-723" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Relative utilization increases**: Using <span class="in">`rand_utilization.csv`</span>, compute the percentage increase in each utilization outcome for the free plan relative to the catastrophic group mean. Which outcome shows the largest *relative* increase: visits, outpatient expenses, admissions, or total expenses?</span>
-<span id="cb14-724"><a href="#cb14-724" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-725"><a href="#cb14-725" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Husbands vs. wives**: Using <span class="in">`nhis_clean.csv`</span>, run the insurance-health comparison separately for husbands and wives. Is the selection bias (the gap in education and income between insured and uninsured) larger for one gender? What might explain any differences?</span>
-<span id="cb14-726"><a href="#cb14-726" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-727"><a href="#cb14-727" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-723"><a href="#cb14-723" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Why is random assignment considered the gold standard for causal inference?**</span>
+<span id="cb14-724"><a href="#cb14-724" aria-hidden="true" tabindex="-1"></a>   a) It guarantees a large sample size</span>
+<span id="cb14-725"><a href="#cb14-725" aria-hidden="true" tabindex="-1"></a>   b) It eliminates measurement error</span>
+<span id="cb14-726"><a href="#cb14-726" aria-hidden="true" tabindex="-1"></a>   c) It makes treatment and control groups comparable on all characteristics, even unobserved ones</span>
+<span id="cb14-727"><a href="#cb14-727" aria-hidden="true" tabindex="-1"></a>   d) It ensures perfect compliance with assigned treatment</span>
 <span id="cb14-728"><a href="#cb14-728" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-729"><a href="#cb14-729" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
-<span id="cb14-730"><a href="#cb14-730" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-731"><a href="#cb14-731" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb14-732"><a href="#cb14-732" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-733"><a href="#cb14-733" aria-hidden="true" tabindex="-1"></a>**Q1.** Three sources of selection bias in the organic food comparison: (a) People who buy organic food tend to have higher incomes, and wealthier people have better access to health care and live longer regardless of diet. (b) Organic food buyers are likely more health-conscious overall --- they exercise more, smoke less, and manage stress better. (c) Education is correlated with both organic food consumption and longevity; more-educated people make healthier choices across many domains.</span>
-<span id="cb14-734"><a href="#cb14-734" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-735"><a href="#cb14-735" aria-hidden="true" tabindex="-1"></a>**Q2.** (a) The t-statistic is −976 / 1,345 ≈ −0.73. (b) Since |−0.73| &lt; 2, this difference is NOT statistically significant. (c) This tells us that the difference in family income between the free plan and catastrophic plan groups is small enough to be attributable to chance. Randomization worked for this variable --- the groups are comparable on family income.</span>
-<span id="cb14-736"><a href="#cb14-736" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-737"><a href="#cb14-737" aria-hidden="true" tabindex="-1"></a>**Q3.** The RAND experiment found no effect on *physical health*, but this does not mean insurance is useless. Insurance serves multiple purposes: (a) it provides *financial protection* --- the Oregon experiment showed that lottery winners had less medical debt and fewer catastrophic medical expenses; (b) it improves *mental health* --- Oregon lottery winners reported better mental health scores; (c) it increases access to care, which may matter more for acute conditions or preventive services not captured by the RAND outcome measures. The correct conclusion is that more generous insurance increases spending without improving measurable physical health, but it provides valuable financial security and mental health benefits.</span>
-<span id="cb14-738"><a href="#cb14-738" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-739"><a href="#cb14-739" aria-hidden="true" tabindex="-1"></a>**Q4.** The decomposition states: Observed difference = $\kappa$ + Selection bias, where selection bias = $E<span class="co">[</span><span class="ot">Y_{0i} | D_i = 1</span><span class="co">]</span> - E<span class="co">[</span><span class="ot">Y_{0i} | D_i = 0</span><span class="co">]</span>$. When $D_i$ is randomly assigned, the treatment and control groups are drawn from the same population. The Law of Large Numbers guarantees that with a large enough sample, the average baseline health $Y_{0i}$ will be nearly identical in both groups. Formally, $E<span class="co">[</span><span class="ot">Y_{0i} | D_i = 1</span><span class="co">]</span> = E<span class="co">[</span><span class="ot">Y_{0i} | D_i = 0</span><span class="co">]</span>$, so the selection bias term equals zero. The observed difference then equals $\kappa$, the true causal effect.</span>
+<span id="cb14-729"><a href="#cb14-729" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**A regression coefficient has a t-statistic of 3.5. This means:**</span>
+<span id="cb14-730"><a href="#cb14-730" aria-hidden="true" tabindex="-1"></a>   a) The effect is large in practical terms</span>
+<span id="cb14-731"><a href="#cb14-731" aria-hidden="true" tabindex="-1"></a>   b) The result is unlikely to have arisen by chance alone</span>
+<span id="cb14-732"><a href="#cb14-732" aria-hidden="true" tabindex="-1"></a>   c) The regression model fits the data well</span>
+<span id="cb14-733"><a href="#cb14-733" aria-hidden="true" tabindex="-1"></a>   d) The sample is representative of the population</span>
+<span id="cb14-734"><a href="#cb14-734" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-735"><a href="#cb14-735" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-736"><a href="#cb14-736" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb14-737"><a href="#cb14-737" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-738"><a href="#cb14-738" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb14-739"><a href="#cb14-739" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
 <span id="cb14-740"><a href="#cb14-740" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-741"><a href="#cb14-741" aria-hidden="true" tabindex="-1"></a>**Q5.** (a) Randomly select classrooms or schools to receive the program (cluster randomization), or randomly assign individual students within each school. (b) Measure standardized test scores at the end of the semester/year. (c) Compare baseline characteristics (prior test scores, demographics, family income) between treatment and control groups to verify balance. (d) Some students may refuse the lunch, share it, or already receive food from other sources. This is a *non-compliance* problem: the intent-to-treat effect (being offered lunch) may differ from the effect of actually eating it. This foreshadows the instrumental variables approach in Chapter 3.</span>
+<span id="cb14-741"><a href="#cb14-741" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Spotting selection bias**: A study reports that people who eat organic food live 3 years longer. List three reasons why this comparison might reflect selection bias rather than a causal effect of organic food.</span>
 <span id="cb14-742"><a href="#cb14-742" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-743"><a href="#cb14-743" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb14-743"><a href="#cb14-743" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Reading a regression**: In the balance check above, the coefficient on <span class="in">`plan_free`</span> for <span class="in">`family_income`</span> is approximately −976 with SE ≈ 1,345. (a) What is the t-statistic? (b) Is this difference statistically significant? (c) What does your answer tell us about whether randomization worked for this variable?</span>
 <span id="cb14-744"><a href="#cb14-744" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-745"><a href="#cb14-745" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
+<span id="cb14-745"><a href="#cb14-745" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**The RAND paradox**: Your friend says "The RAND experiment proves health insurance is worthless." Write a short paragraph explaining why this is an oversimplification. What did the Oregon experiment show that insurance *is* good for?</span>
 <span id="cb14-746"><a href="#cb14-746" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-749"><a href="#cb14-749" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb14-750"><a href="#cb14-750" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-binary-balance</span></span>
-<span id="cb14-751"><a href="#cb14-751" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Binary balance check: any insurance vs. catastrophic"</span></span>
-<span id="cb14-752"><a href="#cb14-752" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-753"><a href="#cb14-753" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb14-754"><a href="#cb14-754" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
-<span id="cb14-755"><a href="#cb14-755" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-756"><a href="#cb14-756" aria-hidden="true" tabindex="-1"></a>rand <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch1/rand_balance.csv"</span>)</span>
-<span id="cb14-757"><a href="#cb14-757" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-758"><a href="#cb14-758" aria-hidden="true" tabindex="-1"></a><span class="co"># Run a separate regression for each variable and collect results</span></span>
-<span id="cb14-759"><a href="#cb14-759" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb14-760"><a href="#cb14-760" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"age"</span>, <span class="st">"education"</span>, <span class="st">"health_index"</span>]:</span>
-<span id="cb14-761"><a href="#cb14-761" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> rand[[var, <span class="st">"any_insurance"</span>, <span class="st">"family_id"</span>]].dropna()</span>
-<span id="cb14-762"><a href="#cb14-762" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-763"><a href="#cb14-763" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Regress baseline variable on single binary dummy</span></span>
-<span id="cb14-764"><a href="#cb14-764" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ any_insurance"</span>, data<span class="op">=</span>d)</span>
-<span id="cb14-765"><a href="#cb14-765" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-766"><a href="#cb14-766" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cluster standard errors by family (family members share the same plan)</span></span>
-<span id="cb14-767"><a href="#cb14-767" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">"groups"</span>: d[<span class="st">"family_id"</span>]})</span>
+<span id="cb14-747"><a href="#cb14-747" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Random assignment and selection bias**: Using the decomposition equation from this chapter, explain step by step why random assignment makes the selection bias term equal to zero. What role does the Law of Large Numbers play?</span>
+<span id="cb14-748"><a href="#cb14-748" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-749"><a href="#cb14-749" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Designing an RCT**: You want to test whether free school lunches improve student test scores. (a) How would you randomly assign treatment? (b) What outcome would you measure? (c) What balance check would you run? (d) Why might some students assigned to "free lunch" not actually eat it, and what problem does this create?</span>
+<span id="cb14-750"><a href="#cb14-750" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-751"><a href="#cb14-751" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-752"><a href="#cb14-752" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb14-753"><a href="#cb14-753" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-754"><a href="#cb14-754" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb14-755"><a href="#cb14-755" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb14-756"><a href="#cb14-756" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-757"><a href="#cb14-757" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Binary balance check**: Using <span class="in">`rand_balance.csv`</span>, run a balance check using the single dummy <span class="in">`any_insurance`</span> (instead of the three plan dummies). Regress <span class="in">`age`</span>, <span class="in">`education`</span>, and <span class="in">`health_index`</span> on <span class="in">`any_insurance`</span> with family-clustered SEs. Do you reach the same conclusion about balance as the three-dummy specification?</span>
+<span id="cb14-758"><a href="#cb14-758" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-759"><a href="#cb14-759" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Relative utilization increases**: Using <span class="in">`rand_utilization.csv`</span>, compute the percentage increase in each utilization outcome for the free plan relative to the catastrophic group mean. Which outcome shows the largest *relative* increase: visits, outpatient expenses, admissions, or total expenses?</span>
+<span id="cb14-760"><a href="#cb14-760" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-761"><a href="#cb14-761" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Husbands vs. wives**: Using <span class="in">`nhis_clean.csv`</span>, run the insurance-health comparison separately for husbands and wives. Is the selection bias (the gap in education and income between insured and uninsured) larger for one gender? What might explain any differences?</span>
+<span id="cb14-762"><a href="#cb14-762" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-763"><a href="#cb14-763" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-764"><a href="#cb14-764" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-765"><a href="#cb14-765" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
+<span id="cb14-766"><a href="#cb14-766" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-767"><a href="#cb14-767" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multiple Choice Questions</span></span>
 <span id="cb14-768"><a href="#cb14-768" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-769"><a href="#cb14-769" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
-<span id="cb14-770"><a href="#cb14-770" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Variable"</span>: var,</span>
-<span id="cb14-771"><a href="#cb14-771" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Catastrophic mean"</span>: <span class="bu">round</span>(r.params[<span class="st">"Intercept"</span>], <span class="dv">1</span>),</span>
-<span id="cb14-772"><a href="#cb14-772" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Any ins. difference"</span>: <span class="bu">round</span>(r.params[<span class="st">"any_insurance"</span>], <span class="dv">2</span>),</span>
-<span id="cb14-773"><a href="#cb14-773" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"any_insurance"</span>], <span class="dv">2</span>),</span>
-<span id="cb14-774"><a href="#cb14-774" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t-stat"</span>: <span class="bu">round</span>(r.tvalues[<span class="st">"any_insurance"</span>], <span class="dv">2</span>),</span>
-<span id="cb14-775"><a href="#cb14-775" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb14-769"><a href="#cb14-769" aria-hidden="true" tabindex="-1"></a>**MCQ1.** **(b)** The fundamental problem of causal inference is that we can only observe one potential outcome per person — we see what happened, but never what *would have happened* under the alternative. Options (a) and (d) are practical concerns but not the fundamental problem; (c) is false — random assignment is used in many experiments.</span>
+<span id="cb14-770"><a href="#cb14-770" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-771"><a href="#cb14-771" aria-hidden="true" tabindex="-1"></a>**MCQ2.** **(c)** Despite consuming 45% more health care, participants with free insurance showed no significant improvement in physical health measures (general health, cholesterol, blood pressure, mental health). The RAND experiment was large enough to detect meaningful effects — the effect simply wasn't there.</span>
+<span id="cb14-772"><a href="#cb14-772" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-773"><a href="#cb14-773" aria-hidden="true" tabindex="-1"></a>**MCQ3.** **(b)** Selection bias arises when the people who receive treatment differ systematically from those who don't in ways that also affect the outcome. In the NHIS data, insured people were wealthier, more educated, and more likely to be employed — all factors that independently predict better health.</span>
+<span id="cb14-774"><a href="#cb14-774" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-775"><a href="#cb14-775" aria-hidden="true" tabindex="-1"></a>**MCQ4.** **(c)** Random assignment ensures that, in expectation, treatment and control groups are identical on all characteristics — including ones we cannot observe or measure. This is what makes the selection bias term equal to zero. Options (a) and (b) are unrelated to randomization; (d) is wrong because non-compliance can still occur (as we see in Chapter 3).</span>
 <span id="cb14-776"><a href="#cb14-776" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-777"><a href="#cb14-777" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
-<span id="cb14-778"><a href="#cb14-778" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-779"><a href="#cb14-779" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-780"><a href="#cb14-780" aria-hidden="true" tabindex="-1"></a>All t-statistics are small (well below 2), confirming that balance holds regardless of whether we use three plan dummies or a single binary indicator. The binary specification pools all non-catastrophic plans together, which is simpler but loses information about differences across plan types.</span>
-<span id="cb14-781"><a href="#cb14-781" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-782"><a href="#cb14-782" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
-<span id="cb14-783"><a href="#cb14-783" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-786"><a href="#cb14-786" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb14-787"><a href="#cb14-787" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-pct-increase</span></span>
-<span id="cb14-788"><a href="#cb14-788" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Percentage increase in utilization for the free plan relative to catastrophic"</span></span>
-<span id="cb14-789"><a href="#cb14-789" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-790"><a href="#cb14-790" aria-hidden="true" tabindex="-1"></a>hie <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch1/rand_utilization.csv"</span>)</span>
-<span id="cb14-791"><a href="#cb14-791" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-792"><a href="#cb14-792" aria-hidden="true" tabindex="-1"></a><span class="co"># Run a separate regression for each variable and collect results</span></span>
-<span id="cb14-793"><a href="#cb14-793" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb14-794"><a href="#cb14-794" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"visits"</span>, <span class="st">"outpatient_expenses"</span>, <span class="st">"admissions"</span>, <span class="st">"inpatient_expenses"</span>, <span class="st">"total_expenses"</span>]:</span>
-<span id="cb14-795"><a href="#cb14-795" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> hie[[var, <span class="st">"plan_free"</span>, <span class="st">"plan_deductible"</span>, <span class="st">"plan_coinsurance"</span>, <span class="st">"family_id"</span>]].dropna()</span>
-<span id="cb14-796"><a href="#cb14-796" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-797"><a href="#cb14-797" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Regress utilization on plan dummies</span></span>
-<span id="cb14-798"><a href="#cb14-798" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ plan_free + plan_deductible + plan_coinsurance"</span>, data<span class="op">=</span>d)</span>
-<span id="cb14-799"><a href="#cb14-799" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-800"><a href="#cb14-800" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cluster standard errors by family (family members share the same plan)</span></span>
-<span id="cb14-801"><a href="#cb14-801" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">"groups"</span>: d[<span class="st">"family_id"</span>]})</span>
-<span id="cb14-802"><a href="#cb14-802" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-803"><a href="#cb14-803" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Intercept = catastrophic mean, plan_free coefficient = absolute increase</span></span>
-<span id="cb14-804"><a href="#cb14-804" aria-hidden="true" tabindex="-1"></a>    cat_mean <span class="op">=</span> r.params[<span class="st">"Intercept"</span>]</span>
-<span id="cb14-805"><a href="#cb14-805" aria-hidden="true" tabindex="-1"></a>    free_effect <span class="op">=</span> r.params[<span class="st">"plan_free"</span>]</span>
-<span id="cb14-806"><a href="#cb14-806" aria-hidden="true" tabindex="-1"></a>    pct_increase <span class="op">=</span> (free_effect <span class="op">/</span> cat_mean) <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb14-807"><a href="#cb14-807" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-808"><a href="#cb14-808" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
-<span id="cb14-809"><a href="#cb14-809" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Outcome"</span>: var,</span>
-<span id="cb14-810"><a href="#cb14-810" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Catastrophic mean"</span>: <span class="bu">int</span>(<span class="bu">round</span>(cat_mean)),</span>
-<span id="cb14-811"><a href="#cb14-811" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Free plan effect"</span>: <span class="bu">int</span>(<span class="bu">round</span>(free_effect)),</span>
-<span id="cb14-812"><a href="#cb14-812" aria-hidden="true" tabindex="-1"></a>        <span class="st">"</span><span class="sc">% i</span><span class="st">ncrease"</span>: <span class="bu">round</span>(pct_increase, <span class="dv">1</span>),</span>
-<span id="cb14-813"><a href="#cb14-813" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb14-814"><a href="#cb14-814" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-815"><a href="#cb14-815" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
-<span id="cb14-816"><a href="#cb14-816" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-817"><a href="#cb14-817" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-818"><a href="#cb14-818" aria-hidden="true" tabindex="-1"></a>Outpatient expenses show the largest relative increase (~68%), followed by face-to-face visits (~60%). Hospital admissions show a smaller relative increase (~29%), consistent with the idea that inpatient decisions are made by doctors rather than patients. Total expenses rose ~45%. The price elasticity of demand is strongest for outpatient care, where patients have more discretion.</span>
-<span id="cb14-819"><a href="#cb14-819" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-820"><a href="#cb14-820" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
-<span id="cb14-821"><a href="#cb14-821" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-824"><a href="#cb14-824" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb14-825"><a href="#cb14-825" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-gender</span></span>
-<span id="cb14-826"><a href="#cb14-826" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Selection bias by gender: comparing insured vs. uninsured separately for husbands and wives"</span></span>
+<span id="cb14-777"><a href="#cb14-777" aria-hidden="true" tabindex="-1"></a>**MCQ5.** **(b)** A t-statistic above 2 indicates statistical significance at the 5% level, meaning the result is unlikely due to chance. Option (a) confuses statistical significance with practical importance — a large t-stat can come from a precise estimate of a small effect. Options (c) and (d) are unrelated to the t-statistic.</span>
+<span id="cb14-778"><a href="#cb14-778" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-779"><a href="#cb14-779" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb14-780"><a href="#cb14-780" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-781"><a href="#cb14-781" aria-hidden="true" tabindex="-1"></a>**Q1.** Three sources of selection bias in the organic food comparison: (a) People who buy organic food tend to have higher incomes, and wealthier people have better access to health care and live longer regardless of diet. (b) Organic food buyers are likely more health-conscious overall --- they exercise more, smoke less, and manage stress better. (c) Education is correlated with both organic food consumption and longevity; more-educated people make healthier choices across many domains.</span>
+<span id="cb14-782"><a href="#cb14-782" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-783"><a href="#cb14-783" aria-hidden="true" tabindex="-1"></a>**Q2.** (a) The t-statistic is −976 / 1,345 ≈ −0.73. (b) Since |−0.73| &lt; 2, this difference is NOT statistically significant. (c) This tells us that the difference in family income between the free plan and catastrophic plan groups is small enough to be attributable to chance. Randomization worked for this variable --- the groups are comparable on family income.</span>
+<span id="cb14-784"><a href="#cb14-784" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-785"><a href="#cb14-785" aria-hidden="true" tabindex="-1"></a>**Q3.** The RAND experiment found no effect on *physical health*, but this does not mean insurance is useless. Insurance serves multiple purposes: (a) it provides *financial protection* --- the Oregon experiment showed that lottery winners had less medical debt and fewer catastrophic medical expenses; (b) it improves *mental health* --- Oregon lottery winners reported better mental health scores; (c) it increases access to care, which may matter more for acute conditions or preventive services not captured by the RAND outcome measures. The correct conclusion is that more generous insurance increases spending without improving measurable physical health, but it provides valuable financial security and mental health benefits.</span>
+<span id="cb14-786"><a href="#cb14-786" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-787"><a href="#cb14-787" aria-hidden="true" tabindex="-1"></a>**Q4.** The decomposition states: Observed difference = $\kappa$ + Selection bias, where selection bias = $E<span class="co">[</span><span class="ot">Y_{0i} | D_i = 1</span><span class="co">]</span> - E<span class="co">[</span><span class="ot">Y_{0i} | D_i = 0</span><span class="co">]</span>$. When $D_i$ is randomly assigned, the treatment and control groups are drawn from the same population. The Law of Large Numbers guarantees that with a large enough sample, the average baseline health $Y_{0i}$ will be nearly identical in both groups. Formally, $E<span class="co">[</span><span class="ot">Y_{0i} | D_i = 1</span><span class="co">]</span> = E<span class="co">[</span><span class="ot">Y_{0i} | D_i = 0</span><span class="co">]</span>$, so the selection bias term equals zero. The observed difference then equals $\kappa$, the true causal effect.</span>
+<span id="cb14-788"><a href="#cb14-788" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-789"><a href="#cb14-789" aria-hidden="true" tabindex="-1"></a>**Q5.** (a) Randomly select classrooms or schools to receive the program (cluster randomization), or randomly assign individual students within each school. (b) Measure standardized test scores at the end of the semester/year. (c) Compare baseline characteristics (prior test scores, demographics, family income) between treatment and control groups to verify balance. (d) Some students may refuse the lunch, share it, or already receive food from other sources. This is a *non-compliance* problem: the intent-to-treat effect (being offered lunch) may differ from the effect of actually eating it. This foreshadows the instrumental variables approach in Chapter 3.</span>
+<span id="cb14-790"><a href="#cb14-790" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-791"><a href="#cb14-791" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb14-792"><a href="#cb14-792" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-793"><a href="#cb14-793" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
+<span id="cb14-794"><a href="#cb14-794" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-797"><a href="#cb14-797" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb14-798"><a href="#cb14-798" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-binary-balance</span></span>
+<span id="cb14-799"><a href="#cb14-799" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Binary balance check: any insurance vs. catastrophic"</span></span>
+<span id="cb14-800"><a href="#cb14-800" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-801"><a href="#cb14-801" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-802"><a href="#cb14-802" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb14-803"><a href="#cb14-803" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-804"><a href="#cb14-804" aria-hidden="true" tabindex="-1"></a>rand <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch1/rand_balance.csv"</span>)</span>
+<span id="cb14-805"><a href="#cb14-805" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-806"><a href="#cb14-806" aria-hidden="true" tabindex="-1"></a><span class="co"># Run a separate regression for each variable and collect results</span></span>
+<span id="cb14-807"><a href="#cb14-807" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb14-808"><a href="#cb14-808" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"age"</span>, <span class="st">"education"</span>, <span class="st">"health_index"</span>]:</span>
+<span id="cb14-809"><a href="#cb14-809" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> rand[[var, <span class="st">"any_insurance"</span>, <span class="st">"family_id"</span>]].dropna()</span>
+<span id="cb14-810"><a href="#cb14-810" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-811"><a href="#cb14-811" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Regress baseline variable on single binary dummy</span></span>
+<span id="cb14-812"><a href="#cb14-812" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ any_insurance"</span>, data<span class="op">=</span>d)</span>
+<span id="cb14-813"><a href="#cb14-813" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-814"><a href="#cb14-814" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cluster standard errors by family (family members share the same plan)</span></span>
+<span id="cb14-815"><a href="#cb14-815" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">"groups"</span>: d[<span class="st">"family_id"</span>]})</span>
+<span id="cb14-816"><a href="#cb14-816" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-817"><a href="#cb14-817" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
+<span id="cb14-818"><a href="#cb14-818" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Variable"</span>: var,</span>
+<span id="cb14-819"><a href="#cb14-819" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Catastrophic mean"</span>: <span class="bu">round</span>(r.params[<span class="st">"Intercept"</span>], <span class="dv">1</span>),</span>
+<span id="cb14-820"><a href="#cb14-820" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Any ins. difference"</span>: <span class="bu">round</span>(r.params[<span class="st">"any_insurance"</span>], <span class="dv">2</span>),</span>
+<span id="cb14-821"><a href="#cb14-821" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"any_insurance"</span>], <span class="dv">2</span>),</span>
+<span id="cb14-822"><a href="#cb14-822" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t-stat"</span>: <span class="bu">round</span>(r.tvalues[<span class="st">"any_insurance"</span>], <span class="dv">2</span>),</span>
+<span id="cb14-823"><a href="#cb14-823" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb14-824"><a href="#cb14-824" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-825"><a href="#cb14-825" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
+<span id="cb14-826"><a href="#cb14-826" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-827"><a href="#cb14-827" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-828"><a href="#cb14-828" aria-hidden="true" tabindex="-1"></a>nhis <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch1/nhis_clean.csv"</span>)</span>
+<span id="cb14-828"><a href="#cb14-828" aria-hidden="true" tabindex="-1"></a>All t-statistics are small (well below 2), confirming that balance holds regardless of whether we use three plan dummies or a single binary indicator. The binary specification pools all non-catastrophic plans together, which is simpler but loses information about differences across plan types.</span>
 <span id="cb14-829"><a href="#cb14-829" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-830"><a href="#cb14-830" aria-hidden="true" tabindex="-1"></a><span class="co"># Run a separate regression for each gender-variable combination</span></span>
-<span id="cb14-831"><a href="#cb14-831" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb14-832"><a href="#cb14-832" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> gender <span class="kw">in</span> [<span class="st">"husband"</span>, <span class="st">"wife"</span>]:</span>
-<span id="cb14-833"><a href="#cb14-833" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> nhis[nhis[<span class="st">"gender"</span>] <span class="op">==</span> gender]</span>
-<span id="cb14-834"><a href="#cb14-834" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"health"</span>, <span class="st">"education"</span>, <span class="st">"family_income"</span>]:</span>
-<span id="cb14-835"><a href="#cb14-835" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Regress each variable on insurance dummy (with survey weights and robust SEs)</span></span>
-<span id="cb14-836"><a href="#cb14-836" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> smf.wls(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ insurance"</span>, data<span class="op">=</span>subset, weights<span class="op">=</span>subset[<span class="st">"weight"</span>])</span>
-<span id="cb14-837"><a href="#cb14-837" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb14-838"><a href="#cb14-838" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-839"><a href="#cb14-839" aria-hidden="true" tabindex="-1"></a>        rows.append({</span>
-<span id="cb14-840"><a href="#cb14-840" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Gender"</span>: gender,</span>
-<span id="cb14-841"><a href="#cb14-841" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Variable"</span>: var,</span>
-<span id="cb14-842"><a href="#cb14-842" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Difference (Ins - Unins)"</span>: <span class="bu">round</span>(r.params[<span class="st">"insurance"</span>], <span class="dv">2</span>),</span>
-<span id="cb14-843"><a href="#cb14-843" aria-hidden="true" tabindex="-1"></a>            <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"insurance"</span>], <span class="dv">2</span>),</span>
-<span id="cb14-844"><a href="#cb14-844" aria-hidden="true" tabindex="-1"></a>        })</span>
-<span id="cb14-845"><a href="#cb14-845" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-846"><a href="#cb14-846" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
-<span id="cb14-847"><a href="#cb14-847" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-848"><a href="#cb14-848" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-849"><a href="#cb14-849" aria-hidden="true" tabindex="-1"></a>The education and income gaps are similar for husbands and wives, suggesting selection bias operates similarly across genders. The health gap may differ slightly because of gender-specific health patterns. Both groups show substantial selection bias, reinforcing the need for randomized evidence.</span>
+<span id="cb14-830"><a href="#cb14-830" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
+<span id="cb14-831"><a href="#cb14-831" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-834"><a href="#cb14-834" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb14-835"><a href="#cb14-835" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-pct-increase</span></span>
+<span id="cb14-836"><a href="#cb14-836" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Percentage increase in utilization for the free plan relative to catastrophic"</span></span>
+<span id="cb14-837"><a href="#cb14-837" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-838"><a href="#cb14-838" aria-hidden="true" tabindex="-1"></a>hie <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch1/rand_utilization.csv"</span>)</span>
+<span id="cb14-839"><a href="#cb14-839" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-840"><a href="#cb14-840" aria-hidden="true" tabindex="-1"></a><span class="co"># Run a separate regression for each variable and collect results</span></span>
+<span id="cb14-841"><a href="#cb14-841" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb14-842"><a href="#cb14-842" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"visits"</span>, <span class="st">"outpatient_expenses"</span>, <span class="st">"admissions"</span>, <span class="st">"inpatient_expenses"</span>, <span class="st">"total_expenses"</span>]:</span>
+<span id="cb14-843"><a href="#cb14-843" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> hie[[var, <span class="st">"plan_free"</span>, <span class="st">"plan_deductible"</span>, <span class="st">"plan_coinsurance"</span>, <span class="st">"family_id"</span>]].dropna()</span>
+<span id="cb14-844"><a href="#cb14-844" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-845"><a href="#cb14-845" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Regress utilization on plan dummies</span></span>
+<span id="cb14-846"><a href="#cb14-846" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ plan_free + plan_deductible + plan_coinsurance"</span>, data<span class="op">=</span>d)</span>
+<span id="cb14-847"><a href="#cb14-847" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-848"><a href="#cb14-848" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cluster standard errors by family (family members share the same plan)</span></span>
+<span id="cb14-849"><a href="#cb14-849" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">"groups"</span>: d[<span class="st">"family_id"</span>]})</span>
+<span id="cb14-850"><a href="#cb14-850" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-851"><a href="#cb14-851" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Intercept = catastrophic mean, plan_free coefficient = absolute increase</span></span>
+<span id="cb14-852"><a href="#cb14-852" aria-hidden="true" tabindex="-1"></a>    cat_mean <span class="op">=</span> r.params[<span class="st">"Intercept"</span>]</span>
+<span id="cb14-853"><a href="#cb14-853" aria-hidden="true" tabindex="-1"></a>    free_effect <span class="op">=</span> r.params[<span class="st">"plan_free"</span>]</span>
+<span id="cb14-854"><a href="#cb14-854" aria-hidden="true" tabindex="-1"></a>    pct_increase <span class="op">=</span> (free_effect <span class="op">/</span> cat_mean) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb14-855"><a href="#cb14-855" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-856"><a href="#cb14-856" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
+<span id="cb14-857"><a href="#cb14-857" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Outcome"</span>: var,</span>
+<span id="cb14-858"><a href="#cb14-858" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Catastrophic mean"</span>: <span class="bu">int</span>(<span class="bu">round</span>(cat_mean)),</span>
+<span id="cb14-859"><a href="#cb14-859" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Free plan effect"</span>: <span class="bu">int</span>(<span class="bu">round</span>(free_effect)),</span>
+<span id="cb14-860"><a href="#cb14-860" aria-hidden="true" tabindex="-1"></a>        <span class="st">"</span><span class="sc">% i</span><span class="st">ncrease"</span>: <span class="bu">round</span>(pct_increase, <span class="dv">1</span>),</span>
+<span id="cb14-861"><a href="#cb14-861" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb14-862"><a href="#cb14-862" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-863"><a href="#cb14-863" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
+<span id="cb14-864"><a href="#cb14-864" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-865"><a href="#cb14-865" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-866"><a href="#cb14-866" aria-hidden="true" tabindex="-1"></a>Outpatient expenses show the largest relative increase (~68%), followed by face-to-face visits (~60%). Hospital admissions show a smaller relative increase (~29%), consistent with the idea that inpatient decisions are made by doctors rather than patients. Total expenses rose ~45%. The price elasticity of demand is strongest for outpatient care, where patients have more discretion.</span>
+<span id="cb14-867"><a href="#cb14-867" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-868"><a href="#cb14-868" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
+<span id="cb14-869"><a href="#cb14-869" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-872"><a href="#cb14-872" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb14-873"><a href="#cb14-873" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-gender</span></span>
+<span id="cb14-874"><a href="#cb14-874" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Selection bias by gender: comparing insured vs. uninsured separately for husbands and wives"</span></span>
+<span id="cb14-875"><a href="#cb14-875" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-876"><a href="#cb14-876" aria-hidden="true" tabindex="-1"></a>nhis <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch1/nhis_clean.csv"</span>)</span>
+<span id="cb14-877"><a href="#cb14-877" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-878"><a href="#cb14-878" aria-hidden="true" tabindex="-1"></a><span class="co"># Run a separate regression for each gender-variable combination</span></span>
+<span id="cb14-879"><a href="#cb14-879" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb14-880"><a href="#cb14-880" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> gender <span class="kw">in</span> [<span class="st">"husband"</span>, <span class="st">"wife"</span>]:</span>
+<span id="cb14-881"><a href="#cb14-881" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> nhis[nhis[<span class="st">"gender"</span>] <span class="op">==</span> gender]</span>
+<span id="cb14-882"><a href="#cb14-882" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"health"</span>, <span class="st">"education"</span>, <span class="st">"family_income"</span>]:</span>
+<span id="cb14-883"><a href="#cb14-883" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Regress each variable on insurance dummy (with survey weights and robust SEs)</span></span>
+<span id="cb14-884"><a href="#cb14-884" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> smf.wls(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ insurance"</span>, data<span class="op">=</span>subset, weights<span class="op">=</span>subset[<span class="st">"weight"</span>])</span>
+<span id="cb14-885"><a href="#cb14-885" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb14-886"><a href="#cb14-886" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-887"><a href="#cb14-887" aria-hidden="true" tabindex="-1"></a>        rows.append({</span>
+<span id="cb14-888"><a href="#cb14-888" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Gender"</span>: gender,</span>
+<span id="cb14-889"><a href="#cb14-889" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Variable"</span>: var,</span>
+<span id="cb14-890"><a href="#cb14-890" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Difference (Ins - Unins)"</span>: <span class="bu">round</span>(r.params[<span class="st">"insurance"</span>], <span class="dv">2</span>),</span>
+<span id="cb14-891"><a href="#cb14-891" aria-hidden="true" tabindex="-1"></a>            <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"insurance"</span>], <span class="dv">2</span>),</span>
+<span id="cb14-892"><a href="#cb14-892" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb14-893"><a href="#cb14-893" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-894"><a href="#cb14-894" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
+<span id="cb14-895"><a href="#cb14-895" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-896"><a href="#cb14-896" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-897"><a href="#cb14-897" aria-hidden="true" tabindex="-1"></a>The education and income gaps are similar for husbands and wives, suggesting selection bias operates similarly across genders. The health gap may differ slightly because of gender-specific health patterns. Both groups show substantial selection bias, reinforcing the need for randomized evidence.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -433,6 +433,42 @@ graph TD
 
 ## Exercises
 
+### Multiple Choice Questions
+
+::: {.callout-caution}
+### Multiple Choice Questions
+
+1. **What problem does instrumental variables (IV) solve?**
+   a) Small sample sizes in randomized experiments
+   b) Non-compliance — when the treatment received differs from the treatment assigned
+   c) Measurement error in the outcome variable
+   d) Missing data in the control variables
+
+2. **LATE stands for Local Average Treatment Effect. "Local" means:**
+   a) The effect applies only to a specific geographic area
+   b) The effect applies only to compliers — people whose treatment status is changed by the instrument
+   c) The effect is estimated using local polynomial regression
+   d) The effect applies only to the time period studied
+
+3. **Which of the following is NOT a requirement for a valid instrument?**
+   a) The instrument must affect the treatment (relevance)
+   b) The instrument must be randomly assigned or "as good as random" (independence)
+   c) The instrument must directly affect the outcome (direct effect)
+   d) The instrument must affect the outcome only through the treatment (exclusion restriction)
+
+4. **In the Minneapolis Domestic Violence Experiment, the instrument was:**
+   a) Whether the suspect was actually arrested
+   b) The random assignment form given to the officer
+   c) The severity of the domestic violence incident
+   d) The officer's years of experience
+
+5. **A "complier" in IV terminology is someone who:**
+   a) Always receives the treatment regardless of assignment
+   b) Never receives the treatment regardless of assignment
+   c) Follows whatever their assignment says — treatment if assigned to treatment, control if assigned to control
+   d) Does the opposite of their assignment
+:::
+
 ### Conceptual Questions
 
 ::: {.callout-caution}
@@ -463,6 +499,18 @@ graph TD
 
 
 ## Solutions
+
+### Multiple Choice Questions
+
+**MCQ1.** **(b)** IV addresses the problem of non-compliance (endogeneity): when people don't follow their assigned treatment, comparing outcomes by *received* treatment reintroduces selection bias. IV uses the random assignment (instrument) instead of the actual treatment to estimate causal effects. Options (a) and (d) are different problems; (c) is addressed by different techniques.
+
+**MCQ2.** **(b)** "Local" means the IV estimate applies specifically to compliers — the subpopulation whose treatment status is changed by the instrument. IV tells us nothing about always-takers or never-takers. Different instruments identify effects for different complier populations, which is why LATE estimates can vary across studies of the same treatment.
+
+**MCQ3.** **(c)** This is the opposite of what's required. The exclusion restriction (option d) requires that the instrument does NOT directly affect the outcome — it must work *only through* the treatment. If the instrument had a direct effect on the outcome, the IV estimate would be biased. Options (a), (b), and (d) are all genuine requirements.
+
+**MCQ4.** **(b)** The instrument is the random assignment form — what the officer was *told* to do, not what they actually did. The key distinction is between the instrument (assignment, Z) and the treatment (delivered action, D). Option (a) is the treatment variable, not the instrument; (c) and (d) are potential confounders.
+
+**MCQ5.** **(c)** A complier follows their assignment in both directions: they take treatment when assigned to it AND avoid treatment when assigned to control. In the MDVE context, a complier is an officer who arrests when told to arrest and counsels when told to counsel. Option (a) describes an always-taker; (b) describes a never-taker; (d) describes a defier.
 
 ### Conceptual Questions
 
