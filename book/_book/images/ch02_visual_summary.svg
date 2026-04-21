@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <rect width="800" height="400" fill="#0f172a"/>
+  <!-- Large faded chapter number -->
+  <text x="680" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="260" font-weight="800" fill="#1e293b">02</text>
+  <!-- Title -->
+  <text x="60" y="70" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="36" font-weight="700" fill="#7c3aed">Regression</text>
+  <!-- Scatter plot with regression line -->
+  <!-- Axes -->
+  <line x1="300" y1="100" x2="300" y2="270" stroke="#475569" stroke-width="2"/>
+  <line x1="300" y1="270" x2="540" y2="270" stroke="#475569" stroke-width="2"/>
+  <!-- Axis labels -->
+  <text x="290" y="95" text-anchor="end" font-family="system-ui, sans-serif" font-size="12" fill="#64748b">Y</text>
+  <text x="545" y="285" font-family="system-ui, sans-serif" font-size="12" fill="#64748b">X</text>
+  <!-- Scatter dots -->
+  <circle cx="320" cy="245" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="335" cy="235" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="345" cy="250" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="360" cy="220" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="375" cy="210" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="385" cy="225" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="400" cy="195" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="415" cy="185" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="425" cy="200" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="440" cy="170" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="455" cy="160" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="465" cy="175" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="480" cy="145" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="495" cy="135" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="510" cy="125" r="5" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="520" cy="140" r="5" fill="#7c3aed" opacity="0.5"/>
+  <!-- Regression line -->
+  <line x1="310" y1="255" x2="530" y2="120" stroke="#7c3aed" stroke-width="3"/>
+  <!-- Beta label -->
+  <text x="460" y="145" font-family="system-ui, sans-serif" font-size="18" fill="#ffffff" font-weight="600" opacity="0.7" font-style="italic">&#946;</text>
+  <!-- Keywords -->
+  <text x="400" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#64748b" letter-spacing="1">OLS  |  Omitted Variable Bias  |  Conditional Independence</text>
+</svg>

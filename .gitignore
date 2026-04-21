@@ -8,8 +8,7 @@ __pycache__/
 # Quarto rendered output (regenerated from .qmd)
 notebooks_quarto/*.html
 
-# Quarto book project
-book/_book/
+# Quarto book project (keep _book/ tracked for GitHub Pages)
 book/.quarto/
 book/**/*.quarto_ipynb
 
