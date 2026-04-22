@@ -27,7 +27,7 @@ By the end of this chapter, you will be able to:
 - Recognize **weak instruments** and why they matter
 :::
 
-This chapter addresses a common real-world complication: what happens when people don't follow their assigned treatment? The solution --- instrumental variables --- turns partial compliance into a powerful tool for causal inference.
+**What happens when people don't follow their assigned treatment?** Experiments break down when subjects don't comply. This chapter teaches **instrumental variables (IV)** --- a method that turns partial compliance into a tool for causal inference.
 
 ```{mermaid}
 %%| label: fig-roadmap
@@ -52,9 +52,13 @@ graph TD
 
 # When Experiments Break Down
 
-Randomized experiments are the gold standard for causal inference (Chapter 1). But in practice, experiments rarely go exactly as planned. Police officers may not follow their assigned protocol. Patients may not take their assigned medication. Lottery winners may not enroll in the program they won.
+Randomized experiments are the gold standard (Chapter 1). But real people don't always follow orders:
 
-When the treatment people **receive** differs from the treatment they were **assigned**, we face the problem of **non-compliance**. Simply comparing outcomes by *received* treatment reintroduces selection bias, because the choice to comply may be related to the outcome.
+- Police officers deviate from protocol
+- Patients skip their medication
+- Lottery winners don't enroll in the program
+
+**The problem:** When the treatment people *receive* differs from what they were *assigned*, we call this **non-compliance**. If we compare by *received* treatment, selection bias returns. Why? Because the choice to comply may itself be related to the outcome.
 
 ## The Minneapolis Domestic Violence Experiment
 
@@ -64,7 +68,11 @@ The **Minneapolis Domestic Violence Experiment (MDVE)** illustrates this perfect
 - **Advise** the couple (counseling/mediation)
 - **Separate** them (remove suspect for 8 hours)
 
-The goal was to learn which response best prevented future violence. But police officers didn't always follow their assignment.
+The goal was to learn which response best prevented future violence.
+
+**The data:** The MDVE covered 314 domestic violence cases in Minneapolis during 1981--82. Police officers responding to misdemeanor domestic assault calls were randomly assigned a response using color-coded report forms. The outcome --- **recidivism** (any new domestic assault at the same address within 6 months) --- was measured from police records. The unit of analysis is the incident, not the individual.
+
+**The challenge:** Officers didn't always follow their assignment.
 
 ```{python}
 import pandas as pd
@@ -131,7 +139,7 @@ The instrument must push the first domino (relevance) and must *only* work throu
 
 ## The Core Idea
 
-Instrumental variables solves the compliance problem by using the **random assignment** (the instrument) instead of the actual treatment to estimate causal effects. The logic is a chain reaction:
+**IV solves this.** Instead of comparing by actual treatment, we compare by *assignment*. The logic is a chain reaction:
 
 ```{mermaid}
 %%| label: fig-iv-chain
@@ -241,7 +249,13 @@ The IV estimate tells us the causal effect **specifically for compliers** --- pe
 
 # Case Study: KIPP Charter School Lotteries
 
-The **Knowledge Is Power Program (KIPP)** is a network of charter schools with extended school days and a "no excuses" discipline culture. KIPP Lynn in Massachusetts became oversubscribed after 2005, so admission was decided by lottery --- creating a natural instrument.
+**Research question:** Does attending a KIPP charter school improve math achievement for disadvantaged students?
+
+**The challenge:** KIPP attracts motivated families who actively seek out better schools for their children. Comparing KIPP students to non-KIPP students confounds school quality with family motivation and other unobserved characteristics.
+
+**The data:** The **Knowledge Is Power Program (KIPP)** is a network of charter schools with extended school days and a "no excuses" discipline culture. KIPP Lynn in Massachusetts became oversubscribed after 2005, so admission was decided by **lottery**. The data includes 446 applicants for 5th-grade slots (2005--2008). The outcome is standardized math test scores (measured in standard deviations). Balance checks confirmed that lottery winners and losers were similar on baseline demographics and prior test scores.
+
+**Why IV works here:** The lottery creates a natural instrument: winning the lottery ($Z$) strongly predicts KIPP attendance ($D$) but is independent of family characteristics (because it's random). The exclusion restriction requires that the lottery affects test scores *only through* its effect on attendance.
 
 **The IV components:**
 
@@ -266,9 +280,13 @@ This lottery-based evidence has been influential in education policy. Charter sc
 
 # Case Study: Does Family Size Reduce Children's Education?
 
-The quantity-quality tradeoff hypothesis suggests that larger families dilute parental investment, reducing each child's education. The naive correlation supports this: children with more siblings get less schooling (-0.15 years per sibling in OLS).
+**Research question:** Does having more siblings *cause* children to receive less education (the "quantity-quality tradeoff")?
 
-But is this causal? Less-educated parents tend to have more children *and* less-educated children. Two clever instruments address this:
+**The challenge:** The naive OLS correlation is strong: children with more siblings get 0.15 fewer years of schooling per additional sibling. But less-educated parents have more children AND less-educated children --- the correlation reflects parental characteristics, not a causal effect of family size.
+
+**The data:** Angrist, Lavy, and Schlosser (ALS) used Israeli census data covering firstborn children of mothers with at least two children. Education is measured in years of completed schooling. The sample size is approximately 89,000 families. Two natural experiments provide instruments for family size:
+
+But is this causal? Two clever instruments address the selection bias:
 
 **Twin births**: When a second birth produces twins instead of a singleton, family size increases by one --- essentially at random. First stage: +0.32 children.
 

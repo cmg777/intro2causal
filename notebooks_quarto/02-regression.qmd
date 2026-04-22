@@ -27,7 +27,7 @@ By the end of this chapter, you will be able to:
 - Apply regression sensitivity analysis to assess the robustness of causal estimates
 :::
 
-This chapter introduces regression --- the most widely used tool in the econometrician's toolkit. When randomized experiments are not available, regression lets us approximate an experimental comparison by holding observable characteristics constant.
+**Regression** is your main tool when you can't run experiments. The core idea: hold observable characteristics constant, then compare people who received different treatments. This approximates what a randomized experiment would show.
 
 ```{mermaid}
 %%| label: fig-roadmap
@@ -52,9 +52,11 @@ graph TD
 
 # Is a Private College Worth It?
 
-Students at elite private universities in the United States pay roughly $20,000 more per year in tuition than those at public universities. Graduates of Harvard, Stanford, and Yale earn substantially more than graduates of state schools. But does the private school *cause* higher earnings, or are the students who attend these schools simply different --- smarter, more motivated, better connected --- in ways that would lead to high earnings regardless?
+Private university students pay ~$20,000 more per year in tuition. They also earn substantially more after graduation. **But does the school cause the higher earnings?**
 
-This is the same selection bias problem we met in Chapter 1. But here, we can't run a randomized experiment (Harvard's admissions office won't flip a coin). Instead, we reach for regression.
+Or are Harvard students simply smarter, more motivated, and better connected --- in ways that would lead to high earnings regardless?
+
+This is the same **selection bias** problem from Chapter 1. But we can't randomize college admissions. Instead, we use regression.
 
 ::: {.callout-note}
 ## Intuition Builder: Regression as Automated Matching
@@ -69,7 +71,9 @@ When the matching is on **all the right variables**, regression approximates wha
 
 ## The Regression Model
 
-A regression links an outcome ($Y_i$) to a treatment variable ($P_i$) while holding control variables ($X_i$) constant:
+Regression answers one question: **What happens to $Y$ when $P$ changes, if we hold $X$ constant?**
+
+The formula:
 
 $$Y_i = \alpha + \beta P_i + \gamma X_i + e_i$$
 
@@ -80,7 +84,7 @@ where:
 - $\gamma$ = effect of the control variable
 - $e_i$ = residual (everything else affecting $Y$ that's not in the model)
 
-**OLS (Ordinary Least Squares)** chooses $\alpha$, $\beta$, and $\gamma$ to minimize the sum of squared residuals --- making the model's predictions as close to the actual data as possible.
+**OLS (Ordinary Least Squares)** picks the values of $\alpha$, $\beta$, and $\gamma$ that make predictions as close to the actual data as possible. It does this by minimizing the sum of squared residuals.
 
 ::: {.callout-note}
 ## Connection to Chapter 1
@@ -260,9 +264,13 @@ Even when we can't observe the omitted variable, the OVB formula lets us **predi
 
 # Case Study: The Private College Premium
 
-## Dale and Krueger's Self-Revelation Model
+**Research question:** Does attending an elite private college *cause* higher earnings, or does the earnings gap reflect the pre-existing advantages of students who attend these schools?
 
-Economists Stacy Dale and Alan Krueger studied the earnings of over 14,000 college students using the **College and Beyond (C&B)** dataset. Their key insight was that the schools students *applied to* reveal information about their ambition and ability.
+**The challenge:** Students at Harvard and Stanford are smarter, more motivated, and better connected than the average state school student. A simple comparison of alumni earnings confounds the school's causal effect with these pre-existing differences --- classic selection bias. We can't randomly assign students to colleges, so we need a regression strategy.
+
+**The data:** Economists Stacy Dale and Alan Krueger used the **College and Beyond (C&B)** dataset, which tracked over 14,000 students from the 1976 college-entering cohort. The data includes the colleges each student applied to, where they were admitted, where they enrolled, their SAT scores, parental income, and their earnings in 1995 (about 19 years after college entry). Colleges are classified by Barron's selectivity rating (Most Competitive, Highly Competitive, Competitive, etc.).
+
+**Why regression works here:** The key insight was that the schools students *applied to* reveal information about their ambition and ability. Two students who both applied to Harvard, Princeton, and their state school --- but one chose Harvard and the other chose the state school --- are arguably similar in motivation and ability. By controlling for application behavior (the "self-revelation" model), regression can approximate the comparison we'd get from a randomized experiment.
 
 **The matching strategy**: Compare students who were admitted to the same set of schools but chose to attend different ones. For example, a student admitted to both Harvard and UMass who chose Harvard versus one who chose UMass. Both students were *equally qualified* (admitted to the same schools), but made different enrollment decisions.
 
@@ -288,6 +296,13 @@ In their data:
 
 - Adding SAT scores, parental income, and demographics **barely changed** the private school coefficient once the self-revelation controls were included
 - The OVB formula explains why: conditional on application behavior, private school attendance was **no longer correlated** with these variables ($\pi_1 \approx 0$), so omitting them caused little bias
+
+**Lessons and open questions:**
+
+- The private school premium is mostly **selection, not causation**. Students who attend elite schools would have earned similarly high incomes even at a state university.
+- The findings apply to the **1976 cohort** --- the college landscape has changed dramatically since then (higher tuition, more student debt, different labor markets). The premium might be different for today's students.
+- The regression approach assumes that application behavior captures all relevant confounders. If some unobserved factor (e.g., network connections from private school alumni) is missing, some bias may remain.
+- Later work by Dale and Krueger found that the private school premium *was* significant for students from **low-income families** and **minority groups** --- suggesting that elite colleges provide networking benefits that matter more for disadvantaged students.
 
 
 # When Controls Go Wrong: Bad Controls

@@ -27,7 +27,7 @@ By the end of this chapter, you will be able to:
 - Interpret the RD estimate as a **local causal effect** at the cutoff
 :::
 
-This chapter shows how bureaucratic rules --- the very things that seem to reduce randomness --- can actually *create* valuable natural experiments for causal inference.
+**Rigid rules create natural experiments.** Age cutoffs, test score thresholds, and eligibility limits --- the very things that seem to reduce randomness --- can actually generate powerful causal evidence.
 
 ```{mermaid}
 %%| label: fig-roadmap
@@ -52,9 +52,15 @@ graph TD
 
 # Rules Create Experiments
 
-Many policies have sharp eligibility rules. You can vote at 18 but not at 17. You qualify for Medicare at 65 but not at 64. You can legally drink at 21 but not at 20. These cutoffs create a powerful opportunity: people just above and just below the threshold are nearly identical in every way --- except that one group receives the treatment and the other doesn't.
+Many policies have sharp rules:
 
-This is the logic of **Regression Discontinuity (RD)** designs. The causal effect is identified by the **jump** in outcomes at the cutoff.
+- You can vote at 18, but not at 17
+- You qualify for Medicare at 65, but not at 64
+- You can legally drink at 21, but not at 20
+
+People just above the cutoff are nearly identical to those just below. Yet only one group gets the treatment.
+
+This is **Regression Discontinuity (RD)**. The causal effect is the **jump** in outcomes at the cutoff.
 
 ::: {.callout-note}
 ## Intuition Builder: The Speed Limit Analogy
@@ -64,7 +70,13 @@ Think of a speed limit sign on a highway. The road is the same on both sides of 
 
 ## The MLDA Question
 
-The **minimum legal drinking age (MLDA)** is 21 in the United States. Does reaching this threshold actually affect health? Specifically, does turning 21 --- and gaining legal access to alcohol --- increase mortality?
+**Research question:** Does reaching the minimum legal drinking age (21) --- and gaining legal access to alcohol --- cause an increase in mortality?
+
+**The challenge:** We cannot randomly assign people to different drinking ages. And people who drink heavily differ from those who don't in many ways (risk tolerance, peer groups, mental health). A simple comparison of drinkers vs. non-drinkers would be confounded.
+
+**The data:** Carpenter and Dobkin (2009) compiled monthly mortality data from U.S. vital statistics for Americans aged 19--22 during 1997--2003. The unit of analysis is a monthly age cell (e.g., all people aged 20 years and 3 months). For each cell, they computed death rates per 100,000 by cause: all causes, motor vehicle accidents (MVA), suicide, homicide, internal causes (diseases), and alcohol-related deaths.
+
+**Why RD works here:** The age-21 cutoff creates a sharp discontinuity in legal access to alcohol. People aged 20 years and 11 months are virtually identical to those aged 21 years and 0 months in every way --- except that one group can legally buy alcohol. Any sudden jump in mortality at the cutoff can be attributed to the policy.
 
 ```{python}
 import pandas as pd
@@ -272,9 +284,11 @@ plt.show()
 
 The MLDA example is a **sharp RD**: everyone over 21 can legally drink, no exceptions. But many policy cutoffs are less precise.
 
-**Boston exam schools** illustrate a **fuzzy RD**. Students are admitted based on a test score cutoff, but not everyone above the cutoff enrolls, and some below it get in through other channels. In a fuzzy RD, the *probability* of treatment jumps at the cutoff, but doesn't go from 0 to 1.
+**Research question:** Do elite exam schools improve student achievement through exposure to higher-ability peers?
 
-Fuzzy RD is analyzed using **IV/2SLS**, with the cutoff dummy as the instrument for actual treatment. The first stage captures the jump in treatment probability; the second stage estimates the causal effect on compliers.
+**The data:** Abdulkadiroglu, Angrist, and Pathak (2014) studied admissions to Boston Latin School (BLS), the most selective exam school in Boston. Students are admitted based on their ISEE test score, creating a clear cutoff. The data includes admissions test scores, enrollment decisions, peer quality (average 4th-grade math scores of classmates), and 7th--8th grade math achievement.
+
+**Boston exam schools** illustrate a **fuzzy RD**: scoring above the admissions cutoff increases the *probability* of enrollment but doesn't guarantee it (some students decline, others get in through waitlists). In a fuzzy RD, the cutoff dummy serves as an **instrument** for actual enrollment, and the analysis uses IV/2SLS. The first stage captures the jump in enrollment probability; the second stage estimates the causal effect on compliers.
 
 | Feature | Sharp RD | Fuzzy RD |
 |:---|:---|:---|
@@ -345,6 +359,42 @@ graph TD
 
 # Exercises
 
+## Multiple Choice Questions
+
+::: {.callout-caution}
+### Multiple Choice Questions
+
+1. **What makes a regression discontinuity design possible?**
+   a) Random assignment of treatment to participants
+   b) A rigid rule or cutoff that determines treatment eligibility
+   c) A large sample size with many treated individuals
+   d) The availability of panel data over multiple time periods
+
+2. **In a sharp RD design, the "running variable" is:**
+   a) The outcome variable that we want to measure
+   b) The variable that determines treatment status through a cutoff
+   c) A control variable included to reduce bias
+   d) The time variable in a panel dataset
+
+3. **In the MLDA study, what serves as a placebo test?**
+   a) Comparing mortality rates for people aged 25 vs. 26
+   b) Checking whether internal-cause deaths (diseases) jump at age 21
+   c) Testing whether the drinking age varies across states
+   d) Comparing drunk driving rates before and after the policy change
+
+4. **Why is bandwidth choice important in RD designs?**
+   a) A wider bandwidth always gives more accurate estimates
+   b) A narrower bandwidth reduces bias but increases variance — there is a trade-off
+   c) The bandwidth must equal the distance between the cutoff and the mean
+   d) Bandwidth only matters in fuzzy RD, not sharp RD
+
+5. **A fuzzy RD differs from a sharp RD because:**
+   a) The cutoff is not precisely defined
+   b) The outcome variable is continuous rather than binary
+   c) Treatment probability jumps at the cutoff but does not go from 0% to 100%
+   d) The running variable is measured with error
+:::
+
 ## Conceptual Questions
 
 ::: {.callout-caution}
@@ -375,6 +425,18 @@ graph TD
 
 
 # Solutions
+
+## Multiple Choice Questions
+
+**MCQ1.** **(b)** RD exploits rigid rules — such as age thresholds, test score cutoffs, or income limits — that create sharp changes in treatment eligibility. People just above and just below the cutoff are nearly identical, creating a natural experiment. Option (a) describes RCTs, not RD; (c) and (d) are helpful but not what defines RD.
+
+**MCQ2.** **(b)** The running variable is the continuous variable (like age) that determines whether someone is above or below the cutoff. In the MLDA example, age is the running variable and 21 is the cutoff. Option (a) is the outcome; (c) is a confounder; (d) is unrelated to RD.
+
+**MCQ3.** **(b)** Internal-cause deaths (cancer, heart disease) should NOT respond to turning 21, because these diseases develop over years. Finding no jump in internal-cause deaths at age 21 validates the design — it confirms that the observed jump in motor vehicle deaths is not an artifact of data reporting or other changes at age 21.
+
+**MCQ4.** **(b)** Narrower bandwidths compare people closer to the cutoff (more comparable, less bias) but use fewer observations (more noise, higher variance). Wider bandwidths use more data but include people farther from the cutoff who may differ in other ways. This bias-variance trade-off is fundamental to RD.
+
+**MCQ5.** **(c)** In a fuzzy RD, the probability of receiving treatment jumps at the cutoff but doesn't switch from 0 to 1. For example, in Boston exam schools, scoring above the admission cutoff increases the probability of enrollment but doesn't guarantee it. A fuzzy RD is estimated using IV, with the cutoff as the instrument.
 
 ## Conceptual Questions
 

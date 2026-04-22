@@ -27,7 +27,12 @@ By the end of this chapter, you will be able to:
 - Understand **standard errors** and **statistical significance**
 :::
 
-This chapter follows a clear arc: we start with a real-world question, discover why naive data comparisons are misleading, learn the theoretical framework that explains the problem, and then see how randomized experiments provide a solution.
+This chapter has four steps:
+
+1. Ask a real-world question about health insurance
+2. Show why naive comparisons fail
+3. Learn the framework that explains the problem
+4. See how randomized experiments solve it
 
 ```{mermaid}
 %%| label: fig-roadmap
@@ -52,12 +57,18 @@ graph TD
 
 # Does Health Insurance Improve Health?
 
-The United States spends more on health care than any other developed country, yet millions of Americans remain uninsured. A natural question arises: **does having health insurance actually make people healthier?**
+**The big question: Does health insurance make people healthier?**
+
+The United States spends more on health care than any other developed country. Yet millions of Americans remain uninsured. If we could answer this one question, it would reshape policy.
 
 ::: {.callout-note}
 ## Intuition Builder: The Road Not Taken
 
-Imagine standing at a fork in a road. One path leads through a world where you have health insurance; the other through a world where you don't. You can only walk one path --- you'll never know what would have happened on the other. This is the **fundamental problem of causal inference**: we observe one outcome per person, but the causal effect requires comparing two.
+Imagine standing at a fork in a road. One path leads to having insurance. The other doesn't.
+
+You can only walk one path. You'll never see what would have happened on the other.
+
+This is the **fundamental problem of causal inference**: we observe one outcome per person, but the causal effect requires comparing two.
 :::
 
 At first glance, the answer seems obvious. We can look at survey data and compare the health of insured and uninsured people. Let's do exactly that using the **National Health Interview Survey (NHIS)**, an annual survey of the U.S. population.
@@ -159,16 +170,18 @@ These are *enormous* differences. People who choose insurance are fundamentally 
 
 # Why Naive Comparisons Fail: Selection Bias
 
-The NHIS comparison illustrates a deep problem in causal inference. To understand it precisely, we need a framework for thinking about what *would have happened* under different circumstances.
+The NHIS comparison reveals a deep problem. To understand it, we need a framework for thinking about **counterfactuals** --- what *would have happened* under different circumstances.
 
 ## The Potential Outcomes Framework
 
-Imagine person $i$ stands at a fork in the road. One path leads to having insurance; the other doesn't. Each path leads to a health outcome:
+Every person $i$ has two **potential outcomes**:
 
-- $Y_{1i}$ = health **with** insurance (what happens on the insurance road)
-- $Y_{0i}$ = health **without** insurance (what happens on the other road)
+- $Y_{1i}$ = health **with** insurance
+- $Y_{0i}$ = health **without** insurance
 
-The **causal effect** of insurance for person $i$ is $Y_{1i} - Y_{0i}$ --- the difference between the two roads. But here's the catch: each person takes only one road. We observe $Y_{1i}$ or $Y_{0i}$, never both.
+The **causal effect** for person $i$ is simply $Y_{1i} - Y_{0i}$.
+
+Here's the catch: each person takes only one road. We observe $Y_{1i}$ or $Y_{0i}$, **never both**.
 
 ### Seeing It Through an Example
 
@@ -182,9 +195,11 @@ The **causal effect** of insurance for person $i$ is $Y_{1i} - Y_{0i}$ --- the d
 
 : Potential outcomes for two hypothetical students {.striped}
 
-Anika, who is prone to illness, buys insurance --- it improves her health by 1 point. Ben, naturally robust, skips it --- insurance wouldn't have helped him anyway.
+Anika is prone to illness. She buys insurance, and it improves her health by 1 point. Ben is naturally robust. He skips insurance --- it wouldn't have helped him anyway.
 
-**What do we observe?** Anika's health is 4; Ben's is 5. The naive comparison ($4 - 5 = -1$) suggests insurance is *harmful*! The true effect on Anika is +1, but the comparison is polluted by the fact that Ben was healthier to begin with.
+**The paradox:** We observe Anika's health as 4 and Ben's as 5. The naive comparison ($4 - 5 = -1$) suggests insurance is *harmful*!
+
+But we know the truth. Anika's real gain from insurance is +1. The comparison fails because Ben was healthier **to begin with** --- a difference that has nothing to do with insurance.
 
 ::: {.callout-warning}
 ## Common Misconception
@@ -210,7 +225,7 @@ graph LR
     style A fill:#2c3e50,color:#fff
 ```
 
-**Selection bias** is the difference in health that would exist *even without insurance* --- it reflects the fact that healthier, wealthier, more educated people are more likely to be insured. The NHIS data above showed exactly this pattern.
+**Selection bias** is the difference in health that would exist *even without insurance*. In other words: healthier, wealthier, and more educated people are more likely to be insured *regardless of its actual effects*. The NHIS data above showed exactly this pattern.
 
 ```{mermaid}
 %%| label: fig-dag-bias
@@ -236,15 +251,15 @@ We want $\kappa$ (the causal effect), but what we observe is $\kappa$ **plus** s
 
 ## The Core Idea
 
-What if, instead of letting people *choose* insurance, we assigned it randomly --- like a coin flip? This is the insight behind **randomized controlled trials (RCTs)**.
+**Here's the key insight.** What if we assigned insurance *randomly* --- like a coin flip? This is a **randomized controlled trial (RCT)**.
 
-When treatment is randomly assigned:
+When we randomly assign treatment:
 
-- The insured and uninsured groups are drawn from the **same population**
-- They have similar education, income, health habits, and *every other characteristic*
-- This includes characteristics we **cannot observe or measure**
+- Both groups come from the **same population**
+- They have similar education, income, and health habits
+- They also match on things we **cannot observe or measure**
 
-The **Law of Large Numbers** guarantees this: in large random samples, group averages converge to the population average. So both groups end up looking alike.
+The **Law of Large Numbers (LLN)** guarantees this. In large random samples, group averages converge to the population average. Both groups end up looking alike.
 
 ::: {.callout-note}
 ## Intuition Builder: The Dice Analogy
@@ -283,7 +298,9 @@ $$E[Y_i \mid D_i = 1] - E[Y_i \mid D_i = 0] = \kappa$$
 
 ## Checking for Balance
 
-Even in a randomized experiment, good practice requires us to **check for balance**: verify that baseline characteristics look similar across treatment groups. If they do, we can be confident that randomization worked and that the comparison is credible.
+Even in a randomized experiment, we should **check for balance**. This means: verify that baseline characteristics look similar across treatment groups.
+
+If they do, we can trust that randomization worked. If they don't, something may have gone wrong.
 
 
 
@@ -306,6 +323,16 @@ The experiment asked two questions:
 
 1. When health care is cheaper, do people use more of it?
 2. Does using more health care improve health?
+
+**The research challenge:** People who voluntarily purchase insurance differ from those who don't (as we saw in the NHIS comparison). Any observational comparison would be contaminated by selection bias. The RAND HIE solved this by *randomly assigning* families to insurance plans, ensuring that groups were comparable at baseline.
+
+**The data:**
+
+- **Sample**: 3,958 people aged 14--61 from six U.S. sites (1974--1982)
+- **Treatment**: Randomly assigned to one of 14 insurance plans (grouped into four categories above)
+- **Utilization outcomes**: Health-care spending, tracked annually via administrative claims
+- **Health outcomes**: General health index, cholesterol, blood pressure, and mental health --- measured at baseline and at exit (3--5 years later)
+- **Standard errors** are clustered at the family level, because all family members share the same plan
 
 ## Step 1: Verify Randomization (Balance Check)
 
@@ -380,7 +407,9 @@ pd.DataFrame(rows)
 
 ## Step 2: Estimate Causal Effects on Health-Care Use
 
-Now we turn to outcomes. Because treatment was randomly assigned, the same regression approach that checked balance now gives us **causal effects**. The coefficient on each plan dummy tells us how much that plan changed health-care use *relative to having no insurance*.
+Now we turn to outcomes. Because treatment was randomly assigned, the regression approach that checked balance now gives us **causal effects**.
+
+Here's the key insight: the coefficient on each plan dummy tells us how much that plan *caused* health-care use to change, relative to having no insurance.
 
 ```{python}
 # Load pre-cleaned RAND HIE utilization data (person-year panel)
@@ -433,7 +462,9 @@ This is the **demand curve** at work: when insurance lowers the out-of-pocket pr
 
 ## Step 3: Estimate Causal Effects on Health
 
-Here is the crucial test. All that extra spending bought more health care --- but did it buy better **health**? These outcomes were measured 3--5 years after random assignment.
+**The crucial test.** All that extra spending bought more care. But did it buy better **health**?
+
+These outcomes were measured 3--5 years after random assignment.
 
 ```{python}
 # Load pre-cleaned RAND HIE exit health measures
@@ -471,11 +502,13 @@ pd.DataFrame(rows)
 ::: {.callout-important}
 ## The RAND Paradox: More Care ≠ Better Health
 
-The results are striking. Across all four health measures --- general health, cholesterol, blood pressure, and mental health --- the differences between plan groups are **small and statistically insignificant**.
+**The bottom line: more care did NOT mean better health.**
 
-Despite consuming **45% more health care**, participants in the free plan showed **no measurable improvement** in health compared to those with minimal coverage.
+Across all four measures --- general health, cholesterol, blood pressure, mental health --- the differences are **small and statistically insignificant**.
 
-This is a **precisely estimated null**: the standard errors are small enough to rule out large health benefits. The experiment was not too small to detect an effect --- the effect simply wasn't there.
+Free-plan participants consumed **45% more health care**. Yet they showed **no measurable health improvement** over those with minimal coverage.
+
+This is a **precisely estimated null**. The standard errors are small enough to rule out large benefits. The experiment was not too small to detect an effect. The effect simply wasn't there.
 :::
 
 ### What Did We Learn from the RAND HIE?
@@ -485,6 +518,12 @@ The RAND experiment delivered three key lessons:
 1. **People respond to prices.** Cheaper health care leads to more consumption (moral hazard is real).
 2. **More care does not automatically mean better health.** The marginal medical care consumed when it's free may not be very valuable.
 3. **Randomization reveals the truth.** The naive NHIS comparison suggested a large health benefit of insurance. The randomized experiment showed this was mostly selection bias.
+
+**Limitations and open questions:**
+
+- All participants had at least **catastrophic coverage** (paying 95%, capped). So the experiment did not test: *no insurance at all* vs. *some insurance*.
+- **Attrition** differed across plans. Fewer people left the free plan. If healthier people left the less generous plans, the results may be biased.
+- The sample was mostly **middle-class**. The value of insurance might be very different for the poor or elderly.
 
 These findings directly shaped the policy debate around the **Affordable Care Act** (2010). Proponents argued for universal coverage to improve health; skeptics cited RAND to argue that subsidized insurance mainly increases spending. The truth, as we'll see from Oregon, is more nuanced.
 
@@ -497,11 +536,13 @@ In the Oregon lottery, only about **25% of winners** actually enrolled in Medica
 
 # Case Study 2: The Oregon Health Plan
 
-## Why a Second Experiment?
+**Research question:** Does Medicaid coverage improve health and financial well-being for low-income adults who are currently uninsured?
 
-The RAND HIE was groundbreaking, but it studied **middle-class families** who all had at least catastrophic coverage. Today's uninsured Americans are different: younger, poorer, less educated. Would insurance help *them* more?
+**The challenge:** The RAND HIE studied middle-class families who all had at least catastrophic coverage. Today's uninsured are younger, poorer, and less educated. Standard Medicaid expansions give coverage to *everyone* who qualifies, leaving no natural control group.
 
-In 2008, the state of Oregon ran a **health insurance lottery**. About 75,000 low-income adults applied for Medicaid expansion; roughly 30,000 were randomly selected to apply for coverage. Economist Amy Finkelstein and colleagues studied the results.
+**The data:** In 2008, Oregon opened its Medicaid program (the Oregon Health Plan, OHP) to low-income adults through a **public lottery**. About 75,000 people applied; roughly 30,000 were randomly selected to apply for coverage. Outcomes were measured using hospital discharge records, emergency department administrative data, and follow-up surveys conducted by Amy Finkelstein and colleagues. Key outcomes include Medicaid enrollment, health-care utilization (hospital admissions, ED visits, outpatient visits), self-reported health, clinical measures (cholesterol, blood pressure), and financial health (medical debt, catastrophic expenses).
+
+**Why this method works:** The lottery randomly determined who could apply, creating comparable treatment and control groups among low-income adults --- the exact population that current policy debates focus on. However, only about **25% of lottery winners** actually enrolled in Medicaid (some failed paperwork, some were ineligible on review). This non-compliance means the simple winner/loser comparison understates the true effect on those who gained insurance --- a complication addressed by IV methods (Chapter 3).
 
 ## Results at a Glance
 
@@ -530,7 +571,14 @@ In 2008, the state of Oregon ran a **health insurance lottery**. About 75,000 lo
 
 : Comparing findings from two landmark health insurance experiments {#tbl-comparison .striped}
 
-The two experiments, conducted decades apart on very different populations, reached remarkably similar conclusions about physical health. The Oregon study added two important insights: insurance provides **financial protection** (less medical debt) and **mental health benefits** --- which may be its primary value for low-income populations.
+**The bottom line:** Two experiments, decades apart, on very different populations, reached the same conclusion about physical health.
+
+The Oregon study added two insights:
+
+- Insurance provides **financial protection** (less medical debt)
+- Insurance improves **mental health**
+
+These may be its primary value for low-income populations.
 
 
 # Historical Perspective: Pioneers of Randomization
@@ -571,7 +619,7 @@ Throughout this chapter, we reported regression results with standard errors. He
 
 ## The Core Problem: Sampling Variability
 
-Any estimate from a sample could differ if we drew a different sample from the same population. **Statistical inference** quantifies this uncertainty.
+Any estimate could change if we drew a different sample. **Statistical inference** tells us *how much* we should expect it to change.
 
 ## Key Concepts
 
@@ -601,10 +649,10 @@ If the **t-statistic** (coefficient divided by its standard error) exceeds **2**
 Statistical significance measures **precision**, not **importance**:
 
 - A large t-statistic can come from a huge sample (very precise), not necessarily a large effect
-- A small t-statistic can mean the effect is small *or* that our sample is too small to detect it
+- A small t-statistic can mean the effect is small *or* that our sample is too noisy to detect it
 - **Lack of significance ≠ lack of effect** --- it may just mean insufficient data
 
-Always consider both the **size** of a coefficient and its **statistical precision**.
+**The bottom line:** Always consider both the **size** of a coefficient and its **statistical precision**. A big coefficient with a big SE is uncertain. A small coefficient with a tiny SE is precisely zero.
 
 
 # Key Takeaways

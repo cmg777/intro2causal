@@ -27,7 +27,7 @@ By the end of this chapter, you will be able to:
 - Compare estimates across methods and assess what the **true return to schooling** is
 :::
 
-This chapter is unique: it applies *all* the methods from the book --- OLS, IV, and RD --- to a single question. The convergence (and divergence) of results across methods reveals what each method can and cannot do.
+**This chapter is unique.** It applies *all* the methods from the book --- OLS, IV, and RD --- to a single question. When different methods agree, we gain confidence. When they disagree, we learn what each method can and cannot do.
 
 ```{mermaid}
 %%| label: fig-roadmap
@@ -52,9 +52,9 @@ graph TD
 
 # Does Education Make You Richer?
 
-College graduates earn roughly twice as much as high school graduates. But does education *cause* higher earnings, or do smarter, more motivated people simply stay in school longer and earn more regardless?
+College graduates earn roughly twice as much as high school graduates. **But is that causation or selection?**
 
-This is the **ability bias** problem: if unobserved ability affects both schooling decisions and earnings, OLS overstates the causal return to education.
+This is the **ability bias** problem. Smarter people stay in school longer AND earn more --- both independently. If we don't account for ability, OLS overstates the true causal return.
 
 $$\hat{\rho}_{OLS} = \rho + \underbrace{\text{Ability bias}}_{\text{likely positive}}$$
 
@@ -133,7 +133,13 @@ The twin estimate drops to about **6%** --- nearly half the OLS estimate. This s
 ::: {.callout-warning}
 ## Common Misconception: A lower estimate is not necessarily a better estimate
 
-The twin FE gives 0.06, while OLS gives 0.11. Students often assume the lower number is "more correct" because it controls for more. But the twin FE estimate has its own bias: **measurement error**. When twins report their education, small errors (misremembering a year) are amplified by differencing. The true variation in schooling within twin pairs is small, so even small reporting errors become a large fraction of the signal. This **attenuation bias** pushes the twin estimate *below* the true return.
+Twin FE gives 0.06. OLS gives 0.11. Students often assume the lower number must be "more correct."
+
+**This is wrong.** Twin FE has its own bias: **measurement error amplification**.
+
+Here's why: twins report their own education. Small errors (misremembering a year) get amplified by differencing. The true within-pair variation in schooling is tiny. So even small errors dominate the signal.
+
+**Result:** This **attenuation bias** pushes the twin estimate *below* the true return.
 :::
 
 ## IV: Using the Twin's Report as an Instrument
@@ -200,8 +206,18 @@ The true return is probably **8--11% per year**, with OLS slightly overstating a
 Imagine weighing yourself on a bathroom scale that randomly adds or subtracts 5 pounds. On average, the scale is right --- but any single reading is noisy. Now suppose you weigh yourself in the morning and evening to measure how much weight you gained during the day. The true gain might be 0.5 lbs, but the scale's error (±5 lbs in each reading) means the *difference* between readings is dominated by noise. This is exactly what happens with twin differences in education: the true within-pair variation is small (twins are similar), but measurement error stays the same size, so noise overwhelms the signal.
 :::
 
+**Lessons from the twins strategy:**
+
+- Twin FE controls for shared ability but amplifies measurement error --- two biases push in opposite directions
+- IV using the twin's report corrects measurement error, recovering a return near 11%
+- **Limitation:** The Twinsburg twins are a self-selected sample (twins who attend an annual twin festival in Ohio). They may not represent the general population. The findings are suggestive but should be confirmed with other approaches
+
 
 # Strategy 2: Quarter-of-Birth IV
+
+**Research question:** What is the causal return to an additional year of schooling, using a source of variation that is independent of ability?
+
+**The data:** Angrist and Krueger (1991) used the 1980 U.S. Census, extracting 329,509 men born between 1930 and 1939. The outcome is log weekly earnings (`lnw`). Schooling is measured in years (`s`). Quarter of birth (`qob`, 1--4) serves as the instrument.
 
 ## The Idea
 
@@ -299,16 +315,22 @@ plt.show()
 The sawtooth pattern shows that Q4 births (filled circles) consistently have slightly more education and slightly higher earnings than Q1 births (open circles). The first-stage F-statistic is about 48, well above the weak-instrument threshold of 10. The IV estimate of **7--8%** is close to the OLS estimate, suggesting that ability bias may be modest.
 :::
 
-The returns to schooling are central to **education policy**. Should governments subsidize college tuition? Should compulsory schooling ages be raised? The answer depends critically on whether the 7--10% return is causal or inflated by ability. The convergence of evidence from twins, quarter of birth, and other strategies gives policymakers confidence that the return is real and substantial --- a year of schooling genuinely increases earnings by 7--10%, making education one of the best investments individuals and governments can make.
+**Why this matters for policy.** Should governments subsidize college? Should compulsory schooling ages be raised?
+
+The answer depends on whether the 7--10% return is real or inflated by ability.
+
+Multiple methods converge: twins, quarter of birth, and compulsory schooling laws all point to a **genuine causal return of 7--10% per year**. Education is one of the best investments individuals and governments can make.
 
 
 # Strategy 3: Sheepskin Effects via RD
 
-## The Question
+**Research question:** Does the diploma credential itself boost earnings (the **signaling** view), or is it the skills learned in school that matter (the **human capital** view)?
 
-Does the **diploma itself** boost earnings (the signaling/sheepskin view), or is it the **skills learned** that matter (the human capital view)?
+**The challenge:** People with diplomas earn more than those without, but diploma holders also have more skills. Separating the credential effect from the learning effect requires finding people with identical skills who differ only in diploma status.
 
-Texas high school students must pass an exit exam to receive their diploma. Students who barely pass vs. barely fail have nearly identical skills but different diploma status. An RD at the passing cutoff isolates the diploma effect.
+**The data:** Clark and Martorell (2014) studied the Texas high school exit exam --- a standardized test that students must pass to receive their diploma. The data consists of 46 score bins around the passing cutoff, with each bin reporting the fraction receiving a diploma (`receivehsd`), average annual earnings (`avgearnings`), number of test-takers (`n`), and person-years of earnings data (`person_years`). The running variable is the test score relative to the passing threshold (`minscore`, where 0 = cutoff).
+
+**Why RD works here:** Students who scored just above vs. just below the cutoff have nearly **identical skills** (they performed almost the same on the test) but very different diploma rates. Any jump in earnings at the cutoff reflects the value of the diploma credential itself, holding skills constant.
 
 ```{python}
 # Load clean sheepskin RD data (Texas last-chance exam)
@@ -481,6 +503,42 @@ graph TD
 
 # Exercises
 
+## Multiple Choice Questions
+
+::: {.callout-caution}
+### Multiple Choice Questions
+
+1. **The main econometric challenge in estimating the return to schooling is:**
+   a) Education data is poorly measured
+   b) Unobserved ability may be correlated with both education and earnings (ability bias)
+   c) The return to schooling varies across countries
+   d) Schooling has no effect on earnings
+
+2. **The twin fixed-effects strategy controls for ability bias by:**
+   a) Including IQ test scores as a control variable
+   b) Comparing earnings differences within identical twin pairs who share the same genes and family background
+   c) Using random assignment to determine who attends college
+   d) Restricting the sample to people with above-average ability
+
+3. **The twin FE estimate (6%) is lower than OLS (11%). This is MOST likely because:**
+   a) The twin FE definitively proves the true return is 6%
+   b) Measurement error in self-reported education is amplified by differencing, biasing the estimate downward
+   c) Twins are not representative of the general population
+   d) OLS is always biased upward
+
+4. **Angrist and Krueger's quarter-of-birth instrument works because:**
+   a) People born in different quarters have different levels of ability
+   b) Compulsory schooling laws interact with birth quarter to create exogenous variation in years of education
+   c) Employers pay more to workers born in certain quarters
+   d) Season of birth directly affects earnings through health channels
+
+5. **A "sheepskin effect" refers to:**
+   a) The return to each additional year of schooling
+   b) A discrete jump in earnings at diploma/degree completion, beyond the effect of the extra year
+   c) The effect of attending a prestigious university
+   d) The bias introduced by omitting ability from the regression
+:::
+
 ## Conceptual Questions
 
 ::: {.callout-caution}
@@ -511,6 +569,18 @@ graph TD
 
 
 # Solutions
+
+## Multiple Choice Questions
+
+**MCQ1.** **(b)** The core challenge is ability bias: people with higher unobserved ability tend to get more education AND earn more, regardless of schooling. This makes the OLS estimate of the return to schooling overstate the causal effect. Options (a) and (c) are real issues but not the main econometric challenge; (d) is false.
+
+**MCQ2.** **(b)** Identical twins share genetics and family environment — the key sources of ability differences. By comparing earnings within twin pairs, the strategy differences out shared ability. If one twin has more education and higher earnings, that difference is attributable to schooling, not ability (which is the same for both twins).
+
+**MCQ3.** **(b)** When twins report their own education, small errors (misremembering a year) are amplified by differencing because the true within-pair variation is small relative to the noise. This attenuation bias pushes the twin FE estimate below the true return. The IV correction (using the twin's report as an instrument) brings it back up to about 11%. Option (a) ignores this measurement error problem.
+
+**MCQ4.** **(b)** Students born in Q4 (October–December) enter school at a younger age and can legally drop out with less schooling than those born in Q1. Compulsory schooling laws force Q4-born students to complete more school before reaching the dropout age. This creates exogenous variation in education unrelated to ability. Option (d) would violate the exclusion restriction.
+
+**MCQ5.** **(b)** A sheepskin effect is the extra earnings bump from completing a degree (crossing the finish line), above and beyond what the additional year of study would predict. Clark and Martorell's Texas study used an RD design at the exam pass/fail cutoff to show that passing the exit exam — and receiving a diploma — caused a ~4% earnings jump.
 
 ## Conceptual Questions
 
