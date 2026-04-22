@@ -20,7 +20,6 @@ By the end of this chapter, you will be able to:
 - Understand when adding controls helps --- and when it can make things worse (**bad controls**)
 - Apply regression sensitivity analysis to assess the robustness of causal estimates
 
-
 This chapter introduces regression --- the most widely used tool in the econometrician's toolkit. When randomized experiments are not available, regression lets us approximate an experimental comparison by holding observable characteristics constant.
 
 > 📊 **Roadmap for Chapter 2** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
@@ -111,6 +110,19 @@ students.head(5)
 ```
 
 
+**Output:**
+
+```
+   earnings      private  ability
+-  ------------  -------  ---------
+0  77427.667839  1        54.967142
+1  65133.103563  0        48.617357
+2  81777.380857  1        56.476885
+3  93886.491081  1        65.230299
+4  58750.910654  0        47.658466
+```
+
+
 > ⭐ **The Ground Truth**
 >
 
@@ -125,14 +137,24 @@ We built this data so that:
 
 What happens if we regress earnings on `private` without controlling for ability?
 
+::: {#tbl-short .cell tbl-cap='Short regression: earnings on private school dummy only. The coefficient is biased upward because ability is omitted.' execution_count=2}
 ```python
-
 # SHORT regression: omit the confounder (ability)
 short_model = smf.ols("earnings ~ private", data=students)
 short = short_model.fit()
 
 # Show the regression coefficient table
 short.summary().tables[1]
+```
+
+
+**Output:**
+
+```
+           coef       std err  t        P>|t|  [0.025    0.975]
+---------  ---------  -------  -------  -----  --------  --------
+Intercept  6.539e+04  360.415  181.420  0.000  6.47e+04  6.61e+04
+private    1.476e+04  511.755  28.842   0.000  1.38e+04  1.58e+04
 ```
 
 
@@ -143,14 +165,25 @@ The coefficient on `private` is well above $5,000. This is **omitted variables b
 
 Now add ability as a control:
 
+::: {#tbl-long .cell tbl-cap='Long regression: earnings on private school dummy plus ability control. The coefficient is close to the true effect of $5,000.' execution_count=3}
 ```python
-
 # LONG regression: include the confounder (ability)
 long_model = smf.ols("earnings ~ private + ability", data=students)
 long = long_model.fit()
 
 # Show the regression coefficient table
 long.summary().tables[1]
+```
+
+
+**Output:**
+
+```
+           coef       std err  t       P>|t|  [0.025    0.975]
+---------  ---------  -------  ------  -----  --------  --------
+Intercept  2.871e+04  893.038  32.154  0.000  2.7e+04   3.05e+04
+private    5078.7103  382.228  13.287  0.000  4328.646  5828.774
+ability    826.2799   19.526   42.316  0.000  787.963   864.597
 ```
 
 
@@ -188,13 +221,12 @@ Think of baking a cake. The recipe calls for flour, sugar, and eggs. If you forg
 
 If either factor is zero --- the omitted variable is unrelated to treatment, or it doesn't affect the outcome --- there's no bias.
 
-
 ### Verifying the OVB Formula
 
 Let's check that the formula works with our simulated data:
 
+::: {#tbl-ovb .cell tbl-cap='Verifying the OVB formula: the product of the two components exactly equals the difference between short and long regression coefficients.' execution_count=4}
 ```python
-
 # --- Step 1: Get the short and long coefficients on "private" ---
 beta_short = short.params["private"]
 beta_long = long.params["private"]
@@ -233,6 +265,20 @@ pd.DataFrame({
         round(ovb_formula),
     ],
 })
+```
+
+
+**Output:**
+
+```
+   Component                        Value
+-  -------------------------------  --------
+0  Short reg coefficient (private)  14760.00
+1  Long reg coefficient (private)   5079.00
+2  OVB (direct: short - long)       9681.00
+3  pi_1 (ability ~ private)         11.72
+4  gamma (ability in long reg)      826.00
+5  OVB (formula: pi_1 x gamma)      9681.00
 ```
 
 
@@ -277,7 +323,6 @@ Once you compare students who were equally ambitious (applied to similar schools
 
 This is a textbook demonstration of OVB at work: when you add the right controls, the treatment effect shrinks dramatically.
 
-
 ### Regression Sensitivity Analysis
 
 The Dale and Krueger results illustrate an important robustness check: **sensitivity analysis**. When adding controls doesn't change the estimate much, we can be more confident that the remaining estimate isn't driven by further omitted variables.
@@ -298,7 +343,6 @@ A **bad control** is a variable that is *caused by* the treatment. Controlling f
 **Example**: Suppose private school causes students to enter higher-paying occupations. If you control for occupation, you're asking "among people in the same job, do private school grads earn more?" This removes one of the main ways private school helps, leading you to underestimate the true effect.
 
 **Rule of thumb**: Only control for variables determined *before* the treatment was assigned. Variables determined *after* treatment (occupation, graduate degree, industry) are potential outcomes, not confounders.
-
 
 > 📝 **Connection to Chapter 6**
 >
@@ -442,7 +486,6 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
    c) Largely disappeared when controlling for the selectivity of schools students applied to
    d) Only existed for students from wealthy families
 
-
 ### Conceptual Questions
 
 > ✏️ **Conceptual Questions**
@@ -457,7 +500,6 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 4. **Sensitivity analysis**: Two studies estimate the effect of class size on test scores. Study A gets -3 without controls and -2.8 with controls. Study B gets -8 without controls and -2 with controls. Which study's results are more credible, and why?
 
 5. **Regression vs. RCT**: A regression of health on exercise, controlling for age, income, and diet, finds that exercise improves health. Under what conditions would this estimate be causal? What could still go wrong?
-
 
 ### Research Tasks
 
@@ -501,8 +543,8 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 **R1.**
 
+::: {#tbl-sol-zero .cell tbl-cap='With true effect = 0, the short regression still shows a positive (spurious) coefficient' execution_count=5}
 ```python
-
 # --- Regenerate data with NO causal effect (true_effect = 0) ---
 np.random.seed(42)
 ability2 = np.random.normal(50, 10, n)
@@ -541,12 +583,22 @@ pd.DataFrame({
 ```
 
 
+**Output:**
+
+```
+   Regression              Private coefficient  True effect
+-  ----------------------  -------------------  -----------
+0  Short (omit ability)    9760                 0
+1  Long (include ability)  79                   0
+```
+
+
 The short regression shows a positive coefficient even though the true effect is zero. This is pure selection bias --- higher-ability students choose private school AND earn more. The long regression correctly recovers approximately zero.
 
 **R2.**
 
+::: {#tbl-sol-strong .cell tbl-cap='Stronger confounder → larger OVB' execution_count=6}
 ```python
-
 # --- KEY CHANGE: divide by 2 instead of 5 → stronger ability-private link ---
 np.random.seed(42)
 ability3 = np.random.normal(50, 10, n)
@@ -601,12 +653,26 @@ pd.DataFrame({
 ```
 
 
+**Output:**
+
+```
+   Metric         Value
+-  -------------  --------
+0  Short coef     17211.00
+1  Long coef      5138.00
+2  OVB (direct)   12073.00
+3  pi_1           14.66
+4  gamma          823.00
+5  OVB (formula)  12073.00
+```
+
+
 With a stronger ability-private link, $\pi_1$ increases and OVB grows. The short regression is now much further from the true effect. This demonstrates that stronger confounders create larger bias.
 
 **R3.**
 
+::: {#tbl-sol-twoconf .cell tbl-cap='Adding a second confounder: family income' execution_count=7}
 ```python
-
 # --- KEY CHANGE: add family_income as a SECOND confounder ---
 np.random.seed(42)
 ability4 = np.random.normal(50, 10, n)
@@ -661,6 +727,17 @@ pd.DataFrame({
     ],
     "True effect": [5000, 5000, 5000],
 })
+```
+
+
+**Output:**
+
+```
+   Regression               Private coefficient  True effect
+-  -----------------------  -------------------  -----------
+0  Short (no controls)      16993                5000
+1  Medium (ability only)    10067                5000
+2  Long (ability + income)  4992                 5000
 ```
 
 

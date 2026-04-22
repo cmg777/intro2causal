@@ -20,7 +20,6 @@ By the end of this chapter, you will be able to:
 - Interpret results from two landmark health insurance experiments
 - Understand **standard errors** and **statistical significance**
 
-
 This chapter follows a clear arc: we start with a real-world question, discover why naive data comparisons are misleading, learn the theoretical framework that explains the problem, and then see how randomized experiments provide a solution.
 
 > 📊 **Roadmap for Chapter 1** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
@@ -34,7 +33,6 @@ The United States spends more on health care than any other developed country, y
 >
 
 Imagine standing at a fork in a road. One path leads through a world where you have health insurance; the other through a world where you don't. You can only walk one path --- you'll never know what would have happened on the other. This is the **fundamental problem of causal inference**: we observe one outcome per person, but the causal effect requires comparing two.
-
 
 At first glance, the answer seems obvious. We can look at survey data and compare the health of insured and uninsured people. Let's do exactly that using the **National Health Interview Survey (NHIS)**, an annual survey of the U.S. population.
 
@@ -51,20 +49,41 @@ nhis.head(3)
 ```
 
 
+**Output:**
+
+```
+   health  insurance  nonwhite  age   education  family_size  employed  family_income  gender   weight
+-  ------  ---------  --------  ----  ---------  -----------  --------  -------------  -------  ------
+0  4.0     0          0.0       29.0  14.0       4.0          0.0       19282.932      wife     8938.0
+1  4.0     0          0.0       35.0  11.0       4.0          1.0       19282.932      husband  8967.0
+2  3.0     1          0.0       32.0  12.0       4.0          1.0       167844.530     husband  8905.0
+```
+
+
 The dataset contains a health index (1 = poor, 5 = excellent), insurance status (1 = insured, 0 = uninsured), and demographic characteristics for married couples.
 
 ### A First Look: Insured vs. Uninsured
 
 Let's start with the simplest possible comparison. What is the average health of insured people versus uninsured people?
 
+::: {#tbl-means .cell tbl-cap='Average health by insurance status' execution_count=2}
 ```python
-
 # Average health by insurance status
 means = nhis.groupby("insurance")["health"].mean()
 pd.DataFrame({
     "Insurance Status": ["Uninsured", "Insured"],
     "Average Health (1-5)": [round(means[0], 2), round(means[1], 2)]
 })
+```
+
+
+**Output:**
+
+```
+   Insurance Status  Average Health (1-5)
+-  ----------------  --------------------
+0  Uninsured         3.66
+1  Insured           3.98
 ```
 
 
@@ -85,7 +104,6 @@ A simple but powerful trick: if you regress an outcome $Y$ on a dummy variable $
 
 This is exactly the same as computing group means and their difference --- but regression also gives us a standard error, which tells us whether the difference is statistically meaningful.
 
-
 > 📝 **How to read regression results**
 >
 
@@ -96,11 +114,10 @@ Throughout this study guide, we report regression results with **standard errors
 - For **balance checks**, we *want* insignificant results (confirming groups are similar)
 - For **treatment effects**, significant results provide evidence of a causal effect
 
-
 Let's apply this to compare insured and uninsured people across multiple characteristics:
 
+::: {#tbl-nhis .cell tbl-cap='Comparing insured and uninsured in the NHIS (2009). Each row is a separate regression of the variable on the insurance dummy.' execution_count=3}
 ```python
-
 # Variables to compare across insurance groups
 outcomes = ["health", "nonwhite", "age", "education",
             "family_size", "employed", "family_income"]
@@ -121,6 +138,21 @@ for var in outcomes:
     })
 
 pd.DataFrame(rows)
+```
+
+
+**Output:**
+
+```
+   Variable       Uninsured mean  Insured − Uninsured  Std. Error
+-  -------------  --------------  -------------------  ----------
+0  health         3.66            0.35                 0.02
+1  nonwhite       0.17            -0.02                0.01
+2  age            40.51           2.61                 0.21
+3  education      11.67           2.70                 0.07
+4  family_size    3.95            -0.45                0.04
+5  employed       0.72            0.13                 0.01
+6  family_income  45989.09        60352.25             976.23
 ```
 
 
@@ -170,7 +202,6 @@ Anika, who is prone to illness, buys insurance --- it improves her health by 1 p
 
 "Insured people are healthier, so insurance must work." This confuses correlation with causation. The Anika/Ben example shows that even when the treated group looks *worse*, the true treatment effect can be positive. The observed comparison reflects both the causal effect and the pre-existing differences between people who choose treatment and those who don't. You cannot read causation from a simple comparison --- ever.
 
-
 ### The Decomposition
 
 This leads to a fundamental equation. Any observed comparison can be split into two pieces:
@@ -209,7 +240,6 @@ The **Law of Large Numbers** guarantees this: in large random samples, group ave
 >
 
 Roll a fair die once --- you might get 1 or 6, far from the expected value of 3.5. Roll it 10 times --- the average gets closer. Roll it 10,000 times --- the average is almost exactly 3.5. This is why **casinos always win in the long run**: any single bet is a toss-up, but over thousands of plays, the house edge reliably prevails. Random assignment works the same way: with enough people, the treatment and control groups converge to being identical on *every* characteristic --- even ones we can't see.
-
 
 > 📊 **In an RCT, random assignment ensures the two groups are comparable. Any difference in outcomes must be caused by the treatment.** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
 
@@ -260,10 +290,21 @@ rand.head(3)
 ```
 
 
+**Output:**
+
+```
+   female  nonwhite  age   education  family_income  health_index  cholesterol  blood_pressure  mental_health  plan_type  plan_free  plan_deductible  plan_coinsurance  any_insurance  family_id
+-  ------  --------  ----  ---------  -------------  ------------  -----------  --------------  -------------  ---------  ---------  ---------------  ----------------  -------------  ---------
+0  NaN     NaN       NaN   NaN        NaN            NaN           NaN          NaN             NaN            NaN        NaN        NaN              NaN               0              NaN
+1  0.0     1.0       42.0  12.0       67486.484      NaN           NaN          NaN             95.0           4.0        0.0        0.0              0.0               0              100082.0
+2  0.0     NaN       16.0  NaN        67486.484      NaN           NaN          NaN             93.8           4.0        0.0        0.0              0.0               0              100082.0
+```
+
+
 Before running the full table, let's see what a single balance check looks like. Is the average **age** different across plan groups?
 
+::: {#tbl-balance-example .cell tbl-cap='Example balance check: is average age different across plan groups?' execution_count=5}
 ```python
-
 # Prepare data (drop rows with missing values)
 d = rand[["age", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
@@ -278,6 +319,18 @@ result.summary().tables[1]
 ```
 
 
+**Output:**
+
+```
+                  coef     std err  z       P>|z|  [0.025  0.975]
+----------------  -------  -------  ------  -----  ------  ------
+Intercept         32.3610  0.485    66.731  0.000  31.411  33.311
+plan_free         0.4350   0.614    0.708   0.479  -0.768  1.638
+plan_deductible   0.5607   0.676    0.830   0.407  -0.764  1.885
+plan_coinsurance  0.9658   0.655    1.475   0.140  -0.317  2.249
+```
+
+
 The **intercept** (32.4) is the average age in the catastrophic group. The coefficients on the plan dummies (0.43 to 0.97) are the age differences --- all small and statistically insignificant. Age is balanced.
 
 > 📝 **Why do we cluster standard errors by family?**
@@ -285,11 +338,10 @@ The **intercept** (32.4) is the average age in the catastrophic group. The coeff
 
 In the RAND HIE, all members of a family were assigned to the **same** insurance plan. This means observations within a family are not independent --- knowing one family member's plan tells you the other's. **Clustering** standard errors at the family level corrects for this correlation, preventing us from overstating the precision of our estimates.
 
-
 Now let's run the full balance check across all baseline variables:
 
+::: {#tbl-balance .cell tbl-cap='Baseline balance across RAND HIE plan groups. Each row is a separate regression. Differences are relative to the catastrophic (control) group.' execution_count=6}
 ```python
-
 # List of baseline variables to check
 balance_vars = ["female", "nonwhite", "age", "education", "family_income",
                 "health_index", "cholesterol", "blood_pressure", "mental_health"]
@@ -319,6 +371,23 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Variable        Catastrophic mean  Free − Catastrophic  Deductible − Catastrophic  Coinsurance − Catastrophic
+-  --------------  -----------------  -------------------  -------------------------  --------------------------
+0  female          0.6                -0.04 (0.01)         -0.02 (0.02)               -0.02 (0.02)
+1  nonwhite        0.2                -0.03 (0.02)         -0.02 (0.03)               -0.03 (0.02)
+2  age             32.4               0.43 (0.61)          0.56 (0.68)                0.97 (0.65)
+3  education       12.1               -0.26 (0.18)         -0.16 (0.19)               -0.06 (0.19)
+4  family_income   31603.2            -976.18 (1344.55)    -2104.39 (1383.69)         969.76 (1389.01)
+5  health_index    70.9               -1.31 (0.87)         -1.44 (0.95)               0.21 (0.92)
+6  cholesterol     207.3              -5.25 (2.7)          -1.42 (2.98)               -1.93 (2.76)
+7  blood_pressure  122.3              1.12 (1.01)          2.32 (1.15)                0.91 (1.08)
+8  mental_health   73.8               0.89 (0.77)          -0.12 (0.82)               1.19 (0.81)
+```
+
+
 **Verdict:** Differences are small, go in both directions, and almost none are statistically significant. Randomization worked. Compare this to the NHIS table earlier, where insured and uninsured groups differed dramatically on *every* dimension.
 
 
@@ -333,8 +402,19 @@ hie.head(3)
 ```
 
 
-```python
+**Output:**
 
+```
+   visits  outpatient_expenses  admissions  inpatient_expenses  total_expenses  plan_type  plan_free  plan_deductible  plan_coinsurance  any_insurance  family_id
+-  ------  -------------------  ----------  ------------------  --------------  ---------  ---------  ---------------  ----------------  -------------  ---------
+0  0.0     36.305501            0.0         0.0                 36.305501       4.0        0          0                0                 0              100082
+1  4.0     275.208504           0.0         0.0                 275.208504      4.0        0          0                0                 0              100082
+2  0.0     0.000000             0.0         0.0                 0.000000        4.0        0          0                0                 0              100082
+```
+
+
+::: {#tbl-utilization .cell tbl-cap='Causal effects of insurance on health-care use (RAND HIE). Spending in inflation-adjusted dollars.' execution_count=8}
+```python
 # Outcome variables measuring health-care utilization
 use_vars = ["visits", "outpatient_expenses", "admissions",
             "inpatient_expenses", "total_expenses"]
@@ -365,6 +445,19 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Outcome              Catastrophic mean  Free effect  Deductible effect  Coinsurance effect
+-  -------------------  -----------------  -----------  -----------------  ------------------
+0  visits               3                  2 (0)        0 (0)              0 (0)
+1  outpatient_expenses  248                169 (20)     42 (21)            60 (21)
+2  admissions           0                  0 (0)        0 (0)              0 (0)
+3  inpatient_expenses   388                116 (60)     72 (68)            93 (73)
+4  total_expenses       636                285 (72)     114 (79)           152 (84)
+```
+
+
 > 📝 **Interpretation: The demand for health care**
 >
 
@@ -388,8 +481,19 @@ health.head(3)
 ```
 
 
-```python
+**Output:**
 
+```
+   health_index  cholesterol  blood_pressure  mental_health  plan_type  plan_free  plan_deductible  plan_coinsurance  any_insurance  family_id
+-  ------------  -----------  --------------  -------------  ---------  ---------  ---------------  ----------------  -------------  ---------
+0  NaN           NaN          NaN             NaN            NaN        NaN        NaN              NaN               0              NaN
+1  71.6          245.0        128.0           94.7           4.0        0.0        0.0              0.0               0              100082.0
+2  69.3          207.0        100.0           76.1           4.0        0.0        0.0              0.0               0              100082.0
+```
+
+
+::: {#tbl-health .cell tbl-cap='Causal effects of insurance on health outcomes (RAND HIE). Exit measures taken 3--5 years after random assignment.' execution_count=10}
+```python
 # Health outcome variables (measured at the end of the experiment)
 health_vars = ["health_index", "cholesterol", "blood_pressure", "mental_health"]
 
@@ -417,6 +521,18 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Health Measure  Catastrophic mean  Free effect   Deductible effect  Coinsurance effect
+-  --------------  -----------------  ------------  -----------------  ------------------
+0  health_index    68.5               -0.78 (0.87)  -0.87 (0.96)       0.61 (0.9)
+1  cholesterol     203.2              -1.83 (2.39)  0.69 (2.57)        -2.31 (2.47)
+2  blood_pressure  121.9              -0.52 (0.93)  1.17 (1.06)        -1.39 (0.98)
+3  mental_health   75.5               0.43 (0.82)   0.45 (0.91)        1.07 (0.87)
+```
+
+
 > ⭐ **The RAND Paradox: More Care ≠ Better Health**
 >
 
@@ -425,7 +541,6 @@ The results are striking. Across all four health measures --- general health, ch
 Despite consuming **45% more health care**, participants in the free plan showed **no measurable improvement** in health compared to those with minimal coverage.
 
 This is a **precisely estimated null**: the standard errors are small enough to rule out large health benefits. The experiment was not too small to detect an effect --- the effect simply wasn't there.
-
 
 #### What Did We Learn from the RAND HIE?
 
@@ -522,7 +637,6 @@ If the **t-statistic** (coefficient divided by its standard error) exceeds **2**
 **For balance checks**: we *want* insignificant results (small t-stats), confirming groups are comparable.
 
 **For treatment effects**: significant results provide evidence of a real causal effect.
-
 
 ### A Crucial Caveat
 
@@ -648,7 +762,6 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
    c) The regression model fits the data well
    d) The sample is representative of the population
 
-
 ### Conceptual Questions
 
 > ✏️ **Conceptual Questions**
@@ -663,7 +776,6 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 4. **Random assignment and selection bias**: Using the decomposition equation from this chapter, explain step by step why random assignment makes the selection bias term equal to zero. What role does the Law of Large Numbers play?
 
 5. **Designing an RCT**: You want to test whether free school lunches improve student test scores. (a) How would you randomly assign treatment? (b) What outcome would you measure? (c) What balance check would you run? (d) Why might some students assigned to "free lunch" not actually eat it, and what problem does this create?
-
 
 ### Research Tasks
 
@@ -707,8 +819,8 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 **R1.**
 
+::: {#tbl-sol-binary-balance .cell tbl-cap='Binary balance check: any insurance vs. catastrophic' execution_count=11}
 ```python
-
 import pandas as pd
 import statsmodels.formula.api as smf
 
@@ -737,12 +849,23 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Variable      Catastrophic mean  Any ins. difference  SE    t-stat
+-  ------------  -----------------  -------------------  ----  ------
+0  age           32.4               0.64                 0.54  1.18
+1  education     12.1               -0.17                0.16  -1.07
+2  health_index  70.9               -0.93                0.77  -1.20
+```
+
+
 All t-statistics are small (well below 2), confirming that balance holds regardless of whether we use three plan dummies or a single binary indicator. The binary specification pools all non-catastrophic plans together, which is simpler but loses information about differences across plan types.
 
 **R2.**
 
+::: {#tbl-sol-pct-increase .cell tbl-cap='Percentage increase in utilization for the free plan relative to catastrophic' execution_count=12}
 ```python
-
 hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 
 # Run a separate regression for each variable and collect results
@@ -772,12 +895,25 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Outcome              Catastrophic mean  Free plan effect  % increase
+-  -------------------  -----------------  ----------------  ----------
+0  visits               3                  2                 59.8
+1  outpatient_expenses  248                169               68.2
+2  admissions           0                  0                 29.1
+3  inpatient_expenses   388                116               30.0
+4  total_expenses       636                285               44.9
+```
+
+
 Outpatient expenses show the largest relative increase (~68%), followed by face-to-face visits (~60%). Hospital admissions show a smaller relative increase (~29%), consistent with the idea that inpatient decisions are made by doctors rather than patients. Total expenses rose ~45%. The price elasticity of demand is strongest for outpatient care, where patients have more discretion.
 
 **R3.**
 
+::: {#tbl-sol-gender .cell tbl-cap='Selection bias by gender: comparing insured vs. uninsured separately for husbands and wives' execution_count=13}
 ```python
-
 nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
 
 # Run a separate regression for each gender-variable combination
@@ -797,6 +933,20 @@ for gender in ["husband", "wife"]:
         })
 
 pd.DataFrame(rows)
+```
+
+
+**Output:**
+
+```
+   Gender   Variable       Difference (Ins - Unins)  SE
+-  -------  -------------  ------------------------  -------
+0  husband  health         0.31                      0.03
+1  husband  education      2.74                      0.10
+2  husband  family_income  60810.44                  1355.79
+3  wife     health         0.39                      0.04
+4  wife     education      2.64                      0.11
+5  wife     family_income  59827.50                  1406.08
 ```
 
 

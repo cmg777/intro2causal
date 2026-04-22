@@ -20,7 +20,6 @@ By the end of this chapter, you will be able to:
 - Understand why **state-specific trends**, **weighting**, and **clustered standard errors** matter
 - Interpret DD results from two case studies: banking crises and drinking age policy
 
-
 This chapter introduces a method for settings where treatment is not randomly assigned but varies across groups and over time. By comparing *changes* rather than levels, DD removes time-invariant confounders.
 
 > 📊 **Roadmap for Chapter 5** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
@@ -58,10 +57,24 @@ banks
 ```
 
 
+**Output:**
+
+```
+   year  bib6  bib8  counterfactual
+-  ----  ----  ----  --------------
+0  1929  141   169   141
+1  1930  135   165   135
+2  1931  121   132   102
+3  1932  113   120   90
+4  1933  102   111   81
+5  1934  102   109   79
+```
+
+
 ### Visualizing the DD
 
+::: {#cell-fig-banks .cell execution_count=2}
 ```python
-
 fig, ax = plt.subplots(figsize=(9, 5))
 
 # Plot actual data for both districts
@@ -80,12 +93,17 @@ plt.show()
 ```
 
 
+**Output:**
+
+![Banks in business in the 6th and 8th Federal Reserve Districts, with DD counterfactual. The dashed line shows what would have happened to the 6th District without intervention.](05-differences-in-differences_files/figure-html/fig-banks-output-1.png){#fig-banks width=854 height=470}
+
+
 ### Computing the DD
 
 The DD calculation compares **changes** across groups, which removes any fixed differences between the districts:
 
+::: {#tbl-dd-calc .cell tbl-cap='Difference-in-differences calculation for bank survival. The DD estimate represents the causal effect of Fed intervention.' execution_count=3}
 ```python
-
 # Compute DD for each post-crisis year
 # Get the 1930 baseline values for each district
 pre_6 = banks.loc[banks["year"] == 1930, "bib6"].values[0]
@@ -112,11 +130,22 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Year  Change in 6th (treated)  Change in 8th (control)  DD estimate (banks saved)
+-  ----  -----------------------  -----------------------  -------------------------
+0  1931  -14                      -33                      19
+1  1932  -22                      -45                      23
+2  1933  -33                      -54                      21
+3  1934  -33                      -56                      23
+```
+
+
 > ⭐ **Key finding**
 >
 
 The Atlanta Fed's easy money policy saved approximately **19--23 banks** relative to the restrictive St. Louis Fed approach. The DD works by subtracting the control group's change from the treated group's change, removing any common trends.
-
 
 > 📝 **Intuition Builder: The Diet Analogy**
 >
@@ -149,7 +178,6 @@ DD requires that, **absent treatment**, the treated and control groups would hav
 
 If this assumption fails (e.g., the treated group was already on a different trajectory), the DD estimate will be biased.
 
-
 > ⚠️ **Common Misconception: DD does NOT require equal levels**
 >
 
@@ -171,6 +199,17 @@ deaths.head(3)
 ```
 
 
+**Output:**
+
+```
+   year  state  dtype    mrate       legal  pop     beertax
+-  ----  -----  -------  ----------  -----  ------  --------
+0  1970  1      all      153.870470  0.0    189770  1.373711
+1  1970  1      MVA      62.180534   0.0    189770  1.373711
+2  1970  1      suicide  2.107815    0.0    189770  1.373711
+```
+
+
 ### The Regression DD Model
 
 With many states and years, DD is implemented as a regression with **fixed effects**:
@@ -188,11 +227,10 @@ where $Y_{st}$ is the death rate (`mrate`) in state $s$ at time $t$, and $D_{st}
 
 The treatment variable (`legal`) changes at the state level, and death rates within a state are correlated over time. **Clustering** standard errors at the state level accounts for this serial correlation, preventing us from overstating precision.
 
-
 Let's start with a single regression for all-cause mortality:
 
+::: {#tbl-dd-example .cell tbl-cap='Regression DD: effect of legal drinking access on all-cause death rates among 18-20 year olds (with state and year fixed effects, clustered SEs).' execution_count=5}
 ```python
-
 # Filter to all-cause deaths
 allcause = deaths[deaths["dtype"] == "all"]
 
@@ -213,10 +251,19 @@ coef_table
 ```
 
 
+**Output:**
+
+```
+   Variable  Coefficient  Std. Error  t-stat
+-  --------  -----------  ----------  ------
+0  legal     10.8         4.59        2.35
+```
+
+
 Now let's check across multiple causes of death and specifications:
 
+::: {#tbl-dd-full .cell tbl-cap='Regression DD estimates of MLDA effects on death rates across causes and specifications. Standard errors clustered at the state level.' execution_count=6}
 ```python
-
 # Compare three specifications for each cause of death:
 #   Spec 1 — Unweighted OLS with state + year fixed effects
 #   Spec 2 — Add state-specific linear trends (each state gets its own slope over time)
@@ -258,6 +305,18 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Cause          Unweighted   With state trends  Pop. weighted
+-  -------------  -----------  -----------------  -------------
+0  All causes     10.8 (4.59)  8.47 (5.1)         12.41 (4.6)
+1  Motor vehicle  7.59 (2.5)   6.64 (2.66)        7.5 (2.27)
+2  Suicide        0.59 (0.59)  0.47 (0.8)         1.49 (0.88)
+3  Internal       1.33 (1.59)  0.08 (1.93)        1.89 (1.78)
+```
+
+
 > ⭐ **Interpreting the DD results**
 >
 
@@ -277,8 +336,8 @@ Adding state-specific linear time trends is a more demanding test. It allows eac
 
 Some states may have changed beer taxes at the same time as their MLDA. Controlling for beer taxes tests whether the MLDA effect is confounded by other alcohol-control policies:
 
+::: {#tbl-beertax .cell tbl-cap='DD estimates controlling for beer taxes. MLDA effects remain robust.' execution_count=7}
 ```python
-
 # Check if MLDA effects hold after controlling for beer taxes
 rows = []
 for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle")]:
@@ -299,6 +358,16 @@ for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle")]:
     })
 
 pd.DataFrame(rows)
+```
+
+
+**Output:**
+
+```
+   Cause          Legal effect  Beer tax effect
+-  -------------  ------------  ---------------
+0  All causes     10.98 (4.69)  1.51 (9.07)
+1  Motor vehicle  7.59 (2.56)   3.82 (5.4)
 ```
 
 
@@ -425,7 +494,6 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 5. **Placebo test design**: You are studying whether a new air pollution regulation reduced asthma hospitalizations. Propose a placebo outcome that should NOT be affected by the regulation. Why would finding a significant effect on your placebo outcome be concerning?
 
-
 ### Research Tasks
 
 > ✏️ **Research Tasks**
@@ -454,8 +522,8 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 **R1.**
 
+::: {#tbl-sol-suicide-dd .cell tbl-cap='DD regression for suicide deaths vs. all-cause deaths' execution_count=8}
 ```python
-
 import pandas as pd
 import statsmodels.formula.api as smf
 
@@ -479,12 +547,22 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Cause       Legal effect  SE    t-stat
+-  ----------  ------------  ----  ------
+0  All causes  10.80         4.59  2.35
+1  Suicide     0.59          0.59  1.00
+```
+
+
 The suicide effect is much smaller than the all-cause effect and is not statistically significant (t-stat well below 2). While alcohol can contribute to suicide through impaired judgment, the DD analysis does not find strong evidence that MLDA changes substantially affected suicide rates. The all-cause result is driven primarily by motor vehicle accidents.
 
 **R2.**
 
+::: {#tbl-sol-banks-dd .cell tbl-cap='DD estimate for each post-crisis year relative to 1930' execution_count=9}
 ```python
-
 banks = pd.read_csv(DATA + "ch5/banks_clean.csv")
 
 # Get the 1930 baseline values for each district
@@ -509,14 +587,26 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Year  Change in 6th (treated)  Change in 8th (control)  DD (banks saved)
+-  ----  -----------------------  -----------------------  ----------------
+0  1931  -14                      -33                      19
+1  1932  -22                      -45                      23
+2  1933  -33                      -54                      21
+3  1934  -33                      -56                      23
+```
+
+
 The DD effect grows from 19 banks in 1931 to 23 in 1932, then stabilizes around 21 in 1933--1934. This suggests the Fed's intervention had a lasting protective effect: the banks it saved in the early crisis years remained in business through the worst of the Depression. The gap between districts didn't close as the crisis deepened, indicating the initial intervention had durable benefits.
 
 **Q5.** A good placebo outcome would be hospitalizations for broken bones or appendicitis --- conditions unrelated to air quality. If the air pollution regulation appears to significantly reduce broken-bone hospitalizations, something is wrong: either the regulation coincided with another change (confounding), or the parallel trends assumption fails. A significant placebo effect undermines confidence in the main result because it suggests the DD is picking up spurious trends rather than the causal effect of the regulation.
 
 **R3.**
 
+::: {#tbl-sol-wls .cell tbl-cap='Unweighted vs. population-weighted DD for all-cause deaths' execution_count=10}
 ```python
-
 import pandas as pd
 import statsmodels.formula.api as smf
 
@@ -536,6 +626,16 @@ pd.DataFrame({
     "Legal effect": [round(r_uw.params["legal"], 2), round(r_wt.params["legal"], 2)],
     "SE": [round(r_uw.bse["legal"], 2), round(r_wt.bse["legal"], 2)],
 })
+```
+
+
+**Output:**
+
+```
+   Specification            Legal effect  SE
+-  -----------------------  ------------  ----
+0  Unweighted OLS           10.80         4.59
+1  Population-weighted WLS  12.41         4.60
 ```
 
 

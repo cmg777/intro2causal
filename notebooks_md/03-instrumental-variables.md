@@ -20,7 +20,6 @@ By the end of this chapter, you will be able to:
 - Explain how **Two-Stage Least Squares (2SLS)** implements IV in practice
 - Recognize **weak instruments** and why they matter
 
-
 This chapter addresses a common real-world complication: what happens when people don't follow their assigned treatment? The solution --- instrumental variables --- turns partial compliance into a powerful tool for causal inference.
 
 > 📊 **Roadmap for Chapter 3** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
@@ -56,8 +55,19 @@ mdve.head(3)
 ```
 
 
-```python
+**Output:**
 
+```
+   assigned  delivered
+-  --------  ---------
+0  Separate  Separate
+1  Arrest    Arrest
+2  Arrest    Arrest
+```
+
+
+::: {#tbl-crosstab .cell tbl-cap='Cross-tabulation of assigned vs. delivered police response in the MDVE. Row percentages show compliance rates.' execution_count=2}
+```python
 # Cross-tabulate: what treatment was assigned vs. what was actually delivered?
 ct = pd.crosstab(mdve["assigned"], mdve["delivered"], margins=True, margins_name="Total")
 ct = ct[["Arrest", "Advise", "Separate", "Total"]]  # reorder columns
@@ -67,8 +77,21 @@ ct
 ```
 
 
-```python
+**Output:**
 
+```
+delivered  Arrest  Advise  Separate  Total
+---------  ------  ------  --------  -----
+assigned
+Advise     19      84      5         108
+Arrest     91      0       1         92
+Separate   26      5       83        114
+Total      136     89      89        314
+```
+
+
+::: {#tbl-compliance .cell tbl-cap='Compliance rates by assignment group. Officers almost always followed arrest orders but frequently deviated from advise/separate assignments.' execution_count=3}
+```python
 # Compute compliance rate for each assignment group
 # Loop through each assignment type and count how many officers followed orders
 rows = []
@@ -88,11 +111,21 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Assigned  N    Complied  Compliance Rate
+-  --------  ---  --------  ---------------
+0  Arrest    92   91        98.9%
+1  Advise    108  84        77.8%
+2  Separate  114  83        72.8%
+```
+
+
 > ⚠️ **Asymmetric compliance**
 >
 
 Officers followed arrest orders **99% of the time** but deviated from advise and separate assignments much more often (78% and 73%). When they deviated, they almost always chose to arrest instead --- likely because the suspect was particularly aggressive. This means the group that *actually received* arrest includes both randomly assigned arrests and the most dangerous cases from other assignments. Comparing outcomes by delivered treatment would be biased.
-
 
 > 📝 **Intuition Builder: IV as a Chain Reaction**
 >
@@ -134,8 +167,8 @@ where $\rho$ (rho) is the reduced-form effect of the instrument on the outcome, 
 
 Let's compute the IV estimate step by step using the MDVE data. We simplify to a binary comparison: **arrest** ($Z = 0$) vs. **coddle** (advise or separate, $Z = 1$).
 
+::: {#tbl-iv-recipe .cell tbl-cap='The IV recipe applied to the MDVE: reduced form divided by first stage gives the LATE.' execution_count=4}
 ```python
-
 # Create binary variables for the IV calculation
 # Z = instrument: assigned to coddle (advise or separate) vs. arrest
 mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)
@@ -167,11 +200,23 @@ pd.DataFrame({
 ```
 
 
+**Output:**
+
+```
+   Step                                      Value
+-  ----------------------------------------  -----
+0  First stage (coddled if assigned coddle)  0.797
+1  First stage (coddled if assigned arrest)  0.011
+2  First stage (difference)                  0.786
+3  Reduced form (recidivism difference)      0.114
+4  LATE = RF / FS                            0.145
+```
+
+
 > ⭐ **Key finding**
 >
 
 Coddling (advise/separate) **increases recidivism by 14.5 percentage points** among compliers --- those officers who followed their assignment. This is much larger than the naive comparison of delivered treatments (8.7 pp) would suggest, because the naive estimate is contaminated by selection bias.
-
 
 > ⚠️ **Common Misconception: LATE is not the Average Treatment Effect**
 >
@@ -245,7 +290,6 @@ But is this causal? Less-educated parents tend to have more children *and* less-
 
 The strong negative OLS relationship between family size and education appears to be entirely driven by selection bias. When we use instruments that generate exogenous variation in family size, the effect vanishes. Less-educated parents have more children AND less-educated children --- but one does not cause the other.
 
-
 This finding has major **policy implications**. For decades, governments promoted smaller families based on the belief that fewer children means more investment per child (the "quantity-quality tradeoff"). China's one-child policy and India's forced sterilization programs were partly justified by this logic. The IV evidence suggests the tradeoff is much weaker than previously thought --- the naive correlation was driven by confounders, not causation.
 
 
@@ -275,7 +319,6 @@ $$Y_i = \alpha_2 + \lambda_{2SLS} \hat{D}_i + \gamma_2 X_i + e_{2i}$$
 >
 
 If you manually run two separate regressions and use fitted values from the first in the second, you will get the right coefficient but **wrong standard errors**. Always use dedicated IV software that computes correct standard errors automatically.
-
 
 ### 2SLS in Python
 
@@ -308,6 +351,14 @@ print("  [D ~ Z] means: instrument D using Z")
 ```
 
 
+**Output:**
+
+```
+IV2SLS syntax: 'Y ~ controls + [D ~ Z]'
+  [D ~ Z] means: instrument D using Z
+```
+
+
 We will see `IV2SLS` in action with real data in Chapter 6, where we estimate the returns to schooling using quarter-of-birth instruments.
 
 
@@ -324,12 +375,10 @@ An instrument is **weak** when it has only a small effect on the treatment (smal
 
 Test the joint significance of instruments in the first-stage regression. If the **F-statistic is below 10**, the instruments may be too weak. When in doubt, check the reduced form --- if the instrument's direct effect on the outcome isn't visible, the IV estimate is likely unreliable.
 
-
 > ⚠️ **Common Misconception: More data doesn't fix weak instruments**
 >
 
 Unlike standard estimation, where larger samples give more precise estimates, **weak-instrument bias does not vanish with more data**. Even with a million observations, if the first-stage F-statistic is below 10, the 2SLS estimate can be severely biased toward OLS. The solution is a stronger instrument, not a bigger sample.
-
 
 > 📝 **Connection to Chapters 1 and 4**
 >
@@ -453,7 +502,6 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
    c) Follows whatever their assignment says — treatment if assigned to treatment, control if assigned to control
    d) Does the opposite of their assignment
 
-
 ### Conceptual Questions
 
 > ✏️ **Conceptual Questions**
@@ -468,7 +516,6 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 4. **Why LATE is local**: Using the MDVE context, explain why the IV estimate applies only to compliers. What can we say (or not say) about the effect of arrest on always-takers --- those suspects who would be arrested regardless of what the assignment form said?
 
 5. **Monotonicity**: The IV framework assumes there are no "defiers" (people who do the opposite of their assignment). In the MDVE, a defier would be an officer who arrests when told to coddle and coddles when told to arrest. Why is this assumption reasonable in the MDVE context? Can you think of a setting where it might fail?
-
 
 ### Research Tasks
 
@@ -510,8 +557,8 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 **R1.**
 
+::: {#tbl-sol-compliance .cell tbl-cap='Compliance rates by assignment group' execution_count=6}
 ```python
-
 import pandas as pd
 
 mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
@@ -535,12 +582,23 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Assigned  N    Complied  Compliance rate
+-  --------  ---  --------  ---------------
+0  Arrest    92   91        98.9%
+1  Advise    108  84        77.8%
+2  Separate  114  83        72.8%
+```
+
+
 Arrest has the highest compliance (99%). Officers almost always arrest when told to, but frequently deviate from advise (78%) and separate (73%) assignments --- usually by arresting instead. This suggests officers exercise discretion toward arrest when they perceive danger, which is why comparing by *delivered* treatment introduces selection bias.
 
 **R2.**
 
+::: {#tbl-sol-firststage .cell tbl-cap='First stage: binary vs. multi-category' execution_count=7}
 ```python
-
 # Binary approach: arrest (Z=0) vs. coddle (Z=1)
 mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)
 mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)
@@ -559,19 +617,55 @@ ct
 ```
 
 
+**Output:**
+
+```
+Binary first stage:
+  P(coddled | assigned coddle) = 0.797
+  P(coddled | assigned arrest) = 0.011
+  Difference = 0.786
+
+Full cross-tabulation:
+```
+
+
+**Output:**
+
+```
+delivered  Advise  Arrest  Separate
+---------  ------  ------  --------
+assigned
+Advise     0.778   0.176   0.046
+Arrest     0.000   0.989   0.011
+Separate   0.044   0.228   0.728
+```
+
+
 The binary approach gives a clean first stage of ~0.786. The multi-category cross-tab provides more detail but is harder to use in a standard IV framework because IV requires a single treatment variable. The binary simplification (arrest vs. everything else) is standard practice when the research question is "does arrest reduce recidivism compared to alternative responses."
 
 **Q5.** In the MDVE, monotonicity is reasonable: it's hard to imagine an officer who would arrest when told to coddle but coddle when told to arrest. Officers deviate *toward* arrest (the more cautious action), not away from it. Monotonicity might fail in settings where the instrument triggers opposite reactions in different subgroups --- for example, a mandatory tutoring assignment where some students rebel against being told to attend (defiers who skip when assigned) but voluntarily attend when not assigned.
 
 **R3.**
 
+::: {#tbl-sol-crossover .cell tbl-cap='Cross-over patterns: where do deviating officers go?' execution_count=8}
 ```python
-
 # Among cases where assignment != delivery, what are the patterns?
 deviators = mdve[mdve["assigned"] != mdve["delivered"]]
 
 crossover = pd.crosstab(deviators["assigned"], deviators["delivered"])
 crossover
+```
+
+
+**Output:**
+
+```
+delivered  Advise  Arrest  Separate
+---------  ------  ------  --------
+assigned
+Advise     0       19      5
+Arrest     0       0       1
+Separate   5       26      0
 ```
 
 

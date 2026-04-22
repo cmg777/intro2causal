@@ -20,7 +20,6 @@ By the end of this chapter, you will be able to:
 - Assess robustness through **bandwidth choice** and **specification checks**
 - Interpret the RD estimate as a **local causal effect** at the cutoff
 
-
 This chapter shows how bureaucratic rules --- the very things that seem to reduce randomness --- can actually *create* valuable natural experiments for causal inference.
 
 > 📊 **Roadmap for Chapter 4** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
@@ -36,7 +35,6 @@ This is the logic of **Regression Discontinuity (RD)** designs. The causal effec
 >
 
 Think of a speed limit sign on a highway. The road is the same on both sides of the sign --- same surface, same weather, same cars. But drivers caught going 66 mph vs. 64 mph face very different consequences if the limit is 65. The sign creates a sharp rule that affects behavior, even though the drivers on both sides are virtually identical. RD exploits exactly this kind of rule: people just above and just below a threshold are nearly interchangeable, but the rule treats them differently.
-
 
 ### The MLDA Question
 
@@ -67,12 +65,23 @@ mlda.head(3)
 ```
 
 
+**Output:**
+
+```
+   agecell    age        over21  all        mva        suicide    homicide   internal   alcohol   ext_oth    age2      over_age  over_age2
+-  ---------  ---------  ------  ---------  ---------  ---------  ---------  ---------  --------  ---------  --------  --------  ---------
+0  19.068493  -1.931507  0       92.825400  35.829327  11.203714  16.316818  16.617590  0.639138  12.857960  3.730720  -0.0      0.0
+1  19.150684  -1.849316  0       95.100740  35.639256  12.193368  16.859964  18.327684  0.677409  12.080471  3.419968  -0.0      0.0
+2  19.232876  -1.767124  0       92.144295  34.205650  11.715812  15.219254  18.911053  0.866443  12.092522  3.122728  -0.0      0.0
+```
+
+
 ### Visualizing the Discontinuity
 
 The first step in any RD analysis is to **plot the data**. If the causal effect is real, we should see a visible jump in mortality at age 21.
 
+::: {#cell-fig-scatter .cell execution_count=2}
 ```python
-
 # Scatter plot: mortality rate vs. age in months
 fig, ax = plt.subplots(figsize=(9, 5))
 ax.scatter(mlda["agecell"], mlda["all"], color="gray", alpha=0.7, s=40)  # one dot per age cell
@@ -84,6 +93,11 @@ ax.legend()
 plt.tight_layout()
 plt.show()
 ```
+
+
+**Output:**
+
+![All-cause mortality rate by age. Each dot is one monthly age cell. The vertical dashed line marks the 21st birthday (MLDA cutoff).](04-regression-discontinuity_files/figure-html/fig-scatter-output-1.png){#fig-scatter width=854 height=470}
 
 
 There is a visible jump right at age 21. Let's now estimate its size formally.
@@ -121,15 +135,25 @@ In Python, this is: `smf.ols("all ~ over21 + age", data=mlda)` --- where `all` i
 
 The key insight: because age varies smoothly, any **sudden jump** at the cutoff must be caused by the treatment.
 
-
+::: {#tbl-rd-simple .cell tbl-cap='Sharp RD estimate of the MLDA effect on all-cause mortality. The over21 coefficient is the causal jump at the cutoff.' execution_count=3}
 ```python
-
 # Simple linear RD regression
 model = smf.ols("all ~ over21 + age", data=mlda)
 result = model.fit(cov_type="HC1")
 
 # Show the regression coefficient table
 result.summary().tables[1]
+```
+
+
+**Output:**
+
+```
+           coef     std err  z        P>|z|  [0.025  0.975]
+---------  -------  -------  -------  -----  ------  ------
+Intercept  91.8414  0.709    129.529  0.000  90.452  93.231
+over21     7.6627   1.514    5.060    0.000  4.695   10.631
+age        -0.9747  0.664    -1.468   0.142  -2.276  0.326
 ```
 
 
@@ -143,8 +167,8 @@ A critical question in RD is whether the estimated jump depends on how we model 
 1. **Polynomial order**: linear vs. quadratic trends
 2. **Bandwidth**: full sample (ages 19--22) vs. narrow window (ages 20--22)
 
+::: {#tbl-rd-robust .cell tbl-cap='RD estimates across specifications and bandwidths for multiple causes of death. Robust standard errors in parentheses.' execution_count=4}
 ```python
-
 # Define narrow bandwidth subsample (ages 20-22 only)
 narrow = mlda[(mlda["agecell"] >= 20) & (mlda["agecell"] <= 22)]
 
@@ -200,6 +224,19 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Cause of death   Linear (full)  Quadratic (full)  Linear (narrow)  Quadratic (narrow)
+-  ---------------  -------------  ----------------  ---------------  ------------------
+0  All causes       7.66 (1.51)    9.55 (1.83)       9.75 (2.06)      9.61 (2.29)
+1  Motor vehicle    4.53 (0.72)    4.66 (1.09)       4.76 (1.08)      5.89 (1.33)
+2  Suicide          1.79 (0.5)     1.81 (0.78)       1.72 (0.73)      1.3 (1.14)
+3  Internal causes  0.39 (0.54)    1.07 (0.8)        1.69 (0.74)      1.25 (1.01)
+4  Alcohol-related  0.44 (0.21)    0.8 (0.32)        0.74 (0.33)      1.03 (0.41)
+```
+
+
 > ⭐ **Key findings**
 >
 
@@ -213,8 +250,8 @@ Why is the **internal causes** placebo so powerful? Diseases like cancer, heart 
 
 ## Visualizing the RD with Fitted Lines
 
+::: {#cell-fig-rd-fitted .cell execution_count=5}
 ```python
-
 # Split data at the cutoff
 below = mlda[mlda["age"] < 0]   # under 21
 above = mlda[mlda["age"] >= 0]  # 21 and over
@@ -237,8 +274,13 @@ plt.show()
 ```
 
 
-```python
+**Output:**
 
+![RD estimate with fitted regression lines on each side of the cutoff. The gap between the lines at age 21 is the causal effect.](04-regression-discontinuity_files/figure-html/fig-rd-fitted-output-1.png){#fig-rd-fitted width=854 height=470}
+
+
+::: {#cell-fig-rd-causes .cell execution_count=6}
+```python
 # Plot two causes on the same figure: MVA (should jump) vs internal (should not)
 fig, ax = plt.subplots(figsize=(9, 5))
 ax.scatter(mlda["agecell"], mlda["mva"], color="steelblue", alpha=0.6, s=30, label="Motor vehicle")
@@ -262,6 +304,11 @@ plt.show()
 ```
 
 
+**Output:**
+
+![RD by cause of death. Motor vehicle accidents show a clear jump; internal causes (a placebo) show none.](04-regression-discontinuity_files/figure-html/fig-rd-causes-output-1.png){#fig-rd-causes width=854 height=470}
+
+
 ## Sharp vs. Fuzzy RD
 
 The MLDA example is a **sharp RD**: everyone over 21 can legally drink, no exceptions. But many policy cutoffs are less precise.
@@ -282,7 +329,6 @@ Fuzzy RD is analyzed using **IV/2SLS**, with the cutoff dummy as the instrument 
 >
 
 Fuzzy RD is a special case of instrumental variables. The cutoff dummy serves as the instrument, the treatment probability jumps at the cutoff (first stage), and the outcome may jump too (reduced form). The ratio --- reduced form / first stage --- gives the LATE for compliers at the cutoff. If you understand IV from Chapter 3, you already understand fuzzy RD.
-
 
 Research on Boston exam schools found that peer quality jumped by 0.8 standard deviations at the admissions cutoff, but student achievement showed **no corresponding jump**. This challenges the widely held belief that attending a more selective school --- with higher-ability peers --- causally improves outcomes. The policy implication is that reallocating students across schools of different selectivity may not improve achievement, even though the raw correlation between school quality and student outcomes is strong (selection bias at work again).
 
@@ -385,7 +431,6 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 5. **Local vs. global effects**: The RD estimate tells us about the effect of legal drinking for people *at* the age-21 cutoff. Why might this effect differ from the effect at age 18 or age 25? What does "local" mean in this context?
 
-
 ### Research Tasks
 
 > ✏️ **Research Tasks**
@@ -414,8 +459,8 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 **R1.**
 
+::: {#tbl-sol-alcohol .cell tbl-cap='RD estimates: alcohol-related vs. motor vehicle deaths' execution_count=7}
 ```python
-
 import pandas as pd
 import statsmodels.formula.api as smf
 
@@ -438,12 +483,22 @@ pd.DataFrame(rows)
 ```
 
 
+**Output:**
+
+```
+   Cause            RD estimate (over21)  SE    t-stat
+-  ---------------  --------------------  ----  ------
+0  Alcohol-related  0.44                  0.21  2.15
+1  Motor vehicle    4.53                  0.72  6.32
+```
+
+
 The alcohol-related death jump is much smaller than the MVA jump (roughly one-fifth the size), but it is statistically significant. This makes sense: relatively few young people die directly from alcohol poisoning, but many die in alcohol-related car accidents. The dominant mechanism through which legal drinking kills is drunk driving, not direct alcohol toxicity.
 
 **R2.**
 
+::: {#cell-fig-sol-suicide .cell execution_count=8}
 ```python
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set_style("whitegrid")
@@ -470,14 +525,19 @@ plt.show()
 ```
 
 
+**Output:**
+
+![RD plot for suicide deaths around the MLDA cutoff](04-regression-discontinuity_files/figure-html/fig-sol-suicide-output-1.png){#fig-sol-suicide width=854 height=470}
+
+
 The visual shows a modest upward jump at age 21, consistent with the regression estimate of about 1.8 deaths per 100,000. The effect is smaller and noisier than for motor vehicle accidents. Alcohol can contribute to suicide through impulsivity and impaired judgment, but the link is less direct than for drunk driving.
 
 **Q5.** "Local" means the RD estimate applies specifically to people at the cutoff --- those just turning 21. At age 18, people may have less driving experience, so the mortality effect of alcohol access could be different. At age 25, people may drink more responsibly. The RD cannot tell us about these other ages without extrapolation, which requires stronger assumptions about how the treatment effect varies with age.
 
 **R3.**
 
+::: {#tbl-sol-quadratic .cell tbl-cap='Linear vs. quadratic RD specification for all-cause mortality' execution_count=9}
 ```python
-
 import pandas as pd
 import statsmodels.formula.api as smf
 
@@ -496,6 +556,16 @@ pd.DataFrame({
     "RD estimate (over21)": [round(r_lin.params["over21"], 2), round(r_quad.params["over21"], 2)],
     "SE": [round(r_lin.bse["over21"], 2), round(r_quad.bse["over21"], 2)],
 })
+```
+
+
+**Output:**
+
+```
+   Specification           RD estimate (over21)  SE
+-  ----------------------  --------------------  ----
+0  Linear                  7.66                  1.51
+1  Quadratic (interacted)  9.55                  1.83
 ```
 
 
