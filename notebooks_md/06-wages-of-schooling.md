@@ -1,0 +1,693 @@
+# Chapter 6: The Wages of Schooling
+
+**Mastering Causal Metrics: An AI-Powered Study Guide**
+
+*A companion to Mastering 'Metrics by Angrist & Pischke*
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb)
+
+---
+
+> 💡 **Learning Objectives**
+>
+
+By the end of this chapter, you will be able to:
+
+- Explain why the **OLS return to schooling** may be biased by unobserved ability
+- Use **twin fixed effects** to control for shared family and genetic factors
+- Understand how **measurement error** creates attenuation bias, especially in differenced data
+- Apply **instrumental variables** (quarter of birth, compulsory schooling laws) to education
+- Use **regression discontinuity** to test for sheepskin (diploma) effects
+- Compare estimates across methods and assess what the **true return to schooling** is
+
+
+This chapter is unique: it applies *all* the methods from the book --- OLS, IV, and RD --- to a single question. The convergence (and divergence) of results across methods reveals what each method can and cannot do.
+
+> 📊 **Roadmap for Chapter 6** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+
+
+## Does Education Make You Richer?
+
+College graduates earn roughly twice as much as high school graduates. But does education *cause* higher earnings, or do smarter, more motivated people simply stay in school longer and earn more regardless?
+
+This is the **ability bias** problem: if unobserved ability affects both schooling decisions and earnings, OLS overstates the causal return to education.
+
+$$\hat{\rho}_{OLS} = \rho + \underbrace{\text{Ability bias}}_{\text{likely positive}}$$
+
+where $\rho$ is the true causal return to schooling and $\hat{\rho}_{OLS}$ is the OLS estimate. If more able people get more education *and* earn more (for reasons unrelated to school), the OLS coefficient captures both effects. The chapter uses three different strategies to separate them.
+
+**But is ability bias necessarily upward?** The answer is not obvious:
+
+- **Arguments for upward bias** (the standard view): Higher IQ → stay in school longer AND earn more. Schools select on test scores. More-educated parents invest more in their children's education. All of these create positive correlation between ability and schooling.
+- **Arguments for downward bias** (the contrarian view): Some highly talented people leave school *early* to pursue lucrative opportunities. Bill Gates, Mark Zuckerberg, and Steve Jobs dropped out of college; Mick Jagger left the London School of Economics to form the Rolling Stones. If such exceptional ability is negatively correlated with schooling, OLS could actually *understate* the true return.
+- **For most people**, the standard view probably holds: the college-dropout billionaires are rare exceptions. But the ambiguity is important because it means we cannot assume the direction of OLS bias without evidence.
+
+
+## Strategy 1: Twin Comparisons
+
+### The Logic
+
+Identical twins share genes and family upbringing --- the very factors we suspect drive ability bias. If one twin gets more education than the other, the earnings difference within the pair reflects the causal return, not ability.
+
+```python
+# Load clean twins data (340 twin pairs from Twinsburg, Ohio)
+import pandas as pd
+import numpy as np
+import statsmodels.formula.api as smf
+from linearmodels.iv import IV2SLS
+
+# --- Data source ---
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
+
+# Key variables:
+#   lwage  = log weekly wage; educ = own years of education
+#   educt_t = twin's report of respondent's education (instrument)
+#   first  = 1 for the first twin in each pair (use to avoid double-counting)
+#   dlwage = within-pair difference in log wages; deduc = difference in own-reported education
+#   deduct = difference in twin's report of education (instrument for deduc)
+twins.head(3)
+```
+
+
+### OLS Baseline
+
+```python
+
+# OLS: regress log wages on education with demographic controls
+model = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins)
+ols = model.fit(cov_type="HC1")
+
+# Show the regression coefficient table
+ols.summary().tables[1]
+```
+
+
+The OLS return is about **11% per year of schooling**. But this may be inflated by ability bias.
+
+### Within-Twin Differences
+
+By taking the difference within each twin pair, we eliminate everything shared between them:
+
+$$\Delta Y_f = \rho \cdot \Delta S_f + \Delta e_f$$
+
+where $\Delta Y_f$ is the difference in log wages (`dlwage`) and $\Delta S_f$ is the difference in years of education (`deduc`) within twin pair $f$. Shared ability cancels out because both twins have the same value.
+
+```python
+
+# Use only the first twin in each pair (to avoid double-counting)
+first = twins[twins["first"] == 1]
+
+# Regress wage difference on education difference
+# The "- 1" removes the intercept: when both twins have the same education,
+# we expect zero wage difference, so there's no constant term needed
+model = smf.ols("dlwage ~ deduc - 1", data=first)
+twin_fe = model.fit(cov_type="HC1")
+
+# Show the regression coefficient table
+twin_fe.summary().tables[1]
+```
+
+
+The twin estimate drops to about **6%** --- nearly half the OLS estimate. This suggests ability bias pushes OLS upward.
+
+> ⚠️ **Common Misconception: A lower estimate is not necessarily a better estimate**
+>
+
+The twin FE gives 0.06, while OLS gives 0.11. Students often assume the lower number is "more correct" because it controls for more. But the twin FE estimate has its own bias: **measurement error**. When twins report their education, small errors (misremembering a year) are amplified by differencing. The true variation in schooling within twin pairs is small, so even small reporting errors become a large fraction of the signal. This **attenuation bias** pushes the twin estimate *below* the true return.
+
+
+### IV: Using the Twin's Report as an Instrument
+
+But the twin estimate may be biased *downward* by **measurement error** in self-reported education. If twins misremember their schooling, the differenced data amplifies noise relative to signal.
+
+The fix: use each twin's *report of the other's education* as an instrument. This report is correlated with true education but has independent measurement error, so it satisfies the IV requirements.
+
+> 📝 **Reading the IV2SLS formula syntax**
+>
+
+In `linearmodels`, the IV formula uses **square brackets** to specify the endogenous variable and its instrument:
+
+- `[educ ~ educt_t]` means: *educ* is the endogenous variable, instrumented by *educt_t*
+- `~ 0` or `~ 1` controls whether an intercept is included (0 = no intercept, 1 = with intercept)
+- `cov_type="robust"` gives heteroskedasticity-robust standard errors (equivalent to `"HC1"` in `statsmodels`)
+
+
+```python
+
+# --- Step 1: IV in levels ---
+# The bracket syntax [endogenous ~ instrument] tells IV2SLS:
+#   educ is the endogenous variable, instrumented by educt_t (twin's report)
+# "~ 1" includes an intercept; controls (age, age2, etc.) are exogenous regressors
+iv_levels_model = IV2SLS.from_formula(
+    "lwage ~ 1 + age + age2 + female + white + [educ ~ educt_t]", data=twins
+)
+iv_levels = iv_levels_model.fit(cov_type="robust")
+
+# --- Step 2: IV in differences ---
+# Same idea but using within-twin differences
+# deduc (own-reported education difference) is endogenous
+# deduct (twin's report of education difference) is the instrument
+# "~ 0" means no intercept (differencing removes the constant)
+first_iv = first[["dlwage", "deduc", "deduct"]].dropna()
+iv_diff_model = IV2SLS.from_formula(
+    "dlwage ~ 0 + [deduc ~ deduct]", data=first_iv
+)
+iv_diff = iv_diff_model.fit(cov_type="robust")
+
+# --- Step 3: Combine all four estimates into one table ---
+# Format each as "coefficient (standard error)"
+ols_str = str(round(ols.params["educ"], 3)) + " (" + str(round(ols.bse["educ"], 3)) + ")"
+fe_str = str(round(twin_fe.params["deduc"], 3)) + " (" + str(round(twin_fe.bse["deduc"], 3)) + ")"
+iv_lev_str = str(round(iv_levels.params["educ"], 3)) + " (" + str(round(iv_levels.std_errors["educ"], 3)) + ")"
+iv_dif_str = str(round(iv_diff.params["deduc"], 3)) + " (" + str(round(iv_diff.std_errors["deduc"], 3)) + ")"
+
+pd.DataFrame({
+    "Method": ["OLS (levels)", "Twin FE (differences)", "IV (levels)", "IV (differences)"],
+    "Return to schooling": [ols_str, fe_str, iv_lev_str, iv_dif_str],
+})
+```
+
+
+> ⭐ **What the twin results tell us**
+>
+
+| Method | Estimate | Interpretation |
+|:---|:---:|:---|
+| OLS | ~0.11 | Likely biased UP by ability |
+| Twin FE | ~0.06 | Biased DOWN by measurement error |
+| IV (levels) | ~0.12 | Corrects measurement error in levels |
+| IV (differences) | ~0.11 | Corrects measurement error in differences |
+
+The true return is probably **8--11% per year**, with OLS slightly overstating and twin FE understating due to different biases.
+
+
+> 📝 **Intuition Builder: The Bathroom Scale Analogy**
+>
+
+Imagine weighing yourself on a bathroom scale that randomly adds or subtracts 5 pounds. On average, the scale is right --- but any single reading is noisy. Now suppose you weigh yourself in the morning and evening to measure how much weight you gained during the day. The true gain might be 0.5 lbs, but the scale's error (±5 lbs in each reading) means the *difference* between readings is dominated by noise. This is exactly what happens with twin differences in education: the true within-pair variation is small (twins are similar), but measurement error stays the same size, so noise overwhelms the signal.
+
+
+## Strategy 2: Quarter-of-Birth IV
+
+### The Idea
+
+Compulsory schooling laws allow students to drop out at age 16. Because school-entry rules are based on birth date cutoffs, children born later in the year start school younger and accumulate more schooling before reaching the dropout age.
+
+This creates an instrument: **quarter of birth** affects schooling (through compulsory attendance rules) but should not directly affect earnings.
+
+```python
+# Load clean quarter-of-birth data (Angrist & Krueger 1991, 329k men born 1930-1939)
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+
+# Key variables: lnw = log weekly earnings, s = years of schooling
+# qob = quarter of birth (1-4), yob = year of birth, q1-q4 = quarter dummies
+qob.head(3)
+```
+
+
+### The IV Recipe: Step by Step
+
+```python
+
+# Step 1: Reduced form — does Q4 birth predict higher earnings?
+rf_model = smf.ols("lnw ~ q4", data=qob)
+rf = rf_model.fit(cov_type="HC1")
+rf_coef = round(rf.params["q4"], 4)
+rf_se = round(rf.bse["q4"], 4)
+
+# Step 2: First stage — does Q4 birth predict more schooling?
+fs_model = smf.ols("s ~ q4", data=qob)
+fs = fs_model.fit(cov_type="HC1")
+fs_coef = round(fs.params["q4"], 4)
+fs_se = round(fs.bse["q4"], 4)
+
+# Step 3: Wald estimate = reduced form / first stage
+wald = rf.params["q4"] / fs.params["q4"]
+wald_rounded = round(wald, 4)
+
+# Step 4: Verify with 2SLS
+# [s ~ q4] means: s (schooling) is endogenous, instrumented by q4 (quarter-of-birth dummy)
+iv_model = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob)
+iv = iv_model.fit(cov_type="robust")
+iv_coef = round(iv.params["s"], 4)
+iv_se = round(iv.std_errors["s"], 4)
+
+pd.DataFrame({
+    "Step": ["Reduced form (Q4 → earnings)", "First stage (Q4 → schooling)",
+             "Wald estimate (RF / FS)", "2SLS verification"],
+    "Estimate": [
+        str(rf_coef) + " (" + str(rf_se) + ")",
+        str(fs_coef) + " (" + str(fs_se) + ")",
+        str(wald_rounded),
+        str(iv_coef) + " (" + str(iv_se) + ")",
+    ],
+})
+```
+
+
+### Visualizing the First Stage and Reduced Form
+
+```python
+
+import matplotlib.pyplot as plt
+
+# Collapse to cell means by age (= birth cohort)
+# Each "age" value maps to one birth cohort, so we compute the average
+# schooling, earnings, and quarter indicators for each cohort
+cell = qob.groupby("age").agg(
+    s=("s", "mean"),       # average years of schooling
+    lnw=("lnw", "mean"),   # average log weekly earnings
+    q4=("q4", "mean"),     # fraction born in Q4
+    q1=("q1", "mean"),     # fraction born in Q1
+).reset_index()
+
+# Convert age to year of birth for the x-axis
+cell["yob"] = 80 - cell["age"]
+# Flag cohorts that are predominantly Q4 or Q1
+cell["is_q4"] = cell["q4"] > 0.5
+cell["is_q1"] = cell["q1"] > 0.5
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# First stage: education by year of birth
+ax = axes[0]
+ax.plot(cell["yob"], cell["s"], "k-", alpha=0.4)
+ax.scatter(cell.loc[cell["is_q4"], "yob"], cell.loc[cell["is_q4"], "s"],
+           color="black", s=50, zorder=5, label="Quarter 4")
+ax.scatter(cell.loc[cell["is_q1"], "yob"], cell.loc[cell["is_q1"], "s"],
+           facecolors="none", edgecolors="black", s=50, zorder=5, label="Quarter 1")
+ax.set_xlabel("Year of Birth")
+ax.set_ylabel("Years of Education")
+ax.set_title("First Stage")
+ax.legend()
+
+# Reduced form: earnings by year of birth
+ax = axes[1]
+ax.plot(cell["yob"], cell["lnw"], "k-", alpha=0.4)
+ax.scatter(cell.loc[cell["is_q4"], "yob"], cell.loc[cell["is_q4"], "lnw"],
+           color="black", s=50, zorder=5, label="Quarter 4")
+ax.scatter(cell.loc[cell["is_q1"], "yob"], cell.loc[cell["is_q1"], "lnw"],
+           facecolors="none", edgecolors="black", s=50, zorder=5, label="Quarter 1")
+ax.set_xlabel("Year of Birth")
+ax.set_ylabel("Log Weekly Earnings")
+ax.set_title("Reduced Form")
+ax.legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+
+> 📝 **Reading the figures**
+>
+
+The sawtooth pattern shows that Q4 births (filled circles) consistently have slightly more education and slightly higher earnings than Q1 births (open circles). The first-stage F-statistic is about 48, well above the weak-instrument threshold of 10. The IV estimate of **7--8%** is close to the OLS estimate, suggesting that ability bias may be modest.
+
+
+The returns to schooling are central to **education policy**. Should governments subsidize college tuition? Should compulsory schooling ages be raised? The answer depends critically on whether the 7--10% return is causal or inflated by ability. The convergence of evidence from twins, quarter of birth, and other strategies gives policymakers confidence that the return is real and substantial --- a year of schooling genuinely increases earnings by 7--10%, making education one of the best investments individuals and governments can make.
+
+
+## Strategy 3: Sheepskin Effects via RD
+
+### The Question
+
+Does the **diploma itself** boost earnings (the signaling/sheepskin view), or is it the **skills learned** that matter (the human capital view)?
+
+Texas high school students must pass an exit exam to receive their diploma. Students who barely pass vs. barely fail have nearly identical skills but different diploma status. An RD at the passing cutoff isolates the diploma effect.
+
+```python
+# Load clean sheepskin RD data (Texas last-chance exam)
+sheep = pd.read_csv(DATA + "ch6/sheepskin_clean.csv")
+
+# Key variables: minscore = test score relative to passing cutoff (0 = cutoff)
+# pass_exam = 1 if passed, receivehsd = fraction receiving diploma
+# avgearnings = average annual earnings
+# left_1..left_4, right_1..right_4 = polynomial terms for RD on each side of cutoff
+sheep.head(3)
+```
+
+
+```python
+
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+
+# --- Step 1: Split data into below-cutoff (left) and at-or-above-cutoff (right) ---
+left = sheep[sheep["minscore"] < 0]
+right = sheep[sheep["minscore"] >= 0]
+
+# === Panel 1: Diploma receipt (first stage) ===
+ax = axes[0]
+ax.scatter(sheep["minscore"], sheep["receivehsd"], color="black", s=20, alpha=0.6)
+
+# Step 2: Fit 4th-order WLS polynomials on each side of the cutoff
+# WLS weights by number of observations (n) so bins with more students count more
+model_l = smf.wls("receivehsd ~ pass_exam + left_1 + left_2 + left_3 + left_4",
+                    data=left, weights=left["n"])
+fit_l = model_l.fit()
+
+model_r = smf.wls("receivehsd ~ pass_exam + right_1 + right_2 + right_3 + right_4",
+                    data=right, weights=right["n"])
+fit_r = model_r.fit()
+
+# Step 3: Predict fitted values for plotting the smooth curves
+left_plot = sheep[sheep["minscore"] <= 0].copy()
+left_plot["fit"] = fit_l.predict(left_plot)
+right_plot = sheep[sheep["minscore"] >= 0].copy()
+right_plot["fit"] = fit_r.predict(right_plot)
+
+ax.plot(left_plot["minscore"], left_plot["fit"], "k-", linewidth=2)
+ax.plot(right_plot["minscore"], right_plot["fit"], "k-", linewidth=2)
+ax.axvline(x=0, color="red", linestyle="--", alpha=0.5)
+ax.set_xlabel("Test score relative to cutoff")
+ax.set_ylabel("Fraction receiving diploma")
+ax.set_title("Diploma Receipt (First Stage)")
+ax.set_xlim(-30, 15)
+ax.set_ylim(0, 1)
+
+# === Panel 2: Earnings (reduced form) ===
+ax = axes[1]
+ax.scatter(sheep["minscore"], sheep["avgearnings"], color="black", s=20, alpha=0.6)
+
+# Step 4: Fit polynomial for earnings on each side
+# Restrict left side to scores >= -30 for a cleaner fit
+# Weight by person-years (more exposure = more reliable earnings estimate)
+left_earn_data = left[left["minscore"] >= -30]
+earn_model_l = smf.wls("avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4",
+                         data=left_earn_data, weights=left_earn_data["person_years"])
+earn_l = earn_model_l.fit()
+
+earn_model_r = smf.wls("avgearnings ~ pass_exam + right_1 + right_2 + right_3 + right_4",
+                         data=right, weights=right["person_years"])
+earn_r = earn_model_r.fit()
+
+# Step 5: Predict fitted values for the earnings curves
+left_earn = sheep[sheep["minscore"] <= 0].copy()
+left_earn["fit"] = earn_l.predict(left_earn)
+right_earn = sheep[sheep["minscore"] >= 0].copy()
+right_earn["fit"] = earn_r.predict(right_earn)
+
+ax.plot(left_earn["minscore"], left_earn["fit"], "k-", linewidth=2)
+ax.plot(right_earn["minscore"], right_earn["fit"], "k-", linewidth=2)
+ax.axvline(x=0, color="red", linestyle="--", alpha=0.5)
+ax.set_xlabel("Test score relative to cutoff")
+ax.set_ylabel("Annual Earnings ($)")
+ax.set_title("Earnings (Reduced Form)")
+ax.set_xlim(-30, 15)
+
+plt.tight_layout()
+plt.show()
+```
+
+
+> ⭐ **The sheepskin verdict**
+>
+
+- **Diploma receipt** jumps by about **40 percentage points** at the cutoff (a strong first stage)
+- **Earnings** show **almost no jump** --- the RD effect is near zero
+- This suggests the diploma credential itself has a modest value; most of the education premium reflects actual learning (human capital), not just the piece of paper (signaling)
+
+
+### The Furious Five: A Capstone Comparison
+
+This chapter applies multiple methods to one question. Here is how all five tools from the book compare:
+
+| Method | Chapter | Key Assumption | What It Estimates | Used Here? |
+|:---|:---:|:---|:---|:---:|
+| **RCT** | 1 | Random assignment | ATE | No (schooling can't be randomized) |
+| **Regression** | 2 | Observable confounders only | Conditional average | Yes (OLS baseline) |
+| **IV / 2SLS** | 3 | Valid instrument | LATE (compliers) | Yes (twins, QOB) |
+| **RD** | 4 | Smooth running variable | Local effect at cutoff | Yes (sheepskin) |
+| **DD** | 5 | Parallel trends | ATT | Implied (compulsory laws) |
+
+: The Furious Five methods and their role in estimating returns to schooling {.striped}
+
+> 📝 **Connection to Chapter 4**
+>
+
+The sheepskin RD applies the same logic as Chapter 4's MLDA analysis: exploit a sharp cutoff (exam passing threshold) to estimate a local causal effect. The difference is that here, the RD tests a *mechanism* (diploma vs. learning) rather than estimating the overall treatment effect. This shows how the same tool can answer different types of questions.
+
+
+## Synthesis: What Is the True Return to Schooling?
+
+| Method | Estimate | Main Bias | Direction |
+|:---|:---:|:---|:---:|
+| OLS | ~0.11 | Ability bias | Upward |
+| Twin FE | ~0.06 | Measurement error | Downward |
+| Twin IV | ~0.11 | Corrects measurement error | — |
+| Quarter-of-birth IV | ~0.07--0.08 | LATE for compliers only | — |
+| Sheepskin RD | ~0 | Diploma effect specifically | — |
+
+: Comparing returns to schooling across methods {.striped}
+
+> 📝 **The big picture**
+>
+
+The true causal return to schooling is probably **7--10% per year**. OLS slightly overstates it (ability bias), while twin FE understates it (measurement error). The IV estimates, which address both biases, cluster around 7--10%. The near-zero sheepskin effect suggests that the return comes from actual learning, not just credential signaling.
+
+No single method is perfect. The power of this chapter lies in seeing how **multiple imperfect strategies converge** on a similar answer.
+
+
+## Key Takeaways
+
+> 📊 **How the key concepts of Chapter 6 connect** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+
+
+1. **OLS returns to schooling (~11%)** are likely inflated by ability bias.
+
+2. **Twin fixed effects (~6%)** control for shared ability but suffer from measurement error.
+
+3. **IV using twin's report** corrects measurement error, recovering estimates near 11%.
+
+4. **Quarter-of-birth IV** gives 7--8%, using compulsory schooling as exogenous variation.
+
+5. **Sheepskin RD** shows the diploma itself has little earnings value --- learning matters more.
+
+6. **Multiple methods converge** on a true return of about 7--10% per year.
+
+7. **No single method is perfect.** The lesson is to use multiple approaches and look for convergence.
+
+
+## Learn by Coding
+
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 6: The Wages of Schooling — Code Cheatsheet
+# ============================================================
+import pandas as pd
+import statsmodels.formula.api as smf
+from linearmodels.iv import IV2SLS
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: OLS return to schooling (twins data) ---
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
+model = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins)
+ols = model.fit(cov_type="HC1")
+print(f"OLS return to schooling: {round(ols.params['educ'], 3)} ({round(ols.bse['educ'], 3)})")
+print("  (~11% per year — but may be biased by unobserved ability)\n")
+
+# --- Step 2: Twin fixed effects (within-pair differences) ---
+first = twins[twins["first"] == 1]
+model = smf.ols("dlwage ~ deduc - 1", data=first)
+fe = model.fit(cov_type="HC1")
+print(f"Twin FE return: {round(fe.params['deduc'], 3)} ({round(fe.bse['deduc'], 3)})")
+print("  (~6% — lower because shared ability is removed)\n")
+
+# --- Step 3: Quarter-of-birth IV (Angrist & Krueger) ---
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+
+# First stage: does Q4 birth affect years of schooling?
+fs = smf.ols("s ~ q4", data=qob).fit(cov_type="HC1")
+print(f"First stage (Q4 → schooling): {round(fs.params['q4'], 4)}")
+
+# Reduced form: does Q4 birth affect earnings?
+rf = smf.ols("lnw ~ q4", data=qob).fit(cov_type="HC1")
+print(f"Reduced form (Q4 → earnings): {round(rf.params['q4'], 4)}")
+
+# Wald IV estimate
+wald = rf.params["q4"] / fs.params["q4"]
+print(f"Wald IV estimate: {round(wald, 3)}")
+
+# --- Step 4: 2SLS (same answer, correct standard errors) ---
+iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob)
+iv_result = iv.fit(cov_type="robust")
+print(f"\n2SLS estimate: {round(iv_result.params['s'], 3)} ({round(iv_result.std_errors['s'], 3)})")
+print("  (~8% per year via quarter-of-birth instrument)")
+```
+
+> 💡 **Try it yourself!**
+>
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+
+
+## Exercises
+
+### Conceptual Questions
+
+> ✏️ **Conceptual Questions**
+>
+
+1. **Ability bias direction**: A friend argues that ability bias could go *downward* (smart people drop out to start businesses). Give one example supporting this view and one supporting the standard upward-bias view. Which do you find more convincing for the general population?
+
+2. **Measurement error**: Explain why measurement error in education is more problematic in the twin-differences specification than in the levels OLS. (Hint: think about what differencing does to the signal-to-noise ratio.)
+
+3. **The Wald estimate**: Using the QOB data, the reduced form (Q4 → earnings) is 0.0068 and the first stage (Q4 → schooling) is 0.0921. (a) Compute the Wald/IV estimate. (b) Why is this estimate valid only for "compliers"? Who are the compliers in this context?
+
+4. **OLS vs. IV similarity**: In the QOB analysis, OLS and IV give similar estimates (~0.07). Does this mean ability bias is small? Or could there be offsetting biases (one pushing up, one pushing down) that happen to cancel? Explain.
+
+5. **Sheepskin interpretation**: The Texas RD shows a ~40 percentage point jump in diploma receipt but near-zero earnings effect. A skeptic says "this proves education doesn't matter." Explain why this conclusion is wrong. What does the sheepskin RD actually tell us about the *mechanism* through which education raises earnings?
+
+
+### Research Tasks
+
+> ✏️ **Research Tasks**
+>
+
+1. **Returns for men only**: Using `twins_clean.csv`, restrict the sample to male twins (`female == 0`). Re-run the OLS and within-twin FE regressions. Do the returns to schooling differ for men compared to the full sample?
+
+2. **Multiple instruments**: Using `qob_clean.csv`, run the 2SLS regression using all three quarter dummies (`q2`, `q3`, `q4`) as instruments for schooling instead of just `q4`. Does the IV estimate change? How does the first-stage F-statistic compare?
+
+3. **White vs. non-white twins**: Using `twins_clean.csv`, split the sample by `white` status and run the OLS regression for each group. Is the return to schooling different for white vs. non-white twins?
+
+
+## Solutions
+
+### Conceptual Questions
+
+**Q1.** Downward bias example: Mark Zuckerberg dropped out of Harvard to build Facebook and became a billionaire. His high ability generated high earnings *without* completing his degree, so ability and schooling are negatively correlated for him. Upward bias example: A student with high IQ and supportive parents completes a PhD and earns a high salary. Her ability led to both more schooling and higher earnings independently. For the general population, upward bias is more convincing: most high-ability people complete more education (not fewer), because the education system selects on ability. The Zuckerberg-type dropouts are rare exceptions.
+
+**Q2.** Measurement error adds noise ($m_i$) to the observed schooling variable: $S_i = S_i^* + m_i$. The signal is the true schooling variation ($\text{Var}(S^*)$) and the noise is $\text{Var}(m)$. In the levels OLS, the reliability ratio is $r = \text{Var}(S^*) / [\text{Var}(S^*) + \text{Var}(m)]$. When we difference within twin pairs, the true variation $\text{Var}(\Delta S^*)$ shrinks dramatically (twins are similar in education), but $\text{Var}(\Delta m)$ stays roughly the same (measurement errors are independent across twins). So the reliability $r$ falls, and attenuation bias worsens. This is why the twin FE estimate (0.06) is lower than OLS (0.11) --- part of the drop is real (ability bias removed), but part is artificial (measurement error amplified).
+
+**Q3.** (a) Wald estimate = 0.0068 / 0.0921 = 0.074 (about 7.4% per year). (b) This is a LATE --- it applies only to compliers, people whose schooling was changed by their quarter of birth. In this context, compliers are students who would have dropped out at the minimum age if born in Q1 (starting school older, reaching dropout age sooner) but who completed more schooling because they were born in Q4 (started younger, accumulated more years before reaching dropout age). These are marginal students at the dropout threshold, not the general population.
+
+**Q4.** The similarity of OLS and IV could reflect offsetting biases rather than no bias. OLS is biased upward by ability (more able → more school AND higher earnings) but biased downward by measurement error (self-reported schooling has noise). These two biases work in opposite directions. IV using quarter of birth corrects both simultaneously, and the net result happens to be close to OLS. This doesn't mean there's no ability bias --- it means ability bias and attenuation bias approximately cancel. The twin evidence supports this: when we correct measurement error (IV with twin's report), the estimate rises; when we control for ability (twin FE), it falls.
+
+### Research Tasks
+
+**R1.**
+
+```python
+
+import pandas as pd
+import statsmodels.formula.api as smf
+
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
+
+# Full sample OLS and twin FE
+model_ols_all = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins)
+ols_all = model_ols_all.fit(cov_type="HC1")
+
+first_all = twins[twins["first"] == 1]
+model_fe_all = smf.ols("dlwage ~ deduc - 1", data=first_all)
+fe_all = model_fe_all.fit(cov_type="HC1")
+
+# Men only
+men = twins[twins["female"] == 0]
+model_ols_men = smf.ols("lwage ~ educ + age + age2 + white", data=men)
+ols_men = model_ols_men.fit(cov_type="HC1")
+
+first_men = men[men["first"] == 1]
+model_fe_men = smf.ols("dlwage ~ deduc - 1", data=first_men)
+fe_men = model_fe_men.fit(cov_type="HC1")
+
+pd.DataFrame({
+    "Method": ["OLS (full sample)", "OLS (men only)", "Twin FE (full sample)", "Twin FE (men only)"],
+    "Coefficient": [
+        round(ols_all.params["educ"], 4), round(ols_men.params["educ"], 4),
+        round(fe_all.params["deduc"], 4), round(fe_men.params["deduc"], 4),
+    ],
+    "SE": [
+        round(ols_all.bse["educ"], 4), round(ols_men.bse["educ"], 4),
+        round(fe_all.bse["deduc"], 4), round(fe_men.bse["deduc"], 4),
+    ],
+    "N": [int(ols_all.nobs), int(ols_men.nobs), int(fe_all.nobs), int(fe_men.nobs)],
+})
+```
+
+
+The male-only estimates may differ from the full sample because the returns to schooling can vary by gender. The smaller sample size for men also increases standard errors. The key pattern (OLS > twin FE) should persist, reflecting ability bias in OLS.
+
+**R2.**
+
+```python
+
+import numpy as np
+from linearmodels.iv import IV2SLS
+
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+
+# --- Specification 1: Single instrument (Q4 only), no year-of-birth controls ---
+# [s ~ q4] means: schooling (s) is endogenous, instrumented by the Q4 dummy
+iv_q4_model = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob)
+iv_q4 = iv_q4_model.fit(cov_type="robust")
+
+# First-stage F-statistic: how strongly does Q4 predict schooling?
+fs_q4_model = smf.ols("s ~ q4", data=qob)
+fs_q4 = fs_q4_model.fit()
+f_q4 = float(np.atleast_1d(fs_q4.f_test("q4 = 0").fvalue).flat[0])
+
+# --- Specification 2: Three instruments (Q2, Q3, Q4) with year-of-birth controls ---
+# Step A: Create year-of-birth dummy variables (one per birth year, drop first to avoid collinearity)
+yob_dummies = pd.get_dummies(qob["yob"].astype(int), prefix="yob", drop_first=True, dtype=float)
+
+# Step B: Combine the key variables with the year-of-birth dummies into one DataFrame
+iv_data = pd.concat([qob[["lnw", "s", "q2", "q3", "q4"]], yob_dummies], axis=1)
+
+# Step C: Build the formula string for year-of-birth controls
+# This creates "yob_31 + yob_32 + ... + yob_39" to include in the regression
+yob_str = " + ".join(yob_dummies.columns)
+
+# Step D: Run 2SLS with all three quarter dummies as instruments
+# [s ~ q2 + q3 + q4] means: s is endogenous, instrumented by Q2, Q3, and Q4
+iv_multi_model = IV2SLS.from_formula(
+    f"lnw ~ 1 + {yob_str} + [s ~ q2 + q3 + q4]", data=iv_data
+)
+iv_multi = iv_multi_model.fit(cov_type="robust")
+
+# Step E: First-stage F-statistic for the joint significance of all three instruments
+fs_multi_model = smf.ols(f"s ~ q2 + q3 + q4 + {yob_str}", data=iv_data)
+fs_multi = fs_multi_model.fit()
+f_multi = float(np.atleast_1d(fs_multi.f_test("q2 = 0, q3 = 0, q4 = 0").fvalue).flat[0])
+
+pd.DataFrame({
+    "Specification": ["IV (Q4 only, no controls)", "IV (Q2+Q3+Q4, with YOB FE)"],
+    "Return to schooling": [round(iv_q4.params["s"], 4), round(iv_multi.params["s"], 4)],
+    "SE": [round(iv_q4.std_errors["s"], 4), round(iv_multi.std_errors["s"], 4)],
+    "First-stage F": [round(f_q4, 1), round(f_multi, 1)],
+})
+```
+
+
+Using all three quarter dummies as instruments (with year-of-birth controls) slightly increases the IV estimate and improves precision (smaller SE). The first-stage F-statistic remains well above 10 in both cases, indicating strong instruments. Multiple instruments extract more variation from the data, leading to a more precise estimate at the cost of stronger assumptions (all three quarters must satisfy the exclusion restriction).
+
+**Q5.** The sheepskin RD does NOT prove education doesn't matter. It proves that the *diploma itself* (the credential) has little independent value for students at the margin of passing. The large education premium observed in wage data must therefore come from actual *learning and skill development* (human capital), not from the signaling value of having a diploma. The RD only tells us about one mechanism (credential vs. learning) at one specific margin (barely passing vs. barely failing a last-chance exam). Education clearly raises earnings --- the question is whether it's the diploma or the skills that matter.
+
+**R3.**
+
+```python
+
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
+
+# Compare OLS returns to schooling for white vs. non-white twins
+rows = []
+for race, label in [(1, "White"), (0, "Non-white")]:
+    subset = twins[twins["white"] == race]
+    if len(subset) > 10:
+        model = smf.ols("lwage ~ educ + age + age2 + female", data=subset)
+        r = model.fit(cov_type="HC1")
+        rows.append({
+            "Group": label,
+            "OLS return": round(r.params["educ"], 4),
+            "SE": round(r.bse["educ"], 4),
+            "N": int(r.nobs),
+        })
+
+pd.DataFrame(rows)
+```
+
+
+The returns may differ by race due to labor market discrimination, different school quality, or different occupational distributions. The non-white subsample is likely small, making the estimate imprecise. Comparing subgroup estimates helps assess whether the overall return masks heterogeneity.
