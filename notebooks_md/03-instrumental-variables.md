@@ -22,7 +22,24 @@ By the end of this chapter, you will be able to:
 
 This chapter addresses a common real-world complication: what happens when people don't follow their assigned treatment? The solution --- instrumental variables --- turns partial compliance into a powerful tool for causal inference.
 
-> 📊 **Roadmap for Chapter 3** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    A["THE QUESTION: What if people don't comply with their treatment assignment?"]
+    B["THE COMPLIANCE PROBLEM: Assigned treatment differs from received treatment"]
+    C["THE IV FRAMEWORK: Use assignment as an instrument for actual treatment"]
+    D["THE CASE STUDIES: KIPP lotteries, domestic violence, family size"]
+    E["THE TOOLKIT: Two-Stage Least Squares and weak instrument diagnostics"]
+
+    A --> B --> C --> D --> E
+
+    style A fill:#3498db,color:#fff
+    style B fill:#e67e22,color:#fff
+    style C fill:#c0392b,color:#fff
+    style D fill:#8e44ad,color:#fff
+    style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 ## When Experiments Break Down
@@ -146,7 +163,22 @@ The instrument must push the first domino (relevance) and must *only* work throu
 
 Instrumental variables solves the compliance problem by using the **random assignment** (the instrument) instead of the actual treatment to estimate causal effects. The logic is a chain reaction:
 
-> 📊 **The IV chain reaction: the instrument affects the outcome only through its effect on treatment.** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph LR
+    Z["Instrument (Z): Random assignment"]
+    D["Treatment (D): Actual police action"]
+    Y["Outcome (Y): Future violence"]
+
+    Z -->|"First stage"| D
+    D -->|"Causal effect"| Y
+    Z -.->|"Reduced form"| Y
+
+    style Z fill:#8e44ad,color:#fff
+    style D fill:#3498db,color:#fff
+    style Y fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 The **LATE (Local Average Treatment Effect)** combines these two pieces:
@@ -398,7 +430,30 @@ Wright's innovation lay dormant for decades before being rediscovered. His son *
 
 ## Key Takeaways
 
-> 📊 **How the key concepts of Chapter 3 connect** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    Q["Non-compliance in experiments"]
+    Z["Instrument: random assignment"]
+    FS["First stage: does Z affect D?"]
+    RF["Reduced form: does Z affect Y?"]
+    LATE["LATE = reduced form / first stage"]
+    CT["Complier types determine who LATE applies to"]
+    TSLS["Two-Stage Least Squares: practical implementation"]
+
+    Q --> Z --> FS
+    Z --> RF
+    FS --> LATE
+    RF --> LATE
+    LATE --> CT
+    LATE --> TSLS
+
+    style Q fill:#c0392b,color:#fff
+    style Z fill:#8e44ad,color:#fff
+    style LATE fill:#2d8659,color:#fff
+    style TSLS fill:#3498db,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 1. **Non-compliance** is common in experiments. Comparing outcomes by *received* treatment reintroduces selection bias.

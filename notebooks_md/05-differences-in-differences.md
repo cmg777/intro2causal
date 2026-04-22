@@ -22,7 +22,24 @@ By the end of this chapter, you will be able to:
 
 This chapter introduces a method for settings where treatment is not randomly assigned but varies across groups and over time. By comparing *changes* rather than levels, DD removes time-invariant confounders.
 
-> 📊 **Roadmap for Chapter 5** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    A["THE QUESTION: Did Fed intervention save banks during the Great Depression?"]
+    B["THE INSIGHT: Compare changes in treated vs. control groups over time"]
+    C["THE ASSUMPTION: Without treatment, both groups would have followed parallel trends"]
+    D["THE TOOL: Regression with state and year fixed effects"]
+    E["THE EVIDENCE: Banking crises and drinking age mortality"]
+
+    A --> B --> C --> D --> E
+
+    style A fill:#3498db,color:#fff
+    style B fill:#e67e22,color:#fff
+    style C fill:#c0392b,color:#fff
+    style D fill:#8e44ad,color:#fff
+    style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 ## A Mississippi Experiment
@@ -166,7 +183,29 @@ DD compares changes over time in a treatment group with changes in a control gro
 
 $$\delta_{DD} = \underbrace{(\bar{Y}_{treat,after} - \bar{Y}_{treat,before})}_{\text{Change in treated}} - \underbrace{(\bar{Y}_{control,after} - \bar{Y}_{control,before})}_{\text{Change in control}}$$
 
-> 📊 **The DD method: subtract the control group's change from the treated group's change to isolate the causal effect.** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    T1["Treated group: BEFORE"]
+    T2["Treated group: AFTER"]
+    C1["Control group: BEFORE"]
+    C2["Control group: AFTER"]
+    DT["Change in treated"]
+    DC["Change in control"]
+    DD["DD = Change in treated minus change in control"]
+
+    T1 --> DT
+    T2 --> DT
+    C1 --> DC
+    C2 --> DC
+    DT --> DD
+    DC --> DD
+
+    style DD fill:#2d8659,color:#fff
+    style DT fill:#3498db,color:#fff
+    style DC fill:#e67e22,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 ### The Parallel Trends Assumption
@@ -407,7 +446,29 @@ DD complements the other methods:
 
 ## Key Takeaways
 
-> 📊 **How the key concepts of Chapter 5 connect** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    Q["Policy varies across groups and time"]
+    DD["DD: compare changes in treated vs. control"]
+    PT["Parallel trends assumption must hold"]
+    FE["Regression with state and year fixed effects"]
+    ROB["Robustness: trends, weights, placebos"]
+    EV["Evidence: Fed saved banks; MLDA increases deaths"]
+
+    Q --> DD
+    DD --> PT
+    DD --> FE
+    FE --> ROB
+    ROB --> EV
+
+    style Q fill:#3498db,color:#fff
+    style DD fill:#8e44ad,color:#fff
+    style PT fill:#c0392b,color:#fff
+    style FE fill:#e67e22,color:#fff
+    style EV fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 1. **DD compares changes over time** between treatment and control groups, removing time-invariant confounders.

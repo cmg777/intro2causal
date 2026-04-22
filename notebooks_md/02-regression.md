@@ -22,7 +22,24 @@ By the end of this chapter, you will be able to:
 
 This chapter introduces regression --- the most widely used tool in the econometrician's toolkit. When randomized experiments are not available, regression lets us approximate an experimental comparison by holding observable characteristics constant.
 
-> 📊 **Roadmap for Chapter 2** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    A["THE QUESTION: Is a private college worth the extra tuition?"]
+    B["THE PROBLEM: Private school students differ from public school students"]
+    C["THE TOOL: Regression holds observed characteristics constant"]
+    D["THE RISK: Omitted Variables Bias when controls are incomplete"]
+    E["THE TEST: Sensitivity analysis — do results change with more controls?"]
+
+    A --> B --> C --> D --> E
+
+    style A fill:#3498db,color:#fff
+    style B fill:#c0392b,color:#fff
+    style C fill:#8e44ad,color:#fff
+    style D fill:#e67e22,color:#fff
+    style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 ## Is a Private College Worth It?
@@ -380,7 +397,32 @@ Both Galton and Yule worked in an era before causal inference was formalized. Th
 
 ## Key Takeaways
 
-> 📊 **How the key concepts of Chapter 2 connect** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    Q["Causal question with no experiment available"]
+    REG["Regression holds observed variables constant"]
+    SHORT["Short regression: fewer controls, more bias risk"]
+    LONG["Long regression: more controls, less bias"]
+    OVB["OVB = pi x gamma tells you the direction of bias"]
+    SENS["Sensitivity analysis: do results change with more controls?"]
+    BC["Bad controls: don't control for post-treatment variables"]
+
+    Q --> REG
+    REG --> SHORT
+    REG --> LONG
+    SHORT --> OVB
+    LONG --> OVB
+    OVB --> SENS
+    REG --> BC
+
+    style Q fill:#2c3e50,color:#fff
+    style REG fill:#8e44ad,color:#fff
+    style OVB fill:#e67e22,color:#fff
+    style SENS fill:#2d8659,color:#fff
+    style BC fill:#c0392b,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 1. **Regression approximates an experiment** by comparing treated and untreated observations that share the same values of control variables.

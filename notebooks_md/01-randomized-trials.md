@@ -22,7 +22,24 @@ By the end of this chapter, you will be able to:
 
 This chapter follows a clear arc: we start with a real-world question, discover why naive data comparisons are misleading, learn the theoretical framework that explains the problem, and then see how randomized experiments provide a solution.
 
-> 📊 **Roadmap for Chapter 1** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    A["THE QUESTION: Does insurance improve health?"]
+    B["NAIVE EVIDENCE: Insured are healthier, but is it causal?"]
+    C["THE PROBLEM: Selection bias contaminates the comparison"]
+    D["THE SOLUTION: Random assignment eliminates selection bias"]
+    E["THE EVIDENCE: Two landmark experiments — RAND and Oregon"]
+
+    A --> B --> C --> D --> E
+
+    style A fill:#3498db,color:#fff
+    style B fill:#e67e22,color:#fff
+    style C fill:#c0392b,color:#fff
+    style D fill:#8e44ad,color:#fff
+    style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 ## Does Health Insurance Improve Health?
@@ -208,12 +225,31 @@ This leads to a fundamental equation. Any observed comparison can be split into 
 
 $$\underbrace{\text{Observed difference}}_{\text{What we see}} = \underbrace{\kappa}_{\text{Causal effect}} + \underbrace{\text{Avg}[Y_{0i} | D_i\!=\!1] - \text{Avg}[Y_{0i} | D_i\!=\!0]}_{\text{Selection bias}}$$
 
-> 📊 **The observed comparison bundles together the causal effect and selection bias. We need tools to separate them.** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph LR
+    A["Observed Difference<br/>(Insured vs. Uninsured)"] --> B["Causal Effect (κ)<br/>What insurance<br/>actually does"]
+    A --> C["Selection Bias<br/>Pre-existing differences<br/>between the groups"]
+    style B fill:#2d8659,color:#fff
+    style C fill:#c0392b,color:#fff
+    style A fill:#2c3e50,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 **Selection bias** is the difference in health that would exist *even without insurance* --- it reflects the fact that healthier, wealthier, more educated people are more likely to be insured. The NHIS data above showed exactly this pattern.
 
-> 📊 **Why the naive comparison fails. Confounders create a 'back-door path' that makes it impossible to isolate the causal effect.** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    C["Confounders<br/>(Education, Income,<br/>Employment, etc.)"] -->|"affects"| I["Insurance<br/>Status"]
+    C -->|"affects"| H["Health<br/>Outcomes"]
+    I -.->|"causal effect?"| H
+    style C fill:#e67e22,color:#fff
+    style I fill:#3498db,color:#fff
+    style H fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 > ⭐ **The Fundamental Problem of Causal Inference**
@@ -241,7 +277,23 @@ The **Law of Large Numbers** guarantees this: in large random samples, group ave
 
 Roll a fair die once --- you might get 1 or 6, far from the expected value of 3.5. Roll it 10 times --- the average gets closer. Roll it 10,000 times --- the average is almost exactly 3.5. This is why **casinos always win in the long run**: any single bet is a toss-up, but over thousands of plays, the house edge reliably prevails. Random assignment works the same way: with enough people, the treatment and control groups converge to being identical on *every* characteristic --- even ones we can't see.
 
-> 📊 **In an RCT, random assignment ensures the two groups are comparable. Any difference in outcomes must be caused by the treatment.** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    P["Target Population"] --> R{"Random<br/>Assignment"}
+    R -->|"Coin = Heads"| T["Treatment Group<br/>(Receives insurance)"]
+    R -->|"Coin = Tails"| C["Control Group<br/>(No insurance)"]
+    T --> OT["Measure Health"]
+    C --> OC["Measure Health"]
+    OT --> D["Difference in Means<br/>= Causal Effect (κ)"]
+    OC --> D
+
+    style R fill:#8e44ad,color:#fff
+    style T fill:#2d8659,color:#fff
+    style C fill:#c0392b,color:#fff
+    style D fill:#2c3e50,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 ### Why It Works Mathematically
@@ -600,7 +652,26 @@ The two experiments, conducted decades apart on very different populations, reac
 
 The idea of using controlled comparisons did not appear overnight. Key milestones in the development of experimental methods:
 
-> 📊 **Key milestones in the history of randomized experiments.** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+timeline
+    title From Ancient Wisdom to Modern Trials
+    section Ancient
+        ~600 BCE : Daniel's dietary trial
+                 : First recorded use of a control group
+    section 18th Century
+        1747 : James Lind's scurvy experiment
+             : Tested citrus fruits on sailors
+             : His theory was wrong, but his data were right
+    section 19th Century
+        1885 : Peirce & Jastrow
+             : First use of random assignment
+    section 20th Century
+        1925 : R.A. Fisher formalizes RCTs
+             : Statistical Methods for Research Workers
+        1974 : RAND HIE launches
+             : Largest social experiment of its era
+```
 
 
 - **Daniel** (~600 BCE) proposed a 10-day vegetarian diet trial with a control group eating the king's rich food --- perhaps the first controlled experiment
@@ -651,7 +722,28 @@ Always consider both the **size** of a coefficient and its **statistical precisi
 
 ## Key Takeaways
 
-> 📊 **How the key concepts of Chapter 1 connect.** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    Q["Causal Question"] --> NC["Naive Comparison"]
+    NC --> SB["Selection Bias discovered"]
+    SB --> PO["Potential Outcomes Framework explains why"]
+    PO --> RA["Random Assignment as the solution"]
+    RA --> BC["Balance Check to verify"]
+    BC --> TE["Estimate Causal Effect"]
+    TE --> R["RAND HIE: more care does not improve health"]
+    TE --> O["Oregon OHP: insurance helps finances and mental health"]
+
+    style Q fill:#2c3e50,color:#fff
+    style SB fill:#c0392b,color:#fff
+    style PO fill:#e67e22,color:#fff
+    style RA fill:#8e44ad,color:#fff
+    style BC fill:#3498db,color:#fff
+    style TE fill:#2d8659,color:#fff
+    style R fill:#2d8659,color:#fff
+    style O fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 1. **Correlation is not causation.** Observed differences between groups reflect causal effects *plus* selection bias.

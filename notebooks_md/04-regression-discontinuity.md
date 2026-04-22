@@ -22,7 +22,24 @@ By the end of this chapter, you will be able to:
 
 This chapter shows how bureaucratic rules --- the very things that seem to reduce randomness --- can actually *create* valuable natural experiments for causal inference.
 
-> 📊 **Roadmap for Chapter 4** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    A["THE QUESTION: Does legal drinking access increase mortality?"]
+    B["THE INSIGHT: The age-21 cutoff creates a natural experiment"]
+    C["THE METHOD: Compare outcomes just above vs. just below the cutoff"]
+    D["THE EVIDENCE: Sharp mortality jump at age 21, driven by car accidents"]
+    E["THE EXTENSION: Fuzzy RD when treatment probability jumps at a cutoff"]
+
+    A --> B --> C --> D --> E
+
+    style A fill:#3498db,color:#fff
+    style B fill:#e67e22,color:#fff
+    style C fill:#8e44ad,color:#fff
+    style D fill:#2d8659,color:#fff
+    style E fill:#2c3e50,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 ## Rules Create Experiments
@@ -342,7 +359,30 @@ Campbell went on to pioneer quasi-experimental methods more broadly, co-authorin
 
 ## Key Takeaways
 
-> 📊 **How the key concepts of Chapter 4 connect** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    Q["Rigid rules create sharp cutoffs"]
+    RV["Running variable determines treatment"]
+    RD["RD: compare just above vs. just below"]
+    SPEC["Test robustness: polynomial order and bandwidth"]
+    PLAC["Placebo test: outcomes that should not jump"]
+    LOCAL["RD estimates are local: valid at the cutoff"]
+    FUZZY["Fuzzy RD: when treatment probability jumps, use IV"]
+
+    Q --> RV --> RD
+    RD --> SPEC
+    RD --> PLAC
+    RD --> LOCAL
+    RD --> FUZZY
+
+    style Q fill:#3498db,color:#fff
+    style RD fill:#8e44ad,color:#fff
+    style SPEC fill:#e67e22,color:#fff
+    style PLAC fill:#2d8659,color:#fff
+    style LOCAL fill:#2c3e50,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 1. **RD exploits cutoff rules** where treatment switches on at a threshold of a running variable.

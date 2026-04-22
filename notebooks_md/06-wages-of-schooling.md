@@ -22,7 +22,24 @@ By the end of this chapter, you will be able to:
 
 This chapter is unique: it applies *all* the methods from the book --- OLS, IV, and RD --- to a single question. The convergence (and divergence) of results across methods reveals what each method can and cannot do.
 
-> 📊 **Roadmap for Chapter 6** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    A["THE QUESTION: Does education really cause higher earnings?"]
+    B["THE PROBLEM: Ability bias may inflate the OLS estimate"]
+    C["STRATEGY ONE: Twin comparisons to control for shared ability"]
+    D["STRATEGY TWO: Quarter-of-birth IV for exogenous schooling variation"]
+    E["STRATEGY THREE: Sheepskin RD to test diploma vs. learning effects"]
+
+    A --> B --> C --> D --> E
+
+    style A fill:#3498db,color:#fff
+    style B fill:#c0392b,color:#fff
+    style C fill:#8e44ad,color:#fff
+    style D fill:#e67e22,color:#fff
+    style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 ## Does Education Make You Richer?
@@ -535,7 +552,35 @@ No single method is perfect. The power of this chapter lies in seeing how **mult
 
 ## Key Takeaways
 
-> 📊 **How the key concepts of Chapter 6 connect** *(diagram — view in the [online book](https://github.com/cmg777/intro2causal))*
+```mermaid
+
+graph TD
+    Q["Does education cause higher earnings?"]
+    AB["Ability bias inflates OLS"]
+    TW["Twin FE removes shared ability"]
+    ME["Measurement error biases twins down"]
+    IV["IV corrects both biases"]
+    RD["Sheepskin RD: diploma effect is small"]
+    SYN["Synthesis: true return is about seven to ten percent"]
+
+    Q --> AB
+    AB --> TW
+    TW --> ME
+    ME --> IV
+    Q --> IV
+    Q --> RD
+    TW --> SYN
+    IV --> SYN
+    RD --> SYN
+
+    style Q fill:#2c3e50,color:#fff
+    style AB fill:#c0392b,color:#fff
+    style TW fill:#8e44ad,color:#fff
+    style IV fill:#3498db,color:#fff
+    style RD fill:#e67e22,color:#fff
+    style SYN fill:#2d8659,color:#fff
+    linkStyle default stroke:#fff,stroke-width:2px
+```
 
 
 1. **OLS returns to schooling (~11%)** are likely inflated by ability bias.
