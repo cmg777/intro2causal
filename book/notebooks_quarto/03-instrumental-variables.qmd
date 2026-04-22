@@ -7,6 +7,8 @@ execute:
 
 ![](../images/ch03_visual_summary.svg)
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb)
+
 
 ::: {.callout-tip}
 ### Learning Objectives
