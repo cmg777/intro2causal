@@ -364,6 +364,61 @@ graph TD
 7. **Fuzzy RD** handles cases where treatment probability (not treatment itself) jumps, using IV at the cutoff.
 
 
+## Learn by Coding
+
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 4: Regression Discontinuity — Code Cheatsheet
+# ============================================================
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.formula.api as smf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Load MLDA mortality data ---
+mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
+print("MLDA data:", mlda.shape[0], "age cells")
+print(mlda[["agecell", "over21", "all", "mva", "internal"]].head())
+
+# --- Step 2: Plot the discontinuity ---
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.scatter(mlda["agecell"], mlda["all"], color="gray", alpha=0.7, s=40)
+ax.axvline(x=21, color="red", linestyle="--", label="MLDA cutoff (age 21)")
+ax.set_xlabel("Age")
+ax.set_ylabel("Deaths per 100,000")
+ax.set_title("All-cause mortality around the MLDA cutoff")
+ax.legend()
+plt.show()
+
+# --- Step 3: Sharp RD regression (linear) ---
+model = smf.ols("all ~ over21 + age", data=mlda)
+result = model.fit(cov_type="HC1")
+print("\nSharp RD — linear specification:")
+print(result.summary().tables[1])
+print(f"  Jump at cutoff: {round(result.params['over21'], 2)} deaths per 100k")
+
+# --- Step 4: Quadratic RD for robustness ---
+model = smf.ols("all ~ over21 + age + age2 + over_age + over_age2", data=mlda)
+result = model.fit(cov_type="HC1")
+print("\nSharp RD — quadratic specification:")
+print(f"  Jump at cutoff: {round(result.params['over21'], 2)} deaths per 100k")
+
+# --- Step 5: Placebo test (internal causes should NOT jump) ---
+model = smf.ols("internal ~ over21 + age", data=mlda)
+result = model.fit(cov_type="HC1")
+print(f"\nPlacebo test (internal causes): {round(result.params['over21'], 2)}")
+print("  (Expect: small and insignificant — diseases don't respond to MLDA)")
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+
 ## Exercises
 
 ### Conceptual Questions

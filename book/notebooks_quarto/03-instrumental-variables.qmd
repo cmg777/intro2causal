@@ -431,6 +431,56 @@ graph TD
 7. **Weak instruments** (F < 10) produce unreliable estimates. Always check the first stage.
 
 
+## Learn by Coding
+
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 3: Instrumental Variables — Code Cheatsheet
+# ============================================================
+import pandas as pd
+import statsmodels.formula.api as smf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Load Minneapolis Domestic Violence Experiment data ---
+mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
+print("MDVE data:", mdve.shape[0], "cases")
+print(mdve[["assigned", "delivered", "recidivism"]].head())
+
+# --- Step 2: Compliance — did officers follow their assignment? ---
+print("\nAssigned vs. delivered treatment:")
+print(pd.crosstab(mdve["assigned"], mdve["delivered"], margins=True))
+
+# --- Step 3: Create binary variables (arrest vs. coddle) ---
+mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)   # instrument
+mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)   # treatment
+
+# --- Step 4: First stage (does assignment change actual treatment?) ---
+fs = smf.ols("d_coddle ~ z_coddle", data=mdve).fit(cov_type="HC1")
+first_stage = fs.params["z_coddle"]
+print(f"\nFirst stage: {first_stage:.3f}")
+print("  (Fraction who comply with coddle assignment)")
+
+# --- Step 5: Reduced form (does assignment affect recidivism?) ---
+rf = smf.ols("recidivism ~ z_coddle", data=mdve).fit(cov_type="HC1")
+reduced_form = rf.params["z_coddle"]
+print(f"\nReduced form: {reduced_form:.3f}")
+print("  (Effect of coddle ASSIGNMENT on recidivism)")
+
+# --- Step 6: IV estimate (LATE = reduced form / first stage) ---
+late = reduced_form / first_stage
+print(f"\nLATE = {reduced_form:.3f} / {first_stage:.3f} = {late:.3f}")
+print("  Coddling increases recidivism by ~15 pp among compliers")
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+
 ## Exercises
 
 ### Multiple Choice Questions

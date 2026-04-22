@@ -169,6 +169,17 @@
     ]
   },
   {
+    "objectID": "notebooks_quarto/01-randomized-trials.html#learn-by-coding",
+    "href": "notebooks_quarto/01-randomized-trials.html#learn-by-coding",
+    "title": "1. Randomized Trials",
+    "section": "Learn by Coding",
+    "text": "Learn by Coding\nCopy this code into a Python notebook to reproduce the key results from this chapter.\n# ============================================================\n# Chapter 1: Randomized Trials — Code Cheatsheet\n# ============================================================\nimport pandas as pd\nimport statsmodels.formula.api as smf\n\nDATA = \"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/\"\n\n# --- Step 1: Load NHIS data and compare health by insurance status ---\nnhis = pd.read_csv(DATA + \"ch1/nhis_clean.csv\")\nprint(\"Average health by insurance status:\")\nprint(nhis.groupby(\"insurance\")[\"health\"].mean().round(2))\n\n# --- Step 2: Regression on a dummy (difference in means + standard error) ---\nmodel = smf.ols(\"health ~ insurance\", data=nhis)\nresult = model.fit(cov_type=\"HC1\")\nprint(\"\\nHealth ~ Insurance:\")\nprint(result.summary().tables[1])\n\n# --- Step 3: Balance check (RAND HIE — did randomization work?) ---\nrand = pd.read_csv(DATA + \"ch1/rand_balance.csv\")\nd = rand[[\"age\", \"plan_free\", \"plan_deductible\", \"plan_coinsurance\", \"family_id\"]].dropna()\nmodel = smf.ols(\"age ~ plan_free + plan_deductible + plan_coinsurance\", data=d)\nresult = model.fit(cov_type=\"cluster\", cov_kwds={\"groups\": d[\"family_id\"]})\nprint(\"\\nBalance check — Age across plan groups:\")\nprint(result.summary().tables[1])\n\n# --- Step 4: Causal effect of free insurance on spending ---\nhie = pd.read_csv(DATA + \"ch1/rand_utilization.csv\")\nd = hie[[\"total_expenses\", \"plan_free\", \"plan_deductible\", \"plan_coinsurance\", \"family_id\"]].dropna()\nmodel = smf.ols(\"total_expenses ~ plan_free + plan_deductible + plan_coinsurance\", data=d)\nresult = model.fit(cov_type=\"cluster\", cov_kwds={\"groups\": d[\"family_id\"]})\nprint(\"\\nCausal effect on total spending:\")\nprint(result.summary().tables[1])\n\n# --- Step 5: Causal effect on health (the RAND paradox: no effect!) ---\nhealth = pd.read_csv(DATA + \"ch1/rand_health_outcomes.csv\")\nd = health[[\"health_index\", \"plan_free\", \"plan_deductible\", \"plan_coinsurance\", \"family_id\"]].dropna()\nmodel = smf.ols(\"health_index ~ plan_free + plan_deductible + plan_coinsurance\", data=d)\nresult = model.fit(cov_type=\"cluster\", cov_kwds={\"groups\": d[\"family_id\"]})\nprint(\"\\nCausal effect on health (expect: no significant effect):\")\nprint(result.summary().tables[1])\n\n\n\n\n\n\nTipTry it yourself!\n\n\n\nCopy the code above and paste it into this Google Colab scratchpad to run it interactively. Modify the variables, change the specifications, and see how results change!",
+    "crumbs": [
+      "The Framework",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>1. Randomized Trials</span>"
+    ]
+  },
+  {
     "objectID": "notebooks_quarto/01-randomized-trials.html#exercises",
     "href": "notebooks_quarto/01-randomized-trials.html#exercises",
     "title": "1. Randomized Trials",
@@ -295,6 +306,17 @@
     "title": "2. Regression",
     "section": "Key Takeaways",
     "text": "Key Takeaways\n\n\n\n\n\n\ngraph TD\n    Q[\"Causal question with no experiment available\"]\n    REG[\"Regression holds observed variables constant\"]\n    SHORT[\"Short regression: fewer controls, more bias risk\"]\n    LONG[\"Long regression: more controls, less bias\"]\n    OVB[\"OVB = pi x gamma tells you the direction of bias\"]\n    SENS[\"Sensitivity analysis: do results change with more controls?\"]\n    BC[\"Bad controls: don't control for post-treatment variables\"]\n\n    Q --&gt; REG\n    REG --&gt; SHORT\n    REG --&gt; LONG\n    SHORT --&gt; OVB\n    LONG --&gt; OVB\n    OVB --&gt; SENS\n    REG --&gt; BC\n\n    style Q fill:#2c3e50,color:#fff\n    style REG fill:#8e44ad,color:#fff\n    style OVB fill:#e67e22,color:#fff\n    style SENS fill:#2d8659,color:#fff\n    style BC fill:#c0392b,color:#fff\n    linkStyle default stroke:#fff,stroke-width:2px\n\n\n\n\nFigure 2.2: How the key concepts of Chapter 2 connect\n\n\n\n\n\n\nRegression approximates an experiment by comparing treated and untreated observations that share the same values of control variables.\nOVB = \\(\\pi_1 \\times \\gamma\\) — the bias from omitting a variable equals the correlation of the omitted variable with treatment times its effect on the outcome.\nThe direction of OVB can be predicted by reasoning about the signs of \\(\\pi_1\\) and \\(\\gamma\\), even when the omitted variable is unobserved.\nSensitivity analysis: If adding controls doesn’t change the estimate much, we gain confidence that remaining omitted variables aren’t causing large bias.\nBad controls (post-treatment variables) should never be included — they block causal pathways and introduce new bias.\nRegression is foundational: Every method in the book (IV, RD, DD) uses regression as a building block.\nThe private college premium largely disappears once you match students by the schools they applied to — most of the raw gap is selection, not causation.",
+    "crumbs": [
+      "The Five Tools",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>2. Regression</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks_quarto/02-regression.html#learn-by-coding",
+    "href": "notebooks_quarto/02-regression.html#learn-by-coding",
+    "title": "2. Regression",
+    "section": "Learn by Coding",
+    "text": "Learn by Coding\nCopy this code into a Python notebook to reproduce the key results from this chapter.\n# ============================================================\n# Chapter 2: Regression — Code Cheatsheet\n# ============================================================\nimport numpy as np\nimport pandas as pd\nimport statsmodels.formula.api as smf\n\n# --- Step 1: Simulate data where we KNOW the true causal effect ---\nnp.random.seed(42)\nn = 1000\nability = np.random.normal(50, 10, n)\nprob_private = 1 / (1 + np.exp(-(ability - 50) / 5))\nprivate = np.random.binomial(1, prob_private)\ntrue_effect = 5000\nearnings = 30000 + true_effect * private + 800 * ability + np.random.normal(0, 5000, n)\nstudents = pd.DataFrame({\"earnings\": earnings, \"private\": private, \"ability\": ability})\n\n# --- Step 2: Short regression (omitting ability → biased) ---\nshort = smf.ols(\"earnings ~ private\", data=students).fit()\nprint(\"SHORT regression (biased — omits ability):\")\nprint(f\"  Private school coefficient: ${short.params['private']:,.0f}\")\nprint(f\"  True effect is $5,000 — the estimate is too high!\\n\")\n\n# --- Step 3: Long regression (including ability → unbiased) ---\nlong = smf.ols(\"earnings ~ private + ability\", data=students).fit()\nprint(\"LONG regression (controls for ability):\")\nprint(f\"  Private school coefficient: ${long.params['private']:,.0f}\")\nprint(f\"  Close to the true effect of $5,000\\n\")\n\n# --- Step 4: Verify the OVB formula ---\novb_direct = short.params[\"private\"] - long.params[\"private\"]\naux = smf.ols(\"ability ~ private\", data=students).fit()\npi_1 = aux.params[\"private\"]       # relationship: omitted ↔ treatment\ngamma = long.params[\"ability\"]      # effect of omitted in long regression\novb_formula = pi_1 * gamma\nprint(\"OVB Formula Verification:\")\nprint(f\"  Direct OVB (short - long):  ${ovb_direct:,.0f}\")\nprint(f\"  Formula OVB (pi1 x gamma): ${ovb_formula:,.0f}\")\nprint(f\"  pi1 = {pi_1:.2f}, gamma = {gamma:.0f}\")\n\n\n\n\n\n\nTipTry it yourself!\n\n\n\nCopy the code above and paste it into this Google Colab scratchpad to run it interactively. Modify the variables, change the specifications, and see how results change!",
     "crumbs": [
       "The Five Tools",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>2. Regression</span>"
@@ -433,6 +455,17 @@
     ]
   },
   {
+    "objectID": "notebooks_quarto/03-instrumental-variables.html#learn-by-coding",
+    "href": "notebooks_quarto/03-instrumental-variables.html#learn-by-coding",
+    "title": "3. Instrumental Variables",
+    "section": "Learn by Coding",
+    "text": "Learn by Coding\nCopy this code into a Python notebook to reproduce the key results from this chapter.\n# ============================================================\n# Chapter 3: Instrumental Variables — Code Cheatsheet\n# ============================================================\nimport pandas as pd\nimport statsmodels.formula.api as smf\n\nDATA = \"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/\"\n\n# --- Step 1: Load Minneapolis Domestic Violence Experiment data ---\nmdve = pd.read_csv(DATA + \"ch3/mdve_clean.csv\")\nprint(\"MDVE data:\", mdve.shape[0], \"cases\")\nprint(mdve[[\"assigned\", \"delivered\", \"recidivism\"]].head())\n\n# --- Step 2: Compliance — did officers follow their assignment? ---\nprint(\"\\nAssigned vs. delivered treatment:\")\nprint(pd.crosstab(mdve[\"assigned\"], mdve[\"delivered\"], margins=True))\n\n# --- Step 3: Create binary variables (arrest vs. coddle) ---\nmdve[\"z_coddle\"] = (mdve[\"assigned\"] != \"Arrest\").astype(int)   # instrument\nmdve[\"d_coddle\"] = (mdve[\"delivered\"] != \"Arrest\").astype(int)   # treatment\n\n# --- Step 4: First stage (does assignment change actual treatment?) ---\nfs = smf.ols(\"d_coddle ~ z_coddle\", data=mdve).fit(cov_type=\"HC1\")\nfirst_stage = fs.params[\"z_coddle\"]\nprint(f\"\\nFirst stage: {first_stage:.3f}\")\nprint(\"  (Fraction who comply with coddle assignment)\")\n\n# --- Step 5: Reduced form (does assignment affect recidivism?) ---\nrf = smf.ols(\"recidivism ~ z_coddle\", data=mdve).fit(cov_type=\"HC1\")\nreduced_form = rf.params[\"z_coddle\"]\nprint(f\"\\nReduced form: {reduced_form:.3f}\")\nprint(\"  (Effect of coddle ASSIGNMENT on recidivism)\")\n\n# --- Step 6: IV estimate (LATE = reduced form / first stage) ---\nlate = reduced_form / first_stage\nprint(f\"\\nLATE = {reduced_form:.3f} / {first_stage:.3f} = {late:.3f}\")\nprint(\"  Coddling increases recidivism by ~15 pp among compliers\")\n\n\n\n\n\n\nTipTry it yourself!\n\n\n\nCopy the code above and paste it into this Google Colab scratchpad to run it interactively. Modify the variables, change the specifications, and see how results change!",
+    "crumbs": [
+      "The Five Tools",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>3. Instrumental Variables</span>"
+    ]
+  },
+  {
     "objectID": "notebooks_quarto/03-instrumental-variables.html#exercises",
     "href": "notebooks_quarto/03-instrumental-variables.html#exercises",
     "title": "3. Instrumental Variables",
@@ -543,6 +576,17 @@
     ]
   },
   {
+    "objectID": "notebooks_quarto/04-regression-discontinuity.html#learn-by-coding",
+    "href": "notebooks_quarto/04-regression-discontinuity.html#learn-by-coding",
+    "title": "4. Regression Discontinuity Designs",
+    "section": "Learn by Coding",
+    "text": "Learn by Coding\nCopy this code into a Python notebook to reproduce the key results from this chapter.\n# ============================================================\n# Chapter 4: Regression Discontinuity — Code Cheatsheet\n# ============================================================\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport statsmodels.formula.api as smf\n\nDATA = \"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/\"\n\n# --- Step 1: Load MLDA mortality data ---\nmlda = pd.read_csv(DATA + \"ch4/mlda_clean.csv\")\nprint(\"MLDA data:\", mlda.shape[0], \"age cells\")\nprint(mlda[[\"agecell\", \"over21\", \"all\", \"mva\", \"internal\"]].head())\n\n# --- Step 2: Plot the discontinuity ---\nfig, ax = plt.subplots(figsize=(8, 5))\nax.scatter(mlda[\"agecell\"], mlda[\"all\"], color=\"gray\", alpha=0.7, s=40)\nax.axvline(x=21, color=\"red\", linestyle=\"--\", label=\"MLDA cutoff (age 21)\")\nax.set_xlabel(\"Age\")\nax.set_ylabel(\"Deaths per 100,000\")\nax.set_title(\"All-cause mortality around the MLDA cutoff\")\nax.legend()\nplt.show()\n\n# --- Step 3: Sharp RD regression (linear) ---\nmodel = smf.ols(\"all ~ over21 + age\", data=mlda)\nresult = model.fit(cov_type=\"HC1\")\nprint(\"\\nSharp RD — linear specification:\")\nprint(result.summary().tables[1])\nprint(f\"  Jump at cutoff: {round(result.params['over21'], 2)} deaths per 100k\")\n\n# --- Step 4: Quadratic RD for robustness ---\nmodel = smf.ols(\"all ~ over21 + age + age2 + over_age + over_age2\", data=mlda)\nresult = model.fit(cov_type=\"HC1\")\nprint(\"\\nSharp RD — quadratic specification:\")\nprint(f\"  Jump at cutoff: {round(result.params['over21'], 2)} deaths per 100k\")\n\n# --- Step 5: Placebo test (internal causes should NOT jump) ---\nmodel = smf.ols(\"internal ~ over21 + age\", data=mlda)\nresult = model.fit(cov_type=\"HC1\")\nprint(f\"\\nPlacebo test (internal causes): {round(result.params['over21'], 2)}\")\nprint(\"  (Expect: small and insignificant — diseases don't respond to MLDA)\")\n\n\n\n\n\n\nTipTry it yourself!\n\n\n\nCopy the code above and paste it into this Google Colab scratchpad to run it interactively. Modify the variables, change the specifications, and see how results change!",
+    "crumbs": [
+      "The Five Tools",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>4. Regression Discontinuity Designs</span>"
+    ]
+  },
+  {
     "objectID": "notebooks_quarto/04-regression-discontinuity.html#exercises",
     "href": "notebooks_quarto/04-regression-discontinuity.html#exercises",
     "title": "4. Regression Discontinuity Designs",
@@ -642,6 +686,17 @@
     ]
   },
   {
+    "objectID": "notebooks_quarto/05-differences-in-differences.html#learn-by-coding",
+    "href": "notebooks_quarto/05-differences-in-differences.html#learn-by-coding",
+    "title": "5. Differences-in-Differences",
+    "section": "Learn by Coding",
+    "text": "Learn by Coding\nCopy this code into a Python notebook to reproduce the key results from this chapter.\n# ============================================================\n# Chapter 5: Differences-in-Differences — Code Cheatsheet\n# ============================================================\nimport pandas as pd\nimport statsmodels.formula.api as smf\n\nDATA = \"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/\"\n\n# --- Step 1: Manual DD with the Great Depression banking data ---\nbanks = pd.read_csv(DATA + \"ch5/banks_clean.csv\")\nprint(\"Banks in business by district and year:\")\nprint(banks)\n\npre_6 = banks.loc[banks[\"year\"] == 1930, \"bib6\"].values[0]\npre_8 = banks.loc[banks[\"year\"] == 1930, \"bib8\"].values[0]\npost_6 = banks.loc[banks[\"year\"] == 1931, \"bib6\"].values[0]\npost_8 = banks.loc[banks[\"year\"] == 1931, \"bib8\"].values[0]\ndd = (post_6 - pre_6) - (post_8 - pre_8)\nprint(f\"\\nDD estimate (1931 vs 1930): {dd} banks saved by Atlanta Fed intervention\")\n\n# --- Step 2: Load MLDA death rate panel data ---\ndeaths = pd.read_csv(DATA + \"ch5/deaths_clean.csv\")\nallcause = deaths[deaths[\"dtype\"] == \"all\"]\nprint(f\"\\nDeath rate panel: {allcause.shape[0]} state-year observations\")\n\n# --- Step 3: Regression DD with state and year fixed effects ---\nmodel = smf.ols(\"mrate ~ legal + C(state) + C(year)\", data=allcause)\nresult = model.fit(cov_type=\"cluster\", cov_kwds={\"groups\": allcause[\"state\"]})\nprint(f\"\\nDD estimate (all-cause deaths): {round(result.params['legal'], 2)}\")\nprint(f\"  Standard error: {round(result.bse['legal'], 2)}\")\n\n# --- Step 4: Population-weighted DD ---\nmodel = smf.wls(\"mrate ~ legal + C(state) + C(year)\", data=allcause, weights=allcause[\"pop\"])\nresult = model.fit(cov_type=\"cluster\", cov_kwds={\"groups\": allcause[\"state\"]})\nprint(f\"\\nWeighted DD estimate: {round(result.params['legal'], 2)}\")\n\n# --- Step 5: Placebo test (suicide should NOT respond to drinking age) ---\nsuicide = deaths[deaths[\"dtype\"] == \"suicide\"]\nmodel = smf.ols(\"mrate ~ legal + C(state) + C(year)\", data=suicide)\nresult = model.fit(cov_type=\"cluster\", cov_kwds={\"groups\": suicide[\"state\"]})\nprint(f\"\\nPlacebo (suicide): {round(result.params['legal'], 2)}\")\nprint(\"  (Expect: small and insignificant)\")\n\n\n\n\n\n\nTipTry it yourself!\n\n\n\nCopy the code above and paste it into this Google Colab scratchpad to run it interactively. Modify the variables, change the specifications, and see how results change!",
+    "crumbs": [
+      "The Five Tools",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>5. Differences-in-Differences</span>"
+    ]
+  },
+  {
     "objectID": "notebooks_quarto/05-differences-in-differences.html#exercises",
     "href": "notebooks_quarto/05-differences-in-differences.html#exercises",
     "title": "5. Differences-in-Differences",
@@ -735,6 +790,17 @@
     "title": "6. The Wages of Schooling",
     "section": "Key Takeaways",
     "text": "Key Takeaways\n\n\n\n\n\n\ngraph TD\n    Q[\"Does education cause higher earnings?\"]\n    AB[\"Ability bias inflates OLS\"]\n    TW[\"Twin FE removes shared ability\"]\n    ME[\"Measurement error biases twins down\"]\n    IV[\"IV corrects both biases\"]\n    RD[\"Sheepskin RD: diploma effect is small\"]\n    SYN[\"Synthesis: true return is about seven to ten percent\"]\n\n    Q --&gt; AB\n    AB --&gt; TW\n    TW --&gt; ME\n    ME --&gt; IV\n    Q --&gt; IV\n    Q --&gt; RD\n    TW --&gt; SYN\n    IV --&gt; SYN\n    RD --&gt; SYN\n\n    style Q fill:#2c3e50,color:#fff\n    style AB fill:#c0392b,color:#fff\n    style TW fill:#8e44ad,color:#fff\n    style IV fill:#3498db,color:#fff\n    style RD fill:#e67e22,color:#fff\n    style SYN fill:#2d8659,color:#fff\n    linkStyle default stroke:#fff,stroke-width:2px\n\n\n\n\nFigure 6.4: How the key concepts of Chapter 6 connect\n\n\n\n\n\n\nOLS returns to schooling (~11%) are likely inflated by ability bias.\nTwin fixed effects (~6%) control for shared ability but suffer from measurement error.\nIV using twin’s report corrects measurement error, recovering estimates near 11%.\nQuarter-of-birth IV gives 7–8%, using compulsory schooling as exogenous variation.\nSheepskin RD shows the diploma itself has little earnings value — learning matters more.\nMultiple methods converge on a true return of about 7–10% per year.\nNo single method is perfect. The lesson is to use multiple approaches and look for convergence.",
+    "crumbs": [
+      "Synthesis",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>6. The Wages of Schooling</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks_quarto/06-wages-of-schooling.html#learn-by-coding",
+    "href": "notebooks_quarto/06-wages-of-schooling.html#learn-by-coding",
+    "title": "6. The Wages of Schooling",
+    "section": "Learn by Coding",
+    "text": "Learn by Coding\nCopy this code into a Python notebook to reproduce the key results from this chapter.\n# ============================================================\n# Chapter 6: The Wages of Schooling — Code Cheatsheet\n# ============================================================\nimport pandas as pd\nimport statsmodels.formula.api as smf\nfrom linearmodels.iv import IV2SLS\n\nDATA = \"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/\"\n\n# --- Step 1: OLS return to schooling (twins data) ---\ntwins = pd.read_csv(DATA + \"ch6/twins_clean.csv\")\nmodel = smf.ols(\"lwage ~ educ + age + age2 + female + white\", data=twins)\nols = model.fit(cov_type=\"HC1\")\nprint(f\"OLS return to schooling: {round(ols.params['educ'], 3)} ({round(ols.bse['educ'], 3)})\")\nprint(\"  (~11% per year — but may be biased by unobserved ability)\\n\")\n\n# --- Step 2: Twin fixed effects (within-pair differences) ---\nfirst = twins[twins[\"first\"] == 1]\nmodel = smf.ols(\"dlwage ~ deduc - 1\", data=first)\nfe = model.fit(cov_type=\"HC1\")\nprint(f\"Twin FE return: {round(fe.params['deduc'], 3)} ({round(fe.bse['deduc'], 3)})\")\nprint(\"  (~6% — lower because shared ability is removed)\\n\")\n\n# --- Step 3: Quarter-of-birth IV (Angrist & Krueger) ---\nqob = pd.read_csv(DATA + \"ch6/qob_clean.csv\")\n\n# First stage: does Q4 birth affect years of schooling?\nfs = smf.ols(\"s ~ q4\", data=qob).fit(cov_type=\"HC1\")\nprint(f\"First stage (Q4 → schooling): {round(fs.params['q4'], 4)}\")\n\n# Reduced form: does Q4 birth affect earnings?\nrf = smf.ols(\"lnw ~ q4\", data=qob).fit(cov_type=\"HC1\")\nprint(f\"Reduced form (Q4 → earnings): {round(rf.params['q4'], 4)}\")\n\n# Wald IV estimate\nwald = rf.params[\"q4\"] / fs.params[\"q4\"]\nprint(f\"Wald IV estimate: {round(wald, 3)}\")\n\n# --- Step 4: 2SLS (same answer, correct standard errors) ---\niv = IV2SLS.from_formula(\"lnw ~ 1 + [s ~ q4]\", data=qob)\niv_result = iv.fit(cov_type=\"robust\")\nprint(f\"\\n2SLS estimate: {round(iv_result.params['s'], 3)} ({round(iv_result.std_errors['s'], 3)})\")\nprint(\"  (~8% per year via quarter-of-birth instrument)\")\n\n\n\n\n\n\nTipTry it yourself!\n\n\n\nCopy the code above and paste it into this Google Colab scratchpad to run it interactively. Modify the variables, change the specifications, and see how results change!",
     "crumbs": [
       "Synthesis",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>6. The Wages of Schooling</span>"

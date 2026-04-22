@@ -663,6 +663,61 @@ graph TD
 8. **The Oregon OHP** confirmed these findings and showed that insurance helps with financial protection and mental health.
 
 
+## Learn by Coding
+
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 1: Randomized Trials — Code Cheatsheet
+# ============================================================
+import pandas as pd
+import statsmodels.formula.api as smf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Load NHIS data and compare health by insurance status ---
+nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
+print("Average health by insurance status:")
+print(nhis.groupby("insurance")["health"].mean().round(2))
+
+# --- Step 2: Regression on a dummy (difference in means + standard error) ---
+model = smf.ols("health ~ insurance", data=nhis)
+result = model.fit(cov_type="HC1")
+print("\nHealth ~ Insurance:")
+print(result.summary().tables[1])
+
+# --- Step 3: Balance check (RAND HIE — did randomization work?) ---
+rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
+d = rand[["age", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
+model = smf.ols("age ~ plan_free + plan_deductible + plan_coinsurance", data=d)
+result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+print("\nBalance check — Age across plan groups:")
+print(result.summary().tables[1])
+
+# --- Step 4: Causal effect of free insurance on spending ---
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
+d = hie[["total_expenses", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
+model = smf.ols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d)
+result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+print("\nCausal effect on total spending:")
+print(result.summary().tables[1])
+
+# --- Step 5: Causal effect on health (the RAND paradox: no effect!) ---
+health = pd.read_csv(DATA + "ch1/rand_health_outcomes.csv")
+d = health[["health_index", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
+model = smf.ols("health_index ~ plan_free + plan_deductible + plan_coinsurance", data=d)
+result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+print("\nCausal effect on health (expect: no significant effect):")
+print(result.summary().tables[1])
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+
 ## Exercises
 
 ### Multiple Choice Questions

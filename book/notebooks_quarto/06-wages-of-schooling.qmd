@@ -523,6 +523,62 @@ graph TD
 7. **No single method is perfect.** The lesson is to use multiple approaches and look for convergence.
 
 
+## Learn by Coding
+
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 6: The Wages of Schooling — Code Cheatsheet
+# ============================================================
+import pandas as pd
+import statsmodels.formula.api as smf
+from linearmodels.iv import IV2SLS
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: OLS return to schooling (twins data) ---
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
+model = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins)
+ols = model.fit(cov_type="HC1")
+print(f"OLS return to schooling: {round(ols.params['educ'], 3)} ({round(ols.bse['educ'], 3)})")
+print("  (~11% per year — but may be biased by unobserved ability)\n")
+
+# --- Step 2: Twin fixed effects (within-pair differences) ---
+first = twins[twins["first"] == 1]
+model = smf.ols("dlwage ~ deduc - 1", data=first)
+fe = model.fit(cov_type="HC1")
+print(f"Twin FE return: {round(fe.params['deduc'], 3)} ({round(fe.bse['deduc'], 3)})")
+print("  (~6% — lower because shared ability is removed)\n")
+
+# --- Step 3: Quarter-of-birth IV (Angrist & Krueger) ---
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+
+# First stage: does Q4 birth affect years of schooling?
+fs = smf.ols("s ~ q4", data=qob).fit(cov_type="HC1")
+print(f"First stage (Q4 → schooling): {round(fs.params['q4'], 4)}")
+
+# Reduced form: does Q4 birth affect earnings?
+rf = smf.ols("lnw ~ q4", data=qob).fit(cov_type="HC1")
+print(f"Reduced form (Q4 → earnings): {round(rf.params['q4'], 4)}")
+
+# Wald IV estimate
+wald = rf.params["q4"] / fs.params["q4"]
+print(f"Wald IV estimate: {round(wald, 3)}")
+
+# --- Step 4: 2SLS (same answer, correct standard errors) ---
+iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob)
+iv_result = iv.fit(cov_type="robust")
+print(f"\n2SLS estimate: {round(iv_result.params['s'], 3)} ({round(iv_result.std_errors['s'], 3)})")
+print("  (~8% per year via quarter-of-birth instrument)")
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+
 ## Exercises
 
 ### Conceptual Questions

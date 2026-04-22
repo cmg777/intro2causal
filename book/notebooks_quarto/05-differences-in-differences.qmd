@@ -426,6 +426,61 @@ graph TD
 6. **Robustness checks** include state-specific trends, population weighting, and placebo tests on unaffected outcomes.
 
 
+## Learn by Coding
+
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 5: Differences-in-Differences — Code Cheatsheet
+# ============================================================
+import pandas as pd
+import statsmodels.formula.api as smf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Manual DD with the Great Depression banking data ---
+banks = pd.read_csv(DATA + "ch5/banks_clean.csv")
+print("Banks in business by district and year:")
+print(banks)
+
+pre_6 = banks.loc[banks["year"] == 1930, "bib6"].values[0]
+pre_8 = banks.loc[banks["year"] == 1930, "bib8"].values[0]
+post_6 = banks.loc[banks["year"] == 1931, "bib6"].values[0]
+post_8 = banks.loc[banks["year"] == 1931, "bib8"].values[0]
+dd = (post_6 - pre_6) - (post_8 - pre_8)
+print(f"\nDD estimate (1931 vs 1930): {dd} banks saved by Atlanta Fed intervention")
+
+# --- Step 2: Load MLDA death rate panel data ---
+deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
+allcause = deaths[deaths["dtype"] == "all"]
+print(f"\nDeath rate panel: {allcause.shape[0]} state-year observations")
+
+# --- Step 3: Regression DD with state and year fixed effects ---
+model = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause)
+result = model.fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+print(f"\nDD estimate (all-cause deaths): {round(result.params['legal'], 2)}")
+print(f"  Standard error: {round(result.bse['legal'], 2)}")
+
+# --- Step 4: Population-weighted DD ---
+model = smf.wls("mrate ~ legal + C(state) + C(year)", data=allcause, weights=allcause["pop"])
+result = model.fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+print(f"\nWeighted DD estimate: {round(result.params['legal'], 2)}")
+
+# --- Step 5: Placebo test (suicide should NOT respond to drinking age) ---
+suicide = deaths[deaths["dtype"] == "suicide"]
+model = smf.ols("mrate ~ legal + C(state) + C(year)", data=suicide)
+result = model.fit(cov_type="cluster", cov_kwds={"groups": suicide["state"]})
+print(f"\nPlacebo (suicide): {round(result.params['legal'], 2)}")
+print("  (Expect: small and insignificant)")
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+
 ## Exercises
 
 ### Conceptual Questions

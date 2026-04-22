@@ -406,6 +406,58 @@ graph TD
 7. **The private college premium** largely disappears once you match students by the schools they applied to --- most of the raw gap is selection, not causation.
 
 
+## Learn by Coding
+
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 2: Regression — Code Cheatsheet
+# ============================================================
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as smf
+
+# --- Step 1: Simulate data where we KNOW the true causal effect ---
+np.random.seed(42)
+n = 1000
+ability = np.random.normal(50, 10, n)
+prob_private = 1 / (1 + np.exp(-(ability - 50) / 5))
+private = np.random.binomial(1, prob_private)
+true_effect = 5000
+earnings = 30000 + true_effect * private + 800 * ability + np.random.normal(0, 5000, n)
+students = pd.DataFrame({"earnings": earnings, "private": private, "ability": ability})
+
+# --- Step 2: Short regression (omitting ability → biased) ---
+short = smf.ols("earnings ~ private", data=students).fit()
+print("SHORT regression (biased — omits ability):")
+print(f"  Private school coefficient: ${short.params['private']:,.0f}")
+print(f"  True effect is $5,000 — the estimate is too high!\n")
+
+# --- Step 3: Long regression (including ability → unbiased) ---
+long = smf.ols("earnings ~ private + ability", data=students).fit()
+print("LONG regression (controls for ability):")
+print(f"  Private school coefficient: ${long.params['private']:,.0f}")
+print(f"  Close to the true effect of $5,000\n")
+
+# --- Step 4: Verify the OVB formula ---
+ovb_direct = short.params["private"] - long.params["private"]
+aux = smf.ols("ability ~ private", data=students).fit()
+pi_1 = aux.params["private"]       # relationship: omitted ↔ treatment
+gamma = long.params["ability"]      # effect of omitted in long regression
+ovb_formula = pi_1 * gamma
+print("OVB Formula Verification:")
+print(f"  Direct OVB (short - long):  ${ovb_direct:,.0f}")
+print(f"  Formula OVB (pi1 x gamma): ${ovb_formula:,.0f}")
+print(f"  pi1 = {pi_1:.2f}, gamma = {gamma:.0f}")
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+
 ## Exercises
 
 ### Multiple Choice Questions
