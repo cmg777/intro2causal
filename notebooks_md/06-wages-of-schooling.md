@@ -259,6 +259,8 @@ The true return is probably **8--11% per year**, with OLS slightly overstating a
 
 Imagine weighing yourself on a bathroom scale that randomly adds or subtracts 5 pounds. On average, the scale is right --- but any single reading is noisy. Now suppose you weigh yourself in the morning and evening to measure how much weight you gained during the day. The true gain might be 0.5 lbs, but the scale's error (±5 lbs in each reading) means the *difference* between readings is dominated by noise. This is exactly what happens with twin differences in education: the true within-pair variation is small (twins are similar), but measurement error stays the same size, so noise overwhelms the signal.
 
+The twins approach offered a first crack at ability bias but raised a new concern: measurement error. Our next strategy sidesteps both problems by finding a source of schooling variation that is entirely independent of ability --- and precisely measured in census data.
+
 
 ## Strategy 2: Quarter-of-Birth IV
 
@@ -341,6 +343,8 @@ pd.DataFrame({
 ```
 
 
+The table walks through the IV recipe step by step. The reduced form shows that Q4 births earn slightly more (about 0.7% higher log earnings). The first stage shows they also get about 0.09 more years of schooling. Dividing the reduced form by the first stage gives the Wald estimate of about **7--8% per year of schooling** --- which the 2SLS verification confirms. Let's visualize these patterns across birth cohorts.
+
 ### Visualizing the First Stage and Reduced Form
 
 ::: {#cell-fig-qob .cell execution_count=7}
@@ -406,6 +410,8 @@ The sawtooth pattern shows that Q4 births (filled circles) consistently have sli
 
 The returns to schooling are central to **education policy**. Should governments subsidize college tuition? Should compulsory schooling ages be raised? The answer depends critically on whether the 7--10% return is causal or inflated by ability. The convergence of evidence from twins, quarter of birth, and other strategies gives policymakers confidence that the return is real and substantial --- a year of schooling genuinely increases earnings by 7--10%, making education one of the best investments individuals and governments can make.
 
+Both the twins and quarter-of-birth strategies estimate the *overall* return to education. But they leave open a deeper question: does education raise earnings because of the skills you learn, or because employers value the diploma? Our final strategy uses RD to isolate the credential effect.
+
 
 ## Strategy 3: Sheepskin Effects via RD
 
@@ -414,6 +420,8 @@ The returns to schooling are central to **education policy**. Should governments
 Does the **diploma itself** boost earnings (the signaling/sheepskin view), or is it the **skills learned** that matter (the human capital view)?
 
 Texas high school students must pass an exit exam to receive their diploma. Students who barely pass vs. barely fail have nearly identical skills but different diploma status. An RD at the passing cutoff isolates the diploma effect.
+
+The dataset includes pre-computed polynomial terms for the RD regression: `left_1` through `left_4` are polynomial powers of the running variable for scores below the cutoff, and `right_1` through `right_4` are for scores above. These allow separate flexible curves on each side of the cutoff, following the same logic as the quadratic RD model in Chapter 4 but with higher-order polynomials for greater flexibility.
 
 ```python
 # Load clean sheepskin RD data (Texas last-chance exam)

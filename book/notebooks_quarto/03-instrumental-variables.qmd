@@ -88,6 +88,8 @@ ct = ct[["Arrest", "Advise", "Separate", "Total"]]  # reorder columns
 ct
 ```
 
+The cross-tabulation reveals a striking pattern: the diagonal (where assigned = delivered) is much larger for arrest than for advise or separate. Officers followed arrest orders almost perfectly but frequently deviated from the other assignments --- usually by arresting instead. Let's quantify these compliance rates:
+
 ```{python}
 #| label: tbl-compliance
 #| tbl-cap: "Compliance rates by assignment group. Officers almost always followed arrest orders but frequently deviated from advise/separate assignments."
@@ -269,6 +271,8 @@ A half standard deviation improvement in math in one year is a remarkable effect
 
 This lottery-based evidence has been influential in education policy. Charter school supporters cite KIPP's results as proof that intensive, structured programs can close achievement gaps for disadvantaged students. Critics note that LATE applies only to lottery compliers (motivated families who applied), and the effect might not generalize to all students.
 
+The KIPP lottery gave us a clean instrument for school attendance. Our next case study finds instruments in an even more surprising place: the biology of twin births and the psychology of gender preferences.
+
 
 ## Case Study: Does Family Size Reduce Children's Education?
 
@@ -329,27 +333,28 @@ In Python, the `linearmodels` library provides `IV2SLS`. The formula syntax uses
 
 Here is how you would run 2SLS for the KIPP charter school example (using hypothetical data to illustrate the syntax):
 
-```{python}
-# Syntax demonstration (not run on real data — KIPP data is not available)
-# from linearmodels.iv import IV2SLS
-#
-# result = IV2SLS.from_formula(
-#     "math_score ~ 1 + [attended_kipp ~ won_lottery]",
-#     data=kipp_data,
-# ).fit(cov_type="robust")
-#
+```
+# Syntax demonstration (not run — KIPP data is not publicly available)
+from linearmodels.iv import IV2SLS
+
+result = IV2SLS.from_formula(
+    "math_score ~ 1 + [attended_kipp ~ won_lottery]",
+    data=kipp_data,
+).fit(cov_type="robust")
+
 # The key parts:
 #   math_score           = outcome (Y)
 #   attended_kipp        = endogenous treatment (D) — inside [ ]
 #   won_lottery          = instrument (Z) — after the ~ inside [ ]
 #   1                    = intercept (constant)
 #   cov_type="robust"    = heteroskedasticity-robust standard errors
-
-print("IV2SLS syntax: 'Y ~ controls + [D ~ Z]'")
-print("  [D ~ Z] means: instrument D using Z")
 ```
 
-We will see `IV2SLS` in action with real data in Chapter 6, where we estimate the returns to schooling using quarter-of-birth instruments.
+::: {.callout-note}
+### Why no live IV code in this chapter?
+
+The KIPP and family size datasets used in this chapter's case studies are not publicly available. The syntax block above shows how you *would* run 2SLS in Python. Chapter 6 provides a full working IV analysis using quarter-of-birth data, where you will see `IV2SLS` in action with real data.
+:::
 
 
 ## Weak Instruments

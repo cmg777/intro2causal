@@ -121,6 +121,8 @@ A simple but powerful trick: if you regress an outcome $Y$ on a dummy variable $
 
 This is exactly the same as computing group means and their difference --- but regression also gives us a standard error, which tells us whether the difference is statistically meaningful.
 
+Before we dive into the numbers, let's clarify how to read the regression output we will use throughout this study guide.
+
 > 📝 **How to read regression results**
 >
 
@@ -610,10 +612,7 @@ The RAND experiment delivered three key lessons:
 
 These findings directly shaped the policy debate around the **Affordable Care Act** (2010). Proponents argued for universal coverage to improve health; skeptics cited RAND to argue that subsidized insurance mainly increases spending. The truth, as we'll see from Oregon, is more nuanced.
 
-> 📝 **Connection to Chapter 3: Non-Compliance**
->
-
-In the Oregon lottery, only about **25% of winners** actually enrolled in Medicaid (the rest failed paperwork or were ineligible). This means the simple winner/loser comparison understates the true effect on those who gained insurance. Adjusting for this non-compliance requires **instrumental variables** (Chapter 3): divide the winner/loser difference by the enrollment rate. This is a preview of the IV method.
+The RAND experiment studied middle-class families who already had at least catastrophic coverage. But what about the people most affected by insurance policy debates --- low-income adults with no coverage at all? A natural experiment in Oregon addressed exactly this gap.
 
 
 ## Case Study 2: The Oregon Health Plan
@@ -623,6 +622,11 @@ In the Oregon lottery, only about **25% of winners** actually enrolled in Medica
 The RAND HIE was groundbreaking, but it studied **middle-class families** who all had at least catastrophic coverage. Today's uninsured Americans are different: younger, poorer, less educated. Would insurance help *them* more?
 
 In 2008, the state of Oregon ran a **health insurance lottery**. About 75,000 low-income adults applied for Medicaid expansion; roughly 30,000 were randomly selected to apply for coverage. Economist Amy Finkelstein and colleagues studied the results.
+
+> 📝 **Connection to Chapter 3: Non-Compliance**
+>
+
+In the Oregon lottery, only about **25% of winners** actually enrolled in Medicaid (the rest failed paperwork or were ineligible). This means the simple winner/loser comparison understates the true effect on those who gained insurance. Adjusting for this non-compliance requires **instrumental variables** (Chapter 3): divide the winner/loser difference by the enrollment rate. This is a preview of the IV method.
 
 ### Results at a Glance
 
@@ -684,10 +688,12 @@ timeline
 - **James Lind** (1747) tested citrus fruits against other scurvy remedies. His theory (acids cure scurvy) was wrong, but his empirical finding was correct --- a lesson about letting data speak
 - **R.A. Fisher** (1920s--30s) formalized the theory of random assignment and experimental design, launching the modern era of RCTs
 
+Throughout this chapter, we have relied on standard errors and t-statistics to judge whether differences are real or due to chance. The following toolkit formalizes these concepts.
+
 
 ## Statistical Inference Toolkit
 
-Throughout this chapter, we reported regression results with standard errors. Here is a brief guide to interpreting these numbers.
+Here is a brief guide to interpreting the numbers we have been using.
 
 ### The Core Problem: Sampling Variability
 

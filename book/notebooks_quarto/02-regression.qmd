@@ -61,6 +61,8 @@ Think of regression as a matchmaking service. It finds pairs of students who loo
 When the matching is on **all the right variables**, regression approximates what a randomized experiment would show. When important variables are missing, the match is imperfect, and bias creeps in.
 :::
 
+To separate the school's causal effect from the student's pre-existing advantages, we need a tool that holds observable characteristics constant. That tool is regression.
+
 
 ## How Regression Works
 
@@ -299,7 +301,7 @@ Even when we can't observe the omitted variable, the OVB formula lets us **predi
 
 ### Dale and Krueger's Self-Revelation Model
 
-Economists Stacy Dale and Alan Krueger studied the earnings of over 14,000 college students using the **College and Beyond (C&B)** dataset. Their key insight was that the schools students *applied to* reveal information about their ambition and ability.
+Economists Stacy Dale and Alan Krueger studied the earnings of over 14,000 college students using the **College and Beyond (C&B)** dataset. Their key insight was that the schools students *applied to* reveal information about their ambition and ability. *Note: The C&B dataset is not publicly available, so we discuss Dale and Krueger's findings rather than replicating the analysis in code. The simulated data above demonstrated the same OVB principles that their study applies to real data.*
 
 **The matching strategy**: Compare students who were admitted to the same set of schools but chose to attend different ones. For example, a student admitted to both Harvard and UMass who chose Harvard versus one who chose UMass. Both students were *equally qualified* (admitted to the same schools), but made different enrollment decisions.
 
@@ -325,6 +327,8 @@ In their data:
 
 - Adding SAT scores, parental income, and demographics **barely changed** the private school coefficient once the self-revelation controls were included
 - The OVB formula explains why: conditional on application behavior, private school attendance was **no longer correlated** with these variables ($\pi_1 \approx 0$), so omitting them caused little bias
+
+The Dale and Krueger study succeeded because they controlled for the *right* variables --- pre-treatment characteristics like application behavior. But what happens when researchers control for the *wrong* variables?
 
 
 ## When Controls Go Wrong: Bad Controls

@@ -55,6 +55,8 @@ Think of regression as a matchmaking service. It finds pairs of students who loo
 
 When the matching is on **all the right variables**, regression approximates what a randomized experiment would show. When important variables are missing, the match is imperfect, and bias creeps in.
 
+To separate the school's causal effect from the student's pre-existing advantages, we need a tool that holds observable characteristics constant. That tool is regression.
+
 
 ## How Regression Works
 
@@ -352,6 +354,8 @@ Once you compare students who were equally ambitious (applied to similar schools
 
 This is a textbook demonstration of OVB at work: when you add the right controls, the treatment effect shrinks dramatically.
 
+*Note: The C&B dataset is not publicly available, so we discuss Dale and Krueger's findings rather than replicating the analysis in code. The simulated data above demonstrated the same OVB principles that their study applies to real data.*
+
 ### Regression Sensitivity Analysis
 
 The Dale and Krueger results illustrate an important robustness check: **sensitivity analysis**. When adding controls doesn't change the estimate much, we can be more confident that the remaining estimate isn't driven by further omitted variables.
@@ -360,6 +364,8 @@ In their data:
 
 - Adding SAT scores, parental income, and demographics **barely changed** the private school coefficient once the self-revelation controls were included
 - The OVB formula explains why: conditional on application behavior, private school attendance was **no longer correlated** with these variables ($\pi_1 \approx 0$), so omitting them caused little bias
+
+The Dale and Krueger study succeeded because they controlled for the *right* variables --- pre-treatment characteristics like application behavior. But what happens when researchers control for the *wrong* variables?
 
 
 ## When Controls Go Wrong: Bad Controls

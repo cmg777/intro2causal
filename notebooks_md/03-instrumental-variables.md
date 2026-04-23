@@ -107,6 +107,8 @@ Total      136     89      89        314
 ```
 
 
+The cross-tabulation reveals a striking pattern: the diagonal (where assigned = delivered) is much larger for arrest than for advise or separate. Officers followed arrest orders almost perfectly but frequently deviated from the other assignments --- usually by arresting instead. Let's quantify these compliance rates:
+
 ::: {#tbl-compliance .cell tbl-cap='Compliance rates by assignment group. Officers almost always followed arrest orders but frequently deviated from advise/separate assignments.' execution_count=3}
 ```python
 # Compute compliance rate for each assignment group
@@ -304,12 +306,14 @@ A half standard deviation improvement in math in one year is a remarkable effect
 
 This lottery-based evidence has been influential in education policy. Charter school supporters cite KIPP's results as proof that intensive, structured programs can close achievement gaps for disadvantaged students. Critics note that LATE applies only to lottery compliers (motivated families who applied), and the effect might not generalize to all students.
 
+The KIPP lottery gave us a clean instrument for school attendance. Our next case study finds instruments in an even more surprising place: the biology of twin births and the psychology of gender preferences.
+
 
 ## Case Study: Does Family Size Reduce Children's Education?
 
 The quantity-quality tradeoff hypothesis suggests that larger families dilute parental investment, reducing each child's education. The naive correlation supports this: children with more siblings get less schooling (-0.15 years per sibling in OLS).
 
-But is this causal? Less-educated parents tend to have more children *and* less-educated children. Two clever instruments address this:
+But is this causal? Two clever instruments exploit natural variation in family size to address the selection bias:
 
 **Twin births**: When a second birth produces twins instead of a singleton, family size increases by one --- essentially at random. First stage: +0.32 children.
 
@@ -391,7 +395,7 @@ IV2SLS syntax: 'Y ~ controls + [D ~ Z]'
 ```
 
 
-We will see `IV2SLS` in action with real data in Chapter 6, where we estimate the returns to schooling using quarter-of-birth instruments.
+> 📝 **Why no live IV code in this chapter?** The KIPP and family size datasets used in this chapter's case studies are not publicly available. Chapter 6 provides a full working IV analysis using quarter-of-birth data, where you will see `IV2SLS` in action with real data.
 
 
 ## Weak Instruments

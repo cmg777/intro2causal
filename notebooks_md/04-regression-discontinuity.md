@@ -124,6 +124,7 @@ There is a visible jump right at age 21. Let's now estimate its size formally.
 
 In standard regression (Chapter 2), we control for confounders to make treated and untreated groups comparable. RD is fundamentally different: there is **no value of the running variable where we observe both treated and untreated individuals**. Everyone over 21 is treated; everyone under 21 is untreated. Instead, RD *extrapolates* the trend from one side of the cutoff to estimate what would have happened without the jump. This is why the functional form (linear vs. quadratic) matters --- it determines how we extrapolate.
 
+With that distinction in mind, let's build the regression model that formalizes the RD approach.
 
 ## The Sharp RD Regression
 
@@ -301,6 +302,9 @@ plt.show()
 
 ![RD estimate with fitted regression lines on each side of the cutoff. The gap between the lines at age 21 is the causal effect.](04-regression-discontinuity_files/figure-html/fig-rd-fitted-output-1.png){#fig-rd-fitted width=854 height=470}
 
+The gap between the two fitted lines at age 21 is the RD estimate --- approximately 7--10 extra deaths per 100,000 caused by legal access to alcohol. Notice how the lines fit the data well on each side of the cutoff, with a clear discontinuous jump right at the threshold.
+
+But what is *driving* this jump? Is it drunk driving, suicide, or something else entirely? The next figure breaks down mortality by cause to answer this question.
 
 ::: {#cell-fig-rd-causes .cell execution_count=6}
 ```python
@@ -331,10 +335,12 @@ plt.show()
 
 ![RD by cause of death. Motor vehicle accidents show a clear jump; internal causes (a placebo) show none.](04-regression-discontinuity_files/figure-html/fig-rd-causes-output-1.png){#fig-rd-causes width=854 height=470}
 
+The figure makes the story clear. Motor vehicle deaths (blue) show a sharp upward jump at age 21 --- consistent with drunk driving as the primary mechanism. Internal causes of death (orange) show no discontinuity at the cutoff, exactly as expected: diseases like cancer and heart disease do not respond to a birthday. This placebo outcome validates the RD design.
+
 
 ## Sharp vs. Fuzzy RD
 
-The MLDA example is a **sharp RD**: everyone over 21 can legally drink, no exceptions. But many policy cutoffs are less precise.
+The MLDA example is a **sharp** RD because treatment switches completely at the cutoff. Many real-world policies create fuzzier boundaries, where the cutoff changes the *probability* of treatment rather than guaranteeing it. We explore this variant conceptually here; Chapter 6's sheepskin analysis provides a concrete code example.
 
 **Boston exam schools** illustrate a **fuzzy RD**. Students are admitted based on a test score cutoff, but not everyone above the cutoff enrolls, and some below it get in through other channels. In a fuzzy RD, the *probability* of treatment jumps at the cutoff, but doesn't go from 0 to 1.
 
