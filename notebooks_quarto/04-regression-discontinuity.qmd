@@ -451,25 +451,45 @@ graph TD
 
 ## Multiple Choice Questions
 
-**MCQ1.** **(b)** RD exploits rigid rules — such as age thresholds, test score cutoffs, or income limits — that create sharp changes in treatment eligibility. People just above and just below the cutoff are nearly identical, creating a natural experiment. Option (a) describes RCTs, not RD; (c) and (d) are helpful but not what defines RD.
+**MCQ1.** **(b)** RD exploits rigid rules --- such as age thresholds, test score cutoffs, or income limits --- that create sharp changes in treatment eligibility. People just above and just below the cutoff are nearly identical, creating a natural experiment. **(a) is wrong** because random assignment of treatment describes randomized controlled trials (RCTs), not RD --- RD is observational, with treatment determined by a cutoff rule. **(c) is wrong** because while matching on observables can help, it is not what defines RD; RD specifically relies on a known cutoff in a running variable. **(d) is wrong** because before-after comparisons describe difference-in-differences, not RD.
 
-**MCQ2.** **(b)** The running variable is the continuous variable (like age) that determines whether someone is above or below the cutoff. In the MLDA example, age is the running variable and 21 is the cutoff. Option (a) is the outcome; (c) is a confounder; (d) is unrelated to RD.
+**MCQ2.** **(b)** The running variable is the continuous variable (like age) that determines whether someone is above or below the cutoff. In the MLDA example, age is the running variable and 21 is the cutoff. **(a) is wrong** because the death rate is the outcome variable, not the running variable --- the running variable determines treatment assignment, not the effect we measure. **(c) is wrong** because income is a potential confounder, not the variable that determines the sharp change in treatment at a cutoff. **(d) is wrong** because the treatment group label is a binary indicator derived from the running variable, not the running variable itself.
 
-**MCQ3.** **(b)** Internal-cause deaths (cancer, heart disease) should NOT respond to turning 21, because these diseases develop over years. Finding no jump in internal-cause deaths at age 21 validates the design — it confirms that the observed jump in motor vehicle deaths is not an artifact of data reporting or other changes at age 21.
+**MCQ3.** **(b)** Internal-cause deaths (cancer, heart disease) should NOT respond to turning 21, because these diseases develop over years. Finding no jump in internal-cause deaths at age 21 validates the design --- it confirms that the observed jump in motor vehicle deaths is not an artifact of data reporting or other changes at age 21. This is a placebo test: if a variable that should be unaffected by the treatment also jumps at the cutoff, the design is suspect. **(a) is wrong** because a jump in internal deaths would undermine, not confirm, the design. **(c) is wrong** because internal causes are used precisely because they should not be affected by alcohol access --- they serve as a falsification check. **(d) is wrong** because internal causes are relevant to validating the RD design, not irrelevant.
 
-**MCQ4.** **(b)** Narrower bandwidths compare people closer to the cutoff (more comparable, less bias) but use fewer observations (more noise, higher variance). Wider bandwidths use more data but include people farther from the cutoff who may differ in other ways. This bias-variance trade-off is fundamental to RD.
+**MCQ4.** **(b)** Narrower bandwidths compare people closer to the cutoff (more comparable, less bias) but use fewer observations (more noise, higher variance). Wider bandwidths use more data but include people farther from the cutoff who may differ in other ways. This bias-variance trade-off is fundamental to RD. **(a) is wrong** because wider bandwidths do not always give better estimates --- they reduce variance but introduce bias from nonlinear trends in the running variable. **(c) is wrong** because bandwidth choice matters greatly for RD; it is not irrelevant. **(d) is wrong** because narrower bandwidths reduce bias (not increase it) by restricting comparison to more similar units near the cutoff.
 
-**MCQ5.** **(c)** In a fuzzy RD, the probability of receiving treatment jumps at the cutoff but doesn't switch from 0 to 1. For example, in Boston exam schools, scoring above the admission cutoff increases the probability of enrollment but doesn't guarantee it. A fuzzy RD is estimated using IV, with the cutoff as the instrument.
+**MCQ5.** **(c)** In a fuzzy RD, the probability of receiving treatment jumps at the cutoff but does not switch from 0 to 1. For example, in Boston exam schools, scoring above the admission cutoff increases the probability of enrollment but does not guarantee it. A fuzzy RD is estimated using IV, with the cutoff indicator as the instrument for actual treatment. **(a) is wrong** because a fuzzy RD does not require perfect compliance --- that would be a sharp RD. **(b) is wrong** because fuzzy RD does not mean the cutoff is unknown; the cutoff is known but compliance is imperfect. **(d) is wrong** because fuzzy RD applies to a single cutoff with partial compliance, not to multiple cutoffs.
 
 ## Conceptual Questions
 
-**Q1.** (a) The running variable is the entrance exam score. (b) The cutoff is 80. (c) If all students above 80 receive funding and none below do, it is a sharp RD. If some above 80 decline and some below 80 receive funding through appeals, it is fuzzy. (d) The key assumption is that all other factors affecting the outcome vary *smoothly* at the cutoff --- students scoring 79 and 81 must be comparable in every way except scholarship receipt.
+**Q1.** **Designing an RD requires identifying the running variable, the cutoff, the sharpness of compliance, and the continuity assumption.**
 
-**Q2.** Internal causes of death (diseases, cancer, etc.) should not be affected by legal drinking access at age 21 --- these conditions take years to develop. Finding no jump in internal causes confirms that the RD design is picking up the causal effect of alcohol access, not some other factor that changes at 21. If internal causes *did* show a significant jump, it would suggest that something other than drinking is changing at the cutoff (e.g., a change in health insurance eligibility or data reporting), casting doubt on the entire RD design.
+1. The running variable is the entrance exam score --- this is the continuous measure that determines treatment assignment at the threshold.
+2. The cutoff is 80. Students scoring above this threshold are eligible for funding; those below are not.
+3. If all students above 80 receive funding and none below do, it is a sharp RD (perfect compliance). If some above 80 decline the scholarship and some below 80 receive funding through appeals or exceptions, it is a fuzzy RD --- estimated using IV with the cutoff indicator as the instrument for actual scholarship receipt.
+4. The key assumption is continuity: all other factors affecting the outcome must vary *smoothly* at the cutoff. Students scoring 79 and 81 must be comparable in every way except scholarship receipt. If students can manipulate their scores to land above 80, this assumption fails because the two groups would differ systematically.
 
-**Q3.** A narrow bandwidth (e.g., ages 20--22) reduces bias because people very close to the cutoff are nearly identical, and nonlinear trends in the running variable have less room to confuse the estimate. However, it increases variance because fewer observations are used. A wide bandwidth (ages 19--23) uses more data, giving more precise estimates, but risks bias from nonlinear trends that could be mistaken for a discontinuity. The optimal choice balances this bias-variance tradeoff.
+**Q2.** **Placebo tests using outcomes that should not respond to the treatment are essential for validating any RD design.**
 
-**Q4.** If people can manipulate the running variable to land on their preferred side of the cutoff, the groups just above and just below are no longer comparable --- those who manipulated are systematically different. Age cannot be manipulated (you cannot choose your birthday), which is why the MLDA design is strong. Exam scores, however, can be manipulated: students might retake exams, cheat, or receive score adjustments. A concerning example would be a tax threshold where accountants manipulate reported income to fall just below the cutoff for a higher tax rate.
+1. Internal causes of death (diseases, cancer, etc.) should not be affected by legal drinking access at age 21 --- these conditions take years to develop and have no plausible connection to alcohol availability.
+2. Finding no jump in internal causes at the cutoff confirms that the RD design is picking up the causal effect of alcohol access specifically, not some other factor that changes at 21.
+3. If internal causes *did* show a significant jump, it would suggest that something other than drinking is changing at the cutoff (e.g., a change in health insurance eligibility, data reporting practices, or census age-heaping), casting doubt on the entire RD design.
+4. This logic extends to any RD application: researchers should always test outcomes that the treatment should not affect. A clean placebo test strengthens the causal interpretation; a failed one demands investigation before results can be trusted.
+
+**Q3.** **The bandwidth choice in RD embodies a fundamental bias-variance tradeoff: proximity to the cutoff improves comparability but reduces statistical power.**
+
+1. A narrow bandwidth (e.g., ages 20--22) reduces bias because people very close to the cutoff are nearly identical, and nonlinear trends in the running variable have less room to confuse the estimate. The continuity assumption is most plausible for observations right at the cutoff.
+2. However, a narrow bandwidth increases variance because fewer observations are used, making the estimate noisier and confidence intervals wider.
+3. A wide bandwidth (ages 19--23) uses more data, giving more precise estimates, but risks bias from nonlinear trends in the outcome-running variable relationship that could be mistaken for (or mask) a discontinuity.
+4. The optimal choice balances this tradeoff. In practice, researchers report estimates across multiple bandwidths to show robustness --- if the RD estimate is sensitive to bandwidth choice, it raises concerns about specification dependence.
+
+**Q4.** **Manipulation of the running variable is the greatest threat to RD validity because it destroys the comparability of units just above and just below the cutoff.**
+
+1. If people can manipulate the running variable to land on their preferred side of the cutoff, the groups just above and just below are no longer comparable --- those who manipulated are systematically different from those who did not (e.g., more motivated, better connected, or wealthier).
+2. Age cannot be manipulated (you cannot choose your birthday), which is why the MLDA design is strong. The continuity assumption is highly credible because no one can precisely sort themselves to one side of age 21.
+3. Exam scores, however, can be manipulated: students might retake exams, cheat, or receive score adjustments near the cutoff. This creates "bunching" just above the threshold.
+4. A concerning example would be a tax threshold where accountants manipulate reported income to fall just below the cutoff for a higher tax rate --- the McCrary density test can detect such manipulation by checking whether the density of the running variable is discontinuous at the cutoff.
 
 ## Research Tasks
 
@@ -479,26 +499,29 @@ graph TD
 #| label: tbl-sol-alcohol
 #| tbl-cap: "RD estimates: alcohol-related vs. motor vehicle deaths"
 
+# --- Setup ---
 import pandas as pd
 import statsmodels.formula.api as smf
 
 mlda = pd.read_csv("../data/ch4/mlda_clean.csv")
 
-# Compare RD estimates for alcohol and MVA deaths
+# --- Compare RD Estimates Across Death Causes ---
+# Estimate the discontinuity at age 21 for two cause-of-death categories
 rows = []
 for var, label in [("alcohol", "Alcohol-related"), ("mva", "Motor vehicle")]:
-    r = smf.ols(f"{var} ~ over21 + age", data=mlda).fit(cov_type="HC1")
+    r = smf.ols(f"{var} ~ over21 + age", data=mlda).fit(cov_type="HC1")  # linear RD with robust SEs
     rows.append({
         "Cause": label,
-        "RD estimate (over21)": round(r.params["over21"], 2),
+        "RD estimate (over21)": round(r.params["over21"], 2),  # jump at cutoff
         "SE": round(r.bse["over21"], 2),
         "t-stat": round(r.tvalues["over21"], 2),
     })
 
+# --- Display Results ---
 pd.DataFrame(rows)
 ```
 
-The alcohol-related death jump is much smaller than the MVA jump (roughly one-fifth the size), but it is statistically significant. This makes sense: relatively few young people die directly from alcohol poisoning, but many die in alcohol-related car accidents. The dominant mechanism through which legal drinking kills is drunk driving, not direct alcohol toxicity.
+**(1) What the numbers show:** The alcohol-related death jump is much smaller than the MVA jump (roughly one-fifth the size), but it is statistically significant. Both causes show a clear discontinuity at age 21. **(2) Why:** Relatively few young people die directly from alcohol poisoning, but many die in alcohol-related car accidents. The dominant mechanism through which legal drinking access kills is drunk driving, not direct alcohol toxicity. **(3) What it teaches:** Comparing RD estimates across different outcomes reveals the causal channels through which a treatment operates. The large MVA effect relative to the small alcohol-poisoning effect tells us that the policy-relevant margin of the MLDA is traffic safety, which informs where interventions (e.g., DUI enforcement) should be targeted.
 
 **R2.**
 
@@ -506,24 +529,25 @@ The alcohol-related death jump is much smaller than the MVA jump (roughly one-fi
 #| label: fig-sol-suicide
 #| fig-cap: "RD plot for suicide deaths around the MLDA cutoff"
 
+# --- Setup ---
 import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set_style("whitegrid")
 
-# Split data at the cutoff
-below = mlda[mlda["age"] < 0]
-above = mlda[mlda["age"] >= 0]
+# --- Split Data at Cutoff ---
+below = mlda[mlda["age"] < 0]  # observations below age 21
+above = mlda[mlda["age"] >= 0]  # observations at or above age 21
 
-# Fit separate lines
-fit_below = smf.ols("suicide ~ age", data=below).fit()
-fit_above = smf.ols("suicide ~ age", data=above).fit()
+# --- Fit Separate Linear Trends ---
+fit_below = smf.ols("suicide ~ age", data=below).fit()  # trend before cutoff
+fit_above = smf.ols("suicide ~ age", data=above).fit()  # trend after cutoff
 
-# Plot
+# --- Create RD Plot ---
 fig, ax = plt.subplots(figsize=(9, 5))
-ax.scatter(mlda["agecell"], mlda["suicide"], color="gray", alpha=0.6, s=35)
-ax.plot(below["agecell"], fit_below.predict(below), "k-", linewidth=2)
-ax.plot(above["agecell"], fit_above.predict(above), "k-", linewidth=2)
-ax.axvline(x=21, color="red", linestyle="--", alpha=0.5)
+ax.scatter(mlda["agecell"], mlda["suicide"], color="gray", alpha=0.6, s=35)  # raw data points
+ax.plot(below["agecell"], fit_below.predict(below), "k-", linewidth=2)  # left-side fit
+ax.plot(above["agecell"], fit_above.predict(above), "k-", linewidth=2)  # right-side fit
+ax.axvline(x=21, color="red", linestyle="--", alpha=0.5)  # cutoff line
 ax.set_xlabel("Age (years)")
 ax.set_ylabel("Deaths per 100,000")
 ax.set_title("Suicide deaths around the MLDA cutoff")
@@ -531,9 +555,14 @@ plt.tight_layout()
 plt.show()
 ```
 
-The visual shows a modest upward jump at age 21, consistent with the regression estimate of about 1.8 deaths per 100,000. The effect is smaller and noisier than for motor vehicle accidents. Alcohol can contribute to suicide through impulsivity and impaired judgment, but the link is less direct than for drunk driving.
+**(1) What the numbers show:** The visual shows a modest upward jump at age 21, consistent with the regression estimate of about 1.8 deaths per 100,000. The effect is smaller and noisier than for motor vehicle accidents. **(2) Why:** Alcohol can contribute to suicide through impulsivity and impaired judgment, but the link is less direct than for drunk driving. Suicide involves complex psychological factors that alcohol may exacerbate but rarely causes alone. **(3) What it teaches:** This RD plot illustrates why visual inspection is critical --- it reveals both the magnitude of the jump and the noise in the data. The gap between the two fitted lines at the cutoff is the RD estimate, and the scatter of points around the lines shows why standard errors matter for inference.
 
-**Q5.** "Local" means the RD estimate applies specifically to people at the cutoff --- those just turning 21. At age 18, people may have less driving experience, so the mortality effect of alcohol access could be different. At age 25, people may drink more responsibly. The RD cannot tell us about these other ages without extrapolation, which requires stronger assumptions about how the treatment effect varies with age.
+**Q5.** **RD estimates are inherently local --- they identify the causal effect only at the cutoff, and generalizing to other values of the running variable requires untestable assumptions.**
+
+1. "Local" means the RD estimate applies specifically to people at the cutoff --- those just turning 21. The design compares outcomes in an infinitesimally narrow window around this threshold.
+2. At age 18, people may have less driving experience, so the mortality effect of alcohol access could be larger or smaller. At age 25, people may drink more responsibly, implying a different treatment effect.
+3. The RD cannot tell us about these other ages without extrapolation, which requires stronger assumptions about how the treatment effect varies with age --- assumptions that the data near the cutoff cannot verify.
+4. This locality is analogous to LATE in IV: just as IV identifies effects only for compliers, RD identifies effects only at the cutoff. Both methods trade external validity for strong internal validity at a specific margin.
 
 **R3.**
 
@@ -541,17 +570,21 @@ The visual shows a modest upward jump at age 21, consistent with the regression 
 #| label: tbl-sol-quadratic
 #| tbl-cap: "Linear vs. quadratic RD specification for all-cause mortality"
 
+# --- Setup ---
 import pandas as pd
 import statsmodels.formula.api as smf
 
 mlda = pd.read_csv("../data/ch4/mlda_clean.csv")
 
-# Linear specification
+# --- Linear RD Specification ---
+# Controls for a linear trend in age on both sides of the cutoff
 r_lin = smf.ols("all ~ over21 + age", data=mlda).fit(cov_type="HC1")
 
-# Quadratic specification with interactions
+# --- Quadratic RD Specification ---
+# Allows curvature and different slopes/curvature on each side via interactions
 r_quad = smf.ols("all ~ over21 + age + age2 + over_age + over_age2", data=mlda).fit(cov_type="HC1")
 
+# --- Compare Estimates ---
 pd.DataFrame({
     "Specification": ["Linear", "Quadratic (interacted)"],
     "RD estimate (over21)": [round(r_lin.params["over21"], 2), round(r_quad.params["over21"], 2)],
@@ -559,4 +592,4 @@ pd.DataFrame({
 })
 ```
 
-The quadratic estimate is somewhat larger (~9.5 vs. ~7.7) because it allows the trend to curve differently on each side of the cutoff. Both estimates are statistically significant and in the same ballpark. The fact that the estimate is robust to polynomial order strengthens confidence in the RD design.
+**(1) What the numbers show:** The quadratic estimate is somewhat larger (~9.5 vs. ~7.7) because the quadratic specification allows the outcome trend to curve differently on each side of the cutoff, potentially capturing a steeper jump. Both estimates are statistically significant and in the same ballpark. **(2) Why:** The linear specification constrains the relationship between age and mortality to be a straight line, which may underestimate the discontinuity if the true relationship is curved. The quadratic specification with interactions (over_age, over_age2) allows different slopes and curvature on each side, providing a more flexible fit. **(3) What it teaches:** The fact that the estimate is robust to polynomial order strengthens confidence in the RD design. Sensitivity to specification would suggest that the "discontinuity" might be an artifact of functional form assumptions rather than a true jump. Reporting multiple specifications is standard RD practice and essential for credibility.
