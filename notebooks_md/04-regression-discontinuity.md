@@ -158,8 +158,14 @@ The key insight: because age varies smoothly, any **sudden jump** at the cutoff 
 model = smf.ols("all ~ over21 + age", data=mlda)
 result = model.fit(cov_type="HC1")
 
-# Show the regression coefficient table
-result.summary().tables[1]
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": result.params.index,
+    "Coefficient": result.params.round(4).values,
+    "Std. Error": result.bse.round(4).values,
+    "t-statistic": result.tvalues.round(2).values,
+    "p-value": result.pvalues.round(3).values,
+})
 ```
 
 
@@ -433,7 +439,13 @@ plt.show()
 model = smf.ols("all ~ over21 + age", data=mlda)
 result = model.fit(cov_type="HC1")
 print("\nSharp RD — linear specification:")
-print(result.summary().tables[1])
+print(pd.DataFrame({
+    "Variable": result.params.index,
+    "Coefficient": result.params.round(4).values,
+    "Std. Error": result.bse.round(4).values,
+    "t-statistic": result.tvalues.round(2).values,
+    "p-value": result.pvalues.round(3).values,
+}))
 print(f"  Jump at cutoff: {round(result.params['over21'], 2)} deaths per 100k")
 
 # --- Step 4: Quadratic RD for robustness ---

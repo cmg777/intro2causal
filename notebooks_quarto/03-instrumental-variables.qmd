@@ -105,11 +105,13 @@ rows = []
 for group in ["Arrest", "Advise", "Separate"]:
     group_data = mdve[mdve["assigned"] == group]
     complied = (group_data["delivered"] == group).sum()
+    # Calculate the percentage of officers who complied
+    rate = round(100 * complied / len(group_data), 1)
     rows.append({
         "Assigned": group,
         "N": len(group_data),
         "Complied": complied,
-        "Compliance Rate": f"{complied / len(group_data):.1%}",
+        "Compliance Rate": str(rate) + "%",
     })
 
 pd.DataFrame(rows)

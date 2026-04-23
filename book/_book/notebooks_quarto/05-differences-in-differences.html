@@ -568,7 +568,7 @@ Figure&nbsp;5.1: Roadmap for Chapter 5
 <li><strong>8th District (St.&nbsp;Louis Fed)</strong>: followed a restrictive “Real Bills” doctrine, tightening credit during the crisis</li>
 </ul>
 <p>Banks on either side of this border faced the same economic conditions but received very different policy responses.</p>
-<div id="335b727b" class="cell" data-execution_count="1">
+<div id="9ebaaed9" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean bank failure data (July 1 each year, both districts)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -877,7 +877,7 @@ Figure&nbsp;5.3: The DD method: subtract the control group’s change from the t
 <section id="the-policy-variation" class="level3">
 <h3 class="anchored" data-anchor-id="the-policy-variation">The Policy Variation</h3>
 <p>After Prohibition ended in 1933, states set their own drinking ages. In 1984, federal legislation pushed all states to adopt a minimum legal drinking age of 21, but states complied at different times. This staggered adoption creates variation for a DD analysis.</p>
-<div id="c708f98a" class="cell" data-execution_count="4">
+<div id="e0df320d" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean MLDA death rate data (state-year panel, 18-20 year olds, 1970-1983)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mrate = death rate per 100,000; legal = fraction of 18-20 yr olds who can legally drink</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dtype = cause of death (all, MVA, suicide, internal); pop = state population of 18-20 yr olds</span></span>
@@ -1045,9 +1045,9 @@ Table&nbsp;5.2: Regression DD: effect of legal drinking access on all-cause deat
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    r3 <span class="op">=</span> model3.fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">"groups"</span>: s[<span class="st">"state"</span>]})</span>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Format each result as "coefficient (standard error)"</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    coef1 <span class="op">=</span> <span class="bu">str</span>(<span class="bu">round</span>(r1.params[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">round</span>(r1.bse[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">")"</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    coef2 <span class="op">=</span> <span class="bu">str</span>(<span class="bu">round</span>(r2.params[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">round</span>(r2.bse[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">")"</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    coef3 <span class="op">=</span> <span class="bu">str</span>(<span class="bu">round</span>(r3.params[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">round</span>(r3.bse[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    coef1 <span class="op">=</span> <span class="bu">format</span>(<span class="bu">round</span>(r1.params[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">format</span>(<span class="bu">round</span>(r1.bse[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    coef2 <span class="op">=</span> <span class="bu">format</span>(<span class="bu">round</span>(r2.params[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">format</span>(<span class="bu">round</span>(r2.bse[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    coef3 <span class="op">=</span> <span class="bu">format</span>(<span class="bu">round</span>(r3.params[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">format</span>(<span class="bu">round</span>(r3.bse[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">")"</span></span>
 <span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cause"</span>: label,</span>
@@ -1081,22 +1081,22 @@ Table&nbsp;5.3: Regression DD estimates of MLDA effects on death rates across ca
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
 <td>All causes</td>
-<td>10.8 (4.59)</td>
-<td>8.47 (5.1)</td>
-<td>12.41 (4.6)</td>
+<td>10.80 (4.59)</td>
+<td>8.47 (5.10)</td>
+<td>12.41 (4.60)</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
 <td>Motor vehicle</td>
-<td>7.59 (2.5)</td>
+<td>7.59 (2.50)</td>
 <td>6.64 (2.66)</td>
-<td>7.5 (2.27)</td>
+<td>7.50 (2.27)</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
 <td>Suicide</td>
 <td>0.59 (0.59)</td>
-<td>0.47 (0.8)</td>
+<td>0.47 (0.80)</td>
 <td>1.49 (0.88)</td>
 </tr>
 <tr class="even">
@@ -1155,8 +1155,8 @@ Table&nbsp;5.3: Regression DD estimates of MLDA effects on death rates across ca
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">"groups"</span>: s[<span class="st">"state"</span>]})</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Format results as "coefficient (standard error)"</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    legal_str <span class="op">=</span> <span class="bu">str</span>(<span class="bu">round</span>(r.params[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">round</span>(r.bse[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">")"</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    tax_str <span class="op">=</span> <span class="bu">str</span>(<span class="bu">round</span>(r.params[<span class="st">"beertax"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">round</span>(r.bse[<span class="st">"beertax"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    legal_str <span class="op">=</span> <span class="bu">format</span>(<span class="bu">round</span>(r.params[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">format</span>(<span class="bu">round</span>(r.bse[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    tax_str <span class="op">=</span> <span class="bu">format</span>(<span class="bu">round</span>(r.params[<span class="st">"beertax"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">format</span>(<span class="bu">round</span>(r.bse[<span class="st">"beertax"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">")"</span></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cause"</span>: label,</span>
@@ -1195,7 +1195,7 @@ Table&nbsp;5.4: DD estimates controlling for beer taxes. MLDA effects remain rob
 <th data-quarto-table-cell-role="th">1</th>
 <td>Motor vehicle</td>
 <td>7.59 (2.56)</td>
-<td>3.82 (5.4)</td>
+<td>3.82 (5.40)</td>
 </tr>
 </tbody>
 </table>
@@ -2445,9 +2445,9 @@ Table&nbsp;5.7: Unweighted vs.&nbsp;population-weighted DD for all-cause deaths
 <span id="cb12-308"><a href="#cb12-308" aria-hidden="true" tabindex="-1"></a>    r3 <span class="op">=</span> model3.fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">"groups"</span>: s[<span class="st">"state"</span>]})</span>
 <span id="cb12-309"><a href="#cb12-309" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-310"><a href="#cb12-310" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Format each result as "coefficient (standard error)"</span></span>
-<span id="cb12-311"><a href="#cb12-311" aria-hidden="true" tabindex="-1"></a>    coef1 <span class="op">=</span> <span class="bu">str</span>(<span class="bu">round</span>(r1.params[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">round</span>(r1.bse[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">")"</span></span>
-<span id="cb12-312"><a href="#cb12-312" aria-hidden="true" tabindex="-1"></a>    coef2 <span class="op">=</span> <span class="bu">str</span>(<span class="bu">round</span>(r2.params[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">round</span>(r2.bse[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">")"</span></span>
-<span id="cb12-313"><a href="#cb12-313" aria-hidden="true" tabindex="-1"></a>    coef3 <span class="op">=</span> <span class="bu">str</span>(<span class="bu">round</span>(r3.params[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">round</span>(r3.bse[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb12-311"><a href="#cb12-311" aria-hidden="true" tabindex="-1"></a>    coef1 <span class="op">=</span> <span class="bu">format</span>(<span class="bu">round</span>(r1.params[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">format</span>(<span class="bu">round</span>(r1.bse[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb12-312"><a href="#cb12-312" aria-hidden="true" tabindex="-1"></a>    coef2 <span class="op">=</span> <span class="bu">format</span>(<span class="bu">round</span>(r2.params[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">format</span>(<span class="bu">round</span>(r2.bse[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb12-313"><a href="#cb12-313" aria-hidden="true" tabindex="-1"></a>    coef3 <span class="op">=</span> <span class="bu">format</span>(<span class="bu">round</span>(r3.params[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">format</span>(<span class="bu">round</span>(r3.bse[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">")"</span></span>
 <span id="cb12-314"><a href="#cb12-314" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-315"><a href="#cb12-315" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
 <span id="cb12-316"><a href="#cb12-316" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cause"</span>: label,</span>
@@ -2493,8 +2493,8 @@ Table&nbsp;5.7: Unweighted vs.&nbsp;population-weighted DD for all-cause deaths
 <span id="cb12-358"><a href="#cb12-358" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">"groups"</span>: s[<span class="st">"state"</span>]})</span>
 <span id="cb12-359"><a href="#cb12-359" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-360"><a href="#cb12-360" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Format results as "coefficient (standard error)"</span></span>
-<span id="cb12-361"><a href="#cb12-361" aria-hidden="true" tabindex="-1"></a>    legal_str <span class="op">=</span> <span class="bu">str</span>(<span class="bu">round</span>(r.params[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">round</span>(r.bse[<span class="st">"legal"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">")"</span></span>
-<span id="cb12-362"><a href="#cb12-362" aria-hidden="true" tabindex="-1"></a>    tax_str <span class="op">=</span> <span class="bu">str</span>(<span class="bu">round</span>(r.params[<span class="st">"beertax"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">round</span>(r.bse[<span class="st">"beertax"</span>], <span class="dv">2</span>)) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb12-361"><a href="#cb12-361" aria-hidden="true" tabindex="-1"></a>    legal_str <span class="op">=</span> <span class="bu">format</span>(<span class="bu">round</span>(r.params[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">format</span>(<span class="bu">round</span>(r.bse[<span class="st">"legal"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb12-362"><a href="#cb12-362" aria-hidden="true" tabindex="-1"></a>    tax_str <span class="op">=</span> <span class="bu">format</span>(<span class="bu">round</span>(r.params[<span class="st">"beertax"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> <span class="bu">format</span>(<span class="bu">round</span>(r.bse[<span class="st">"beertax"</span>], <span class="dv">2</span>), <span class="st">".2f"</span>) <span class="op">+</span> <span class="st">")"</span></span>
 <span id="cb12-363"><a href="#cb12-363" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-364"><a href="#cb12-364" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
 <span id="cb12-365"><a href="#cb12-365" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cause"</span>: label,</span>

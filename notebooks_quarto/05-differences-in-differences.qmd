@@ -298,11 +298,19 @@ for dtype_val, label in dtype_labels.items():
     r3 = smf.wls("mrate ~ legal + C(state) + C(year)", data=s, weights=s["pop"]).fit(
         cov_type="cluster", cov_kwds={"groups": s["state"]})
 
+    # Format each result as "coefficient (standard error)"
+    coef1 = round(r1.params["legal"], 2)
+    se1 = round(r1.bse["legal"], 2)
+    coef2 = round(r2.params["legal"], 2)
+    se2 = round(r2.bse["legal"], 2)
+    coef3 = round(r3.params["legal"], 2)
+    se3 = round(r3.bse["legal"], 2)
+
     rows.append({
         "Cause": label,
-        "Unweighted": f"{r1.params['legal']:.2f} ({r1.bse['legal']:.2f})",
-        "With state trends": f"{r2.params['legal']:.2f} ({r2.bse['legal']:.2f})",
-        "Pop. weighted": f"{r3.params['legal']:.2f} ({r3.bse['legal']:.2f})",
+        "Unweighted": format(coef1, ".2f") + " (" + format(se1, ".2f") + ")",
+        "With state trends": format(coef2, ".2f") + " (" + format(se2, ".2f") + ")",
+        "Pop. weighted": format(coef3, ".2f") + " (" + format(se3, ".2f") + ")",
     })
 
 pd.DataFrame(rows)
@@ -339,10 +347,16 @@ for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle")]:
     r = smf.ols("mrate ~ legal + beertax + C(state) + C(year)", data=s).fit(
         cov_type="cluster", cov_kwds={"groups": s["state"]})
 
+    # Extract coefficients and standard errors
+    coef_legal = round(r.params["legal"], 2)
+    se_legal = round(r.bse["legal"], 2)
+    coef_tax = round(r.params["beertax"], 2)
+    se_tax = round(r.bse["beertax"], 2)
+
     rows.append({
         "Cause": label,
-        "Legal effect": f"{r.params['legal']:.2f} ({r.bse['legal']:.2f})",
-        "Beer tax effect": f"{r.params['beertax']:.2f} ({r.bse['beertax']:.2f})",
+        "Legal effect": format(coef_legal, ".2f") + " (" + format(se_legal, ".2f") + ")",
+        "Beer tax effect": format(coef_tax, ".2f") + " (" + format(se_tax, ".2f") + ")",
     })
 
 pd.DataFrame(rows)

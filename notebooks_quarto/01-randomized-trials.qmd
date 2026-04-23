@@ -359,11 +359,17 @@ result = smf.ols(
     "age ~ plan_free + plan_deductible + plan_coinsurance", data=d
 ).fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 
-# Display the regression coefficient table
-result.summary().tables[1]
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": result.params.index,
+    "Coefficient": result.params.round(4).values,
+    "Std. Error": result.bse.round(4).values,
+    "t-statistic": result.tvalues.round(2).values,
+    "p-value": result.pvalues.round(3).values,
+})
 ```
 
-The **intercept** (32.4) is the average age in the catastrophic group. The coefficients on the plan dummies (0.43 to 0.97) are the age differences --- all small and statistically insignificant. Age is balanced.
+The **Intercept** (32.4) is the average age in the catastrophic group. The coefficients on the plan dummies (0.43 to 0.97) are the age differences --- all small and statistically insignificant. Age is balanced.
 
 ::: {.callout-note collapse="true"}
 ## Why do we cluster standard errors by family?
@@ -390,13 +396,20 @@ for var in balance_vars:
     r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
         cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 
-    # Store the intercept (catastrophic mean) and plan differences with SEs
+    # Extract coefficients and standard errors for each plan comparison
+    coef_free = round(r.params["plan_free"], 2)
+    se_free = round(r.bse["plan_free"], 2)
+    coef_ded = round(r.params["plan_deductible"], 2)
+    se_ded = round(r.bse["plan_deductible"], 2)
+    coef_coin = round(r.params["plan_coinsurance"], 2)
+    se_coin = round(r.bse["plan_coinsurance"], 2)
+
     rows.append({
         "Variable": var,
         "Catastrophic mean": round(r.params["Intercept"], 1),
-        "Free − Catastrophic": f"{r.params['plan_free']:+.2f} ({r.bse['plan_free']:.2f})",
-        "Deductible − Catastrophic": f"{r.params['plan_deductible']:+.2f} ({r.bse['plan_deductible']:.2f})",
-        "Coinsurance − Catastrophic": f"{r.params['plan_coinsurance']:+.2f} ({r.bse['plan_coinsurance']:.2f})",
+        "Free − Catastrophic": format(coef_free, ".2f") + " (" + format(se_free, ".2f") + ")",
+        "Deductible − Catastrophic": format(coef_ded, ".2f") + " (" + format(se_ded, ".2f") + ")",
+        "Coinsurance − Catastrophic": format(coef_coin, ".2f") + " (" + format(se_coin, ".2f") + ")",
     })
 
 pd.DataFrame(rows)
@@ -436,12 +449,19 @@ for var in use_vars:
 
     # Intercept = control group (catastrophic plan) mean
     # Coefficients = causal effect of each plan relative to catastrophic
+    coef_free = int(round(r.params["plan_free"]))
+    se_free = int(round(r.bse["plan_free"]))
+    coef_ded = int(round(r.params["plan_deductible"]))
+    se_ded = int(round(r.bse["plan_deductible"]))
+    coef_coin = int(round(r.params["plan_coinsurance"]))
+    se_coin = int(round(r.bse["plan_coinsurance"]))
+
     rows.append({
         "Outcome": var,
-        "Catastrophic mean": round(r.params["Intercept"]),
-        "Free effect": f"{r.params['plan_free']:+.0f} ({r.bse['plan_free']:.0f})",
-        "Deductible effect": f"{r.params['plan_deductible']:+.0f} ({r.bse['plan_deductible']:.0f})",
-        "Coinsurance effect": f"{r.params['plan_coinsurance']:+.0f} ({r.bse['plan_coinsurance']:.0f})",
+        "Catastrophic mean": int(round(r.params["Intercept"])),
+        "Free effect": str(coef_free) + " (" + str(se_free) + ")",
+        "Deductible effect": str(coef_ded) + " (" + str(se_ded) + ")",
+        "Coinsurance effect": str(coef_coin) + " (" + str(se_coin) + ")",
     })
 
 pd.DataFrame(rows)
@@ -488,12 +508,20 @@ for var in health_vars:
     r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
         cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 
+    # Extract coefficients and standard errors
+    coef_free = round(r.params["plan_free"], 2)
+    se_free = round(r.bse["plan_free"], 2)
+    coef_ded = round(r.params["plan_deductible"], 2)
+    se_ded = round(r.bse["plan_deductible"], 2)
+    coef_coin = round(r.params["plan_coinsurance"], 2)
+    se_coin = round(r.bse["plan_coinsurance"], 2)
+
     rows.append({
         "Health Measure": var,
         "Catastrophic mean": round(r.params["Intercept"], 1),
-        "Free effect": f"{r.params['plan_free']:+.2f} ({r.bse['plan_free']:.2f})",
-        "Deductible effect": f"{r.params['plan_deductible']:+.2f} ({r.bse['plan_deductible']:.2f})",
-        "Coinsurance effect": f"{r.params['plan_coinsurance']:+.2f} ({r.bse['plan_coinsurance']:.2f})",
+        "Free effect": format(coef_free, ".2f") + " (" + format(se_free, ".2f") + ")",
+        "Deductible effect": format(coef_ded, ".2f") + " (" + format(se_ded, ".2f") + ")",
+        "Coinsurance effect": format(coef_coin, ".2f") + " (" + format(se_coin, ".2f") + ")",
     })
 
 pd.DataFrame(rows)

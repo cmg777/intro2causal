@@ -162,8 +162,14 @@ The key insight: because age varies smoothly, any **sudden jump** at the cutoff 
 # Simple linear RD regression
 result = smf.ols("all ~ over21 + age", data=mlda).fit(cov_type="HC1")
 
-# Display the coefficient table
-result.summary().tables[1]
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": result.params.index,
+    "Coefficient": result.params.round(4).values,
+    "Std. Error": result.bse.round(4).values,
+    "t-statistic": result.tvalues.round(2).values,
+    "p-value": result.pvalues.round(3).values,
+})
 ```
 
 The coefficient on `over21` is approximately **7.7 deaths per 100,000** --- a substantial increase caused by gaining legal access to alcohol.
@@ -193,21 +199,29 @@ for var, label in outcomes.items():
 
     # Spec 1: Linear, full sample
     r1 = smf.ols(f"{var} ~ over21 + age", data=mlda).fit(cov_type="HC1")
-    specs.append(f"{r1.params['over21']:.2f} ({r1.bse['over21']:.2f})")
+    coef1 = round(r1.params["over21"], 2)
+    se1 = round(r1.bse["over21"], 2)
+    specs.append(format(coef1, ".2f") + " (" + format(se1, ".2f") + ")")
 
     # Spec 2: Quadratic, full sample
     r2 = smf.ols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
                   data=mlda).fit(cov_type="HC1")
-    specs.append(f"{r2.params['over21']:.2f} ({r2.bse['over21']:.2f})")
+    coef2 = round(r2.params["over21"], 2)
+    se2 = round(r2.bse["over21"], 2)
+    specs.append(format(coef2, ".2f") + " (" + format(se2, ".2f") + ")")
 
     # Spec 3: Linear, narrow bandwidth
     r3 = smf.ols(f"{var} ~ over21 + age", data=narrow).fit(cov_type="HC1")
-    specs.append(f"{r3.params['over21']:.2f} ({r3.bse['over21']:.2f})")
+    coef3 = round(r3.params["over21"], 2)
+    se3 = round(r3.bse["over21"], 2)
+    specs.append(format(coef3, ".2f") + " (" + format(se3, ".2f") + ")")
 
     # Spec 4: Quadratic, narrow bandwidth
     r4 = smf.ols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
                   data=narrow).fit(cov_type="HC1")
-    specs.append(f"{r4.params['over21']:.2f} ({r4.bse['over21']:.2f})")
+    coef4 = round(r4.params["over21"], 2)
+    se4 = round(r4.bse["over21"], 2)
+    specs.append(format(coef4, ".2f") + " (" + format(se4, ".2f") + ")")
 
     rows.append({"Cause of death": label, "Linear (full)": specs[0],
                  "Quadratic (full)": specs[1], "Linear (narrow)": specs[2],

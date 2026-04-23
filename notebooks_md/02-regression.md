@@ -160,8 +160,14 @@ What happens if we regress earnings on `private` without controlling for ability
 short_model = smf.ols("earnings ~ private", data=students)
 short = short_model.fit()
 
-# Show the regression coefficient table
-short.summary().tables[1]
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": short.params.index,
+    "Coefficient": short.params.round(2).values,
+    "Std. Error": short.bse.round(2).values,
+    "t-statistic": short.tvalues.round(2).values,
+    "p-value": short.pvalues.round(3).values,
+})
 ```
 
 
@@ -188,8 +194,14 @@ Now add ability as a control:
 long_model = smf.ols("earnings ~ private + ability", data=students)
 long = long_model.fit()
 
-# Show the regression coefficient table
-long.summary().tables[1]
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": long.params.index,
+    "Coefficient": long.params.round(2).values,
+    "Std. Error": long.bse.round(2).values,
+    "t-statistic": long.tvalues.round(2).values,
+    "p-value": long.pvalues.round(3).values,
+})
 ```
 
 

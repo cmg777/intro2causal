@@ -366,8 +366,14 @@ model = smf.ols("age ~ plan_free + plan_deductible + plan_coinsurance", data=d)
 # Cluster standard errors by family (family members share the same plan)
 result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 
-# Show the regression coefficient table
-result.summary().tables[1]
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": result.params.index,
+    "Coefficient": result.params.round(4).values,
+    "Std. Error": result.bse.round(4).values,
+    "t-statistic": result.tvalues.round(2).values,
+    "p-value": result.pvalues.round(3).values,
+})
 ```
 
 
@@ -785,7 +791,10 @@ print(nhis.groupby("insurance")["health"].mean().round(2))
 model = smf.ols("health ~ insurance", data=nhis)
 result = model.fit(cov_type="HC1")
 print("\nHealth ~ Insurance:")
-print(result.summary().tables[1])
+print(pd.DataFrame({
+    "Variable": result.params.index, "Coefficient": result.params.round(4).values,
+    "Std. Error": result.bse.round(4).values, "p-value": result.pvalues.round(3).values,
+}))
 
 # --- Step 3: Balance check (RAND HIE — did randomization work?) ---
 rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
@@ -793,7 +802,10 @@ d = rand[["age", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"
 model = smf.ols("age ~ plan_free + plan_deductible + plan_coinsurance", data=d)
 result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 print("\nBalance check — Age across plan groups:")
-print(result.summary().tables[1])
+print(pd.DataFrame({
+    "Variable": result.params.index, "Coefficient": result.params.round(4).values,
+    "Std. Error": result.bse.round(4).values, "p-value": result.pvalues.round(3).values,
+}))
 
 # --- Step 4: Causal effect of free insurance on spending ---
 hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
@@ -801,7 +813,10 @@ d = hie[["total_expenses", "plan_free", "plan_deductible", "plan_coinsurance", "
 model = smf.ols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d)
 result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 print("\nCausal effect on total spending:")
-print(result.summary().tables[1])
+print(pd.DataFrame({
+    "Variable": result.params.index, "Coefficient": result.params.round(4).values,
+    "Std. Error": result.bse.round(4).values, "p-value": result.pvalues.round(3).values,
+}))
 
 # --- Step 5: Causal effect on health (the RAND paradox: no effect!) ---
 health = pd.read_csv(DATA + "ch1/rand_health_outcomes.csv")
@@ -809,7 +824,10 @@ d = health[["health_index", "plan_free", "plan_deductible", "plan_coinsurance", 
 model = smf.ols("health_index ~ plan_free + plan_deductible + plan_coinsurance", data=d)
 result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 print("\nCausal effect on health (expect: no significant effect):")
-print(result.summary().tables[1])
+print(pd.DataFrame({
+    "Variable": result.params.index, "Coefficient": result.params.round(4).values,
+    "Std. Error": result.bse.round(4).values, "p-value": result.pvalues.round(3).values,
+}))
 ```
 
 > 💡 **Try it yourself!**

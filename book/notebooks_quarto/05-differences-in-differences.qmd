@@ -292,9 +292,9 @@ for dtype_val, label in dtype_labels.items():
     r3 = model3.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
 
     # Format each result as "coefficient (standard error)"
-    coef1 = str(round(r1.params["legal"], 2)) + " (" + str(round(r1.bse["legal"], 2)) + ")"
-    coef2 = str(round(r2.params["legal"], 2)) + " (" + str(round(r2.bse["legal"], 2)) + ")"
-    coef3 = str(round(r3.params["legal"], 2)) + " (" + str(round(r3.bse["legal"], 2)) + ")"
+    coef1 = format(round(r1.params["legal"], 2), ".2f") + " (" + format(round(r1.bse["legal"], 2), ".2f") + ")"
+    coef2 = format(round(r2.params["legal"], 2), ".2f") + " (" + format(round(r2.bse["legal"], 2), ".2f") + ")"
+    coef3 = format(round(r3.params["legal"], 2), ".2f") + " (" + format(round(r3.bse["legal"], 2), ".2f") + ")"
 
     rows.append({
         "Cause": label,
@@ -340,8 +340,8 @@ for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle")]:
     r = model.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
 
     # Format results as "coefficient (standard error)"
-    legal_str = str(round(r.params["legal"], 2)) + " (" + str(round(r.bse["legal"], 2)) + ")"
-    tax_str = str(round(r.params["beertax"], 2)) + " (" + str(round(r.bse["beertax"], 2)) + ")"
+    legal_str = format(round(r.params["legal"], 2), ".2f") + " (" + format(round(r.bse["legal"], 2), ".2f") + ")"
+    tax_str = format(round(r.params["beertax"], 2), ".2f") + " (" + format(round(r.bse["beertax"], 2), ".2f") + ")"
 
     rows.append({
         "Cause": label,

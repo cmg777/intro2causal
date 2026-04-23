@@ -156,7 +156,15 @@ What happens if we regress earnings on `private` without controlling for ability
 
 # SHORT regression: omit the confounder (ability)
 short = smf.ols("earnings ~ private", data=students).fit()
-short.summary().tables[1]
+
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": short.params.index,
+    "Coefficient": short.params.round(2).values,
+    "Std. Error": short.bse.round(2).values,
+    "t-statistic": short.tvalues.round(2).values,
+    "p-value": short.pvalues.round(3).values,
+})
 ```
 
 The coefficient on `private` is well above $5,000. This is **omitted variables bias** --- the regression attributes some of ability's effect to the private school dummy because the two are correlated.
@@ -172,7 +180,15 @@ Now add ability as a control:
 
 # LONG regression: include the confounder (ability)
 long = smf.ols("earnings ~ private + ability", data=students).fit()
-long.summary().tables[1]
+
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": long.params.index,
+    "Coefficient": long.params.round(2).values,
+    "Std. Error": long.bse.round(2).values,
+    "t-statistic": long.tvalues.round(2).values,
+    "p-value": long.pvalues.round(3).values,
+})
 ```
 
 With ability controlled, the private school coefficient drops to approximately $5,000 --- close to the true causal effect we built into the data.

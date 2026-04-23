@@ -106,8 +106,14 @@ twins.head(3)
 model = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins)
 ols = model.fit(cov_type="HC1")
 
-# Show the regression coefficient table
-ols.summary().tables[1]
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": ols.params.index,
+    "Coefficient": ols.params.round(4).values,
+    "Std. Error": ols.bse.round(4).values,
+    "t-statistic": ols.tvalues.round(2).values,
+    "p-value": ols.pvalues.round(3).values,
+})
 ```
 
 
@@ -146,8 +152,14 @@ first = twins[twins["first"] == 1]
 model = smf.ols("dlwage ~ deduc - 1", data=first)
 twin_fe = model.fit(cov_type="HC1")
 
-# Show the regression coefficient table
-twin_fe.summary().tables[1]
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": twin_fe.params.index,
+    "Coefficient": twin_fe.params.round(4).values,
+    "Std. Error": twin_fe.bse.round(4).values,
+    "t-statistic": twin_fe.tvalues.round(2).values,
+    "p-value": twin_fe.pvalues.round(3).values,
+})
 ```
 
 
@@ -206,10 +218,10 @@ iv_diff = iv_diff_model.fit(cov_type="robust")
 
 # --- Step 3: Combine all four estimates into one table ---
 # Format each as "coefficient (standard error)"
-ols_str = str(round(ols.params["educ"], 3)) + " (" + str(round(ols.bse["educ"], 3)) + ")"
-fe_str = str(round(twin_fe.params["deduc"], 3)) + " (" + str(round(twin_fe.bse["deduc"], 3)) + ")"
-iv_lev_str = str(round(iv_levels.params["educ"], 3)) + " (" + str(round(iv_levels.std_errors["educ"], 3)) + ")"
-iv_dif_str = str(round(iv_diff.params["deduc"], 3)) + " (" + str(round(iv_diff.std_errors["deduc"], 3)) + ")"
+ols_str = format(round(ols.params["educ"], 3), ".3f") + " (" + format(round(ols.bse["educ"], 3), ".3f") + ")"
+fe_str = format(round(twin_fe.params["deduc"], 3), ".3f") + " (" + format(round(twin_fe.bse["deduc"], 3), ".3f") + ")"
+iv_lev_str = format(round(iv_levels.params["educ"], 3), ".3f") + " (" + format(round(iv_levels.std_errors["educ"], 3), ".3f") + ")"
+iv_dif_str = format(round(iv_diff.params["deduc"], 3), ".3f") + " (" + format(round(iv_diff.std_errors["deduc"], 3), ".3f") + ")"
 
 pd.DataFrame({
     "Method": ["OLS (levels)", "Twin FE (differences)", "IV (levels)", "IV (differences)"],

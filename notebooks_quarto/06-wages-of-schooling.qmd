@@ -100,8 +100,14 @@ twins.head(3)
 # OLS: regress log wages on education with demographic controls
 ols = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins).fit(cov_type="HC1")
 
-# Show the education coefficient
-ols.summary().tables[1]
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": ols.params.index,
+    "Coefficient": ols.params.round(4).values,
+    "Std. Error": ols.bse.round(4).values,
+    "t-statistic": ols.tvalues.round(2).values,
+    "p-value": ols.pvalues.round(3).values,
+})
 ```
 
 The OLS return is about **11% per year of schooling**. But this may be inflated by ability bias.
@@ -125,7 +131,15 @@ first = twins[twins["first"] == 1]
 # The "- 1" removes the intercept: when both twins have the same education,
 # we expect zero wage difference, so there's no constant term needed
 twin_fe = smf.ols("dlwage ~ deduc - 1", data=first).fit(cov_type="HC1")
-twin_fe.summary().tables[1]
+
+# Extract key regression results into a clear table
+pd.DataFrame({
+    "Variable": twin_fe.params.index,
+    "Coefficient": twin_fe.params.round(4).values,
+    "Std. Error": twin_fe.bse.round(4).values,
+    "t-statistic": twin_fe.tvalues.round(2).values,
+    "p-value": twin_fe.pvalues.round(3).values,
+})
 ```
 
 The twin estimate drops to about **6%** --- nearly half the OLS estimate. This suggests ability bias pushes OLS upward.
@@ -175,14 +189,25 @@ iv_diff = IV2SLS.from_formula(
     "dlwage ~ 0 + [deduc ~ deduct]", data=first_iv
 ).fit(cov_type="robust")
 
-# Summary table
+# Combine all four estimates into one table
+# Format each as "coefficient (standard error)"
+ols_coef = round(ols.params["educ"], 3)
+ols_se = round(ols.bse["educ"], 3)
+fe_coef = round(twin_fe.params["deduc"], 3)
+fe_se = round(twin_fe.bse["deduc"], 3)
+# Note: linearmodels uses .std_errors instead of .bse
+iv_lev_coef = round(iv_levels.params["educ"], 3)
+iv_lev_se = round(iv_levels.std_errors["educ"], 3)
+iv_dif_coef = round(iv_diff.params["deduc"], 3)
+iv_dif_se = round(iv_diff.std_errors["deduc"], 3)
+
 pd.DataFrame({
     "Method": ["OLS (levels)", "Twin FE (differences)", "IV (levels)", "IV (differences)"],
     "Return to schooling": [
-        f"{ols.params['educ']:.3f} ({ols.bse['educ']:.3f})",
-        f"{twin_fe.params['deduc']:.3f} ({twin_fe.bse['deduc']:.3f})",
-        f"{iv_levels.params['educ']:.3f} ({iv_levels.std_errors['educ']:.3f})",
-        f"{iv_diff.params['deduc']:.3f} ({iv_diff.std_errors['deduc']:.3f})",
+        format(ols_coef, ".3f") + " (" + format(ols_se, ".3f") + ")",
+        format(fe_coef, ".3f") + " (" + format(fe_se, ".3f") + ")",
+        format(iv_lev_coef, ".3f") + " (" + format(iv_lev_se, ".3f") + ")",
+        format(iv_dif_coef, ".3f") + " (" + format(iv_dif_se, ".3f") + ")",
     ],
 })
 ```
@@ -252,14 +277,24 @@ wald = rf.params["q4"] / fs.params["q4"]
 # Step 4: Verify with 2SLS
 iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
 
+# Extract coefficients and standard errors
+rf_coef = round(rf.params["q4"], 4)
+rf_se = round(rf.bse["q4"], 4)
+fs_coef = round(fs.params["q4"], 4)
+fs_se = round(fs.bse["q4"], 4)
+wald_rounded = round(wald, 4)
+# Note: linearmodels uses .std_errors instead of .bse
+iv_coef = round(iv.params["s"], 4)
+iv_se = round(iv.std_errors["s"], 4)
+
 pd.DataFrame({
     "Step": ["Reduced form (Q4 → earnings)", "First stage (Q4 → schooling)",
              "Wald estimate (RF / FS)", "2SLS verification"],
     "Estimate": [
-        f"{rf.params['q4']:.4f} ({rf.bse['q4']:.4f})",
-        f"{fs.params['q4']:.4f} ({fs.bse['q4']:.4f})",
-        f"{wald:.4f}",
-        f"{iv.params['s']:.4f} ({iv.std_errors['s']:.4f})",
+        format(rf_coef, ".4f") + " (" + format(rf_se, ".4f") + ")",
+        format(fs_coef, ".4f") + " (" + format(fs_se, ".4f") + ")",
+        format(wald_rounded, ".4f"),
+        format(iv_coef, ".4f") + " (" + format(iv_se, ".4f") + ")",
     ],
 })
 ```
