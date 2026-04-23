@@ -6,6 +6,7 @@ format:
     toc: true
     toc-depth: 3
     code-tools: true
+    code-fold: true
     number-sections: true
     theme: cosmo
     self-contained: true
@@ -237,6 +238,8 @@ Imagine weighing yourself on a bathroom scale that randomly adds or subtracts 5 
 - IV using the twin's report corrects measurement error, recovering a return near 11%
 - **Limitation:** The Twinsburg twins are a self-selected sample (twins who attend an annual twin festival in Ohio). They may not represent the general population. The findings are suggestive but should be confirmed with other approaches
 
+The twins approach offered a first crack at ability bias but raised a new concern: measurement error. Our next strategy sidesteps both problems by finding a source of schooling variation that is entirely independent of ability --- and precisely measured in census data.
+
 
 # Strategy 2: Quarter-of-Birth IV
 
@@ -299,6 +302,8 @@ pd.DataFrame({
 })
 ```
 
+The table walks through the IV recipe step by step. The reduced form shows that Q4 births earn slightly more (about 0.7% higher log earnings). The first stage shows they also get about 0.09 more years of schooling. Dividing the reduced form by the first stage gives the Wald estimate of about **7--8% per year of schooling** --- which the 2SLS verification confirms. Let's visualize these patterns across birth cohorts.
+
 ## Visualizing the First Stage and Reduced Form
 
 ```{python}
@@ -356,6 +361,8 @@ The answer depends on whether the 7--10% return is real or inflated by ability.
 
 Multiple methods converge: twins, quarter of birth, and compulsory schooling laws all point to a **genuine causal return of 7--10% per year**. Education is one of the best investments individuals and governments can make.
 
+Both the twins and quarter-of-birth strategies estimate the *overall* return to education. But they leave open a deeper question: does education raise earnings because of the skills you learn, or because employers value the diploma? Our final strategy uses RD to isolate the credential effect.
+
 
 # Strategy 3: Sheepskin Effects via RD
 
@@ -366,6 +373,8 @@ Multiple methods converge: twins, quarter of birth, and compulsory schooling law
 **The data:** Clark and Martorell (2014) studied the Texas high school exit exam --- a standardized test that students must pass to receive their diploma. The data consists of 46 score bins around the passing cutoff, with each bin reporting the fraction receiving a diploma (`receivehsd`), average annual earnings (`avgearnings`), number of test-takers (`n`), and person-years of earnings data (`person_years`). The running variable is the test score relative to the passing threshold (`minscore`, where 0 = cutoff).
 
 **Why RD works here:** Students who scored just above vs. just below the cutoff have nearly **identical skills** (they performed almost the same on the test) but very different diploma rates. Any jump in earnings at the cutoff reflects the value of the diploma credential itself, holding skills constant.
+
+The dataset includes pre-computed polynomial terms for the RD regression: `left_1` through `left_4` are polynomial powers of the running variable for scores below the cutoff, and `right_1` through `right_4` are for scores above. These allow separate flexible curves on each side of the cutoff, following the same logic as the quadratic RD model in Chapter 4 but with higher-order polynomials for greater flexibility.
 
 ```{python}
 # Load clean sheepskin RD data (Texas last-chance exam)

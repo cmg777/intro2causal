@@ -6,6 +6,7 @@ format:
     toc: true
     toc-depth: 3
     code-tools: true
+    code-fold: true
     number-sections: true
     theme: cosmo
     self-contained: true
@@ -107,9 +108,11 @@ plt.tight_layout()
 plt.show()
 ```
 
+The divergence is striking. Both districts started with roughly similar numbers of banks in 1930. After the crisis hit, the 8th District (no intervention) lost banks rapidly, while the 6th District (Fed intervention) held up much better. The dashed counterfactual line shows where the 6th District would have ended up if it had followed the same trajectory as the 8th --- the gap between the actual and counterfactual lines is the DD estimate of how many banks the Fed saved.
+
 ## Computing the DD
 
-The DD calculation compares **changes** across groups, which removes any fixed differences between the districts:
+Let's quantify this visual impression. The DD calculation compares **changes** across groups, which removes any fixed differences between the districts:
 
 ```{python}
 #| label: tbl-dd-calc
@@ -271,7 +274,7 @@ coef_table = pd.DataFrame({
 coef_table
 ```
 
-Now let's check across multiple causes of death and specifications:
+The `legal` coefficient tells us that a one-unit increase in the fraction of 18--20 year olds who can legally drink is associated with approximately 7--10 additional deaths per 100,000. The t-statistic exceeds 2, confirming statistical significance. But does this finding hold up across different causes of death and model specifications? Let's check:
 
 ```{python}
 #| label: tbl-dd-full
@@ -325,6 +328,8 @@ pd.DataFrame(rows)
 - Results are **robust** to adding state-specific trends and population weighting
 :::
 
+The baseline results are encouraging, but how confident can we be? A careful researcher should probe whether the findings hold up under alternative specifications.
+
 
 # Robustness Checks
 
@@ -334,7 +339,7 @@ Adding state-specific linear time trends is a more demanding test. It allows eac
 
 ## Beer Tax Control
 
-Some states may have changed beer taxes at the same time as their MLDA. Controlling for beer taxes tests whether the MLDA effect is confounded by other alcohol-control policies:
+Another potential confounder is beer taxes, which some states changed around the same time as their drinking age laws. If beer taxes independently affect mortality, omitting them could bias the DD estimate. Controlling for beer taxes tests whether the MLDA effect is confounded by these concurrent policy changes:
 
 ```{python}
 #| label: tbl-beertax
@@ -365,18 +370,9 @@ pd.DataFrame(rows)
 The MLDA coefficients are largely unchanged after controlling for beer taxes, reinforcing the causal interpretation.
 
 
-# Historical Perspective: John Snow
+# How DD Compares to Other Methods
 
-Long before modern econometrics, **John Snow** (1813--1858) used DD reasoning to solve one of the great public health mysteries: the cause of cholera.
-
-In 1854 London, Snow noticed that cholera deaths were concentrated in neighborhoods served by the **Southwark and Vauxhall** water company, which drew from a contaminated stretch of the Thames. A competing company, **Lambeth**, had moved its intake upstream to cleaner water in 1852.
-
-Snow compared the *change* in cholera death rates before and after Lambeth's move, relative to Southwark and Vauxhall's unchanged source. The dramatic decline in Lambeth-served neighborhoods --- with no corresponding decline in Southwark areas --- provided compelling evidence that contaminated water caused cholera, overturning the prevailing "miasma" (bad air) theory.
-
-This was a DD analysis avant la lettre: two groups (water companies), a treatment that changed for one but not the other, and a comparison of changes in outcomes.
-
-
-## How DD Compares to Other Methods
+We now have four causal inference tools in our toolkit. How do they relate to each other?
 
 | Feature | RCT (Ch 1) | IV (Ch 3) | RD (Ch 4) | **DD (This Chapter)** |
 |:---|:---|:---|:---|:---|
@@ -395,6 +391,17 @@ DD complements the other methods:
 - **vs. RCTs (Chapter 1)**: DD works when randomization is impossible but policy varies across groups and time. It sacrifices the randomization guarantee for broader applicability.
 - **vs. RD (Chapter 4)**: Both exploit policy rules, but RD uses a cutoff in a running variable while DD uses changes over time. The MLDA question appears in *both* chapters: Chapter 4 uses the age-21 cutoff (RD); this chapter uses state-level policy changes over time (DD). Same question, different identification strategies.
 :::
+
+
+# Historical Perspective: John Snow
+
+The logic of DD has a surprisingly long history. Long before modern econometrics, **John Snow** (1813--1858) used DD reasoning to solve one of the great public health mysteries: the cause of cholera.
+
+In 1854 London, Snow noticed that cholera deaths were concentrated in neighborhoods served by the **Southwark and Vauxhall** water company, which drew from a contaminated stretch of the Thames. A competing company, **Lambeth**, had moved its intake upstream to cleaner water in 1852.
+
+Snow compared the *change* in cholera death rates before and after Lambeth's move, relative to Southwark and Vauxhall's unchanged source. The dramatic decline in Lambeth-served neighborhoods --- with no corresponding decline in Southwark areas --- provided compelling evidence that contaminated water caused cholera, overturning the prevailing "miasma" (bad air) theory.
+
+This was a DD analysis avant la lettre: two groups (water companies), a treatment that changed for one but not the other, and a comparison of changes in outcomes.
 
 
 # Key Takeaways

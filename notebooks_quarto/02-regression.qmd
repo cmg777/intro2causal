@@ -6,6 +6,7 @@ format:
     toc: true
     toc-depth: 3
     code-tools: true
+    code-fold: true
     number-sections: true
     theme: cosmo
     self-contained: true
@@ -65,6 +66,8 @@ Think of regression as a matchmaking service. It finds pairs of students who loo
 
 When the matching is on **all the right variables**, regression approximates what a randomized experiment would show. When important variables are missing, the match is imperfect, and bias creeps in.
 :::
+
+To separate the school's causal effect from the student's pre-existing advantages, we need a tool that holds observable characteristics constant. That tool is regression.
 
 
 # How Regression Works
@@ -284,7 +287,7 @@ Even when we can't observe the omitted variable, the OVB formula lets us **predi
 
 **The challenge:** Students at Harvard and Stanford are smarter, more motivated, and better connected than the average state school student. A simple comparison of alumni earnings confounds the school's causal effect with these pre-existing differences --- classic selection bias. We can't randomly assign students to colleges, so we need a regression strategy.
 
-**The data:** Economists Stacy Dale and Alan Krueger used the **College and Beyond (C&B)** dataset, which tracked over 14,000 students from the 1976 college-entering cohort. The data includes the colleges each student applied to, where they were admitted, where they enrolled, their SAT scores, parental income, and their earnings in 1995 (about 19 years after college entry). Colleges are classified by Barron's selectivity rating (Most Competitive, Highly Competitive, Competitive, etc.).
+**The data:** Economists Stacy Dale and Alan Krueger used the **College and Beyond (C&B)** dataset, which tracked over 14,000 students from the 1976 college-entering cohort. The data includes the colleges each student applied to, where they were admitted, where they enrolled, their SAT scores, parental income, and their earnings in 1995 (about 19 years after college entry). Colleges are classified by Barron's selectivity rating (Most Competitive, Highly Competitive, Competitive, etc.). *Note: The C&B dataset is not publicly available, so we discuss Dale and Krueger's findings rather than replicating the analysis in code. The simulated data above demonstrated the same OVB principles that their study applies to real data.*
 
 **Why regression works here:** The key insight was that the schools students *applied to* reveal information about their ambition and ability. Two students who both applied to Harvard, Princeton, and their state school --- but one chose Harvard and the other chose the state school --- are arguably similar in motivation and ability. By controlling for application behavior (the "self-revelation" model), regression can approximate the comparison we'd get from a randomized experiment.
 
@@ -319,6 +322,8 @@ In their data:
 - The findings apply to the **1976 cohort** --- the college landscape has changed dramatically since then (higher tuition, more student debt, different labor markets). The premium might be different for today's students.
 - The regression approach assumes that application behavior captures all relevant confounders. If some unobserved factor (e.g., network connections from private school alumni) is missing, some bias may remain.
 - Later work by Dale and Krueger found that the private school premium *was* significant for students from **low-income families** and **minority groups** --- suggesting that elite colleges provide networking benefits that matter more for disadvantaged students.
+
+The Dale and Krueger study succeeded because they controlled for the *right* variables --- pre-treatment characteristics like application behavior. But what happens when researchers control for the *wrong* variables?
 
 
 # When Controls Go Wrong: Bad Controls
