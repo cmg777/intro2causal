@@ -549,29 +549,38 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 ## Solutions
 
-### Multiple Choice Questions
-
-**MCQ1.** **(b)** Regression controls hold confounders constant, allowing us to compare treated and untreated individuals who share the same values of the control variables. This approximates the "other things equal" comparison we would get from a randomized experiment. Option (a) is a side effect, not the purpose; (c) is false — controls typically reduce the treatment coefficient; (d) is unrelated.
-
-**MCQ2.** **(c)** When the omitted variable is positively correlated with both treatment and outcome, the OVB formula gives: OVB = π₁ × γ, where both π₁ > 0 and γ > 0, so OVB > 0 (upward bias). In our simulation, ability was positively correlated with both private school attendance and earnings, inflating the OLS estimate above the true effect.
-
-**MCQ3.** **(c)** A bad control is a variable that lies on the causal pathway between treatment and outcome — it is *caused by* the treatment. Controlling for it blocks part of the treatment's effect and can introduce bias. For example, controlling for occupation when estimating the effect of education on earnings is problematic because education affects occupation choice.
-
-**MCQ4.** **(c)** The OVB formula is OVB = π₁ × γ. If π₁ = 0 (omitted variable uncorrelated with treatment) OR γ = 0 (omitted variable doesn't affect outcome), the product is zero and there is no bias. Options (a), (b), and (d) are unrelated to the formula.
-
-**MCQ5.** **(c)** Dale and Krueger found that when they controlled for the selectivity of schools students *applied to* (a proxy for unobserved ability and ambition), the private school premium largely disappeared. Students who applied to elite schools but attended public ones earned similar amounts to those who attended the elite schools — suggesting the premium reflected selection, not causation.
-
 ### Conceptual Questions
 
-**Q1.** Using the OVB formula: $\pi_1$ = relationship between experience and training (positive, since experienced workers get more training). $\gamma$ = effect of experience on wages in the long regression (positive, since experience raises wages). OVB = positive × positive = **positive**. The training coefficient is biased **upward** --- it overstates the true effect of training because it partly captures the effect of experience.
+**Q1.** **The training coefficient is biased upward because it absorbs the positive effect of the omitted experience variable.**
 
-**Q2.** (a) OVB = short − long = −5 − (−2) = −3. (b) This means family income is negatively correlated with class size (richer families choose smaller classes, $\pi_1 < 0$) and positively correlated with test scores ($\gamma > 0$). The product is negative, so omitting income biases the class size effect *downward* (making it look more negative than it is). Some of the apparent class size effect was really a family income effect.
+1. **Identify $\pi_1$:** The relationship between experience and training is positive, since experienced workers tend to receive more training.
+2. **Identify $\gamma$:** The effect of experience on wages in the long regression is positive, since experience raises wages.
+3. **Apply the OVB formula:** OVB = $\pi_1 \times \gamma$ = positive $\times$ positive = **positive**.
+4. **Conclude:** The short regression overstates the true effect of training because it partly captures the wage-boosting effect of experience. This is a direct application of the OVB formula introduced in the chapter.
 
-**Q3.** Body weight is a bad control because exercise *causes* changes in body weight. Controlling for weight blocks one of the pathways through which exercise improves mental health (exercise → lower weight → better mental health). This would lead to understating the total effect of exercise. Only control for variables determined *before* the person started exercising.
+**Q2.** **Omitting family income biases the class size effect downward, making smaller classes look more beneficial than they truly are.**
 
-**Q4.** Study A is more credible. Its estimate barely changes when controls are added (−3 to −2.8), suggesting the uncontrolled estimate was already close to the causal effect. Study B's estimate drops dramatically (−8 to −2), suggesting the uncontrolled estimate was severely biased. By the OVB formula, the large change means the added controls were highly correlated with class size and with test scores. Study A's stability suggests omitted variables are less of a concern.
+1. **Compute OVB:** OVB = short $-$ long = $-5 - (-2) = -3$.
+2. **Decompose the sign:** Family income is negatively correlated with class size (richer families choose smaller classes, so $\pi_1 < 0$) and positively correlated with test scores ($\gamma > 0$). The product $\pi_1 \times \gamma$ is negative.
+3. **Interpret:** The negative OVB means the short regression exaggerates the class size penalty --- some of the apparent class size effect was really a family income effect. This illustrates the chapter's warning: the direction of OVB depends on the signs of both $\pi_1$ and $\gamma$.
 
-**Q5.** The regression estimate is causal if age, income, and diet are the *only* confounders (conditional independence assumption). But unobserved factors could still bias the result: genetics (some people are naturally healthier AND more inclined to exercise), motivation, social support, or pre-existing health conditions. Without random assignment of exercise, we can never be sure we've controlled for everything. This is why the book's methods beyond regression (IV, RD, DD) exist.
+**Q3.** **Body weight is a bad control because it is a downstream consequence of exercise, not a pre-treatment confounder.**
+
+1. **Identify the causal pathway:** Exercise causes changes in body weight, so weight is a mediator on the path exercise $\rightarrow$ lower weight $\rightarrow$ better mental health.
+2. **Explain the problem:** Controlling for weight blocks this pathway, absorbing part of the total effect of exercise. The regression would understate how much exercise improves mental health.
+3. **State the rule:** As the chapter emphasizes, only control for variables determined *before* the treatment (pre-treatment covariates). Bad controls --- variables that are themselves affected by treatment --- introduce bias by removing part of the causal effect you are trying to measure.
+
+**Q4.** **Study A is more credible because coefficient stability across specifications signals low omitted variable bias.**
+
+1. **Compare the shifts:** Study A's estimate barely changes when controls are added ($-3$ to $-2.8$, a shift of $0.2$). Study B's estimate drops dramatically ($-8$ to $-2$, a shift of $6$).
+2. **Apply OVB logic:** By the OVB formula, the large change in Study B means the added controls were highly correlated with both class size ($\pi_1$ is large) and test scores ($\gamma$ is large). The uncontrolled estimate was severely biased.
+3. **Draw the conclusion:** Study A's stability suggests that omitted variables are less of a concern --- the short and long regressions tell a similar story. This coefficient-stability heuristic is a practical diagnostic from the chapter: when adding controls barely moves the estimate, we gain confidence that further omitted variables are unlikely to change it much either.
+
+**Q5.** **Regression can only deliver causal estimates if there are no unobserved confounders --- a strong assumption that is unlikely to hold here.**
+
+1. **State the assumption:** The regression estimate is causal only if age, income, and diet are the *only* confounders (the conditional independence assumption, or CIA).
+2. **List plausible violations:** Unobserved factors could still bias the result: genetics (some people are naturally healthier AND more inclined to exercise), motivation, social support, or pre-existing health conditions. Each of these is correlated with both exercise and health, creating OVB.
+3. **Connect to the broader course:** Without random assignment of exercise, we can never be sure we have controlled for everything. This fundamental limitation of regression motivates the methods in later chapters --- instrumental variables (Chapter 3), regression discontinuity (Chapter 4), and differences-in-differences (Chapter 5) --- which rely on research designs rather than exhaustive control lists.
 
 ### Research Tasks
 
@@ -581,44 +590,31 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 #| label: tbl-sol-zero
 #| tbl-cap: "With true effect = 0, the short regression still shows a positive (spurious) coefficient"
 
-# --- Regenerate data with NO causal effect (true_effect = 0) ---
+# --- Generate data with NO causal effect ---
 np.random.seed(42)
 ability2 = np.random.normal(50, 10, n)
-
-# Same logistic function for private school choice (ability still matters)
-# Higher ability → higher probability of choosing private school (logistic function)
-prob2 = 1 / (1 + np.exp(-(ability2 - 50) / 5))
+prob2 = 1 / (1 + np.exp(-(ability2 - 50) / 5))  # ability drives private school selection
 private2 = np.random.binomial(1, prob2)
+earnings2 = 30000 + 0 * private2 + 800 * ability2 + np.random.normal(0, 5000, n)  # true effect = 0
 
-# KEY CHANGE: true effect is 0 — private school does nothing to earnings
-earnings2 = 30000 + 0 * private2 + 800 * ability2 + np.random.normal(0, 5000, n)
+students2 = pd.DataFrame({"earnings": earnings2, "private": private2, "ability": ability2})
 
-students2 = pd.DataFrame({
-    "earnings": earnings2,
-    "private": private2,
-    "ability": ability2,
-})
+# --- Run short vs long regressions ---
+short2 = smf.ols("earnings ~ private", data=students2).fit()             # omits ability (biased)
+long2 = smf.ols("earnings ~ private + ability", data=students2).fit()    # includes ability (correct)
 
-# Short regression (biased — omits ability)
-short2_model = smf.ols("earnings ~ private", data=students2)
-short2 = short2_model.fit()
-
-# Long regression (correct — includes ability)
-long2_model = smf.ols("earnings ~ private + ability", data=students2)
-long2 = long2_model.fit()
-
-# Compare the two coefficients against the true effect of zero
 pd.DataFrame({
     "Regression": ["Short (omit ability)", "Long (include ability)"],
-    "Private coefficient": [
-        round(short2.params["private"]),
-        round(long2.params["private"]),
-    ],
+    "Private coefficient": [round(short2.params["private"]), round(long2.params["private"])],
     "True effect": [0, 0],
 })
 ```
 
-The short regression shows a positive coefficient even though the true effect is zero. This is pure selection bias --- higher-ability students choose private school AND earn more. The long regression correctly recovers approximately zero.
+(1) **What the numbers show:** The short regression shows a positive coefficient even though the true effect is zero. The long regression correctly recovers approximately zero.
+
+(2) **Why:** This is pure OVB in action --- higher-ability students select into private school ($\pi_1 > 0$) AND ability raises earnings ($\gamma > 0$). The short regression attributes ability's effect to private schooling because the omitted variable is correlated with both the treatment and the outcome.
+
+(3) **What it teaches:** OVB can create the illusion of a causal effect where none exists. This is the most dangerous form of bias: a policy maker relying on the short regression would incorrectly conclude that private schooling boosts earnings. The long regression, by controlling for the confounder, eliminates the bias.
 
 **R2.**
 
@@ -626,60 +622,36 @@ The short regression shows a positive coefficient even though the true effect is
 #| label: tbl-sol-strong
 #| tbl-cap: "Stronger confounder → larger OVB"
 
-# --- KEY CHANGE: divide by 2 instead of 5 → stronger ability-private link ---
+# --- Generate data with stronger confounder ---
 np.random.seed(42)
 ability3 = np.random.normal(50, 10, n)
-
-# Steeper logistic: ability has a STRONGER effect on private school choice
-# Higher ability → higher probability of choosing private school (logistic function)
-prob3 = 1 / (1 + np.exp(-(ability3 - 50) / 2))
+prob3 = 1 / (1 + np.exp(-(ability3 - 50) / 2))  # divide by 2 instead of 5 = stronger selection
 private3 = np.random.binomial(1, prob3)
-
-# Earnings: same true effect of $5,000 as before
 earnings3 = 30000 + 5000 * private3 + 800 * ability3 + np.random.normal(0, 5000, n)
+students3 = pd.DataFrame({"earnings": earnings3, "private": private3, "ability": ability3})
 
-students3 = pd.DataFrame({
-    "earnings": earnings3,
-    "private": private3,
-    "ability": ability3,
-})
+# --- Run short, long, and auxiliary regressions ---
+short3 = smf.ols("earnings ~ private", data=students3).fit()       # biased estimate
+long3 = smf.ols("earnings ~ private + ability", data=students3).fit()  # closer to true effect
+aux3 = smf.ols("ability ~ private", data=students3).fit()          # estimates pi_1
 
-# --- Run the three regressions ---
-# Short regression (omits ability)
-short3_model = smf.ols("earnings ~ private", data=students3)
-short3 = short3_model.fit()
+# --- Verify OVB formula ---
+ovb3 = round(short3.params["private"] - long3.params["private"])   # direct: short minus long
+formula3 = round(aux3.params["private"] * long3.params["ability"]) # formula: pi_1 * gamma
 
-# Long regression (includes ability)
-long3_model = smf.ols("earnings ~ private + ability", data=students3)
-long3 = long3_model.fit()
-
-# Auxiliary regression (ability on private) to get pi_1
-aux3_model = smf.ols("ability ~ private", data=students3)
-aux3 = aux3_model.fit()
-
-# --- Compute OVB two ways ---
-ovb3_direct = round(short3.params["private"] - long3.params["private"])
-pi_1_val = round(aux3.params["private"], 2)
-gamma_val = round(long3.params["ability"])
-ovb3_formula = round(aux3.params["private"] * long3.params["ability"])
-
-# Display comparison
 pd.DataFrame({
-    "Metric": [
-        "Short coef", "Long coef",
-        "OVB (direct)", "pi_1",
-        "gamma", "OVB (formula)",
-    ],
-    "Value": [
-        round(short3.params["private"]),
-        round(long3.params["private"]),
-        ovb3_direct, pi_1_val,
-        gamma_val, ovb3_formula,
-    ],
+    "Metric": ["Short coef", "Long coef", "OVB (direct)", "pi_1", "gamma", "OVB (formula)"],
+    "Value": [round(short3.params["private"]), round(long3.params["private"]),
+              ovb3, round(aux3.params["private"], 2), round(long3.params["ability"]),
+              formula3],
 })
 ```
 
-With a stronger ability-private link, $\pi_1$ increases and OVB grows. The short regression is now much further from the true effect. This demonstrates that stronger confounders create larger bias.
+(1) **What the numbers show:** With a stronger ability-private link, $\pi_1$ increases substantially and the OVB grows. The short regression coefficient is now much further from the true effect of 5,000. The OVB formula ($\pi_1 \times \gamma$) matches the direct calculation (short $-$ long), confirming the formula works exactly.
+
+(2) **Why:** A tighter link between ability and private school selection (dividing by 2 instead of 5 in the logistic function) means ability is a stronger predictor of treatment. Since $\gamma$ (the effect of ability on earnings) stays the same, the larger $\pi_1$ mechanically produces larger OVB.
+
+(3) **What it teaches:** The magnitude of OVB depends on how strongly the omitted variable predicts treatment ($\pi_1$). This is a key practical insight from the chapter: even if you know the direction of bias, the size of the problem depends on how strongly confounders sort people into treatment and control groups.
 
 **R3.**
 
@@ -687,60 +659,37 @@ With a stronger ability-private link, $\pi_1$ increases and OVB grows. The short
 #| label: tbl-sol-twoconf
 #| tbl-cap: "Adding a second confounder: family income"
 
-# --- KEY CHANGE: add family_income as a SECOND confounder ---
+# --- Generate data with two confounders ---
 np.random.seed(42)
 ability4 = np.random.normal(50, 10, n)
-family_income = np.random.normal(60000, 20000, n)  # mean=$60k, sd=$20k
-
-# Both ability AND income affect private school choice
-# Higher ability → higher probability of choosing private school (logistic function)
-# Higher family income → also higher probability of choosing private school
-ability_part = (ability4 - 50) / 5
-income_part = (family_income - 60000) / 20000
-prob4 = 1 / (1 + np.exp(-(ability_part + income_part)))
+family_income = np.random.normal(60000, 20000, n)
+# Both ability and income affect private school choice
+prob4 = 1 / (1 + np.exp(-((ability4 - 50) / 5 + (family_income - 60000) / 20000)))
 private4 = np.random.binomial(1, prob4)
-
-# Both ability AND income affect earnings (true private effect = $5,000)
-earnings4 = (10000
-             + 5000 * private4
-             + 800 * ability4
-             + 0.3 * family_income
-             + np.random.normal(0, 5000, n))
+# Both ability and income affect earnings
+earnings4 = 10000 + 5000 * private4 + 800 * ability4 + 0.3 * family_income + np.random.normal(0, 5000, n)
 
 students4 = pd.DataFrame({
-    "earnings": earnings4,
-    "private": private4,
-    "ability": ability4,
-    "family_income": family_income,
+    "earnings": earnings4, "private": private4,
+    "ability": ability4, "family_income": family_income,
 })
 
-# --- Three regressions with increasing controls ---
-# Short: no controls at all
-r_short_model = smf.ols("earnings ~ private", data=students4)
-r_short = r_short_model.fit()
+# --- Run three regressions with progressively more controls ---
+r_short = smf.ols("earnings ~ private", data=students4).fit()                        # no controls
+r_medium = smf.ols("earnings ~ private + ability", data=students4).fit()             # one control
+r_long = smf.ols("earnings ~ private + ability + family_income", data=students4).fit()  # both controls
 
-# Medium: control for ability only (still omits family income)
-r_medium_model = smf.ols("earnings ~ private + ability", data=students4)
-r_medium = r_medium_model.fit()
-
-# Long: control for BOTH ability and family income
-r_long_model = smf.ols("earnings ~ private + ability + family_income", data=students4)
-r_long = r_long_model.fit()
-
-# Compare all three against the true effect
 pd.DataFrame({
-    "Regression": [
-        "Short (no controls)",
-        "Medium (ability only)",
-        "Long (ability + income)",
-    ],
-    "Private coefficient": [
-        round(r_short.params["private"]),
-        round(r_medium.params["private"]),
-        round(r_long.params["private"]),
-    ],
+    "Regression": ["Short (no controls)", "Medium (ability only)", "Long (ability + income)"],
+    "Private coefficient": [round(r_short.params["private"]),
+                             round(r_medium.params["private"]),
+                             round(r_long.params["private"])],
     "True effect": [5000, 5000, 5000],
 })
 ```
 
-With two confounders, the short regression is most biased. Adding ability (medium) helps but still omits family income. Adding both controls (long) gets closest to the true $5,000 effect. Each additional relevant control reduces OVB.
+(1) **What the numbers show:** The short regression (no controls) is the most biased. Adding ability alone (medium) moves the coefficient closer to the true 5,000, but it still overshoots. Adding both ability and family income (long) gets closest to the true effect.
+
+(2) **Why:** Each omitted confounder contributes its own OVB term. Family income is positively correlated with both private school attendance and earnings, so omitting it inflates the private school coefficient. Adding ability removes one source of bias but leaves the income-driven bias in place.
+
+(3) **What it teaches:** With multiple confounders, controlling for only some of them reduces bias but does not eliminate it. The progression from short to medium to long regression illustrates the chapter's core message: the long regression moves toward the causal effect only when it includes *all* relevant confounders. In practice, we can never be certain we have controlled for everything --- which is why the book introduces stronger research designs in later chapters.

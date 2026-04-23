@@ -575,15 +575,44 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 ## Solutions
 
+### Multiple Choice Questions
+
+**MCQ1.** **(c)** The parallel trends assumption states that, without the treatment, the treated and control groups would have changed at the same rate. **(a)** is wrong because DD allows the groups to start at different levels --- that is precisely why we take differences. **(b)** is wrong because random assignment describes RCTs, not DD; DD exploits policy changes in observational data. **(d)** is wrong because DD does not require the same sample size in both groups. The key requirement is parallel *trends*, not equal levels, randomization, or balance.
+
+**MCQ2.** **(b)** Both groups may be affected by common shocks (e.g., a national recession, improving vehicle safety). By subtracting the control group's change, DD removes these common trends, isolating the treatment effect. **(a)** is wrong because a single before-after comparison for the treated group cannot distinguish the treatment effect from time trends that affect everyone. **(c)** is wrong because comparing treated and control groups at one point in time conflates the treatment effect with pre-existing level differences. **(d)** is wrong because DD does not require randomization --- it relies on the parallel trends assumption instead.
+
+**MCQ3.** **(b)** The treatment was the Atlanta Fed's (6th District) policy of providing easy credit and liquidity support to struggling banks, in contrast to the St. Louis Fed's (8th District) restrictive approach. **(a)** is wrong because individual bank characteristics are not the treatment --- the treatment operates at the district-policy level. **(c)** is wrong because the Great Depression itself is a common shock affecting both districts; it is the backdrop, not the treatment. **(d)** is wrong because state-level banking regulations are controlled for by comparing within-district changes, not used as the treatment variable.
+
+**MCQ4.** **(b)** State fixed effects absorb all characteristics of a state that are constant over time --- geography, culture, climate, institutional history, etc. They allow us to compare changes *within* each state over time, rather than comparing levels across states. **(a)** is wrong because it describes state-specific time trends (which allow each state its own slope over time), a more demanding specification than simple fixed effects. **(c)** is wrong because it describes an interaction term between treatment and time, which is the DD coefficient itself, not a fixed effect. **(d)** is wrong because fixed effects do not eliminate measurement error in the dependent variable --- they only remove time-invariant confounders.
+
+**MCQ5.** **(c)** If the treated group was already on a different trajectory before treatment, the DD estimate captures both the treatment effect and this pre-existing trend difference --- a violation of the parallel trends assumption. **(a)** is wrong because heteroscedasticity affects standard errors but does not bias the DD point estimate. **(b)** is wrong because unequal group sizes reduce precision but do not inherently bias the estimate. **(d)** is wrong because a single pre-treatment observation is insufficient to detect diverging trends; multiple pre-treatment periods are needed to assess whether parallel trends hold.
+
 ### Conceptual Questions
 
-**Q1.** If the two cities already had diverging employment trends before the minimum wage increase, the parallel trends assumption is violated. The DD estimate would capture both the causal effect of the policy *and* the pre-existing trend difference. For example, if the treatment city's employment was already declining faster, the DD estimate would overstate the negative effect of the minimum wage. You could test for this by plotting pre-treatment trends and checking whether they are parallel.
+**Q1.** **Diverging pre-treatment trends violate the parallel trends assumption and contaminate the DD estimate with a pre-existing trend difference.**
 
-**Q2.** (a) DD = (55 − 50) − (48 − 40) = 5 − 8 = −3. The treatment group's outcome fell by 3 units relative to the control group. (b) The parallel trends assumption must hold: absent the policy change, both groups would have experienced the same change over time. Here, the control group rose by 8, so we assume the treatment group would have also risen by 8 without the policy --- making the treatment effect −3.
+1. The parallel trends assumption requires that, absent the minimum wage increase, both cities would have followed the same employment trajectory. If the treatment city was already losing jobs faster, this assumption fails.
+2. The DD estimate equals (treatment effect) + (pre-existing trend gap). If employment in the treatment city was already declining by 2 percentage points more per period, the DD would overstate the negative effect of the minimum wage by that amount.
+3. To diagnose this problem, plot employment trends for both cities across multiple pre-treatment periods. If the lines are roughly parallel before the policy change, the assumption is more credible. If they diverge, the DD estimate is unreliable.
+4. A possible fix is to add city-specific linear time trends to the regression, which absorbs pre-existing trend differences and isolates deviations from those trends.
 
-**Q3.** State fixed effects control for permanent differences between states (e.g., some states have higher death rates due to geography, culture, or road conditions). Without them, we might confuse these permanent differences for the effect of MLDA policy. Year fixed effects control for nationwide changes over time (e.g., improvements in vehicle safety or changes in drinking culture). Without them, we might attribute a nationwide trend in mortality to MLDA changes. Both are needed to isolate the within-state, within-year variation in MLDA policy.
+**Q2.** **The DD estimate is -3, meaning the treatment caused the outcome to be 3 units lower than it would have been without the policy.**
 
-**Q4.** Adding `C(state):year` allows each state to have its own linear time trend. This is more demanding than standard DD because it asks: did the MLDA effect cause a *deviation* from the state's own trend, not just from the national average trend? The DD estimate might change substantially if some states were on different trajectories for reasons unrelated to MLDA (e.g., southern states experiencing rapid economic changes). A large change would suggest the standard parallel trends assumption is questionable and that state-specific trends are needed to get a reliable estimate.
+1. (a) Compute each group's before-after change: Treatment group changed by (55 - 50) = +5. Control group changed by (48 - 40) = +8. The DD estimate is the difference of these changes: 5 - 8 = -3. The treatment group's outcome fell by 3 units relative to the control group's trajectory.
+2. (b) The parallel trends assumption is essential: absent the policy change, both groups would have experienced the same +8 change over time. Under this assumption, the treatment group's counterfactual outcome would have been 50 + 8 = 58. Since the observed outcome was 55, the treatment effect is 55 - 58 = -3, matching the DD calculation.
+3. This example illustrates why a simple before-after comparison for the treated group (showing a +5 increase) would be misleading --- the DD reveals the policy actually *reduced* the outcome by 3 units relative to the counterfactual trend.
+
+**Q3.** **State and year fixed effects work together to isolate the within-state, within-year variation in MLDA policy --- the only variation that can credibly identify the causal effect.**
+
+1. State fixed effects (`C(state)`) absorb all time-invariant differences between states --- geography, culture, road infrastructure, baseline drinking norms. Without them, we might attribute Montana's permanently higher death rate to its MLDA policy rather than to its rural roads and long driving distances.
+2. Year fixed effects (`C(year)`) absorb all nationwide changes over time --- improvements in vehicle safety, national campaigns against drunk driving, economic conditions. Without them, a nationwide decline in mortality could be falsely attributed to states that happened to change their MLDA.
+3. Together, they implement the DD logic in a regression framework: we ask whether a state's death rate changed differentially in years when its MLDA policy changed, compared to its own average and compared to the national trend. This is the within-state, within-year variation that identifies the causal effect of MLDA on mortality.
+
+**Q4.** **Adding state-specific trends is a more demanding test of the DD design: it asks whether MLDA changes caused deviations from each state's own trajectory, not just from the national average.**
+
+1. The term `C(state):year` gives each state its own linear time trend. Standard DD with year fixed effects only removes the *common* national trend, assuming all states would have followed the same path absent treatment. State-specific trends relax this by allowing each state to have its own baseline trajectory.
+2. If the DD estimate changes substantially after adding state-specific trends, it suggests the standard parallel trends assumption is questionable --- some states were on different trajectories for reasons unrelated to MLDA (e.g., southern states experiencing rapid economic development, or western states with changing demographics).
+3. If the estimate remains stable, it strengthens our confidence in the original DD design, because the result is robust to allowing for differential pre-existing trends across states. This is a useful robustness check, though not a definitive test of parallel trends.
 
 ### Research Tasks
 
@@ -591,25 +620,26 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 ::: {#tbl-sol-suicide-dd .cell tbl-cap='DD regression for suicide deaths vs. all-cause deaths' execution_count=8}
 ```python
+# --- Setup ---
 import pandas as pd
 import statsmodels.formula.api as smf
 
 deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 
-# Compare all-cause and suicide DD regressions
+# --- DD Regressions by Cause of Death ---
 rows = []
 for dtype_val, label in [("all", "All causes"), ("suicide", "Suicide")]:
-    s = deaths[deaths["dtype"] == dtype_val].copy()
-    model = smf.ols("mrate ~ legal + C(state) + C(year)", data=s)
-    # Cluster standard errors by state
-    r = model.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
+    s = deaths[deaths["dtype"] == dtype_val].copy()  # filter to one cause of death
+    r = smf.ols("mrate ~ legal + C(state) + C(year)", data=s).fit(
+        cov_type="cluster", cov_kwds={"groups": s["state"]})  # cluster SEs by state
     rows.append({
         "Cause": label,
-        "Legal effect": round(r.params["legal"], 2),
+        "Legal effect": round(r.params["legal"], 2),  # DD estimate of MLDA effect
         "SE": round(r.bse["legal"], 2),
-        "t-stat": round(r.tvalues["legal"], 2),
+        "t-stat": round(r.tvalues["legal"], 2),  # significance check
     })
 
+# --- Display Results ---
 pd.DataFrame(rows)
 ```
 
@@ -624,32 +654,35 @@ pd.DataFrame(rows)
 ```
 
 
-The suicide effect is much smaller than the all-cause effect and is not statistically significant (t-stat well below 2). While alcohol can contribute to suicide through impaired judgment, the DD analysis does not find strong evidence that MLDA changes substantially affected suicide rates. The all-cause result is driven primarily by motor vehicle accidents.
+(1) **What the numbers show:** The suicide effect is much smaller than the all-cause effect and is not statistically significant (t-stat well below 2), while the all-cause effect is substantial and significant.
+
+(2) **Why:** Alcohol access primarily increases mortality through motor vehicle accidents, where impaired driving has immediate lethal consequences. Suicide is a more complex outcome driven by mental health, social, and economic factors --- simply being able to buy alcohol legally is unlikely to be a dominant cause.
+
+(3) **What it teaches:** This comparison serves as an informal placebo-like check. If MLDA changes affected suicide rates as strongly as all-cause deaths, we might worry that the DD is picking up a general trend in youth mortality rather than the specific channel of alcohol-related accidents. The null result for suicide strengthens the causal interpretation of the all-cause finding.
 
 **R2.**
 
 ::: {#tbl-sol-banks-dd .cell tbl-cap='DD estimate for each post-crisis year relative to 1930' execution_count=9}
 ```python
+# --- Setup ---
 banks = pd.read_csv(DATA + "ch5/banks_clean.csv")
 
-# Get the 1930 baseline values for each district
-pre_6 = banks.loc[banks["year"] == 1930, "bib6"].values[0]
-pre_8 = banks.loc[banks["year"] == 1930, "bib8"].values[0]
-
-# Compute DD for each year relative to 1930 baseline
+# --- Year-by-Year DD Calculations ---
+pre = banks[banks["year"] == 1930].iloc[0]  # baseline (pre-crisis) year
 rows = []
 for _, row in banks[banks["year"] > 1930].iterrows():
-    change_6 = row["bib6"] - pre_6   # change in treated (6th district)
-    change_8 = row["bib8"] - pre_8   # change in control (8th district)
-    dd = change_6 - change_8         # DD = treated change - control change
+    change_6 = row["bib6"] - pre["bib6"]   # change in treated (6th district, Atlanta Fed)
+    change_8 = row["bib8"] - pre["bib8"]   # change in control (8th district, St. Louis Fed)
+    dd = change_6 - change_8               # DD = treated change minus control change
 
     rows.append({
         "Year": int(row["year"]),
         "Change in 6th (treated)": int(change_6),
         "Change in 8th (control)": int(change_8),
-        "DD (banks saved)": int(dd),
+        "DD (banks saved)": int(dd),  # positive DD means more banks survived in 6th
     })
 
+# --- Display Results ---
 pd.DataFrame(rows)
 ```
 
@@ -666,28 +699,40 @@ pd.DataFrame(rows)
 ```
 
 
-The DD effect grows from 19 banks in 1931 to 23 in 1932, then stabilizes around 21 in 1933--1934. This suggests the Fed's intervention had a lasting protective effect: the banks it saved in the early crisis years remained in business through the worst of the Depression. The gap between districts didn't close as the crisis deepened, indicating the initial intervention had durable benefits.
+(1) **What the numbers show:** The DD effect grows from 19 banks in 1931 to 23 in 1932, then stabilizes around 21 in 1933--1934. Both districts lost banks, but the 8th District (restrictive policy) consistently lost more.
 
-**Q5.** A good placebo outcome would be hospitalizations for broken bones or appendicitis --- conditions unrelated to air quality. If the air pollution regulation appears to significantly reduce broken-bone hospitalizations, something is wrong: either the regulation coincided with another change (confounding), or the parallel trends assumption fails. A significant placebo effect undermines confidence in the main result because it suggests the DD is picking up spurious trends rather than the causal effect of the regulation.
+(2) **Why:** The Atlanta Fed's liquidity support prevented bank runs from cascading --- once a bank survived the initial panic with Fed support, it remained solvent through the Depression. The St. Louis Fed's restrictive approach allowed solvent but illiquid banks to fail, and those failures could not be reversed later.
+
+(3) **What it teaches:** This year-by-year DD reveals the *dynamics* of the treatment effect, something a single DD estimate would miss. The growing then stabilizing gap shows that the intervention had both an immediate rescue effect (1931) and a durable protective effect (1932--1934). This pattern supports a causal interpretation: the Fed's policy permanently changed the trajectory of bank survival in its district.
+
+**Q5.** **A placebo outcome should be theoretically unaffected by the treatment; a significant placebo result is a red flag that the DD design is flawed.**
+
+1. Good placebo outcomes for an air pollution regulation include hospitalizations for broken bones, appendicitis, or dental procedures --- conditions with no biological link to air quality.
+2. If the regulation appears to significantly reduce broken-bone hospitalizations, the DD is picking up something other than the treatment effect. This could mean a confounding event coincided with the regulation (e.g., a new hospital opened), or that the treated and control areas were on different trajectories for unrelated reasons (parallel trends violation).
+3. A null placebo result does not *prove* the DD is valid, but it increases confidence by ruling out one class of threats. A significant placebo result is strong evidence against the design, because it demonstrates the DD methodology is attributing non-treatment-related changes to the policy.
+4. This connects to the MLDA analysis in this chapter: the suicide death rate serves a similar placebo-like function, testing whether the DD picks up effects on outcomes less directly linked to legal drinking.
 
 **R3.**
 
 ::: {#tbl-sol-wls .cell tbl-cap='Unweighted vs. population-weighted DD for all-cause deaths' execution_count=10}
 ```python
+# --- Setup ---
 import pandas as pd
 import statsmodels.formula.api as smf
 
 deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
-allcause = deaths[deaths["dtype"] == "all"]
+allcause = deaths[deaths["dtype"] == "all"]  # keep only all-cause deaths
 
-# Unweighted OLS
-model_uw = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause)
-r_uw = model_uw.fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+# --- Unweighted OLS ---
+r_uw = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause).fit(
+    cov_type="cluster", cov_kwds={"groups": allcause["state"]})  # cluster SEs by state
 
-# Population-weighted WLS (larger states count more)
-model_wt = smf.wls("mrate ~ legal + C(state) + C(year)", data=allcause, weights=allcause["pop"])
-r_wt = model_wt.fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+# --- Population-Weighted WLS ---
+r_wt = smf.wls("mrate ~ legal + C(state) + C(year)", data=allcause,
+    weights=allcause["pop"]).fit(  # weight by state population
+    cov_type="cluster", cov_kwds={"groups": allcause["state"]})
 
+# --- Display Comparison ---
 pd.DataFrame({
     "Specification": ["Unweighted OLS", "Population-weighted WLS"],
     "Legal effect": [round(r_uw.params["legal"], 2), round(r_wt.params["legal"], 2)],
@@ -706,4 +751,8 @@ pd.DataFrame({
 ```
 
 
-Population weighting gives more influence to large states (California, Texas) where death rates are measured more precisely. The weighted estimate is often slightly different because MLDA effects may vary by state size. If the estimates are similar, it suggests the effect is consistent across large and small states.
+(1) **What the numbers show:** The two specifications may produce somewhat different point estimates and standard errors, reflecting how weighting shifts influence across states.
+
+(2) **Why:** Population weighting gives more influence to large states (California, Texas, New York) where death rates are measured more precisely due to larger samples. Unweighted OLS treats each state-year equally, giving small states (Wyoming, Vermont) the same weight as large ones. If MLDA effects vary by state size --- for example, if urban states have different drinking cultures --- the two estimates will diverge.
+
+(3) **What it teaches:** Comparing weighted and unweighted estimates is a robustness check. Similar estimates suggest the MLDA effect is consistent across states of different sizes. Divergent estimates reveal heterogeneity and raise the question of which estimate is more policy-relevant: the unweighted estimate answers "what is the average effect across states?" while the weighted estimate answers "what is the effect for the average person?"

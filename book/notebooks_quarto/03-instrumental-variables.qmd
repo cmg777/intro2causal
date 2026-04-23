@@ -562,27 +562,36 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 ## Solutions
 
-### Multiple Choice Questions
-
-**MCQ1.** **(b)** IV addresses the problem of non-compliance (endogeneity): when people don't follow their assigned treatment, comparing outcomes by *received* treatment reintroduces selection bias. IV uses the random assignment (instrument) instead of the actual treatment to estimate causal effects. Options (a) and (d) are different problems; (c) is addressed by different techniques.
-
-**MCQ2.** **(b)** "Local" means the IV estimate applies specifically to compliers — the subpopulation whose treatment status is changed by the instrument. IV tells us nothing about always-takers or never-takers. Different instruments identify effects for different complier populations, which is why LATE estimates can vary across studies of the same treatment.
-
-**MCQ3.** **(c)** This is the opposite of what's required. The exclusion restriction (option d) requires that the instrument does NOT directly affect the outcome — it must work *only through* the treatment. If the instrument had a direct effect on the outcome, the IV estimate would be biased. Options (a), (b), and (d) are all genuine requirements.
-
-**MCQ4.** **(b)** The instrument is the random assignment form — what the officer was *told* to do, not what they actually did. The key distinction is between the instrument (assignment, Z) and the treatment (delivered action, D). Option (a) is the treatment variable, not the instrument; (c) and (d) are potential confounders.
-
-**MCQ5.** **(c)** A complier follows their assignment in both directions: they take treatment when assigned to it AND avoid treatment when assigned to control. In the MDVE context, a complier is an officer who arrests when told to arrest and counsels when told to counsel. Option (a) describes an always-taker; (b) describes a never-taker; (d) describes a defier.
-
 ### Conceptual Questions
 
-**Q1.** (a) Always-takers are patients who take the drug regardless of assignment --- those in the placebo group who obtain it on their own. (b) Compliers are patients who follow their assignment: they take the drug when assigned to drug, and don't take it when assigned to placebo. (c) The first stage is: $P(\text{take drug} | \text{assigned drug}) - P(\text{take drug} | \text{assigned placebo}) = 0.80 - 0.10 = 0.70$.
+**Q1.** **The compliance framework classifies individuals by how their treatment responds to the instrument, not by what they actually do.**
 
-**Q2.** (a) LATE = 0.114 / 0.786 = 0.145 (14.5 percentage points). (b) The naive comparison (0.087) is smaller because it is contaminated by selection bias: officers who deviated from their "coddle" assignment to arrest instead were responding to more violent suspects. These suspects would have reoffended at higher rates regardless. The naive estimate mixes the causal effect with this selection. (c) "Selection into treatment" means that the officers who chose to arrest (despite being told to coddle) were systematically selecting the most dangerous cases, making the arrested group look worse than it would under random assignment.
+1. Always-takers are patients who take the drug regardless of assignment --- those in the placebo group who obtain it on their own. Their behavior is unchanged by the instrument (random assignment), so IV tells us nothing about their treatment effect.
+2. Compliers are patients who follow their assignment: they take the drug when assigned to drug, and don't take it when assigned to placebo. These are the individuals whose behavior the instrument actually changes, and LATE captures the causal effect specifically for this group.
+3. The first stage measures how much the instrument shifts treatment uptake: $P(\text{take drug} | \text{assigned drug}) - P(\text{take drug} | \text{assigned placebo}) = 0.80 - 0.10 = 0.70$. A first stage of 0.70 means 70% of the sample are compliers --- those whose treatment status was determined by the instrument.
 
-**Q3.** Rainfall could affect conflict through channels other than agricultural output. For example: (a) heavy rain may flood roads and prevent armed groups from mobilizing, reducing conflict directly; (b) drought may force migration, creating social tensions unrelated to agricultural output; (c) rainfall affects water availability for drinking and sanitation, which could spark resource conflicts. Any of these channels would violate the exclusion restriction because rainfall would affect conflict independently of its effect on agricultural output.
+**Q2.** **The Wald estimator (IV ratio) removes selection bias that contaminates naive comparisons by isolating variation driven only by the instrument.**
 
-**Q4.** The IV estimate is a Local Average Treatment Effect --- it applies specifically to compliers, whose treatment was changed by the instrument. In the MDVE, compliers are officers who followed their random assignment. For always-takers (officers who arrested regardless of what the form said), the instrument didn't change their behavior, so IV cannot tell us anything about the treatment effect for them. Always-takers may respond differently to arrest --- perhaps they are more experienced officers who arrest only when necessary, making arrest more effective for their cases. But IV is silent on this.
+1. LATE = reduced form / first stage = 0.114 / 0.786 = 0.145 (14.5 percentage points). The numerator captures the intent-to-treat effect of random assignment on recidivism; the denominator scales it by the fraction of cases whose treatment was actually changed by the assignment (compliers).
+2. The naive comparison (0.087) is smaller because it is contaminated by selection bias: officers who deviated from their "coddle" assignment to arrest instead were responding to more violent suspects. These suspects would have reoffended at higher rates regardless, making arrest look less effective. The naive estimate mixes the true causal effect with this negative selection bias, biasing it toward zero.
+3. "Selection into treatment" means that the officers who chose to arrest (despite being told to coddle) were systematically selecting the most dangerous cases. This violates the independence assumption needed for causal inference --- treatment is correlated with potential outcomes. IV solves this by using only the exogenous variation from random assignment.
+
+**Q3.** **The exclusion restriction requires that the instrument affects the outcome only through the specified channel --- any alternative pathway invalidates the IV strategy.**
+
+Rainfall could affect conflict through channels other than agricultural output, violating this core IV assumption:
+
+1. Heavy rain may flood roads and prevent armed groups from mobilizing, reducing conflict directly --- a logistical channel that bypasses agricultural output entirely.
+2. Drought may force migration, creating social tensions and competition for resources in destination areas unrelated to agricultural output --- a demographic channel.
+3. Rainfall affects water availability for drinking and sanitation, which could spark resource conflicts independent of crop yields --- a basic-needs channel.
+
+Any of these channels would violate the exclusion restriction because rainfall would affect conflict independently of its effect on agricultural output. The IV estimate would then capture a mixture of effects through all channels, not just the agricultural mechanism the researchers intend to isolate.
+
+**Q4.** **LATE applies only to compliers --- individuals whose treatment was changed by the instrument --- and cannot be generalized to always-takers or never-takers without additional assumptions.**
+
+1. The IV estimate is a Local Average Treatment Effect: it captures the causal effect specifically for compliers, the subgroup whose treatment status changed because of the instrument (random assignment).
+2. In the MDVE, compliers are officers who followed their random assignment --- they arrested when told to arrest and coddled when told to coddle. LATE tells us how arrest affected recidivism for suspects handled by these compliant officers.
+3. For always-takers (officers who arrested regardless of what the form said), the instrument didn't change their behavior, so IV cannot tell us anything about the treatment effect for their cases. These officers may be more experienced and arrest only when necessary, making arrest more effective for their cases --- or less effective if they over-arrest.
+4. This is a fundamental limitation of LATE: external validity requires arguing that compliers are representative of the broader population, which is often uncertain.
 
 ### Research Tasks
 
@@ -592,29 +601,29 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 #| label: tbl-sol-compliance
 #| tbl-cap: "Compliance rates by assignment group"
 
+# --- Setup ---
 import pandas as pd
 
 mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
 
-# Compute compliance rate: fraction who received their assigned treatment
-# Loop through each assignment type and count how many officers followed orders
+# --- Compute Compliance Rates ---
+# Compliance rate: fraction who received their assigned treatment
 rows = []
 for group in ["Arrest", "Advise", "Separate"]:
-    group_data = mdve[mdve["assigned"] == group]
-    complied = (group_data["delivered"] == group).sum()
-    # Calculate the percentage of officers who complied
-    rate = round(100 * complied / len(group_data), 1)
+    group_data = mdve[mdve["assigned"] == group]  # filter to this assignment group
+    complied = (group_data["delivered"] == group).sum()  # count cases where delivery matched assignment
     rows.append({
         "Assigned": group,
         "N": len(group_data),
         "Complied": complied,
-        "Compliance rate": str(rate) + "%",
+        "Compliance rate": f"{complied / len(group_data):.1%}",
     })
 
+# --- Display Results ---
 pd.DataFrame(rows)
 ```
 
-Arrest has the highest compliance (99%). Officers almost always arrest when told to, but frequently deviate from advise (78%) and separate (73%) assignments --- usually by arresting instead. This suggests officers exercise discretion toward arrest when they perceive danger, which is why comparing by *delivered* treatment introduces selection bias.
+**(1) What the numbers show:** Arrest has the highest compliance (99%), while advise (78%) and separate (73%) assignments show substantially lower compliance. **(2) Why:** Officers almost always arrest when told to because it is the most protective response, but they frequently deviate from advise and separate assignments --- usually by upgrading to arrest when they perceive the situation as dangerous. **(3) What it teaches:** This asymmetric non-compliance is precisely why comparing by *delivered* treatment introduces selection bias: officers who deviated toward arrest were responding to the most volatile cases, contaminating the arrested group with suspects who had higher baseline recidivism risk. The first stage in IV uses only the exogenous assignment to avoid this problem.
 
 **R2.**
 
@@ -622,26 +631,30 @@ Arrest has the highest compliance (99%). Officers almost always arrest when told
 #| label: tbl-sol-firststage
 #| tbl-cap: "First stage: binary vs. multi-category"
 
+# --- Binary First Stage ---
 # Binary approach: arrest (Z=0) vs. coddle (Z=1)
-mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)
-mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)
+mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)  # instrument: 1 if assigned to coddle
+mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)  # treatment: 1 if actually coddled
 
-# Compute the fraction coddled in each assignment group
-fs_binary = mdve.groupby("z_coddle")["d_coddle"].mean()
+fs_binary = mdve.groupby("z_coddle")["d_coddle"].mean()  # compliance rate by assignment
 print("Binary first stage:")
-print("  P(coddled | assigned coddle) = " + str(round(fs_binary[1], 3)))
-print("  P(coddled | assigned arrest) = " + str(round(fs_binary[0], 3)))
-print("  Difference = " + str(round(fs_binary[1] - fs_binary[0], 3)))
+print(f"  P(coddled | assigned coddle) = {fs_binary[1]:.3f}")
+print(f"  P(coddled | assigned arrest) = {fs_binary[0]:.3f}")
+print(f"  Difference = {fs_binary[1] - fs_binary[0]:.3f}")  # this is the first-stage coefficient
 
-# Multi-category: full cross-tabulation
+# --- Multi-Category Cross-Tabulation ---
 print("\nFull cross-tabulation:")
-ct = pd.crosstab(mdve["assigned"], mdve["delivered"], normalize="index").round(3)
+ct = pd.crosstab(mdve["assigned"], mdve["delivered"], normalize="index").round(3)  # row-normalized
 ct
 ```
 
-The binary approach gives a clean first stage of ~0.786. The multi-category cross-tab provides more detail but is harder to use in a standard IV framework because IV requires a single treatment variable. The binary simplification (arrest vs. everything else) is standard practice when the research question is "does arrest reduce recidivism compared to alternative responses."
+**(1) What the numbers show:** The binary approach gives a clean first stage of ~0.786, meaning assignment shifts the probability of being coddled by about 79 percentage points. The multi-category cross-tab reveals the full compliance structure across all three arms. **(2) Why:** IV requires a single endogenous treatment variable and a single instrument, so the binary simplification (arrest vs. everything else) maps the three-arm experiment into the standard IV framework. The cross-tab is informative but cannot be directly plugged into a standard 2SLS regression. **(3) What it teaches:** Collapsing multi-armed experiments into binary comparisons is standard practice when the research question is directional ("does arrest reduce recidivism compared to alternatives?"). The strong first stage (~0.786) confirms that the instrument has substantial power to shift treatment --- a weak first stage would inflate standard errors and bias IV toward OLS.
 
-**Q5.** In the MDVE, monotonicity is reasonable: it's hard to imagine an officer who would arrest when told to coddle but coddle when told to arrest. Officers deviate *toward* arrest (the more cautious action), not away from it. Monotonicity might fail in settings where the instrument triggers opposite reactions in different subgroups --- for example, a mandatory tutoring assignment where some students rebel against being told to attend (defiers who skip when assigned) but voluntarily attend when not assigned.
+**Q5.** **Monotonicity requires that the instrument shifts everyone in the same direction --- no defiers --- and is essential for interpreting IV as LATE.**
+
+1. In the MDVE, monotonicity is reasonable: it is hard to imagine an officer who would arrest when told to coddle but coddle when told to arrest. The compliance data confirm that officers deviate *toward* arrest (the more cautious action), not away from it.
+2. If defiers existed (officers who systematically did the opposite of their assignment), the LATE interpretation breaks down because complier and defier effects would cancel each other in unknown proportions, making the IV estimate uninterpretable.
+3. Monotonicity might fail in settings where the instrument triggers opposite reactions in different subgroups --- for example, a mandatory tutoring assignment where some students rebel against being told to attend (defiers who skip when assigned) but voluntarily attend when not assigned. In such cases, the IV estimate would not cleanly identify a causal effect for any well-defined group.
 
 **R3.**
 
@@ -649,11 +662,14 @@ The binary approach gives a clean first stage of ~0.786. The multi-category cros
 #| label: tbl-sol-crossover
 #| tbl-cap: "Cross-over patterns: where do deviating officers go?"
 
-# Among cases where assignment != delivery, what are the patterns?
+# --- Identify Non-Compliant Cases ---
+# Filter to cases where the officer deviated from the random assignment
 deviators = mdve[mdve["assigned"] != mdve["delivered"]]
 
+# --- Cross-Tabulate Deviation Patterns ---
+# Rows = what they were assigned; Columns = what they actually delivered
 crossover = pd.crosstab(deviators["assigned"], deviators["delivered"])
 crossover
 ```
 
-The dominant pattern is cross-over from advise or separate **toward arrest**. Very few officers cross from arrest to another action. This asymmetry reflects officers exercising discretion toward the more protective response when they perceive the situation as dangerous --- exactly the selection bias that makes naive comparisons misleading.
+**(1) What the numbers show:** The dominant pattern is cross-over from advise or separate **toward arrest**. Very few officers cross from arrest to another action. **(2) Why:** This asymmetry reflects officers exercising discretion toward the more protective response when they perceive the situation as dangerous. An officer told to "separate" a couple but facing a violent suspect will often upgrade to arrest for safety reasons. **(3) What it teaches:** This one-directional non-compliance supports the monotonicity assumption (no defiers) and simultaneously reveals the selection bias that makes naive comparisons misleading: the cases that crossed over to arrest are systematically more dangerous, so comparing outcomes by delivered treatment confounds the effect of arrest with the severity of the incident. IV resolves this by using only the random assignment as the source of identifying variation.

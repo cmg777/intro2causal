@@ -907,163 +907,140 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 ## Solutions
 
-### Multiple Choice Questions
-
-**MCQ1.** **(b)** The fundamental problem of causal inference is that we can only observe one potential outcome per person — we see what happened, but never what *would have happened* under the alternative. Options (a) and (d) are practical concerns but not the fundamental problem; (c) is false — random assignment is used in many experiments.
-
-**MCQ2.** **(c)** Despite consuming 45% more health care, participants with free insurance showed no significant improvement in physical health measures (general health, cholesterol, blood pressure, mental health). The RAND experiment was large enough to detect meaningful effects — the effect simply wasn't there.
-
-**MCQ3.** **(b)** Selection bias arises when the people who receive treatment differ systematically from those who don't in ways that also affect the outcome. In the NHIS data, insured people were wealthier, more educated, and more likely to be employed — all factors that independently predict better health.
-
-**MCQ4.** **(c)** Random assignment ensures that, in expectation, treatment and control groups are identical on all characteristics — including ones we cannot observe or measure. This is what makes the selection bias term equal to zero. Options (a) and (b) are unrelated to randomization; (d) is wrong because non-compliance can still occur (as we see in Chapter 3).
-
-**MCQ5.** **(b)** A t-statistic above 2 indicates statistical significance at the 5% level, meaning the result is unlikely due to chance. Option (a) confuses statistical significance with practical importance — a large t-stat can come from a precise estimate of a small effect. Options (c) and (d) are unrelated to the t-statistic.
-
 ### Conceptual Questions
 
-**Q1.** Three sources of selection bias in the organic food comparison: (a) People who buy organic food tend to have higher incomes, and wealthier people have better access to health care and live longer regardless of diet. (b) Organic food buyers are likely more health-conscious overall --- they exercise more, smoke less, and manage stress better. (c) Education is correlated with both organic food consumption and longevity; more-educated people make healthier choices across many domains.
+**Q1.** **Organic food buyers differ systematically from non-buyers, making any health comparison suspect.** Three sources of selection bias:
 
-**Q2.** (a) The t-statistic is −976 / 1,345 ≈ −0.73. (b) Since |−0.73| < 2, this difference is NOT statistically significant. (c) This tells us that the difference in family income between the free plan and catastrophic plan groups is small enough to be attributable to chance. Randomization worked for this variable --- the groups are comparable on family income.
+1. **Income:** People who buy organic food tend to have higher incomes, and wealthier people have better access to health care and live longer regardless of diet.
+2. **Health behavior:** Organic food buyers are likely more health-conscious overall --- they exercise more, smoke less, and manage stress better. This is a classic case of bundled lifestyle choices acting as confounders.
+3. **Education:** Education is correlated with both organic food consumption and longevity; more-educated people make healthier choices across many domains.
 
-**Q3.** The RAND experiment found no effect on *physical health*, but this does not mean insurance is useless. Insurance serves multiple purposes: (a) it provides *financial protection* --- the Oregon experiment showed that lottery winners had less medical debt and fewer catastrophic medical expenses; (b) it improves *mental health* --- Oregon lottery winners reported better mental health scores; (c) it increases access to care, which may matter more for acute conditions or preventive services not captured by the RAND outcome measures. The correct conclusion is that more generous insurance increases spending without improving measurable physical health, but it provides valuable financial security and mental health benefits.
+All three sources violate the comparability assumption from the selection bias decomposition: $E[Y_{0i} | D_i = 1] \neq E[Y_{0i} | D_i = 0]$, so the observed difference overstates any true causal effect of organic food.
 
-**Q4.** The decomposition states: Observed difference = $\kappa$ + Selection bias, where selection bias = $E[Y_{0i} | D_i = 1] - E[Y_{0i} | D_i = 0]$. When $D_i$ is randomly assigned, the treatment and control groups are drawn from the same population. The Law of Large Numbers guarantees that with a large enough sample, the average baseline health $Y_{0i}$ will be nearly identical in both groups. Formally, $E[Y_{0i} | D_i = 1] = E[Y_{0i} | D_i = 0]$, so the selection bias term equals zero. The observed difference then equals $\kappa$, the true causal effect.
+**Q2.** **A small t-statistic confirms that randomization successfully balanced family income across plan groups.**
 
-**Q5.** (a) Randomly select classrooms or schools to receive the program (cluster randomization), or randomly assign individual students within each school. (b) Measure standardized test scores at the end of the semester/year. (c) Compare baseline characteristics (prior test scores, demographics, family income) between treatment and control groups to verify balance. (d) Some students may refuse the lunch, share it, or already receive food from other sources. This is a *non-compliance* problem: the intent-to-treat effect (being offered lunch) may differ from the effect of actually eating it. This foreshadows the instrumental variables approach in Chapter 3.
+1. **Compute:** The t-statistic is −976 / 1,345 ≈ −0.73.
+2. **Evaluate:** Since |−0.73| < 2, this difference is NOT statistically significant at conventional levels.
+3. **Interpret:** The difference in family income between the free plan and catastrophic plan groups is small enough to be attributable to chance. Randomization worked for this variable --- the groups are comparable on family income. This is exactly what the balance check in the chapter's Table "Balance of baseline characteristics" is designed to verify: if $D_i$ is randomly assigned, baseline covariates should look similar across groups.
+
+**Q3.** **No effect on physical health does not mean insurance is useless --- it means health is a narrow outcome that misses other benefits.**
+
+1. **Financial protection:** The Oregon experiment showed that lottery winners had less medical debt and fewer catastrophic medical expenses. Insurance smooths financial risk, which is valuable even without health gains.
+2. **Mental health:** Oregon lottery winners reported better mental health scores, an outcome dimension the RAND study did not emphasize.
+3. **Access to care:** Insurance increases access to care, which may matter more for acute conditions or preventive services not captured by the RAND outcome measures.
+
+The correct conclusion connects both experiments from the chapter: more generous insurance increases spending without improving measurable physical health (RAND), but it provides valuable financial security and mental health benefits (Oregon). Different outcomes can tell different causal stories from the same intervention.
+
+**Q4.** **Random assignment eliminates selection bias by making the treatment and control groups statistically identical at baseline.**
+
+1. **Start from the decomposition:** Observed difference = $\kappa$ + Selection bias, where selection bias = $E[Y_{0i} | D_i = 1] - E[Y_{0i} | D_i = 0]$.
+2. **Apply randomization:** When $D_i$ is randomly assigned, the treatment and control groups are drawn from the same population, so baseline characteristics are independent of treatment status.
+3. **Invoke the Law of Large Numbers:** With a large enough sample, the average baseline outcome $Y_{0i}$ will be nearly identical in both groups. Formally, $E[Y_{0i} | D_i = 1] = E[Y_{0i} | D_i = 0]$, so the selection bias term equals zero.
+4. **Conclude:** The observed difference then equals $\kappa$, the true causal effect. This is the core logic behind every balance check in the chapter --- if randomization works, baseline variables should be balanced.
+
+**Q5.** **Designing an experiment requires specifying randomization, outcomes, balance checks, and anticipating non-compliance.**
+
+1. **Randomization:** Randomly select classrooms or schools to receive the program (cluster randomization), or randomly assign individual students within each school. Cluster randomization avoids contamination across students in the same classroom.
+2. **Outcome:** Measure standardized test scores at the end of the semester/year. This gives a clear, quantifiable dependent variable $Y_i$.
+3. **Balance check:** Compare baseline characteristics (prior test scores, demographics, family income) between treatment and control groups to verify balance --- just as the RAND experiment checked age, education, and income in the chapter.
+4. **Non-compliance threat:** Some students may refuse the lunch, share it, or already receive food from other sources. This is a *non-compliance* problem: the intent-to-treat effect (being offered lunch) may differ from the effect of actually eating it. This foreshadows the instrumental variables approach in Chapter 3, where random assignment serves as an instrument for actual treatment.
 
 ### Research Tasks
 
 **R1.**
 
-::: {#tbl-sol-binary-balance .cell tbl-cap='Binary balance check: any insurance vs. catastrophic' execution_count=11}
 ```python
+# --- Load data ---
 import pandas as pd
 import statsmodels.formula.api as smf
 
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
 
-# Run a separate regression for each variable and collect results
+# --- Run balance regressions ---
+# Use a single binary dummy (any_insurance) instead of three plan dummies
 rows = []
 for var in ["age", "education", "health_index"]:
     d = rand[[var, "any_insurance", "family_id"]].dropna()
-
-    # Regress baseline variable on single binary dummy
-    model = smf.ols(f"{var} ~ any_insurance", data=d)
-
-    # Cluster standard errors by family (family members share the same plan)
-    r = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-
+    # OLS with clustered SEs at the family level
+    r = smf.ols(f"{var} ~ any_insurance", data=d).fit(
+        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
     rows.append({
         "Variable": var,
-        "Catastrophic mean": round(r.params["Intercept"], 1),
-        "Any ins. difference": round(r.params["any_insurance"], 2),
+        "Catastrophic mean": round(r.params["Intercept"], 1),  # control group mean
+        "Any ins. difference": round(r.params["any_insurance"], 2),  # treatment-control gap
         "SE": round(r.bse["any_insurance"], 2),
-        "t-stat": round(r.tvalues["any_insurance"], 2),
+        "t-stat": round(r.tvalues["any_insurance"], 2),  # difference / SE
     })
 
 pd.DataFrame(rows)
 ```
 
+(1) **What the numbers show:** All t-statistics are small (well below 2), so none of the baseline differences are statistically significant. The catastrophic and any-insurance groups look comparable on age, education, and health.
 
-**Output:**
+(2) **Why:** Randomization ensures that treatment assignment is independent of pre-existing characteristics. The Law of Large Numbers makes the group means converge, as discussed in Q4.
 
-```
-   Variable      Catastrophic mean  Any ins. difference  SE    t-stat
--  ------------  -----------------  -------------------  ----  ------
-0  age           32.4               0.64                 0.54  1.18
-1  education     12.1               -0.17                0.16  -1.07
-2  health_index  70.9               -0.93                0.77  -1.20
-```
-
-
-All t-statistics are small (well below 2), confirming that balance holds regardless of whether we use three plan dummies or a single binary indicator. The binary specification pools all non-catastrophic plans together, which is simpler but loses information about differences across plan types.
+(3) **What it teaches:** Balance holds regardless of whether we use three plan dummies or a single binary indicator. The binary specification pools all non-catastrophic plans together, which is simpler but loses information about differences across plan types. This illustrates a general point: the choice of treatment variable definition can affect granularity but should not affect the core balance result if randomization worked.
 
 **R2.**
 
-::: {#tbl-sol-pct-increase .cell tbl-cap='Percentage increase in utilization for the free plan relative to catastrophic' execution_count=12}
 ```python
+# --- Load data ---
 hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 
-# Run a separate regression for each variable and collect results
+# --- Run regressions and compute percentage effects ---
 rows = []
 for var in ["visits", "outpatient_expenses", "admissions", "inpatient_expenses", "total_expenses"]:
     d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
+    # OLS with plan dummies; clustered SEs at the family level
+    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
+        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
 
-    # Regress utilization on plan dummies
-    model = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d)
-
-    # Cluster standard errors by family (family members share the same plan)
-    r = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-
-    # Intercept = catastrophic mean, plan_free coefficient = absolute increase
-    cat_mean = r.params["Intercept"]
-    free_effect = r.params["plan_free"]
-    pct_increase = (free_effect / cat_mean) * 100
+    cat_mean = r.params["Intercept"]       # intercept = catastrophic plan mean (reference group)
+    free_effect = r.params["plan_free"]     # coefficient = absolute increase from free plan
+    pct_increase = (free_effect / cat_mean) * 100  # express as percentage of baseline
 
     rows.append({
         "Outcome": var,
-        "Catastrophic mean": int(round(cat_mean)),
-        "Free plan effect": int(round(free_effect)),
+        "Catastrophic mean": round(cat_mean),
+        "Free plan effect": round(free_effect),
         "% increase": round(pct_increase, 1),
     })
 
 pd.DataFrame(rows)
 ```
 
+(1) **What the numbers show:** Outpatient expenses show the largest relative increase (~68%), followed by face-to-face visits (~60%). Hospital admissions show a smaller relative increase (~29%). Total expenses rose ~45%.
 
-**Output:**
+(2) **Why:** Inpatient decisions are made primarily by doctors rather than patients, so reducing cost-sharing has less effect on admissions. Outpatient care, where patients have more discretion over whether to seek treatment, responds most strongly to price changes --- consistent with basic demand elasticity.
 
-```
-   Outcome              Catastrophic mean  Free plan effect  % increase
--  -------------------  -----------------  ----------------  ----------
-0  visits               3                  2                 59.8
-1  outpatient_expenses  248                169               68.2
-2  admissions           0                  0                 29.1
-3  inpatient_expenses   388                116               30.0
-4  total_expenses       636                285               44.9
-```
-
-
-Outpatient expenses show the largest relative increase (~68%), followed by face-to-face visits (~60%). Hospital admissions show a smaller relative increase (~29%), consistent with the idea that inpatient decisions are made by doctors rather than patients. Total expenses rose ~45%. The price elasticity of demand is strongest for outpatient care, where patients have more discretion.
+(3) **What it teaches:** The same experiment can reveal heterogeneous causal effects across different outcomes. The RAND results show that moral hazard (the tendency to use more care when insured) is concentrated in outpatient services, not hospital stays. This pattern is key to understanding the policy implications of insurance design discussed in the chapter.
 
 **R3.**
 
-::: {#tbl-sol-gender .cell tbl-cap='Selection bias by gender: comparing insured vs. uninsured separately for husbands and wives' execution_count=13}
 ```python
+# --- Load data ---
 nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
 
-# Run a separate regression for each gender-variable combination
+# --- Run WLS regressions by gender ---
 rows = []
 for gender in ["husband", "wife"]:
-    subset = nhis[nhis["gender"] == gender]
+    subset = nhis[nhis["gender"] == gender]  # split sample by gender
     for var in ["health", "education", "family_income"]:
-        # Regress each variable on insurance dummy (with survey weights and robust SEs)
-        model = smf.wls(f"{var} ~ insurance", data=subset, weights=subset["weight"])
-        r = model.fit(cov_type="HC1")
-
+        # WLS with survey weights; HC1 robust standard errors
+        r = smf.wls(f"{var} ~ insurance", data=subset, weights=subset["weight"]).fit(cov_type="HC1")
         rows.append({
             "Gender": gender,
             "Variable": var,
-            "Difference (Ins - Unins)": round(r.params["insurance"], 2),
+            "Difference (Ins - Unins)": round(r.params["insurance"], 2),  # coefficient = gap
             "SE": round(r.bse["insurance"], 2),
         })
 
 pd.DataFrame(rows)
 ```
 
+(1) **What the numbers show:** The education and income gaps between insured and uninsured are similar for husbands and wives. The health gap may differ slightly across genders.
 
-**Output:**
+(2) **Why:** Selection into insurance is driven by socioeconomic factors (education, income) that operate similarly for both spouses in a household. Any gender-specific differences in the health gap likely reflect gender-specific health patterns rather than differences in the selection mechanism.
 
-```
-   Gender   Variable       Difference (Ins - Unins)  SE
--  -------  -------------  ------------------------  -------
-0  husband  health         0.31                      0.03
-1  husband  education      2.74                      0.10
-2  husband  family_income  60810.44                  1355.79
-3  wife     health         0.39                      0.04
-4  wife     education      2.64                      0.11
-5  wife     family_income  59827.50                  1406.08
-```
-
-
-The education and income gaps are similar for husbands and wives, suggesting selection bias operates similarly across genders. The health gap may differ slightly because of gender-specific health patterns. Both groups show substantial selection bias, reinforcing the need for randomized evidence.
+(3) **What it teaches:** Both groups show substantial selection bias, reinforcing the chapter's central lesson: observational comparisons between insured and uninsured people confound the causal effect of insurance with pre-existing differences. This is precisely why the RAND and Oregon experiments --- which use randomization to eliminate selection bias --- provide more credible evidence.
