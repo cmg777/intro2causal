@@ -43,7 +43,7 @@ graph TD
     style C fill:#c0392b,color:#fff
     style D fill:#8e44ad,color:#fff
     style E fill:#2d8659,color:#fff
-    linkStyle default stroke:#fff,stroke-width:2px
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 
@@ -154,7 +154,7 @@ graph LR
     style Z fill:#8e44ad,color:#fff
     style D fill:#3498db,color:#fff
     style Y fill:#2d8659,color:#fff
-    linkStyle default stroke:#fff,stroke-width:2px
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 The **LATE (Local Average Treatment Effect)** combines these two pieces:
@@ -424,8 +424,8 @@ graph TD
     style RF fill:#3498db,color:#fff
     style LATE fill:#2d8659,color:#fff
     style CT fill:#e67e22,color:#fff
-    style TSLS fill:#2c3e50,color:#fff
-    linkStyle default stroke:#fff,stroke-width:2px
+    style TSLS fill:#475569,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 1. **Non-compliance** is common in experiments. Comparing outcomes by *received* treatment reintroduces selection bias.

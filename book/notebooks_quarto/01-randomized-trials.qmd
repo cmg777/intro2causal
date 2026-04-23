@@ -43,7 +43,7 @@ graph TD
     style C fill:#c0392b,color:#fff
     style D fill:#8e44ad,color:#fff
     style E fill:#2d8659,color:#fff
-    linkStyle default stroke:#fff,stroke-width:2px
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 
@@ -211,8 +211,8 @@ graph LR
     A --> C["Selection Bias<br/>Pre-existing differences<br/>between the groups"]
     style B fill:#2d8659,color:#fff
     style C fill:#c0392b,color:#fff
-    style A fill:#2c3e50,color:#fff
-    linkStyle default stroke:#fff,stroke-width:2px
+    style A fill:#475569,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 **Selection bias** is the difference in health that would exist *even without insurance* --- it reflects the fact that healthier, wealthier, more educated people are more likely to be insured. The NHIS data above showed exactly this pattern.
@@ -230,7 +230,7 @@ graph TD
     style C fill:#e67e22,color:#fff
     style I fill:#3498db,color:#fff
     style H fill:#2d8659,color:#fff
-    linkStyle default stroke:#fff,stroke-width:2px
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 ::: {.callout-important}
@@ -277,10 +277,10 @@ graph TD
     style R fill:#8e44ad,color:#fff
     style T fill:#2d8659,color:#fff
     style C fill:#c0392b,color:#fff
-    style OT fill:#2c3e50,color:#fff
-    style OC fill:#2c3e50,color:#fff
+    style OT fill:#475569,color:#fff
+    style OC fill:#475569,color:#fff
     style D fill:#2d8659,color:#fff
-    linkStyle default stroke:#fff,stroke-width:2px
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 ### Why It Works Mathematically
@@ -678,7 +678,7 @@ graph TD
     TE --> R["RAND HIE: more care does not improve health"]
     TE --> O["Oregon OHP: insurance helps finances and mental health"]
 
-    style Q fill:#2c3e50,color:#fff
+    style Q fill:#475569,color:#fff
     style SB fill:#c0392b,color:#fff
     style PO fill:#e67e22,color:#fff
     style RA fill:#8e44ad,color:#fff
@@ -686,7 +686,7 @@ graph TD
     style TE fill:#2d8659,color:#fff
     style R fill:#2d8659,color:#fff
     style O fill:#2d8659,color:#fff
-    linkStyle default stroke:#fff,stroke-width:2px
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 1. **Correlation is not causation.** Observed differences between groups reflect causal effects *plus* selection bias.
