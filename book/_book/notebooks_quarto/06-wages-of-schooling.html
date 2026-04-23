@@ -540,7 +540,7 @@ function googleTranslateElementInit() {
     style C fill:#8e44ad,color:#fff
     style D fill:#e67e22,color:#fff
     style E fill:#2d8659,color:#fff
-    linkStyle default stroke:#fff,stroke-width:2px
+    linkStyle default stroke:#64748b,stroke-width:2px
 </pre>
 </div>
 </div>
@@ -569,7 +569,7 @@ Figure&nbsp;6.1: Roadmap for Chapter 6
 <section id="the-logic" class="level3">
 <h3 class="anchored" data-anchor-id="the-logic">The Logic</h3>
 <p>Identical twins share genes and family upbringing — the very factors we suspect drive ability bias. If one twin gets more education than the other, the earnings difference within the pair reflects the causal return, not ability.</p>
-<div id="c2d1b829" class="cell" data-execution_count="1">
+<div id="0424b3db" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean twins data (340 twin pairs from Twinsburg, Ohio)</span></span>
@@ -1012,7 +1012,7 @@ Table&nbsp;6.3: IV estimates using twin’s report of education as instrument. C
 <h3 class="anchored" data-anchor-id="the-idea">The Idea</h3>
 <p>Compulsory schooling laws allow students to drop out at age 16. Because school-entry rules are based on birth date cutoffs, children born later in the year start school younger and accumulate more schooling before reaching the dropout age.</p>
 <p>This creates an instrument: <strong>quarter of birth</strong> affects schooling (through compulsory attendance rules) but should not directly affect earnings.</p>
-<div id="c08c96b3" class="cell" data-execution_count="5">
+<div id="fab0196c" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean quarter-of-birth data (Angrist &amp; Krueger 1991, 329k men born 1930-1939)</span></span>
@@ -1263,7 +1263,7 @@ Figure&nbsp;6.2: First stage (left) and reduced form (right). Q4 births get slig
 <p>Does the <strong>diploma itself</strong> boost earnings (the signaling/sheepskin view), or is it the <strong>skills learned</strong> that matter (the human capital view)?</p>
 <p>Texas high school students must pass an exit exam to receive their diploma. Students who barely pass vs.&nbsp;barely fail have nearly identical skills but different diploma status. An RD at the passing cutoff isolates the diploma effect.</p>
 <p>The dataset includes pre-computed polynomial terms for the RD regression: <code>left_1</code> through <code>left_4</code> are polynomial powers of the running variable for scores below the cutoff, and <code>right_1</code> through <code>right_4</code> are for scores above. These allow separate flexible curves on each side of the cutoff, following the same logic as the quadratic RD model in Chapter 4 but with higher-order polynomials for greater flexibility.</p>
-<div id="3db2f0bc" class="cell" data-execution_count="8">
+<div id="02bbc7db" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean sheepskin RD data (Texas last-chance exam)</span></span>
@@ -1595,6 +1595,7 @@ Figure&nbsp;6.3: RD at the Texas exam cutoff. Left: diploma receipt jumps sharpl
 </section>
 <section id="key-takeaways" class="level2">
 <h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<p>The following concept map shows how the key ideas in this chapter connect — from the central question of whether education causes higher earnings, through the three estimation strategies (twins, IV, and RD), to a synthesis of results converging on a 7–10% return.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-concept-map" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1620,13 +1621,14 @@ Figure&nbsp;6.3: RD at the Texas exam cutoff. Left: diploma receipt jumps sharpl
     IV --&gt; SYN
     RD --&gt; SYN
 
-    style Q fill:#2c3e50,color:#fff
+    style Q fill:#475569,color:#fff
     style AB fill:#c0392b,color:#fff
     style TW fill:#8e44ad,color:#fff
+    style ME fill:#e67e22,color:#fff
     style IV fill:#3498db,color:#fff
     style RD fill:#e67e22,color:#fff
     style SYN fill:#2d8659,color:#fff
-    linkStyle default stroke:#fff,stroke-width:2px
+    linkStyle default stroke:#64748b,stroke-width:2px
 </pre>
 </div>
 </div>
@@ -2556,7 +2558,7 @@ Table&nbsp;6.7: Returns to schooling by race (OLS, twins data)
 <span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    style C fill:<span class="co">#8e44ad,color:#fff</span></span>
 <span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>    style D fill:<span class="co">#e67e22,color:#fff</span></span>
 <span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>    style E fill:<span class="co">#2d8659,color:#fff</span></span>
-<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>    linkStyle <span class="kw">default</span> stroke:<span class="co">#fff,stroke-width:2px</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>    linkStyle <span class="kw">default</span> stroke:<span class="co">#64748b,stroke-width:2px</span></span>
 <span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a></span>
@@ -3013,280 +3015,283 @@ Table&nbsp;6.7: Returns to schooling by race (OLS, twins data)
 <span id="cb14-520"><a href="#cb14-520" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-521"><a href="#cb14-521" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
 <span id="cb14-522"><a href="#cb14-522" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-525"><a href="#cb14-525" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
-<span id="cb14-526"><a href="#cb14-526" aria-hidden="true" tabindex="-1"></a>%%| label: fig-concept-<span class="fu">map</span></span>
-<span id="cb14-527"><a href="#cb14-527" aria-hidden="true" tabindex="-1"></a>%%| fig-cap: <span class="ot">"</span><span class="st">How the key concepts of Chapter 6 connect</span><span class="ot">"</span></span>
-<span id="cb14-528"><a href="#cb14-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-529"><a href="#cb14-529" aria-hidden="true" tabindex="-1"></a>graph TD</span>
-<span id="cb14-530"><a href="#cb14-530" aria-hidden="true" tabindex="-1"></a>    Q[<span class="ot">"</span><span class="st">Does education cause higher earnings?</span><span class="ot">"</span>]</span>
-<span id="cb14-531"><a href="#cb14-531" aria-hidden="true" tabindex="-1"></a>    AB[<span class="ot">"</span><span class="st">Ability bias inflates OLS</span><span class="ot">"</span>]</span>
-<span id="cb14-532"><a href="#cb14-532" aria-hidden="true" tabindex="-1"></a>    TW[<span class="ot">"</span><span class="st">Twin FE removes shared ability</span><span class="ot">"</span>]</span>
-<span id="cb14-533"><a href="#cb14-533" aria-hidden="true" tabindex="-1"></a>    ME[<span class="ot">"</span><span class="st">Measurement error biases twins down</span><span class="ot">"</span>]</span>
-<span id="cb14-534"><a href="#cb14-534" aria-hidden="true" tabindex="-1"></a>    IV[<span class="ot">"</span><span class="st">IV corrects both biases</span><span class="ot">"</span>]</span>
-<span id="cb14-535"><a href="#cb14-535" aria-hidden="true" tabindex="-1"></a>    RD[<span class="ot">"</span><span class="st">Sheepskin RD: diploma effect is small</span><span class="ot">"</span>]</span>
-<span id="cb14-536"><a href="#cb14-536" aria-hidden="true" tabindex="-1"></a>    SYN[<span class="ot">"</span><span class="st">Synthesis: true return is about seven to ten percent</span><span class="ot">"</span>]</span>
-<span id="cb14-537"><a href="#cb14-537" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-538"><a href="#cb14-538" aria-hidden="true" tabindex="-1"></a>    Q --&gt; AB</span>
-<span id="cb14-539"><a href="#cb14-539" aria-hidden="true" tabindex="-1"></a>    AB --&gt; TW</span>
-<span id="cb14-540"><a href="#cb14-540" aria-hidden="true" tabindex="-1"></a>    TW --&gt; ME</span>
-<span id="cb14-541"><a href="#cb14-541" aria-hidden="true" tabindex="-1"></a>    ME --&gt; IV</span>
-<span id="cb14-542"><a href="#cb14-542" aria-hidden="true" tabindex="-1"></a>    Q --&gt; IV</span>
-<span id="cb14-543"><a href="#cb14-543" aria-hidden="true" tabindex="-1"></a>    Q --&gt; RD</span>
-<span id="cb14-544"><a href="#cb14-544" aria-hidden="true" tabindex="-1"></a>    TW --&gt; SYN</span>
-<span id="cb14-545"><a href="#cb14-545" aria-hidden="true" tabindex="-1"></a>    IV --&gt; SYN</span>
-<span id="cb14-546"><a href="#cb14-546" aria-hidden="true" tabindex="-1"></a>    RD --&gt; SYN</span>
-<span id="cb14-547"><a href="#cb14-547" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-548"><a href="#cb14-548" aria-hidden="true" tabindex="-1"></a>    style Q fill:<span class="co">#2c3e50,color:#fff</span></span>
-<span id="cb14-549"><a href="#cb14-549" aria-hidden="true" tabindex="-1"></a>    style AB fill:<span class="co">#c0392b,color:#fff</span></span>
-<span id="cb14-550"><a href="#cb14-550" aria-hidden="true" tabindex="-1"></a>    style TW fill:<span class="co">#8e44ad,color:#fff</span></span>
-<span id="cb14-551"><a href="#cb14-551" aria-hidden="true" tabindex="-1"></a>    style IV fill:<span class="co">#3498db,color:#fff</span></span>
-<span id="cb14-552"><a href="#cb14-552" aria-hidden="true" tabindex="-1"></a>    style RD fill:<span class="co">#e67e22,color:#fff</span></span>
-<span id="cb14-553"><a href="#cb14-553" aria-hidden="true" tabindex="-1"></a>    style SYN fill:<span class="co">#2d8659,color:#fff</span></span>
-<span id="cb14-554"><a href="#cb14-554" aria-hidden="true" tabindex="-1"></a>    linkStyle <span class="kw">default</span> stroke:<span class="co">#fff,stroke-width:2px</span></span>
-<span id="cb14-555"><a href="#cb14-555" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-556"><a href="#cb14-556" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-557"><a href="#cb14-557" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**OLS returns to schooling (~11%)** are likely inflated by ability bias.</span>
-<span id="cb14-558"><a href="#cb14-558" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-559"><a href="#cb14-559" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Twin fixed effects (~6%)** control for shared ability but suffer from measurement error.</span>
-<span id="cb14-560"><a href="#cb14-560" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-561"><a href="#cb14-561" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**IV using twin's report** corrects measurement error, recovering estimates near 11%.</span>
-<span id="cb14-562"><a href="#cb14-562" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-563"><a href="#cb14-563" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Quarter-of-birth IV** gives 7--8%, using compulsory schooling as exogenous variation.</span>
-<span id="cb14-564"><a href="#cb14-564" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-565"><a href="#cb14-565" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Sheepskin RD** shows the diploma itself has little earnings value --- learning matters more.</span>
-<span id="cb14-566"><a href="#cb14-566" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-567"><a href="#cb14-567" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Multiple methods converge** on a true return of about 7--10% per year.</span>
-<span id="cb14-568"><a href="#cb14-568" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-569"><a href="#cb14-569" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**No single method is perfect.** The lesson is to use multiple approaches and look for convergence.</span>
-<span id="cb14-570"><a href="#cb14-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-523"><a href="#cb14-523" aria-hidden="true" tabindex="-1"></a>The following concept map shows how the key ideas in this chapter connect --- from the central question of whether education causes higher earnings, through the three estimation strategies (twins, IV, and RD), to a synthesis of results converging on a 7--10% return.</span>
+<span id="cb14-524"><a href="#cb14-524" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-527"><a href="#cb14-527" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb14-528"><a href="#cb14-528" aria-hidden="true" tabindex="-1"></a>%%| label: fig-concept-<span class="fu">map</span></span>
+<span id="cb14-529"><a href="#cb14-529" aria-hidden="true" tabindex="-1"></a>%%| fig-cap: <span class="ot">"</span><span class="st">How the key concepts of Chapter 6 connect</span><span class="ot">"</span></span>
+<span id="cb14-530"><a href="#cb14-530" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-531"><a href="#cb14-531" aria-hidden="true" tabindex="-1"></a>graph TD</span>
+<span id="cb14-532"><a href="#cb14-532" aria-hidden="true" tabindex="-1"></a>    Q[<span class="ot">"</span><span class="st">Does education cause higher earnings?</span><span class="ot">"</span>]</span>
+<span id="cb14-533"><a href="#cb14-533" aria-hidden="true" tabindex="-1"></a>    AB[<span class="ot">"</span><span class="st">Ability bias inflates OLS</span><span class="ot">"</span>]</span>
+<span id="cb14-534"><a href="#cb14-534" aria-hidden="true" tabindex="-1"></a>    TW[<span class="ot">"</span><span class="st">Twin FE removes shared ability</span><span class="ot">"</span>]</span>
+<span id="cb14-535"><a href="#cb14-535" aria-hidden="true" tabindex="-1"></a>    ME[<span class="ot">"</span><span class="st">Measurement error biases twins down</span><span class="ot">"</span>]</span>
+<span id="cb14-536"><a href="#cb14-536" aria-hidden="true" tabindex="-1"></a>    IV[<span class="ot">"</span><span class="st">IV corrects both biases</span><span class="ot">"</span>]</span>
+<span id="cb14-537"><a href="#cb14-537" aria-hidden="true" tabindex="-1"></a>    RD[<span class="ot">"</span><span class="st">Sheepskin RD: diploma effect is small</span><span class="ot">"</span>]</span>
+<span id="cb14-538"><a href="#cb14-538" aria-hidden="true" tabindex="-1"></a>    SYN[<span class="ot">"</span><span class="st">Synthesis: true return is about seven to ten percent</span><span class="ot">"</span>]</span>
+<span id="cb14-539"><a href="#cb14-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-540"><a href="#cb14-540" aria-hidden="true" tabindex="-1"></a>    Q --&gt; AB</span>
+<span id="cb14-541"><a href="#cb14-541" aria-hidden="true" tabindex="-1"></a>    AB --&gt; TW</span>
+<span id="cb14-542"><a href="#cb14-542" aria-hidden="true" tabindex="-1"></a>    TW --&gt; ME</span>
+<span id="cb14-543"><a href="#cb14-543" aria-hidden="true" tabindex="-1"></a>    ME --&gt; IV</span>
+<span id="cb14-544"><a href="#cb14-544" aria-hidden="true" tabindex="-1"></a>    Q --&gt; IV</span>
+<span id="cb14-545"><a href="#cb14-545" aria-hidden="true" tabindex="-1"></a>    Q --&gt; RD</span>
+<span id="cb14-546"><a href="#cb14-546" aria-hidden="true" tabindex="-1"></a>    TW --&gt; SYN</span>
+<span id="cb14-547"><a href="#cb14-547" aria-hidden="true" tabindex="-1"></a>    IV --&gt; SYN</span>
+<span id="cb14-548"><a href="#cb14-548" aria-hidden="true" tabindex="-1"></a>    RD --&gt; SYN</span>
+<span id="cb14-549"><a href="#cb14-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-550"><a href="#cb14-550" aria-hidden="true" tabindex="-1"></a>    style Q fill:<span class="co">#475569,color:#fff</span></span>
+<span id="cb14-551"><a href="#cb14-551" aria-hidden="true" tabindex="-1"></a>    style AB fill:<span class="co">#c0392b,color:#fff</span></span>
+<span id="cb14-552"><a href="#cb14-552" aria-hidden="true" tabindex="-1"></a>    style TW fill:<span class="co">#8e44ad,color:#fff</span></span>
+<span id="cb14-553"><a href="#cb14-553" aria-hidden="true" tabindex="-1"></a>    style ME fill:<span class="co">#e67e22,color:#fff</span></span>
+<span id="cb14-554"><a href="#cb14-554" aria-hidden="true" tabindex="-1"></a>    style IV fill:<span class="co">#3498db,color:#fff</span></span>
+<span id="cb14-555"><a href="#cb14-555" aria-hidden="true" tabindex="-1"></a>    style RD fill:<span class="co">#e67e22,color:#fff</span></span>
+<span id="cb14-556"><a href="#cb14-556" aria-hidden="true" tabindex="-1"></a>    style SYN fill:<span class="co">#2d8659,color:#fff</span></span>
+<span id="cb14-557"><a href="#cb14-557" aria-hidden="true" tabindex="-1"></a>    linkStyle <span class="kw">default</span> stroke:<span class="co">#64748b,stroke-width:2px</span></span>
+<span id="cb14-558"><a href="#cb14-558" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-559"><a href="#cb14-559" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-560"><a href="#cb14-560" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**OLS returns to schooling (~11%)** are likely inflated by ability bias.</span>
+<span id="cb14-561"><a href="#cb14-561" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-562"><a href="#cb14-562" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Twin fixed effects (~6%)** control for shared ability but suffer from measurement error.</span>
+<span id="cb14-563"><a href="#cb14-563" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-564"><a href="#cb14-564" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**IV using twin's report** corrects measurement error, recovering estimates near 11%.</span>
+<span id="cb14-565"><a href="#cb14-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-566"><a href="#cb14-566" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Quarter-of-birth IV** gives 7--8%, using compulsory schooling as exogenous variation.</span>
+<span id="cb14-567"><a href="#cb14-567" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-568"><a href="#cb14-568" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Sheepskin RD** shows the diploma itself has little earnings value --- learning matters more.</span>
+<span id="cb14-569"><a href="#cb14-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-570"><a href="#cb14-570" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**Multiple methods converge** on a true return of about 7--10% per year.</span>
 <span id="cb14-571"><a href="#cb14-571" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-572"><a href="#cb14-572" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learn by Coding</span></span>
+<span id="cb14-572"><a href="#cb14-572" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>**No single method is perfect.** The lesson is to use multiple approaches and look for convergence.</span>
 <span id="cb14-573"><a href="#cb14-573" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-574"><a href="#cb14-574" aria-hidden="true" tabindex="-1"></a>Copy this code into a Python notebook to reproduce the key results from this chapter.</span>
-<span id="cb14-575"><a href="#cb14-575" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-576"><a href="#cb14-576" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb14-577"><a href="#cb14-577" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================</span></span>
-<span id="cb14-578"><a href="#cb14-578" aria-hidden="true" tabindex="-1"></a><span class="co"># Chapter 6: The Wages of Schooling — Code Cheatsheet</span></span>
-<span id="cb14-579"><a href="#cb14-579" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================</span></span>
-<span id="cb14-580"><a href="#cb14-580" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb14-581"><a href="#cb14-581" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
-<span id="cb14-582"><a href="#cb14-582" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> linearmodels.iv <span class="im">import</span> IV2SLS</span>
-<span id="cb14-583"><a href="#cb14-583" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-584"><a href="#cb14-584" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
-<span id="cb14-585"><a href="#cb14-585" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-586"><a href="#cb14-586" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 1: OLS return to schooling (twins data) ---</span></span>
-<span id="cb14-587"><a href="#cb14-587" aria-hidden="true" tabindex="-1"></a>twins <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/twins_clean.csv"</span>)</span>
-<span id="cb14-588"><a href="#cb14-588" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"lwage ~ educ + age + age2 + female + white"</span>, data<span class="op">=</span>twins)</span>
-<span id="cb14-589"><a href="#cb14-589" aria-hidden="true" tabindex="-1"></a>ols <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb14-590"><a href="#cb14-590" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"OLS return to schooling: </span><span class="sc">{</span><span class="bu">round</span>(ols.params[<span class="st">'educ'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(ols.bse[<span class="st">'educ'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb14-591"><a href="#cb14-591" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~11% per year — but may be biased by unobserved ability)</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb14-592"><a href="#cb14-592" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-593"><a href="#cb14-593" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 2: Twin fixed effects (within-pair differences) ---</span></span>
-<span id="cb14-594"><a href="#cb14-594" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> twins[twins[<span class="st">"first"</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
-<span id="cb14-595"><a href="#cb14-595" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"dlwage ~ deduc - 1"</span>, data<span class="op">=</span>first)</span>
-<span id="cb14-596"><a href="#cb14-596" aria-hidden="true" tabindex="-1"></a>fe <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb14-597"><a href="#cb14-597" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Twin FE return: </span><span class="sc">{</span><span class="bu">round</span>(fe.params[<span class="st">'deduc'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(fe.bse[<span class="st">'deduc'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb14-598"><a href="#cb14-598" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~6% — lower because shared ability is removed)</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb14-599"><a href="#cb14-599" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-600"><a href="#cb14-600" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 3: Quarter-of-birth IV (Angrist &amp; Krueger) ---</span></span>
-<span id="cb14-601"><a href="#cb14-601" aria-hidden="true" tabindex="-1"></a>qob <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/qob_clean.csv"</span>)</span>
+<span id="cb14-574"><a href="#cb14-574" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-575"><a href="#cb14-575" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learn by Coding</span></span>
+<span id="cb14-576"><a href="#cb14-576" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-577"><a href="#cb14-577" aria-hidden="true" tabindex="-1"></a>Copy this code into a Python notebook to reproduce the key results from this chapter.</span>
+<span id="cb14-578"><a href="#cb14-578" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-579"><a href="#cb14-579" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb14-580"><a href="#cb14-580" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================</span></span>
+<span id="cb14-581"><a href="#cb14-581" aria-hidden="true" tabindex="-1"></a><span class="co"># Chapter 6: The Wages of Schooling — Code Cheatsheet</span></span>
+<span id="cb14-582"><a href="#cb14-582" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================</span></span>
+<span id="cb14-583"><a href="#cb14-583" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-584"><a href="#cb14-584" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb14-585"><a href="#cb14-585" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> linearmodels.iv <span class="im">import</span> IV2SLS</span>
+<span id="cb14-586"><a href="#cb14-586" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-587"><a href="#cb14-587" aria-hidden="true" tabindex="-1"></a>DATA <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
+<span id="cb14-588"><a href="#cb14-588" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-589"><a href="#cb14-589" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 1: OLS return to schooling (twins data) ---</span></span>
+<span id="cb14-590"><a href="#cb14-590" aria-hidden="true" tabindex="-1"></a>twins <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/twins_clean.csv"</span>)</span>
+<span id="cb14-591"><a href="#cb14-591" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"lwage ~ educ + age + age2 + female + white"</span>, data<span class="op">=</span>twins)</span>
+<span id="cb14-592"><a href="#cb14-592" aria-hidden="true" tabindex="-1"></a>ols <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb14-593"><a href="#cb14-593" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"OLS return to schooling: </span><span class="sc">{</span><span class="bu">round</span>(ols.params[<span class="st">'educ'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(ols.bse[<span class="st">'educ'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb14-594"><a href="#cb14-594" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~11% per year — but may be biased by unobserved ability)</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb14-595"><a href="#cb14-595" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-596"><a href="#cb14-596" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 2: Twin fixed effects (within-pair differences) ---</span></span>
+<span id="cb14-597"><a href="#cb14-597" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> twins[twins[<span class="st">"first"</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb14-598"><a href="#cb14-598" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"dlwage ~ deduc - 1"</span>, data<span class="op">=</span>first)</span>
+<span id="cb14-599"><a href="#cb14-599" aria-hidden="true" tabindex="-1"></a>fe <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb14-600"><a href="#cb14-600" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Twin FE return: </span><span class="sc">{</span><span class="bu">round</span>(fe.params[<span class="st">'deduc'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(fe.bse[<span class="st">'deduc'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb14-601"><a href="#cb14-601" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~6% — lower because shared ability is removed)</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb14-602"><a href="#cb14-602" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-603"><a href="#cb14-603" aria-hidden="true" tabindex="-1"></a><span class="co"># First stage: does Q4 birth affect years of schooling?</span></span>
-<span id="cb14-604"><a href="#cb14-604" aria-hidden="true" tabindex="-1"></a>fs <span class="op">=</span> smf.ols(<span class="st">"s ~ q4"</span>, data<span class="op">=</span>qob).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb14-605"><a href="#cb14-605" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"First stage (Q4 → schooling): </span><span class="sc">{</span><span class="bu">round</span>(fs.params[<span class="st">'q4'</span>], <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-606"><a href="#cb14-606" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-607"><a href="#cb14-607" aria-hidden="true" tabindex="-1"></a><span class="co"># Reduced form: does Q4 birth affect earnings?</span></span>
-<span id="cb14-608"><a href="#cb14-608" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> smf.ols(<span class="st">"lnw ~ q4"</span>, data<span class="op">=</span>qob).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb14-609"><a href="#cb14-609" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Reduced form (Q4 → earnings): </span><span class="sc">{</span><span class="bu">round</span>(rf.params[<span class="st">'q4'</span>], <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-610"><a href="#cb14-610" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-611"><a href="#cb14-611" aria-hidden="true" tabindex="-1"></a><span class="co"># Wald IV estimate</span></span>
-<span id="cb14-612"><a href="#cb14-612" aria-hidden="true" tabindex="-1"></a>wald <span class="op">=</span> rf.params[<span class="st">"q4"</span>] <span class="op">/</span> fs.params[<span class="st">"q4"</span>]</span>
-<span id="cb14-613"><a href="#cb14-613" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wald IV estimate: </span><span class="sc">{</span><span class="bu">round</span>(wald, <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-614"><a href="#cb14-614" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-615"><a href="#cb14-615" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 4: 2SLS (same answer, correct standard errors) ---</span></span>
-<span id="cb14-616"><a href="#cb14-616" aria-hidden="true" tabindex="-1"></a>iv <span class="op">=</span> IV2SLS.from_formula(<span class="st">"lnw ~ 1 + [s ~ q4]"</span>, data<span class="op">=</span>qob)</span>
-<span id="cb14-617"><a href="#cb14-617" aria-hidden="true" tabindex="-1"></a>iv_result <span class="op">=</span> iv.fit(cov_type<span class="op">=</span><span class="st">"robust"</span>)</span>
-<span id="cb14-618"><a href="#cb14-618" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">2SLS estimate: </span><span class="sc">{</span><span class="bu">round</span>(iv_result.params[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(iv_result.std_errors[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb14-619"><a href="#cb14-619" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~8% per year via quarter-of-birth instrument)"</span>)</span>
-<span id="cb14-620"><a href="#cb14-620" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-621"><a href="#cb14-621" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-622"><a href="#cb14-622" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb14-623"><a href="#cb14-623" aria-hidden="true" tabindex="-1"></a><span class="fu">### Try it yourself!</span></span>
-<span id="cb14-624"><a href="#cb14-624" aria-hidden="true" tabindex="-1"></a>Copy the code above and paste it into <span class="co">[</span><span class="ot">this Google Colab scratchpad</span><span class="co">](https://colab.research.google.com/notebooks/empty.ipynb)</span> to run it interactively. Modify the variables, change the specifications, and see how results change!</span>
-<span id="cb14-625"><a href="#cb14-625" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-626"><a href="#cb14-626" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-627"><a href="#cb14-627" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-628"><a href="#cb14-628" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb14-603"><a href="#cb14-603" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 3: Quarter-of-birth IV (Angrist &amp; Krueger) ---</span></span>
+<span id="cb14-604"><a href="#cb14-604" aria-hidden="true" tabindex="-1"></a>qob <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/qob_clean.csv"</span>)</span>
+<span id="cb14-605"><a href="#cb14-605" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-606"><a href="#cb14-606" aria-hidden="true" tabindex="-1"></a><span class="co"># First stage: does Q4 birth affect years of schooling?</span></span>
+<span id="cb14-607"><a href="#cb14-607" aria-hidden="true" tabindex="-1"></a>fs <span class="op">=</span> smf.ols(<span class="st">"s ~ q4"</span>, data<span class="op">=</span>qob).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb14-608"><a href="#cb14-608" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"First stage (Q4 → schooling): </span><span class="sc">{</span><span class="bu">round</span>(fs.params[<span class="st">'q4'</span>], <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-609"><a href="#cb14-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-610"><a href="#cb14-610" aria-hidden="true" tabindex="-1"></a><span class="co"># Reduced form: does Q4 birth affect earnings?</span></span>
+<span id="cb14-611"><a href="#cb14-611" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> smf.ols(<span class="st">"lnw ~ q4"</span>, data<span class="op">=</span>qob).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb14-612"><a href="#cb14-612" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Reduced form (Q4 → earnings): </span><span class="sc">{</span><span class="bu">round</span>(rf.params[<span class="st">'q4'</span>], <span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-613"><a href="#cb14-613" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-614"><a href="#cb14-614" aria-hidden="true" tabindex="-1"></a><span class="co"># Wald IV estimate</span></span>
+<span id="cb14-615"><a href="#cb14-615" aria-hidden="true" tabindex="-1"></a>wald <span class="op">=</span> rf.params[<span class="st">"q4"</span>] <span class="op">/</span> fs.params[<span class="st">"q4"</span>]</span>
+<span id="cb14-616"><a href="#cb14-616" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wald IV estimate: </span><span class="sc">{</span><span class="bu">round</span>(wald, <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-617"><a href="#cb14-617" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-618"><a href="#cb14-618" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 4: 2SLS (same answer, correct standard errors) ---</span></span>
+<span id="cb14-619"><a href="#cb14-619" aria-hidden="true" tabindex="-1"></a>iv <span class="op">=</span> IV2SLS.from_formula(<span class="st">"lnw ~ 1 + [s ~ q4]"</span>, data<span class="op">=</span>qob)</span>
+<span id="cb14-620"><a href="#cb14-620" aria-hidden="true" tabindex="-1"></a>iv_result <span class="op">=</span> iv.fit(cov_type<span class="op">=</span><span class="st">"robust"</span>)</span>
+<span id="cb14-621"><a href="#cb14-621" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">2SLS estimate: </span><span class="sc">{</span><span class="bu">round</span>(iv_result.params[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(iv_result.std_errors[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb14-622"><a href="#cb14-622" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~8% per year via quarter-of-birth instrument)"</span>)</span>
+<span id="cb14-623"><a href="#cb14-623" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-624"><a href="#cb14-624" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-625"><a href="#cb14-625" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb14-626"><a href="#cb14-626" aria-hidden="true" tabindex="-1"></a><span class="fu">### Try it yourself!</span></span>
+<span id="cb14-627"><a href="#cb14-627" aria-hidden="true" tabindex="-1"></a>Copy the code above and paste it into <span class="co">[</span><span class="ot">this Google Colab scratchpad</span><span class="co">](https://colab.research.google.com/notebooks/empty.ipynb)</span> to run it interactively. Modify the variables, change the specifications, and see how results change!</span>
+<span id="cb14-628"><a href="#cb14-628" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb14-629"><a href="#cb14-629" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-630"><a href="#cb14-630" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb14-631"><a href="#cb14-631" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-632"><a href="#cb14-632" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb14-630"><a href="#cb14-630" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-631"><a href="#cb14-631" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb14-632"><a href="#cb14-632" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-633"><a href="#cb14-633" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
 <span id="cb14-634"><a href="#cb14-634" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-635"><a href="#cb14-635" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Ability bias direction**: A friend argues that ability bias could go *downward* (smart people drop out to start businesses). Give one example supporting this view and one supporting the standard upward-bias view. Which do you find more convincing for the general population?</span>
-<span id="cb14-636"><a href="#cb14-636" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-637"><a href="#cb14-637" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Measurement error**: Explain why measurement error in education is more problematic in the twin-differences specification than in the levels OLS. (Hint: think about what differencing does to the signal-to-noise ratio.)</span>
-<span id="cb14-638"><a href="#cb14-638" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-639"><a href="#cb14-639" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**The Wald estimate**: Using the QOB data, the reduced form (Q4 → earnings) is 0.0068 and the first stage (Q4 → schooling) is 0.0921. (a) Compute the Wald/IV estimate. (b) Why is this estimate valid only for "compliers"? Who are the compliers in this context?</span>
-<span id="cb14-640"><a href="#cb14-640" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-641"><a href="#cb14-641" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**OLS vs. IV similarity**: In the QOB analysis, OLS and IV give similar estimates (~0.07). Does this mean ability bias is small? Or could there be offsetting biases (one pushing up, one pushing down) that happen to cancel? Explain.</span>
-<span id="cb14-642"><a href="#cb14-642" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-643"><a href="#cb14-643" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Sheepskin interpretation**: The Texas RD shows a ~40 percentage point jump in diploma receipt but near-zero earnings effect. A skeptic says "this proves education doesn't matter." Explain why this conclusion is wrong. What does the sheepskin RD actually tell us about the *mechanism* through which education raises earnings?</span>
-<span id="cb14-644"><a href="#cb14-644" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-635"><a href="#cb14-635" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb14-636"><a href="#cb14-636" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb14-637"><a href="#cb14-637" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-638"><a href="#cb14-638" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Ability bias direction**: A friend argues that ability bias could go *downward* (smart people drop out to start businesses). Give one example supporting this view and one supporting the standard upward-bias view. Which do you find more convincing for the general population?</span>
+<span id="cb14-639"><a href="#cb14-639" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-640"><a href="#cb14-640" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Measurement error**: Explain why measurement error in education is more problematic in the twin-differences specification than in the levels OLS. (Hint: think about what differencing does to the signal-to-noise ratio.)</span>
+<span id="cb14-641"><a href="#cb14-641" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-642"><a href="#cb14-642" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**The Wald estimate**: Using the QOB data, the reduced form (Q4 → earnings) is 0.0068 and the first stage (Q4 → schooling) is 0.0921. (a) Compute the Wald/IV estimate. (b) Why is this estimate valid only for "compliers"? Who are the compliers in this context?</span>
+<span id="cb14-643"><a href="#cb14-643" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-644"><a href="#cb14-644" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**OLS vs. IV similarity**: In the QOB analysis, OLS and IV give similar estimates (~0.07). Does this mean ability bias is small? Or could there be offsetting biases (one pushing up, one pushing down) that happen to cancel? Explain.</span>
 <span id="cb14-645"><a href="#cb14-645" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-646"><a href="#cb14-646" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb14-647"><a href="#cb14-647" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-648"><a href="#cb14-648" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb14-646"><a href="#cb14-646" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Sheepskin interpretation**: The Texas RD shows a ~40 percentage point jump in diploma receipt but near-zero earnings effect. A skeptic says "this proves education doesn't matter." Explain why this conclusion is wrong. What does the sheepskin RD actually tell us about the *mechanism* through which education raises earnings?</span>
+<span id="cb14-647"><a href="#cb14-647" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-648"><a href="#cb14-648" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-649"><a href="#cb14-649" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
 <span id="cb14-650"><a href="#cb14-650" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-651"><a href="#cb14-651" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Returns for men only**: Using <span class="in">`twins_clean.csv`</span>, restrict the sample to male twins (<span class="in">`female == 0`</span>). Re-run the OLS and within-twin FE regressions. Do the returns to schooling differ for men compared to the full sample?</span>
-<span id="cb14-652"><a href="#cb14-652" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-653"><a href="#cb14-653" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Multiple instruments**: Using <span class="in">`qob_clean.csv`</span>, run the 2SLS regression using all three quarter dummies (<span class="in">`q2`</span>, <span class="in">`q3`</span>, <span class="in">`q4`</span>) as instruments for schooling instead of just <span class="in">`q4`</span>. Does the IV estimate change? How does the first-stage F-statistic compare?</span>
-<span id="cb14-654"><a href="#cb14-654" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-655"><a href="#cb14-655" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**White vs. non-white twins**: Using <span class="in">`twins_clean.csv`</span>, split the sample by <span class="in">`white`</span> status and run the OLS regression for each group. Is the return to schooling different for white vs. non-white twins?</span>
-<span id="cb14-656"><a href="#cb14-656" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-651"><a href="#cb14-651" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb14-652"><a href="#cb14-652" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb14-653"><a href="#cb14-653" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-654"><a href="#cb14-654" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Returns for men only**: Using <span class="in">`twins_clean.csv`</span>, restrict the sample to male twins (<span class="in">`female == 0`</span>). Re-run the OLS and within-twin FE regressions. Do the returns to schooling differ for men compared to the full sample?</span>
+<span id="cb14-655"><a href="#cb14-655" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-656"><a href="#cb14-656" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Multiple instruments**: Using <span class="in">`qob_clean.csv`</span>, run the 2SLS regression using all three quarter dummies (<span class="in">`q2`</span>, <span class="in">`q3`</span>, <span class="in">`q4`</span>) as instruments for schooling instead of just <span class="in">`q4`</span>. Does the IV estimate change? How does the first-stage F-statistic compare?</span>
 <span id="cb14-657"><a href="#cb14-657" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-658"><a href="#cb14-658" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-659"><a href="#cb14-659" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
+<span id="cb14-658"><a href="#cb14-658" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**White vs. non-white twins**: Using <span class="in">`twins_clean.csv`</span>, split the sample by <span class="in">`white`</span> status and run the OLS regression for each group. Is the return to schooling different for white vs. non-white twins?</span>
+<span id="cb14-659"><a href="#cb14-659" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb14-660"><a href="#cb14-660" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-661"><a href="#cb14-661" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb14-662"><a href="#cb14-662" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-663"><a href="#cb14-663" aria-hidden="true" tabindex="-1"></a>**Q1.** Downward bias example: Mark Zuckerberg dropped out of Harvard to build Facebook and became a billionaire. His high ability generated high earnings *without* completing his degree, so ability and schooling are negatively correlated for him. Upward bias example: A student with high IQ and supportive parents completes a PhD and earns a high salary. Her ability led to both more schooling and higher earnings independently. For the general population, upward bias is more convincing: most high-ability people complete more education (not fewer), because the education system selects on ability. The Zuckerberg-type dropouts are rare exceptions.</span>
-<span id="cb14-664"><a href="#cb14-664" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-665"><a href="#cb14-665" aria-hidden="true" tabindex="-1"></a>**Q2.** Measurement error adds noise ($m_i$) to the observed schooling variable: $S_i = S_i^* + m_i$. The signal is the true schooling variation ($\text{Var}(S^*)$) and the noise is $\text{Var}(m)$. In the levels OLS, the reliability ratio is $r = \text{Var}(S^*) / [\text{Var}(S^*) + \text{Var}(m)]$. When we difference within twin pairs, the true variation $\text{Var}(\Delta S^*)$ shrinks dramatically (twins are similar in education), but $\text{Var}(\Delta m)$ stays roughly the same (measurement errors are independent across twins). So the reliability $r$ falls, and attenuation bias worsens. This is why the twin FE estimate (0.06) is lower than OLS (0.11) --- part of the drop is real (ability bias removed), but part is artificial (measurement error amplified).</span>
-<span id="cb14-666"><a href="#cb14-666" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-667"><a href="#cb14-667" aria-hidden="true" tabindex="-1"></a>**Q3.** (a) Wald estimate = 0.0068 / 0.0921 = 0.074 (about 7.4% per year). (b) This is a LATE --- it applies only to compliers, people whose schooling was changed by their quarter of birth. In this context, compliers are students who would have dropped out at the minimum age if born in Q1 (starting school older, reaching dropout age sooner) but who completed more schooling because they were born in Q4 (started younger, accumulated more years before reaching dropout age). These are marginal students at the dropout threshold, not the general population.</span>
-<span id="cb14-668"><a href="#cb14-668" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-669"><a href="#cb14-669" aria-hidden="true" tabindex="-1"></a>**Q4.** The similarity of OLS and IV could reflect offsetting biases rather than no bias. OLS is biased upward by ability (more able → more school AND higher earnings) but biased downward by measurement error (self-reported schooling has noise). These two biases work in opposite directions. IV using quarter of birth corrects both simultaneously, and the net result happens to be close to OLS. This doesn't mean there's no ability bias --- it means ability bias and attenuation bias approximately cancel. The twin evidence supports this: when we correct measurement error (IV with twin's report), the estimate rises; when we control for ability (twin FE), it falls.</span>
-<span id="cb14-670"><a href="#cb14-670" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-671"><a href="#cb14-671" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb14-672"><a href="#cb14-672" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-673"><a href="#cb14-673" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
-<span id="cb14-674"><a href="#cb14-674" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-677"><a href="#cb14-677" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb14-678"><a href="#cb14-678" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-men</span></span>
-<span id="cb14-679"><a href="#cb14-679" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Returns to schooling: full sample vs. men only"</span></span>
-<span id="cb14-680"><a href="#cb14-680" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-681"><a href="#cb14-681" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb14-682"><a href="#cb14-682" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb14-661"><a href="#cb14-661" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-662"><a href="#cb14-662" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
+<span id="cb14-663"><a href="#cb14-663" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-664"><a href="#cb14-664" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb14-665"><a href="#cb14-665" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-666"><a href="#cb14-666" aria-hidden="true" tabindex="-1"></a>**Q1.** Downward bias example: Mark Zuckerberg dropped out of Harvard to build Facebook and became a billionaire. His high ability generated high earnings *without* completing his degree, so ability and schooling are negatively correlated for him. Upward bias example: A student with high IQ and supportive parents completes a PhD and earns a high salary. Her ability led to both more schooling and higher earnings independently. For the general population, upward bias is more convincing: most high-ability people complete more education (not fewer), because the education system selects on ability. The Zuckerberg-type dropouts are rare exceptions.</span>
+<span id="cb14-667"><a href="#cb14-667" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-668"><a href="#cb14-668" aria-hidden="true" tabindex="-1"></a>**Q2.** Measurement error adds noise ($m_i$) to the observed schooling variable: $S_i = S_i^* + m_i$. The signal is the true schooling variation ($\text{Var}(S^*)$) and the noise is $\text{Var}(m)$. In the levels OLS, the reliability ratio is $r = \text{Var}(S^*) / [\text{Var}(S^*) + \text{Var}(m)]$. When we difference within twin pairs, the true variation $\text{Var}(\Delta S^*)$ shrinks dramatically (twins are similar in education), but $\text{Var}(\Delta m)$ stays roughly the same (measurement errors are independent across twins). So the reliability $r$ falls, and attenuation bias worsens. This is why the twin FE estimate (0.06) is lower than OLS (0.11) --- part of the drop is real (ability bias removed), but part is artificial (measurement error amplified).</span>
+<span id="cb14-669"><a href="#cb14-669" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-670"><a href="#cb14-670" aria-hidden="true" tabindex="-1"></a>**Q3.** (a) Wald estimate = 0.0068 / 0.0921 = 0.074 (about 7.4% per year). (b) This is a LATE --- it applies only to compliers, people whose schooling was changed by their quarter of birth. In this context, compliers are students who would have dropped out at the minimum age if born in Q1 (starting school older, reaching dropout age sooner) but who completed more schooling because they were born in Q4 (started younger, accumulated more years before reaching dropout age). These are marginal students at the dropout threshold, not the general population.</span>
+<span id="cb14-671"><a href="#cb14-671" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-672"><a href="#cb14-672" aria-hidden="true" tabindex="-1"></a>**Q4.** The similarity of OLS and IV could reflect offsetting biases rather than no bias. OLS is biased upward by ability (more able → more school AND higher earnings) but biased downward by measurement error (self-reported schooling has noise). These two biases work in opposite directions. IV using quarter of birth corrects both simultaneously, and the net result happens to be close to OLS. This doesn't mean there's no ability bias --- it means ability bias and attenuation bias approximately cancel. The twin evidence supports this: when we correct measurement error (IV with twin's report), the estimate rises; when we control for ability (twin FE), it falls.</span>
+<span id="cb14-673"><a href="#cb14-673" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-674"><a href="#cb14-674" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb14-675"><a href="#cb14-675" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-676"><a href="#cb14-676" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
+<span id="cb14-677"><a href="#cb14-677" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-680"><a href="#cb14-680" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb14-681"><a href="#cb14-681" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-men</span></span>
+<span id="cb14-682"><a href="#cb14-682" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Returns to schooling: full sample vs. men only"</span></span>
 <span id="cb14-683"><a href="#cb14-683" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-684"><a href="#cb14-684" aria-hidden="true" tabindex="-1"></a>twins <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/twins_clean.csv"</span>)</span>
-<span id="cb14-685"><a href="#cb14-685" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-686"><a href="#cb14-686" aria-hidden="true" tabindex="-1"></a><span class="co"># Full sample OLS and twin FE</span></span>
-<span id="cb14-687"><a href="#cb14-687" aria-hidden="true" tabindex="-1"></a>model_ols_all <span class="op">=</span> smf.ols(<span class="st">"lwage ~ educ + age + age2 + female + white"</span>, data<span class="op">=</span>twins)</span>
-<span id="cb14-688"><a href="#cb14-688" aria-hidden="true" tabindex="-1"></a>ols_all <span class="op">=</span> model_ols_all.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb14-689"><a href="#cb14-689" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-690"><a href="#cb14-690" aria-hidden="true" tabindex="-1"></a>first_all <span class="op">=</span> twins[twins[<span class="st">"first"</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
-<span id="cb14-691"><a href="#cb14-691" aria-hidden="true" tabindex="-1"></a>model_fe_all <span class="op">=</span> smf.ols(<span class="st">"dlwage ~ deduc - 1"</span>, data<span class="op">=</span>first_all)</span>
-<span id="cb14-692"><a href="#cb14-692" aria-hidden="true" tabindex="-1"></a>fe_all <span class="op">=</span> model_fe_all.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb14-693"><a href="#cb14-693" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-694"><a href="#cb14-694" aria-hidden="true" tabindex="-1"></a><span class="co"># Men only</span></span>
-<span id="cb14-695"><a href="#cb14-695" aria-hidden="true" tabindex="-1"></a>men <span class="op">=</span> twins[twins[<span class="st">"female"</span>] <span class="op">==</span> <span class="dv">0</span>]</span>
-<span id="cb14-696"><a href="#cb14-696" aria-hidden="true" tabindex="-1"></a>model_ols_men <span class="op">=</span> smf.ols(<span class="st">"lwage ~ educ + age + age2 + white"</span>, data<span class="op">=</span>men)</span>
-<span id="cb14-697"><a href="#cb14-697" aria-hidden="true" tabindex="-1"></a>ols_men <span class="op">=</span> model_ols_men.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb14-698"><a href="#cb14-698" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-699"><a href="#cb14-699" aria-hidden="true" tabindex="-1"></a>first_men <span class="op">=</span> men[men[<span class="st">"first"</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
-<span id="cb14-700"><a href="#cb14-700" aria-hidden="true" tabindex="-1"></a>model_fe_men <span class="op">=</span> smf.ols(<span class="st">"dlwage ~ deduc - 1"</span>, data<span class="op">=</span>first_men)</span>
-<span id="cb14-701"><a href="#cb14-701" aria-hidden="true" tabindex="-1"></a>fe_men <span class="op">=</span> model_fe_men.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb14-702"><a href="#cb14-702" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-703"><a href="#cb14-703" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb14-704"><a href="#cb14-704" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Method"</span>: [<span class="st">"OLS (full sample)"</span>, <span class="st">"OLS (men only)"</span>, <span class="st">"Twin FE (full sample)"</span>, <span class="st">"Twin FE (men only)"</span>],</span>
-<span id="cb14-705"><a href="#cb14-705" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coefficient"</span>: [</span>
-<span id="cb14-706"><a href="#cb14-706" aria-hidden="true" tabindex="-1"></a>        <span class="bu">round</span>(ols_all.params[<span class="st">"educ"</span>], <span class="dv">4</span>), <span class="bu">round</span>(ols_men.params[<span class="st">"educ"</span>], <span class="dv">4</span>),</span>
-<span id="cb14-707"><a href="#cb14-707" aria-hidden="true" tabindex="-1"></a>        <span class="bu">round</span>(fe_all.params[<span class="st">"deduc"</span>], <span class="dv">4</span>), <span class="bu">round</span>(fe_men.params[<span class="st">"deduc"</span>], <span class="dv">4</span>),</span>
-<span id="cb14-708"><a href="#cb14-708" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb14-709"><a href="#cb14-709" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SE"</span>: [</span>
-<span id="cb14-710"><a href="#cb14-710" aria-hidden="true" tabindex="-1"></a>        <span class="bu">round</span>(ols_all.bse[<span class="st">"educ"</span>], <span class="dv">4</span>), <span class="bu">round</span>(ols_men.bse[<span class="st">"educ"</span>], <span class="dv">4</span>),</span>
-<span id="cb14-711"><a href="#cb14-711" aria-hidden="true" tabindex="-1"></a>        <span class="bu">round</span>(fe_all.bse[<span class="st">"deduc"</span>], <span class="dv">4</span>), <span class="bu">round</span>(fe_men.bse[<span class="st">"deduc"</span>], <span class="dv">4</span>),</span>
-<span id="cb14-712"><a href="#cb14-712" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb14-713"><a href="#cb14-713" aria-hidden="true" tabindex="-1"></a>    <span class="st">"N"</span>: [<span class="bu">int</span>(ols_all.nobs), <span class="bu">int</span>(ols_men.nobs), <span class="bu">int</span>(fe_all.nobs), <span class="bu">int</span>(fe_men.nobs)],</span>
-<span id="cb14-714"><a href="#cb14-714" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb14-715"><a href="#cb14-715" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-716"><a href="#cb14-716" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-717"><a href="#cb14-717" aria-hidden="true" tabindex="-1"></a>The male-only estimates may differ from the full sample because the returns to schooling can vary by gender. The smaller sample size for men also increases standard errors. The key pattern (OLS &gt; twin FE) should persist, reflecting ability bias in OLS.</span>
-<span id="cb14-718"><a href="#cb14-718" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-719"><a href="#cb14-719" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
-<span id="cb14-720"><a href="#cb14-720" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-723"><a href="#cb14-723" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb14-724"><a href="#cb14-724" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-multi-iv</span></span>
-<span id="cb14-725"><a href="#cb14-725" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "IV estimates with single vs. multiple quarter-of-birth instruments"</span></span>
-<span id="cb14-726"><a href="#cb14-726" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-727"><a href="#cb14-727" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb14-728"><a href="#cb14-728" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> linearmodels.iv <span class="im">import</span> IV2SLS</span>
+<span id="cb14-684"><a href="#cb14-684" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-685"><a href="#cb14-685" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb14-686"><a href="#cb14-686" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-687"><a href="#cb14-687" aria-hidden="true" tabindex="-1"></a>twins <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/twins_clean.csv"</span>)</span>
+<span id="cb14-688"><a href="#cb14-688" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-689"><a href="#cb14-689" aria-hidden="true" tabindex="-1"></a><span class="co"># Full sample OLS and twin FE</span></span>
+<span id="cb14-690"><a href="#cb14-690" aria-hidden="true" tabindex="-1"></a>model_ols_all <span class="op">=</span> smf.ols(<span class="st">"lwage ~ educ + age + age2 + female + white"</span>, data<span class="op">=</span>twins)</span>
+<span id="cb14-691"><a href="#cb14-691" aria-hidden="true" tabindex="-1"></a>ols_all <span class="op">=</span> model_ols_all.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb14-692"><a href="#cb14-692" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-693"><a href="#cb14-693" aria-hidden="true" tabindex="-1"></a>first_all <span class="op">=</span> twins[twins[<span class="st">"first"</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb14-694"><a href="#cb14-694" aria-hidden="true" tabindex="-1"></a>model_fe_all <span class="op">=</span> smf.ols(<span class="st">"dlwage ~ deduc - 1"</span>, data<span class="op">=</span>first_all)</span>
+<span id="cb14-695"><a href="#cb14-695" aria-hidden="true" tabindex="-1"></a>fe_all <span class="op">=</span> model_fe_all.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb14-696"><a href="#cb14-696" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-697"><a href="#cb14-697" aria-hidden="true" tabindex="-1"></a><span class="co"># Men only</span></span>
+<span id="cb14-698"><a href="#cb14-698" aria-hidden="true" tabindex="-1"></a>men <span class="op">=</span> twins[twins[<span class="st">"female"</span>] <span class="op">==</span> <span class="dv">0</span>]</span>
+<span id="cb14-699"><a href="#cb14-699" aria-hidden="true" tabindex="-1"></a>model_ols_men <span class="op">=</span> smf.ols(<span class="st">"lwage ~ educ + age + age2 + white"</span>, data<span class="op">=</span>men)</span>
+<span id="cb14-700"><a href="#cb14-700" aria-hidden="true" tabindex="-1"></a>ols_men <span class="op">=</span> model_ols_men.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb14-701"><a href="#cb14-701" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-702"><a href="#cb14-702" aria-hidden="true" tabindex="-1"></a>first_men <span class="op">=</span> men[men[<span class="st">"first"</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb14-703"><a href="#cb14-703" aria-hidden="true" tabindex="-1"></a>model_fe_men <span class="op">=</span> smf.ols(<span class="st">"dlwage ~ deduc - 1"</span>, data<span class="op">=</span>first_men)</span>
+<span id="cb14-704"><a href="#cb14-704" aria-hidden="true" tabindex="-1"></a>fe_men <span class="op">=</span> model_fe_men.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb14-705"><a href="#cb14-705" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-706"><a href="#cb14-706" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb14-707"><a href="#cb14-707" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Method"</span>: [<span class="st">"OLS (full sample)"</span>, <span class="st">"OLS (men only)"</span>, <span class="st">"Twin FE (full sample)"</span>, <span class="st">"Twin FE (men only)"</span>],</span>
+<span id="cb14-708"><a href="#cb14-708" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coefficient"</span>: [</span>
+<span id="cb14-709"><a href="#cb14-709" aria-hidden="true" tabindex="-1"></a>        <span class="bu">round</span>(ols_all.params[<span class="st">"educ"</span>], <span class="dv">4</span>), <span class="bu">round</span>(ols_men.params[<span class="st">"educ"</span>], <span class="dv">4</span>),</span>
+<span id="cb14-710"><a href="#cb14-710" aria-hidden="true" tabindex="-1"></a>        <span class="bu">round</span>(fe_all.params[<span class="st">"deduc"</span>], <span class="dv">4</span>), <span class="bu">round</span>(fe_men.params[<span class="st">"deduc"</span>], <span class="dv">4</span>),</span>
+<span id="cb14-711"><a href="#cb14-711" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb14-712"><a href="#cb14-712" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SE"</span>: [</span>
+<span id="cb14-713"><a href="#cb14-713" aria-hidden="true" tabindex="-1"></a>        <span class="bu">round</span>(ols_all.bse[<span class="st">"educ"</span>], <span class="dv">4</span>), <span class="bu">round</span>(ols_men.bse[<span class="st">"educ"</span>], <span class="dv">4</span>),</span>
+<span id="cb14-714"><a href="#cb14-714" aria-hidden="true" tabindex="-1"></a>        <span class="bu">round</span>(fe_all.bse[<span class="st">"deduc"</span>], <span class="dv">4</span>), <span class="bu">round</span>(fe_men.bse[<span class="st">"deduc"</span>], <span class="dv">4</span>),</span>
+<span id="cb14-715"><a href="#cb14-715" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb14-716"><a href="#cb14-716" aria-hidden="true" tabindex="-1"></a>    <span class="st">"N"</span>: [<span class="bu">int</span>(ols_all.nobs), <span class="bu">int</span>(ols_men.nobs), <span class="bu">int</span>(fe_all.nobs), <span class="bu">int</span>(fe_men.nobs)],</span>
+<span id="cb14-717"><a href="#cb14-717" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb14-718"><a href="#cb14-718" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-719"><a href="#cb14-719" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-720"><a href="#cb14-720" aria-hidden="true" tabindex="-1"></a>The male-only estimates may differ from the full sample because the returns to schooling can vary by gender. The smaller sample size for men also increases standard errors. The key pattern (OLS &gt; twin FE) should persist, reflecting ability bias in OLS.</span>
+<span id="cb14-721"><a href="#cb14-721" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-722"><a href="#cb14-722" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
+<span id="cb14-723"><a href="#cb14-723" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-726"><a href="#cb14-726" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb14-727"><a href="#cb14-727" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-multi-iv</span></span>
+<span id="cb14-728"><a href="#cb14-728" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "IV estimates with single vs. multiple quarter-of-birth instruments"</span></span>
 <span id="cb14-729"><a href="#cb14-729" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-730"><a href="#cb14-730" aria-hidden="true" tabindex="-1"></a>qob <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/qob_clean.csv"</span>)</span>
-<span id="cb14-731"><a href="#cb14-731" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-732"><a href="#cb14-732" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Specification 1: Single instrument (Q4 only), no year-of-birth controls ---</span></span>
-<span id="cb14-733"><a href="#cb14-733" aria-hidden="true" tabindex="-1"></a><span class="co"># [s ~ q4] means: schooling (s) is endogenous, instrumented by the Q4 dummy</span></span>
-<span id="cb14-734"><a href="#cb14-734" aria-hidden="true" tabindex="-1"></a>iv_q4_model <span class="op">=</span> IV2SLS.from_formula(<span class="st">"lnw ~ 1 + [s ~ q4]"</span>, data<span class="op">=</span>qob)</span>
-<span id="cb14-735"><a href="#cb14-735" aria-hidden="true" tabindex="-1"></a>iv_q4 <span class="op">=</span> iv_q4_model.fit(cov_type<span class="op">=</span><span class="st">"robust"</span>)</span>
-<span id="cb14-736"><a href="#cb14-736" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-737"><a href="#cb14-737" aria-hidden="true" tabindex="-1"></a><span class="co"># First-stage F-statistic: how strongly does Q4 predict schooling?</span></span>
-<span id="cb14-738"><a href="#cb14-738" aria-hidden="true" tabindex="-1"></a>fs_q4_model <span class="op">=</span> smf.ols(<span class="st">"s ~ q4"</span>, data<span class="op">=</span>qob)</span>
-<span id="cb14-739"><a href="#cb14-739" aria-hidden="true" tabindex="-1"></a>fs_q4 <span class="op">=</span> fs_q4_model.fit()</span>
-<span id="cb14-740"><a href="#cb14-740" aria-hidden="true" tabindex="-1"></a>f_q4 <span class="op">=</span> <span class="bu">float</span>(np.atleast_1d(fs_q4.f_test(<span class="st">"q4 = 0"</span>).fvalue).flat[<span class="dv">0</span>])</span>
-<span id="cb14-741"><a href="#cb14-741" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-742"><a href="#cb14-742" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Specification 2: Three instruments (Q2, Q3, Q4) with year-of-birth controls ---</span></span>
-<span id="cb14-743"><a href="#cb14-743" aria-hidden="true" tabindex="-1"></a><span class="co"># Step A: Create year-of-birth dummy variables (one per birth year, drop first to avoid collinearity)</span></span>
-<span id="cb14-744"><a href="#cb14-744" aria-hidden="true" tabindex="-1"></a>yob_dummies <span class="op">=</span> pd.get_dummies(qob[<span class="st">"yob"</span>].astype(<span class="bu">int</span>), prefix<span class="op">=</span><span class="st">"yob"</span>, drop_first<span class="op">=</span><span class="va">True</span>, dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb14-745"><a href="#cb14-745" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-746"><a href="#cb14-746" aria-hidden="true" tabindex="-1"></a><span class="co"># Step B: Combine the key variables with the year-of-birth dummies into one DataFrame</span></span>
-<span id="cb14-747"><a href="#cb14-747" aria-hidden="true" tabindex="-1"></a>iv_data <span class="op">=</span> pd.concat([qob[[<span class="st">"lnw"</span>, <span class="st">"s"</span>, <span class="st">"q2"</span>, <span class="st">"q3"</span>, <span class="st">"q4"</span>]], yob_dummies], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-730"><a href="#cb14-730" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb14-731"><a href="#cb14-731" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> linearmodels.iv <span class="im">import</span> IV2SLS</span>
+<span id="cb14-732"><a href="#cb14-732" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-733"><a href="#cb14-733" aria-hidden="true" tabindex="-1"></a>qob <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/qob_clean.csv"</span>)</span>
+<span id="cb14-734"><a href="#cb14-734" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-735"><a href="#cb14-735" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Specification 1: Single instrument (Q4 only), no year-of-birth controls ---</span></span>
+<span id="cb14-736"><a href="#cb14-736" aria-hidden="true" tabindex="-1"></a><span class="co"># [s ~ q4] means: schooling (s) is endogenous, instrumented by the Q4 dummy</span></span>
+<span id="cb14-737"><a href="#cb14-737" aria-hidden="true" tabindex="-1"></a>iv_q4_model <span class="op">=</span> IV2SLS.from_formula(<span class="st">"lnw ~ 1 + [s ~ q4]"</span>, data<span class="op">=</span>qob)</span>
+<span id="cb14-738"><a href="#cb14-738" aria-hidden="true" tabindex="-1"></a>iv_q4 <span class="op">=</span> iv_q4_model.fit(cov_type<span class="op">=</span><span class="st">"robust"</span>)</span>
+<span id="cb14-739"><a href="#cb14-739" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-740"><a href="#cb14-740" aria-hidden="true" tabindex="-1"></a><span class="co"># First-stage F-statistic: how strongly does Q4 predict schooling?</span></span>
+<span id="cb14-741"><a href="#cb14-741" aria-hidden="true" tabindex="-1"></a>fs_q4_model <span class="op">=</span> smf.ols(<span class="st">"s ~ q4"</span>, data<span class="op">=</span>qob)</span>
+<span id="cb14-742"><a href="#cb14-742" aria-hidden="true" tabindex="-1"></a>fs_q4 <span class="op">=</span> fs_q4_model.fit()</span>
+<span id="cb14-743"><a href="#cb14-743" aria-hidden="true" tabindex="-1"></a>f_q4 <span class="op">=</span> <span class="bu">float</span>(np.atleast_1d(fs_q4.f_test(<span class="st">"q4 = 0"</span>).fvalue).flat[<span class="dv">0</span>])</span>
+<span id="cb14-744"><a href="#cb14-744" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-745"><a href="#cb14-745" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Specification 2: Three instruments (Q2, Q3, Q4) with year-of-birth controls ---</span></span>
+<span id="cb14-746"><a href="#cb14-746" aria-hidden="true" tabindex="-1"></a><span class="co"># Step A: Create year-of-birth dummy variables (one per birth year, drop first to avoid collinearity)</span></span>
+<span id="cb14-747"><a href="#cb14-747" aria-hidden="true" tabindex="-1"></a>yob_dummies <span class="op">=</span> pd.get_dummies(qob[<span class="st">"yob"</span>].astype(<span class="bu">int</span>), prefix<span class="op">=</span><span class="st">"yob"</span>, drop_first<span class="op">=</span><span class="va">True</span>, dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb14-748"><a href="#cb14-748" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-749"><a href="#cb14-749" aria-hidden="true" tabindex="-1"></a><span class="co"># Step C: Build the formula string for year-of-birth controls</span></span>
-<span id="cb14-750"><a href="#cb14-750" aria-hidden="true" tabindex="-1"></a><span class="co"># This creates "yob_31 + yob_32 + ... + yob_39" to include in the regression</span></span>
-<span id="cb14-751"><a href="#cb14-751" aria-hidden="true" tabindex="-1"></a>yob_str <span class="op">=</span> <span class="st">" + "</span>.join(yob_dummies.columns)</span>
-<span id="cb14-752"><a href="#cb14-752" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-753"><a href="#cb14-753" aria-hidden="true" tabindex="-1"></a><span class="co"># Step D: Run 2SLS with all three quarter dummies as instruments</span></span>
-<span id="cb14-754"><a href="#cb14-754" aria-hidden="true" tabindex="-1"></a><span class="co"># [s ~ q2 + q3 + q4] means: s is endogenous, instrumented by Q2, Q3, and Q4</span></span>
-<span id="cb14-755"><a href="#cb14-755" aria-hidden="true" tabindex="-1"></a>iv_multi_model <span class="op">=</span> IV2SLS.from_formula(</span>
-<span id="cb14-756"><a href="#cb14-756" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"lnw ~ 1 + </span><span class="sc">{</span>yob_str<span class="sc">}</span><span class="ss"> + [s ~ q2 + q3 + q4]"</span>, data<span class="op">=</span>iv_data</span>
-<span id="cb14-757"><a href="#cb14-757" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-758"><a href="#cb14-758" aria-hidden="true" tabindex="-1"></a>iv_multi <span class="op">=</span> iv_multi_model.fit(cov_type<span class="op">=</span><span class="st">"robust"</span>)</span>
-<span id="cb14-759"><a href="#cb14-759" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-760"><a href="#cb14-760" aria-hidden="true" tabindex="-1"></a><span class="co"># Step E: First-stage F-statistic for the joint significance of all three instruments</span></span>
-<span id="cb14-761"><a href="#cb14-761" aria-hidden="true" tabindex="-1"></a>fs_multi_model <span class="op">=</span> smf.ols(<span class="ss">f"s ~ q2 + q3 + q4 + </span><span class="sc">{</span>yob_str<span class="sc">}</span><span class="ss">"</span>, data<span class="op">=</span>iv_data)</span>
-<span id="cb14-762"><a href="#cb14-762" aria-hidden="true" tabindex="-1"></a>fs_multi <span class="op">=</span> fs_multi_model.fit()</span>
-<span id="cb14-763"><a href="#cb14-763" aria-hidden="true" tabindex="-1"></a>f_multi <span class="op">=</span> <span class="bu">float</span>(np.atleast_1d(fs_multi.f_test(<span class="st">"q2 = 0, q3 = 0, q4 = 0"</span>).fvalue).flat[<span class="dv">0</span>])</span>
-<span id="cb14-764"><a href="#cb14-764" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-765"><a href="#cb14-765" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb14-766"><a href="#cb14-766" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Specification"</span>: [<span class="st">"IV (Q4 only, no controls)"</span>, <span class="st">"IV (Q2+Q3+Q4, with YOB FE)"</span>],</span>
-<span id="cb14-767"><a href="#cb14-767" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Return to schooling"</span>: [<span class="bu">round</span>(iv_q4.params[<span class="st">"s"</span>], <span class="dv">4</span>), <span class="bu">round</span>(iv_multi.params[<span class="st">"s"</span>], <span class="dv">4</span>)],</span>
-<span id="cb14-768"><a href="#cb14-768" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SE"</span>: [<span class="bu">round</span>(iv_q4.std_errors[<span class="st">"s"</span>], <span class="dv">4</span>), <span class="bu">round</span>(iv_multi.std_errors[<span class="st">"s"</span>], <span class="dv">4</span>)],</span>
-<span id="cb14-769"><a href="#cb14-769" aria-hidden="true" tabindex="-1"></a>    <span class="st">"First-stage F"</span>: [<span class="bu">round</span>(f_q4, <span class="dv">1</span>), <span class="bu">round</span>(f_multi, <span class="dv">1</span>)],</span>
-<span id="cb14-770"><a href="#cb14-770" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb14-771"><a href="#cb14-771" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-772"><a href="#cb14-772" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-773"><a href="#cb14-773" aria-hidden="true" tabindex="-1"></a>Using all three quarter dummies as instruments (with year-of-birth controls) slightly increases the IV estimate and improves precision (smaller SE). The first-stage F-statistic remains well above 10 in both cases, indicating strong instruments. Multiple instruments extract more variation from the data, leading to a more precise estimate at the cost of stronger assumptions (all three quarters must satisfy the exclusion restriction).</span>
-<span id="cb14-774"><a href="#cb14-774" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-775"><a href="#cb14-775" aria-hidden="true" tabindex="-1"></a>**Q5.** The sheepskin RD does NOT prove education doesn't matter. It proves that the *diploma itself* (the credential) has little independent value for students at the margin of passing. The large education premium observed in wage data must therefore come from actual *learning and skill development* (human capital), not from the signaling value of having a diploma. The RD only tells us about one mechanism (credential vs. learning) at one specific margin (barely passing vs. barely failing a last-chance exam). Education clearly raises earnings --- the question is whether it's the diploma or the skills that matter.</span>
-<span id="cb14-776"><a href="#cb14-776" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-777"><a href="#cb14-777" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
-<span id="cb14-778"><a href="#cb14-778" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-781"><a href="#cb14-781" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb14-782"><a href="#cb14-782" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-race</span></span>
-<span id="cb14-783"><a href="#cb14-783" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Returns to schooling by race (OLS, twins data)"</span></span>
-<span id="cb14-784"><a href="#cb14-784" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-785"><a href="#cb14-785" aria-hidden="true" tabindex="-1"></a>twins <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/twins_clean.csv"</span>)</span>
-<span id="cb14-786"><a href="#cb14-786" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-787"><a href="#cb14-787" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare OLS returns to schooling for white vs. non-white twins</span></span>
-<span id="cb14-788"><a href="#cb14-788" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb14-789"><a href="#cb14-789" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> race, label <span class="kw">in</span> [(<span class="dv">1</span>, <span class="st">"White"</span>), (<span class="dv">0</span>, <span class="st">"Non-white"</span>)]:</span>
-<span id="cb14-790"><a href="#cb14-790" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> twins[twins[<span class="st">"white"</span>] <span class="op">==</span> race]</span>
-<span id="cb14-791"><a href="#cb14-791" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(subset) <span class="op">&gt;</span> <span class="dv">10</span>:</span>
-<span id="cb14-792"><a href="#cb14-792" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> smf.ols(<span class="st">"lwage ~ educ + age + age2 + female"</span>, data<span class="op">=</span>subset)</span>
-<span id="cb14-793"><a href="#cb14-793" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb14-794"><a href="#cb14-794" aria-hidden="true" tabindex="-1"></a>        rows.append({</span>
-<span id="cb14-795"><a href="#cb14-795" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Group"</span>: label,</span>
-<span id="cb14-796"><a href="#cb14-796" aria-hidden="true" tabindex="-1"></a>            <span class="st">"OLS return"</span>: <span class="bu">round</span>(r.params[<span class="st">"educ"</span>], <span class="dv">4</span>),</span>
-<span id="cb14-797"><a href="#cb14-797" aria-hidden="true" tabindex="-1"></a>            <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"educ"</span>], <span class="dv">4</span>),</span>
-<span id="cb14-798"><a href="#cb14-798" aria-hidden="true" tabindex="-1"></a>            <span class="st">"N"</span>: <span class="bu">int</span>(r.nobs),</span>
-<span id="cb14-799"><a href="#cb14-799" aria-hidden="true" tabindex="-1"></a>        })</span>
-<span id="cb14-800"><a href="#cb14-800" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-801"><a href="#cb14-801" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
-<span id="cb14-802"><a href="#cb14-802" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-749"><a href="#cb14-749" aria-hidden="true" tabindex="-1"></a><span class="co"># Step B: Combine the key variables with the year-of-birth dummies into one DataFrame</span></span>
+<span id="cb14-750"><a href="#cb14-750" aria-hidden="true" tabindex="-1"></a>iv_data <span class="op">=</span> pd.concat([qob[[<span class="st">"lnw"</span>, <span class="st">"s"</span>, <span class="st">"q2"</span>, <span class="st">"q3"</span>, <span class="st">"q4"</span>]], yob_dummies], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-751"><a href="#cb14-751" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-752"><a href="#cb14-752" aria-hidden="true" tabindex="-1"></a><span class="co"># Step C: Build the formula string for year-of-birth controls</span></span>
+<span id="cb14-753"><a href="#cb14-753" aria-hidden="true" tabindex="-1"></a><span class="co"># This creates "yob_31 + yob_32 + ... + yob_39" to include in the regression</span></span>
+<span id="cb14-754"><a href="#cb14-754" aria-hidden="true" tabindex="-1"></a>yob_str <span class="op">=</span> <span class="st">" + "</span>.join(yob_dummies.columns)</span>
+<span id="cb14-755"><a href="#cb14-755" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-756"><a href="#cb14-756" aria-hidden="true" tabindex="-1"></a><span class="co"># Step D: Run 2SLS with all three quarter dummies as instruments</span></span>
+<span id="cb14-757"><a href="#cb14-757" aria-hidden="true" tabindex="-1"></a><span class="co"># [s ~ q2 + q3 + q4] means: s is endogenous, instrumented by Q2, Q3, and Q4</span></span>
+<span id="cb14-758"><a href="#cb14-758" aria-hidden="true" tabindex="-1"></a>iv_multi_model <span class="op">=</span> IV2SLS.from_formula(</span>
+<span id="cb14-759"><a href="#cb14-759" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"lnw ~ 1 + </span><span class="sc">{</span>yob_str<span class="sc">}</span><span class="ss"> + [s ~ q2 + q3 + q4]"</span>, data<span class="op">=</span>iv_data</span>
+<span id="cb14-760"><a href="#cb14-760" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-761"><a href="#cb14-761" aria-hidden="true" tabindex="-1"></a>iv_multi <span class="op">=</span> iv_multi_model.fit(cov_type<span class="op">=</span><span class="st">"robust"</span>)</span>
+<span id="cb14-762"><a href="#cb14-762" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-763"><a href="#cb14-763" aria-hidden="true" tabindex="-1"></a><span class="co"># Step E: First-stage F-statistic for the joint significance of all three instruments</span></span>
+<span id="cb14-764"><a href="#cb14-764" aria-hidden="true" tabindex="-1"></a>fs_multi_model <span class="op">=</span> smf.ols(<span class="ss">f"s ~ q2 + q3 + q4 + </span><span class="sc">{</span>yob_str<span class="sc">}</span><span class="ss">"</span>, data<span class="op">=</span>iv_data)</span>
+<span id="cb14-765"><a href="#cb14-765" aria-hidden="true" tabindex="-1"></a>fs_multi <span class="op">=</span> fs_multi_model.fit()</span>
+<span id="cb14-766"><a href="#cb14-766" aria-hidden="true" tabindex="-1"></a>f_multi <span class="op">=</span> <span class="bu">float</span>(np.atleast_1d(fs_multi.f_test(<span class="st">"q2 = 0, q3 = 0, q4 = 0"</span>).fvalue).flat[<span class="dv">0</span>])</span>
+<span id="cb14-767"><a href="#cb14-767" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-768"><a href="#cb14-768" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb14-769"><a href="#cb14-769" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Specification"</span>: [<span class="st">"IV (Q4 only, no controls)"</span>, <span class="st">"IV (Q2+Q3+Q4, with YOB FE)"</span>],</span>
+<span id="cb14-770"><a href="#cb14-770" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Return to schooling"</span>: [<span class="bu">round</span>(iv_q4.params[<span class="st">"s"</span>], <span class="dv">4</span>), <span class="bu">round</span>(iv_multi.params[<span class="st">"s"</span>], <span class="dv">4</span>)],</span>
+<span id="cb14-771"><a href="#cb14-771" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SE"</span>: [<span class="bu">round</span>(iv_q4.std_errors[<span class="st">"s"</span>], <span class="dv">4</span>), <span class="bu">round</span>(iv_multi.std_errors[<span class="st">"s"</span>], <span class="dv">4</span>)],</span>
+<span id="cb14-772"><a href="#cb14-772" aria-hidden="true" tabindex="-1"></a>    <span class="st">"First-stage F"</span>: [<span class="bu">round</span>(f_q4, <span class="dv">1</span>), <span class="bu">round</span>(f_multi, <span class="dv">1</span>)],</span>
+<span id="cb14-773"><a href="#cb14-773" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb14-774"><a href="#cb14-774" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-775"><a href="#cb14-775" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-776"><a href="#cb14-776" aria-hidden="true" tabindex="-1"></a>Using all three quarter dummies as instruments (with year-of-birth controls) slightly increases the IV estimate and improves precision (smaller SE). The first-stage F-statistic remains well above 10 in both cases, indicating strong instruments. Multiple instruments extract more variation from the data, leading to a more precise estimate at the cost of stronger assumptions (all three quarters must satisfy the exclusion restriction).</span>
+<span id="cb14-777"><a href="#cb14-777" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-778"><a href="#cb14-778" aria-hidden="true" tabindex="-1"></a>**Q5.** The sheepskin RD does NOT prove education doesn't matter. It proves that the *diploma itself* (the credential) has little independent value for students at the margin of passing. The large education premium observed in wage data must therefore come from actual *learning and skill development* (human capital), not from the signaling value of having a diploma. The RD only tells us about one mechanism (credential vs. learning) at one specific margin (barely passing vs. barely failing a last-chance exam). Education clearly raises earnings --- the question is whether it's the diploma or the skills that matter.</span>
+<span id="cb14-779"><a href="#cb14-779" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-780"><a href="#cb14-780" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
+<span id="cb14-781"><a href="#cb14-781" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-784"><a href="#cb14-784" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb14-785"><a href="#cb14-785" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-race</span></span>
+<span id="cb14-786"><a href="#cb14-786" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Returns to schooling by race (OLS, twins data)"</span></span>
+<span id="cb14-787"><a href="#cb14-787" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-788"><a href="#cb14-788" aria-hidden="true" tabindex="-1"></a>twins <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/twins_clean.csv"</span>)</span>
+<span id="cb14-789"><a href="#cb14-789" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-790"><a href="#cb14-790" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare OLS returns to schooling for white vs. non-white twins</span></span>
+<span id="cb14-791"><a href="#cb14-791" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb14-792"><a href="#cb14-792" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> race, label <span class="kw">in</span> [(<span class="dv">1</span>, <span class="st">"White"</span>), (<span class="dv">0</span>, <span class="st">"Non-white"</span>)]:</span>
+<span id="cb14-793"><a href="#cb14-793" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> twins[twins[<span class="st">"white"</span>] <span class="op">==</span> race]</span>
+<span id="cb14-794"><a href="#cb14-794" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(subset) <span class="op">&gt;</span> <span class="dv">10</span>:</span>
+<span id="cb14-795"><a href="#cb14-795" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> smf.ols(<span class="st">"lwage ~ educ + age + age2 + female"</span>, data<span class="op">=</span>subset)</span>
+<span id="cb14-796"><a href="#cb14-796" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> model.fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb14-797"><a href="#cb14-797" aria-hidden="true" tabindex="-1"></a>        rows.append({</span>
+<span id="cb14-798"><a href="#cb14-798" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Group"</span>: label,</span>
+<span id="cb14-799"><a href="#cb14-799" aria-hidden="true" tabindex="-1"></a>            <span class="st">"OLS return"</span>: <span class="bu">round</span>(r.params[<span class="st">"educ"</span>], <span class="dv">4</span>),</span>
+<span id="cb14-800"><a href="#cb14-800" aria-hidden="true" tabindex="-1"></a>            <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"educ"</span>], <span class="dv">4</span>),</span>
+<span id="cb14-801"><a href="#cb14-801" aria-hidden="true" tabindex="-1"></a>            <span class="st">"N"</span>: <span class="bu">int</span>(r.nobs),</span>
+<span id="cb14-802"><a href="#cb14-802" aria-hidden="true" tabindex="-1"></a>        })</span>
 <span id="cb14-803"><a href="#cb14-803" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-804"><a href="#cb14-804" aria-hidden="true" tabindex="-1"></a>The returns may differ by race due to labor market discrimination, different school quality, or different occupational distributions. The non-white subsample is likely small, making the estimate imprecise. Comparing subgroup estimates helps assess whether the overall return masks heterogeneity.</span>
+<span id="cb14-804"><a href="#cb14-804" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
+<span id="cb14-805"><a href="#cb14-805" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-806"><a href="#cb14-806" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-807"><a href="#cb14-807" aria-hidden="true" tabindex="-1"></a>The returns may differ by race due to labor market discrimination, different school quality, or different occupational distributions. The non-white subsample is likely small, making the estimate imprecise. Comparing subgroup estimates helps assess whether the overall return masks heterogeneity.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
