@@ -338,6 +338,8 @@ Campbell went on to pioneer quasi-experimental methods more broadly, co-authorin
 
 ## Key Takeaways
 
+The following concept map shows how the key ideas in this chapter connect --- from cutoff rules that create natural experiments, through the RD method of comparing observations just above and below the threshold, to robustness checks, placebo tests, and the fuzzy RD extension.
+
 ```{mermaid}
 %%| label: fig-concept-map
 %%| fig-cap: "How the key concepts of Chapter 4 connect"
@@ -358,10 +360,12 @@ graph TD
     RD --> FUZZY
 
     style Q fill:#3498db,color:#fff
+    style RV fill:#2c3e50,color:#fff
     style RD fill:#8e44ad,color:#fff
     style SPEC fill:#e67e22,color:#fff
     style PLAC fill:#2d8659,color:#fff
     style LOCAL fill:#2c3e50,color:#fff
+    style FUZZY fill:#e67e22,color:#fff
     linkStyle default stroke:#fff,stroke-width:2px
 ```
 

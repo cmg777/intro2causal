@@ -500,6 +500,8 @@ No single method is perfect. The power of this chapter lies in seeing how **mult
 
 ## Key Takeaways
 
+The following concept map shows how the key ideas in this chapter connect --- from the central question of whether education causes higher earnings, through the three estimation strategies (twins, IV, and RD), to a synthesis of results converging on a 7--10% return.
+
 ```{mermaid}
 %%| label: fig-concept-map
 %%| fig-cap: "How the key concepts of Chapter 6 connect"
@@ -526,6 +528,7 @@ graph TD
     style Q fill:#2c3e50,color:#fff
     style AB fill:#c0392b,color:#fff
     style TW fill:#8e44ad,color:#fff
+    style ME fill:#e67e22,color:#fff
     style IV fill:#3498db,color:#fff
     style RD fill:#e67e22,color:#fff
     style SYN fill:#2d8659,color:#fff

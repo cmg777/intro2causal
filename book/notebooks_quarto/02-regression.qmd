@@ -380,6 +380,8 @@ Both Galton and Yule worked in an era before causal inference was formalized. Th
 
 ## Key Takeaways
 
+The following concept map traces the logic of this chapter --- from the initial causal question, through regression as the primary tool, to the key concepts of omitted variable bias, sensitivity analysis, and the danger of bad controls.
+
 ```{mermaid}
 %%| label: fig-concept-map
 %%| fig-cap: "How the key concepts of Chapter 2 connect"
@@ -403,6 +405,8 @@ graph TD
 
     style Q fill:#2c3e50,color:#fff
     style REG fill:#8e44ad,color:#fff
+    style SHORT fill:#3498db,color:#fff
+    style LONG fill:#3498db,color:#fff
     style OVB fill:#e67e22,color:#fff
     style SENS fill:#2d8659,color:#fff
     style BC fill:#c0392b,color:#fff

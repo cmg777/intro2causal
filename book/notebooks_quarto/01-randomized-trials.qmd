@@ -217,6 +217,8 @@ graph LR
 
 **Selection bias** is the difference in health that would exist *even without insurance* --- it reflects the fact that healthier, wealthier, more educated people are more likely to be insured. The NHIS data above showed exactly this pattern.
 
+We can visualize this problem as a causal diagram. Confounders like education, income, and employment create a "backdoor path" between insurance status and health outcomes. Because these factors influence *both* who gets insured *and* how healthy they are, the naive comparison captures their influence along with any true causal effect of insurance.
+
 ```{mermaid}
 %%| label: fig-dag-bias
 %%| fig-cap: "Why the naive comparison fails. Confounders create a 'back-door path' that makes it impossible to isolate the causal effect."
@@ -271,10 +273,13 @@ graph TD
     OT --> D["Difference in Means<br/>= Causal Effect (κ)"]
     OC --> D
 
+    style P fill:#3498db,color:#fff
     style R fill:#8e44ad,color:#fff
     style T fill:#2d8659,color:#fff
     style C fill:#c0392b,color:#fff
-    style D fill:#2c3e50,color:#fff
+    style OT fill:#2c3e50,color:#fff
+    style OC fill:#2c3e50,color:#fff
+    style D fill:#2d8659,color:#fff
     linkStyle default stroke:#fff,stroke-width:2px
 ```
 
@@ -656,6 +661,8 @@ Always consider both the **size** of a coefficient and its **statistical precisi
 
 
 ## Key Takeaways
+
+The following concept map shows how the key ideas in this chapter connect --- from the initial causal question, through the problem of selection bias, to the solution of random assignment and the evidence from two landmark experiments.
 
 ```{mermaid}
 %%| label: fig-concept-map

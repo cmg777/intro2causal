@@ -396,6 +396,8 @@ Wright's innovation lay dormant for decades before being rediscovered. His son *
 
 ## Key Takeaways
 
+The following concept map shows how the key ideas in this chapter connect --- from the problem of non-compliance, through the IV framework of first stage and reduced form, to the LATE estimand and its practical implementation via 2SLS.
+
 ```{mermaid}
 %%| label: fig-concept-map
 %%| fig-cap: "How the key concepts of Chapter 3 connect"
@@ -418,8 +420,11 @@ graph TD
 
     style Q fill:#c0392b,color:#fff
     style Z fill:#8e44ad,color:#fff
+    style FS fill:#3498db,color:#fff
+    style RF fill:#3498db,color:#fff
     style LATE fill:#2d8659,color:#fff
-    style TSLS fill:#3498db,color:#fff
+    style CT fill:#e67e22,color:#fff
+    style TSLS fill:#2c3e50,color:#fff
     linkStyle default stroke:#fff,stroke-width:2px
 ```
 
