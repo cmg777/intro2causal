@@ -1,5 +1,3 @@
-![](images/book1cover.svg){.hidden width=0}
-
 # Preface {.unnumbered}
 
 ![](images/cover.jpg)

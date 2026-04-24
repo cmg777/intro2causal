@@ -11,6 +11,7 @@ book:
   author: "Carlos Mendez"
   date: "2026-04-21"
   date-format: "MMMM D, YYYY [(in progress)]"
+  cover-image: images/cover.jpg
   search: true
   page-navigation: true
   chapters:
