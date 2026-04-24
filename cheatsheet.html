@@ -6,6 +6,12 @@
   <title>Code Cheatsheet - Mastering Causal Metrics</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Highlight.js for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light" disabled>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/stata.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
     body { font-family: 'Inter', sans-serif; }
@@ -85,6 +91,60 @@
 
     /* Chapter sections */
     .chapter-section { scroll-margin-top: 80px; }
+
+    /* Code wrapper with copy button */
+    .code-wrapper {
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 10;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.2); color: var(--text); }
+    .copy-btn.copied { background: rgba(52,211,153,0.2); color: var(--green); border-color: var(--green); }
+    .light .copy-btn { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+    .light .copy-btn:hover { background: rgba(0,0,0,0.1); }
+
+    /* Override highlight.js pre/code to match our design */
+    .code-wrapper pre {
+      margin: 0;
+      border-radius: 0 0 8px 8px;
+      border: 1px solid var(--border);
+      border-top: none;
+    }
+    .code-wrapper pre code.hljs {
+      padding: 1.25rem;
+      padding-top: 2rem;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      border-radius: 0 0 8px 8px;
+    }
+
+    /* Colab tip */
+    .colab-tip {
+      margin-top: 8px;
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .colab-tip a { color: var(--blue); text-decoration: none; font-weight: 500; }
+    .colab-tip a:hover { text-decoration: underline; }
 
     /* Warning banner */
     .warning-banner {
@@ -206,11 +266,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">1</td><td class="py-2 px-3 font-semibold text-blue">RCT</td><td class="py-2 px-3">1</td><td class="py-2 px-3 text-muted">Random assignment</td><td class="py-2 px-3 text-muted">ATE</td></tr>
-            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">2</td><td class="py-2 px-3 font-semibold text-purple">Regression</td><td class="py-2 px-3">2</td><td class="py-2 px-3 text-muted">All confounders observed</td><td class="py-2 px-3 text-muted">Conditional avg</td></tr>
-            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">3</td><td class="py-2 px-3 font-semibold text-green">IV / 2SLS</td><td class="py-2 px-3">3</td><td class="py-2 px-3 text-muted">Valid instrument</td><td class="py-2 px-3 text-muted">LATE (compliers)</td></tr>
-            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">4</td><td class="py-2 px-3 font-semibold text-orange">RD</td><td class="py-2 px-3">4</td><td class="py-2 px-3 text-muted">No manipulation of running var</td><td class="py-2 px-3 text-muted">Local effect at cutoff</td></tr>
-            <tr><td class="py-2 px-3 text-muted">5</td><td class="py-2 px-3 font-semibold" style="color: var(--red);">DD</td><td class="py-2 px-3">5</td><td class="py-2 px-3 text-muted">Parallel trends</td><td class="py-2 px-3 text-muted">ATT</td></tr>
+            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">1</td><td class="py-2 px-3"><span class="font-semibold text-blue">RCT</span><br><span class="text-xs text-muted">Random assignment breaks the link between treatment and confounders. A simple comparison of means is causal.</span></td><td class="py-2 px-3">1</td><td class="py-2 px-3 text-muted">Random assignment</td><td class="py-2 px-3 text-muted">ATE</td></tr>
+            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">2</td><td class="py-2 px-3"><span class="font-semibold text-purple">Regression</span><br><span class="text-xs text-muted">Controls for observable differences, but any unobserved confounder biases the estimate. Useful as a baseline, never as the final word.</span></td><td class="py-2 px-3">2</td><td class="py-2 px-3 text-muted">All confounders observed</td><td class="py-2 px-3 text-muted">Conditional avg</td></tr>
+            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">3</td><td class="py-2 px-3"><span class="font-semibold text-green">IV / 2SLS</span><br><span class="text-xs text-muted">Uses an external source of exogenous variation (instrument) that shifts treatment but is unrelated to the outcome. Recovers the effect for compliers.</span></td><td class="py-2 px-3">3</td><td class="py-2 px-3 text-muted">Valid instrument</td><td class="py-2 px-3 text-muted">LATE (compliers)</td></tr>
+            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">4</td><td class="py-2 px-3"><span class="font-semibold text-orange">RD</span><br><span class="text-xs text-muted">Compares observations just above vs. just below a cutoff. Gives a credible causal estimate at the cutoff, but may not generalize far from the threshold.</span></td><td class="py-2 px-3">4</td><td class="py-2 px-3 text-muted">No manipulation of running var</td><td class="py-2 px-3 text-muted">Local effect at cutoff</td></tr>
+            <tr><td class="py-2 px-3 text-muted">5</td><td class="py-2 px-3"><span class="font-semibold" style="color: var(--red);">DD</span><br><span class="text-xs text-muted">Compares changes over time between treated and control groups. Identifies the causal effect if both groups would have followed the same trend absent treatment.</span></td><td class="py-2 px-3">5</td><td class="py-2 px-3 text-muted">Parallel trends</td><td class="py-2 px-3 text-muted">ATT</td></tr>
           </tbody>
         </table>
       </div>
@@ -709,32 +769,109 @@ ivregress 2sls lnwkwage i.sob i.yob i.year (indeduc = cl7 cl8 cl9) [aw=weight], 
     const saved = localStorage.getItem('theme');
     if (saved === 'light') body.classList.add('light');
 
+    function syncHljsTheme() {
+      var isLight = body.classList.contains('light');
+      document.getElementById('hljs-dark').disabled = isLight;
+      document.getElementById('hljs-light').disabled = !isLight;
+    }
+
     function toggleTheme() {
       body.classList.toggle('light');
       localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
       document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
+      syncHljsTheme();
     }
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-    const mt = document.getElementById('theme-toggle-mobile');
+    var mt = document.getElementById('theme-toggle-mobile');
     if (mt) mt.addEventListener('click', toggleTheme);
     document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
+    syncHljsTheme();
+
     document.getElementById('mobile-menu-btn').addEventListener('click', function() {
       document.getElementById('mobile-menu').classList.toggle('hidden');
     });
 
     // Language tab switching
     function showLang(section, lang) {
-      var py = document.getElementById(section + '-python');
-      var st = document.getElementById(section + '-stata');
-      var tabs = py.parentElement.querySelectorAll('.lang-tab');
+      var pyW = document.getElementById(section + '-python-wrapper');
+      var stW = document.getElementById(section + '-stata-wrapper');
+      var tabs = pyW.parentElement.querySelectorAll('.lang-tab');
       if (lang === 'python') {
-        py.style.display = 'block'; st.style.display = 'none';
+        pyW.style.display = 'block'; stW.style.display = 'none';
         tabs[0].classList.add('active'); tabs[1].classList.remove('active');
       } else {
-        py.style.display = 'none'; st.style.display = 'block';
+        pyW.style.display = 'none'; stW.style.display = 'block';
         tabs[1].classList.add('active'); tabs[0].classList.remove('active');
       }
     }
+
+    // Copy to clipboard
+    function copyCode(btn) {
+      var wrapper = btn.closest('.code-wrapper');
+      var code = wrapper.querySelector('code');
+      navigator.clipboard.writeText(code.textContent).then(function() {
+        btn.innerHTML = '&#10003; Copied';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.innerHTML = '&#128203; Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // Enhance all code blocks on load
+    document.addEventListener('DOMContentLoaded', function() {
+      var blocks = document.querySelectorAll('.code-block');
+      blocks.forEach(function(div) {
+        var id = div.id; // e.g. "f5-python" or "ch1-stata"
+        var lang = id.includes('python') ? 'python' : 'stata';
+        var isHidden = div.style.display === 'none';
+        var text = div.textContent;
+
+        // Create wrapper
+        var wrapper = document.createElement('div');
+        wrapper.className = 'code-wrapper';
+        wrapper.id = id + '-wrapper';
+        wrapper.style.borderTopLeftRadius = '0';
+        if (isHidden) wrapper.style.display = 'none';
+
+        // Copy button
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '&#128203; Copy';
+        btn.setAttribute('onclick', 'copyCode(this)');
+        btn.setAttribute('aria-label', 'Copy code');
+
+        // Pre > code
+        var pre = document.createElement('pre');
+        var code = document.createElement('code');
+        code.className = 'language-' + lang;
+        code.textContent = text;
+        pre.appendChild(code);
+
+        wrapper.appendChild(btn);
+        wrapper.appendChild(pre);
+
+        // Replace original div
+        div.parentNode.replaceChild(wrapper, div);
+
+        // Highlight
+        hljs.highlightElement(code);
+      });
+
+      // Add Colab tip after each section's code wrappers
+      var sections = document.querySelectorAll('.chapter-section');
+      sections.forEach(function(section) {
+        var wrappers = section.querySelectorAll('.code-wrapper');
+        if (wrappers.length === 0) return;
+        var lastWrapper = wrappers[wrappers.length - 1];
+
+        var tip = document.createElement('div');
+        tip.className = 'colab-tip';
+        tip.innerHTML = '&#128161; Copy the Python code and paste it into a <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank">Google Colab Scratchpad</a> to run it instantly &mdash; no setup needed.';
+        lastWrapper.parentNode.insertBefore(tip, lastWrapper.nextSibling);
+      });
+    });
   </script>
 </body>
 </html>
