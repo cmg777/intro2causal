@@ -564,15 +564,21 @@ print(f"5. Wald-DiD:    {wald_did:.4f}")</div>
 * Question: Does education cause higher earnings?
 * Equation: ln(W) = a + rho*S + e  (First Stage: S = g0 + g1*Z + u)
 * Logic:    Z (scholarship offer) is randomly assigned. We use it to
-*           isolate exogenous variation in S (actual schooling).
+* isolate exogenous variation in S (actual schooling).
 * Estimate: Wald ratio = (Reduced Form effect on W) / (First Stage effect on S)
 * Bias:     None, assuming the offer only affects earnings through schooling
 * -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_rct.csv", clear
-reg earnings scholarship, robust
+
+* Manual Wald calculation for pedagogical clarity
+quietly reg earnings scholarship, robust
 scalar rf = _b[scholarship]
-reg schooling scholarship, robust
-display "1. RCT (Wald): " round(rf / _b[scholarship], 0.0001)
+quietly reg schooling scholarship, robust
+scalar fs = _b[scholarship]
+display "1. RCT (Wald): " round(rf / fs, 0.0001)
+
+* Note: In practice, we estimate this directly via 2SLS to get correct standard errors:
+* ivregress 2sls earnings (schooling = scholarship), robust
 
 * =================================================================
 * METHOD 2: REGRESSION (OLS)
@@ -582,9 +588,10 @@ display "1. RCT (Wald): " round(rf / _b[scholarship], 0.0001)
 * Logic:    Control for observables, hoping all confounders are captured.
 * Estimate: Conditional average association (not necessarily causal).
 * Bias:     Omitted Variable Bias (e.g., Ability Bias - upward). Smarter
-*           individuals may get more schooling AND earn more regardless.
+* individuals may get more schooling AND earn more regardless.
 * -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+
 reg lnw s, robust
 
 * =================================================================
@@ -594,7 +601,7 @@ reg lnw s, robust
 * Equation: Wald = Cov(Y, Z) / Cov(D, Z)
 * Logic:    Quarter of birth (Z) shifts schooling laws but is unrelated to ability.
 * Estimate: LATE -- Local Average Treatment Effect for "compliers"
-*           (students kept in school solely due to compulsory schooling laws).
+* (students kept in school solely due to compulsory schooling laws).
 * Bias:     None, provided Z is relevant and the exclusion restriction holds.
 * -----------------------------------------------------------------
 ivregress 2sls lnw (s = q4), robust
@@ -607,12 +614,16 @@ ivregress 2sls lnw (s = q4), robust
 * Logic:    Compare students just above vs. just below the passing cutoff.
 * Estimate: LATE at the cutoff (the "sheepskin" or credential effect).
 * Bias:     None, assuming continuity of potential outcomes at the cutoff
-*           (students cannot precisely manipulate their scores).
+* (students cannot precisely manipulate their scores).
 * -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/sheepskin_clean.csv", clear
-* Use robust local linear regression with bandwidth +/- 30 and varying slopes
-reg avgearnings c.pass_exam##c.minscore ///
-  if abs(minscore) <= 30 [aw = person_years], robust
+
+* Interact treatment with the running variable to allow different slopes
+gen pass_X_score = pass_exam * minscore
+
+* Local linear regression using a rectangular kernel (bandwidth of +/- 30)
+reg avgearnings pass_exam minscore pass_X_score ///
+    if abs(minscore) &lt;= 30 [aw = person_years], robust
 
 * =================================================================
 * METHOD 5: DIFFERENCES-IN-DIFFERENCES (WALD-DiD)
@@ -620,22 +631,23 @@ reg avgearnings c.pass_exam##c.minscore ///
 * Question: Do compulsory schooling reforms (T) raise causal earnings?
 * Equation: Wald-DiD = DiD_Earnings / DiD_Schooling
 * Logic:    Compare changes over time in reform vs. non-reform states, using
-*           the reform as an instrument for actual years of schooling.
+* the reform as an instrument for actual years of schooling.
 * Estimate: LATE of schooling on earnings driven by the policy change.
 * Bias:     Biased if parallel trends assumption fails (states would have
-*           had different trajectories absent the reform).
+* had different trajectories absent the reform).
 * -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_did.csv", clear
+
 gen treat_post = treated * post
 
 * First stage: Effect of policy on schooling
-reg avg_schooling treat_post i.state i.year, cluster(state)
+quietly reg avg_schooling treat_post i.state i.year, cluster(state)
 scalar dd_fs = _b[treat_post]
 
 * Reduced form: Effect of policy on earnings
-reg avg_earnings treat_post i.state i.year, cluster(state)
+quietly reg avg_earnings treat_post i.state i.year, cluster(state)
 
-display "5. Wald-DiD: " round(_b[treat_post] / dd_fs, 0.0001)</div>
+display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)</div>
     </div>
   </section>
 
