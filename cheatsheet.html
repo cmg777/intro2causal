@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Cheatsheet - Mastering Causal Metrics</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    :root {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --blue: #38bdf8;
+      --purple: #a78bfa;
+      --green: #34d399;
+      --orange: #f97316;
+      --red: #f87171;
+      --border: rgba(255,255,255,0.1);
+    }
+    .light {
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --blue: #2563eb;
+      --purple: #7c3aed;
+      --green: #059669;
+      --orange: #ea580c;
+      --red: #dc2626;
+      --border: #e2e8f0;
+    }
+    body { background-color: var(--bg); color: var(--text); transition: background-color 0.3s, color 0.3s; }
+    .card { background-color: var(--bg-card); border: 1px solid var(--border); transition: background-color 0.3s, border-color 0.3s; }
+    .text-blue { color: var(--blue); }
+    .text-purple { color: var(--purple); }
+    .text-green { color: var(--green); }
+    .text-orange { color: var(--orange); }
+    .text-muted { color: var(--text-muted); }
+    .nav-link { color: var(--text-muted); transition: color 0.2s; }
+    .nav-link:hover { color: var(--blue); }
+
+    /* Code blocks */
+    .code-block {
+      background-color: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: #c9d1d9;
+      white-space: pre;
+    }
+    .light .code-block {
+      background-color: #f6f8fa;
+      color: #24292f;
+    }
+
+    /* Language tabs */
+    .lang-tabs { display: flex; gap: 0; margin-bottom: 0; }
+    .lang-tab {
+      padding: 0.5rem 1.25rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .lang-tab.active {
+      background: #0d1117;
+      color: var(--blue);
+      border-color: var(--border);
+    }
+    .light .lang-tab.active { background: #f6f8fa; }
+    .lang-tab:not(.active):hover { color: var(--text); }
+
+    /* Chapter sections */
+    .chapter-section { scroll-margin-top: 80px; }
+
+    /* Warning banner */
+    .warning-banner {
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .light .warning-banner {
+      background: rgba(220, 38, 38, 0.05);
+      border-color: rgba(220, 38, 38, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(15,23,42,0.85);">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="text-lg font-bold" style="color: var(--blue);">Mastering Causal Metrics</a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="book/_book/index.html" class="nav-link text-sm">Book</a>
+        <a href="tutors.html" class="nav-link text-sm">AI Tutors</a>
+        <a href="cheatsheet.html" class="nav-link text-sm font-semibold" style="color: var(--blue);">Code Cheatsheet</a>
+        <a href="https://github.com/cmg777/intro2causal" target="_blank" class="nav-link text-sm">GitHub</a>
+        <button id="theme-toggle" class="nav-link text-sm cursor-pointer" aria-label="Toggle theme">
+          <span id="theme-icon">&#9790;</span>
+        </button>
+      </div>
+      <button id="mobile-menu-btn" class="md:hidden nav-link text-xl cursor-pointer" aria-label="Menu">&#9776;</button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
+      <a href="index.html" class="block py-2 nav-link text-sm">Home</a>
+      <a href="book/_book/index.html" class="block py-2 nav-link text-sm">Book</a>
+      <a href="tutors.html" class="block py-2 nav-link text-sm">AI Tutors</a>
+      <a href="cheatsheet.html" class="block py-2 nav-link text-sm">Code Cheatsheet</a>
+      <button id="theme-toggle-mobile" class="block py-2 nav-link text-sm cursor-pointer text-left w-full">Toggle Theme</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="pt-32 pb-8 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--green);">Python &amp; Stata</p>
+      <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4">
+        Code <span class="text-green">Cheatsheet</span>
+      </h1>
+      <p class="text-lg max-w-2xl mx-auto mb-6 text-muted">
+        Quick-reference code for every causal inference method in the book. Python and Stata side by side.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center text-sm text-muted">
+        <span>6 chapters</span>
+        <span>&middot;</span>
+        <span>5 methods</span>
+        <span>&middot;</span>
+        <span>Python + Stata</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Warning Banner -->
+  <section class="px-4 pb-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="warning-banner">
+        <h3 class="text-lg font-bold mb-2" style="color: var(--red);">&#9888; Code without understanding is a dangerous shortcut</h3>
+        <p class="text-sm mb-3" style="color: var(--text);">
+          These cheatsheets are a <strong>reference tool</strong>, not a substitute for learning. Every method rests on assumptions that must be justified by the <strong>context</strong> in which the data was collected and the <strong>relationships</strong> that economic theory suggests.
+        </p>
+        <p class="text-sm mb-3" style="color: var(--text);">
+          A valid instrument in one setting may be invalid in another. Parallel trends may hold for one policy comparison but fail for the next. Running code without understanding <em>when</em> and <em>why</em> each method works can produce results that are not just wrong, but dangerously misleading.
+        </p>
+        <p class="text-sm font-semibold" style="color: var(--text);">
+          Before using any of this code, you should:
+        </p>
+        <ul class="text-sm mt-2 space-y-1" style="color: var(--text); list-style: none; padding-left: 0;">
+          <li>&#128214; <strong>Read the book</strong> &mdash; understand the theory and assumptions behind each method</li>
+          <li>&#9997; <strong>Complete the exercises</strong> &mdash; test whether you truly understand the concepts</li>
+          <li>&#129302; <strong>Use the AI tutors</strong> &mdash; deepen your understanding through guided conversation</li>
+          <li>&#127911; <strong>Listen to the podcasts</strong> &mdash; revise key ideas through a different medium</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Table of Contents -->
+  <section class="px-4 pb-12">
+    <div class="max-w-4xl mx-auto">
+      <div class="card rounded-xl p-6">
+        <h3 class="text-lg font-semibold mb-4">Contents</h3>
+        <div class="grid md:grid-cols-2 gap-2 text-sm">
+          <a href="#furious-five" class="text-blue hover:underline">&#9733; The Furious Five &mdash; Overview of All Methods</a>
+          <a href="#ch1" class="text-blue hover:underline">Ch 1. Randomized Trials</a>
+          <a href="#ch2" class="text-blue hover:underline">Ch 2. Regression</a>
+          <a href="#ch3" class="text-blue hover:underline">Ch 3. Instrumental Variables</a>
+          <a href="#ch4" class="text-blue hover:underline">Ch 4. Regression Discontinuity</a>
+          <a href="#ch5" class="text-blue hover:underline">Ch 5. Differences-in-Differences</a>
+          <a href="#ch6" class="text-blue hover:underline">Ch 6. The Wages of Schooling</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- THE FURIOUS FIVE -->
+  <!-- ============================================================ -->
+  <section id="furious-five" class="chapter-section py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold mb-2"><span style="color: var(--purple);">&#9733;</span> The Furious Five: All Methods at a Glance</h2>
+      <p class="text-sm text-muted mb-6">Five methods, one question: <em>Does education cause higher earnings?</em> Chapter 6 applies all five to the same problem &mdash; and they converge on a true return of about 7&ndash;10% per year.</p>
+
+      <div class="overflow-x-auto mb-6">
+        <table class="w-full text-sm" style="border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border);">
+              <th class="text-left py-2 px-3 text-muted">#</th>
+              <th class="text-left py-2 px-3">Method</th>
+              <th class="text-left py-2 px-3">Ch</th>
+              <th class="text-left py-2 px-3">Key Assumption</th>
+              <th class="text-left py-2 px-3">Estimates</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">1</td><td class="py-2 px-3 font-semibold text-blue">RCT</td><td class="py-2 px-3">1</td><td class="py-2 px-3 text-muted">Random assignment</td><td class="py-2 px-3 text-muted">ATE</td></tr>
+            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">2</td><td class="py-2 px-3 font-semibold text-purple">Regression</td><td class="py-2 px-3">2</td><td class="py-2 px-3 text-muted">All confounders observed</td><td class="py-2 px-3 text-muted">Conditional avg</td></tr>
+            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">3</td><td class="py-2 px-3 font-semibold text-green">IV / 2SLS</td><td class="py-2 px-3">3</td><td class="py-2 px-3 text-muted">Valid instrument</td><td class="py-2 px-3 text-muted">LATE (compliers)</td></tr>
+            <tr style="border-bottom: 1px solid var(--border);"><td class="py-2 px-3 text-muted">4</td><td class="py-2 px-3 font-semibold text-orange">RD</td><td class="py-2 px-3">4</td><td class="py-2 px-3 text-muted">No manipulation of running var</td><td class="py-2 px-3 text-muted">Local effect at cutoff</td></tr>
+            <tr><td class="py-2 px-3 text-muted">5</td><td class="py-2 px-3 font-semibold" style="color: var(--red);">DD</td><td class="py-2 px-3">5</td><td class="py-2 px-3 text-muted">Parallel trends</td><td class="py-2 px-3 text-muted">ATT</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Furious Five Code -->
+      <div class="lang-tabs">
+        <button class="lang-tab active" onclick="showLang('f5','python')">Python</button>
+        <button class="lang-tab" onclick="showLang('f5','stata')">Stata</button>
+      </div>
+      <div id="f5-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, numpy as np, statsmodels.formula.api as smf
+from linearmodels.iv import IV2SLS
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- METHOD 1: RCT ---
+rct = pd.read_csv(DATA + "ch6/synthetic_rct.csv")
+means = rct.groupby("scholarship")[["schooling","earnings"]].mean()
+wald_rct = (means.loc[1,"earnings"]-means.loc[0,"earnings"]) / \
+           (means.loc[1,"schooling"]-means.loc[0,"schooling"])
+print(f"1. RCT (Wald):  {wald_rct:.4f}")
+
+# --- METHOD 2: REGRESSION (OLS) ---
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
+print(f"2. OLS:         {ols.params['s']:.4f}")
+
+# --- METHOD 3: IV / 2SLS ---
+iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+print(f"3. IV (QOB):    {iv.params['s']:.4f}")
+
+# --- METHOD 4: RD (sheepskin) ---
+sheep = pd.read_csv(DATA + "ch6/sheepskin_clean.csv")
+left = sheep[sheep["minscore"] < 0]
+rd = smf.wls("avgearnings ~ pass_exam + left_1+left_2+left_3+left_4",
+    data=left[left["minscore"]>=-30],
+    weights=left[left["minscore"]>=-30]["person_years"]).fit()
+print(f"4. RD:          ${rd.params['pass_exam']:.0f} (near zero)")
+
+# --- METHOD 5: DD ---
+did = pd.read_csv(DATA + "ch6/synthetic_did.csv")
+did["treat_post"] = did["treated"] * did["post"]
+dd_s = smf.ols("avg_schooling ~ treat_post+C(state)+C(year)",
+    data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
+dd_e = smf.ols("avg_earnings ~ treat_post+C(state)+C(year)",
+    data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
+print(f"5. DD:          {dd_e.params['treat_post']/dd_s.params['treat_post']:.4f}")</div>
+      <div id="f5-stata" class="code-block" style="display:none; border-top-left-radius:0;">* --- METHOD 1: RCT ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_rct.csv", clear
+reg earnings scholarship, robust
+scalar rf = _b[scholarship]
+reg schooling scholarship, robust
+display "1. RCT (Wald): " round(rf / _b[scholarship], 0.0001)
+
+* --- METHOD 2: REGRESSION (OLS) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+reg lnw s, robust
+
+* --- METHOD 3: IV / 2SLS ---
+ivregress 2sls lnw (s = q4), robust
+
+* --- METHOD 4: RD (sheepskin) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/sheepskin_clean.csv", clear
+reg avgearnings pass_exam left_1 left_2 left_3 left_4 ///
+  if minscore < 0 & minscore >= -30 [aw = person_years]
+
+* --- METHOD 5: DD ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_did.csv", clear
+gen treat_post = treated * post
+reg avg_schooling treat_post i.state i.year, cluster(state)
+scalar dd_fs = _b[treat_post]
+reg avg_earnings treat_post i.state i.year, cluster(state)
+display "5. DD: " round(_b[treat_post] / dd_fs, 0.0001)</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER 1 -->
+  <!-- ============================================================ -->
+  <section id="ch1" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">01</span> Randomized Trials</h2>
+      <p class="text-sm text-muted mb-4">Selection bias, potential outcomes, RAND Health Insurance Experiment</p>
+      <div class="lang-tabs">
+        <button class="lang-tab active" onclick="showLang('ch1','python')">Python</button>
+        <button class="lang-tab" onclick="showLang('ch1','stata')">Stata</button>
+      </div>
+      <div id="ch1-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd
+import statsmodels.formula.api as smf
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Compare health by insurance status (observational) ---
+nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
+print(nhis.groupby("insurance")["health"].mean().round(2))
+result = smf.ols("health ~ insurance", data=nhis).fit(cov_type="HC1")
+print(result.summary().tables[1])
+
+# --- Step 2: Balance check (RAND HIE — did randomization work?) ---
+rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
+d = rand[["age","plan_free","plan_deductible","plan_coinsurance","family_id"]].dropna()
+result = smf.ols("age ~ plan_free+plan_deductible+plan_coinsurance", data=d) \
+    .fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+print(result.summary().tables[1])
+
+# --- Step 3: Causal effect on spending (free insurance → more spending) ---
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
+d = hie[["total_expenses","plan_free","plan_deductible","plan_coinsurance","family_id"]].dropna()
+result = smf.ols("total_expenses ~ plan_free+plan_deductible+plan_coinsurance", data=d) \
+    .fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+print(result.summary().tables[1])
+
+# --- Step 4: Causal effect on health (the RAND paradox: no effect!) ---
+health = pd.read_csv(DATA + "ch1/rand_health_outcomes.csv")
+d = health[["health_index","plan_free","plan_deductible","plan_coinsurance","family_id"]].dropna()
+result = smf.ols("health_index ~ plan_free+plan_deductible+plan_coinsurance", data=d) \
+    .fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+print(result.summary().tables[1])</div>
+      <div id="ch1-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
+set more off
+
+* --- Step 1: Compare health by insurance status ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/nhis_clean.csv", clear
+tabstat health, by(insurance)
+reg health insurance, robust
+
+* --- Step 2: Balance check (RAND HIE) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_balance.csv", clear
+reg age plan_free plan_deductible plan_coinsurance, cluster(family_id)
+
+* --- Step 3: Causal effect on spending ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_utilization.csv", clear
+reg total_expenses plan_free plan_deductible plan_coinsurance, cluster(family_id)
+
+* --- Step 4: Causal effect on health (no effect!) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_health_outcomes.csv", clear
+reg health_index plan_free plan_deductible plan_coinsurance, cluster(family_id)</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER 2 -->
+  <!-- ============================================================ -->
+  <section id="ch2" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">02</span> Regression</h2>
+      <p class="text-sm text-muted mb-4">OLS, omitted variable bias, bad controls</p>
+      <div class="lang-tabs">
+        <button class="lang-tab active" onclick="showLang('ch2','python')">Python</button>
+        <button class="lang-tab" onclick="showLang('ch2','stata')">Stata</button>
+      </div>
+      <div id="ch2-python" class="code-block" style="border-top-left-radius:0;">import numpy as np, pandas as pd, statsmodels.formula.api as smf
+
+# --- Step 1: Simulate data where we KNOW the true causal effect ---
+np.random.seed(42)
+n = 1000
+ability = np.random.normal(50, 10, n)
+prob_private = 1 / (1 + np.exp(-(ability - 50) / 5))
+private = np.random.binomial(1, prob_private)
+true_effect = 5000
+earnings = 30000 + true_effect*private + 800*ability + np.random.normal(0, 5000, n)
+students = pd.DataFrame({"earnings": earnings, "private": private, "ability": ability})
+
+# --- Step 2: Short regression (omitting ability → biased) ---
+short = smf.ols("earnings ~ private", data=students).fit()
+print(f"Short (biased):  ${short.params['private']:,.0f}  (true = $5,000)")
+
+# --- Step 3: Long regression (including ability → unbiased) ---
+long = smf.ols("earnings ~ private + ability", data=students).fit()
+print(f"Long (unbiased): ${long.params['private']:,.0f}")
+
+# --- Step 4: Verify the OVB formula ---
+aux = smf.ols("ability ~ private", data=students).fit()
+pi_1 = aux.params["private"]
+gamma = long.params["ability"]
+ovb = pi_1 * gamma
+print(f"OVB = pi1 x gamma = {pi_1:.2f} x {gamma:.0f} = ${ovb:,.0f}")</div>
+      <div id="ch2-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
+set more off
+set seed 42
+set obs 1000
+
+* --- Step 1: Simulate data ---
+gen ability = rnormal(50, 10)
+gen prob_private = 1 / (1 + exp(-(ability - 50) / 5))
+gen private = rbinomial(1, prob_private)
+gen earnings = 30000 + 5000*private + 800*ability + rnormal(0, 5000)
+
+* --- Step 2: Short regression (biased) ---
+reg earnings private
+
+* --- Step 3: Long regression (unbiased) ---
+reg earnings private ability
+
+* --- Step 4: OVB formula ---
+scalar long_b = _b[private]
+scalar gamma = _b[ability]
+quietly reg earnings private
+scalar ovb_direct = _b[private] - long_b
+quietly reg ability private
+display "OVB = " _b[private] " x " gamma " = " _b[private]*gamma</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER 3 -->
+  <!-- ============================================================ -->
+  <section id="ch3" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">03</span> Instrumental Variables</h2>
+      <p class="text-sm text-muted mb-4">LATE, compliers, Minneapolis Domestic Violence Experiment</p>
+      <div class="lang-tabs">
+        <button class="lang-tab active" onclick="showLang('ch3','python')">Python</button>
+        <button class="lang-tab" onclick="showLang('ch3','stata')">Stata</button>
+      </div>
+      <div id="ch3-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, statsmodels.formula.api as smf
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Load Minneapolis Domestic Violence Experiment ---
+mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
+
+# --- Step 2: Check compliance (assigned vs. delivered) ---
+print(pd.crosstab(mdve["assigned"], mdve["delivered"], margins=True))
+
+# --- Step 3: Create binary treatment variables ---
+mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)   # instrument
+mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)   # treatment
+
+# --- Step 4: First stage ---
+fs = smf.ols("d_coddle ~ z_coddle", data=mdve).fit(cov_type="HC1")
+print(f"First stage: {fs.params['z_coddle']:.3f}")
+
+# --- Step 5: Reduced form (from published data) ---
+reduced_form = 0.211 - 0.097
+print(f"Reduced form: {reduced_form:.3f}")
+
+# --- Step 6: LATE = reduced form / first stage ---
+late = reduced_form / fs.params["z_coddle"]
+print(f"LATE = {reduced_form:.3f} / {fs.params['z_coddle']:.3f} = {late:.3f}")
+print("Coddling increases recidivism by ~15 pp among compliers")</div>
+      <div id="ch3-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
+set more off
+
+* --- Step 1: Load MDVE data ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear
+
+* --- Step 2: Check compliance ---
+tabulate assigned delivered
+
+* --- Step 3: Create binary variables ---
+gen z_coddle = (assigned != "Arrest")
+gen d_coddle = (delivered != "Arrest")
+
+* --- Step 4: First stage ---
+reg d_coddle z_coddle, robust
+scalar first_stage = _b[z_coddle]
+
+* --- Step 5: Reduced form (published data) ---
+scalar reduced_form = 0.211 - 0.097
+
+* --- Step 6: LATE ---
+display "LATE = " reduced_form " / " first_stage " = " reduced_form/first_stage</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER 4 -->
+  <!-- ============================================================ -->
+  <section id="ch4" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">04</span> Regression Discontinuity</h2>
+      <p class="text-sm text-muted mb-4">Sharp RD, bandwidth, minimum legal drinking age and mortality</p>
+      <div class="lang-tabs">
+        <button class="lang-tab active" onclick="showLang('ch4','python')">Python</button>
+        <button class="lang-tab" onclick="showLang('ch4','stata')">Stata</button>
+      </div>
+      <div id="ch4-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, matplotlib.pyplot as plt, statsmodels.formula.api as smf
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Load MLDA mortality data ---
+mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
+
+# --- Step 2: Plot the discontinuity ---
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.scatter(mlda["agecell"], mlda["all"], color="gray", alpha=0.7, s=40)
+ax.axvline(x=21, color="red", linestyle="--", label="MLDA cutoff")
+ax.set_xlabel("Age"); ax.set_ylabel("Deaths per 100,000")
+ax.legend(); plt.show()
+
+# --- Step 3: Sharp RD (linear) ---
+result = smf.ols("all ~ over21 + age", data=mlda).fit(cov_type="HC1")
+print(f"Linear RD jump: {result.params['over21']:.2f} deaths per 100k")
+
+# --- Step 4: Quadratic RD (robustness) ---
+result = smf.ols("all ~ over21+age+age2+over_age+over_age2", data=mlda).fit(cov_type="HC1")
+print(f"Quadratic RD jump: {result.params['over21']:.2f}")
+
+# --- Step 5: Placebo (internal causes should NOT jump) ---
+result = smf.ols("internal ~ over21 + age", data=mlda).fit(cov_type="HC1")
+print(f"Placebo (internal): {result.params['over21']:.2f} (expect ~0)")</div>
+      <div id="ch4-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
+set more off
+
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+* --- Sharp RD (linear) ---
+reg all over21 age, robust
+
+* --- Quadratic RD (robustness) ---
+reg all over21 age age2 over_age over_age2, robust
+
+* --- Placebo (internal causes should NOT jump) ---
+reg internal over21 age, robust</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER 5 -->
+  <!-- ============================================================ -->
+  <section id="ch5" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">05</span> Differences-in-Differences</h2>
+      <p class="text-sm text-muted mb-4">Parallel trends, two-way fixed effects, MLDA panel data</p>
+      <div class="lang-tabs">
+        <button class="lang-tab active" onclick="showLang('ch5','python')">Python</button>
+        <button class="lang-tab" onclick="showLang('ch5','stata')">Stata</button>
+      </div>
+      <div id="ch5-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, statsmodels.formula.api as smf
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Manual DD (Great Depression banking data) ---
+banks = pd.read_csv(DATA + "ch5/banks_clean.csv")
+pre_6  = banks.loc[banks["year"]==1930, "bib6"].values[0]
+post_6 = banks.loc[banks["year"]==1931, "bib6"].values[0]
+pre_8  = banks.loc[banks["year"]==1930, "bib8"].values[0]
+post_8 = banks.loc[banks["year"]==1931, "bib8"].values[0]
+dd = (post_6 - pre_6) - (post_8 - pre_8)
+print(f"Manual DD: {dd} banks saved by Atlanta Fed")
+
+# --- Step 2: Regression DD with fixed effects ---
+deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
+allcause = deaths[deaths["dtype"] == "all"]
+result = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause) \
+    .fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+print(f"DD (all-cause): {result.params['legal']:.2f} (SE: {result.bse['legal']:.2f})")
+
+# --- Step 3: Population-weighted DD ---
+result = smf.wls("mrate ~ legal + C(state) + C(year)", data=allcause,
+    weights=allcause["pop"]).fit(cov_type="cluster",
+    cov_kwds={"groups": allcause["state"]})
+print(f"Weighted DD: {result.params['legal']:.2f}")
+
+# --- Step 4: Placebo (suicide should NOT respond) ---
+suicide = deaths[deaths["dtype"] == "suicide"]
+result = smf.ols("mrate ~ legal + C(state) + C(year)", data=suicide) \
+    .fit(cov_type="cluster", cov_kwds={"groups": suicide["state"]})
+print(f"Placebo (suicide): {result.params['legal']:.2f} (expect ~0)")</div>
+      <div id="ch5-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
+set more off
+
+* --- Step 1: Manual DD (banking data) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/banks_clean.csv", clear
+list
+
+* --- Step 2: Regression DD with fixed effects ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/deaths_clean.csv", clear
+keep if dtype == "all"
+reg mrate legal i.state i.year, cluster(state)
+
+* --- Step 3: Population-weighted DD ---
+reg mrate legal i.state i.year [aw=pop], cluster(state)
+
+* --- Step 4: Placebo (suicide) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/deaths_clean.csv", clear
+keep if dtype == "suicide"
+reg mrate legal i.state i.year, cluster(state)</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- CHAPTER 6 -->
+  <!-- ============================================================ -->
+  <section id="ch6" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">06</span> The Wages of Schooling</h2>
+      <p class="text-sm text-muted mb-4">Twins, quarter of birth IV, child labor laws, sheepskin effects, DD</p>
+      <div class="lang-tabs">
+        <button class="lang-tab active" onclick="showLang('ch6','python')">Python</button>
+        <button class="lang-tab" onclick="showLang('ch6','stata')">Stata</button>
+      </div>
+      <div id="ch6-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, numpy as np, statsmodels.formula.api as smf
+from linearmodels.iv import IV2SLS
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Simple bivariate OLS ---
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
+print(f"Simple OLS: {ols.params['s']:.3f} (~7%/year, biased by ability)")
+
+# --- Step 2: OLS with controls (twins data) ---
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
+ols_c = smf.ols("lwage ~ educ+age+age2+female+white", data=twins).fit(cov_type="HC1")
+print(f"OLS + controls: {ols_c.params['educ']:.3f} (~11%)")
+
+# --- Step 3: Twin fixed effects ---
+first = twins[twins["first"] == 1]
+fe = smf.ols("dlwage ~ deduc - 1", data=first).fit(cov_type="HC1")
+print(f"Twin FE: {fe.params['deduc']:.3f} (~6%, attenuated)")
+
+# --- Step 4: Twin IV (corrects measurement error) ---
+iv_twin = IV2SLS.from_formula(
+    "lwage ~ 1+age+age2+female+white+[educ ~ educt_t]", data=twins
+).fit(cov_type="robust")
+print(f"Twin IV: {iv_twin.params['educ']:.3f} (~11%)")
+
+# --- Step 5: Quarter-of-birth IV ---
+iv_qob = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+print(f"QOB IV:  {iv_qob.params['s']:.3f} (~7%)")
+
+# --- Step 6: Child labor law IV ---
+cl = pd.read_csv(DATA + "ch6/childlabor_clean.csv")
+ols_cl = smf.wls("lnwkwage ~ indEduc+C(sob)+C(yob)+C(year)",
+    data=cl, weights=cl["weight"]).fit(
+    cov_type="cluster", cov_kwds={"groups": cl["sob"]})
+print(f"OLS (child labor): {ols_cl.params['indEduc']:.4f}")
+
+# --- Step 7: First-stage F-statistic ---
+fs = smf.ols("s ~ q4", data=qob).fit()
+f_stat = float(np.atleast_1d(fs.f_test("q4 = 0").fvalue).flat[0])
+print(f"First-stage F (QOB): {f_stat:.1f} (should be > 10)")</div>
+      <div id="ch6-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
+set more off
+
+* --- Step 1: Simple bivariate OLS ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+reg lnw s, robust
+
+* --- Step 2: OLS with controls (twins) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
+reg lwage educ age age2 female white, robust
+
+* --- Step 3: Twin fixed effects ---
+reg dlwage deduc if first == 1, noconstant robust
+
+* --- Step 4: Twin IV ---
+ivregress 2sls lwage age age2 female white (educ = educt_t), robust
+
+* --- Step 5: Quarter-of-birth IV ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+ivregress 2sls lnw (s = q4), robust
+
+* --- Step 6: Child labor law IV ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/childlabor_clean.csv", clear
+reg indeduc cl7 cl8 cl9 i.sob i.yob i.year [aw=weight], cluster(sob)
+testparm cl7 cl8 cl9
+ivregress 2sls lnwkwage i.sob i.yob i.year (indeduc = cl7 cl8 cl9) [aw=weight], cluster(sob)</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 px-4" style="border-top: 1px solid var(--border);">
+    <div class="max-w-5xl mx-auto text-center">
+      <p class="text-lg font-semibold mb-2" style="color: var(--text);">
+        Mastering Causal Metrics: An AI-Powered Study Guide
+      </p>
+      <p class="text-base mb-1" style="color: var(--text);">
+        By <a href="https://carlos-mendez.org" target="_blank" style="color: var(--blue); font-weight: 600;">Carlos Mendez</a>
+      </p>
+      <p class="text-sm text-muted mb-4">
+        Based on <a href="https://www.masteringmetrics.com/" target="_blank" style="color: var(--blue);"><em>Mastering 'Metrics</em></a> by Angrist &amp; Pischke (Princeton University Press)
+      </p>
+      <p class="text-sm text-muted">
+        <a href="index.html" style="color: var(--blue);">Home</a>
+        &middot;
+        <a href="book/_book/index.html" style="color: var(--blue);">Study Guide</a>
+        &middot;
+        <a href="tutors.html" style="color: var(--blue);">AI Tutors</a>
+        &middot;
+        <a href="https://github.com/cmg777/intro2causal" target="_blank" style="color: var(--blue);">GitHub</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- AI Acknowledgment -->
+  <footer class="py-8 px-4" style="border-top: 1px solid var(--border); background-color: rgba(0,0,0,0.15);">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-xs text-muted mb-2" style="letter-spacing: 0.05em;">BUILT WITH AI TOOLS</p>
+      <p class="text-xs text-muted">
+        <a href="https://claude.ai/code" target="_blank" style="color: var(--purple);">Claude Code</a> (Anthropic) &mdash; technological infrastructure, website development, and study guide content review.
+        &nbsp;&middot;&nbsp;
+        <a href="https://gemini.google.com" target="_blank" style="color: var(--green);">Google Gemini</a> &mdash; AI tutors.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode toggle
+    const body = document.body;
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') body.classList.add('light');
+
+    function toggleTheme() {
+      body.classList.toggle('light');
+      localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
+      document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
+    }
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+    const mt = document.getElementById('theme-toggle-mobile');
+    if (mt) mt.addEventListener('click', toggleTheme);
+    document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
+    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    // Language tab switching
+    function showLang(section, lang) {
+      var py = document.getElementById(section + '-python');
+      var st = document.getElementById(section + '-stata');
+      var tabs = py.parentElement.querySelectorAll('.lang-tab');
+      if (lang === 'python') {
+        py.style.display = 'block'; st.style.display = 'none';
+        tabs[0].classList.add('active'); tabs[1].classList.remove('active');
+      } else {
+        py.style.display = 'none'; st.style.display = 'block';
+        tabs[1].classList.add('active'); tabs[0].classList.remove('active');
+      }
+    }
+  </script>
+</body>
+</html>
