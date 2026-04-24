@@ -146,6 +146,140 @@
     .colab-tip a { color: var(--blue); text-decoration: none; font-weight: 500; }
     .colab-tip a:hover { text-decoration: underline; }
 
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 40;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .back-to-top.visible { opacity: 1; pointer-events: auto; }
+    .back-to-top:hover { color: var(--blue); border-color: var(--blue); transform: translateY(-2px); }
+
+    /* Sticky chapter sub-navigation */
+    .chapter-subnav {
+      position: fixed;
+      top: 52px;
+      left: 0;
+      right: 0;
+      z-index: 45;
+      backdrop-blur: 12px;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      background: rgba(15,23,42,0.9);
+      border-bottom: 1px solid var(--border);
+      transition: transform 0.3s, opacity 0.3s;
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    .chapter-subnav.visible { transform: translateY(0); opacity: 1; }
+    .light .chapter-subnav { background: rgba(248,250,252,0.9); }
+    .subnav-link {
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .subnav-link:hover { color: var(--text); }
+    .subnav-link.active { color: var(--blue); background: rgba(56,189,248,0.1); }
+
+    /* Audio Player (from index.html) */
+    .audio-player {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px 20px;
+      max-width: 480px;
+      width: 95%;
+    }
+    .audio-play-btn {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s, box-shadow 0.15s;
+      flex-shrink: 0;
+    }
+    .audio-play-btn:hover { transform: scale(1.08); box-shadow: 0 4px 20px rgba(167,139,250,0.4); }
+    .audio-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      min-width: 40px;
+    }
+    .audio-ctrl-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); font-size: 1.1rem;
+      padding: 4px 6px; border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .audio-ctrl-btn:hover { color: var(--text); background: var(--border); }
+    input.audio-range {
+      -webkit-appearance: none; appearance: none;
+      height: 6px; border-radius: 3px; outline: none; cursor: pointer;
+      background: rgba(255,255,255,0.1);
+    }
+    .light input.audio-range { background: #e2e8f0; }
+    input.audio-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--purple); border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3); margin-top: -4px;
+    }
+    input.audio-range::-moz-range-thumb {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--purple); border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+    input.audio-range::-webkit-slider-runnable-track {
+      height: 6px; border-radius: 3px;
+      background: linear-gradient(to right, var(--purple) 0%, var(--purple) var(--progress, 0%), rgba(255,255,255,0.1) var(--progress, 0%), rgba(255,255,255,0.1) 100%);
+    }
+    .light input.audio-range::-webkit-slider-runnable-track {
+      background: linear-gradient(to right, var(--purple) 0%, var(--purple) var(--progress, 0%), #e2e8f0 var(--progress, 0%), #e2e8f0 100%);
+    }
+    input.audio-range::-moz-range-track { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); }
+    .light input.audio-range::-moz-range-track { background: #e2e8f0; }
+    input.audio-range::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--purple); }
+    input.audio-volume { width: 80px; }
+    .audio-speed {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 3px 6px; font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace; cursor: pointer; outline: none;
+    }
+    .audio-speed option { background: var(--bg-card); color: var(--text); }
+
+    /* Resource badges */
+    .resource-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .resource-badges a { display: inline-block; }
+    .resource-badges img { height: 20px; vertical-align: middle; cursor: pointer; }
+
     /* Warning banner */
     .warning-banner {
       background: rgba(248, 113, 113, 0.1);
@@ -183,6 +317,19 @@
       <button id="theme-toggle-mobile" class="block py-2 nav-link text-sm cursor-pointer text-left w-full">Toggle Theme</button>
     </div>
   </nav>
+
+  <!-- Sticky chapter sub-navigation -->
+  <div id="chapter-subnav" class="chapter-subnav">
+    <div class="max-w-5xl mx-auto px-4 py-1 flex items-center justify-center gap-1 overflow-x-auto">
+      <a href="#furious-five" class="subnav-link" data-section="furious-five">&#9733; Furious Five</a>
+      <a href="#ch1" class="subnav-link" data-section="ch1">01</a>
+      <a href="#ch2" class="subnav-link" data-section="ch2">02</a>
+      <a href="#ch3" class="subnav-link" data-section="ch3">03</a>
+      <a href="#ch4" class="subnav-link" data-section="ch4">04</a>
+      <a href="#ch5" class="subnav-link" data-section="ch5">05</a>
+      <a href="#ch6" class="subnav-link" data-section="ch6">06</a>
+    </div>
+  </div>
 
   <!-- Hero -->
   <section class="pt-32 pb-8 px-4">
@@ -325,9 +472,11 @@ DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 # ================================================================
 # METHOD 1: RANDOMIZED CONTROLLED TRIAL (RCT)
 # ================================================================
-# Equation: ln(W) = &alpha; + &beta;&middot;Scholarship + e
-# Logic:    Random assignment &rarr; no selection bias &rarr; &beta; is causal
-# Estimate: Wald ratio = (earnings effect) / (schooling effect)
+# Question: Does education cause higher earnings?
+# Equation: ln(W) = &alpha; + &beta;&middot;P + e  (P = scholarship)
+# Logic:    Random assignment &rarr; P independent of ability &rarr; &beta; is causal
+# Estimate: Wald ratio = reduced form / first stage
+# Bias:     None (unbiased by construction if assignment is random)
 # ----------------------------------------------------------------
 rct = pd.read_csv(DATA + "ch6/synthetic_rct.csv")
 means = rct.groupby("scholarship")[["schooling","earnings"]].mean()
@@ -338,9 +487,11 @@ print(f"1. RCT (Wald):  {wald_rct:.4f}")
 # ================================================================
 # METHOD 2: REGRESSION (OLS)
 # ================================================================
-# Equation: ln(W) = &alpha; + &rho;&middot;S + &gamma;'X + e
+# Question: What is the raw return to each year of schooling?
+# Equation: ln(W) = &alpha; + &rho;&middot;S + e
 # Logic:    Control for observables, hope confounders are captured
-# Bias:     Ability bias (upward) if ability is unobserved
+# Estimate: Conditional average association (not necessarily causal)
+# Bias:     Ability bias (upward) &mdash; smarter people get more school AND earn more
 # ----------------------------------------------------------------
 qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
 ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
@@ -349,9 +500,11 @@ print(f"2. OLS:         {ols.params['s']:.4f}")
 # ================================================================
 # METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
 # ================================================================
+# Question: What is the causal return, using exogenous variation?
 # Equation: Wald = (effect of Z on Y) / (effect of Z on D)
-# Logic:    Use exogenous variation (instrument) to isolate causation
-# Estimate: LATE &mdash; the effect for compliers only
+# Logic:    Quarter of birth shifts schooling but is unrelated to ability
+# Estimate: LATE &mdash; the effect for compliers (students at dropout margin)
+# Bias:     None if the instrument is valid (exclusion restriction holds)
 # ----------------------------------------------------------------
 iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
 print(f"3. IV (QOB):    {iv.params['s']:.4f}")
@@ -359,9 +512,11 @@ print(f"3. IV (QOB):    {iv.params['s']:.4f}")
 # ================================================================
 # METHOD 4: REGRESSION DISCONTINUITY (RD)
 # ================================================================
-# Equation: Y = &alpha; + &rho;&middot;D + f(Score) + e
-# Logic:    Compare outcomes just above vs. just below a cutoff
 # Question: Does the diploma credential itself boost earnings?
+# Equation: Y = &alpha; + &rho;&middot;D + f(Score) + e
+# Logic:    Compare students just above vs. just below the passing cutoff
+# Estimate: Local effect at the cutoff (sheepskin/credential effect)
+# Bias:     None if students cannot manipulate their score near the cutoff
 # ----------------------------------------------------------------
 sheep = pd.read_csv(DATA + "ch6/sheepskin_clean.csv")
 left = sheep[sheep["minscore"] < 0]
@@ -373,9 +528,11 @@ print(f"4. RD:          ${rd.params['pass_exam']:.0f} (near zero)")
 # ================================================================
 # METHOD 5: DIFFERENCES-IN-DIFFERENCES (DD)
 # ================================================================
-# Equation: Y_st = &alpha; + &delta;&middot;(Treated &times; Post) + &beta;_s + &gamma;_t + e_st
-# Logic:    Compare changes over time in treated vs. control groups
-# Assumption: Parallel trends in the absence of treatment
+# Question: Do compulsory schooling reforms raise earnings?
+# Equation: Y_st = &alpha; + &delta;&middot;(Treated_s &times; Post_t) + &beta;_s + &gamma;_t + e_st
+# Logic:    Compare changes over time in reform vs. non-reform states
+# Estimate: ATT &mdash; effect on the treated (states that adopted the reform)
+# Bias:     None if parallel trends hold (same trajectory absent reform)
 # ----------------------------------------------------------------
 did = pd.read_csv(DATA + "ch6/synthetic_did.csv")
 did["treat_post"] = did["treated"] * did["post"]
@@ -387,9 +544,11 @@ print(f"5. DD:          {dd_e.params['treat_post']/dd_s.params['treat_post']:.4f
       <div id="f5-stata" class="code-block" style="display:none; border-top-left-radius:0;">* =================================================================
 * METHOD 1: RANDOMIZED CONTROLLED TRIAL (RCT)
 * =================================================================
-* Equation: ln(W) = a + b*Scholarship + e
-* Logic:    Random assignment -> no selection bias -> b is causal
-* Estimate: Wald ratio = (earnings effect) / (schooling effect)
+* Question: Does education cause higher earnings?
+* Equation: ln(W) = a + b*P + e  (P = scholarship)
+* Logic:    Random assignment -> P independent of ability -> b is causal
+* Estimate: Wald ratio = reduced form / first stage
+* Bias:     None (unbiased by construction if assignment is random)
 * -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_rct.csv", clear
 reg earnings scholarship, robust
@@ -400,9 +559,11 @@ display "1. RCT (Wald): " round(rf / _b[scholarship], 0.0001)
 * =================================================================
 * METHOD 2: REGRESSION (OLS)
 * =================================================================
-* Equation: ln(W) = a + rho*S + gamma'X + e
+* Question: What is the raw return to each year of schooling?
+* Equation: ln(W) = a + rho*S + e
 * Logic:    Control for observables, hope confounders are captured
-* Bias:     Ability bias (upward) if ability is unobserved
+* Estimate: Conditional average association (not necessarily causal)
+* Bias:     Ability bias (upward) -- smarter people get more school AND earn more
 * -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
 reg lnw s, robust
@@ -410,18 +571,22 @@ reg lnw s, robust
 * =================================================================
 * METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
 * =================================================================
+* Question: What is the causal return, using exogenous variation?
 * Equation: Wald = (effect of Z on Y) / (effect of Z on D)
-* Logic:    Use exogenous variation (instrument) to isolate causation
-* Estimate: LATE -- the effect for compliers only
+* Logic:    Quarter of birth shifts schooling but is unrelated to ability
+* Estimate: LATE -- the effect for compliers (students at dropout margin)
+* Bias:     None if the instrument is valid (exclusion restriction holds)
 * -----------------------------------------------------------------
 ivregress 2sls lnw (s = q4), robust
 
 * =================================================================
 * METHOD 4: REGRESSION DISCONTINUITY (RD)
 * =================================================================
-* Equation: Y = a + rho*D + f(Score) + e
-* Logic:    Compare outcomes just above vs. just below a cutoff
 * Question: Does the diploma credential itself boost earnings?
+* Equation: Y = a + rho*D + f(Score) + e
+* Logic:    Compare students just above vs. just below the passing cutoff
+* Estimate: Local effect at the cutoff (sheepskin/credential effect)
+* Bias:     None if students cannot manipulate their score near the cutoff
 * -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/sheepskin_clean.csv", clear
 reg avgearnings pass_exam left_1 left_2 left_3 left_4 ///
@@ -430,9 +595,11 @@ reg avgearnings pass_exam left_1 left_2 left_3 left_4 ///
 * =================================================================
 * METHOD 5: DIFFERENCES-IN-DIFFERENCES (DD)
 * =================================================================
-* Equation: Y_st = a + delta*(Treated x Post) + beta_s + gamma_t + e_st
-* Logic:    Compare changes over time in treated vs. control groups
-* Assumption: Parallel trends in the absence of treatment
+* Question: Do compulsory schooling reforms raise earnings?
+* Equation: Y_st = a + delta*(Treated_s x Post_t) + beta_s + gamma_t + e_st
+* Logic:    Compare changes over time in reform vs. non-reform states
+* Estimate: ATT -- effect on the treated (states that adopted the reform)
+* Bias:     None if parallel trends hold (same trajectory absent reform)
 * -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_did.csv", clear
 gen treat_post = treated * post
@@ -448,8 +615,20 @@ display "5. DD: " round(_b[treat_post] / dd_fs, 0.0001)</div>
   <!-- ============================================================ -->
   <section id="ch1" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">01</span> Randomized Trials</h2>
-      <p class="text-sm text-muted mb-4">Selection bias, potential outcomes, RAND Health Insurance Experiment</p>
+      <div style="border-left: 4px solid var(--blue); padding-left: 1rem;" class="mb-4">
+        <div class="flex items-center gap-3">
+          <span style="font-size:1.5rem;flex-shrink:0;">&#127922;</span>
+          <div>
+            <h2 class="text-xl font-bold" style="color:var(--blue);">01 Randomized Trials</h2>
+            <p class="text-xs text-muted">Selection bias &middot; Potential outcomes &middot; RAND HIE</p>
+            <div class="resource-badges">
+              <a href="book/_book/notebooks_quarto/01-randomized-trials.html"><img src="https://img.shields.io/badge/Read-Chapter-2563eb?logo=book&logoColor=white" alt="Read Chapter"></a>
+              <a href="#" onclick="openVideo('eGRd8jBdNYg','Randomized Trials: The Ideal Weapon');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video"></a>
+              <a href="#" onclick="openAudio('https://files.catbox.moe/pb7n2l.m4a','Randomized Trials: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast"></a>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch1','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch1','stata')">Stata</button>
@@ -511,8 +690,20 @@ reg health_index plan_free plan_deductible plan_coinsurance, cluster(family_id)<
   <!-- ============================================================ -->
   <section id="ch2" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">02</span> Regression</h2>
-      <p class="text-sm text-muted mb-4">OLS, omitted variable bias, bad controls</p>
+      <div style="border-left: 4px solid var(--purple); padding-left: 1rem;" class="mb-4">
+        <div class="flex items-center gap-3">
+          <span style="font-size:1.5rem;flex-shrink:0;">&#128200;</span>
+          <div>
+            <h2 class="text-xl font-bold" style="color:var(--purple);">02 Regression</h2>
+            <p class="text-xs text-muted">OLS &middot; Omitted variable bias &middot; Bad controls</p>
+            <div class="resource-badges">
+              <a href="book/_book/notebooks_quarto/02-regression.html"><img src="https://img.shields.io/badge/Read-Chapter-7c3aed?logo=book&logoColor=white" alt="Read Chapter"></a>
+              <a href="#" onclick="openVideo('iPBV3BlV7jk','Ceteris Paribus: Public vs. Private University');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video"></a>
+              <a href="#" onclick="openAudio('https://files.catbox.moe/i2l7wy.m4a','Regression: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast"></a>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch2','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch2','stata')">Stata</button>
@@ -575,8 +766,20 @@ display "OVB = " _b[private] " x " gamma " = " _b[private]*gamma</div>
   <!-- ============================================================ -->
   <section id="ch3" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">03</span> Instrumental Variables</h2>
-      <p class="text-sm text-muted mb-4">LATE, compliers, Minneapolis Domestic Violence Experiment</p>
+      <div style="border-left: 4px solid var(--green); padding-left: 1rem;" class="mb-4">
+        <div class="flex items-center gap-3">
+          <span style="font-size:1.5rem;flex-shrink:0;">&#128295;</span>
+          <div>
+            <h2 class="text-xl font-bold" style="color:var(--green);">03 Instrumental Variables</h2>
+            <p class="text-xs text-muted">LATE &middot; Compliers &middot; Minneapolis DV Experiment</p>
+            <div class="resource-badges">
+              <a href="book/_book/notebooks_quarto/03-instrumental-variables.html"><img src="https://img.shields.io/badge/Read-Chapter-059669?logo=book&logoColor=white" alt="Read Chapter"></a>
+              <a href="#" onclick="openVideo('eoJUPd6104Q','Introduction to Instrumental Variables');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video"></a>
+              <a href="#" onclick="openAudio('https://files.catbox.moe/h1rfzi.m4a','Instrumental Variables: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast"></a>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch3','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch3','stata')">Stata</button>
@@ -636,8 +839,20 @@ display "LATE = " reduced_form " / " first_stage " = " reduced_form/first_stage<
   <!-- ============================================================ -->
   <section id="ch4" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">04</span> Regression Discontinuity</h2>
-      <p class="text-sm text-muted mb-4">Sharp RD, bandwidth, minimum legal drinking age and mortality</p>
+      <div style="border-left: 4px solid var(--orange); padding-left: 1rem;" class="mb-4">
+        <div class="flex items-center gap-3">
+          <span style="font-size:1.5rem;flex-shrink:0;">&#128201;</span>
+          <div>
+            <h2 class="text-xl font-bold" style="color:var(--orange);">04 Regression Discontinuity</h2>
+            <p class="text-xs text-muted">Sharp RD &middot; Bandwidth &middot; MLDA &amp; mortality</p>
+            <div class="resource-badges">
+              <a href="book/_book/notebooks_quarto/04-regression-discontinuity.html"><img src="https://img.shields.io/badge/Read-Chapter-ea580c?logo=book&logoColor=white" alt="Read Chapter"></a>
+              <a href="#" onclick="openVideo('d4S2STNOHBk','Regression Discontinuity: AI Video','notebooklm');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video"></a>
+              <a href="#" onclick="openAudio('https://files.catbox.moe/o4hyxn.m4a','Regression Discontinuity: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast"></a>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch4','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch4','stata')">Stata</button>
@@ -687,8 +902,20 @@ reg internal over21 age, robust</div>
   <!-- ============================================================ -->
   <section id="ch5" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">05</span> Differences-in-Differences</h2>
-      <p class="text-sm text-muted mb-4">Parallel trends, two-way fixed effects, MLDA panel data</p>
+      <div style="border-left: 4px solid var(--red); padding-left: 1rem;" class="mb-4">
+        <div class="flex items-center gap-3">
+          <span style="font-size:1.5rem;flex-shrink:0;">&#128202;</span>
+          <div>
+            <h2 class="text-xl font-bold" style="color:var(--red);">05 Differences-in-Differences</h2>
+            <p class="text-xs text-muted">Parallel trends &middot; Two-way FE &middot; MLDA panel data</p>
+            <div class="resource-badges">
+              <a href="book/_book/notebooks_quarto/05-differences-in-differences.html"><img src="https://img.shields.io/badge/Read-Chapter-dc2626?logo=book&logoColor=white" alt="Read Chapter"></a>
+              <a href="#" onclick="openVideo('eiffOVbYvNc','Introduction to Differences-in-Differences');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video"></a>
+              <a href="#" onclick="openAudio('https://files.catbox.moe/j9jeap.m4a','Differences-in-Differences: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast"></a>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch5','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch5','stata')">Stata</button>
@@ -750,8 +977,20 @@ reg mrate legal i.state i.year, cluster(state)</div>
   <!-- ============================================================ -->
   <section id="ch6" class="chapter-section py-8 px-4" style="border-top: 1px solid var(--border);">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-bold mb-2"><span class="text-muted">06</span> The Wages of Schooling</h2>
-      <p class="text-sm text-muted mb-4">Twins, quarter of birth IV, child labor laws, sheepskin effects, DD</p>
+      <div style="border-left: 4px solid var(--blue); padding-left: 1rem;" class="mb-4">
+        <div class="flex items-center gap-3">
+          <span style="font-size:1.5rem;flex-shrink:0;">&#127891;</span>
+          <div>
+            <h2 class="text-xl font-bold" style="color:var(--blue);">06 The Wages of Schooling</h2>
+            <p class="text-xs text-muted">Twins &middot; Quarter of birth &middot; Child labor laws &middot; Sheepskin effects</p>
+            <div class="resource-badges">
+              <a href="book/_book/notebooks_quarto/06-wages-of-schooling.html"><img src="https://img.shields.io/badge/Read-Chapter-2563eb?logo=book&logoColor=white" alt="Read Chapter"></a>
+              <a href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video"></a>
+              <a href="#" onclick="openAudio('https://files.catbox.moe/dyyvur.m4a','The Wages of Schooling: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast"></a>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch6','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch6','stata')">Stata</button>
@@ -861,10 +1100,64 @@ ivregress 2sls lnwkwage i.sob i.yob i.year (indeduc = cl7 cl8 cl9) [aw=weight], 
     </div>
   </footer>
 
+  <!-- Back to top button -->
+  <button id="back-to-top" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">&#8593;</button>
+
+  <!-- Video Modal -->
+  <div id="video-modal" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;" onclick="if(event.target===this)closeVideo();">
+    <div style="width:95%;max-width:1400px;position:relative;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <p id="video-title" style="color:#e2e8f0;font-size:1rem;font-weight:600;margin:0;"></p>
+        <button onclick="closeVideo()" style="color:#94a3b8;font-size:1.5rem;background:none;border:none;cursor:pointer;line-height:1;" aria-label="Close">&times;</button>
+      </div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
+        <iframe id="video-iframe" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="autoplay;encrypted-media" allowfullscreen></iframe>
+      </div>
+      <p id="video-credit" style="color:#64748b;font-size:0.75rem;margin-top:8px;text-align:center;"></p>
+    </div>
+  </div>
+
+  <!-- Audio Modal -->
+  <div id="audio-modal" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;" onclick="if(event.target===this)closeAudio();">
+    <div class="audio-player">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <p id="audio-title" style="color:var(--text);font-size:1rem;font-weight:600;margin:0;"></p>
+        <button onclick="closeAudio()" style="color:var(--text-muted);font-size:1.5rem;background:none;border:none;cursor:pointer;line-height:1;" aria-label="Close">&times;</button>
+      </div>
+      <audio id="audio-element" preload="metadata"></audio>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+        <span id="audio-current-time" class="audio-time">0:00</span>
+        <input id="audio-progress" type="range" class="audio-range" min="0" max="100" value="0" step="0.1" style="flex:1;">
+        <span id="audio-duration" class="audio-time" style="text-align:right;">0:00</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+        <button class="audio-play-btn" onclick="toggleAudioPlay()" aria-label="Play/Pause">
+          <span id="audio-play-icon">&#9654;</span>
+        </button>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="audio-ctrl-btn" style="cursor:default;padding:0;">&#128266;</span>
+          <input id="audio-volume" type="range" class="audio-range audio-volume" min="0" max="1" value="1" step="0.05">
+        </div>
+        <select id="audio-speed" class="audio-speed" aria-label="Playback speed">
+          <option value="0.5">0.5x</option>
+          <option value="0.75">0.75x</option>
+          <option value="1" selected>1x</option>
+          <option value="1.25">1.25x</option>
+          <option value="1.5">1.5x</option>
+          <option value="2">2x</option>
+        </select>
+        <a id="audio-download-link" href="#" target="_blank" download class="audio-ctrl-btn" title="Download" style="text-decoration:none;color:var(--green);font-size:1.2rem;">&#11015;</a>
+      </div>
+      <p style="color:var(--text-muted);font-size:0.7rem;margin-top:16px;text-align:center;">
+        Podcast generated with <a href="https://notebooklm.google.com/" target="_blank" style="color:var(--blue);">NotebookLM</a> &middot; Press Esc or click outside to close
+      </p>
+    </div>
+  </div>
+
   <script>
     // Dark mode toggle
-    const body = document.body;
-    const saved = localStorage.getItem('theme');
+    var body = document.body;
+    var saved = localStorage.getItem('theme');
     if (saved === 'light') body.classList.add('light');
 
     function syncHljsTheme() {
@@ -917,30 +1210,99 @@ ivregress 2sls lnwkwage i.sob i.yob i.year (indeduc = cl7 cl8 cl9) [aw=weight], 
       });
     }
 
-    // Enhance all code blocks on load
+    // Video modal
+    function openVideo(videoId, title, source) {
+      document.getElementById('video-title').textContent = title;
+      document.getElementById('video-iframe').src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+      var credit = document.getElementById('video-credit');
+      if (source === 'notebooklm') {
+        credit.innerHTML = 'Generated with <a href="https://notebooklm.google/" target="_blank" style="color:#38bdf8;">NotebookLM</a> based on a summary of the chapter \u00B7 Press Esc or click outside to close';
+      } else {
+        credit.innerHTML = 'Video by <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color:#38bdf8;">Marginal Revolution University</a> \u00B7 Press Esc or click outside to close';
+      }
+      var modal = document.getElementById('video-modal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeVideo() {
+      var modal = document.getElementById('video-modal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+      document.getElementById('video-iframe').src = '';
+      document.body.style.overflow = '';
+    }
+
+    // Audio player
+    var audioEl = null;
+    var audioProgress = null;
+
+    function openAudio(url, title) {
+      document.getElementById('audio-title').textContent = title;
+      document.getElementById('audio-download-link').href = url;
+      audioEl = document.getElementById('audio-element');
+      audioProgress = document.getElementById('audio-progress');
+      audioEl.src = url;
+      audioProgress.value = 0;
+      audioProgress.style.setProperty('--progress', '0%');
+      document.getElementById('audio-current-time').textContent = '0:00';
+      document.getElementById('audio-duration').textContent = '0:00';
+      updatePlayPauseBtn(false);
+      document.getElementById('audio-speed').value = '1';
+      audioEl.playbackRate = 1;
+      var modal = document.getElementById('audio-modal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeAudio() {
+      if (audioEl) { audioEl.pause(); audioEl.src = ''; }
+      var modal = document.getElementById('audio-modal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    function toggleAudioPlay() {
+      if (!audioEl) return;
+      if (audioEl.paused) { audioEl.play(); } else { audioEl.pause(); }
+    }
+    function updatePlayPauseBtn(isPlaying) {
+      document.getElementById('audio-play-icon').textContent = isPlaying ? '\u275A\u275A' : '\u25B6';
+    }
+    function formatTime(s) {
+      if (!s || isNaN(s)) return '0:00';
+      var m = Math.floor(s / 60);
+      var sec = Math.floor(s % 60);
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    // Close modals on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeVideo(); closeAudio(); }
+    });
+
+    // Enhance code blocks, subnav, back-to-top, and audio on load
     document.addEventListener('DOMContentLoaded', function() {
+      // --- Code block enhancement ---
       var blocks = document.querySelectorAll('.code-block');
       blocks.forEach(function(div) {
-        var id = div.id; // e.g. "f5-python" or "ch1-stata"
+        var id = div.id;
         var lang = id.includes('python') ? 'python' : 'stata';
         var isHidden = div.style.display === 'none';
         var text = div.textContent;
 
-        // Create wrapper
         var wrapper = document.createElement('div');
         wrapper.className = 'code-wrapper';
         wrapper.id = id + '-wrapper';
         wrapper.style.borderTopLeftRadius = '0';
         if (isHidden) wrapper.style.display = 'none';
 
-        // Copy button
         var btn = document.createElement('button');
         btn.className = 'copy-btn';
         btn.innerHTML = '&#128203; Copy';
         btn.setAttribute('onclick', 'copyCode(this)');
         btn.setAttribute('aria-label', 'Copy code');
 
-        // Pre > code
         var pre = document.createElement('pre');
         var code = document.createElement('code');
         code.className = 'language-' + lang;
@@ -949,26 +1311,83 @@ ivregress 2sls lnwkwage i.sob i.yob i.year (indeduc = cl7 cl8 cl9) [aw=weight], 
 
         wrapper.appendChild(btn);
         wrapper.appendChild(pre);
-
-        // Replace original div
         div.parentNode.replaceChild(wrapper, div);
-
-        // Highlight
         hljs.highlightElement(code);
       });
 
-      // Add Colab tip after each section's code wrappers
+      // Colab tips
       var sections = document.querySelectorAll('.chapter-section');
       sections.forEach(function(section) {
         var wrappers = section.querySelectorAll('.code-wrapper');
         if (wrappers.length === 0) return;
         var lastWrapper = wrappers[wrappers.length - 1];
-
         var tip = document.createElement('div');
         tip.className = 'colab-tip';
-        tip.innerHTML = '&#128161; Copy the Python code and paste it into a <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank">Google Colab Scratchpad</a> to run it instantly &mdash; no setup needed.';
+        tip.innerHTML = '&#128161; Copy the Python code and paste it into a <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank">Google Colab Scratchpad</a> to run it instantly \u2014 no setup needed.';
         lastWrapper.parentNode.insertBefore(tip, lastWrapper.nextSibling);
       });
+
+      // --- Audio player events ---
+      audioEl = document.getElementById('audio-element');
+      audioProgress = document.getElementById('audio-progress');
+      audioEl.addEventListener('loadedmetadata', function() {
+        audioProgress.max = audioEl.duration;
+        document.getElementById('audio-duration').textContent = formatTime(audioEl.duration);
+      });
+      audioEl.addEventListener('timeupdate', function() {
+        audioProgress.value = audioEl.currentTime;
+        var pct = audioEl.duration ? (audioEl.currentTime / audioEl.duration * 100) : 0;
+        audioProgress.style.setProperty('--progress', pct + '%');
+        document.getElementById('audio-current-time').textContent = formatTime(audioEl.currentTime);
+      });
+      audioEl.addEventListener('play', function() { updatePlayPauseBtn(true); });
+      audioEl.addEventListener('pause', function() { updatePlayPauseBtn(false); });
+      audioEl.addEventListener('ended', function() { updatePlayPauseBtn(false); });
+      audioProgress.addEventListener('input', function() { audioEl.currentTime = this.value; });
+      document.getElementById('audio-volume').addEventListener('input', function() { audioEl.volume = this.value; });
+      document.getElementById('audio-speed').addEventListener('change', function() { audioEl.playbackRate = parseFloat(this.value); });
+
+      // --- Back-to-top button ---
+      var btt = document.getElementById('back-to-top');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 500) {
+          btt.classList.add('visible');
+        } else {
+          btt.classList.remove('visible');
+        }
+      });
+
+      // --- Sticky chapter sub-navigation ---
+      var subnav = document.getElementById('chapter-subnav');
+      var tocSection = document.querySelector('#furious-five');
+      var subnavLinks = subnav.querySelectorAll('.subnav-link');
+
+      // Show/hide subnav based on scroll position
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.target === tocSection) {
+            if (entry.isIntersecting) {
+              subnav.classList.remove('visible');
+            } else if (entry.boundingClientRect.top < 0) {
+              subnav.classList.add('visible');
+            }
+          }
+        });
+      }, { threshold: 0 });
+      observer.observe(tocSection);
+
+      // Highlight active section
+      var chapterSections = document.querySelectorAll('.chapter-section');
+      var sectionObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            subnavLinks.forEach(function(link) { link.classList.remove('active'); });
+            var activeLink = subnav.querySelector('[data-section="' + entry.target.id + '"]');
+            if (activeLink) activeLink.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+      chapterSections.forEach(function(s) { sectionObserver.observe(s); });
     });
   </script>
 </body>
