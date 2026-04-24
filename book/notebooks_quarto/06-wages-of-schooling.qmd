@@ -1389,6 +1389,324 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 :::
 
 
+### The Furious Five: A Code Summary
+
+The **Furious Five** are the five core methods of causal inference covered in *Mastering 'Metrics*. Each method tackles the same fundamental problem --- separating cause from correlation --- but relies on a different source of identifying variation and a different key assumption.
+
+| # | Method | Chapter | Key Assumption | What It Estimates |
+|:---:|:---|:---:|:---|:---|
+| 1 | **Randomized Trial (RCT)** | 1 | Random assignment of treatment | ATE (Average Treatment Effect) |
+| 2 | **Regression (OLS)** | 2 | All confounders are observed and controlled | Conditional average effect |
+| 3 | **Instrumental Variables (IV)** | 3 | A valid instrument affects treatment but not outcome directly | LATE (effect for compliers) |
+| 4 | **Regression Discontinuity (RD)** | 4 | Individuals cannot manipulate the running variable | Local effect at the cutoff |
+| 5 | **Differences-in-Differences (DD)** | 5 | Treated and control groups follow parallel trends | ATT (effect on the treated) |
+
+: The Furious Five: one question, five strategies {.striped}
+
+**How to interpret each estimate:**
+
+- **RCT:** The gold standard. If treatment is randomly assigned, a simple comparison of means gives the causal effect. No controls needed.
+- **Regression:** Controls for observable differences, but any unobserved confounder (like ability) biases the estimate. Useful as a baseline, never as the final word.
+- **IV:** Uses an external source of variation (an instrument) that shifts treatment but is unrelated to the outcome. Recovers the causal effect for *compliers* --- the subpopulation whose treatment was actually changed by the instrument.
+- **RD:** Compares observations just above and just below a cutoff. Gives a credible causal estimate *at the cutoff*, but may not generalize to individuals far from the threshold.
+- **DD:** Compares changes over time between a treated and control group. Identifies the causal effect *if* both groups would have followed the same trend absent treatment (the parallel trends assumption).
+
+**When the Furious Five agree, we gain confidence.** No single method is bulletproof, but when multiple methods --- each with different data, assumptions, and potential biases --- all point to a similar answer, the finding becomes much more credible. This chapter showed exactly that: the true causal return to schooling is about **7--10% per year**, confirmed across all five methods.
+
+::: {.callout-warning}
+### Code is not a substitute for understanding
+
+The code below is a **stylized overview** of the Furious Five --- a compact reference to remind you *what* each method does. But applying these methods should never be mechanical. Each method rests on assumptions that must be justified by the **context** in which the data was collected and the **relationships** that economic theory suggests. A valid instrument in one setting may be invalid in another. Parallel trends may hold in one policy comparison but fail in the next. Before running any of these methods, carefully study the relevant chapter of the book to understand *when* and *why* each method works --- not just *how* to code it.
+:::
+
+Below is a self-contained code summary that applies each of the Furious Five to the returns-to-schooling question using the datasets from this chapter.
+
+```python
+# ================================================================
+# THE FURIOUS FIVE — Complete Code Summary
+# ================================================================
+# Five methods, one question: Does education cause higher earnings?
+# Each block is self-contained with its own data, equation, and
+# interpretation. Run them all to see convergence in action.
+# ================================================================
+import pandas as pd
+import numpy as np
+import statsmodels.formula.api as smf
+from linearmodels.iv import IV2SLS
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# ================================================================
+# METHOD 1: RANDOMIZED CONTROLLED TRIAL (RCT)
+# ================================================================
+# Equation: ln(W) = α + β·Scholarship + e
+# Logic:    Random assignment → no selection bias → β is causal
+# Estimate: Wald ratio = (earnings effect) / (schooling effect)
+# ----------------------------------------------------------------
+rct = pd.read_csv(DATA + "ch6/synthetic_rct.csv")
+
+# The scholarship is randomly assigned, so a simple regression is causal
+rct_reg = smf.ols("earnings ~ scholarship", data=rct).fit(cov_type="HC1")
+
+# But the scholarship is an instrument for schooling, not schooling itself
+# Per-year return = (effect on earnings) / (effect on schooling)
+means = rct.groupby("scholarship")[["schooling", "earnings"]].mean()
+wald_rct = (means.loc[1, "earnings"] - means.loc[0, "earnings"]) / \
+           (means.loc[1, "schooling"] - means.loc[0, "schooling"])
+
+print("=" * 60)
+print("METHOD 1: RCT (synthetic scholarship experiment)")
+print(f"  Scholarship → earnings: {rct_reg.params['scholarship']:.4f}")
+print(f"  Per-year return (Wald):  {wald_rct:.4f}")
+print("  ✓ Unbiased by construction (random assignment)")
+print("=" * 60, "\n")
+
+# ================================================================
+# METHOD 2: REGRESSION (OLS)
+# ================================================================
+# Equation: ln(W) = α + ρ·S + γ'X + e
+# Logic:    Control for observables, hope confounders are captured
+# Bias:     Ability bias (upward) if ability is unobserved
+# ----------------------------------------------------------------
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
+
+# Simple bivariate OLS (no controls)
+ols_simple = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
+
+# OLS with demographic controls (twins data)
+ols_controls = smf.ols("lwage ~ educ + age + age2 + female + white",
+                        data=twins).fit(cov_type="HC1")
+
+print("=" * 60)
+print("METHOD 2: REGRESSION (OLS)")
+print(f"  Simple OLS (no controls): {ols_simple.params['s']:.4f}")
+print(f"  OLS with controls:        {ols_controls.params['educ']:.4f}")
+print("  ⚠ Likely biased upward by unobserved ability")
+print("=" * 60, "\n")
+
+# ================================================================
+# METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
+# ================================================================
+# Equation: Wald = (effect of Z on Y) / (effect of Z on D)
+# Logic:    Use exogenous variation (instrument) to isolate causation
+# Estimate: LATE — the effect for compliers only
+# ----------------------------------------------------------------
+# Strategy A: Quarter-of-birth IV (Angrist & Krueger 1991)
+iv_qob = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]",
+                              data=qob).fit(cov_type="robust")
+
+# Strategy B: Twin's report as IV (corrects measurement error)
+iv_twin = IV2SLS.from_formula(
+    "lwage ~ 1 + age + age2 + female + white + [educ ~ educt_t]",
+    data=twins).fit(cov_type="robust")
+
+print("=" * 60)
+print("METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)")
+print(f"  Quarter-of-birth IV:  {iv_qob.params['s']:.4f}")
+print(f"  Twin's report IV:     {iv_twin.params['educ']:.4f}")
+print("  ✓ Isolates exogenous variation in schooling")
+print("=" * 60, "\n")
+
+# ================================================================
+# METHOD 4: REGRESSION DISCONTINUITY (RD)
+# ================================================================
+# Equation: Y = α + ρ·D + f(Score) + e
+# Logic:    Compare outcomes just above vs. just below a cutoff
+# Question: Does the diploma credential itself boost earnings?
+# ----------------------------------------------------------------
+sheep = pd.read_csv(DATA + "ch6/sheepskin_clean.csv")
+left = sheep[sheep["minscore"] < 0]
+right = sheep[sheep["minscore"] >= 0]
+
+# Diploma receipt at the cutoff (first stage of fuzzy RD)
+rd_diploma = smf.wls(
+    "receivehsd ~ pass_exam + left_1 + left_2 + left_3 + left_4",
+    data=left, weights=left["n"]).fit()
+
+# Earnings at the cutoff (reduced form)
+rd_earnings = smf.wls(
+    "avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4",
+    data=left[left["minscore"] >= -30],
+    weights=left[left["minscore"] >= -30]["person_years"]).fit()
+
+print("=" * 60)
+print("METHOD 4: REGRESSION DISCONTINUITY (sheepskin RD)")
+print(f"  Diploma jump at cutoff:  {rd_diploma.params['pass_exam']:.4f}")
+print(f"  Earnings jump at cutoff: ${rd_earnings.params['pass_exam']:.0f}")
+print("  ✓ Diploma has near-zero earnings effect (learning > signaling)")
+print("=" * 60, "\n")
+
+# ================================================================
+# METHOD 5: DIFFERENCES-IN-DIFFERENCES (DD)
+# ================================================================
+# Equation: Y_st = α + δ·(Treated × Post) + β_s + γ_t + e_st
+# Logic:    Compare changes over time in treated vs. control groups
+# Assumption: Parallel trends in the absence of treatment
+# ----------------------------------------------------------------
+did = pd.read_csv(DATA + "ch6/synthetic_did.csv")
+did["treat_post"] = did["treated"] * did["post"]
+
+# DD on schooling (first stage)
+dd_school = smf.ols("avg_schooling ~ treat_post + C(state) + C(year)",
+                     data=did).fit(cov_type="cluster",
+                     cov_kwds={"groups": did["state"]})
+
+# DD on earnings (reduced form)
+dd_earn = smf.ols("avg_earnings ~ treat_post + C(state) + C(year)",
+                   data=did).fit(cov_type="cluster",
+                   cov_kwds={"groups": did["state"]})
+
+# Implied per-year return
+dd_return = dd_earn.params["treat_post"] / dd_school.params["treat_post"]
+
+print("=" * 60)
+print("METHOD 5: DIFFERENCES-IN-DIFFERENCES (synthetic reform)")
+print(f"  DD on schooling:      {dd_school.params['treat_post']:.4f}")
+print(f"  DD on earnings:       {dd_earn.params['treat_post']:.4f}")
+print(f"  Implied return/year:  {dd_return:.4f}")
+print("  ✓ Policy variation confirms causal returns")
+print("=" * 60, "\n")
+
+# ================================================================
+# CONVERGENCE: THE FURIOUS FIVE AGREE
+# ================================================================
+print("╔══════════════════════════════════════════════════════════╗")
+print("║  THE FURIOUS FIVE — SUMMARY OF ESTIMATES                ║")
+print("╠══════════════════════════════════════════════════════════╣")
+print(f"║  1. RCT (Wald):            {wald_rct:.4f}                   ║")
+print(f"║  2. OLS (simple):          {ols_simple.params['s']:.4f}                   ║")
+print(f"║  3. IV  (quarter of birth): {iv_qob.params['s']:.4f}                  ║")
+print(f"║  4. RD  (sheepskin):       ~0 (diploma ≠ earnings)      ║")
+print(f"║  5. DD  (reform):          {dd_return:.4f}                   ║")
+print("╠══════════════════════════════════════════════════════════╣")
+print("║  Convergence: true return ≈ 7–10% per year              ║")
+print("║  Education works through learning, not just credentials ║")
+print("╚══════════════════════════════════════════════════════════╝")
+```
+
+Below is the same Furious Five summary in Stata syntax.
+
+```stata
+* =================================================================
+* THE FURIOUS FIVE — Complete Code Summary (Stata)
+* =================================================================
+* Five methods, one question: Does education cause higher earnings?
+* =================================================================
+clear all
+set more off
+
+* =================================================================
+* METHOD 1: RANDOMIZED CONTROLLED TRIAL (RCT)
+* =================================================================
+* Equation: ln(W) = α + β·Scholarship + e
+* Logic:    Random assignment → no selection bias → β is causal
+* -----------------------------------------------------------------
+import delimited using ///
+  "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_rct.csv", clear
+
+* Effect of scholarship on earnings (ITT)
+reg earnings scholarship, robust
+
+* Per-year return via Wald estimate
+reg earnings scholarship, robust
+scalar rf = _b[scholarship]
+reg schooling scholarship, robust
+scalar fs = _b[scholarship]
+display "RCT Wald estimate (per-year return): " round(rf / fs, 0.0001)
+
+* =================================================================
+* METHOD 2: REGRESSION (OLS)
+* =================================================================
+* Equation: ln(W) = α + ρ·S + γ'X + e
+* Logic:    Control for observables, hope confounders are captured
+* -----------------------------------------------------------------
+* Simple bivariate OLS (Census data)
+import delimited using ///
+  "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+reg lnw s, robust
+* ~7% per year — likely biased upward by ability
+
+* OLS with controls (twins data)
+import delimited using ///
+  "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
+reg lwage educ age age2 female white, robust
+* ~11% per year — controls barely change the estimate
+
+* =================================================================
+* METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
+* =================================================================
+* Equation: Wald = (RF: Z → Y) / (FS: Z → D)
+* Logic:    Use exogenous variation (instrument) to isolate causation
+* -----------------------------------------------------------------
+* Strategy A: Quarter-of-birth IV (Angrist & Krueger 1991)
+import delimited using ///
+  "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+
+* First stage, reduced form, and Wald
+reg s q4, robust
+scalar fs_qob = _b[q4]
+reg lnw q4, robust
+scalar rf_qob = _b[q4]
+display "Wald IV estimate: " round(rf_qob / fs_qob, 0.0001)
+
+* 2SLS (same thing, computed automatically)
+ivregress 2sls lnw (s = q4), robust
+
+* Strategy B: Twin's report as IV
+import delimited using ///
+  "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
+ivregress 2sls lwage age age2 female white (educ = educt_t), robust
+
+* =================================================================
+* METHOD 4: REGRESSION DISCONTINUITY (RD)
+* =================================================================
+* Equation: Y = α + ρ·D + f(Score) + e
+* Logic:    Compare outcomes just above vs. just below a cutoff
+* -----------------------------------------------------------------
+import delimited using ///
+  "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/sheepskin_clean.csv", clear
+
+* Diploma receipt at the cutoff (below the cutoff only)
+reg receivehsd pass_exam left_1 left_2 left_3 left_4 ///
+  if minscore < 0 [aw = n]
+
+* Earnings at the cutoff
+reg avgearnings pass_exam left_1 left_2 left_3 left_4 ///
+  if minscore < 0 & minscore >= -30 [aw = person_years]
+* Near-zero earnings jump → diploma credential has little value
+
+* =================================================================
+* METHOD 5: DIFFERENCES-IN-DIFFERENCES (DD)
+* =================================================================
+* Equation: Y_st = α + δ·(Treated × Post) + β_s + γ_t + e_st
+* Logic:    Compare changes over time in treated vs. control groups
+* -----------------------------------------------------------------
+import delimited using ///
+  "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_did.csv", clear
+
+gen treat_post = treated * post
+
+* DD on schooling (first stage)
+reg avg_schooling treat_post i.state i.year, cluster(state)
+scalar dd_fs = _b[treat_post]
+
+* DD on earnings (reduced form)
+reg avg_earnings treat_post i.state i.year, cluster(state)
+scalar dd_rf = _b[treat_post]
+
+* Implied per-year return
+display "DD implied return per year: " round(dd_rf / dd_fs, 0.0001)
+
+* =================================================================
+* CONVERGENCE: THE FURIOUS FIVE AGREE
+* =================================================================
+* True causal return to schooling ≈ 7–10% per year
+* Education works through learning, not just credentials
+* =================================================================
+```
+
+
 ## Exercises
 
 ### Multiple Choice Questions
