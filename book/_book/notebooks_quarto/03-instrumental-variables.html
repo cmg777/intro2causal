@@ -558,7 +558,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 <section id="key-concepts-and-definitions" class="level2">
 <h2 class="anchored" data-anchor-id="key-concepts-and-definitions">Key Concepts and Definitions</h2>
-<p><strong>Non-Compliance:</strong>When subjects in an experiment do not follow their assigned treatment. Some assigned to treatment do not take it; some assigned to control find a way to get treatment. This breaks the link between assignment and received treatment.</p>
+<p><strong>Non-Compliance:</strong> When subjects in an experiment do not follow their assigned treatment. Some assigned to treatment do not take it; some assigned to control find a way to get treatment. This breaks the link between assignment and received treatment.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -591,7 +591,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Instrumental Variable (IV):</strong>A variable that affects the outcome only indirectly, through its effect on the treatment. It serves as a source of exogenous variation in treatment, allowing causal estimation even when treatment is not randomly assigned.</p>
+<p><strong>Instrumental Variable (IV):</strong> A variable that affects the outcome only indirectly, through its effect on the treatment. It serves as a source of exogenous variation in treatment, allowing causal estimation even when treatment is not randomly assigned.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -624,7 +624,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Local Average Treatment Effect (LATE):</strong>The causal effect of treatment specifically for the subpopulation of compliers — people whose treatment status was actually changed by the instrument. LATE is “local” because it applies only to this group, not to everyone.</p>
+<p><strong>Local Average Treatment Effect (LATE):</strong> The causal effect of treatment specifically for the subpopulation of compliers — people whose treatment status was actually changed by the instrument. LATE is “local” because it applies only to this group, not to everyone.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -657,7 +657,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>First Stage:</strong>The regression of the treatment variable on the instrument. It measures how strongly the instrument predicts treatment — a necessary condition for a valid IV analysis.</p>
+<p><strong>First Stage:</strong> The regression of the treatment variable on the instrument. It measures how strongly the instrument predicts treatment — a necessary condition for a valid IV analysis.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -690,7 +690,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Reduced Form:</strong>The regression of the outcome on the instrument directly, ignoring the treatment. It captures the total effect of the instrument on the outcome, combining the first stage and the causal effect.</p>
+<p><strong>Reduced Form:</strong> The regression of the outcome on the instrument directly, ignoring the treatment. It captures the total effect of the instrument on the outcome, combining the first stage and the causal effect.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -723,7 +723,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Two-Stage Least Squares (2SLS):</strong>The standard practical method for IV estimation. Stage 1 predicts treatment using the instrument(s). Stage 2 regresses the outcome on the predicted treatment. Produces correct standard errors when done with dedicated software.</p>
+<p><strong>Two-Stage Least Squares (2SLS):</strong> The standard practical method for IV estimation. Stage 1 predicts treatment using the instrument(s). Stage 2 regresses the outcome on the predicted treatment. Produces correct standard errors when done with dedicated software.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -756,7 +756,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Relevance (First Requirement for IV):</strong>The instrument must actually affect the treatment. Without a strong first stage, the IV estimate is unreliable. Tested using the F-statistic.</p>
+<p><strong>Relevance (First Requirement for IV):</strong> The instrument must actually affect the treatment. Without a strong first stage, the IV estimate is unreliable. Tested using the F-statistic.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -789,7 +789,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Independence (Second Requirement for IV):</strong>The instrument must be uncorrelated with unobserved confounders. Randomized instruments satisfy this automatically; natural experiments require careful argument.</p>
+<p><strong>Independence (Second Requirement for IV):</strong> The instrument must be uncorrelated with unobserved confounders. Randomized instruments satisfy this automatically; natural experiments require careful argument.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -822,7 +822,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Exclusion Restriction (Third Requirement for IV):</strong>The instrument must affect the outcome only through the treatment, with no direct or side-channel effects. This is the hardest requirement to defend and cannot be tested statistically.</p>
+<p><strong>Exclusion Restriction (Third Requirement for IV):</strong> The instrument must affect the outcome only through the treatment, with no direct or side-channel effects. This is the hardest requirement to defend and cannot be tested statistically.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -855,7 +855,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Weak Instruments:</strong>Instruments with a small first stage (F-statistic below 10). They produce biased 2SLS estimates, misleading confidence intervals, and unreliable inference — problems that do not disappear with larger samples.</p>
+<p><strong>Weak Instruments:</strong> Instruments with a small first stage (F-statistic below 10). They produce biased 2SLS estimates, misleading confidence intervals, and unreliable inference — problems that do not disappear with larger samples.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -888,7 +888,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Complier:</strong>A person whose treatment status is determined by the instrument: they take treatment when the instrument says “treat” and do not take it when the instrument says “control.” LATE estimates the causal effect for compliers only.</p>
+<p><strong>Complier:</strong> A person whose treatment status is determined by the instrument: they take treatment when the instrument says “treat” and do not take it when the instrument says “control.” LATE estimates the causal effect for compliers only.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -921,7 +921,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Always-Taker:</strong>A person who receives treatment regardless of their instrument value. Their treatment status is not affected by the instrument, so IV cannot estimate their causal effect.</p>
+<p><strong>Always-Taker:</strong> A person who receives treatment regardless of their instrument value. Their treatment status is not affected by the instrument, so IV cannot estimate their causal effect.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -954,7 +954,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Never-Taker:</strong>A person who never receives treatment regardless of their instrument value. Like always-takers, their behavior is unaffected by the instrument.</p>
+<p><strong>Never-Taker:</strong> A person who never receives treatment regardless of their instrument value. Like always-takers, their behavior is unaffected by the instrument.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -987,7 +987,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 </div>
 </div>
 </div>
-<p><strong>Monotonicity Assumption:</strong>The assumption that there are no defiers — no one who does the opposite of their instrument assignment. Under monotonicity, the instrument pushes everyone in the same direction (or leaves them unchanged).</p>
+<p><strong>Monotonicity Assumption:</strong> The assumption that there are no defiers — no one who does the opposite of their instrument assignment. Under monotonicity, the instrument pushes everyone in the same direction (or leaves them unchanged).</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1034,7 +1034,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 <li><strong>Separate</strong> them (remove suspect for 8 hours)</li>
 </ul>
 <p>The goal was to learn which response best prevented future violence. But police officers didn’t always follow their assignment.</p>
-<div id="01b4287c" class="cell" data-execution_count="1">
+<div id="37a4f887" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -3210,7 +3210,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Concepts and Definitions</span></span>
 <span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a>**Non-Compliance:**When subjects in an experiment do not follow their assigned treatment. Some assigned to treatment do not take it; some assigned to control find a way to get treatment. This breaks the link between assignment and received treatment.</span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a>**Non-Compliance:** When subjects in an experiment do not follow their assigned treatment. Some assigned to treatment do not take it; some assigned to control find a way to get treatment. This breaks the link between assignment and received treatment.</span>
 <span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a>In the MDVE, officers assigned to "advise" the couple sometimes arrested the suspect instead because the situation was too dangerous.</span>
@@ -3220,7 +3220,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a>Like a doctor prescribing medicine, but some patients never fill the prescription, while others get the pill from a friend. The prescription (assignment) and the pill (received treatment) are different things.</span>
 <span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a>**Instrumental Variable (IV):**A variable that affects the outcome only indirectly, through its effect on the treatment. It serves as a source of exogenous variation in treatment, allowing causal estimation even when treatment is not randomly assigned.</span>
+<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a>**Instrumental Variable (IV):** A variable that affects the outcome only indirectly, through its effect on the treatment. It serves as a source of exogenous variation in treatment, allowing causal estimation even when treatment is not randomly assigned.</span>
 <span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a>The KIPP school lottery (instrument) affects test scores (outcome) only through its effect on whether a student attends KIPP (treatment).</span>
@@ -3230,7 +3230,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a>Like a remote control for a TV. The remote (instrument) does not entertain you directly --- it works only by changing the channel (treatment), which determines what you watch (outcome).</span>
 <span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a>**Local Average Treatment Effect (LATE):**The causal effect of treatment specifically for the subpopulation of compliers --- people whose treatment status was actually changed by the instrument. LATE is "local" because it applies only to this group, not to everyone.</span>
+<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a>**Local Average Treatment Effect (LATE):** The causal effect of treatment specifically for the subpopulation of compliers --- people whose treatment status was actually changed by the instrument. LATE is "local" because it applies only to this group, not to everyone.</span>
 <span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a>The KIPP lottery IV estimates the effect of KIPP attendance for families who would attend if they won but not if they lost. It does not estimate the effect for families who would find a way in regardless.</span>
@@ -3240,7 +3240,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-81"><a href="#cb20-81" aria-hidden="true" tabindex="-1"></a>Like measuring the effect of an umbrella on staying dry, but only for people who carry one when it is offered and leave it at home otherwise. The effect may differ for people who always carry their own.</span>
 <span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-83"><a href="#cb20-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-84"><a href="#cb20-84" aria-hidden="true" tabindex="-1"></a>**First Stage:**The regression of the treatment variable on the instrument. It measures how strongly the instrument predicts treatment --- a necessary condition for a valid IV analysis.</span>
+<span id="cb20-84"><a href="#cb20-84" aria-hidden="true" tabindex="-1"></a>**First Stage:** The regression of the treatment variable on the instrument. It measures how strongly the instrument predicts treatment --- a necessary condition for a valid IV analysis.</span>
 <span id="cb20-85"><a href="#cb20-85" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-86"><a href="#cb20-86" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-87"><a href="#cb20-87" aria-hidden="true" tabindex="-1"></a>In the MDVE, the first stage shows that being assigned to coddle increased the probability of actually coddling by about 79 percentage points.</span>
@@ -3250,7 +3250,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-91"><a href="#cb20-91" aria-hidden="true" tabindex="-1"></a>Like checking whether pulling the lever actually opens the gate. If the lever is disconnected (weak first stage), pulling it tells you nothing about what happens on the other side.</span>
 <span id="cb20-92"><a href="#cb20-92" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-93"><a href="#cb20-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-94"><a href="#cb20-94" aria-hidden="true" tabindex="-1"></a>**Reduced Form:**The regression of the outcome on the instrument directly, ignoring the treatment. It captures the total effect of the instrument on the outcome, combining the first stage and the causal effect.</span>
+<span id="cb20-94"><a href="#cb20-94" aria-hidden="true" tabindex="-1"></a>**Reduced Form:** The regression of the outcome on the instrument directly, ignoring the treatment. It captures the total effect of the instrument on the outcome, combining the first stage and the causal effect.</span>
 <span id="cb20-95"><a href="#cb20-95" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-96"><a href="#cb20-96" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-97"><a href="#cb20-97" aria-hidden="true" tabindex="-1"></a>Regressing recidivism on the random assignment form (ignoring what officers actually did) gives the reduced form: the overall effect of being assigned to coddle on future violence.</span>
@@ -3260,7 +3260,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-101"><a href="#cb20-101" aria-hidden="true" tabindex="-1"></a>Like measuring how much rain falls when you see dark clouds, without caring about the specific atmospheric mechanism. The cloud (instrument) predicts rain (outcome) through its effect on air pressure (treatment).</span>
 <span id="cb20-102"><a href="#cb20-102" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-103"><a href="#cb20-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-104"><a href="#cb20-104" aria-hidden="true" tabindex="-1"></a>**Two-Stage Least Squares (2SLS):**The standard practical method for IV estimation. Stage 1 predicts treatment using the instrument(s). Stage 2 regresses the outcome on the predicted treatment. Produces correct standard errors when done with dedicated software.</span>
+<span id="cb20-104"><a href="#cb20-104" aria-hidden="true" tabindex="-1"></a>**Two-Stage Least Squares (2SLS):** The standard practical method for IV estimation. Stage 1 predicts treatment using the instrument(s). Stage 2 regresses the outcome on the predicted treatment. Produces correct standard errors when done with dedicated software.</span>
 <span id="cb20-105"><a href="#cb20-105" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-106"><a href="#cb20-106" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-107"><a href="#cb20-107" aria-hidden="true" tabindex="-1"></a>In a KIPP analysis, Stage 1 predicts KIPP attendance from lottery status. Stage 2 regresses test scores on predicted attendance. The coefficient is the LATE.</span>
@@ -3270,7 +3270,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-111"><a href="#cb20-111" aria-hidden="true" tabindex="-1"></a>Like a two-step recipe. First, forecast tomorrow's weather (predicted treatment). Then, plan your outfit based on the forecast (outcome based on predicted treatment). The forecast filters out the noise.</span>
 <span id="cb20-112"><a href="#cb20-112" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-113"><a href="#cb20-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-114"><a href="#cb20-114" aria-hidden="true" tabindex="-1"></a>**Relevance (First Requirement for IV):**The instrument must actually affect the treatment. Without a strong first stage, the IV estimate is unreliable. Tested using the F-statistic.</span>
+<span id="cb20-114"><a href="#cb20-114" aria-hidden="true" tabindex="-1"></a>**Relevance (First Requirement for IV):** The instrument must actually affect the treatment. Without a strong first stage, the IV estimate is unreliable. Tested using the F-statistic.</span>
 <span id="cb20-115"><a href="#cb20-115" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-116"><a href="#cb20-116" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-117"><a href="#cb20-117" aria-hidden="true" tabindex="-1"></a>Quarter of birth affects years of schooling through compulsory attendance laws (F &gt; 10), confirming relevance.</span>
@@ -3280,7 +3280,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-121"><a href="#cb20-121" aria-hidden="true" tabindex="-1"></a>Like a key that must actually fit the lock. A key that does not turn the lock (no first stage) cannot open the door to causal inference.</span>
 <span id="cb20-122"><a href="#cb20-122" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-123"><a href="#cb20-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-124"><a href="#cb20-124" aria-hidden="true" tabindex="-1"></a>**Independence (Second Requirement for IV):**The instrument must be uncorrelated with unobserved confounders. Randomized instruments satisfy this automatically; natural experiments require careful argument.</span>
+<span id="cb20-124"><a href="#cb20-124" aria-hidden="true" tabindex="-1"></a>**Independence (Second Requirement for IV):** The instrument must be uncorrelated with unobserved confounders. Randomized instruments satisfy this automatically; natural experiments require careful argument.</span>
 <span id="cb20-125"><a href="#cb20-125" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-126"><a href="#cb20-126" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-127"><a href="#cb20-127" aria-hidden="true" tabindex="-1"></a>A lottery is independent of family income, motivation, and other factors by design. Quarter of birth is plausibly independent of ability (though this is debated).</span>
@@ -3290,7 +3290,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-131"><a href="#cb20-131" aria-hidden="true" tabindex="-1"></a>Like a coin flip deciding who goes first in a game. The coin does not know or care which player is better --- it is truly independent.</span>
 <span id="cb20-132"><a href="#cb20-132" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-133"><a href="#cb20-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-134"><a href="#cb20-134" aria-hidden="true" tabindex="-1"></a>**Exclusion Restriction (Third Requirement for IV):**The instrument must affect the outcome only through the treatment, with no direct or side-channel effects. This is the hardest requirement to defend and cannot be tested statistically.</span>
+<span id="cb20-134"><a href="#cb20-134" aria-hidden="true" tabindex="-1"></a>**Exclusion Restriction (Third Requirement for IV):** The instrument must affect the outcome only through the treatment, with no direct or side-channel effects. This is the hardest requirement to defend and cannot be tested statistically.</span>
 <span id="cb20-135"><a href="#cb20-135" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-136"><a href="#cb20-136" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-137"><a href="#cb20-137" aria-hidden="true" tabindex="-1"></a>The KIPP lottery must affect test scores only through KIPP attendance, not through, say, parents' motivation being boosted just by winning the lottery.</span>
@@ -3300,7 +3300,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-141"><a href="#cb20-141" aria-hidden="true" tabindex="-1"></a>Like insisting that the only way a medicine can affect your headache is by entering your bloodstream. If you feel better just from the ritual of swallowing a pill (placebo effect), the exclusion restriction is violated.</span>
 <span id="cb20-142"><a href="#cb20-142" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-143"><a href="#cb20-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-144"><a href="#cb20-144" aria-hidden="true" tabindex="-1"></a>**Weak Instruments:**Instruments with a small first stage (F-statistic below 10). They produce biased 2SLS estimates, misleading confidence intervals, and unreliable inference --- problems that do not disappear with larger samples.</span>
+<span id="cb20-144"><a href="#cb20-144" aria-hidden="true" tabindex="-1"></a>**Weak Instruments:** Instruments with a small first stage (F-statistic below 10). They produce biased 2SLS estimates, misleading confidence intervals, and unreliable inference --- problems that do not disappear with larger samples.</span>
 <span id="cb20-145"><a href="#cb20-145" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-146"><a href="#cb20-146" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-147"><a href="#cb20-147" aria-hidden="true" tabindex="-1"></a>If quarter of birth barely predicts years of schooling (F = 3), the resulting IV estimate could be wildly off, even with 300,000 observations.</span>
@@ -3310,7 +3310,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-151"><a href="#cb20-151" aria-hidden="true" tabindex="-1"></a>Like trying to steer a ship with a tiny rudder in rough seas. No matter how big the ship (sample), the rudder (instrument) is too small to reliably change course.</span>
 <span id="cb20-152"><a href="#cb20-152" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-153"><a href="#cb20-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-154"><a href="#cb20-154" aria-hidden="true" tabindex="-1"></a>**Complier:**A person whose treatment status is determined by the instrument: they take treatment when the instrument says "treat" and do not take it when the instrument says "control." LATE estimates the causal effect for compliers only.</span>
+<span id="cb20-154"><a href="#cb20-154" aria-hidden="true" tabindex="-1"></a>**Complier:** A person whose treatment status is determined by the instrument: they take treatment when the instrument says "treat" and do not take it when the instrument says "control." LATE estimates the causal effect for compliers only.</span>
 <span id="cb20-155"><a href="#cb20-155" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-156"><a href="#cb20-156" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-157"><a href="#cb20-157" aria-hidden="true" tabindex="-1"></a>In the MDVE, a complier is an officer who arrests when the form says "arrest" and advises when the form says "advise."</span>
@@ -3320,7 +3320,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-161"><a href="#cb20-161" aria-hidden="true" tabindex="-1"></a>Like a restaurant customer who always orders the daily special. If the special changes, their meal changes too. The daily special "instrument" determines their choice.</span>
 <span id="cb20-162"><a href="#cb20-162" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-163"><a href="#cb20-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-164"><a href="#cb20-164" aria-hidden="true" tabindex="-1"></a>**Always-Taker:**A person who receives treatment regardless of their instrument value. Their treatment status is not affected by the instrument, so IV cannot estimate their causal effect.</span>
+<span id="cb20-164"><a href="#cb20-164" aria-hidden="true" tabindex="-1"></a>**Always-Taker:** A person who receives treatment regardless of their instrument value. Their treatment status is not affected by the instrument, so IV cannot estimate their causal effect.</span>
 <span id="cb20-165"><a href="#cb20-165" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-166"><a href="#cb20-166" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-167"><a href="#cb20-167" aria-hidden="true" tabindex="-1"></a>An officer who always arrests the suspect, no matter what the assignment form says.</span>
@@ -3330,7 +3330,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-171"><a href="#cb20-171" aria-hidden="true" tabindex="-1"></a>Like someone who always orders pizza regardless of the menu. Changing the menu (instrument) does not change what they eat (treatment).</span>
 <span id="cb20-172"><a href="#cb20-172" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-173"><a href="#cb20-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-174"><a href="#cb20-174" aria-hidden="true" tabindex="-1"></a>**Never-Taker:**A person who never receives treatment regardless of their instrument value. Like always-takers, their behavior is unaffected by the instrument.</span>
+<span id="cb20-174"><a href="#cb20-174" aria-hidden="true" tabindex="-1"></a>**Never-Taker:** A person who never receives treatment regardless of their instrument value. Like always-takers, their behavior is unaffected by the instrument.</span>
 <span id="cb20-175"><a href="#cb20-175" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-176"><a href="#cb20-176" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-177"><a href="#cb20-177" aria-hidden="true" tabindex="-1"></a>A family that would never send their child to KIPP, whether they win or lose the lottery.</span>
@@ -3340,7 +3340,7 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-181"><a href="#cb20-181" aria-hidden="true" tabindex="-1"></a>Like someone who never eats dessert no matter what is offered. The instrument cannot move them.</span>
 <span id="cb20-182"><a href="#cb20-182" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-183"><a href="#cb20-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-184"><a href="#cb20-184" aria-hidden="true" tabindex="-1"></a>**Monotonicity Assumption:**The assumption that there are no defiers --- no one who does the opposite of their instrument assignment. Under monotonicity, the instrument pushes everyone in the same direction (or leaves them unchanged).</span>
+<span id="cb20-184"><a href="#cb20-184" aria-hidden="true" tabindex="-1"></a>**Monotonicity Assumption:** The assumption that there are no defiers --- no one who does the opposite of their instrument assignment. Under monotonicity, the instrument pushes everyone in the same direction (or leaves them unchanged).</span>
 <span id="cb20-185"><a href="#cb20-185" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-186"><a href="#cb20-186" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb20-187"><a href="#cb20-187" aria-hidden="true" tabindex="-1"></a>Monotonicity holds if no officer is more likely to coddle when the form says "arrest" than when it says "coddle." Officers can ignore the form, but they cannot systematically rebel against it.</span>

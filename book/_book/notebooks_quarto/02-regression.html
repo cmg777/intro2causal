@@ -565,7 +565,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 </div>
 <section id="key-concepts-and-definitions" class="level2">
 <h2 class="anchored" data-anchor-id="key-concepts-and-definitions">Key Concepts and Definitions</h2>
-<p><strong>Ordinary Least Squares (OLS):</strong>The most common method for fitting a regression line. It chooses the coefficients that minimize the sum of squared differences between predicted and actual values of the outcome.</p>
+<p><strong>Ordinary Least Squares (OLS):</strong> The most common method for fitting a regression line. It chooses the coefficients that minimize the sum of squared differences between predicted and actual values of the outcome.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -598,7 +598,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 </div>
 </div>
 </div>
-<p><strong>Omitted Variable Bias (OVB):</strong>The bias that results when a relevant variable is left out of a regression. The formula <span class="math inline">\(\text{OVB} = \pi_1 \times \gamma\)</span> shows that bias equals the relationship between the omitted variable and the treatment, times the effect of the omitted variable on the outcome.</p>
+<p><strong>Omitted Variable Bias (OVB):</strong> The bias that results when a relevant variable is left out of a regression. The formula <span class="math inline">\(\text{OVB} = \pi_1 \times \gamma\)</span> shows that bias equals the relationship between the omitted variable and the treatment, times the effect of the omitted variable on the outcome.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -631,7 +631,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 </div>
 </div>
 </div>
-<p><strong>Short vs.&nbsp;Long Regression:</strong>The “short” regression includes fewer control variables and is more vulnerable to OVB. The “long” regression adds controls to reduce bias. The difference between their coefficients reveals the OVB.</p>
+<p><strong>Short vs.&nbsp;Long Regression:</strong> The “short” regression includes fewer control variables and is more vulnerable to OVB. The “long” regression adds controls to reduce bias. The difference between their coefficients reveals the OVB.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -664,7 +664,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 </div>
 </div>
 </div>
-<p><strong>Control Variable:</strong>A variable included in a regression to hold constant an observed characteristic, allowing the researcher to isolate the effect of the treatment variable. Good controls are pre-treatment confounders.</p>
+<p><strong>Control Variable:</strong> A variable included in a regression to hold constant an observed characteristic, allowing the researcher to isolate the effect of the treatment variable. Good controls are pre-treatment confounders.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -697,7 +697,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 </div>
 </div>
 </div>
-<p><strong>Bad Control:</strong>A variable that is <em>caused by</em> the treatment and should not be included in the regression. Controlling for it blocks part of the causal pathway and introduces new bias.</p>
+<p><strong>Bad Control:</strong> A variable that is <em>caused by</em> the treatment and should not be included in the regression. Controlling for it blocks part of the causal pathway and introduces new bias.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -730,7 +730,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 </div>
 </div>
 </div>
-<p><strong>Sensitivity Analysis:</strong>A robustness check that examines whether the treatment effect estimate changes when additional controls are added. Stable estimates across specifications increase confidence in the causal interpretation.</p>
+<p><strong>Sensitivity Analysis:</strong> A robustness check that examines whether the treatment effect estimate changes when additional controls are added. Stable estimates across specifications increase confidence in the causal interpretation.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -763,7 +763,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 </div>
 </div>
 </div>
-<p><strong>Auxiliary Regression:</strong>The regression of the omitted variable on the treatment variable, used to compute the <span class="math inline">\(\pi_1\)</span> component of the OVB formula. It tells you how strongly the omitted variable is related to treatment assignment.</p>
+<p><strong>Auxiliary Regression:</strong> The regression of the omitted variable on the treatment variable, used to compute the <span class="math inline">\(\pi_1\)</span> component of the OVB formula. It tells you how strongly the omitted variable is related to treatment assignment.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -796,7 +796,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 </div>
 </div>
 </div>
-<p><strong>Ceteris Paribus:</strong>A Latin phrase meaning “all other things being equal.” In regression, the coefficient on the treatment variable represents the effect of treatment holding all control variables constant.</p>
+<p><strong>Ceteris Paribus:</strong> A Latin phrase meaning “all other things being equal.” In regression, the coefficient on the treatment variable represents the effect of treatment holding all control variables constant.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -829,7 +829,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 </div>
 </div>
 </div>
-<p><strong>Conditional Independence Assumption (CIA):</strong>The assumption that, after controlling for observed variables, treatment assignment is as good as random. If the CIA holds, regression gives causal estimates.</p>
+<p><strong>Conditional Independence Assumption (CIA):</strong> The assumption that, after controlling for observed variables, treatment assignment is as good as random. If the CIA holds, regression gives causal estimates.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -862,7 +862,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 </div>
 </div>
 </div>
-<p><strong>Regression to the Mean:</strong>The statistical phenomenon where extreme observations tend to be followed by less extreme ones, not because of any causal process, but because extreme values partly reflect random luck that is unlikely to repeat.</p>
+<p><strong>Regression to the Mean:</strong> The statistical phenomenon where extreme observations tend to be followed by less extreme ones, not because of any causal process, but because extreme values partly reflect random luck that is unlikely to repeat.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -951,7 +951,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 <section id="the-data-generating-process" class="level3">
 <h3 class="anchored" data-anchor-id="the-data-generating-process">The Data-Generating Process</h3>
 <p>We simulate 1,000 students choosing between private and public colleges:</p>
-<div id="80c85739" class="cell" data-execution_count="1">
+<div id="34c35d5d" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3108,7 +3108,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Concepts and Definitions</span></span>
 <span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>**Ordinary Least Squares (OLS):**The most common method for fitting a regression line. It chooses the coefficients that minimize the sum of squared differences between predicted and actual values of the outcome.</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>**Ordinary Least Squares (OLS):** The most common method for fitting a regression line. It chooses the coefficients that minimize the sum of squared differences between predicted and actual values of the outcome.</span>
 <span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>To estimate the earnings premium of a college degree, OLS finds the line through the data that makes the squared prediction errors as small as possible.</span>
@@ -3118,7 +3118,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>Like a tailor measuring a suit. OLS adjusts the fit so the overall gap between the fabric and the body is minimized --- no single measurement is perfect, but the total mismatch is as small as it can be.</span>
 <span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a>**Omitted Variable Bias (OVB):**The bias that results when a relevant variable is left out of a regression. The formula $\text{OVB} = \pi_1 \times \gamma$ shows that bias equals the relationship between the omitted variable and the treatment, times the effect of the omitted variable on the outcome.</span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a>**Omitted Variable Bias (OVB):** The bias that results when a relevant variable is left out of a regression. The formula $\text{OVB} = \pi_1 \times \gamma$ shows that bias equals the relationship between the omitted variable and the treatment, times the effect of the omitted variable on the outcome.</span>
 <span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>Omitting ability from a regression of earnings on schooling inflates the schooling coefficient, because ability is positively correlated with both.</span>
@@ -3128,7 +3128,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a>Like blaming coffee for heart disease while ignoring that coffee drinkers are also more likely to smoke. If you leave smoking out of the picture, coffee gets the blame for what smoking caused.</span>
 <span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a>**Short vs. Long Regression:**The "short" regression includes fewer control variables and is more vulnerable to OVB. The "long" regression adds controls to reduce bias. The difference between their coefficients reveals the OVB.</span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a>**Short vs. Long Regression:** The "short" regression includes fewer control variables and is more vulnerable to OVB. The "long" regression adds controls to reduce bias. The difference between their coefficients reveals the OVB.</span>
 <span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a>Regressing earnings on college attendance (short) gives a 14% premium. Adding SAT scores and parental income (long) reduces it to 2%. The 12% gap is OVB.</span>
@@ -3138,7 +3138,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>Like describing someone in one sentence (short) versus a full paragraph (long). The short description may miss important details that change the story.</span>
 <span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>**Control Variable:**A variable included in a regression to hold constant an observed characteristic, allowing the researcher to isolate the effect of the treatment variable. Good controls are pre-treatment confounders.</span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>**Control Variable:** A variable included in a regression to hold constant an observed characteristic, allowing the researcher to isolate the effect of the treatment variable. Good controls are pre-treatment confounders.</span>
 <span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>When estimating the effect of class size on test scores, controlling for school funding ensures we compare schools with similar resources.</span>
@@ -3148,7 +3148,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a>Like a cooking competition where every contestant uses the same oven and ingredients. Controlling for equipment lets you fairly judge each chef's skill alone.</span>
 <span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a>**Bad Control:**A variable that is *caused by* the treatment and should not be included in the regression. Controlling for it blocks part of the causal pathway and introduces new bias.</span>
+<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a>**Bad Control:** A variable that is *caused by* the treatment and should not be included in the regression. Controlling for it blocks part of the causal pathway and introduces new bias.</span>
 <span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb17-97"><a href="#cb17-97" aria-hidden="true" tabindex="-1"></a>Controlling for occupation when estimating the return to education removes one of the main channels through which education raises earnings, biasing the estimate downward.</span>
@@ -3158,7 +3158,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-101"><a href="#cb17-101" aria-hidden="true" tabindex="-1"></a>Like judging a medicine's effect on health but only counting patients who did not get better. By filtering on the outcome's pathway, you miss part of the medicine's true benefit.</span>
 <span id="cb17-102"><a href="#cb17-102" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-103"><a href="#cb17-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>**Sensitivity Analysis:**A robustness check that examines whether the treatment effect estimate changes when additional controls are added. Stable estimates across specifications increase confidence in the causal interpretation.</span>
+<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>**Sensitivity Analysis:** A robustness check that examines whether the treatment effect estimate changes when additional controls are added. Stable estimates across specifications increase confidence in the causal interpretation.</span>
 <span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a>Dale and Krueger showed that the private college premium barely changed after adding SAT scores and parental income, suggesting the remaining controls (application behavior) captured the key confounders.</span>
@@ -3168,7 +3168,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a>Like stress-testing a bridge. If the bridge holds up under different loads and conditions, you trust it is sturdy. If the estimate survives adding many controls, you trust it is not driven by omitted variables.</span>
 <span id="cb17-112"><a href="#cb17-112" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-113"><a href="#cb17-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a>**Auxiliary Regression:**The regression of the omitted variable on the treatment variable, used to compute the $\pi_1$ component of the OVB formula. It tells you how strongly the omitted variable is related to treatment assignment.</span>
+<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a>**Auxiliary Regression:** The regression of the omitted variable on the treatment variable, used to compute the $\pi_1$ component of the OVB formula. It tells you how strongly the omitted variable is related to treatment assignment.</span>
 <span id="cb17-115"><a href="#cb17-115" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-116"><a href="#cb17-116" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb17-117"><a href="#cb17-117" aria-hidden="true" tabindex="-1"></a>Regressing ability on private school attendance shows $\pi_1 &gt; 0$: higher-ability students are more likely to attend private school.</span>
@@ -3178,7 +3178,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-121"><a href="#cb17-121" aria-hidden="true" tabindex="-1"></a>Like checking how correlated two suspects are before deciding if one is covering for the other. The auxiliary regression tells you how much the missing variable "travels with" the treatment.</span>
 <span id="cb17-122"><a href="#cb17-122" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-123"><a href="#cb17-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-124"><a href="#cb17-124" aria-hidden="true" tabindex="-1"></a>**Ceteris Paribus:**A Latin phrase meaning "all other things being equal." In regression, the coefficient on the treatment variable represents the effect of treatment holding all control variables constant.</span>
+<span id="cb17-124"><a href="#cb17-124" aria-hidden="true" tabindex="-1"></a>**Ceteris Paribus:** A Latin phrase meaning "all other things being equal." In regression, the coefficient on the treatment variable represents the effect of treatment holding all control variables constant.</span>
 <span id="cb17-125"><a href="#cb17-125" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-126"><a href="#cb17-126" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb17-127"><a href="#cb17-127" aria-hidden="true" tabindex="-1"></a>A regression coefficient of \$5,000 on private school attendance, with SAT scores held constant, means private school raises earnings by \$5,000 for students with the same SAT scores.</span>
@@ -3188,7 +3188,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-131"><a href="#cb17-131" aria-hidden="true" tabindex="-1"></a>Like comparing two identical houses on the same street that differ only in having a garage. Any price difference is the value of the garage, all else equal.</span>
 <span id="cb17-132"><a href="#cb17-132" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-133"><a href="#cb17-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a>**Conditional Independence Assumption (CIA):**The assumption that, after controlling for observed variables, treatment assignment is as good as random. If the CIA holds, regression gives causal estimates.</span>
+<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a>**Conditional Independence Assumption (CIA):** The assumption that, after controlling for observed variables, treatment assignment is as good as random. If the CIA holds, regression gives causal estimates.</span>
 <span id="cb17-135"><a href="#cb17-135" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-136"><a href="#cb17-136" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb17-137"><a href="#cb17-137" aria-hidden="true" tabindex="-1"></a>If we control for SAT scores, parental income, and application behavior, the remaining variation in college choice may be essentially random, satisfying the CIA.</span>
@@ -3198,7 +3198,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-141"><a href="#cb17-141" aria-hidden="true" tabindex="-1"></a>Like matching identical twins who differ only in one habit (say, drinking coffee). If the match is perfect, any health difference is caused by coffee. CIA says "our controls are good enough to create such a match."</span>
 <span id="cb17-142"><a href="#cb17-142" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-143"><a href="#cb17-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a>**Regression to the Mean:**The statistical phenomenon where extreme observations tend to be followed by less extreme ones, not because of any causal process, but because extreme values partly reflect random luck that is unlikely to repeat.</span>
+<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a>**Regression to the Mean:** The statistical phenomenon where extreme observations tend to be followed by less extreme ones, not because of any causal process, but because extreme values partly reflect random luck that is unlikely to repeat.</span>
 <span id="cb17-145"><a href="#cb17-145" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-146"><a href="#cb17-146" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" appearance="simple" title="Example"}</span>
 <span id="cb17-147"><a href="#cb17-147" aria-hidden="true" tabindex="-1"></a>A student who scores in the 99th percentile on one exam will likely score lower on the next, even without any change in ability --- the first score was partly luck.</span>

@@ -17,24 +17,26 @@ np.random.seed(2024)
 # =====================================================================
 # 1. synthetic_ovb.csv — Omitted Variables Bias demonstration
 # =====================================================================
-# DGP: ability → schooling + earnings; occupation caused by schooling
-# True return to schooling = 0.08 per year
-# OLS without ability ≈ 0.11 (upward bias)
-# OLS with ability ≈ 0.08 (correct)
-# OLS with occupation (bad control) ≈ biased downward
+# DGP: ability → schooling + earnings; schooling → occupation → earnings
+# True TOTAL return to schooling = 0.10 per year (0.06 direct + 0.04 via occupation)
+# OLS without ability ≈ 0.13 (upward bias from omitted ability)
+# OLS with ability ≈ 0.10 (correct total effect)
+# OLS with occupation (bad control) ≈ 0.06 (removes the occupation channel)
 
-n_ovb = 1000
+n_ovb = 2000
 
 ability = np.random.normal(0, 1, n_ovb)
 schooling = 12 + 2 * ability + np.random.normal(0, 1.5, n_ovb)
 schooling = np.clip(schooling, 6, 20).round(0)
 
-# True causal return = 0.08 per year; ability also directly affects earnings
-earnings = 8.0 + 0.08 * schooling + 0.15 * ability + np.random.normal(0, 0.3, n_ovb)
-
-# Occupation is caused by schooling (post-treatment / bad control)
+# Occupation is caused by schooling (post-treatment / mediator)
 # Higher schooling → higher-status occupation (1-5 scale)
-occupation = np.clip(1 + 0.25 * (schooling - 10) + np.random.normal(0, 0.8, n_ovb), 1, 5).round(0)
+occupation = np.clip(1 + 0.3 * (schooling - 10) + np.random.normal(0, 0.6, n_ovb), 1, 5).round(0)
+
+# Earnings: direct effect of schooling (0.06) + effect through occupation (0.10 per level)
+# Total causal effect of schooling = 0.06 + 0.3*0.10 ≈ 0.09
+# Plus ability directly affects earnings (0.12)
+earnings = 7.5 + 0.06 * schooling + 0.10 * occupation + 0.12 * ability + np.random.normal(0, 0.25, n_ovb)
 
 ovb_df = pd.DataFrame({
     "earnings": earnings.round(4),
