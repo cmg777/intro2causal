@@ -497,6 +497,47 @@ print("  (Expect: small and insignificant)")
 Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
 :::
 
+Below is the same cheatsheet in Stata syntax.
+
+```stata
+* ============================================================
+* Chapter 5: Differences-in-Differences — Stata Cheatsheet
+* ============================================================
+clear all
+set more off
+
+* --- Step 1: Manual DD with the Great Depression banking data ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/banks_clean.csv", clear
+list
+scalar pre_6  = bib6[2]   // District 6 in 1930
+scalar pre_8  = bib8[2]   // District 8 in 1930
+scalar post_6 = bib6[3]   // District 6 in 1931
+scalar post_8 = bib8[3]   // District 8 in 1931
+scalar dd = (post_6 - pre_6) - (post_8 - pre_8)
+display "DD estimate (1931 vs 1930): " dd " banks saved by Atlanta Fed"
+
+* --- Step 2: Load MLDA death rate panel data ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/deaths_clean.csv", clear
+keep if dtype == "all"
+
+* --- Step 3: Regression DD with state and year fixed effects ---
+reg mrate legal i.state i.year, cluster(state)
+
+* --- Step 4: Population-weighted DD ---
+reg mrate legal i.state i.year [aw=pop], cluster(state)
+
+* --- Step 5: Placebo test (suicide should NOT respond to drinking age) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/deaths_clean.csv", clear
+keep if dtype == "suicide"
+reg mrate legal i.state i.year, cluster(state)
+* Expect: small and insignificant coefficient on legal
+```
+
+::: {.callout-tip}
+### Try it in Stata!
+Copy the code above into a `.do` file and run it in Stata 14 or later (which supports loading data from URLs). If your Stata cannot access the internet, download the CSV files from the `data/` folder on [GitHub](https://github.com/cmg777/intro2causal/tree/main/data) and replace each URL with a local file path.
+:::
+
 
 ## Exercises
 

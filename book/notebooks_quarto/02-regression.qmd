@@ -479,6 +479,49 @@ print(f"  pi1 = {pi_1:.2f}, gamma = {gamma:.0f}")
 Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
 :::
 
+Below is the same cheatsheet in Stata syntax.
+
+```stata
+* ============================================================
+* Chapter 2: Regression — Stata Cheatsheet
+* ============================================================
+clear all
+set more off
+set seed 42
+set obs 1000
+
+* --- Step 1: Simulate data where we KNOW the true causal effect ---
+gen ability = rnormal(50, 10)
+gen prob_private = 1 / (1 + exp(-(ability - 50) / 5))
+gen private = rbinomial(1, prob_private)
+gen earnings = 30000 + 5000 * private + 800 * ability + rnormal(0, 5000)
+
+* --- Step 2: Short regression (omitting ability — biased) ---
+reg earnings private
+* The private coefficient is too high (above 5,000) due to OVB
+
+* --- Step 3: Long regression (including ability — unbiased) ---
+reg earnings private ability
+* The private coefficient is now close to the true effect of 5,000
+
+* --- Step 4: Verify the OVB formula ---
+scalar long_private = _b[private]
+scalar gamma = _b[ability]
+quietly reg earnings private
+scalar short_private = _b[private]
+scalar ovb_direct = short_private - long_private
+quietly reg ability private
+scalar pi_1 = _b[private]
+scalar ovb_formula = pi_1 * gamma
+display "Direct OVB (short - long):  " ovb_direct
+display "Formula OVB (pi1 x gamma): " ovb_formula
+```
+
+::: {.callout-tip}
+### Try it in Stata!
+Copy the code above into a `.do` file and run it in Stata. No external data files are needed — this chapter uses simulated data generated within the script.
+:::
+
 
 ## Exercises
 

@@ -459,7 +459,7 @@ DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 # --- Step 1: Load Minneapolis Domestic Violence Experiment data ---
 mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
 print("MDVE data:", mdve.shape[0], "cases")
-print(mdve[["assigned", "delivered", "recidivism"]].head())
+print(mdve[["assigned", "delivered"]].head())
 
 # --- Step 2: Compliance — did officers follow their assignment? ---
 print("\nAssigned vs. delivered treatment:")
@@ -476,10 +476,10 @@ print(f"\nFirst stage: {first_stage:.3f}")
 print("  (Fraction who comply with coddle assignment)")
 
 # --- Step 5: Reduced form (does assignment affect recidivism?) ---
-rf = smf.ols("recidivism ~ z_coddle", data=mdve).fit(cov_type="HC1")
-reduced_form = rf.params["z_coddle"]
+# Recidivism data not in this clean dataset; use published numbers
+reduced_form = 0.211 - 0.097  # recidivism rate: coddle vs. arrest assignment
 print(f"\nReduced form: {reduced_form:.3f}")
-print("  (Effect of coddle ASSIGNMENT on recidivism)")
+print("  (Effect of coddle ASSIGNMENT on recidivism, from published data)")
 
 # --- Step 6: IV estimate (LATE = reduced form / first stage) ---
 late = reduced_form / first_stage
@@ -490,6 +490,45 @@ print("  Coddling increases recidivism by ~15 pp among compliers")
 ::: {.callout-tip}
 ### Try it yourself!
 Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+Below is the same cheatsheet in Stata syntax.
+
+```stata
+* ============================================================
+* Chapter 3: Instrumental Variables — Stata Cheatsheet
+* ============================================================
+clear all
+set more off
+
+* --- Step 1: Load Minneapolis Domestic Violence Experiment data ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear
+list in 1/5
+
+* --- Step 2: Compliance — did officers follow their assignment? ---
+tabulate assigned delivered
+
+* --- Step 3: Create binary variables (arrest vs. coddle) ---
+gen z_coddle = (assigned != "Arrest")   // instrument
+gen d_coddle = (delivered != "Arrest")   // treatment
+
+* --- Step 4: First stage (does assignment change actual treatment?) ---
+reg d_coddle z_coddle, robust
+scalar first_stage = _b[z_coddle]
+
+* --- Step 5: Reduced form (does assignment affect recidivism?) ---
+* Recidivism data not in this clean dataset; use published numbers
+scalar reduced_form = 0.211 - 0.097  // recidivism rate: coddle vs. arrest
+
+* --- Step 6: IV estimate (LATE = reduced form / first stage) ---
+scalar late = reduced_form / first_stage
+display "LATE = " reduced_form " / " first_stage " = " late
+display "Coddling increases recidivism by ~15 pp among compliers"
+```
+
+::: {.callout-tip}
+### Try it in Stata!
+Copy the code above into a `.do` file and run it in Stata 14 or later (which supports loading data from URLs). If your Stata cannot access the internet, download the CSV files from the `data/` folder on [GitHub](https://github.com/cmg777/intro2causal/tree/main/data) and replace each URL with a local file path.
 :::
 
 

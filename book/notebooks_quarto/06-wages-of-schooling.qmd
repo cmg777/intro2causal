@@ -605,6 +605,49 @@ print("  (~8% per year via quarter-of-birth instrument)")
 Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
 :::
 
+Below is the same cheatsheet in Stata syntax.
+
+```stata
+* ============================================================
+* Chapter 6: The Wages of Schooling — Stata Cheatsheet
+* ============================================================
+clear all
+set more off
+
+* --- Step 1: OLS return to schooling (twins data) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
+reg lwage educ age age2 female white, robust
+* ~11% per year — but may be biased by unobserved ability
+
+* --- Step 2: Twin fixed effects (within-pair differences) ---
+reg dlwage deduc if first == 1, noconstant robust
+* ~6% — lower because shared ability is removed
+
+* --- Step 3: Quarter-of-birth IV (Angrist & Krueger) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+
+* First stage: does Q4 birth affect years of schooling?
+reg s q4, robust
+scalar fs_coef = _b[q4]
+
+* Reduced form: does Q4 birth affect earnings?
+reg lnw q4, robust
+scalar rf_coef = _b[q4]
+
+* Wald IV estimate
+scalar wald = rf_coef / fs_coef
+display "Wald IV estimate: " round(wald, 0.001)
+
+* --- Step 4: 2SLS (same answer, correct standard errors) ---
+ivregress 2sls lnw (s = q4), robust
+* ~8% per year via quarter-of-birth instrument
+```
+
+::: {.callout-tip}
+### Try it in Stata!
+Copy the code above into a `.do` file and run it in Stata 14 or later (which supports loading data from URLs). If your Stata cannot access the internet, download the CSV files from the `data/` folder on [GitHub](https://github.com/cmg777/intro2causal/tree/main/data) and replace each URL with a local file path.
+:::
+
 
 ## Exercises
 

@@ -760,6 +760,40 @@ print(result.summary().tables[1])
 Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
 :::
 
+Below is the same cheatsheet in Stata syntax.
+
+```stata
+* ============================================================
+* Chapter 1: Randomized Trials — Stata Cheatsheet
+* ============================================================
+clear all
+set more off
+
+* --- Step 1: Load NHIS data and compare health by insurance status ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/nhis_clean.csv", clear
+tabstat health, by(insurance)
+
+* --- Step 2: Regression on a dummy (difference in means + standard error) ---
+reg health insurance, robust
+
+* --- Step 3: Balance check (RAND HIE — did randomization work?) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_balance.csv", clear
+reg age plan_free plan_deductible plan_coinsurance, cluster(family_id)
+
+* --- Step 4: Causal effect of free insurance on spending ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_utilization.csv", clear
+reg total_expenses plan_free plan_deductible plan_coinsurance, cluster(family_id)
+
+* --- Step 5: Causal effect on health (the RAND paradox: no effect!) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_health_outcomes.csv", clear
+reg health_index plan_free plan_deductible plan_coinsurance, cluster(family_id)
+```
+
+::: {.callout-tip}
+### Try it in Stata!
+Copy the code above into a `.do` file and run it in Stata 14 or later (which supports loading data from URLs). If your Stata cannot access the internet, download the CSV files from the `data/` folder on [GitHub](https://github.com/cmg777/intro2causal/tree/main/data) and replace each URL with a local file path.
+:::
+
 
 ## Exercises
 
