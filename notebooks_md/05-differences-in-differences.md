@@ -361,8 +361,8 @@ pd.DataFrame(rows)
 > ⭐ **Interpreting the DD results**
 >
 
-- **Legal drinking access increases the death rate** by approximately **7--10 per 100,000** among 18--20 year olds
-- **Motor vehicle accidents** account for most of the effect (~5--7 deaths)
+- **Legal drinking access increases the death rate** by approximately **8--12 per 100,000** among 18--20 year olds
+- **Motor vehicle accidents** account for most of the effect (~7--8 deaths)
 - **Internal causes** (disease) show no significant effect --- a **placebo test** confirming the design
 - Results are **robust** to adding state-specific trends and population weighting
 
@@ -750,7 +750,7 @@ forvalues i = 3/6 {
 }
 ```
 
-(1) **What the numbers show:** The DD effect grows from 19 banks in 1931 to 23 in 1932, then stabilizes around 21 in 1933--1934. Both districts lost banks, but the 8th District (restrictive policy) consistently lost more.
+(1) **What the numbers show:** The DD effect grows from 19 banks in 1931 to 23 in 1932, then remains in the 21--23 range in 1933--1934. Both districts lost banks, but the 8th District (restrictive policy) consistently lost more.
 
 (2) **Why:** The Atlanta Fed's liquidity support prevented bank runs from cascading --- once a bank survived the initial panic with Fed support, it remained solvent through the Depression. The St. Louis Fed's restrictive approach allowed solvent but illiquid banks to fail, and those failures could not be reversed later.
 

@@ -446,11 +446,6 @@ window.Quarto = {
   <li><a href="#conceptual-questions" id="toc-conceptual-questions" class="nav-link" data-scroll-target="#conceptual-questions">Conceptual Questions</a></li>
   <li><a href="#research-tasks" id="toc-research-tasks" class="nav-link" data-scroll-target="#research-tasks">Research Tasks</a></li>
   </ul></li>
-  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a>
-  <ul class="collapse">
-  <li><a href="#conceptual-questions-2" id="toc-conceptual-questions-2" class="nav-link" data-scroll-target="#conceptual-questions-2">Conceptual Questions</a></li>
-  <li><a href="#research-tasks-2" id="toc-research-tasks-2" class="nav-link" data-scroll-target="#research-tasks-2">Research Tasks</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -1064,7 +1059,7 @@ Figure&nbsp;4.1: Roadmap for Chapter 4
 <section id="the-mlda-question" class="level3">
 <h3 class="anchored" data-anchor-id="the-mlda-question">The MLDA Question</h3>
 <p>The <strong>minimum legal drinking age (MLDA)</strong> is 21 in the United States. Does reaching this threshold actually affect health? Specifically, does turning 21 — and gaining legal access to alcohol — increase mortality?</p>
-<div id="a811f161" class="cell" data-execution_count="1">
+<div id="8428939d" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -2015,85 +2010,149 @@ Figure&nbsp;4.5: How the key concepts of Chapter 4 connect
 </section>
 <section id="conceptual-questions" class="level3">
 <h3 class="anchored" data-anchor-id="conceptual-questions">Conceptual Questions</h3>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
+<ol type="1">
+<li><strong>Identifying RD opportunities</strong>: A scholarship program awards funding to students who score above 80 on an entrance exam. (a) What is the running variable? (b) What is the cutoff? (c) Is this a sharp or fuzzy RD? (d) What assumption must hold for the RD estimate to be causal?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Conceptual Questions
+<span class="screen-reader-only">Note</span>Show answer
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-45" class="callout-45-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<ol type="1">
-<li><p><strong>Identifying RD opportunities</strong>: A scholarship program awards funding to students who score above 80 on an entrance exam. (a) What is the running variable? (b) What is the cutoff? (c) Is this a sharp or fuzzy RD? (d) What assumption must hold for the RD estimate to be causal?</p></li>
-<li><p><strong>The placebo test</strong>: In our MLDA analysis, internal causes of death showed no jump at age 21. Why is this important for the credibility of the RD design? What would it mean if internal causes <em>did</em> show a significant jump?</p></li>
-<li><p><strong>Bandwidth tradeoff</strong>: Explain the tradeoff between using a narrow bandwidth (ages 20–22) and a wide bandwidth (ages 19–23) in an RD analysis. What does each gain and lose?</p></li>
-<li><p><strong>Manipulation of the running variable</strong>: Why is manipulation of the running variable a threat to RD validity? Can people manipulate their age? What about an exam score? Give an example where manipulation would be a serious concern.</p></li>
-<li><p><strong>Local vs.&nbsp;global effects</strong>: The RD estimate tells us about the effect of legal drinking for people <em>at</em> the age-21 cutoff. Why might this effect differ from the effect at age 18 or age 25? What does “local” mean in this context?</p></li>
-</ol>
-</div>
-</div>
-</section>
-<section id="research-tasks" class="level3">
-<h3 class="anchored" data-anchor-id="research-tasks">Research Tasks</h3>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Research Tasks
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><p><strong>Alcohol-related deaths</strong>: Using <code>mlda_clean.csv</code>, run the linear RD regression for <code>alcohol</code>-related deaths (instead of all-cause). Is the jump at age 21 statistically significant? How does the effect size compare to the <code>mva</code> result?</p></li>
-<li><p><strong>Visualizing the suicide RD</strong>: Using <code>mlda_clean.csv</code>, create an RD scatter plot for <code>suicide</code> deaths with separate fitted lines on each side of the cutoff. Does the visual pattern match what the regression coefficient suggests?</p></li>
-<li><p><strong>Quadratic vs.&nbsp;linear specification</strong>: Using <code>mlda_clean.csv</code>, run the quadratic RD model for all-cause mortality (including <code>age2</code>, <code>over_age</code>, <code>over_age2</code>). Compare the coefficient on <code>over21</code> with the linear model. Is the estimate sensitive to the polynomial order?</p></li>
-<li><p><strong>Homicide as a nuanced placebo</strong>: Using <code>mlda_clean.csv</code>, run the linear RD regression for <code>homicide</code> deaths and compare the estimate with those for <code>mva</code> and <code>internal</code> causes. Homicide is partly alcohol-related (bar fights, altercations) but not as directly as drunk driving. Where does homicide fall on the spectrum from “causally affected by alcohol access” to “placebo”?</p></li>
-<li><p><strong>Bandwidth sensitivity</strong>: Using <code>mlda_clean.csv</code>, estimate the RD effect on all-cause mortality (<code>all</code>) using four progressively narrower bandwidths: the full sample, then <code>agecell</code> within 1.5 years of 21, within 1.0 year, and within 0.5 years. How do the coefficient and standard error change as the bandwidth narrows?</p></li>
-</ol>
-</div>
-</div>
-</section>
-</section>
-<section id="solutions" class="level2">
-<h2 class="anchored" data-anchor-id="solutions">Solutions</h2>
-<section id="conceptual-questions-2" class="level3">
-<h3 class="anchored" data-anchor-id="conceptual-questions-2">Conceptual Questions</h3>
-<p><strong>Q1.</strong> <strong>Designing an RD requires identifying the running variable, the cutoff, the sharpness of compliance, and the continuity assumption.</strong></p>
+<p><strong>Designing an RD requires identifying the running variable, the cutoff, the sharpness of compliance, and the continuity assumption.</strong></p>
 <ol type="1">
 <li>The running variable is the entrance exam score — this is the continuous measure that determines treatment assignment at the threshold.</li>
 <li>The cutoff is 80. Students scoring above this threshold are eligible for funding; those below are not.</li>
 <li>If all students above 80 receive funding and none below do, it is a sharp RD (perfect compliance). If some above 80 decline the scholarship and some below 80 receive funding through appeals or exceptions, it is a fuzzy RD — estimated using IV with the cutoff indicator as the instrument for actual scholarship receipt.</li>
 <li>The key assumption is continuity: all other factors affecting the outcome must vary <em>smoothly</em> at the cutoff. Students scoring 79 and 81 must be comparable in every way except scholarship receipt. If students can manipulate their scores to land above 80, this assumption fails because the two groups would differ systematically.</li>
 </ol>
-<p><strong>Q2.</strong> <strong>Placebo tests using outcomes that should not respond to the treatment are essential for validating any RD design.</strong></p>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li><strong>The placebo test</strong>: In our MLDA analysis, internal causes of death showed no jump at age 21. Why is this important for the credibility of the RD design? What would it mean if internal causes <em>did</em> show a significant jump?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-46" class="callout-46-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Placebo tests using outcomes that should not respond to the treatment are essential for validating any RD design.</strong></p>
 <ol type="1">
 <li>Internal causes of death (diseases, cancer, etc.) should not be affected by legal drinking access at age 21 — these conditions take years to develop and have no plausible connection to alcohol availability.</li>
 <li>Finding no jump in internal causes at the cutoff confirms that the RD design is picking up the causal effect of alcohol access specifically, not some other factor that changes at 21.</li>
 <li>If internal causes <em>did</em> show a significant jump, it would suggest that something other than drinking is changing at the cutoff (e.g., a change in health insurance eligibility, data reporting practices, or census age-heaping), casting doubt on the entire RD design.</li>
 <li>This logic extends to any RD application: researchers should always test outcomes that the treatment should not affect. A clean placebo test strengthens the causal interpretation; a failed one demands investigation before results can be trusted.</li>
 </ol>
-<p><strong>Q3.</strong> <strong>The bandwidth choice in RD embodies a fundamental bias-variance tradeoff: proximity to the cutoff improves comparability but reduces statistical power.</strong></p>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li><strong>Bandwidth tradeoff</strong>: Explain the tradeoff between using a narrow bandwidth (ages 20–22) and a wide bandwidth (ages 19–23) in an RD analysis. What does each gain and lose?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-47-contents" aria-controls="callout-47" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-47" class="callout-47-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>The bandwidth choice in RD embodies a fundamental bias-variance tradeoff: proximity to the cutoff improves comparability but reduces statistical power.</strong></p>
 <ol type="1">
 <li>A narrow bandwidth (e.g., ages 20–22) reduces bias because people very close to the cutoff are nearly identical, and nonlinear trends in the running variable have less room to confuse the estimate. The continuity assumption is most plausible for observations right at the cutoff.</li>
 <li>However, a narrow bandwidth increases variance because fewer observations are used, making the estimate noisier and confidence intervals wider.</li>
 <li>A wide bandwidth (ages 19–23) uses more data, giving more precise estimates, but risks bias from nonlinear trends in the outcome-running variable relationship that could be mistaken for (or mask) a discontinuity.</li>
 <li>The optimal choice balances this tradeoff. In practice, researchers report estimates across multiple bandwidths to show robustness — if the RD estimate is sensitive to bandwidth choice, it raises concerns about specification dependence.</li>
 </ol>
-<p><strong>Q4.</strong> <strong>Manipulation of the running variable is the greatest threat to RD validity because it destroys the comparability of units just above and just below the cutoff.</strong></p>
+</div>
+</div>
+</div>
+<ol start="4" type="1">
+<li><strong>Manipulation of the running variable</strong>: Why is manipulation of the running variable a threat to RD validity? Can people manipulate their age? What about an exam score? Give an example where manipulation would be a serious concern.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-48" class="callout-48-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Manipulation of the running variable is the greatest threat to RD validity because it destroys the comparability of units just above and just below the cutoff.</strong></p>
 <ol type="1">
 <li>If people can manipulate the running variable to land on their preferred side of the cutoff, the groups just above and just below are no longer comparable — those who manipulated are systematically different from those who did not (e.g., more motivated, better connected, or wealthier).</li>
 <li>Age cannot be manipulated (you cannot choose your birthday), which is why the MLDA design is strong. The continuity assumption is highly credible because no one can precisely sort themselves to one side of age 21.</li>
 <li>Exam scores, however, can be manipulated: students might retake exams, cheat, or receive score adjustments near the cutoff. This creates “bunching” just above the threshold.</li>
 <li>A concerning example would be a tax threshold where accountants manipulate reported income to fall just below the cutoff for a higher tax rate — the McCrary density test can detect such manipulation by checking whether the density of the running variable is discontinuous at the cutoff.</li>
 </ol>
+</div>
+</div>
+</div>
+<ol start="5" type="1">
+<li><strong>Local vs.&nbsp;global effects</strong>: The RD estimate tells us about the effect of legal drinking for people <em>at</em> the age-21 cutoff. Why might this effect differ from the effect at age 18 or age 25? What does “local” mean in this context?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-49-contents" aria-controls="callout-49" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-49" class="callout-49-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>RD estimates are inherently local — they identify the causal effect only at the cutoff, and generalizing to other values of the running variable requires untestable assumptions.</strong></p>
+<ol type="1">
+<li>“Local” means the RD estimate applies specifically to people at the cutoff — those just turning 21. The design compares outcomes in an infinitesimally narrow window around this threshold.</li>
+<li>At age 18, people may have less driving experience, so the mortality effect of alcohol access could be larger or smaller. At age 25, people may drink more responsibly, implying a different treatment effect.</li>
+<li>The RD cannot tell us about these other ages without extrapolation, which requires stronger assumptions about how the treatment effect varies with age — assumptions that the data near the cutoff cannot verify.</li>
+<li>This locality is analogous to LATE in IV: just as IV identifies effects only for compliers, RD identifies effects only at the cutoff. Both methods trade external validity for strong internal validity at a specific margin.</li>
+</ol>
+</div>
+</div>
+</div>
 </section>
-<section id="research-tasks-2" class="level3">
-<h3 class="anchored" data-anchor-id="research-tasks-2">Research Tasks</h3>
-<p><strong>R1.</strong></p>
+<section id="research-tasks" class="level3">
+<h3 class="anchored" data-anchor-id="research-tasks">Research Tasks</h3>
+<ol type="1">
+<li><strong>Alcohol-related deaths</strong>: Using <code>mlda_clean.csv</code>, run the linear RD regression for <code>alcohol</code>-related deaths (instead of all-cause). Is the jump at age 21 statistically significant? How does the effect size compare to the <code>mva</code> result?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-50-contents" aria-controls="callout-50" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-50" class="callout-50-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <div class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2174,7 +2233,24 @@ Table&nbsp;4.3: RD estimates: alcohol-related vs.&nbsp;motor vehicle deaths
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>* Linear RD <span class="kw">for</span> motor vehicle deaths (<span class="kw">for</span> comparison)</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> mva over21 age, <span class="kw">robust</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>(1) What the numbers show:</strong> The alcohol-related death jump is much smaller than the MVA jump (roughly one-fifth the size), but it is statistically significant. Both causes show a clear discontinuity at age 21. <strong>(2) Why:</strong> Relatively few young people die directly from alcohol poisoning, but many die in alcohol-related car accidents. The dominant mechanism through which legal drinking access kills is drunk driving, not direct alcohol toxicity. <strong>(3) What it teaches:</strong> Comparing RD estimates across different outcomes reveals the causal channels through which a treatment operates. The large MVA effect relative to the small alcohol-poisoning effect tells us that the policy-relevant margin of the MLDA is traffic safety, which informs where interventions (e.g., DUI enforcement) should be targeted.</p>
-<p><strong>R2.</strong></p>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li><strong>Visualizing the suicide RD</strong>: Using <code>mlda_clean.csv</code>, create an RD scatter plot for <code>suicide</code> deaths with separate fitted lines on each side of the cutoff. Does the visual pattern match what the regression coefficient suggests?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-51-contents" aria-controls="callout-51" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-51" class="callout-51-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <div id="cell-fig-sol-suicide" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2231,14 +2307,24 @@ Figure&nbsp;4.6: RD plot for suicide deaths around the MLDA cutoff
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>       <span class="bn">title</span>(<span class="st">"Suicide deaths around the MLDA cutoff"</span>) <span class="co">///</span></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>       <span class="bn">legend</span>(<span class="kw">off</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>(1) What the numbers show:</strong> The visual shows a modest upward jump at age 21, consistent with the regression estimate of about 1.8 deaths per 100,000. The effect is smaller and noisier than for motor vehicle accidents. <strong>(2) Why:</strong> Alcohol can contribute to suicide through impulsivity and impaired judgment, but the link is less direct than for drunk driving. Suicide involves complex psychological factors that alcohol may exacerbate but rarely causes alone. <strong>(3) What it teaches:</strong> This RD plot illustrates why visual inspection is critical — it reveals both the magnitude of the jump and the noise in the data. The gap between the two fitted lines at the cutoff is the RD estimate, and the scatter of points around the lines shows why standard errors matter for inference.</p>
-<p><strong>Q5.</strong> <strong>RD estimates are inherently local — they identify the causal effect only at the cutoff, and generalizing to other values of the running variable requires untestable assumptions.</strong></p>
-<ol type="1">
-<li>“Local” means the RD estimate applies specifically to people at the cutoff — those just turning 21. The design compares outcomes in an infinitesimally narrow window around this threshold.</li>
-<li>At age 18, people may have less driving experience, so the mortality effect of alcohol access could be larger or smaller. At age 25, people may drink more responsibly, implying a different treatment effect.</li>
-<li>The RD cannot tell us about these other ages without extrapolation, which requires stronger assumptions about how the treatment effect varies with age — assumptions that the data near the cutoff cannot verify.</li>
-<li>This locality is analogous to LATE in IV: just as IV identifies effects only for compliers, RD identifies effects only at the cutoff. Both methods trade external validity for strong internal validity at a specific margin.</li>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li><strong>Quadratic vs.&nbsp;linear specification</strong>: Using <code>mlda_clean.csv</code>, run the quadratic RD model for all-cause mortality (including <code>age2</code>, <code>over_age</code>, <code>over_age2</code>). Compare the coefficient on <code>over21</code> with the linear model. Is the estimate sensitive to the polynomial order?</li>
 </ol>
-<p><strong>R3.</strong></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-52-contents" aria-controls="callout-52" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-52" class="callout-52-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <div class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2316,7 +2402,24 @@ Table&nbsp;4.4: Linear vs.&nbsp;quadratic RD specification for all-cause mortali
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>* Quadratic RD with interactions</span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> <span class="ot">all</span> over21 age age2 over_age over_age2, <span class="kw">robust</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>(1) What the numbers show:</strong> The quadratic estimate is somewhat larger (~9.5 vs.&nbsp;~7.7) because the quadratic specification allows the outcome trend to curve differently on each side of the cutoff, potentially capturing a steeper jump. Both estimates are statistically significant and in the same ballpark. <strong>(2) Why:</strong> The linear specification constrains the relationship between age and mortality to be a straight line, which may underestimate the discontinuity if the true relationship is curved. The quadratic specification with interactions (over_age, over_age2) allows different slopes and curvature on each side, providing a more flexible fit. <strong>(3) What it teaches:</strong> The fact that the estimate is robust to polynomial order strengthens confidence in the RD design. Sensitivity to specification would suggest that the “discontinuity” might be an artifact of functional form assumptions rather than a true jump. Reporting multiple specifications is standard RD practice and essential for credibility.</p>
-<p><strong>R4.</strong></p>
+</div>
+</div>
+</div>
+<ol start="4" type="1">
+<li><strong>Homicide as a nuanced placebo</strong>: Using <code>mlda_clean.csv</code>, run the linear RD regression for <code>homicide</code> deaths and compare the estimate with those for <code>mva</code> and <code>internal</code> causes. Homicide is partly alcohol-related (bar fights, altercations) but not as directly as drunk driving. Where does homicide fall on the spectrum from “causally affected by alcohol access” to “placebo”?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-53-contents" aria-controls="callout-53" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-53" class="callout-53-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <div class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2406,7 +2509,24 @@ Table&nbsp;4.5: RD estimates across causes: MVA, homicide, and internal (placebo
 <li><p><strong>Why:</strong> MVA deaths are directly caused by drunk driving, so legal alcohol access has an immediate, strong effect. Internal causes (cancer, heart disease) cannot plausibly respond to turning 21, making them a clean falsification test. Homicide occupies an ambiguous middle ground: alcohol can contribute to violent altercations, but homicide is driven by many factors beyond drinking. The intermediate result for homicide reflects this partial causal channel.</p></li>
 <li><p><strong>What it teaches:</strong> Not every outcome is cleanly “should jump” or “should not jump.” Homicide illustrates the value of thinking about <em>mechanisms</em> when designing placebo tests. A nuanced researcher would predict a small homicide effect (partial alcohol channel) and a zero internal effect (no channel). Finding exactly this pattern — large MVA, small homicide, null internal — strengthens the causal story more than a simple “significant vs.&nbsp;not significant” binary.</p></li>
 </ol>
-<p><strong>R5.</strong></p>
+</div>
+</div>
+</div>
+<ol start="5" type="1">
+<li><strong>Bandwidth sensitivity</strong>: Using <code>mlda_clean.csv</code>, estimate the RD effect on all-cause mortality (<code>all</code>) using four progressively narrower bandwidths: the full sample, then <code>agecell</code> within 1.5 years of 21, within 1.0 year, and within 0.5 years. How do the coefficient and standard error change as the bandwidth narrows?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-54-contents" aria-controls="callout-54" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-54" class="callout-54-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <div class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2535,6 +2655,9 @@ Table&nbsp;4.6: Bandwidth sensitivity: RD estimate for all-cause mortality
 <li><p><strong>Why:</strong> This is the bias-variance tradeoff at the heart of RD design. Wider bandwidths use more data (lower variance) but include observations farther from the cutoff where nonlinear trends might bias the estimate. Narrower bandwidths restrict attention to observations closest to the cutoff (lower bias) but sacrifice statistical power. The optimal bandwidth balances these competing concerns.</p></li>
 <li><p><strong>What it teaches:</strong> If the RD estimate is stable across bandwidths, it suggests the result is robust and not driven by functional form assumptions far from the cutoff. If the estimate changes dramatically, it raises concerns about specification dependence. Reporting estimates across multiple bandwidths — as this exercise requires — is standard practice in applied RD research and essential for credibility.</p></li>
 </ol>
+</div>
+</div>
+</div>
 
 
 <!-- -->
@@ -3816,72 +3939,72 @@ Table&nbsp;4.6: Bandwidth sensitivity: RD estimate for all-cause mortality
 <span id="cb19-804"><a href="#cb19-804" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-805"><a href="#cb19-805" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
 <span id="cb19-806"><a href="#cb19-806" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-807"><a href="#cb19-807" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb19-808"><a href="#cb19-808" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb19-809"><a href="#cb19-809" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-810"><a href="#cb19-810" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identifying RD opportunities**: A scholarship program awards funding to students who score above 80 on an entrance exam. (a) What is the running variable? (b) What is the cutoff? (c) Is this a sharp or fuzzy RD? (d) What assumption must hold for the RD estimate to be causal?</span>
-<span id="cb19-811"><a href="#cb19-811" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-812"><a href="#cb19-812" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The placebo test**: In our MLDA analysis, internal causes of death showed no jump at age 21. Why is this important for the credibility of the RD design? What would it mean if internal causes *did* show a significant jump?</span>
-<span id="cb19-813"><a href="#cb19-813" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-814"><a href="#cb19-814" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Bandwidth tradeoff**: Explain the tradeoff between using a narrow bandwidth (ages 20--22) and a wide bandwidth (ages 19--23) in an RD analysis. What does each gain and lose?</span>
-<span id="cb19-815"><a href="#cb19-815" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-816"><a href="#cb19-816" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Manipulation of the running variable**: Why is manipulation of the running variable a threat to RD validity? Can people manipulate their age? What about an exam score? Give an example where manipulation would be a serious concern.</span>
-<span id="cb19-817"><a href="#cb19-817" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-818"><a href="#cb19-818" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Local vs. global effects**: The RD estimate tells us about the effect of legal drinking for people *at* the age-21 cutoff. Why might this effect differ from the effect at age 18 or age 25? What does "local" mean in this context?</span>
-<span id="cb19-819"><a href="#cb19-819" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-807"><a href="#cb19-807" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identifying RD opportunities**: A scholarship program awards funding to students who score above 80 on an entrance exam. (a) What is the running variable? (b) What is the cutoff? (c) Is this a sharp or fuzzy RD? (d) What assumption must hold for the RD estimate to be causal?</span>
+<span id="cb19-808"><a href="#cb19-808" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-809"><a href="#cb19-809" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb19-810"><a href="#cb19-810" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb19-811"><a href="#cb19-811" aria-hidden="true" tabindex="-1"></a>**Designing an RD requires identifying the running variable, the cutoff, the sharpness of compliance, and the continuity assumption.**</span>
+<span id="cb19-812"><a href="#cb19-812" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-813"><a href="#cb19-813" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The running variable is the entrance exam score --- this is the continuous measure that determines treatment assignment at the threshold.</span>
+<span id="cb19-814"><a href="#cb19-814" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The cutoff is 80. Students scoring above this threshold are eligible for funding; those below are not.</span>
+<span id="cb19-815"><a href="#cb19-815" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>If all students above 80 receive funding and none below do, it is a sharp RD (perfect compliance). If some above 80 decline the scholarship and some below 80 receive funding through appeals or exceptions, it is a fuzzy RD --- estimated using IV with the cutoff indicator as the instrument for actual scholarship receipt.</span>
+<span id="cb19-816"><a href="#cb19-816" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>The key assumption is continuity: all other factors affecting the outcome must vary *smoothly* at the cutoff. Students scoring 79 and 81 must be comparable in every way except scholarship receipt. If students can manipulate their scores to land above 80, this assumption fails because the two groups would differ systematically.</span>
+<span id="cb19-817"><a href="#cb19-817" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-818"><a href="#cb19-818" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-819"><a href="#cb19-819" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The placebo test**: In our MLDA analysis, internal causes of death showed no jump at age 21. Why is this important for the credibility of the RD design? What would it mean if internal causes *did* show a significant jump?</span>
 <span id="cb19-820"><a href="#cb19-820" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-821"><a href="#cb19-821" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb19-822"><a href="#cb19-822" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-823"><a href="#cb19-823" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb19-824"><a href="#cb19-824" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb19-825"><a href="#cb19-825" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-826"><a href="#cb19-826" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Alcohol-related deaths**: Using <span class="in">`mlda_clean.csv`</span>, run the linear RD regression for <span class="in">`alcohol`</span>-related deaths (instead of all-cause). Is the jump at age 21 statistically significant? How does the effect size compare to the <span class="in">`mva`</span> result?</span>
-<span id="cb19-827"><a href="#cb19-827" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-828"><a href="#cb19-828" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Visualizing the suicide RD**: Using <span class="in">`mlda_clean.csv`</span>, create an RD scatter plot for <span class="in">`suicide`</span> deaths with separate fitted lines on each side of the cutoff. Does the visual pattern match what the regression coefficient suggests?</span>
-<span id="cb19-829"><a href="#cb19-829" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-830"><a href="#cb19-830" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Quadratic vs. linear specification**: Using <span class="in">`mlda_clean.csv`</span>, run the quadratic RD model for all-cause mortality (including <span class="in">`age2`</span>, <span class="in">`over_age`</span>, <span class="in">`over_age2`</span>). Compare the coefficient on <span class="in">`over21`</span> with the linear model. Is the estimate sensitive to the polynomial order?</span>
-<span id="cb19-831"><a href="#cb19-831" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-832"><a href="#cb19-832" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Homicide as a nuanced placebo**: Using <span class="in">`mlda_clean.csv`</span>, run the linear RD regression for <span class="in">`homicide`</span> deaths and compare the estimate with those for <span class="in">`mva`</span> and <span class="in">`internal`</span> causes. Homicide is partly alcohol-related (bar fights, altercations) but not as directly as drunk driving. Where does homicide fall on the spectrum from "causally affected by alcohol access" to "placebo"?</span>
-<span id="cb19-833"><a href="#cb19-833" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-834"><a href="#cb19-834" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Bandwidth sensitivity**: Using <span class="in">`mlda_clean.csv`</span>, estimate the RD effect on all-cause mortality (<span class="in">`all`</span>) using four progressively narrower bandwidths: the full sample, then <span class="in">`agecell`</span> within 1.5 years of 21, within 1.0 year, and within 0.5 years. How do the coefficient and standard error change as the bandwidth narrows?</span>
-<span id="cb19-835"><a href="#cb19-835" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-821"><a href="#cb19-821" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb19-822"><a href="#cb19-822" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb19-823"><a href="#cb19-823" aria-hidden="true" tabindex="-1"></a>**Placebo tests using outcomes that should not respond to the treatment are essential for validating any RD design.**</span>
+<span id="cb19-824"><a href="#cb19-824" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-825"><a href="#cb19-825" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Internal causes of death (diseases, cancer, etc.) should not be affected by legal drinking access at age 21 --- these conditions take years to develop and have no plausible connection to alcohol availability.</span>
+<span id="cb19-826"><a href="#cb19-826" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Finding no jump in internal causes at the cutoff confirms that the RD design is picking up the causal effect of alcohol access specifically, not some other factor that changes at 21.</span>
+<span id="cb19-827"><a href="#cb19-827" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>If internal causes *did* show a significant jump, it would suggest that something other than drinking is changing at the cutoff (e.g., a change in health insurance eligibility, data reporting practices, or census age-heaping), casting doubt on the entire RD design.</span>
+<span id="cb19-828"><a href="#cb19-828" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>This logic extends to any RD application: researchers should always test outcomes that the treatment should not affect. A clean placebo test strengthens the causal interpretation; a failed one demands investigation before results can be trusted.</span>
+<span id="cb19-829"><a href="#cb19-829" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-830"><a href="#cb19-830" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-831"><a href="#cb19-831" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Bandwidth tradeoff**: Explain the tradeoff between using a narrow bandwidth (ages 20--22) and a wide bandwidth (ages 19--23) in an RD analysis. What does each gain and lose?</span>
+<span id="cb19-832"><a href="#cb19-832" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-833"><a href="#cb19-833" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb19-834"><a href="#cb19-834" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb19-835"><a href="#cb19-835" aria-hidden="true" tabindex="-1"></a>**The bandwidth choice in RD embodies a fundamental bias-variance tradeoff: proximity to the cutoff improves comparability but reduces statistical power.**</span>
 <span id="cb19-836"><a href="#cb19-836" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-837"><a href="#cb19-837" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-838"><a href="#cb19-838" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
-<span id="cb19-839"><a href="#cb19-839" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-840"><a href="#cb19-840" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb19-841"><a href="#cb19-841" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-842"><a href="#cb19-842" aria-hidden="true" tabindex="-1"></a>**Q1.** **Designing an RD requires identifying the running variable, the cutoff, the sharpness of compliance, and the continuity assumption.**</span>
-<span id="cb19-843"><a href="#cb19-843" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-844"><a href="#cb19-844" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The running variable is the entrance exam score --- this is the continuous measure that determines treatment assignment at the threshold.</span>
-<span id="cb19-845"><a href="#cb19-845" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The cutoff is 80. Students scoring above this threshold are eligible for funding; those below are not.</span>
-<span id="cb19-846"><a href="#cb19-846" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>If all students above 80 receive funding and none below do, it is a sharp RD (perfect compliance). If some above 80 decline the scholarship and some below 80 receive funding through appeals or exceptions, it is a fuzzy RD --- estimated using IV with the cutoff indicator as the instrument for actual scholarship receipt.</span>
-<span id="cb19-847"><a href="#cb19-847" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>The key assumption is continuity: all other factors affecting the outcome must vary *smoothly* at the cutoff. Students scoring 79 and 81 must be comparable in every way except scholarship receipt. If students can manipulate their scores to land above 80, this assumption fails because the two groups would differ systematically.</span>
+<span id="cb19-837"><a href="#cb19-837" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>A narrow bandwidth (e.g., ages 20--22) reduces bias because people very close to the cutoff are nearly identical, and nonlinear trends in the running variable have less room to confuse the estimate. The continuity assumption is most plausible for observations right at the cutoff.</span>
+<span id="cb19-838"><a href="#cb19-838" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>However, a narrow bandwidth increases variance because fewer observations are used, making the estimate noisier and confidence intervals wider.</span>
+<span id="cb19-839"><a href="#cb19-839" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>A wide bandwidth (ages 19--23) uses more data, giving more precise estimates, but risks bias from nonlinear trends in the outcome-running variable relationship that could be mistaken for (or mask) a discontinuity.</span>
+<span id="cb19-840"><a href="#cb19-840" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>The optimal choice balances this tradeoff. In practice, researchers report estimates across multiple bandwidths to show robustness --- if the RD estimate is sensitive to bandwidth choice, it raises concerns about specification dependence.</span>
+<span id="cb19-841"><a href="#cb19-841" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-842"><a href="#cb19-842" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-843"><a href="#cb19-843" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Manipulation of the running variable**: Why is manipulation of the running variable a threat to RD validity? Can people manipulate their age? What about an exam score? Give an example where manipulation would be a serious concern.</span>
+<span id="cb19-844"><a href="#cb19-844" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-845"><a href="#cb19-845" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb19-846"><a href="#cb19-846" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb19-847"><a href="#cb19-847" aria-hidden="true" tabindex="-1"></a>**Manipulation of the running variable is the greatest threat to RD validity because it destroys the comparability of units just above and just below the cutoff.**</span>
 <span id="cb19-848"><a href="#cb19-848" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-849"><a href="#cb19-849" aria-hidden="true" tabindex="-1"></a>**Q2.** **Placebo tests using outcomes that should not respond to the treatment are essential for validating any RD design.**</span>
-<span id="cb19-850"><a href="#cb19-850" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-851"><a href="#cb19-851" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Internal causes of death (diseases, cancer, etc.) should not be affected by legal drinking access at age 21 --- these conditions take years to develop and have no plausible connection to alcohol availability.</span>
-<span id="cb19-852"><a href="#cb19-852" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Finding no jump in internal causes at the cutoff confirms that the RD design is picking up the causal effect of alcohol access specifically, not some other factor that changes at 21.</span>
-<span id="cb19-853"><a href="#cb19-853" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>If internal causes *did* show a significant jump, it would suggest that something other than drinking is changing at the cutoff (e.g., a change in health insurance eligibility, data reporting practices, or census age-heaping), casting doubt on the entire RD design.</span>
-<span id="cb19-854"><a href="#cb19-854" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>This logic extends to any RD application: researchers should always test outcomes that the treatment should not affect. A clean placebo test strengthens the causal interpretation; a failed one demands investigation before results can be trusted.</span>
-<span id="cb19-855"><a href="#cb19-855" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-856"><a href="#cb19-856" aria-hidden="true" tabindex="-1"></a>**Q3.** **The bandwidth choice in RD embodies a fundamental bias-variance tradeoff: proximity to the cutoff improves comparability but reduces statistical power.**</span>
-<span id="cb19-857"><a href="#cb19-857" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-858"><a href="#cb19-858" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>A narrow bandwidth (e.g., ages 20--22) reduces bias because people very close to the cutoff are nearly identical, and nonlinear trends in the running variable have less room to confuse the estimate. The continuity assumption is most plausible for observations right at the cutoff.</span>
-<span id="cb19-859"><a href="#cb19-859" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>However, a narrow bandwidth increases variance because fewer observations are used, making the estimate noisier and confidence intervals wider.</span>
-<span id="cb19-860"><a href="#cb19-860" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>A wide bandwidth (ages 19--23) uses more data, giving more precise estimates, but risks bias from nonlinear trends in the outcome-running variable relationship that could be mistaken for (or mask) a discontinuity.</span>
-<span id="cb19-861"><a href="#cb19-861" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>The optimal choice balances this tradeoff. In practice, researchers report estimates across multiple bandwidths to show robustness --- if the RD estimate is sensitive to bandwidth choice, it raises concerns about specification dependence.</span>
-<span id="cb19-862"><a href="#cb19-862" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-863"><a href="#cb19-863" aria-hidden="true" tabindex="-1"></a>**Q4.** **Manipulation of the running variable is the greatest threat to RD validity because it destroys the comparability of units just above and just below the cutoff.**</span>
-<span id="cb19-864"><a href="#cb19-864" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-865"><a href="#cb19-865" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>If people can manipulate the running variable to land on their preferred side of the cutoff, the groups just above and just below are no longer comparable --- those who manipulated are systematically different from those who did not (e.g., more motivated, better connected, or wealthier).</span>
-<span id="cb19-866"><a href="#cb19-866" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Age cannot be manipulated (you cannot choose your birthday), which is why the MLDA design is strong. The continuity assumption is highly credible because no one can precisely sort themselves to one side of age 21.</span>
-<span id="cb19-867"><a href="#cb19-867" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Exam scores, however, can be manipulated: students might retake exams, cheat, or receive score adjustments near the cutoff. This creates "bunching" just above the threshold.</span>
-<span id="cb19-868"><a href="#cb19-868" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>A concerning example would be a tax threshold where accountants manipulate reported income to fall just below the cutoff for a higher tax rate --- the McCrary density test can detect such manipulation by checking whether the density of the running variable is discontinuous at the cutoff.</span>
-<span id="cb19-869"><a href="#cb19-869" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-870"><a href="#cb19-870" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb19-871"><a href="#cb19-871" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-872"><a href="#cb19-872" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
+<span id="cb19-849"><a href="#cb19-849" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>If people can manipulate the running variable to land on their preferred side of the cutoff, the groups just above and just below are no longer comparable --- those who manipulated are systematically different from those who did not (e.g., more motivated, better connected, or wealthier).</span>
+<span id="cb19-850"><a href="#cb19-850" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Age cannot be manipulated (you cannot choose your birthday), which is why the MLDA design is strong. The continuity assumption is highly credible because no one can precisely sort themselves to one side of age 21.</span>
+<span id="cb19-851"><a href="#cb19-851" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Exam scores, however, can be manipulated: students might retake exams, cheat, or receive score adjustments near the cutoff. This creates "bunching" just above the threshold.</span>
+<span id="cb19-852"><a href="#cb19-852" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>A concerning example would be a tax threshold where accountants manipulate reported income to fall just below the cutoff for a higher tax rate --- the McCrary density test can detect such manipulation by checking whether the density of the running variable is discontinuous at the cutoff.</span>
+<span id="cb19-853"><a href="#cb19-853" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-854"><a href="#cb19-854" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-855"><a href="#cb19-855" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Local vs. global effects**: The RD estimate tells us about the effect of legal drinking for people *at* the age-21 cutoff. Why might this effect differ from the effect at age 18 or age 25? What does "local" mean in this context?</span>
+<span id="cb19-856"><a href="#cb19-856" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-857"><a href="#cb19-857" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb19-858"><a href="#cb19-858" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb19-859"><a href="#cb19-859" aria-hidden="true" tabindex="-1"></a>**RD estimates are inherently local --- they identify the causal effect only at the cutoff, and generalizing to other values of the running variable requires untestable assumptions.**</span>
+<span id="cb19-860"><a href="#cb19-860" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-861"><a href="#cb19-861" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>"Local" means the RD estimate applies specifically to people at the cutoff --- those just turning 21. The design compares outcomes in an infinitesimally narrow window around this threshold.</span>
+<span id="cb19-862"><a href="#cb19-862" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>At age 18, people may have less driving experience, so the mortality effect of alcohol access could be larger or smaller. At age 25, people may drink more responsibly, implying a different treatment effect.</span>
+<span id="cb19-863"><a href="#cb19-863" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The RD cannot tell us about these other ages without extrapolation, which requires stronger assumptions about how the treatment effect varies with age --- assumptions that the data near the cutoff cannot verify.</span>
+<span id="cb19-864"><a href="#cb19-864" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>This locality is analogous to LATE in IV: just as IV identifies effects only for compliers, RD identifies effects only at the cutoff. Both methods trade external validity for strong internal validity at a specific margin.</span>
+<span id="cb19-865"><a href="#cb19-865" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-866"><a href="#cb19-866" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-867"><a href="#cb19-867" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb19-868"><a href="#cb19-868" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-869"><a href="#cb19-869" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Alcohol-related deaths**: Using <span class="in">`mlda_clean.csv`</span>, run the linear RD regression for <span class="in">`alcohol`</span>-related deaths (instead of all-cause). Is the jump at age 21 statistically significant? How does the effect size compare to the <span class="in">`mva`</span> result?</span>
+<span id="cb19-870"><a href="#cb19-870" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-871"><a href="#cb19-871" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb19-872"><a href="#cb19-872" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
 <span id="cb19-873"><a href="#cb19-873" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-876"><a href="#cb19-876" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb19-877"><a href="#cb19-877" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-alcohol</span></span>
@@ -3925,231 +4048,241 @@ Table&nbsp;4.6: Bandwidth sensitivity: RD estimate for all-cause mortality
 <span id="cb19-915"><a href="#cb19-915" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb19-916"><a href="#cb19-916" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-917"><a href="#cb19-917" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** The alcohol-related death jump is much smaller than the MVA jump (roughly one-fifth the size), but it is statistically significant. Both causes show a clear discontinuity at age 21. **(2) Why:** Relatively few young people die directly from alcohol poisoning, but many die in alcohol-related car accidents. The dominant mechanism through which legal drinking access kills is drunk driving, not direct alcohol toxicity. **(3) What it teaches:** Comparing RD estimates across different outcomes reveals the causal channels through which a treatment operates. The large MVA effect relative to the small alcohol-poisoning effect tells us that the policy-relevant margin of the MLDA is traffic safety, which informs where interventions (e.g., DUI enforcement) should be targeted.</span>
-<span id="cb19-918"><a href="#cb19-918" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-919"><a href="#cb19-919" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
-<span id="cb19-920"><a href="#cb19-920" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-923"><a href="#cb19-923" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb19-924"><a href="#cb19-924" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-sol-suicide</span></span>
-<span id="cb19-925"><a href="#cb19-925" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "RD plot for suicide deaths around the MLDA cutoff"</span></span>
-<span id="cb19-926"><a href="#cb19-926" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-927"><a href="#cb19-927" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
-<span id="cb19-928"><a href="#cb19-928" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb19-929"><a href="#cb19-929" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb19-930"><a href="#cb19-930" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">"whitegrid"</span>)</span>
-<span id="cb19-931"><a href="#cb19-931" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-932"><a href="#cb19-932" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Split Data at Cutoff ---</span></span>
-<span id="cb19-933"><a href="#cb19-933" aria-hidden="true" tabindex="-1"></a>below <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&lt;</span> <span class="dv">0</span>]  <span class="co"># observations below age 21</span></span>
-<span id="cb19-934"><a href="#cb19-934" aria-hidden="true" tabindex="-1"></a>above <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&gt;=</span> <span class="dv">0</span>]  <span class="co"># observations at or above age 21</span></span>
+<span id="cb19-918"><a href="#cb19-918" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-919"><a href="#cb19-919" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-920"><a href="#cb19-920" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Visualizing the suicide RD**: Using <span class="in">`mlda_clean.csv`</span>, create an RD scatter plot for <span class="in">`suicide`</span> deaths with separate fitted lines on each side of the cutoff. Does the visual pattern match what the regression coefficient suggests?</span>
+<span id="cb19-921"><a href="#cb19-921" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-922"><a href="#cb19-922" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb19-923"><a href="#cb19-923" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb19-924"><a href="#cb19-924" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-927"><a href="#cb19-927" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb19-928"><a href="#cb19-928" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-sol-suicide</span></span>
+<span id="cb19-929"><a href="#cb19-929" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "RD plot for suicide deaths around the MLDA cutoff"</span></span>
+<span id="cb19-930"><a href="#cb19-930" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-931"><a href="#cb19-931" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
+<span id="cb19-932"><a href="#cb19-932" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb19-933"><a href="#cb19-933" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb19-934"><a href="#cb19-934" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">"whitegrid"</span>)</span>
 <span id="cb19-935"><a href="#cb19-935" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-936"><a href="#cb19-936" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Fit Separate Linear Trends ---</span></span>
-<span id="cb19-937"><a href="#cb19-937" aria-hidden="true" tabindex="-1"></a>fit_below <span class="op">=</span> smf.ols(<span class="st">"suicide ~ age"</span>, data<span class="op">=</span>below).fit()  <span class="co"># trend before cutoff</span></span>
-<span id="cb19-938"><a href="#cb19-938" aria-hidden="true" tabindex="-1"></a>fit_above <span class="op">=</span> smf.ols(<span class="st">"suicide ~ age"</span>, data<span class="op">=</span>above).fit()  <span class="co"># trend after cutoff</span></span>
+<span id="cb19-936"><a href="#cb19-936" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Split Data at Cutoff ---</span></span>
+<span id="cb19-937"><a href="#cb19-937" aria-hidden="true" tabindex="-1"></a>below <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&lt;</span> <span class="dv">0</span>]  <span class="co"># observations below age 21</span></span>
+<span id="cb19-938"><a href="#cb19-938" aria-hidden="true" tabindex="-1"></a>above <span class="op">=</span> mlda[mlda[<span class="st">"age"</span>] <span class="op">&gt;=</span> <span class="dv">0</span>]  <span class="co"># observations at or above age 21</span></span>
 <span id="cb19-939"><a href="#cb19-939" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-940"><a href="#cb19-940" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Create RD Plot ---</span></span>
-<span id="cb19-941"><a href="#cb19-941" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
-<span id="cb19-942"><a href="#cb19-942" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"suicide"</span>], color<span class="op">=</span><span class="st">"gray"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">35</span>)  <span class="co"># raw data points</span></span>
-<span id="cb19-943"><a href="#cb19-943" aria-hidden="true" tabindex="-1"></a>ax.plot(below[<span class="st">"agecell"</span>], fit_below.predict(below), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)  <span class="co"># left-side fit</span></span>
-<span id="cb19-944"><a href="#cb19-944" aria-hidden="true" tabindex="-1"></a>ax.plot(above[<span class="st">"agecell"</span>], fit_above.predict(above), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)  <span class="co"># right-side fit</span></span>
-<span id="cb19-945"><a href="#cb19-945" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)  <span class="co"># cutoff line</span></span>
-<span id="cb19-946"><a href="#cb19-946" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
-<span id="cb19-947"><a href="#cb19-947" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
-<span id="cb19-948"><a href="#cb19-948" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Suicide deaths around the MLDA cutoff"</span>)</span>
-<span id="cb19-949"><a href="#cb19-949" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb19-950"><a href="#cb19-950" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb19-951"><a href="#cb19-951" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-952"><a href="#cb19-952" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-953"><a href="#cb19-953" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb19-954"><a href="#cb19-954" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-955"><a href="#cb19-955" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb19-956"><a href="#cb19-956" aria-hidden="true" tabindex="-1"></a><span class="in">* --- RD plot for suicide deaths ---</span></span>
-<span id="cb19-957"><a href="#cb19-957" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb19-958"><a href="#cb19-958" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb19-959"><a href="#cb19-959" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear</span></span>
-<span id="cb19-960"><a href="#cb19-960" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-961"><a href="#cb19-961" aria-hidden="true" tabindex="-1"></a><span class="in">* Scatter plot with separate fitted lines on each side of the cutoff</span></span>
-<span id="cb19-962"><a href="#cb19-962" aria-hidden="true" tabindex="-1"></a><span class="in">twoway (scatter suicide agecell, mcolor(gray) msymbol(circle)) ///</span></span>
-<span id="cb19-963"><a href="#cb19-963" aria-hidden="true" tabindex="-1"></a><span class="in">       (lfit suicide agecell if age &lt; 0, lcolor(black) lwidth(medium)) ///</span></span>
-<span id="cb19-964"><a href="#cb19-964" aria-hidden="true" tabindex="-1"></a><span class="in">       (lfit suicide agecell if age &gt;= 0, lcolor(black) lwidth(medium)), ///</span></span>
-<span id="cb19-965"><a href="#cb19-965" aria-hidden="true" tabindex="-1"></a><span class="in">       xline(21, lcolor(red) lpattern(dash)) ///</span></span>
-<span id="cb19-966"><a href="#cb19-966" aria-hidden="true" tabindex="-1"></a><span class="in">       xtitle("Age (years)") ytitle("Deaths per 100,000") ///</span></span>
-<span id="cb19-967"><a href="#cb19-967" aria-hidden="true" tabindex="-1"></a><span class="in">       title("Suicide deaths around the MLDA cutoff") ///</span></span>
-<span id="cb19-968"><a href="#cb19-968" aria-hidden="true" tabindex="-1"></a><span class="in">       legend(off)</span></span>
-<span id="cb19-969"><a href="#cb19-969" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-970"><a href="#cb19-970" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-971"><a href="#cb19-971" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** The visual shows a modest upward jump at age 21, consistent with the regression estimate of about 1.8 deaths per 100,000. The effect is smaller and noisier than for motor vehicle accidents. **(2) Why:** Alcohol can contribute to suicide through impulsivity and impaired judgment, but the link is less direct than for drunk driving. Suicide involves complex psychological factors that alcohol may exacerbate but rarely causes alone. **(3) What it teaches:** This RD plot illustrates why visual inspection is critical --- it reveals both the magnitude of the jump and the noise in the data. The gap between the two fitted lines at the cutoff is the RD estimate, and the scatter of points around the lines shows why standard errors matter for inference.</span>
-<span id="cb19-972"><a href="#cb19-972" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-973"><a href="#cb19-973" aria-hidden="true" tabindex="-1"></a>**Q5.** **RD estimates are inherently local --- they identify the causal effect only at the cutoff, and generalizing to other values of the running variable requires untestable assumptions.**</span>
+<span id="cb19-940"><a href="#cb19-940" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Fit Separate Linear Trends ---</span></span>
+<span id="cb19-941"><a href="#cb19-941" aria-hidden="true" tabindex="-1"></a>fit_below <span class="op">=</span> smf.ols(<span class="st">"suicide ~ age"</span>, data<span class="op">=</span>below).fit()  <span class="co"># trend before cutoff</span></span>
+<span id="cb19-942"><a href="#cb19-942" aria-hidden="true" tabindex="-1"></a>fit_above <span class="op">=</span> smf.ols(<span class="st">"suicide ~ age"</span>, data<span class="op">=</span>above).fit()  <span class="co"># trend after cutoff</span></span>
+<span id="cb19-943"><a href="#cb19-943" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-944"><a href="#cb19-944" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Create RD Plot ---</span></span>
+<span id="cb19-945"><a href="#cb19-945" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
+<span id="cb19-946"><a href="#cb19-946" aria-hidden="true" tabindex="-1"></a>ax.scatter(mlda[<span class="st">"agecell"</span>], mlda[<span class="st">"suicide"</span>], color<span class="op">=</span><span class="st">"gray"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">35</span>)  <span class="co"># raw data points</span></span>
+<span id="cb19-947"><a href="#cb19-947" aria-hidden="true" tabindex="-1"></a>ax.plot(below[<span class="st">"agecell"</span>], fit_below.predict(below), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)  <span class="co"># left-side fit</span></span>
+<span id="cb19-948"><a href="#cb19-948" aria-hidden="true" tabindex="-1"></a>ax.plot(above[<span class="st">"agecell"</span>], fit_above.predict(above), <span class="st">"k-"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)  <span class="co"># right-side fit</span></span>
+<span id="cb19-949"><a href="#cb19-949" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">21</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)  <span class="co"># cutoff line</span></span>
+<span id="cb19-950"><a href="#cb19-950" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Age (years)"</span>)</span>
+<span id="cb19-951"><a href="#cb19-951" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Deaths per 100,000"</span>)</span>
+<span id="cb19-952"><a href="#cb19-952" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Suicide deaths around the MLDA cutoff"</span>)</span>
+<span id="cb19-953"><a href="#cb19-953" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb19-954"><a href="#cb19-954" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb19-955"><a href="#cb19-955" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-956"><a href="#cb19-956" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-957"><a href="#cb19-957" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb19-958"><a href="#cb19-958" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-959"><a href="#cb19-959" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb19-960"><a href="#cb19-960" aria-hidden="true" tabindex="-1"></a><span class="in">* --- RD plot for suicide deaths ---</span></span>
+<span id="cb19-961"><a href="#cb19-961" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb19-962"><a href="#cb19-962" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb19-963"><a href="#cb19-963" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear</span></span>
+<span id="cb19-964"><a href="#cb19-964" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-965"><a href="#cb19-965" aria-hidden="true" tabindex="-1"></a><span class="in">* Scatter plot with separate fitted lines on each side of the cutoff</span></span>
+<span id="cb19-966"><a href="#cb19-966" aria-hidden="true" tabindex="-1"></a><span class="in">twoway (scatter suicide agecell, mcolor(gray) msymbol(circle)) ///</span></span>
+<span id="cb19-967"><a href="#cb19-967" aria-hidden="true" tabindex="-1"></a><span class="in">       (lfit suicide agecell if age &lt; 0, lcolor(black) lwidth(medium)) ///</span></span>
+<span id="cb19-968"><a href="#cb19-968" aria-hidden="true" tabindex="-1"></a><span class="in">       (lfit suicide agecell if age &gt;= 0, lcolor(black) lwidth(medium)), ///</span></span>
+<span id="cb19-969"><a href="#cb19-969" aria-hidden="true" tabindex="-1"></a><span class="in">       xline(21, lcolor(red) lpattern(dash)) ///</span></span>
+<span id="cb19-970"><a href="#cb19-970" aria-hidden="true" tabindex="-1"></a><span class="in">       xtitle("Age (years)") ytitle("Deaths per 100,000") ///</span></span>
+<span id="cb19-971"><a href="#cb19-971" aria-hidden="true" tabindex="-1"></a><span class="in">       title("Suicide deaths around the MLDA cutoff") ///</span></span>
+<span id="cb19-972"><a href="#cb19-972" aria-hidden="true" tabindex="-1"></a><span class="in">       legend(off)</span></span>
+<span id="cb19-973"><a href="#cb19-973" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb19-974"><a href="#cb19-974" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-975"><a href="#cb19-975" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>"Local" means the RD estimate applies specifically to people at the cutoff --- those just turning 21. The design compares outcomes in an infinitesimally narrow window around this threshold.</span>
-<span id="cb19-976"><a href="#cb19-976" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>At age 18, people may have less driving experience, so the mortality effect of alcohol access could be larger or smaller. At age 25, people may drink more responsibly, implying a different treatment effect.</span>
-<span id="cb19-977"><a href="#cb19-977" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The RD cannot tell us about these other ages without extrapolation, which requires stronger assumptions about how the treatment effect varies with age --- assumptions that the data near the cutoff cannot verify.</span>
-<span id="cb19-978"><a href="#cb19-978" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>This locality is analogous to LATE in IV: just as IV identifies effects only for compliers, RD identifies effects only at the cutoff. Both methods trade external validity for strong internal validity at a specific margin.</span>
+<span id="cb19-975"><a href="#cb19-975" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** The visual shows a modest upward jump at age 21, consistent with the regression estimate of about 1.8 deaths per 100,000. The effect is smaller and noisier than for motor vehicle accidents. **(2) Why:** Alcohol can contribute to suicide through impulsivity and impaired judgment, but the link is less direct than for drunk driving. Suicide involves complex psychological factors that alcohol may exacerbate but rarely causes alone. **(3) What it teaches:** This RD plot illustrates why visual inspection is critical --- it reveals both the magnitude of the jump and the noise in the data. The gap between the two fitted lines at the cutoff is the RD estimate, and the scatter of points around the lines shows why standard errors matter for inference.</span>
+<span id="cb19-976"><a href="#cb19-976" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-977"><a href="#cb19-977" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-978"><a href="#cb19-978" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Quadratic vs. linear specification**: Using <span class="in">`mlda_clean.csv`</span>, run the quadratic RD model for all-cause mortality (including <span class="in">`age2`</span>, <span class="in">`over_age`</span>, <span class="in">`over_age2`</span>). Compare the coefficient on <span class="in">`over21`</span> with the linear model. Is the estimate sensitive to the polynomial order?</span>
 <span id="cb19-979"><a href="#cb19-979" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-980"><a href="#cb19-980" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
-<span id="cb19-981"><a href="#cb19-981" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-984"><a href="#cb19-984" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb19-985"><a href="#cb19-985" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-quadratic</span></span>
-<span id="cb19-986"><a href="#cb19-986" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Linear vs. quadratic RD specification for all-cause mortality"</span></span>
-<span id="cb19-987"><a href="#cb19-987" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-988"><a href="#cb19-988" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
-<span id="cb19-989"><a href="#cb19-989" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb19-990"><a href="#cb19-990" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
-<span id="cb19-991"><a href="#cb19-991" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-992"><a href="#cb19-992" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
-<span id="cb19-993"><a href="#cb19-993" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-994"><a href="#cb19-994" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Linear RD Specification ---</span></span>
-<span id="cb19-995"><a href="#cb19-995" aria-hidden="true" tabindex="-1"></a><span class="co"># Controls for a linear trend in age on both sides of the cutoff</span></span>
-<span id="cb19-996"><a href="#cb19-996" aria-hidden="true" tabindex="-1"></a>r_lin <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb19-997"><a href="#cb19-997" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-998"><a href="#cb19-998" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Quadratic RD Specification ---</span></span>
-<span id="cb19-999"><a href="#cb19-999" aria-hidden="true" tabindex="-1"></a><span class="co"># Allows curvature and different slopes/curvature on each side via interactions</span></span>
-<span id="cb19-1000"><a href="#cb19-1000" aria-hidden="true" tabindex="-1"></a>r_quad <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age + age2 + over_age + over_age2"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb19-1001"><a href="#cb19-1001" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1002"><a href="#cb19-1002" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Compare Estimates ---</span></span>
-<span id="cb19-1003"><a href="#cb19-1003" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb19-1004"><a href="#cb19-1004" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Specification"</span>: [<span class="st">"Linear"</span>, <span class="st">"Quadratic (interacted)"</span>],</span>
-<span id="cb19-1005"><a href="#cb19-1005" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RD estimate (over21)"</span>: [<span class="bu">round</span>(r_lin.params[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.params[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
-<span id="cb19-1006"><a href="#cb19-1006" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SE"</span>: [<span class="bu">round</span>(r_lin.bse[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
-<span id="cb19-1007"><a href="#cb19-1007" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb19-1008"><a href="#cb19-1008" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-1009"><a href="#cb19-1009" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1010"><a href="#cb19-1010" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb19-1011"><a href="#cb19-1011" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1012"><a href="#cb19-1012" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb19-1013"><a href="#cb19-1013" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Linear vs. quadratic RD for all-cause mortality ---</span></span>
-<span id="cb19-1014"><a href="#cb19-1014" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb19-1015"><a href="#cb19-1015" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb19-1016"><a href="#cb19-1016" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear</span></span>
-<span id="cb19-1017"><a href="#cb19-1017" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1018"><a href="#cb19-1018" aria-hidden="true" tabindex="-1"></a><span class="in">* Linear RD</span></span>
-<span id="cb19-1019"><a href="#cb19-1019" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age, robust</span></span>
-<span id="cb19-1020"><a href="#cb19-1020" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1021"><a href="#cb19-1021" aria-hidden="true" tabindex="-1"></a><span class="in">* Quadratic RD with interactions</span></span>
-<span id="cb19-1022"><a href="#cb19-1022" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age age2 over_age over_age2, robust</span></span>
-<span id="cb19-1023"><a href="#cb19-1023" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-1024"><a href="#cb19-1024" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1025"><a href="#cb19-1025" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** The quadratic estimate is somewhat larger (~9.5 vs. ~7.7) because the quadratic specification allows the outcome trend to curve differently on each side of the cutoff, potentially capturing a steeper jump. Both estimates are statistically significant and in the same ballpark. **(2) Why:** The linear specification constrains the relationship between age and mortality to be a straight line, which may underestimate the discontinuity if the true relationship is curved. The quadratic specification with interactions (over_age, over_age2) allows different slopes and curvature on each side, providing a more flexible fit. **(3) What it teaches:** The fact that the estimate is robust to polynomial order strengthens confidence in the RD design. Sensitivity to specification would suggest that the "discontinuity" might be an artifact of functional form assumptions rather than a true jump. Reporting multiple specifications is standard RD practice and essential for credibility.</span>
-<span id="cb19-1026"><a href="#cb19-1026" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1027"><a href="#cb19-1027" aria-hidden="true" tabindex="-1"></a>**R4.**</span>
+<span id="cb19-980"><a href="#cb19-980" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb19-981"><a href="#cb19-981" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb19-982"><a href="#cb19-982" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-985"><a href="#cb19-985" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb19-986"><a href="#cb19-986" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-quadratic</span></span>
+<span id="cb19-987"><a href="#cb19-987" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Linear vs. quadratic RD specification for all-cause mortality"</span></span>
+<span id="cb19-988"><a href="#cb19-988" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-989"><a href="#cb19-989" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
+<span id="cb19-990"><a href="#cb19-990" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb19-991"><a href="#cb19-991" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb19-992"><a href="#cb19-992" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-993"><a href="#cb19-993" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb19-994"><a href="#cb19-994" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-995"><a href="#cb19-995" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Linear RD Specification ---</span></span>
+<span id="cb19-996"><a href="#cb19-996" aria-hidden="true" tabindex="-1"></a><span class="co"># Controls for a linear trend in age on both sides of the cutoff</span></span>
+<span id="cb19-997"><a href="#cb19-997" aria-hidden="true" tabindex="-1"></a>r_lin <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb19-998"><a href="#cb19-998" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-999"><a href="#cb19-999" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Quadratic RD Specification ---</span></span>
+<span id="cb19-1000"><a href="#cb19-1000" aria-hidden="true" tabindex="-1"></a><span class="co"># Allows curvature and different slopes/curvature on each side via interactions</span></span>
+<span id="cb19-1001"><a href="#cb19-1001" aria-hidden="true" tabindex="-1"></a>r_quad <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age + age2 + over_age + over_age2"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb19-1002"><a href="#cb19-1002" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1003"><a href="#cb19-1003" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Compare Estimates ---</span></span>
+<span id="cb19-1004"><a href="#cb19-1004" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb19-1005"><a href="#cb19-1005" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Specification"</span>: [<span class="st">"Linear"</span>, <span class="st">"Quadratic (interacted)"</span>],</span>
+<span id="cb19-1006"><a href="#cb19-1006" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RD estimate (over21)"</span>: [<span class="bu">round</span>(r_lin.params[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.params[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
+<span id="cb19-1007"><a href="#cb19-1007" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SE"</span>: [<span class="bu">round</span>(r_lin.bse[<span class="st">"over21"</span>], <span class="dv">2</span>), <span class="bu">round</span>(r_quad.bse[<span class="st">"over21"</span>], <span class="dv">2</span>)],</span>
+<span id="cb19-1008"><a href="#cb19-1008" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb19-1009"><a href="#cb19-1009" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-1010"><a href="#cb19-1010" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1011"><a href="#cb19-1011" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb19-1012"><a href="#cb19-1012" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1013"><a href="#cb19-1013" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb19-1014"><a href="#cb19-1014" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Linear vs. quadratic RD for all-cause mortality ---</span></span>
+<span id="cb19-1015"><a href="#cb19-1015" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb19-1016"><a href="#cb19-1016" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb19-1017"><a href="#cb19-1017" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear</span></span>
+<span id="cb19-1018"><a href="#cb19-1018" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1019"><a href="#cb19-1019" aria-hidden="true" tabindex="-1"></a><span class="in">* Linear RD</span></span>
+<span id="cb19-1020"><a href="#cb19-1020" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age, robust</span></span>
+<span id="cb19-1021"><a href="#cb19-1021" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1022"><a href="#cb19-1022" aria-hidden="true" tabindex="-1"></a><span class="in">* Quadratic RD with interactions</span></span>
+<span id="cb19-1023"><a href="#cb19-1023" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age age2 over_age over_age2, robust</span></span>
+<span id="cb19-1024"><a href="#cb19-1024" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-1025"><a href="#cb19-1025" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1026"><a href="#cb19-1026" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** The quadratic estimate is somewhat larger (~9.5 vs. ~7.7) because the quadratic specification allows the outcome trend to curve differently on each side of the cutoff, potentially capturing a steeper jump. Both estimates are statistically significant and in the same ballpark. **(2) Why:** The linear specification constrains the relationship between age and mortality to be a straight line, which may underestimate the discontinuity if the true relationship is curved. The quadratic specification with interactions (over_age, over_age2) allows different slopes and curvature on each side, providing a more flexible fit. **(3) What it teaches:** The fact that the estimate is robust to polynomial order strengthens confidence in the RD design. Sensitivity to specification would suggest that the "discontinuity" might be an artifact of functional form assumptions rather than a true jump. Reporting multiple specifications is standard RD practice and essential for credibility.</span>
+<span id="cb19-1027"><a href="#cb19-1027" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb19-1028"><a href="#cb19-1028" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1031"><a href="#cb19-1031" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb19-1032"><a href="#cb19-1032" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-homicide-rd</span></span>
-<span id="cb19-1033"><a href="#cb19-1033" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "RD estimates across causes: MVA, homicide, and internal (placebo)"</span></span>
-<span id="cb19-1034"><a href="#cb19-1034" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1035"><a href="#cb19-1035" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
-<span id="cb19-1036"><a href="#cb19-1036" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb19-1037"><a href="#cb19-1037" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
-<span id="cb19-1038"><a href="#cb19-1038" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1039"><a href="#cb19-1039" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
-<span id="cb19-1040"><a href="#cb19-1040" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1041"><a href="#cb19-1041" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Compare RD Estimates Across Three Causes ---</span></span>
-<span id="cb19-1042"><a href="#cb19-1042" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb19-1043"><a href="#cb19-1043" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> [(<span class="st">"mva"</span>, <span class="st">"Motor vehicle"</span>), (<span class="st">"homicide"</span>, <span class="st">"Homicide"</span>), (<span class="st">"internal"</span>, <span class="st">"Internal (placebo)"</span>)]:</span>
-<span id="cb19-1044"><a href="#cb19-1044" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb19-1045"><a href="#cb19-1045" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
-<span id="cb19-1046"><a href="#cb19-1046" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cause"</span>: label,</span>
-<span id="cb19-1047"><a href="#cb19-1047" aria-hidden="true" tabindex="-1"></a>        <span class="st">"RD estimate"</span>: <span class="bu">round</span>(r.params[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb19-1048"><a href="#cb19-1048" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb19-1049"><a href="#cb19-1049" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t-stat"</span>: <span class="bu">round</span>(r.tvalues[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb19-1050"><a href="#cb19-1050" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb19-1051"><a href="#cb19-1051" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1052"><a href="#cb19-1052" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
-<span id="cb19-1053"><a href="#cb19-1053" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-1054"><a href="#cb19-1054" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1055"><a href="#cb19-1055" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb19-1029"><a href="#cb19-1029" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Homicide as a nuanced placebo**: Using <span class="in">`mlda_clean.csv`</span>, run the linear RD regression for <span class="in">`homicide`</span> deaths and compare the estimate with those for <span class="in">`mva`</span> and <span class="in">`internal`</span> causes. Homicide is partly alcohol-related (bar fights, altercations) but not as directly as drunk driving. Where does homicide fall on the spectrum from "causally affected by alcohol access" to "placebo"?</span>
+<span id="cb19-1030"><a href="#cb19-1030" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1031"><a href="#cb19-1031" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb19-1032"><a href="#cb19-1032" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb19-1033"><a href="#cb19-1033" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1036"><a href="#cb19-1036" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb19-1037"><a href="#cb19-1037" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-homicide-rd</span></span>
+<span id="cb19-1038"><a href="#cb19-1038" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "RD estimates across causes: MVA, homicide, and internal (placebo)"</span></span>
+<span id="cb19-1039"><a href="#cb19-1039" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1040"><a href="#cb19-1040" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
+<span id="cb19-1041"><a href="#cb19-1041" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb19-1042"><a href="#cb19-1042" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb19-1043"><a href="#cb19-1043" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1044"><a href="#cb19-1044" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb19-1045"><a href="#cb19-1045" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1046"><a href="#cb19-1046" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Compare RD Estimates Across Three Causes ---</span></span>
+<span id="cb19-1047"><a href="#cb19-1047" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb19-1048"><a href="#cb19-1048" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> [(<span class="st">"mva"</span>, <span class="st">"Motor vehicle"</span>), (<span class="st">"homicide"</span>, <span class="st">"Homicide"</span>), (<span class="st">"internal"</span>, <span class="st">"Internal (placebo)"</span>)]:</span>
+<span id="cb19-1049"><a href="#cb19-1049" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> ~ over21 + age"</span>, data<span class="op">=</span>mlda).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb19-1050"><a href="#cb19-1050" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
+<span id="cb19-1051"><a href="#cb19-1051" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Cause"</span>: label,</span>
+<span id="cb19-1052"><a href="#cb19-1052" aria-hidden="true" tabindex="-1"></a>        <span class="st">"RD estimate"</span>: <span class="bu">round</span>(r.params[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb19-1053"><a href="#cb19-1053" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb19-1054"><a href="#cb19-1054" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t-stat"</span>: <span class="bu">round</span>(r.tvalues[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb19-1055"><a href="#cb19-1055" aria-hidden="true" tabindex="-1"></a>    })</span>
 <span id="cb19-1056"><a href="#cb19-1056" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1057"><a href="#cb19-1057" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb19-1058"><a href="#cb19-1058" aria-hidden="true" tabindex="-1"></a><span class="in">* --- RD estimates: MVA, homicide, and internal ---</span></span>
-<span id="cb19-1059"><a href="#cb19-1059" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb19-1060"><a href="#cb19-1060" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb19-1061"><a href="#cb19-1061" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear</span></span>
-<span id="cb19-1062"><a href="#cb19-1062" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1063"><a href="#cb19-1063" aria-hidden="true" tabindex="-1"></a><span class="in">* Linear RD for each cause of death</span></span>
-<span id="cb19-1064"><a href="#cb19-1064" aria-hidden="true" tabindex="-1"></a><span class="in">foreach var in mva homicide internal {</span></span>
-<span id="cb19-1065"><a href="#cb19-1065" aria-hidden="true" tabindex="-1"></a><span class="in">    display "=== `var' ==="</span></span>
-<span id="cb19-1066"><a href="#cb19-1066" aria-hidden="true" tabindex="-1"></a><span class="in">    reg `var' over21 age, robust</span></span>
-<span id="cb19-1067"><a href="#cb19-1067" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb19-1068"><a href="#cb19-1068" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-1069"><a href="#cb19-1069" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1070"><a href="#cb19-1070" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** MVA shows a large, statistically significant jump at age 21. Internal causes (the clean placebo) show no significant jump, confirming the design's validity. Homicide falls in between --- it may show a modest positive estimate, but with a larger standard error and weaker significance than MVA.</span>
-<span id="cb19-1071"><a href="#cb19-1071" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1072"><a href="#cb19-1072" aria-hidden="true" tabindex="-1"></a>(2) **Why:** MVA deaths are directly caused by drunk driving, so legal alcohol access has an immediate, strong effect. Internal causes (cancer, heart disease) cannot plausibly respond to turning 21, making them a clean falsification test. Homicide occupies an ambiguous middle ground: alcohol can contribute to violent altercations, but homicide is driven by many factors beyond drinking. The intermediate result for homicide reflects this partial causal channel.</span>
-<span id="cb19-1073"><a href="#cb19-1073" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1074"><a href="#cb19-1074" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** Not every outcome is cleanly "should jump" or "should not jump." Homicide illustrates the value of thinking about *mechanisms* when designing placebo tests. A nuanced researcher would predict a small homicide effect (partial alcohol channel) and a zero internal effect (no channel). Finding exactly this pattern --- large MVA, small homicide, null internal --- strengthens the causal story more than a simple "significant vs. not significant" binary.</span>
-<span id="cb19-1075"><a href="#cb19-1075" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1076"><a href="#cb19-1076" aria-hidden="true" tabindex="-1"></a>**R5.**</span>
-<span id="cb19-1077"><a href="#cb19-1077" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1080"><a href="#cb19-1080" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb19-1081"><a href="#cb19-1081" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-bandwidth</span></span>
-<span id="cb19-1082"><a href="#cb19-1082" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Bandwidth sensitivity: RD estimate for all-cause mortality"</span></span>
+<span id="cb19-1057"><a href="#cb19-1057" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
+<span id="cb19-1058"><a href="#cb19-1058" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-1059"><a href="#cb19-1059" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1060"><a href="#cb19-1060" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb19-1061"><a href="#cb19-1061" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1062"><a href="#cb19-1062" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb19-1063"><a href="#cb19-1063" aria-hidden="true" tabindex="-1"></a><span class="in">* --- RD estimates: MVA, homicide, and internal ---</span></span>
+<span id="cb19-1064"><a href="#cb19-1064" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb19-1065"><a href="#cb19-1065" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb19-1066"><a href="#cb19-1066" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear</span></span>
+<span id="cb19-1067"><a href="#cb19-1067" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1068"><a href="#cb19-1068" aria-hidden="true" tabindex="-1"></a><span class="in">* Linear RD for each cause of death</span></span>
+<span id="cb19-1069"><a href="#cb19-1069" aria-hidden="true" tabindex="-1"></a><span class="in">foreach var in mva homicide internal {</span></span>
+<span id="cb19-1070"><a href="#cb19-1070" aria-hidden="true" tabindex="-1"></a><span class="in">    display "=== `var' ==="</span></span>
+<span id="cb19-1071"><a href="#cb19-1071" aria-hidden="true" tabindex="-1"></a><span class="in">    reg `var' over21 age, robust</span></span>
+<span id="cb19-1072"><a href="#cb19-1072" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb19-1073"><a href="#cb19-1073" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-1074"><a href="#cb19-1074" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1075"><a href="#cb19-1075" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** MVA shows a large, statistically significant jump at age 21. Internal causes (the clean placebo) show no significant jump, confirming the design's validity. Homicide falls in between --- it may show a modest positive estimate, but with a larger standard error and weaker significance than MVA.</span>
+<span id="cb19-1076"><a href="#cb19-1076" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1077"><a href="#cb19-1077" aria-hidden="true" tabindex="-1"></a>(2) **Why:** MVA deaths are directly caused by drunk driving, so legal alcohol access has an immediate, strong effect. Internal causes (cancer, heart disease) cannot plausibly respond to turning 21, making them a clean falsification test. Homicide occupies an ambiguous middle ground: alcohol can contribute to violent altercations, but homicide is driven by many factors beyond drinking. The intermediate result for homicide reflects this partial causal channel.</span>
+<span id="cb19-1078"><a href="#cb19-1078" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1079"><a href="#cb19-1079" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** Not every outcome is cleanly "should jump" or "should not jump." Homicide illustrates the value of thinking about *mechanisms* when designing placebo tests. A nuanced researcher would predict a small homicide effect (partial alcohol channel) and a zero internal effect (no channel). Finding exactly this pattern --- large MVA, small homicide, null internal --- strengthens the causal story more than a simple "significant vs. not significant" binary.</span>
+<span id="cb19-1080"><a href="#cb19-1080" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb19-1081"><a href="#cb19-1081" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1082"><a href="#cb19-1082" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Bandwidth sensitivity**: Using <span class="in">`mlda_clean.csv`</span>, estimate the RD effect on all-cause mortality (<span class="in">`all`</span>) using four progressively narrower bandwidths: the full sample, then <span class="in">`agecell`</span> within 1.5 years of 21, within 1.0 year, and within 0.5 years. How do the coefficient and standard error change as the bandwidth narrows?</span>
 <span id="cb19-1083"><a href="#cb19-1083" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1084"><a href="#cb19-1084" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
-<span id="cb19-1085"><a href="#cb19-1085" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb19-1084"><a href="#cb19-1084" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb19-1085"><a href="#cb19-1085" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
 <span id="cb19-1086"><a href="#cb19-1086" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1087"><a href="#cb19-1087" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Define Bandwidths (distance from cutoff age 21) ---</span></span>
-<span id="cb19-1088"><a href="#cb19-1088" aria-hidden="true" tabindex="-1"></a>bandwidths <span class="op">=</span> [</span>
-<span id="cb19-1089"><a href="#cb19-1089" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Full sample"</span>, <span class="va">None</span>, <span class="va">None</span>),</span>
-<span id="cb19-1090"><a href="#cb19-1090" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"± 1.5 years"</span>, <span class="fl">19.5</span>, <span class="fl">22.5</span>),</span>
-<span id="cb19-1091"><a href="#cb19-1091" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"± 1.0 year"</span>, <span class="fl">20.0</span>, <span class="fl">22.0</span>),</span>
-<span id="cb19-1092"><a href="#cb19-1092" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"± 0.5 years"</span>, <span class="fl">20.5</span>, <span class="fl">21.5</span>),</span>
-<span id="cb19-1093"><a href="#cb19-1093" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb19-1094"><a href="#cb19-1094" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1095"><a href="#cb19-1095" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Estimate RD for Each Bandwidth ---</span></span>
-<span id="cb19-1096"><a href="#cb19-1096" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb19-1097"><a href="#cb19-1097" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label, lo, hi <span class="kw">in</span> bandwidths:</span>
-<span id="cb19-1098"><a href="#cb19-1098" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> lo <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb19-1099"><a href="#cb19-1099" aria-hidden="true" tabindex="-1"></a>        subset <span class="op">=</span> mlda  <span class="co"># full sample</span></span>
-<span id="cb19-1100"><a href="#cb19-1100" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb19-1101"><a href="#cb19-1101" aria-hidden="true" tabindex="-1"></a>        subset <span class="op">=</span> mlda[(mlda[<span class="st">"agecell"</span>] <span class="op">&gt;=</span> lo) <span class="op">&amp;</span> (mlda[<span class="st">"agecell"</span>] <span class="op">&lt;=</span> hi)]</span>
-<span id="cb19-1102"><a href="#cb19-1102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1103"><a href="#cb19-1103" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(subset) <span class="op">&gt;</span> <span class="dv">4</span>:  <span class="co"># need enough observations for regression</span></span>
-<span id="cb19-1104"><a href="#cb19-1104" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>subset).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb19-1105"><a href="#cb19-1105" aria-hidden="true" tabindex="-1"></a>        rows.append({</span>
-<span id="cb19-1106"><a href="#cb19-1106" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Bandwidth"</span>: label,</span>
-<span id="cb19-1107"><a href="#cb19-1107" aria-hidden="true" tabindex="-1"></a>            <span class="st">"N"</span>: <span class="bu">len</span>(subset),</span>
-<span id="cb19-1108"><a href="#cb19-1108" aria-hidden="true" tabindex="-1"></a>            <span class="st">"RD estimate"</span>: <span class="bu">round</span>(r.params[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb19-1109"><a href="#cb19-1109" aria-hidden="true" tabindex="-1"></a>            <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb19-1110"><a href="#cb19-1110" aria-hidden="true" tabindex="-1"></a>            <span class="st">"t-stat"</span>: <span class="bu">round</span>(r.tvalues[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
-<span id="cb19-1111"><a href="#cb19-1111" aria-hidden="true" tabindex="-1"></a>        })</span>
-<span id="cb19-1112"><a href="#cb19-1112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1113"><a href="#cb19-1113" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
-<span id="cb19-1114"><a href="#cb19-1114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-1115"><a href="#cb19-1115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1116"><a href="#cb19-1116" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb19-1117"><a href="#cb19-1117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1118"><a href="#cb19-1118" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb19-1119"><a href="#cb19-1119" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Bandwidth sensitivity analysis ---</span></span>
-<span id="cb19-1120"><a href="#cb19-1120" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb19-1121"><a href="#cb19-1121" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb19-1122"><a href="#cb19-1122" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear</span></span>
-<span id="cb19-1123"><a href="#cb19-1123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1124"><a href="#cb19-1124" aria-hidden="true" tabindex="-1"></a><span class="in">* Full sample</span></span>
-<span id="cb19-1125"><a href="#cb19-1125" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age, robust</span></span>
+<span id="cb19-1089"><a href="#cb19-1089" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb19-1090"><a href="#cb19-1090" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-bandwidth</span></span>
+<span id="cb19-1091"><a href="#cb19-1091" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Bandwidth sensitivity: RD estimate for all-cause mortality"</span></span>
+<span id="cb19-1092"><a href="#cb19-1092" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1093"><a href="#cb19-1093" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
+<span id="cb19-1094"><a href="#cb19-1094" aria-hidden="true" tabindex="-1"></a>mlda <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch4/mlda_clean.csv"</span>)</span>
+<span id="cb19-1095"><a href="#cb19-1095" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1096"><a href="#cb19-1096" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Define Bandwidths (distance from cutoff age 21) ---</span></span>
+<span id="cb19-1097"><a href="#cb19-1097" aria-hidden="true" tabindex="-1"></a>bandwidths <span class="op">=</span> [</span>
+<span id="cb19-1098"><a href="#cb19-1098" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Full sample"</span>, <span class="va">None</span>, <span class="va">None</span>),</span>
+<span id="cb19-1099"><a href="#cb19-1099" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"± 1.5 years"</span>, <span class="fl">19.5</span>, <span class="fl">22.5</span>),</span>
+<span id="cb19-1100"><a href="#cb19-1100" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"± 1.0 year"</span>, <span class="fl">20.0</span>, <span class="fl">22.0</span>),</span>
+<span id="cb19-1101"><a href="#cb19-1101" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"± 0.5 years"</span>, <span class="fl">20.5</span>, <span class="fl">21.5</span>),</span>
+<span id="cb19-1102"><a href="#cb19-1102" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb19-1103"><a href="#cb19-1103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1104"><a href="#cb19-1104" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Estimate RD for Each Bandwidth ---</span></span>
+<span id="cb19-1105"><a href="#cb19-1105" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb19-1106"><a href="#cb19-1106" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label, lo, hi <span class="kw">in</span> bandwidths:</span>
+<span id="cb19-1107"><a href="#cb19-1107" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> lo <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb19-1108"><a href="#cb19-1108" aria-hidden="true" tabindex="-1"></a>        subset <span class="op">=</span> mlda  <span class="co"># full sample</span></span>
+<span id="cb19-1109"><a href="#cb19-1109" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb19-1110"><a href="#cb19-1110" aria-hidden="true" tabindex="-1"></a>        subset <span class="op">=</span> mlda[(mlda[<span class="st">"agecell"</span>] <span class="op">&gt;=</span> lo) <span class="op">&amp;</span> (mlda[<span class="st">"agecell"</span>] <span class="op">&lt;=</span> hi)]</span>
+<span id="cb19-1111"><a href="#cb19-1111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1112"><a href="#cb19-1112" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(subset) <span class="op">&gt;</span> <span class="dv">4</span>:  <span class="co"># need enough observations for regression</span></span>
+<span id="cb19-1113"><a href="#cb19-1113" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> smf.ols(<span class="st">"all ~ over21 + age"</span>, data<span class="op">=</span>subset).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb19-1114"><a href="#cb19-1114" aria-hidden="true" tabindex="-1"></a>        rows.append({</span>
+<span id="cb19-1115"><a href="#cb19-1115" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Bandwidth"</span>: label,</span>
+<span id="cb19-1116"><a href="#cb19-1116" aria-hidden="true" tabindex="-1"></a>            <span class="st">"N"</span>: <span class="bu">len</span>(subset),</span>
+<span id="cb19-1117"><a href="#cb19-1117" aria-hidden="true" tabindex="-1"></a>            <span class="st">"RD estimate"</span>: <span class="bu">round</span>(r.params[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb19-1118"><a href="#cb19-1118" aria-hidden="true" tabindex="-1"></a>            <span class="st">"SE"</span>: <span class="bu">round</span>(r.bse[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb19-1119"><a href="#cb19-1119" aria-hidden="true" tabindex="-1"></a>            <span class="st">"t-stat"</span>: <span class="bu">round</span>(r.tvalues[<span class="st">"over21"</span>], <span class="dv">2</span>),</span>
+<span id="cb19-1120"><a href="#cb19-1120" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb19-1121"><a href="#cb19-1121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1122"><a href="#cb19-1122" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
+<span id="cb19-1123"><a href="#cb19-1123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-1124"><a href="#cb19-1124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1125"><a href="#cb19-1125" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
 <span id="cb19-1126"><a href="#cb19-1126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1127"><a href="#cb19-1127" aria-hidden="true" tabindex="-1"></a><span class="in">* ± 1.5 years</span></span>
-<span id="cb19-1128"><a href="#cb19-1128" aria-hidden="true" tabindex="-1"></a><span class="in">preserve</span></span>
-<span id="cb19-1129"><a href="#cb19-1129" aria-hidden="true" tabindex="-1"></a><span class="in">keep if agecell &gt;= 19.5 &amp; agecell &lt;= 22.5</span></span>
-<span id="cb19-1130"><a href="#cb19-1130" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age, robust</span></span>
-<span id="cb19-1131"><a href="#cb19-1131" aria-hidden="true" tabindex="-1"></a><span class="in">restore</span></span>
+<span id="cb19-1127"><a href="#cb19-1127" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb19-1128"><a href="#cb19-1128" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Bandwidth sensitivity analysis ---</span></span>
+<span id="cb19-1129"><a href="#cb19-1129" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb19-1130"><a href="#cb19-1130" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb19-1131"><a href="#cb19-1131" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear</span></span>
 <span id="cb19-1132"><a href="#cb19-1132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1133"><a href="#cb19-1133" aria-hidden="true" tabindex="-1"></a><span class="in">* ± 1.0 year</span></span>
-<span id="cb19-1134"><a href="#cb19-1134" aria-hidden="true" tabindex="-1"></a><span class="in">preserve</span></span>
-<span id="cb19-1135"><a href="#cb19-1135" aria-hidden="true" tabindex="-1"></a><span class="in">keep if agecell &gt;= 20.0 &amp; agecell &lt;= 22.0</span></span>
-<span id="cb19-1136"><a href="#cb19-1136" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age, robust</span></span>
-<span id="cb19-1137"><a href="#cb19-1137" aria-hidden="true" tabindex="-1"></a><span class="in">restore</span></span>
-<span id="cb19-1138"><a href="#cb19-1138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1139"><a href="#cb19-1139" aria-hidden="true" tabindex="-1"></a><span class="in">* ± 0.5 years</span></span>
-<span id="cb19-1140"><a href="#cb19-1140" aria-hidden="true" tabindex="-1"></a><span class="in">preserve</span></span>
-<span id="cb19-1141"><a href="#cb19-1141" aria-hidden="true" tabindex="-1"></a><span class="in">keep if agecell &gt;= 20.5 &amp; agecell &lt;= 21.5</span></span>
-<span id="cb19-1142"><a href="#cb19-1142" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age, robust</span></span>
-<span id="cb19-1143"><a href="#cb19-1143" aria-hidden="true" tabindex="-1"></a><span class="in">restore</span></span>
-<span id="cb19-1144"><a href="#cb19-1144" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-1145"><a href="#cb19-1145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1146"><a href="#cb19-1146" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** As the bandwidth narrows, the coefficient may change modestly while the standard error increases substantially. With very narrow bandwidths, the estimate becomes imprecise (wide confidence intervals) due to fewer observations, even though the remaining observations are closer to the cutoff.</span>
+<span id="cb19-1133"><a href="#cb19-1133" aria-hidden="true" tabindex="-1"></a><span class="in">* Full sample</span></span>
+<span id="cb19-1134"><a href="#cb19-1134" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age, robust</span></span>
+<span id="cb19-1135"><a href="#cb19-1135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1136"><a href="#cb19-1136" aria-hidden="true" tabindex="-1"></a><span class="in">* ± 1.5 years</span></span>
+<span id="cb19-1137"><a href="#cb19-1137" aria-hidden="true" tabindex="-1"></a><span class="in">preserve</span></span>
+<span id="cb19-1138"><a href="#cb19-1138" aria-hidden="true" tabindex="-1"></a><span class="in">keep if agecell &gt;= 19.5 &amp; agecell &lt;= 22.5</span></span>
+<span id="cb19-1139"><a href="#cb19-1139" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age, robust</span></span>
+<span id="cb19-1140"><a href="#cb19-1140" aria-hidden="true" tabindex="-1"></a><span class="in">restore</span></span>
+<span id="cb19-1141"><a href="#cb19-1141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1142"><a href="#cb19-1142" aria-hidden="true" tabindex="-1"></a><span class="in">* ± 1.0 year</span></span>
+<span id="cb19-1143"><a href="#cb19-1143" aria-hidden="true" tabindex="-1"></a><span class="in">preserve</span></span>
+<span id="cb19-1144"><a href="#cb19-1144" aria-hidden="true" tabindex="-1"></a><span class="in">keep if agecell &gt;= 20.0 &amp; agecell &lt;= 22.0</span></span>
+<span id="cb19-1145"><a href="#cb19-1145" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age, robust</span></span>
+<span id="cb19-1146"><a href="#cb19-1146" aria-hidden="true" tabindex="-1"></a><span class="in">restore</span></span>
 <span id="cb19-1147"><a href="#cb19-1147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1148"><a href="#cb19-1148" aria-hidden="true" tabindex="-1"></a>(2) **Why:** This is the bias-variance tradeoff at the heart of RD design. Wider bandwidths use more data (lower variance) but include observations farther from the cutoff where nonlinear trends might bias the estimate. Narrower bandwidths restrict attention to observations closest to the cutoff (lower bias) but sacrifice statistical power. The optimal bandwidth balances these competing concerns.</span>
-<span id="cb19-1149"><a href="#cb19-1149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-1150"><a href="#cb19-1150" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** If the RD estimate is stable across bandwidths, it suggests the result is robust and not driven by functional form assumptions far from the cutoff. If the estimate changes dramatically, it raises concerns about specification dependence. Reporting estimates across multiple bandwidths --- as this exercise requires --- is standard practice in applied RD research and essential for credibility.</span>
+<span id="cb19-1148"><a href="#cb19-1148" aria-hidden="true" tabindex="-1"></a><span class="in">* ± 0.5 years</span></span>
+<span id="cb19-1149"><a href="#cb19-1149" aria-hidden="true" tabindex="-1"></a><span class="in">preserve</span></span>
+<span id="cb19-1150"><a href="#cb19-1150" aria-hidden="true" tabindex="-1"></a><span class="in">keep if agecell &gt;= 20.5 &amp; agecell &lt;= 21.5</span></span>
+<span id="cb19-1151"><a href="#cb19-1151" aria-hidden="true" tabindex="-1"></a><span class="in">reg all over21 age, robust</span></span>
+<span id="cb19-1152"><a href="#cb19-1152" aria-hidden="true" tabindex="-1"></a><span class="in">restore</span></span>
+<span id="cb19-1153"><a href="#cb19-1153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-1154"><a href="#cb19-1154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1155"><a href="#cb19-1155" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** As the bandwidth narrows, the coefficient may change modestly while the standard error increases substantially. With very narrow bandwidths, the estimate becomes imprecise (wide confidence intervals) due to fewer observations, even though the remaining observations are closer to the cutoff.</span>
+<span id="cb19-1156"><a href="#cb19-1156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1157"><a href="#cb19-1157" aria-hidden="true" tabindex="-1"></a>(2) **Why:** This is the bias-variance tradeoff at the heart of RD design. Wider bandwidths use more data (lower variance) but include observations farther from the cutoff where nonlinear trends might bias the estimate. Narrower bandwidths restrict attention to observations closest to the cutoff (lower bias) but sacrifice statistical power. The optimal bandwidth balances these competing concerns.</span>
+<span id="cb19-1158"><a href="#cb19-1158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-1159"><a href="#cb19-1159" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** If the RD estimate is stable across bandwidths, it suggests the result is robust and not driven by functional form assumptions far from the cutoff. If the estimate changes dramatically, it raises concerns about specification dependence. Reporting estimates across multiple bandwidths --- as this exercise requires --- is standard practice in applied RD research and essential for credibility.</span>
+<span id="cb19-1160"><a href="#cb19-1160" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

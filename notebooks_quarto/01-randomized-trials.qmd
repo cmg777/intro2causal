@@ -243,7 +243,7 @@ Like a fire alarm. It goes off only when the evidence of fire (smoke) is strong 
 ::::: {.columns}
 :::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
-In the RAND HIE, people with free insurance visited the doctor 45% more often than those who paid most of their own costs.
+In the RAND HIE, people with free insurance spent about 45% more on health care than those who paid most of their own costs.
 :::
 ::::
 :::: {.column width="50%"}

@@ -1384,81 +1384,82 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 
 ### Conceptual Questions
 
-::: {.callout-caution}
-### Conceptual Questions
-
 1. **Ability bias direction**: A friend argues that ability bias could go *downward* (smart people drop out to start businesses). Give one example supporting this view and one supporting the standard upward-bias view. Which do you find more convincing for the general population?
 
-2. **Measurement error**: Explain why measurement error in education is more problematic in the twin-differences specification than in the levels OLS. (Hint: think about what differencing does to the signal-to-noise ratio.)
-
-3. **The Wald estimate**: Using the QOB data, the reduced form (Q4 → earnings) is 0.0068 and the first stage (Q4 → schooling) is 0.0921. (a) Compute the Wald/IV estimate. (b) Why is this estimate valid only for "compliers"? Who are the compliers in this context?
-
-4. **OLS vs. IV similarity**: In the QOB analysis, OLS and IV give similar estimates (~0.07). Does this mean ability bias is small? Or could there be offsetting biases (one pushing up, one pushing down) that happen to cancel? Explain.
-
-5. **Sheepskin interpretation**: The Texas RD shows a ~40 percentage point jump in diploma receipt but near-zero earnings effect. A skeptic says "this proves education doesn't matter." Explain why this conclusion is wrong. What does the sheepskin RD actually tell us about the *mechanism* through which education raises earnings?
-
-6. **OVB formula**: Using the synthetic OVB dataset, the short regression gives ~0.12 and the long regression gives ~0.09. Apply the OVB formula: what are the signs of $\gamma$ (ability → earnings) and $\pi_1$ (ability → schooling)? Is the bias direction consistent with what you observe?
-
-7. **Bad controls vs. good controls**: Explain the difference between controlling for age (a good control) and controlling for occupation (a bad control) when estimating returns to schooling. What determines whether a control variable is "good" or "bad"?
-:::
-
-### Research Tasks
-
-::: {.callout-caution}
-### Research Tasks
-
-1. **Returns for men only**: Using `twins_clean.csv`, restrict the sample to male twins (`female == 0`). Re-run the OLS and within-twin FE regressions. Do the returns to schooling differ for men compared to the full sample?
-
-2. **Multiple instruments**: Using `qob_clean.csv`, run the 2SLS regression using all three quarter dummies (`q2`, `q3`, `q4`) as instruments for schooling instead of just `q4`. Does the IV estimate change? How does the first-stage F-statistic compare?
-
-3. **White vs. non-white twins**: Using `twins_clean.csv`, split the sample by `white` status and run the OLS regression for each group. Is the return to schooling different for white vs. non-white twins?
-
-4. **Pre-trend test**: Using `synthetic_did.csv`, run the DD regression on only the pre-reform period (years before 2005). Is the `treat_post` interaction significant? What does this tell you about the parallel trends assumption?
-:::
-
-
-## Solutions
-
-### Conceptual Questions
-
-**Q1.** **Ability bias is upward for most people because the education system selects on ability, but rare high-ability dropouts illustrate the theoretical possibility of downward bias.**
+::: {.callout-note collapse="true"}
+### Show answer
+**Ability bias is upward for most people because the education system selects on ability, but rare high-ability dropouts illustrate the theoretical possibility of downward bias.**
 
 1. Downward bias example: Mark Zuckerberg dropped out of Harvard to build Facebook and became a billionaire. His high ability generated high earnings *without* completing his degree.
 2. Upward bias example: A student with high IQ and supportive parents completes a PhD and earns a high salary. OLS conflates the ability effect with the schooling effect.
 3. For the general population, upward bias is far more convincing: the education system systematically selects on ability through grades, test scores, and admissions.
+:::
 
-**Q2.** **Differencing within twin pairs amplifies measurement error because it shrinks the true signal while leaving the noise unchanged.**
+2. **Measurement error**: Explain why measurement error in education is more problematic in the twin-differences specification than in the levels OLS. (Hint: think about what differencing does to the signal-to-noise ratio.)
+
+::: {.callout-note collapse="true"}
+### Show answer
+**Differencing within twin pairs amplifies measurement error because it shrinks the true signal while leaving the noise unchanged.**
 
 1. Measurement error adds noise ($m_i$) to observed schooling: $S_i = S_i^* + m_i$.
 2. In levels OLS, the reliability ratio $r = \text{Var}(S^*) / [\text{Var}(S^*) + \text{Var}(m)]$ is close to 1 because schooling varies widely.
 3. Differencing shrinks $\text{Var}(\Delta S^*)$ dramatically but $\text{Var}(\Delta m)$ stays the same. The reliability ratio $r$ falls sharply, and attenuation bias worsens.
 4. This is why the twin FE estimate (~0.06) is lower than OLS (~0.11). The IV correction using the co-twin's report recovers the true return.
+:::
 
-**Q3.** **The Wald/IV estimate identifies a LATE of about 7.4% per year, but it applies only to the marginal students whose schooling was changed by compulsory schooling laws.**
+3. **The Wald estimate**: Using the QOB data, the reduced form (Q4 → earnings) is 0.0068 and the first stage (Q4 → schooling) is 0.0921. (a) Compute the Wald/IV estimate. (b) Why is this estimate valid only for "compliers"? Who are the compliers in this context?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**The Wald/IV estimate identifies a LATE of about 7.4% per year, but it applies only to the marginal students whose schooling was changed by compulsory schooling laws.**
 
 1. (a) Wald estimate = 0.0068 / 0.0921 = 0.074, or about 7.4% per year.
 2. (b) This is a LATE --- it applies only to compliers whose schooling was changed by their quarter of birth interacting with compulsory schooling laws.
 3. Compliers are students at the dropout threshold. Always-takers (college-bound) and never-takers (very early dropouts) are not affected.
+:::
 
-**Q4.** **The similarity of OLS and IV estimates is a coincidence of two offsetting biases, not evidence that OLS is unbiased.**
+4. **OLS vs. IV similarity**: In the QOB analysis, OLS and IV give similar estimates (~0.07). Does this mean ability bias is small? Or could there be offsetting biases (one pushing up, one pushing down) that happen to cancel? Explain.
+
+::: {.callout-note collapse="true"}
+### Show answer
+**The similarity of OLS and IV estimates is a coincidence of two offsetting biases, not evidence that OLS is unbiased.**
 
 1. OLS is biased upward by ability bias and downward by measurement error.
 2. IV corrects both simultaneously. The net result happens to land close to OLS.
 3. The twin evidence confirms: IV with the co-twin's report raises the estimate above twin FE; twin FE without IV falls below OLS. Each bias is real.
+:::
 
-**Q5.** **The sheepskin RD proves the diploma itself has little independent value, implying that the large education premium comes from actual learning.**
+5. **Sheepskin interpretation**: The Texas RD shows a ~40 percentage point jump in diploma receipt but near-zero earnings effect. A skeptic says "this proves education doesn't matter." Explain why this conclusion is wrong. What does the sheepskin RD actually tell us about the *mechanism* through which education raises earnings?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**The sheepskin RD proves the diploma itself has little independent value, implying that the large education premium comes from actual learning.**
 
 1. The Texas RD compares students who barely passed vs. barely failed. The near-zero earnings difference shows credentialism is not the main driver.
 2. This separates human capital theory from signaling theory. The small sheepskin effect supports human capital.
 3. Education clearly raises earnings --- the finding tells us *why* (skills, not signals) rather than *whether*.
+:::
 
-**Q6.** Both $\gamma > 0$ (ability raises earnings) and $\pi_1 > 0$ (ability raises schooling). OVB = $\gamma \times \pi_1 > 0$, matching the pattern: short regression (~0.12) overstates the true return (~0.09) by about 0.03.
+6. **OVB formula**: Using the synthetic OVB dataset, the short regression gives ~0.12 and the long regression gives ~0.09. Apply the OVB formula: what are the signs of $\gamma$ (ability → earnings) and $\pi_1$ (ability → schooling)? Is the bias direction consistent with what you observe?
 
-**Q7.** Age is determined before schooling decisions --- it is a pre-treatment variable. Occupation is *caused by* education --- it is post-treatment. Controlling for occupation removes part of the causal pathway (education → better job → higher earnings). The rule: a control is "good" if determined before the treatment, "bad" if it is a consequence.
+::: {.callout-note collapse="true"}
+### Show answer
+Both $\gamma > 0$ (ability raises earnings) and $\pi_1 > 0$ (ability raises schooling). OVB = $\gamma \times \pi_1 > 0$, matching the pattern: short regression (~0.12) overstates the true return (~0.09) by about 0.03.
+:::
+
+7. **Bad controls vs. good controls**: Explain the difference between controlling for age (a good control) and controlling for occupation (a bad control) when estimating returns to schooling. What determines whether a control variable is "good" or "bad"?
+
+::: {.callout-note collapse="true"}
+### Show answer
+Age is determined before schooling decisions --- it is a pre-treatment variable. Occupation is *caused by* education --- it is post-treatment. Controlling for occupation removes part of the causal pathway (education → better job → higher earnings). The rule: a control is "good" if determined before the treatment, "bad" if it is a consequence.
+:::
 
 ### Research Tasks
 
-**R1.**
+1. **Returns for men only**: Using `twins_clean.csv`, restrict the sample to male twins (`female == 0`). Re-run the OLS and within-twin FE regressions. Do the returns to schooling differ for men compared to the full sample?
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-men
@@ -1503,8 +1504,12 @@ reg dlwage deduc if first == 1 & female == 0, robust noconstant
 ```
 
 The key pattern --- OLS exceeding twin FE --- should persist in both samples.
+:::
 
-**R2.**
+2. **Multiple instruments**: Using `qob_clean.csv`, run the 2SLS regression using all three quarter dummies (`q2`, `q3`, `q4`) as instruments for schooling instead of just `q4`. Does the IV estimate change? How does the first-stage F-statistic compare?
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-multi-iv
@@ -1550,8 +1555,12 @@ test q2 q3 q4
 ```
 
 Multiple instruments gain precision but require all to satisfy the exclusion restriction.
+:::
 
-**R3.**
+3. **White vs. non-white twins**: Using `twins_clean.csv`, split the sample by `white` status and run the OLS regression for each group. Is the return to schooling different for white vs. non-white twins?
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-race
@@ -1584,8 +1593,12 @@ reg lwage educ age age2 female if white == 0, robust
 ```
 
 Several factors could drive racial differences: labor market discrimination, school quality differences, and occupational sorting.
+:::
 
-**R4.**
+4. **OLS vs. IV comparison**: Using `qob_clean.csv`, compare the OLS and IV (2SLS with Q4 as instrument) estimates of the return to schooling. Are the estimates similar? What does the comparison tell you about offsetting biases?
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-ols-iv
@@ -1620,8 +1633,12 @@ ivregress 2sls lnw (s = q4), robust
 (2) **Why:** Two offsetting biases: ability bias pushes OLS *upward*, measurement error pushes OLS *downward*. IV corrects both simultaneously, and the net correction is small because the two biases approximately cancel.
 
 (3) **What it teaches:** Similar point estimates can mask very different sources of variation. The IV estimate has a cleaner causal interpretation because it isolates exogenous variation in schooling.
+:::
 
-**R5.**
+5. **First-stage F-statistics**: Using `qob_clean.csv`, compute the first-stage F-statistic for Q4 alone and for all three quarter dummies (Q2, Q3, Q4) together. Do both exceed the "rule of 10" threshold? What does this tell you about instrument relevance?
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-fstat
@@ -1662,8 +1679,12 @@ test q2 q3 q4
 (2) **Why:** Students born in Q4 enter school at a younger age and can legally drop out with less completed schooling than those born in Q1, creating a systematic relationship between quarter of birth and years of schooling.
 
 (3) **What it teaches:** The first-stage F-statistic is the primary diagnostic for weak instruments. When F < 10, the IV estimate is biased toward OLS and standard errors are unreliable.
+:::
 
-**R6.**
+6. **Pre-trend test**: Using `synthetic_did.csv`, run the DD regression on only the pre-reform period (years before 2005). Is the `treat_post` interaction significant? What does this tell you about the parallel trends assumption?
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-pretrend
@@ -1687,3 +1708,4 @@ pd.DataFrame({
 ```
 
 If the placebo coefficient is small and insignificant, the parallel trends assumption is supported.
+:::
