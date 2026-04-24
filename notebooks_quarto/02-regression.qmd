@@ -55,103 +55,153 @@ graph TD
 
 **Ordinary Least Squares (OLS):** The most common method for fitting a regression line. It chooses the coefficients that minimize the sum of squared differences between predicted and actual values of the outcome.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 To estimate the earnings premium of a college degree, OLS finds the line through the data that makes the squared prediction errors as small as possible.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a tailor measuring a suit. OLS adjusts the fit so the overall gap between the fabric and the body is minimized --- no single measurement is perfect, but the total mismatch is as small as it can be.
 :::
+::::
+:::::
 
 **Omitted Variable Bias (OVB):** The bias that results when a relevant variable is left out of a regression. The formula $\text{OVB} = \pi_1 \times \gamma$ shows that bias equals the relationship between the omitted variable and the treatment, times the effect of the omitted variable on the outcome.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Omitting ability from a regression of earnings on schooling inflates the schooling coefficient, because ability is positively correlated with both.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like blaming coffee for heart disease while ignoring that coffee drinkers are also more likely to smoke. If you leave smoking out of the picture, coffee gets the blame for what smoking caused.
 :::
+::::
+:::::
 
 **Short vs. Long Regression:** The "short" regression includes fewer control variables and is more vulnerable to OVB. The "long" regression adds controls to reduce bias. The difference between their coefficients reveals the OVB.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Regressing earnings on college attendance (short) gives a 14% premium. Adding SAT scores and parental income (long) reduces it to 2%. The 12% gap is OVB.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like describing someone in one sentence (short) versus a full paragraph (long). The short description may miss important details that change the story.
 :::
+::::
+:::::
 
 **Control Variable:** A variable included in a regression to hold constant an observed characteristic, allowing the researcher to isolate the effect of the treatment variable. Good controls are pre-treatment confounders.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 When estimating the effect of class size on test scores, controlling for school funding ensures we compare schools with similar resources.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a cooking competition where every contestant uses the same oven and ingredients. Controlling for equipment lets you fairly judge each chef's skill alone.
 :::
+::::
+:::::
 
 **Bad Control:** A variable that is *caused by* the treatment and should not be included in the regression. Controlling for it blocks part of the causal pathway and introduces new bias.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Controlling for occupation when estimating the return to education removes one of the main channels through which education raises earnings, biasing the estimate downward.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like judging a medicine's effect on health but only counting patients who did not get better. By filtering on the outcome's pathway, you miss part of the medicine's true benefit.
 :::
+::::
+:::::
 
 **Sensitivity Analysis:** A robustness check that examines whether the treatment effect estimate changes when additional controls are added. Stable estimates across specifications increase confidence in the causal interpretation.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Dale and Krueger showed that the private college premium barely changed after adding SAT scores and parental income, suggesting the remaining controls (application behavior) captured the key confounders.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like stress-testing a bridge. If the bridge holds up under different loads and conditions, you trust it is sturdy. If the estimate survives adding many controls, you trust it is not driven by omitted variables.
 :::
+::::
+:::::
 
 **Auxiliary Regression:** The regression of the omitted variable on the treatment variable, used to compute the $\pi_1$ component of the OVB formula. It tells you how strongly the omitted variable is related to treatment assignment.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Regressing ability on private school attendance shows $\pi_1 > 0$: higher-ability students are more likely to attend private school.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like checking how correlated two suspects are before deciding if one is covering for the other. The auxiliary regression tells you how much the missing variable "travels with" the treatment.
 :::
+::::
+:::::
 
 **Ceteris Paribus:** A Latin phrase meaning "all other things being equal." In regression, the coefficient on the treatment variable represents the effect of treatment holding all control variables constant.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A regression coefficient of \$5,000 on private school attendance, with SAT scores held constant, means private school raises earnings by \$5,000 for students with the same SAT scores.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like comparing two identical houses on the same street that differ only in having a garage. Any price difference is the value of the garage, all else equal.
 :::
+::::
+:::::
 
 **Conditional Independence Assumption (CIA):** The assumption that, after controlling for observed variables, treatment assignment is as good as random. If the CIA holds, regression gives causal estimates.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 If we control for SAT scores, parental income, and application behavior, the remaining variation in college choice may be essentially random, satisfying the CIA.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like matching identical twins who differ only in one habit (say, drinking coffee). If the match is perfect, any health difference is caused by coffee. CIA says "our controls are good enough to create such a match."
 :::
+::::
+:::::
 
 **Regression to the Mean:** The statistical phenomenon where extreme observations tend to be followed by less extreme ones, not because of any causal process, but because extreme values partly reflect random luck that is unlikely to repeat.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A student who scores in the 99th percentile on one exam will likely score lower on the next, even without any change in ability --- the first score was partly luck.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a golfer who shoots a 62 on Saturday. His Sunday round will probably be closer to his average, not because he got worse, but because unusually good luck rarely repeats.
 :::
+::::
+:::::
 
 
 # Is a Private College Worth It?

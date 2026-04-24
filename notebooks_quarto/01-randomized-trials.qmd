@@ -60,193 +60,288 @@ graph TD
 
 **Potential Outcomes ($Y_{1i}$, $Y_{0i}$):** The two hypothetical outcomes for each individual --- one if treated, one if not. The causal effect is the difference between them, but we can only ever observe one.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A patient's health if she receives a new drug ($Y_{1i}$) versus her health if she takes a placebo ($Y_{0i}$). We observe one; the other remains forever unknown.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like choosing between two routes to work. You take Route A and arrive in 20 minutes, but you will never know how long Route B would have taken that same morning.
 :::
+::::
+:::::
 
 **Causal Effect:** The difference between what happens to an individual with treatment and what would have happened without it ($Y_{1i} - Y_{0i}$). It answers the question "what did the treatment actually do?"
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 If a student scores 85 on a test after tutoring but would have scored 75 without it, the causal effect of tutoring is +10 points.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like measuring how much faster you run with new shoes by comparing your time to what you would have run in your old shoes on the same day --- not to someone else's time.
 :::
+::::
+:::::
 
 **Fundamental Problem of Causal Inference:** We can never observe both potential outcomes for the same individual at the same time, so individual causal effects are inherently unobservable.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 We cannot simultaneously see how a city's economy performs both with and without a new minimum wage law. We must choose one policy and live with it.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like watching a movie --- you cannot experience the same movie for the first time twice to compare your reactions.
 :::
+::::
+:::::
 
 **Selection Bias:** A systematic difference in baseline characteristics between the treated and untreated groups that contaminates the observed comparison, making it impossible to attribute the difference to the treatment alone.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 People who voluntarily buy gym memberships are already more health-conscious, so comparing gym members to non-members overstates the health benefits of exercise.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like comparing test scores of students who choose to attend after-school study hall versus those who skip it. The attendees were probably more motivated to begin with.
 :::
+::::
+:::::
 
 **Confounder:** A variable that influences both the treatment and the outcome, creating a spurious association between them.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Family income affects both whether a child attends private school (treatment) and the child's test scores (outcome), making it look like private school boosts scores even if it does not.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like blaming an umbrella for rain. People carry umbrellas on rainy days, but the umbrella did not cause the rain --- the weather (the confounder) caused both.
 :::
+::::
+:::::
 
 **Randomized Controlled Trial (RCT):** An experiment in which treatment is assigned randomly (like a coin flip), ensuring that treatment and control groups are comparable on all characteristics, both observed and unobserved.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 The Oregon Health Plan lottery randomly selected applicants to receive Medicaid, creating two groups that differed only by insurance status.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like shuffling a deck of cards and dealing two hands. Neither hand is systematically better --- any differences are pure luck.
 :::
+::::
+:::::
 
 **Random Assignment:** The process of using a random mechanism (lottery, coin flip, random number generator) to determine who receives treatment, breaking any link between treatment and pre-existing characteristics.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the RAND HIE, families were randomly assigned to insurance plans of different generosity, so high-income families were equally likely to end up in any plan group.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a teacher assigning lab partners by drawing names from a hat rather than letting students choose. The hat does not care who is popular or smart.
 :::
+::::
+:::::
 
 **Law of Large Numbers:** A statistical theorem guaranteeing that, as the sample size grows, the sample average converges to the population average. This is why large randomized experiments produce balanced groups.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Roll a die 10 times and the average may be far from 3.5. Roll it 100,000 times and the average will be almost exactly 3.5.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a casino's edge. Any single bet is unpredictable, but over thousands of games, the house reliably wins because averages stabilize.
 :::
+::::
+:::::
 
 **Balance Check:** A test performed after randomization to verify that treatment and control groups look similar on observable baseline characteristics. If balance holds, we trust that randomization worked.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the RAND HIE, researchers verified that age, income, education, and health were similar across plan groups before looking at outcomes.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a referee checking that both teams have the right number of players before the game starts. It does not guarantee a fair game, but failure would be a red flag.
 :::
+::::
+:::::
 
 **Standard Error (SE):** A measure of how much a sample estimate would vary across different random samples. Smaller standard errors mean more precise estimates.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A treatment effect of 5.0 with SE = 1.0 is precisely estimated; the same effect with SE = 10.0 is very uncertain.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like the wobble of a bathroom scale. A high-quality scale gives consistent readings (small SE); a cheap scale gives different numbers each time (large SE).
 :::
+::::
+:::::
 
 **t-Statistic:** The ratio of an estimated coefficient to its standard error (coefficient / SE). It measures how many standard errors the estimate is from zero.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A coefficient of 8.0 with SE of 2.0 gives a t-statistic of 4.0, meaning the estimate is 4 standard errors away from zero --- strong evidence of a real effect.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a signal-to-noise ratio on a radio. A t-statistic of 4 means the signal is much louder than the static; a t-statistic of 0.5 means the static drowns out the signal.
 :::
+::::
+:::::
 
 **Statistical Significance:** A result is statistically significant (at the 5% level) when its t-statistic exceeds 2 in absolute value, meaning it is unlikely to have arisen by chance alone.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A study finds that a job training program increases earnings by \$2,000 with a t-statistic of 3.1. This is statistically significant --- we can be confident the program had a real effect.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a fire alarm. It goes off only when the evidence of fire (smoke) is strong enough. A significant result says "this is probably real, not just random noise."
 :::
+::::
+:::::
 
 **Moral Hazard:** The tendency for people to change their behavior when they are insulated from the consequences of that behavior, often used when insurance reduces the cost of risky choices.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the RAND HIE, people with free insurance visited the doctor 45% more often than those who paid most of their own costs.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like an all-you-can-eat buffet. When each additional plate costs nothing, people eat more than they would at a restaurant where they pay per dish.
 :::
+::::
+:::::
 
 **Dummy Variable Regression:** A regression where the key explanatory variable is binary (0 or 1). The intercept gives the average for the reference group, and the coefficient on the dummy gives the difference in means between the two groups.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Regressing health on an insurance dummy (0 = uninsured, 1 = insured). The intercept is the average health of the uninsured; the coefficient is the insured-minus-uninsured gap.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a light switch. The variable is either "on" or "off," and we measure how the outcome changes when we flip it.
 :::
+::::
+:::::
 
 **Difference in Means:** The simplest estimator of a treatment effect: the average outcome of the treated group minus the average outcome of the control group. In a randomized experiment, this equals the causal effect.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Average test score for tutored students is 82; for untutored students it is 76. The difference in means is 82 - 76 = 6 points.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like comparing the average height of a basketball team to that of a chess club. Simple subtraction tells you the gap, but only randomization tells you it is causal.
 :::
+::::
+:::::
 
 **Intent-to-Treat (ITT):** The effect of being *assigned* to treatment, regardless of whether the individual actually received it. It captures the overall policy impact including non-compliance.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the Oregon lottery, the ITT is the effect of winning the lottery on health outcomes, even though only 25% of winners actually enrolled in Medicaid.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like measuring the effect of receiving an invitation to a party, whether or not you actually attend. The invitation changed your options, even if you stayed home.
 :::
+::::
+:::::
 
 **Clustering (of Standard Errors):** Adjusting standard errors to account for the fact that observations within the same group (family, school, state) are correlated, preventing falsely precise estimates.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the RAND HIE, family members share the same insurance plan, so their outcomes are correlated. Clustering SEs by family corrects for this.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like counting votes by household rather than by individual. If everyone in a household votes the same way, counting each person separately would overstate how many independent opinions you have.
 :::
+::::
+:::::
 
 **Robust Standard Errors:** Standard errors adjusted for heteroskedasticity --- the possibility that the variance of the error term differs across observations. They provide valid inference even when the standard OLS assumption of constant variance fails.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Earnings regressions often have more variable residuals for high-income individuals. Robust SEs account for this, preventing overconfident conclusions.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like adjusting your confidence interval when measuring an uneven road. Some stretches are smooth (low variability) and others are bumpy (high variability) --- you need wider margins of error for the bumpy parts.
 :::
+::::
+:::::
 
 **Weighted Least Squares (WLS):** A variant of OLS that gives more weight to observations that are more precisely measured or more representative, producing more efficient estimates.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 When analyzing state-level death rates, states with larger populations have more reliable rates and receive more weight in WLS.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like averaging restaurant reviews but trusting a reviewer who has eaten there 50 times more than one who visited once. More informative observations get a louder voice.
 :::
+::::
+:::::
 
 
 # Does Health Insurance Improve Health?

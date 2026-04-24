@@ -51,193 +51,288 @@ graph TD
 
 **Potential Outcomes ($Y_{1i}$, $Y_{0i}$):** The two hypothetical outcomes for each individual --- one if treated, one if not. The causal effect is the difference between them, but we can only ever observe one.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A patient's health if she receives a new drug ($Y_{1i}$) versus her health if she takes a placebo ($Y_{0i}$). We observe one; the other remains forever unknown.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like choosing between two routes to work. You take Route A and arrive in 20 minutes, but you will never know how long Route B would have taken that same morning.
 :::
+::::
+:::::
 
 **Causal Effect:** The difference between what happens to an individual with treatment and what would have happened without it ($Y_{1i} - Y_{0i}$). It answers the question "what did the treatment actually do?"
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 If a student scores 85 on a test after tutoring but would have scored 75 without it, the causal effect of tutoring is +10 points.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like measuring how much faster you run with new shoes by comparing your time to what you would have run in your old shoes on the same day --- not to someone else's time.
 :::
+::::
+:::::
 
 **Fundamental Problem of Causal Inference:** We can never observe both potential outcomes for the same individual at the same time, so individual causal effects are inherently unobservable.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 We cannot simultaneously see how a city's economy performs both with and without a new minimum wage law. We must choose one policy and live with it.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like watching a movie --- you cannot experience the same movie for the first time twice to compare your reactions.
 :::
+::::
+:::::
 
 **Selection Bias:** A systematic difference in baseline characteristics between the treated and untreated groups that contaminates the observed comparison, making it impossible to attribute the difference to the treatment alone.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 People who voluntarily buy gym memberships are already more health-conscious, so comparing gym members to non-members overstates the health benefits of exercise.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like comparing test scores of students who choose to attend after-school study hall versus those who skip it. The attendees were probably more motivated to begin with.
 :::
+::::
+:::::
 
 **Confounder:** A variable that influences both the treatment and the outcome, creating a spurious association between them.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Family income affects both whether a child attends private school (treatment) and the child's test scores (outcome), making it look like private school boosts scores even if it does not.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like blaming an umbrella for rain. People carry umbrellas on rainy days, but the umbrella did not cause the rain --- the weather (the confounder) caused both.
 :::
+::::
+:::::
 
 **Randomized Controlled Trial (RCT):** An experiment in which treatment is assigned randomly (like a coin flip), ensuring that treatment and control groups are comparable on all characteristics, both observed and unobserved.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 The Oregon Health Plan lottery randomly selected applicants to receive Medicaid, creating two groups that differed only by insurance status.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like shuffling a deck of cards and dealing two hands. Neither hand is systematically better --- any differences are pure luck.
 :::
+::::
+:::::
 
 **Random Assignment:** The process of using a random mechanism (lottery, coin flip, random number generator) to determine who receives treatment, breaking any link between treatment and pre-existing characteristics.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the RAND HIE, families were randomly assigned to insurance plans of different generosity, so high-income families were equally likely to end up in any plan group.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a teacher assigning lab partners by drawing names from a hat rather than letting students choose. The hat does not care who is popular or smart.
 :::
+::::
+:::::
 
 **Law of Large Numbers:** A statistical theorem guaranteeing that, as the sample size grows, the sample average converges to the population average. This is why large randomized experiments produce balanced groups.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Roll a die 10 times and the average may be far from 3.5. Roll it 100,000 times and the average will be almost exactly 3.5.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a casino's edge. Any single bet is unpredictable, but over thousands of games, the house reliably wins because averages stabilize.
 :::
+::::
+:::::
 
 **Balance Check:** A test performed after randomization to verify that treatment and control groups look similar on observable baseline characteristics. If balance holds, we trust that randomization worked.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the RAND HIE, researchers verified that age, income, education, and health were similar across plan groups before looking at outcomes.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a referee checking that both teams have the right number of players before the game starts. It does not guarantee a fair game, but failure would be a red flag.
 :::
+::::
+:::::
 
 **Standard Error (SE):** A measure of how much a sample estimate would vary across different random samples. Smaller standard errors mean more precise estimates.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A treatment effect of 5.0 with SE = 1.0 is precisely estimated; the same effect with SE = 10.0 is very uncertain.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like the wobble of a bathroom scale. A high-quality scale gives consistent readings (small SE); a cheap scale gives different numbers each time (large SE).
 :::
+::::
+:::::
 
 **t-Statistic:** The ratio of an estimated coefficient to its standard error (coefficient / SE). It measures how many standard errors the estimate is from zero.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A coefficient of 8.0 with SE of 2.0 gives a t-statistic of 4.0, meaning the estimate is 4 standard errors away from zero --- strong evidence of a real effect.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a signal-to-noise ratio on a radio. A t-statistic of 4 means the signal is much louder than the static; a t-statistic of 0.5 means the static drowns out the signal.
 :::
+::::
+:::::
 
 **Statistical Significance:** A result is statistically significant (at the 5% level) when its t-statistic exceeds 2 in absolute value, meaning it is unlikely to have arisen by chance alone.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A study finds that a job training program increases earnings by \$2,000 with a t-statistic of 3.1. This is statistically significant --- we can be confident the program had a real effect.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a fire alarm. It goes off only when the evidence of fire (smoke) is strong enough. A significant result says "this is probably real, not just random noise."
 :::
+::::
+:::::
 
 **Moral Hazard:** The tendency for people to change their behavior when they are insulated from the consequences of that behavior, often used when insurance reduces the cost of risky choices.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the RAND HIE, people with free insurance visited the doctor 45% more often than those who paid most of their own costs.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like an all-you-can-eat buffet. When each additional plate costs nothing, people eat more than they would at a restaurant where they pay per dish.
 :::
+::::
+:::::
 
 **Dummy Variable Regression:** A regression where the key explanatory variable is binary (0 or 1). The intercept gives the average for the reference group, and the coefficient on the dummy gives the difference in means between the two groups.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Regressing health on an insurance dummy (0 = uninsured, 1 = insured). The intercept is the average health of the uninsured; the coefficient is the insured-minus-uninsured gap.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a light switch. The variable is either "on" or "off," and we measure how the outcome changes when we flip it.
 :::
+::::
+:::::
 
 **Difference in Means:** The simplest estimator of a treatment effect: the average outcome of the treated group minus the average outcome of the control group. In a randomized experiment, this equals the causal effect.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Average test score for tutored students is 82; for untutored students it is 76. The difference in means is 82 - 76 = 6 points.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like comparing the average height of a basketball team to that of a chess club. Simple subtraction tells you the gap, but only randomization tells you it is causal.
 :::
+::::
+:::::
 
 **Intent-to-Treat (ITT):** The effect of being *assigned* to treatment, regardless of whether the individual actually received it. It captures the overall policy impact including non-compliance.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the Oregon lottery, the ITT is the effect of winning the lottery on health outcomes, even though only 25% of winners actually enrolled in Medicaid.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like measuring the effect of receiving an invitation to a party, whether or not you actually attend. The invitation changed your options, even if you stayed home.
 :::
+::::
+:::::
 
 **Clustering (of Standard Errors):** Adjusting standard errors to account for the fact that observations within the same group (family, school, state) are correlated, preventing falsely precise estimates.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the RAND HIE, family members share the same insurance plan, so their outcomes are correlated. Clustering SEs by family corrects for this.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like counting votes by household rather than by individual. If everyone in a household votes the same way, counting each person separately would overstate how many independent opinions you have.
 :::
+::::
+:::::
 
 **Robust Standard Errors:** Standard errors adjusted for heteroskedasticity --- the possibility that the variance of the error term differs across observations. They provide valid inference even when the standard OLS assumption of constant variance fails.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Earnings regressions often have more variable residuals for high-income individuals. Robust SEs account for this, preventing overconfident conclusions.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like adjusting your confidence interval when measuring an uneven road. Some stretches are smooth (low variability) and others are bumpy (high variability) --- you need wider margins of error for the bumpy parts.
 :::
+::::
+:::::
 
 **Weighted Least Squares (WLS):** A variant of OLS that gives more weight to observations that are more precisely measured or more representative, producing more efficient estimates.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 When analyzing state-level death rates, states with larger populations have more reliable rates and receive more weight in WLS.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like averaging restaurant reviews but trusting a reviewer who has eaten there 50 times more than one who visited once. More informative observations get a louder voice.
 :::
+::::
+:::::
 
 
 ## Does Health Insurance Improve Health?
@@ -1462,322 +1557,3 @@ display "Inpatient elasticity = " elast_in
 
 (3) **What it teaches:** This elasticity comparison reveals the *mechanism* behind moral hazard. The RAND experiment does not just show that free insurance increases spending --- it shows *where* the spending increase concentrates. Policy implications follow directly: if most of the moral hazard comes from discretionary outpatient care, cost-sharing designs that target outpatient visits (like copays for doctor visits) may be more effective at controlling costs than deductibles that apply equally to all services.
 :::
-
-
-## Solutions
-
-### Conceptual Questions
-
-**Q1.** **Organic food buyers differ systematically from non-buyers, making any health comparison suspect.** Three sources of selection bias:
-
-1. **Income:** People who buy organic food tend to have higher incomes, and wealthier people have better access to health care and live longer regardless of diet.
-2. **Health behavior:** Organic food buyers are likely more health-conscious overall --- they exercise more, smoke less, and manage stress better. This is a classic case of bundled lifestyle choices acting as confounders.
-3. **Education:** Education is correlated with both organic food consumption and longevity; more-educated people make healthier choices across many domains.
-
-All three sources violate the comparability assumption from the selection bias decomposition: $E[Y_{0i} | D_i = 1] \neq E[Y_{0i} | D_i = 0]$, so the observed difference overstates any true causal effect of organic food.
-
-**Q2.** **A small t-statistic confirms that randomization successfully balanced family income across plan groups.**
-
-1. **Compute:** The t-statistic is −976 / 1,345 ≈ −0.73.
-2. **Evaluate:** Since |−0.73| < 2, this difference is NOT statistically significant at conventional levels.
-3. **Interpret:** The difference in family income between the free plan and catastrophic plan groups is small enough to be attributable to chance. Randomization worked for this variable --- the groups are comparable on family income. This is exactly what the balance check in the chapter's Table "Balance of baseline characteristics" is designed to verify: if $D_i$ is randomly assigned, baseline covariates should look similar across groups.
-
-**Q3.** **No effect on physical health does not mean insurance is useless --- it means health is a narrow outcome that misses other benefits.**
-
-1. **Financial protection:** The Oregon experiment showed that lottery winners had less medical debt and fewer catastrophic medical expenses. Insurance smooths financial risk, which is valuable even without health gains.
-2. **Mental health:** Oregon lottery winners reported better mental health scores, an outcome dimension the RAND study did not emphasize.
-3. **Access to care:** Insurance increases access to care, which may matter more for acute conditions or preventive services not captured by the RAND outcome measures.
-
-The correct conclusion connects both experiments from the chapter: more generous insurance increases spending without improving measurable physical health (RAND), but it provides valuable financial security and mental health benefits (Oregon). Different outcomes can tell different causal stories from the same intervention.
-
-**Q4.** **Random assignment eliminates selection bias by making the treatment and control groups statistically identical at baseline.**
-
-1. **Start from the decomposition:** Observed difference = $\kappa$ + Selection bias, where selection bias = $E[Y_{0i} | D_i = 1] - E[Y_{0i} | D_i = 0]$.
-2. **Apply randomization:** When $D_i$ is randomly assigned, the treatment and control groups are drawn from the same population, so baseline characteristics are independent of treatment status.
-3. **Invoke the Law of Large Numbers:** With a large enough sample, the average baseline outcome $Y_{0i}$ will be nearly identical in both groups. Formally, $E[Y_{0i} | D_i = 1] = E[Y_{0i} | D_i = 0]$, so the selection bias term equals zero.
-4. **Conclude:** The observed difference then equals $\kappa$, the true causal effect. This is the core logic behind every balance check in the chapter --- if randomization works, baseline variables should be balanced.
-
-**Q5.** **Designing an experiment requires specifying randomization, outcomes, balance checks, and anticipating non-compliance.**
-
-1. **Randomization:** Randomly select classrooms or schools to receive the program (cluster randomization), or randomly assign individual students within each school. Cluster randomization avoids contamination across students in the same classroom.
-2. **Outcome:** Measure standardized test scores at the end of the semester/year. This gives a clear, quantifiable dependent variable $Y_i$.
-3. **Balance check:** Compare baseline characteristics (prior test scores, demographics, family income) between treatment and control groups to verify balance --- just as the RAND experiment checked age, education, and income in the chapter.
-4. **Non-compliance threat:** Some students may refuse the lunch, share it, or already receive food from other sources. This is a *non-compliance* problem: the intent-to-treat effect (being offered lunch) may differ from the effect of actually eating it. This foreshadows the instrumental variables approach in Chapter 3, where random assignment serves as an instrument for actual treatment.
-
-### Research Tasks
-
-**R1.**
-
-```{python}
-#| label: tbl-sol-binary-balance
-#| tbl-cap: "Binary balance check: any insurance vs. catastrophic"
-
-# --- Load data ---
-import pandas as pd
-import statsmodels.formula.api as smf
-
-rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
-
-# --- Run balance regressions ---
-# Use a single binary dummy (any_insurance) instead of three plan dummies
-rows = []
-for var in ["age", "education", "health_index"]:
-    d = rand[[var, "any_insurance", "family_id"]].dropna()
-    # OLS with clustered SEs at the family level
-    r = smf.ols(f"{var} ~ any_insurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-    rows.append({
-        "Variable": var,
-        "Catastrophic mean": round(r.params["Intercept"], 1),  # control group mean
-        "Any ins. difference": round(r.params["any_insurance"], 2),  # treatment-control gap
-        "SE": round(r.bse["any_insurance"], 2),
-        "t-stat": round(r.tvalues["any_insurance"], 2),  # difference / SE
-    })
-
-pd.DataFrame(rows)
-```
-
-Stata equivalent:
-
-```stata
-* --- Binary balance check ---
-clear all
-set more off
-import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_balance.csv", clear
-
-* Run balance regressions with clustered SEs
-foreach var in age education health_index {
-    reg `var' any_insurance, cluster(family_id)
-}
-```
-
-(1) **What the numbers show:** All t-statistics are small (well below 2), so none of the baseline differences are statistically significant. The catastrophic and any-insurance groups look comparable on age, education, and health.
-
-(2) **Why:** Randomization ensures that treatment assignment is independent of pre-existing characteristics. The Law of Large Numbers makes the group means converge, as discussed in Q4.
-
-(3) **What it teaches:** Balance holds regardless of whether we use three plan dummies or a single binary indicator. The binary specification pools all non-catastrophic plans together, which is simpler but loses information about differences across plan types. This illustrates a general point: the choice of treatment variable definition can affect granularity but should not affect the core balance result if randomization worked.
-
-**R2.**
-
-```{python}
-#| label: tbl-sol-pct-increase
-#| tbl-cap: "Percentage increase in utilization for the free plan relative to catastrophic"
-
-# --- Load data ---
-hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
-
-# --- Run regressions and compute percentage effects ---
-rows = []
-for var in ["visits", "outpatient_expenses", "admissions", "inpatient_expenses", "total_expenses"]:
-    d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-    # OLS with plan dummies; clustered SEs at the family level
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-
-    cat_mean = r.params["Intercept"]       # intercept = catastrophic plan mean (reference group)
-    free_effect = r.params["plan_free"]     # coefficient = absolute increase from free plan
-    pct_increase = (free_effect / cat_mean) * 100  # express as percentage of baseline
-
-    rows.append({
-        "Outcome": var,
-        "Catastrophic mean": round(cat_mean),
-        "Free plan effect": round(free_effect),
-        "% increase": round(pct_increase, 1),
-    })
-
-pd.DataFrame(rows)
-```
-
-Stata equivalent:
-
-```stata
-* --- Percentage increase in utilization for the free plan ---
-clear all
-set more off
-import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_utilization.csv", clear
-
-* Run regressions for each utilization outcome
-foreach var in visits outpatient_expenses admissions inpatient_expenses total_expenses {
-    reg `var' plan_free plan_deductible plan_coinsurance, cluster(family_id)
-    * Compute percentage increase: free plan effect / catastrophic mean * 100
-    scalar cat_mean = _b[_cons]
-    scalar free_effect = _b[plan_free]
-    scalar pct_increase = (free_effect / cat_mean) * 100
-    display "`var': catastrophic mean = " cat_mean ", free effect = " free_effect ", % increase = " pct_increase
-}
-```
-
-(1) **What the numbers show:** Outpatient expenses show the largest relative increase (~68%), followed by face-to-face visits (~60%). Hospital admissions show a smaller relative increase (~29%). Total expenses rose ~45%.
-
-(2) **Why:** Inpatient decisions are made primarily by doctors rather than patients, so reducing cost-sharing has less effect on admissions. Outpatient care, where patients have more discretion over whether to seek treatment, responds most strongly to price changes --- consistent with basic demand elasticity.
-
-(3) **What it teaches:** The same experiment can reveal heterogeneous causal effects across different outcomes. The RAND results show that moral hazard (the tendency to use more care when insured) is concentrated in outpatient services, not hospital stays. This pattern is key to understanding the policy implications of insurance design discussed in the chapter.
-
-**R3.**
-
-```{python}
-#| label: tbl-sol-gender
-#| tbl-cap: "Selection bias by gender: comparing insured vs. uninsured separately for husbands and wives"
-
-# --- Load data ---
-nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
-
-# --- Run WLS regressions by gender ---
-rows = []
-for gender in ["husband", "wife"]:
-    subset = nhis[nhis["gender"] == gender]  # split sample by gender
-    for var in ["health", "education", "family_income"]:
-        # WLS with survey weights; HC1 robust standard errors
-        r = smf.wls(f"{var} ~ insurance", data=subset, weights=subset["weight"]).fit(cov_type="HC1")
-        rows.append({
-            "Gender": gender,
-            "Variable": var,
-            "Difference (Ins - Unins)": round(r.params["insurance"], 2),  # coefficient = gap
-            "SE": round(r.bse["insurance"], 2),
-        })
-
-pd.DataFrame(rows)
-```
-
-Stata equivalent:
-
-```stata
-* --- Selection bias by gender ---
-clear all
-set more off
-import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/nhis_clean.csv", clear
-
-* Run WLS regressions by gender
-foreach g in husband wife {
-    display "=== Gender: `g' ==="
-    foreach var in health education family_income {
-        reg `var' insurance [aw=weight] if gender == "`g'", robust
-    }
-}
-```
-
-(1) **What the numbers show:** The education and income gaps between insured and uninsured are similar for husbands and wives. The health gap may differ slightly across genders.
-
-(2) **Why:** Selection into insurance is driven by socioeconomic factors (education, income) that operate similarly for both spouses in a household. Any gender-specific differences in the health gap likely reflect gender-specific health patterns rather than differences in the selection mechanism.
-
-(3) **What it teaches:** Both groups show substantial selection bias, reinforcing the chapter's central lesson: observational comparisons between insured and uninsured people confound the causal effect of insurance with pre-existing differences. This is precisely why the RAND and Oregon experiments --- which use randomization to eliminate selection bias --- provide more credible evidence.
-
-**R4.**
-
-```{python}
-#| label: tbl-sol-dose-response
-#| tbl-cap: "Dose-response: plan generosity and total medical expenses"
-
-# --- Load data ---
-import pandas as pd
-import statsmodels.formula.api as smf
-
-hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
-
-# --- Regression with three plan dummies ---
-d = hie[["total_expenses", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-r = smf.ols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-    cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-
-# --- Extract and rank coefficients by plan generosity ---
-pd.DataFrame({
-    "Plan": ["Free (most generous)", "Coinsurance (medium)", "Deductible (least generous)"],
-    "Effect vs. catastrophic": [round(r.params["plan_free"]),
-                                 round(r.params["plan_coinsurance"]),
-                                 round(r.params["plan_deductible"])],
-    "SE": [round(r.bse["plan_free"]),
-           round(r.bse["plan_coinsurance"]),
-           round(r.bse["plan_deductible"])],
-    "t-stat": [round(r.tvalues["plan_free"], 2),
-               round(r.tvalues["plan_coinsurance"], 2),
-               round(r.tvalues["plan_deductible"], 2)],
-})
-```
-
-Stata equivalent:
-
-```stata
-* --- Dose-response: plan generosity and total expenses ---
-clear all
-set more off
-import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_utilization.csv", clear
-
-* Regression with three plan dummies and clustered SEs
-reg total_expenses plan_free plan_deductible plan_coinsurance, cluster(family_id)
-
-* Test whether free and coinsurance effects are equal
-test plan_free = plan_coinsurance
-```
-
-(1) **What the numbers show:** The free plan produces the largest increase in total expenses, followed by the coinsurance plan, then the deductible plan. The ordering generally follows plan generosity, though the differences between coinsurance and deductible may not be statistically significant.
-
-(2) **Why:** More generous plans reduce out-of-pocket costs more, lowering the price of care to patients. Basic demand theory predicts that lower prices increase quantity demanded. The free plan eliminates cost-sharing entirely, producing the strongest response. The coinsurance and deductible plans still require some out-of-pocket payment, partially restraining demand.
-
-(3) **What it teaches:** The dose-response pattern strengthens the causal interpretation of the RAND experiment. If insurance generosity had no real effect on spending, the coefficients would be similar across plan types. Instead, we see a gradient that matches the economic logic of moral hazard --- more generous coverage leads to more spending --- which is harder to explain by chance or confounding.
-
-**R5.**
-
-```{python}
-#| label: tbl-sol-elasticity
-#| tbl-cap: "Implied price elasticity of demand: inpatient vs. outpatient care"
-
-# --- Load data ---
-hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
-
-# --- Compute elasticities for inpatient and outpatient care ---
-# Price change: catastrophic plan covers ~5% (price = 0.95), free covers 100% (price = 0.00)
-# Price drop = 0.95 (from 0.95 to 0.00)
-price_drop = 0.95
-
-rows = []
-for var, label in [("outpatient_expenses", "Outpatient"), ("inpatient_expenses", "Inpatient")]:
-    d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-    cat_mean = r.params["Intercept"]        # catastrophic group mean (baseline spending)
-    free_effect = r.params["plan_free"]      # absolute increase from free plan
-    pct_change_q = free_effect / cat_mean    # percentage change in quantity
-    elasticity = pct_change_q / price_drop   # arc elasticity of demand
-
-    rows.append({
-        "Care type": label,
-        "Catastrophic mean": round(cat_mean),
-        "Free plan effect": round(free_effect),
-        "% change in quantity": round(pct_change_q * 100, 1),
-        "Implied elasticity": round(elasticity, 2),
-    })
-
-pd.DataFrame(rows)
-```
-
-Stata equivalent:
-
-```stata
-* --- Implied price elasticity: inpatient vs. outpatient ---
-clear all
-set more off
-import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_utilization.csv", clear
-
-* Price drop from catastrophic (95% cost-sharing) to free (0%)
-scalar price_drop = 0.95
-
-* Outpatient elasticity
-reg outpatient_expenses plan_free plan_deductible plan_coinsurance, cluster(family_id)
-scalar cat_mean_out = _b[_cons]
-scalar free_effect_out = _b[plan_free]
-scalar elast_out = (free_effect_out / cat_mean_out) / price_drop
-display "Outpatient elasticity = " elast_out
-
-* Inpatient elasticity
-reg inpatient_expenses plan_free plan_deductible plan_coinsurance, cluster(family_id)
-scalar cat_mean_in = _b[_cons]
-scalar free_effect_in = _b[plan_free]
-scalar elast_in = (free_effect_in / cat_mean_in) / price_drop
-display "Inpatient elasticity = " elast_in
-```
-
-(1) **What the numbers show:** Outpatient care has a substantially higher implied elasticity than inpatient care. Patients increase their outpatient spending by a larger percentage than their inpatient spending when insurance becomes more generous.
-
-(2) **Why:** Outpatient visits are largely discretionary --- patients decide whether to schedule a check-up, seek a second opinion, or visit a specialist. Inpatient care (hospitalizations, surgeries) is typically driven by medical necessity and physician decisions, not patient choice. When the price drops to zero, patients exercise their discretion mainly in the outpatient domain.
-
-(3) **What it teaches:** This elasticity comparison reveals the *mechanism* behind moral hazard. The RAND experiment does not just show that free insurance increases spending --- it shows *where* the spending increase concentrates. Policy implications follow directly: if most of the moral hazard comes from discretionary outpatient care, cost-sharing designs that target outpatient visits (like copays for doctor visits) may be more effective at controlling costs than deductibles that apply equally to all services.

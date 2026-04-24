@@ -55,143 +55,213 @@ graph TD
 
 **Non-Compliance:** When subjects in an experiment do not follow their assigned treatment. Some assigned to treatment do not take it; some assigned to control find a way to get treatment. This breaks the link between assignment and received treatment.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the MDVE, officers assigned to "advise" the couple sometimes arrested the suspect instead because the situation was too dangerous.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a doctor prescribing medicine, but some patients never fill the prescription, while others get the pill from a friend. The prescription (assignment) and the pill (received treatment) are different things.
 :::
+::::
+:::::
 
 **Instrumental Variable (IV):** A variable that affects the outcome only indirectly, through its effect on the treatment. It serves as a source of exogenous variation in treatment, allowing causal estimation even when treatment is not randomly assigned.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 The KIPP school lottery (instrument) affects test scores (outcome) only through its effect on whether a student attends KIPP (treatment).
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a remote control for a TV. The remote (instrument) does not entertain you directly --- it works only by changing the channel (treatment), which determines what you watch (outcome).
 :::
+::::
+:::::
 
 **Local Average Treatment Effect (LATE):** The causal effect of treatment specifically for the subpopulation of compliers --- people whose treatment status was actually changed by the instrument. LATE is "local" because it applies only to this group, not to everyone.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 The KIPP lottery IV estimates the effect of KIPP attendance for families who would attend if they won but not if they lost. It does not estimate the effect for families who would find a way in regardless.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like measuring the effect of an umbrella on staying dry, but only for people who carry one when it is offered and leave it at home otherwise. The effect may differ for people who always carry their own.
 :::
+::::
+:::::
 
 **First Stage:** The regression of the treatment variable on the instrument. It measures how strongly the instrument predicts treatment --- a necessary condition for a valid IV analysis.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the MDVE, the first stage shows that being assigned to coddle increased the probability of actually coddling by about 79 percentage points.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like checking whether pulling the lever actually opens the gate. If the lever is disconnected (weak first stage), pulling it tells you nothing about what happens on the other side.
 :::
+::::
+:::::
 
 **Reduced Form:** The regression of the outcome on the instrument directly, ignoring the treatment. It captures the total effect of the instrument on the outcome, combining the first stage and the causal effect.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Regressing recidivism on the random assignment form (ignoring what officers actually did) gives the reduced form: the overall effect of being assigned to coddle on future violence.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like measuring how much rain falls when you see dark clouds, without caring about the specific atmospheric mechanism. The cloud (instrument) predicts rain (outcome) through its effect on air pressure (treatment).
 :::
+::::
+:::::
 
 **Two-Stage Least Squares (2SLS):** The standard practical method for IV estimation. Stage 1 predicts treatment using the instrument(s). Stage 2 regresses the outcome on the predicted treatment. Produces correct standard errors when done with dedicated software.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In a KIPP analysis, Stage 1 predicts KIPP attendance from lottery status. Stage 2 regresses test scores on predicted attendance. The coefficient is the LATE.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a two-step recipe. First, forecast tomorrow's weather (predicted treatment). Then, plan your outfit based on the forecast (outcome based on predicted treatment). The forecast filters out the noise.
 :::
+::::
+:::::
 
 **Relevance (First Requirement for IV):** The instrument must actually affect the treatment. Without a strong first stage, the IV estimate is unreliable. Tested using the F-statistic.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Quarter of birth affects years of schooling through compulsory attendance laws (F > 10), confirming relevance.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a key that must actually fit the lock. A key that does not turn the lock (no first stage) cannot open the door to causal inference.
 :::
+::::
+:::::
 
 **Independence (Second Requirement for IV):** The instrument must be uncorrelated with unobserved confounders. Randomized instruments satisfy this automatically; natural experiments require careful argument.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A lottery is independent of family income, motivation, and other factors by design. Quarter of birth is plausibly independent of ability (though this is debated).
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a coin flip deciding who goes first in a game. The coin does not know or care which player is better --- it is truly independent.
 :::
+::::
+:::::
 
 **Exclusion Restriction (Third Requirement for IV):** The instrument must affect the outcome only through the treatment, with no direct or side-channel effects. This is the hardest requirement to defend and cannot be tested statistically.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 The KIPP lottery must affect test scores only through KIPP attendance, not through, say, parents' motivation being boosted just by winning the lottery.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like insisting that the only way a medicine can affect your headache is by entering your bloodstream. If you feel better just from the ritual of swallowing a pill (placebo effect), the exclusion restriction is violated.
 :::
+::::
+:::::
 
 **Weak Instruments:** Instruments with a small first stage (F-statistic below 10). They produce biased 2SLS estimates, misleading confidence intervals, and unreliable inference --- problems that do not disappear with larger samples.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 If quarter of birth barely predicts years of schooling (F = 3), the resulting IV estimate could be wildly off, even with 300,000 observations.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like trying to steer a ship with a tiny rudder in rough seas. No matter how big the ship (sample), the rudder (instrument) is too small to reliably change course.
 :::
+::::
+:::::
 
 **Complier:** A person whose treatment status is determined by the instrument: they take treatment when the instrument says "treat" and do not take it when the instrument says "control." LATE estimates the causal effect for compliers only.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 In the MDVE, a complier is an officer who arrests when the form says "arrest" and advises when the form says "advise."
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a restaurant customer who always orders the daily special. If the special changes, their meal changes too. The daily special "instrument" determines their choice.
 :::
+::::
+:::::
 
 **Always-Taker:** A person who receives treatment regardless of their instrument value. Their treatment status is not affected by the instrument, so IV cannot estimate their causal effect.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 An officer who always arrests the suspect, no matter what the assignment form says.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like someone who always orders pizza regardless of the menu. Changing the menu (instrument) does not change what they eat (treatment).
 :::
+::::
+:::::
 
 **Never-Taker:** A person who never receives treatment regardless of their instrument value. Like always-takers, their behavior is unaffected by the instrument.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A family that would never send their child to KIPP, whether they win or lose the lottery.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like someone who never eats dessert no matter what is offered. The instrument cannot move them.
 :::
+::::
+:::::
 
 **Monotonicity Assumption:** The assumption that there are no defiers --- no one who does the opposite of their instrument assignment. Under monotonicity, the instrument pushes everyone in the same direction (or leaves them unchanged).
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Monotonicity holds if no officer is more likely to coddle when the form says "arrest" than when it says "coddle." Officers can ignore the form, but they cannot systematically rebel against it.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like assuming that a "Buy one, get one free" offer never causes someone to buy fewer items. The promotion can leave some people unaffected, but it should not cause anyone to buy less.
 :::
+::::
+:::::
 
 
 # When Experiments Break Down

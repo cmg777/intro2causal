@@ -59,163 +59,243 @@ graph TD
 
 **Ability Bias:** The upward bias in OLS estimates of the return to schooling caused by the omission of innate ability. More able people get more education AND earn more, inflating the apparent effect of schooling.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A simple regression shows each year of schooling raises earnings by 10%, but part of this reflects the fact that high-IQ individuals stay in school longer and would earn more regardless.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like attributing a swimmer's speed entirely to their swimsuit. Faster swimmers tend to buy better suits, so the suit gets credit for speed that was really due to talent.
 :::
+::::
+:::::
 
 **Twin Fixed Effects:** A strategy that compares outcomes within pairs of identical twins who differ in their education levels. Because twins share genes and family background, differencing eliminates these shared confounders.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 If one twin has 16 years of schooling and earns \$60,000 while the other twin has 14 years and earns \$54,000, the within-pair return is (\$6,000 / 2 years) = \$3,000 per year.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like comparing two identical seeds planted in the same soil and climate, but one gets extra fertilizer. Any difference in growth must be due to the fertilizer, since everything else is shared.
 :::
+::::
+:::::
 
 **Within-Pair Differences:** The technique of subtracting one twin's outcome from the other's to eliminate all shared characteristics. This transforms the data from levels (how much each twin earns) to differences (how much MORE one twin earns than the other).
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 $\Delta Y_f = Y_{twin1} - Y_{twin2}$ and $\Delta S_f = S_{twin1} - S_{twin2}$. Regressing the wage difference on the schooling difference gives the within-pair return.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like measuring the height difference between two siblings rather than their individual heights. The difference removes the family's genetic baseline and isolates the effect of what differed between them.
 :::
+::::
+:::::
 
 **Measurement Error:** Imprecision in the recording of a variable, where reported values differ from true values due to misreporting, rounding, or recall mistakes. In regression, measurement error in the explanatory variable biases the coefficient toward zero.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Twins asked to report their years of education may misremember by a year. This noise dilutes the true variation in schooling and biases the return estimate downward.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like trying to read a ruler through foggy glasses. The markings are there, but the fog (measurement error) makes it hard to read them precisely, leading you to underestimate the true length.
 :::
+::::
+:::::
 
 **Signal-to-Noise Ratio:** The proportion of the total variation in a variable that reflects true variation (signal) versus measurement error (noise). A low signal-to-noise ratio causes severe attenuation bias.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 If true within-twin schooling variation is 1 year but measurement error adds 2 years of noise, the signal-to-noise ratio is low and the twin FE estimate is badly attenuated.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like trying to hear a whisper in a noisy stadium. The whisper (signal) is real, but the crowd noise overwhelms it. In a quiet room, the same whisper is perfectly clear.
 :::
+::::
+:::::
 
 **Reliability Ratio:** The fraction of the total variance of a variable that is true variance (as opposed to error variance). A reliability ratio of 0.5 means that attenuation bias cuts the coefficient in half.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 If self-reported education has a reliability ratio of 0.85, the OLS coefficient is biased toward zero by about 15%. In differenced twin data, the reliability ratio can drop to 0.5, doubling the bias.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a scale that is accurate 85% of the time and gives random readings 15% of the time. The more unreliable the scale, the less you can trust its average reading.
 :::
+::::
+:::::
 
 **Sheepskin Effect:** The additional earnings boost associated with completing a degree (earning the diploma) beyond the year-by-year return to education. Named after the sheepskin diplomas were once printed on.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 If each year of college raises earnings by 7%, but graduating (year 4 specifically) adds an extra 15% jump, the 15% jump is the sheepskin effect --- the value of the credential itself.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a loyalty card that gives a free coffee after every 10 purchases. The first 9 stamps (years of schooling) are valuable, but the 10th stamp (the degree) unlocks a bonus reward.
 :::
+::::
+:::::
 
 **Human Capital Theory:** The view that education raises earnings by building productive skills, knowledge, and abilities that make workers more valuable to employers.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 An engineering student learns calculus, physics, and design --- skills that directly increase her productivity and justify higher pay.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like sharpening a knife. More education makes the worker a better tool, and employers pay more for a sharper blade.
 :::
+::::
+:::::
 
 **Signaling Theory:** The view that education raises earnings not by increasing skills but by revealing pre-existing ability to employers. The degree serves as a signal that the holder is talented and hardworking.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 An employer who cannot directly observe a job candidate's ability uses a college degree as evidence that the candidate is smart and disciplined enough to complete four years of coursework.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a peacock's tail. The tail does not make the peacock a better flyer --- it signals genetic fitness to potential mates. Similarly, a degree may not make you more productive; it signals that you were productive to begin with.
 :::
+::::
+:::::
 
 **Credential Effect:** The earnings premium attributable specifically to holding a diploma or credential, as opposed to the knowledge gained year by year. It is the empirical counterpart of the sheepskin effect.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Clark and Martorell's RD study found that the Texas high school diploma had almost no credential effect --- students just above and below the exam cutoff had similar earnings.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a name-brand label on a generic product. The credential effect asks: does the label itself add value, or is it what is inside the box that matters?
 :::
+::::
+:::::
 
 **Heterogeneous Treatment Effects:** The idea that the causal effect of treatment varies across individuals or subgroups, rather than being a single number that applies to everyone.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 The return to schooling may be 12% for low-income students but only 5% for high-income students, because education opens doors that were already open for the wealthy.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like the effect of an umbrella on staying dry. In a light drizzle, the umbrella is barely needed. In a downpour, it is essential. The same treatment has different effects depending on the circumstances.
 :::
+::::
+:::::
 
 **Convergence of Evidence:** The principle that when multiple methods --- each with different assumptions, data, and potential biases --- all point to similar conclusions, we gain much stronger confidence in the finding than any single method can provide.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 OLS, twin FE, twin IV, quarter-of-birth IV, child labor law IV, and DD all estimate the return to schooling at roughly 7--10% per year. No single estimate is definitive, but their agreement is powerful.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like multiple witnesses to an event all telling the same story from different vantage points. One witness might be mistaken, but if five independent witnesses agree, the story is probably true.
 :::
+::::
+:::::
 
 **Return to Schooling:** The percentage increase in earnings caused by one additional year of education. It is the central parameter this chapter seeks to estimate using multiple methods.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A return of 8% means that one extra year of school causes earnings to increase by 8%, holding all else equal. Over a career, this compounds to a substantial difference.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like the interest rate on a savings account. Each "deposit" (year of school) earns a return that accumulates over time. An 8% return per year of schooling is a very high-yield investment.
 :::
+::::
+:::::
 
 **Quarter-of-Birth Instrument:** An instrument for years of schooling based on the quarter of the year in which a person was born. Because school entry and compulsory attendance laws interact with birth timing, children born in different quarters accumulate different amounts of schooling.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Children born in Q4 start school slightly younger and must stay longer before reaching the legal dropout age, accumulating about 0.1 extra years of schooling on average.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a relay race where some runners start a few steps ahead because of where they line up. The starting position (birth quarter) is essentially random but determines how far they run (years of schooling) before they can step off the track (drop out).
 :::
+::::
+:::::
 
 **Compulsory Schooling Laws:** Government regulations that require children to attend school until a specified minimum age (e.g., 16). These laws create exogenous variation in schooling by forcing some students to stay in school longer than they otherwise would.
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 A state that raises its minimum school-leaving age from 14 to 16 compels students who would have dropped out at 14 to stay two more years --- generating variation that is independent of ability.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like a mandatory seatbelt law. Some people would buckle up anyway (always-takers), but the law forces additional compliance from people who would not have done it voluntarily --- and it is these marginal compliers whose outcomes we can study.
 :::
+::::
+:::::
 
 **Endogenous Variable:** A variable in a regression whose value is determined inside the system being studied, meaning it is correlated with the error term. OLS estimates involving endogenous variables are biased because the variable is not "as good as randomly assigned."
 
+::::: {.columns}
+:::: {.column width="50%"}
 ::: {.callout-tip collapse="true" appearance="simple" title="Example"}
 Years of schooling is endogenous in an earnings regression because unobserved ability affects both schooling and earnings simultaneously.
 :::
-
+::::
+:::: {.column width="50%"}
 ::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
 Like the chicken-and-egg problem. Did the variable cause the outcome, or did they both arise from a common underlying factor? When cause and effect are tangled together, you cannot simply read off the causal relationship.
 :::
+::::
+:::::
 
 
 ## The Earnings-Education Gradient
