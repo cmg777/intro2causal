@@ -311,6 +311,7 @@
               <span class="text-xs font-mono text-muted">04</span>
               <a href="book/_book/notebooks_quarto/04-regression-discontinuity.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Regression Discontinuity</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
+              <a href="#" onclick="openVideo('d4S2STNOHBk','Regression Discontinuity: AI Video','notebooklm');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
               <a href="#" onclick="openAudio('https://files.catbox.moe/o4hyxn.m4a','Regression Discontinuity: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
             </div>
             <span class="text-xs text-muted hidden sm:inline">Sharp RD &middot; Bandwidth &middot; MLDA and Mortality</span>
@@ -337,6 +338,7 @@
               <span class="text-xs font-mono text-muted">06</span>
               <a href="book/_book/notebooks_quarto/06-wages-of-schooling.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">The Wages of Schooling</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
+              <a href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
               <a href="#" onclick="openAudio('https://files.catbox.moe/dyyvur.m4a','The Wages of Schooling: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
             </div>
             <span class="text-xs text-muted hidden sm:inline">Twins &middot; Quarter of Birth &middot; Sheepskin Effects</span>
@@ -405,9 +407,15 @@
     });
 
     // Video modal
-    function openVideo(videoId, title) {
+    function openVideo(videoId, title, source) {
       document.getElementById('video-title').textContent = title;
       document.getElementById('video-iframe').src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+      var credit = document.getElementById('video-credit');
+      if (source === 'notebooklm') {
+        credit.innerHTML = 'Generated with <a href="https://notebooklm.google/" target="_blank" style="color:#38bdf8;">NotebookLM</a> based on a summary of the chapter &middot; Press Esc or click outside to close';
+      } else {
+        credit.innerHTML = 'Video by <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color:#38bdf8;">Marginal Revolution University</a> &middot; Press Esc or click outside to close';
+      }
       var modal = document.getElementById('video-modal');
       modal.classList.remove('hidden');
       modal.style.display = 'flex';
@@ -515,7 +523,7 @@
       <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
         <iframe id="video-iframe" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="autoplay;encrypted-media" allowfullscreen></iframe>
       </div>
-      <p style="color:#64748b;font-size:0.75rem;margin-top:8px;text-align:center;">
+      <p id="video-credit" style="color:#64748b;font-size:0.75rem;margin-top:8px;text-align:center;">
         Video by <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color:#38bdf8;">Marginal Revolution University</a> &middot; Press Esc or click outside to close
       </p>
     </div>
