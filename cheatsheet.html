@@ -284,23 +284,47 @@
 from linearmodels.iv import IV2SLS
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
-# --- METHOD 1: RCT ---
+# ================================================================
+# METHOD 1: RANDOMIZED CONTROLLED TRIAL (RCT)
+# ================================================================
+# Equation: ln(W) = &alpha; + &beta;&middot;Scholarship + e
+# Logic:    Random assignment &rarr; no selection bias &rarr; &beta; is causal
+# Estimate: Wald ratio = (earnings effect) / (schooling effect)
+# ----------------------------------------------------------------
 rct = pd.read_csv(DATA + "ch6/synthetic_rct.csv")
 means = rct.groupby("scholarship")[["schooling","earnings"]].mean()
 wald_rct = (means.loc[1,"earnings"]-means.loc[0,"earnings"]) / \
            (means.loc[1,"schooling"]-means.loc[0,"schooling"])
 print(f"1. RCT (Wald):  {wald_rct:.4f}")
 
-# --- METHOD 2: REGRESSION (OLS) ---
+# ================================================================
+# METHOD 2: REGRESSION (OLS)
+# ================================================================
+# Equation: ln(W) = &alpha; + &rho;&middot;S + &gamma;'X + e
+# Logic:    Control for observables, hope confounders are captured
+# Bias:     Ability bias (upward) if ability is unobserved
+# ----------------------------------------------------------------
 qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
 ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
 print(f"2. OLS:         {ols.params['s']:.4f}")
 
-# --- METHOD 3: IV / 2SLS ---
+# ================================================================
+# METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
+# ================================================================
+# Equation: Wald = (effect of Z on Y) / (effect of Z on D)
+# Logic:    Use exogenous variation (instrument) to isolate causation
+# Estimate: LATE &mdash; the effect for compliers only
+# ----------------------------------------------------------------
 iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
 print(f"3. IV (QOB):    {iv.params['s']:.4f}")
 
-# --- METHOD 4: RD (sheepskin) ---
+# ================================================================
+# METHOD 4: REGRESSION DISCONTINUITY (RD)
+# ================================================================
+# Equation: Y = &alpha; + &rho;&middot;D + f(Score) + e
+# Logic:    Compare outcomes just above vs. just below a cutoff
+# Question: Does the diploma credential itself boost earnings?
+# ----------------------------------------------------------------
 sheep = pd.read_csv(DATA + "ch6/sheepskin_clean.csv")
 left = sheep[sheep["minscore"] < 0]
 rd = smf.wls("avgearnings ~ pass_exam + left_1+left_2+left_3+left_4",
@@ -308,7 +332,13 @@ rd = smf.wls("avgearnings ~ pass_exam + left_1+left_2+left_3+left_4",
     weights=left[left["minscore"]>=-30]["person_years"]).fit()
 print(f"4. RD:          ${rd.params['pass_exam']:.0f} (near zero)")
 
-# --- METHOD 5: DD ---
+# ================================================================
+# METHOD 5: DIFFERENCES-IN-DIFFERENCES (DD)
+# ================================================================
+# Equation: Y_st = &alpha; + &delta;&middot;(Treated &times; Post) + &beta;_s + &gamma;_t + e_st
+# Logic:    Compare changes over time in treated vs. control groups
+# Assumption: Parallel trends in the absence of treatment
+# ----------------------------------------------------------------
 did = pd.read_csv(DATA + "ch6/synthetic_did.csv")
 did["treat_post"] = did["treated"] * did["post"]
 dd_s = smf.ols("avg_schooling ~ treat_post+C(state)+C(year)",
@@ -316,26 +346,56 @@ dd_s = smf.ols("avg_schooling ~ treat_post+C(state)+C(year)",
 dd_e = smf.ols("avg_earnings ~ treat_post+C(state)+C(year)",
     data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
 print(f"5. DD:          {dd_e.params['treat_post']/dd_s.params['treat_post']:.4f}")</div>
-      <div id="f5-stata" class="code-block" style="display:none; border-top-left-radius:0;">* --- METHOD 1: RCT ---
+      <div id="f5-stata" class="code-block" style="display:none; border-top-left-radius:0;">* =================================================================
+* METHOD 1: RANDOMIZED CONTROLLED TRIAL (RCT)
+* =================================================================
+* Equation: ln(W) = a + b*Scholarship + e
+* Logic:    Random assignment -> no selection bias -> b is causal
+* Estimate: Wald ratio = (earnings effect) / (schooling effect)
+* -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_rct.csv", clear
 reg earnings scholarship, robust
 scalar rf = _b[scholarship]
 reg schooling scholarship, robust
 display "1. RCT (Wald): " round(rf / _b[scholarship], 0.0001)
 
-* --- METHOD 2: REGRESSION (OLS) ---
+* =================================================================
+* METHOD 2: REGRESSION (OLS)
+* =================================================================
+* Equation: ln(W) = a + rho*S + gamma'X + e
+* Logic:    Control for observables, hope confounders are captured
+* Bias:     Ability bias (upward) if ability is unobserved
+* -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
 reg lnw s, robust
 
-* --- METHOD 3: IV / 2SLS ---
+* =================================================================
+* METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
+* =================================================================
+* Equation: Wald = (effect of Z on Y) / (effect of Z on D)
+* Logic:    Use exogenous variation (instrument) to isolate causation
+* Estimate: LATE -- the effect for compliers only
+* -----------------------------------------------------------------
 ivregress 2sls lnw (s = q4), robust
 
-* --- METHOD 4: RD (sheepskin) ---
+* =================================================================
+* METHOD 4: REGRESSION DISCONTINUITY (RD)
+* =================================================================
+* Equation: Y = a + rho*D + f(Score) + e
+* Logic:    Compare outcomes just above vs. just below a cutoff
+* Question: Does the diploma credential itself boost earnings?
+* -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/sheepskin_clean.csv", clear
 reg avgearnings pass_exam left_1 left_2 left_3 left_4 ///
   if minscore < 0 & minscore >= -30 [aw = person_years]
 
-* --- METHOD 5: DD ---
+* =================================================================
+* METHOD 5: DIFFERENCES-IN-DIFFERENCES (DD)
+* =================================================================
+* Equation: Y_st = a + delta*(Treated x Post) + beta_s + gamma_t + e_st
+* Logic:    Compare changes over time in treated vs. control groups
+* Assumption: Parallel trends in the absence of treatment
+* -----------------------------------------------------------------
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_did.csv", clear
 gen treat_post = treated * post
 reg avg_schooling treat_post i.state i.year, cluster(state)
