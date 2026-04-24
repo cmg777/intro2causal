@@ -684,6 +684,22 @@ Compulsory schooling laws allow students to drop out at age 16. Because school-e
 
 This creates an instrument: **quarter of birth** affects schooling (through compulsory attendance rules) but should not directly affect earnings.
 
+The IV strategy has three equations:
+
+**First stage** (instrument predicts schooling):
+
+$$S_i = \alpha_1 + \phi \, Q4_i + e_{1i}$$
+
+**Reduced form** (instrument predicts earnings directly):
+
+$$\ln W_i = \alpha_2 + \rho_{RF} \, Q4_i + e_{2i}$$
+
+**Wald estimator** (ratio gives the causal return):
+
+$$\hat{\rho}_{IV} = \frac{\hat{\rho}_{RF}}{\hat{\phi}} = \frac{\text{Effect of } Q4 \text{ on earnings}}{\text{Effect of } Q4 \text{ on schooling}}$$
+
+where $Q4_i$ = 1 if individual $i$ was born in the fourth quarter (`q4`), $S_i$ is years of schooling (`s`), and $\ln W_i$ is log weekly earnings (`lnw`). This estimate is a **LATE** (Local Average Treatment Effect): it applies only to compliers whose schooling was changed by compulsory attendance interacting with their birth quarter.
+
 ### The IV Recipe: Step by Step
 
 ```{python}
@@ -781,6 +797,25 @@ The quarter-of-birth IV uses a clever natural experiment, but it relies on a sin
 
 **The data:** Angrist and Acemoglu used data on compulsory schooling laws that varied across U.S. states. Three instruments capture whether a state required children to enter school by age 7 (`cl7`), 8 (`cl8`), or 9 (`cl9`). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means.
 
+With multiple instruments and fixed effects, the 2SLS framework is:
+
+**First stage:** Predict schooling using the three compulsory schooling instruments
+
+$$S_{scy} = \alpha_1 + \phi_1 \, CL7_{sc} + \phi_2 \, CL8_{sc} + \phi_3 \, CL9_{sc} + \beta_s + \gamma_c + \delta_y + v_{scy}$$
+
+**Second stage:** Regress earnings on the predicted schooling
+
+$$\ln W_{scy} = \alpha_2 + \rho_{IV} \, \hat{S}_{scy} + \beta_s + \gamma_c + \delta_y + u_{scy}$$
+
+where:
+
+- $CL7$, $CL8$, $CL9$ = indicators for compulsory school entry by age 7, 8, or 9 (`cl7`, `cl8`, `cl9`)
+- $\beta_s$ = state-of-birth fixed effects (`C(sob)`)
+- $\gamma_c$ = year-of-birth cohort effects (`C(yob)`)
+- $\delta_y$ = census-year effects (`C(year)`)
+- $\hat{S}_{scy}$ = the fitted value of schooling from the first stage
+- $\rho_{IV}$ = the causal return to schooling, identified by the three instruments jointly
+
 ```{python}
 # Load child labor law data (collapsed cell means, ~2400 observations)
 cl = pd.read_csv(GITHUB_DATA_URL + "ch6/childlabor_clean.csv")
@@ -864,6 +899,19 @@ Both the twins and IV strategies estimate the *overall* return to education. But
 **The data:** Clark and Martorell (2014) studied the Texas high school exit exam. The data consists of 46 score bins around the passing cutoff. The running variable is the test score relative to the passing threshold (`minscore`, where 0 = cutoff).
 
 **Why RD works here:** Students who scored just above vs. just below the cutoff have nearly **identical skills** but very different diploma rates. Any jump in earnings at the cutoff reflects the value of the diploma credential itself.
+
+The RD regression estimates the jump at the passing threshold:
+
+$$Y_i = \alpha + \rho \, D_i + f(\text{Score}_i) + e_i$$
+
+where:
+
+- $Y_i$ = average annual earnings (`avgearnings`) or diploma receipt (`receivehsd`)
+- $D_i$ = 1 if the student passed the last-chance exam (`pass_exam`)
+- $f(\text{Score}_i)$ = a flexible polynomial in the test score relative to the cutoff (`minscore`), fitted separately on each side of the threshold
+- $\rho$ = the **sheepskin effect** --- the jump in the outcome at the passing threshold
+
+If $\rho$ is large for earnings, the diploma itself has value (signaling). If $\rho \approx 0$, the diploma credential adds little beyond the skills already reflected in the score.
 
 ```{python}
 # Load clean sheepskin RD data (Texas last-chance exam)
@@ -950,6 +998,24 @@ We have now applied regression, IV, and RD to the schooling question. The final 
 This dataset simulates a compulsory schooling reform adopted by 10 out of 20 states in 2005. It was designed to illustrate the DiD concept with clear parallel pre-trends and a visible treatment effect.
 :::
 
+The DD estimator compares changes over time across treated and control groups:
+
+$$\delta_{DD} = \underbrace{(\bar{Y}_{treat,after} - \bar{Y}_{treat,before})}_{\text{Change in treated states}} - \underbrace{(\bar{Y}_{control,after} - \bar{Y}_{control,before})}_{\text{Change in control states}}$$
+
+In regression form with state and year fixed effects:
+
+$$Y_{st} = \alpha + \delta \, (\text{Treated}_s \times \text{Post}_t) + \beta_s + \gamma_t + e_{st}$$
+
+where:
+
+- $Y_{st}$ = average earnings (`avg_earnings`) or average schooling (`avg_schooling`) in state $s$ at time $t$
+- $\text{Treated}_s \times \text{Post}_t$ = the interaction term (`treat_post`), equal to 1 for treated states after the reform
+- $\beta_s$ = state fixed effects (`C(state)`) --- absorb permanent differences between states
+- $\gamma_t$ = year fixed effects (`C(year)`) --- absorb common time trends
+- $\delta$ = the DD estimate of the reform's causal effect
+
+The **parallel trends assumption** requires that treated and control states would have followed the same trajectory absent the reform: $E[Y_{st}(0) \mid \text{Treated}=1] - E[Y_{st}(0) \mid \text{Treated}=0]$ is constant over time.
+
 ```{python}
 # Load synthetic DiD data (20 states × 20 years)
 did = pd.read_csv(GITHUB_DATA_URL + "ch6/synthetic_did.csv")
@@ -1034,7 +1100,19 @@ The child labor law IV (Strategy 3) and the DiD approach exploit the **same unde
 
 ## The Furious Five: A Grand Synthesis
 
-This chapter has applied **all five methods** from the book to a single question.
+This chapter has applied **all five methods** from the book to a single question. Each method can be summarized by its key equation, all targeting the same parameter $\rho$ --- the causal return to schooling:
+
+| Method | Key Equation |
+|:---|:---|
+| **Bivariate OLS** | $\ln W_i = \alpha + \rho \, S_i + e_i$ |
+| **OLS with controls** | $\ln W_i = \alpha + \rho \, S_i + \gamma' X_i + e_i$ |
+| **Twin FE** | $\Delta Y_f = \rho \, \Delta S_f + \Delta e_f$ |
+| **IV (Wald)** | $\hat{\rho}_{IV} = \hat{\rho}_{RF} \, / \, \hat{\phi}$ |
+| **2SLS** | Stage 1: $S_i = \pi_0 + \pi_1 Z_i + v_i$; Stage 2: $\ln W_i = \alpha + \rho_{IV} \hat{S}_i + u_i$ |
+| **RD** | $Y_i = \alpha + \rho \, D_i + f(\text{Score}_i) + e_i$ |
+| **DD** | $Y_{st} = \alpha + \delta \, (\text{Treated}_s \times \text{Post}_t) + \beta_s + \gamma_t + e_{st}$ |
+
+: The equation behind each method {.striped}
 
 | Method | Chapter | Key Assumption | What It Estimates | Used Here? |
 |:---|:---:|:---|:---|:---:|
