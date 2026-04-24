@@ -1,6 +1,6 @@
 # Project Status
 
-*Last updated: 2026-04-22*
+*Last updated: 2026-04-24*
 
 ## Study Guides: Complete
 
@@ -64,6 +64,18 @@ Rendered HTML (not in git)
 ## Custom Skill
 
 `/study-guide [chapter-number]` — generates a new chapter following all conventions. See `.claude/skills/study-guide/SKILL.md`.
+
+## AI Tutors
+
+5 Google Gemini Gems with distinct pedagogical approaches. See `tutors.html` and `tutors/*.md`.
+
+| Tutor | Style | Color | System Prompt |
+|:---|:---|:---:|:---|
+| Learning Coach | Step-by-step guidance | Blue | `tutors/learning-coach.md` |
+| Socratic Challenger | Question-based critical thinking | Purple | `tutors/socratic-challenger.md` |
+| Code-First Experimenter | Hands-on Python coding | Green | `tutors/code-first.md` |
+| Exam Coach | Test preparation and drills | Yellow | `tutors/exam-coach.md` |
+| Case-Study Explainer | Institutional context and policy analysis | Orange | `tutors/case-study-explainer.md` |
 
 ## Known Limitations
 

@@ -17,6 +17,7 @@
       --blue: #38bdf8;
       --purple: #a78bfa;
       --green: #34d399;
+      --orange: #f97316;
       --border: rgba(255,255,255,0.1);
     }
     .light {
@@ -27,6 +28,7 @@
       --blue: #2563eb;
       --purple: #7c3aed;
       --green: #059669;
+      --orange: #ea580c;
       --border: #e2e8f0;
     }
     body { background-color: var(--bg); color: var(--text); transition: background-color 0.3s, color 0.3s; }
@@ -35,6 +37,7 @@
     .text-blue { color: var(--blue); }
     .text-purple { color: var(--purple); }
     .text-green { color: var(--green); }
+    .text-orange { color: var(--orange); }
     .text-muted { color: var(--text-muted); }
     .nav-link { color: var(--text-muted); transition: color 0.2s; }
     .nav-link:hover { color: var(--blue); }
@@ -81,7 +84,7 @@
         Choose Your <span class="text-purple">AI Tutor</span>
       </h1>
       <p class="text-lg max-w-2xl mx-auto mb-6 text-muted">
-        4 AI tutors, 4 learning styles. Each tutor is a customized Google Gemini Gem with a distinct pedagogical approach to causal inference.
+        5 AI tutors, 5 learning styles. Each tutor is a customized Google Gemini Gem with a distinct pedagogical approach to causal inference.
       </p>
       <div class="flex flex-wrap gap-4 justify-center text-sm text-muted">
         <span>6 chapters</span>
@@ -153,6 +156,20 @@
         </p>
         <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Exam review, self-assessment, concept retention</p>
         <a href="https://gemini.google.com/gem/1g4hoQvY6M9TS3q9tk8YeyWo8oDrZgkzK?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(251,191,36,0.15); color: #fbbf24;">Start Learning &rarr;</a>
+      </div>
+
+      <!-- Case-Study Explainer -->
+      <div class="card rounded-xl p-6">
+        <div class="tutor-icon" style="background: rgba(249,115,22,0.15); color: var(--orange);">&#127963;</div>
+        <h3 class="text-xl font-semibold mb-1 text-orange">Case-Study Explainer</h3>
+        <p class="text-xs text-muted mb-3">For understanding the real-world settings</p>
+        <p class="text-sm text-muted mb-4">
+          The domain expert who brings each case study to life. Explains the historical context, institutional
+          details, and policy features that create the natural experiments behind each chapter's causal analysis.
+          Maps real-world settings to method ingredients and draws out policy implications for decision-makers.
+        </p>
+        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Institutional context, policy analysis, research design intuition</p>
+        <a href="https://gemini.google.com/gem/1JENt-nAh0uMHozwHarid09vQdVP5rMwV?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(249,115,22,0.15); color: var(--orange);">Start Learning &rarr;</a>
       </div>
 
     </div>
