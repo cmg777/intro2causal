@@ -1363,152 +1363,91 @@ from linearmodels.iv import IV2SLS
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # ================================================================
-# METHOD 1: RANDOMIZED CONTROLLED TRIAL (RCT)
+# METHOD 1: RANDOMIZED CONTROLLED TRIAL (WITH NON-COMPLIANCE)
 # ================================================================
-# Equation: ln(W) = α + β·Scholarship + e
-# Logic:    Random assignment → no selection bias → β is causal
-# Estimate: Wald ratio = (earnings effect) / (schooling effect)
+# Question: Does education cause higher earnings?
+# Equation: ln(W) = α + ρ·S + ε  (First Stage: S = γ_0 + γ_1·Z + u)
+# Logic:    Z (scholarship offer) is randomly assigned. We use it to
+#           isolate exogenous variation in S (actual schooling).
+# Estimate: Wald ratio = (Reduced Form effect on W) / (First Stage effect on S)
+# Bias:     None, assuming the offer only affects earnings through schooling
 # ----------------------------------------------------------------
 rct = pd.read_csv(DATA + "ch6/synthetic_rct.csv")
-
-# The scholarship is randomly assigned, so a simple regression is causal
-rct_reg = smf.ols("earnings ~ scholarship", data=rct).fit(cov_type="HC1")
-
-# But the scholarship is an instrument for schooling, not schooling itself
-# Per-year return = (effect on earnings) / (effect on schooling)
 means = rct.groupby("scholarship")[["schooling", "earnings"]].mean()
 wald_rct = (means.loc[1, "earnings"] - means.loc[0, "earnings"]) / \
            (means.loc[1, "schooling"] - means.loc[0, "schooling"])
-
-print("=" * 60)
-print("METHOD 1: RCT (synthetic scholarship experiment)")
-print(f"  Scholarship → earnings: {rct_reg.params['scholarship']:.4f}")
-print(f"  Per-year return (Wald):  {wald_rct:.4f}")
-print("  ✓ Unbiased by construction (random assignment)")
-print("=" * 60, "\n")
+print(f"1. RCT (Wald):  {wald_rct:.4f}")
 
 # ================================================================
 # METHOD 2: REGRESSION (OLS)
 # ================================================================
-# Equation: ln(W) = α + ρ·S + γ'X + e
-# Logic:    Control for observables, hope confounders are captured
-# Bias:     Ability bias (upward) if ability is unobserved
+# Question: What is the raw return to each year of schooling?
+# Equation: ln(W) = α + ρ·S + ε
+# Logic:    Control for observables, hoping all confounders are captured.
+# Estimate: Conditional average association (not necessarily causal).
+# Bias:     Omitted Variable Bias (e.g., Ability Bias - upward). Smarter
+#           individuals may get more schooling AND earn more regardless.
 # ----------------------------------------------------------------
 qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
-twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
-
-# Simple bivariate OLS (no controls)
-ols_simple = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
-
-# OLS with demographic controls (twins data)
-ols_controls = smf.ols("lwage ~ educ + age + age2 + female + white",
-                        data=twins).fit(cov_type="HC1")
-
-print("=" * 60)
-print("METHOD 2: REGRESSION (OLS)")
-print(f"  Simple OLS (no controls): {ols_simple.params['s']:.4f}")
-print(f"  OLS with controls:        {ols_controls.params['educ']:.4f}")
-print("  ⚠ Likely biased upward by unobserved ability")
-print("=" * 60, "\n")
+ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
+print(f"2. OLS:         {ols.params['s']:.4f}")
 
 # ================================================================
 # METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
 # ================================================================
-# Equation: Wald = (effect of Z on Y) / (effect of Z on D)
-# Logic:    Use exogenous variation (instrument) to isolate causation
-# Estimate: LATE — the effect for compliers only
+# Question: What is the causal return to schooling, using exogenous variation?
+# Equation: Wald = Cov(Y, Z) / Cov(D, Z)
+# Logic:    Quarter of birth (Z) shifts schooling laws but is unrelated to ability.
+# Estimate: LATE — Local Average Treatment Effect for "compliers"
+#           (students kept in school solely due to compulsory schooling laws).
+# Bias:     None, provided Z is relevant and the exclusion restriction holds.
 # ----------------------------------------------------------------
-# Strategy A: Quarter-of-birth IV (Angrist & Krueger 1991)
-iv_qob = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]",
-                              data=qob).fit(cov_type="robust")
-
-# Strategy B: Twin's report as IV (corrects measurement error)
-iv_twin = IV2SLS.from_formula(
-    "lwage ~ 1 + age + age2 + female + white + [educ ~ educt_t]",
-    data=twins).fit(cov_type="robust")
-
-print("=" * 60)
-print("METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)")
-print(f"  Quarter-of-birth IV:  {iv_qob.params['s']:.4f}")
-print(f"  Twin's report IV:     {iv_twin.params['educ']:.4f}")
-print("  ✓ Isolates exogenous variation in schooling")
-print("=" * 60, "\n")
+iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+print(f"3. IV (QOB):    {iv.params['s']:.4f}")
 
 # ================================================================
 # METHOD 4: REGRESSION DISCONTINUITY (RD)
 # ================================================================
-# Equation: Y = α + ρ·D + f(Score) + e
-# Logic:    Compare outcomes just above vs. just below a cutoff
 # Question: Does the diploma credential itself boost earnings?
+# Equation: Y = α + ρ·D + β_1·(Score) + β_2·(D × Score) + ε
+# Logic:    Compare students just above vs. just below the passing cutoff.
+# Estimate: LATE at the cutoff (the "sheepskin" or credential effect).
+# Bias:     None, assuming continuity of potential outcomes at the cutoff
+#           (students cannot precisely manipulate their scores).
 # ----------------------------------------------------------------
 sheep = pd.read_csv(DATA + "ch6/sheepskin_clean.csv")
-left = sheep[sheep["minscore"] < 0]
-right = sheep[sheep["minscore"] >= 0]
-
-# Diploma receipt at the cutoff (first stage of fuzzy RD)
-rd_diploma = smf.wls(
-    "receivehsd ~ pass_exam + left_1 + left_2 + left_3 + left_4",
-    data=left, weights=left["n"]).fit()
-
-# Earnings at the cutoff (reduced form)
-rd_earnings = smf.wls(
-    "avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4",
-    data=left[left["minscore"] >= -30],
-    weights=left[left["minscore"] >= -30]["person_years"]).fit()
-
-print("=" * 60)
-print("METHOD 4: REGRESSION DISCONTINUITY (sheepskin RD)")
-print(f"  Diploma jump at cutoff:  {rd_diploma.params['pass_exam']:.4f}")
-print(f"  Earnings jump at cutoff: ${rd_earnings.params['pass_exam']:.0f}")
-print("  ✓ Diploma has near-zero earnings effect (learning > signaling)")
-print("=" * 60, "\n")
+# Center the running variable if not already centered, and apply a bandwidth (e.g., +/- 30)
+bandwidth_data = sheep[abs(sheep["minscore"]) <= 30]
+# Use robust local linear regression allowing varying slopes on either side of cutoff
+rd = smf.wls("avgearnings ~ pass_exam * minscore",
+             data=bandwidth_data,
+             weights=bandwidth_data["person_years"]).fit(cov_type="HC1")
+print(f"4. RD:          ${rd.params['pass_exam']:.0f} (Credential effect)")
 
 # ================================================================
-# METHOD 5: DIFFERENCES-IN-DIFFERENCES (DD)
+# METHOD 5: DIFFERENCES-IN-DIFFERENCES (WALD-DiD)
 # ================================================================
-# Equation: Y_st = α + δ·(Treated × Post) + β_s + γ_t + e_st
-# Logic:    Compare changes over time in treated vs. control groups
-# Assumption: Parallel trends in the absence of treatment
+# Question: Do compulsory schooling reforms (T) raise causal earnings?
+# Equation: Wald-DiD = DiD_Earnings / DiD_Schooling
+# Logic:    Compare changes over time in reform vs. non-reform states, using
+#           the reform as an instrument for actual years of schooling.
+# Estimate: LATE of schooling on earnings driven by the policy change.
+# Bias:     Biased if parallel trends assumption fails (states would have
+#           had different trajectories absent the reform).
 # ----------------------------------------------------------------
 did = pd.read_csv(DATA + "ch6/synthetic_did.csv")
 did["treat_post"] = did["treated"] * did["post"]
 
-# DD on schooling (first stage)
-dd_school = smf.ols("avg_schooling ~ treat_post + C(state) + C(year)",
-                     data=did).fit(cov_type="cluster",
-                     cov_kwds={"groups": did["state"]})
+# First stage: Effect of policy on schooling
+dd_s = smf.ols("avg_schooling ~ treat_post + C(state) + C(year)",
+               data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
 
-# DD on earnings (reduced form)
-dd_earn = smf.ols("avg_earnings ~ treat_post + C(state) + C(year)",
-                   data=did).fit(cov_type="cluster",
-                   cov_kwds={"groups": did["state"]})
+# Reduced form: Effect of policy on earnings
+dd_e = smf.ols("avg_earnings ~ treat_post + C(state) + C(year)",
+               data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
 
-# Implied per-year return
-dd_return = dd_earn.params["treat_post"] / dd_school.params["treat_post"]
-
-print("=" * 60)
-print("METHOD 5: DIFFERENCES-IN-DIFFERENCES (synthetic reform)")
-print(f"  DD on schooling:      {dd_school.params['treat_post']:.4f}")
-print(f"  DD on earnings:       {dd_earn.params['treat_post']:.4f}")
-print(f"  Implied return/year:  {dd_return:.4f}")
-print("  ✓ Policy variation confirms causal returns")
-print("=" * 60, "\n")
-
-# ================================================================
-# CONVERGENCE: THE FURIOUS FIVE AGREE
-# ================================================================
-print("╔══════════════════════════════════════════════════════════╗")
-print("║  THE FURIOUS FIVE — SUMMARY OF ESTIMATES                ║")
-print("╠══════════════════════════════════════════════════════════╣")
-print(f"║  1. RCT (Wald):            {wald_rct:.4f}                   ║")
-print(f"║  2. OLS (simple):          {ols_simple.params['s']:.4f}                   ║")
-print(f"║  3. IV  (quarter of birth): {iv_qob.params['s']:.4f}                  ║")
-print(f"║  4. RD  (sheepskin):       ~0 (diploma ≠ earnings)      ║")
-print(f"║  5. DD  (reform):          {dd_return:.4f}                   ║")
-print("╠══════════════════════════════════════════════════════════╣")
-print("║  Convergence: true return ≈ 7–10% per year              ║")
-print("║  Education works through learning, not just credentials ║")
-print("╚══════════════════════════════════════════════════════════╝")
+wald_did = dd_e.params['treat_post'] / dd_s.params['treat_post']
+print(f"5. Wald-DiD:    {wald_did:.4f}")
 ```
 
 Below is the same Furious Five summary in Stata syntax.
@@ -1523,113 +1462,99 @@ clear all
 set more off
 
 * =================================================================
-* METHOD 1: RANDOMIZED CONTROLLED TRIAL (RCT)
+* METHOD 1: RANDOMIZED CONTROLLED TRIAL (WITH NON-COMPLIANCE)
 * =================================================================
-* Equation: ln(W) = α + β·Scholarship + e
-* Logic:    Random assignment → no selection bias → β is causal
+* Question: Does education cause higher earnings?
+* Equation: ln(W) = a + rho*S + e  (First Stage: S = g0 + g1*Z + u)
+* Logic:    Z (scholarship offer) is randomly assigned. We use it to
+* isolate exogenous variation in S (actual schooling).
+* Estimate: Wald ratio = (Reduced Form effect on W) / (First Stage effect on S)
+* Bias:     None, assuming the offer only affects earnings through schooling
 * -----------------------------------------------------------------
 import delimited using ///
   "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_rct.csv", clear
 
-* Effect of scholarship on earnings (ITT)
-reg earnings scholarship, robust
-
-* Per-year return via Wald estimate
-reg earnings scholarship, robust
+* Manual Wald calculation for pedagogical clarity
+quietly reg earnings scholarship, robust
 scalar rf = _b[scholarship]
-reg schooling scholarship, robust
+quietly reg schooling scholarship, robust
 scalar fs = _b[scholarship]
-display "RCT Wald estimate (per-year return): " round(rf / fs, 0.0001)
+display "1. RCT (Wald): " round(rf / fs, 0.0001)
+
+* Note: In practice, we estimate this directly via 2SLS to get correct standard errors:
+* ivregress 2sls earnings (schooling = scholarship), robust
 
 * =================================================================
 * METHOD 2: REGRESSION (OLS)
 * =================================================================
-* Equation: ln(W) = α + ρ·S + γ'X + e
-* Logic:    Control for observables, hope confounders are captured
+* Question: What is the raw return to each year of schooling?
+* Equation: ln(W) = a + rho*S + e
+* Logic:    Control for observables, hoping all confounders are captured.
+* Estimate: Conditional average association (not necessarily causal).
+* Bias:     Omitted Variable Bias (e.g., Ability Bias - upward). Smarter
+* individuals may get more schooling AND earn more regardless.
 * -----------------------------------------------------------------
-* Simple bivariate OLS (Census data)
 import delimited using ///
   "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
-reg lnw s, robust
-* ~7% per year — likely biased upward by ability
 
-* OLS with controls (twins data)
-import delimited using ///
-  "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
-reg lwage educ age age2 female white, robust
-* ~11% per year — controls barely change the estimate
+reg lnw s, robust
 
 * =================================================================
 * METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
 * =================================================================
-* Equation: Wald = (RF: Z → Y) / (FS: Z → D)
-* Logic:    Use exogenous variation (instrument) to isolate causation
+* Question: What is the causal return to schooling, using exogenous variation?
+* Equation: Wald = Cov(Y, Z) / Cov(D, Z)
+* Logic:    Quarter of birth (Z) shifts schooling laws but is unrelated to ability.
+* Estimate: LATE -- Local Average Treatment Effect for "compliers"
+* (students kept in school solely due to compulsory schooling laws).
+* Bias:     None, provided Z is relevant and the exclusion restriction holds.
 * -----------------------------------------------------------------
-* Strategy A: Quarter-of-birth IV (Angrist & Krueger 1991)
-import delimited using ///
-  "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
-
-* First stage, reduced form, and Wald
-reg s q4, robust
-scalar fs_qob = _b[q4]
-reg lnw q4, robust
-scalar rf_qob = _b[q4]
-display "Wald IV estimate: " round(rf_qob / fs_qob, 0.0001)
-
-* 2SLS (same thing, computed automatically)
 ivregress 2sls lnw (s = q4), robust
-
-* Strategy B: Twin's report as IV
-import delimited using ///
-  "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
-ivregress 2sls lwage age age2 female white (educ = educt_t), robust
 
 * =================================================================
 * METHOD 4: REGRESSION DISCONTINUITY (RD)
 * =================================================================
-* Equation: Y = α + ρ·D + f(Score) + e
-* Logic:    Compare outcomes just above vs. just below a cutoff
+* Question: Does the diploma credential itself boost earnings?
+* Equation: Y = a + rho*D + b1*(Score) + b2*(D x Score) + e
+* Logic:    Compare students just above vs. just below the passing cutoff.
+* Estimate: LATE at the cutoff (the "sheepskin" or credential effect).
+* Bias:     None, assuming continuity of potential outcomes at the cutoff
+* (students cannot precisely manipulate their scores).
 * -----------------------------------------------------------------
 import delimited using ///
   "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/sheepskin_clean.csv", clear
 
-* Diploma receipt at the cutoff (below the cutoff only)
-reg receivehsd pass_exam left_1 left_2 left_3 left_4 ///
-  if minscore < 0 [aw = n]
+* Interact treatment with the running variable to allow different slopes
+gen pass_X_score = pass_exam * minscore
 
-* Earnings at the cutoff
-reg avgearnings pass_exam left_1 left_2 left_3 left_4 ///
-  if minscore < 0 & minscore >= -30 [aw = person_years]
-* Near-zero earnings jump → diploma credential has little value
+* Local linear regression using a rectangular kernel (bandwidth of +/- 30)
+reg avgearnings pass_exam minscore pass_X_score ///
+    if abs(minscore) <= 30 [aw = person_years], robust
 
 * =================================================================
-* METHOD 5: DIFFERENCES-IN-DIFFERENCES (DD)
+* METHOD 5: DIFFERENCES-IN-DIFFERENCES (WALD-DiD)
 * =================================================================
-* Equation: Y_st = α + δ·(Treated × Post) + β_s + γ_t + e_st
-* Logic:    Compare changes over time in treated vs. control groups
+* Question: Do compulsory schooling reforms (T) raise causal earnings?
+* Equation: Wald-DiD = DiD_Earnings / DiD_Schooling
+* Logic:    Compare changes over time in reform vs. non-reform states, using
+* the reform as an instrument for actual years of schooling.
+* Estimate: LATE of schooling on earnings driven by the policy change.
+* Bias:     Biased if parallel trends assumption fails (states would have
+* had different trajectories absent the reform).
 * -----------------------------------------------------------------
 import delimited using ///
   "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/synthetic_did.csv", clear
 
 gen treat_post = treated * post
 
-* DD on schooling (first stage)
-reg avg_schooling treat_post i.state i.year, cluster(state)
+* First stage: Effect of policy on schooling
+quietly reg avg_schooling treat_post i.state i.year, cluster(state)
 scalar dd_fs = _b[treat_post]
 
-* DD on earnings (reduced form)
-reg avg_earnings treat_post i.state i.year, cluster(state)
-scalar dd_rf = _b[treat_post]
+* Reduced form: Effect of policy on earnings
+quietly reg avg_earnings treat_post i.state i.year, cluster(state)
 
-* Implied per-year return
-display "DD implied return per year: " round(dd_rf / dd_fs, 0.0001)
-
-* =================================================================
-* CONVERGENCE: THE FURIOUS FIVE AGREE
-* =================================================================
-* True causal return to schooling ≈ 7–10% per year
-* Education works through learning, not just credentials
-* =================================================================
+display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
 ```
 
 
