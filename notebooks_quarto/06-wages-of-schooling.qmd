@@ -305,7 +305,18 @@ Like the chicken-and-egg problem. Did the variable cause the outcome, or did the
 
 College graduates earn roughly twice as much as high school graduates. But how much of that gap reflects the causal effect of education, and how much reflects the fact that people who go to college were going to earn more anyway?
 
-Let's start with the simplest possible approach: **regress earnings on schooling with no controls**.
+Let's start with the simplest possible approach: **regress earnings on schooling with no controls**. This is the bivariate regression:
+
+$$\ln W_i = \alpha + \rho \, S_i + e_i$$
+
+where:
+
+- $\ln W_i$ = log weekly earnings for individual $i$ (`lnw`)
+- $S_i$ = years of schooling (`s`)
+- $\rho$ = the return to schooling --- the percentage increase in earnings per additional year of education
+- $e_i$ = residual (includes ability, motivation, family background, and everything else we cannot observe)
+
+Because $\ln W$ is the outcome, the coefficient $\rho$ has a convenient interpretation: a value of 0.07 means each year of schooling is associated with approximately **7% higher earnings**.
 
 ```{python}
 # Load clean quarter-of-birth data (Angrist & Krueger 1991, 329k men born 1930-1939)
@@ -374,7 +385,11 @@ To understand how much of this 7% estimate is causal, we need to think carefully
 
 ## Adding Controls
 
-Chapter 2 taught us that adding control variables can reduce omitted variables bias --- as long as the controls are not "bad controls" (caused by the treatment). Let's add demographic controls using a different dataset: the Twinsburg twins data.
+Chapter 2 taught us that adding control variables can reduce omitted variables bias --- as long as the controls are not "bad controls" (caused by the treatment). The long regression adds observable controls to the bivariate equation:
+
+$$\ln W_i = \alpha + \rho \, S_i + \gamma_1 \, \text{Age}_i + \gamma_2 \, \text{Age}_i^2 + \gamma_3 \, \text{Female}_i + \gamma_4 \, \text{White}_i + e_i$$
+
+where $S_i$ is years of education (`educ`), and the $\gamma$ coefficients capture the effects of age (`age`, `age2`), gender (`female`), and race (`white`). If ability remains in $e_i$, then $\hat{\rho}$ is still biased --- adding observable controls only helps if they capture the omitted confounders. Let's see this using the Twinsburg twins data.
 
 ```{python}
 # Load clean twins data (340 twin pairs from Twinsburg, Ohio)
@@ -425,19 +440,19 @@ Therefore $\text{OVB} > 0$, and OLS **overstates** the true return. The short re
 
 ## Seeing OVB in Action
 
-To see this concretely, we use a synthetic dataset where we *know* the true causal return (0.08 per year) because we designed the data-generating process.
+To see this concretely, we use a synthetic dataset where we *know* the true causal return (about 0.09 per year) because we designed the data-generating process.
 
 ::: {.callout-note}
 ## Synthetic data
 
-This dataset was designed to illustrate the OVB concept. It contains 1,000 simulated individuals with schooling, earnings, unobserved ability, and occupation. The true causal return to schooling is 0.08 (8%) per year.
+This dataset was designed to illustrate the OVB concept. It contains 2,000 simulated individuals with schooling, earnings, unobserved ability, and occupation. The true total causal return to schooling is about 0.09 (9%) per year --- combining a direct effect on earnings and an indirect effect through occupation.
 :::
 
 ```{python}
 #| label: tbl-ovb-demo
 #| tbl-cap: "OVB demonstration: the short regression (without ability) overstates the true return. The long regression (with ability) recovers it."
 
-# Load synthetic OVB data (1000 simulated individuals)
+# Load synthetic OVB data (2000 simulated individuals)
 ovb = pd.read_csv("../data/ch6/synthetic_ovb.csv")
 
 # Short regression: omit ability (like real life — we can't observe ability)
@@ -464,7 +479,7 @@ The short regression gives about 0.12 --- **overstating** the true return by rou
 ::: {.callout-warning}
 ## Bad controls
 
-Occupation is *caused by* education --- it is a "bad control" (a collider or post-treatment variable). Controlling for it absorbs part of the causal effect of education on earnings, biasing the estimate downward. If education raises earnings partly by giving access to higher-paying occupations, then holding occupation constant removes that channel.
+Occupation is *caused by* education --- it is a "bad control" (a mediator or post-treatment variable). Controlling for it absorbs part of the causal effect of education on earnings, biasing the estimate downward. If education raises earnings partly by giving access to higher-paying occupations, then holding occupation constant removes that channel.
 :::
 
 ```{python}
@@ -495,7 +510,15 @@ The gold standard for causal inference is the **randomized controlled trial**: r
 
 **But we cannot randomize education.** It would be unethical and impractical to force some people to drop out and others to stay in school for 20 years.
 
-To see *why* random assignment works, we use a synthetic dataset that simulates a hypothetical scholarship RCT.
+To see *why* random assignment works, consider the regression of earnings on the randomly assigned scholarship:
+
+$$\ln W_i = \alpha + \beta \, P_i + e_i$$
+
+where $P_i$ = 1 if individual $i$ received a scholarship (`scholarship`). Because $P_i$ is randomly assigned, it is uncorrelated with ability in $e_i$, so $\hat{\beta}$ is unbiased. The per-year causal return is then:
+
+$$\hat{\rho} = \frac{\hat{\beta}}{\text{Schooling difference}} = \frac{\text{Reduced form}}{\text{First stage}}$$
+
+This is the Wald estimator from Chapter 3, applied to the scholarship "instrument." We use a synthetic dataset to demonstrate this.
 
 ::: {.callout-note}
 ## Synthetic data
@@ -540,7 +563,7 @@ With random assignment, the simple difference in earnings between scholarship an
 ::: {.callout-important}
 ## The lesson
 
-The RCT recovers the right answer because random assignment makes ability independent of schooling ($\pi_1 = 0$), so OVB = 0. But since we cannot run a schooling RCT, we need **quasi-experimental** methods that approximate random assignment. The rest of this chapter explores four such strategies.
+The RCT recovers the right answer because random assignment makes the scholarship independent of ability. Since the scholarship affects earnings only through schooling, the Wald ratio (earnings effect / schooling effect) gives an unbiased per-year return. But since we cannot run a real schooling RCT, we need **quasi-experimental** methods that approximate random assignment. The rest of this chapter explores four such strategies.
 :::
 
 
@@ -594,11 +617,17 @@ Here's why: twins report their own education. Small errors (misremembering a yea
 **Result:** This **attenuation bias** pushes the twin estimate *below* the true return.
 :::
 
+Formally, measurement error biases the twin FE coefficient by the **reliability ratio**:
+
+$$\hat{\rho}_{FE} \approx \rho \times \underbrace{\frac{\text{Var}(\Delta S^*_f)}{\text{Var}(\Delta S^*_f) + \text{Var}(\Delta m_f)}}_{\text{reliability ratio}}$$
+
+where $\Delta S^*_f$ is the true within-twin difference in schooling and $\Delta m_f$ is the measurement error in the differenced data. When twins are very similar, $\text{Var}(\Delta S^*)$ is small but $\text{Var}(\Delta m)$ stays the same size, so the reliability ratio drops well below 1 and $\hat{\rho}_{FE}$ is attenuated toward zero. A reliability ratio of 0.5 would cut the estimate in half.
+
 ## IV: Using the Twin's Report as an Instrument
 
 The twin estimate may be biased *downward* by **measurement error** in self-reported education. If twins misremember their schooling, the differenced data amplifies noise relative to signal.
 
-The fix: use each twin's *report of the other's education* as an instrument. This report is correlated with true education but has independent measurement error, so it satisfies the IV requirements.
+The fix: use each twin's *report of the other's education* as an instrument. This report is correlated with true education but has independent measurement error, so it satisfies the IV requirements. (This assumes twins do not simply agree on inaccurate reports. If twins discuss their education and reach consensus, their measurement errors may be correlated, weakening the IV correction.)
 
 ::: {.callout-note}
 ## Reading the IV2SLS formula syntax
@@ -609,6 +638,18 @@ In `linearmodels`, the IV formula uses **square brackets** to specify the endoge
 - `~ 0` or `~ 1` controls whether an intercept is included (0 = no intercept, 1 = with intercept)
 - `cov_type="robust"` gives heteroskedasticity-robust standard errors (equivalent to `"HC1"` in `statsmodels`)
 :::
+
+The twin IV corrects measurement error using two stages. In the within-pair (differenced) version:
+
+**First stage:** Predict own-reported schooling difference using the twin's report
+
+$$\Delta S_f = \pi_0 + \pi_1 \, \Delta S^{twin}_f + v_f$$
+
+**Second stage:** Regress wage difference on the predicted schooling difference
+
+$$\Delta Y_f = \rho_{IV} \, \widehat{\Delta S}_f + u_f$$
+
+where $\Delta S^{twin}_f$ is the difference in the twin's report of the other's education (`deduct`), and $\widehat{\Delta S}_f$ is the fitted value from the first stage. Because the twin's report has independent measurement error, it filters out the noise in own-reported education, correcting the attenuation bias.
 
 ```{python}
 #| label: tbl-twins-iv
@@ -689,6 +730,22 @@ The twins approach offered a first crack at ability bias but raised a new concer
 Compulsory schooling laws allow students to drop out at age 16. Because school-entry rules are based on birth date cutoffs, children born later in the year start school younger and accumulate more schooling before reaching the dropout age.
 
 This creates an instrument: **quarter of birth** affects schooling (through compulsory attendance rules) but should not directly affect earnings.
+
+The IV strategy has three equations:
+
+**First stage** (instrument predicts schooling):
+
+$$S_i = \alpha_1 + \phi \, Q4_i + e_{1i}$$
+
+**Reduced form** (instrument predicts earnings directly):
+
+$$\ln W_i = \alpha_2 + \rho_{RF} \, Q4_i + e_{2i}$$
+
+**Wald estimator** (ratio gives the causal return):
+
+$$\hat{\rho}_{IV} = \frac{\hat{\rho}_{RF}}{\hat{\phi}} = \frac{\text{Effect of } Q4 \text{ on earnings}}{\text{Effect of } Q4 \text{ on schooling}}$$
+
+where $Q4_i$ = 1 if individual $i$ was born in the fourth quarter (`q4`), $S_i$ is years of schooling (`s`), and $\ln W_i$ is log weekly earnings (`lnw`). This estimate is a **LATE** (Local Average Treatment Effect): it applies only to compliers whose schooling was changed by compulsory attendance interacting with their birth quarter.
 
 ## The IV Recipe: Step by Step
 
@@ -794,7 +851,26 @@ The quarter-of-birth IV uses a clever natural experiment, but it relies on a sin
 
 **Research question:** Do compulsory schooling laws that forced children to enter school by certain ages provide another valid instrument for estimating the return to education?
 
-**The data:** Angrist and Acemoglu used data on compulsory schooling laws that varied across U.S. states. Three instruments capture whether a state required children to enter school by age 7 (`cl7`), 8 (`cl8`), or 9 (`cl9`). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means, preserving the identifying variation while keeping the file manageable.
+**The data:** Acemoglu and Angrist used data on compulsory schooling laws that varied across U.S. states. Three instruments capture whether a state required children to enter school by age 7 (`cl7`), 8 (`cl8`), or 9 (`cl9`). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means, preserving the identifying variation while keeping the file manageable.
+
+With multiple instruments and fixed effects, the 2SLS framework is:
+
+**First stage:** Predict schooling using the three compulsory schooling instruments
+
+$$S_{scy} = \alpha_1 + \phi_1 \, CL7_{sc} + \phi_2 \, CL8_{sc} + \phi_3 \, CL9_{sc} + \beta_s + \gamma_c + \delta_y + v_{scy}$$
+
+**Second stage:** Regress earnings on the predicted schooling
+
+$$\ln W_{scy} = \alpha_2 + \rho_{IV} \, \hat{S}_{scy} + \beta_s + \gamma_c + \delta_y + u_{scy}$$
+
+where:
+
+- $CL7$, $CL8$, $CL9$ = indicators for compulsory school entry by age 7, 8, or 9 (`cl7`, `cl8`, `cl9`)
+- $\beta_s$ = state-of-birth fixed effects (`C(sob)`)
+- $\gamma_c$ = year-of-birth cohort effects (`C(yob)`)
+- $\delta_y$ = census-year effects (`C(year)`)
+- $\hat{S}_{scy}$ = the fitted value of schooling from the first stage
+- $\rho_{IV}$ = the causal return to schooling, identified by the three instruments jointly
 
 ```{python}
 # Load child labor law data (collapsed cell means, ~2400 observations)
@@ -889,6 +965,19 @@ Both the twins and IV strategies estimate the *overall* return to education. But
 
 **Why RD works here:** Students who scored just above vs. just below the cutoff have nearly **identical skills** (they performed almost the same on the test) but very different diploma rates. Any jump in earnings at the cutoff reflects the value of the diploma credential itself, holding skills constant.
 
+The RD regression estimates the jump at the passing threshold:
+
+$$Y_i = \alpha + \rho \, D_i + f(\text{Score}_i) + e_i$$
+
+where:
+
+- $Y_i$ = average annual earnings (`avgearnings`) or diploma receipt (`receivehsd`)
+- $D_i$ = 1 if the student passed the last-chance exam (`pass_exam`)
+- $f(\text{Score}_i)$ = a flexible polynomial in the test score relative to the cutoff (`minscore`), fitted separately on each side of the threshold
+- $\rho$ = the **sheepskin effect** --- the jump in the outcome at the passing threshold
+
+If $\rho$ is large for earnings, the diploma itself has value (signaling). If $\rho \approx 0$, the diploma credential adds little beyond the skills already reflected in the score.
+
 The dataset includes pre-computed polynomial terms for the RD regression: `left_1` through `left_4` are polynomial powers of the running variable for scores below the cutoff, and `right_1` through `right_4` are for scores above. These allow separate flexible curves on each side of the cutoff, following the same logic as the quadratic RD model in Chapter 4 but with higher-order polynomials for greater flexibility.
 
 ```{python}
@@ -965,9 +1054,9 @@ plt.show()
 ::: {.callout-important}
 ## The sheepskin verdict
 
-- **Diploma receipt** jumps by about **40 percentage points** at the cutoff (a strong first stage)
-- **Earnings** show **almost no jump** --- the RD effect is near zero
-- This suggests the diploma credential itself has a modest value; most of the education premium reflects actual learning (human capital), not just the piece of paper (signaling)
+- **Diploma receipt** jumps by about **40 percentage points** at the cutoff (a strong first stage). Since the jump is 40 points rather than 100, this is technically a **fuzzy RD** --- passing the exam increases but does not guarantee diploma receipt
+- **Earnings** show **almost no jump** --- the RD effect is near zero. Even scaling by the diploma receipt jump (the fuzzy RD Wald estimate), the credential effect remains negligible
+- Most of the education premium reflects actual learning (human capital), not just the piece of paper (signaling)
 :::
 
 ::: {.callout-note}
@@ -990,6 +1079,24 @@ We have now applied regression, IV, and RD to the schooling question. The final 
 
 This dataset simulates a compulsory schooling reform adopted by 10 out of 20 states in 2005. It was designed to illustrate the DiD concept with clear parallel pre-trends and a visible treatment effect.
 :::
+
+The DD estimator compares changes over time across treated and control groups:
+
+$$\delta_{DD} = \underbrace{(\bar{Y}_{treat,after} - \bar{Y}_{treat,before})}_{\text{Change in treated states}} - \underbrace{(\bar{Y}_{control,after} - \bar{Y}_{control,before})}_{\text{Change in control states}}$$
+
+In regression form with state and year fixed effects:
+
+$$Y_{st} = \alpha + \delta \, (\text{Treated}_s \times \text{Post}_t) + \beta_s + \gamma_t + e_{st}$$
+
+where:
+
+- $Y_{st}$ = average earnings (`avg_earnings`) or average schooling (`avg_schooling`) in state $s$ at time $t$
+- $\text{Treated}_s \times \text{Post}_t$ = the interaction term (`treat_post`), equal to 1 for treated states after the reform
+- $\beta_s$ = state fixed effects (`C(state)`) --- absorb permanent differences between states
+- $\gamma_t$ = year fixed effects (`C(year)`) --- absorb common time trends
+- $\delta$ = the DD estimate of the reform's causal effect
+
+The **parallel trends assumption** requires that treated and control states would have followed the same trajectory absent the reform: $E[Y_{st}(0) \mid \text{Treated}=1] - E[Y_{st}(0) \mid \text{Treated}=0]$ is constant over time.
 
 ```{python}
 # Load synthetic DiD data (20 states × 20 years)
@@ -1080,13 +1187,29 @@ The DD design requires that treated and control states would have followed the *
 ::: {.callout-important}
 ## Connection to the child labor law IV
 
+We borrow IV terminology here: the DD on schooling plays the role of a "first stage" (how much did the reform increase schooling?) and the DD on earnings plays the role of a "reduced form" (how much did the reform increase earnings?). The ratio gives the implied per-year return, just as the Wald estimator does in IV. This is valid as long as the reform affects earnings only through schooling.
+
 The child labor law IV (Strategy 3) and the DiD approach exploit the **same underlying variation** --- policy changes in compulsory schooling laws across states and time. The IV approach uses the laws as instruments for individual schooling, while DiD compares aggregate outcomes before and after the reform. Both give similar estimates, reinforcing the causal interpretation.
 :::
 
 
 # The Furious Five: A Grand Synthesis
 
-This chapter has applied **all five methods** from the book to a single question. Here is how they compare:
+This chapter has applied **all five methods** from the book to a single question. Each method can be summarized by its key equation, all targeting the same parameter $\rho$ --- the causal return to schooling:
+
+| Method | Key Equation |
+|:---|:---|
+| **Bivariate OLS** | $\ln W_i = \alpha + \rho \, S_i + e_i$ |
+| **OLS with controls** | $\ln W_i = \alpha + \rho \, S_i + \gamma' X_i + e_i$ |
+| **Twin FE** | $\Delta Y_f = \rho \, \Delta S_f + \Delta e_f$ |
+| **IV (Wald)** | $\hat{\rho}_{IV} = \hat{\rho}_{RF} \, / \, \hat{\phi}$ |
+| **2SLS** | Stage 1: $S_i = \pi_0 + \pi_1 Z_i + v_i$; Stage 2: $\ln W_i = \alpha + \rho_{IV} \hat{S}_i + u_i$ |
+| **RD** | $Y_i = \alpha + \rho \, D_i + f(\text{Score}_i) + e_i$ |
+| **DD** | $Y_{st} = \alpha + \delta \, (\text{Treated}_s \times \text{Post}_t) + \beta_s + \gamma_t + e_{st}$ |
+
+: The equation behind each method {.striped}
+
+Here is how they compare:
 
 | Method | Chapter | Key Assumption | What It Estimates | Used Here? |
 |:---|:---:|:---|:---|:---:|
@@ -1102,7 +1225,7 @@ This chapter has applied **all five methods** from the book to a single question
 
 | Method | Estimate | Main Bias | Direction |
 |:---|:---:|:---|:---:|
-| Simple OLS (no controls) | ~0.07 | Ability + OVB | Upward |
+| Simple OLS (no controls) | ~0.07 | Ability bias (OVB) | Likely upward |
 | OLS with controls | ~0.11 | Unobserved ability | Upward |
 | Twin FE | ~0.06 | Measurement error | Downward |
 | Twin IV | ~0.11 | Corrects measurement error | --- |
@@ -1167,7 +1290,7 @@ graph TD
     style SYN fill:#2d8659,color:#fff
 ```
 
-1. **Simple OLS returns to schooling (~7%)** capture correlation, not causation.
+1. **Simple OLS returns to schooling (~7%)** reflect both the causal effect and selection bias (ability bias), so they overstate the true causal return.
 
 2. **The OVB formula** predicts upward bias: ability raises both schooling and earnings.
 
@@ -1259,7 +1382,7 @@ graph TD
 
 ::: {.callout-note collapse="true"}
 ## Show answer
-**(b)** Students born in Q4 enter school at a younger age and can legally drop out with less schooling than those born in Q1. Compulsory schooling laws create exogenous variation in education unrelated to ability.
+**(b)** Students born in Q4 enter school at a younger age, so by the time they reach the legal dropout age (e.g., 16), they have completed more years of schooling than those born in Q1. Compulsory schooling laws create exogenous variation in education unrelated to ability.
 :::
 
 7. **A "sheepskin effect" refers to:**
@@ -1270,7 +1393,7 @@ graph TD
 
 ::: {.callout-note collapse="true"}
 ## Show answer
-**(b)** A sheepskin effect is the extra earnings bump from completing a degree. The Clark and Martorell RD showed the diploma itself had a modest effect, suggesting most of the education premium comes from learning.
+**(b)** A sheepskin effect is the extra earnings bump from completing a degree. The Clark and Martorell RD showed the diploma itself had almost no effect on earnings, suggesting most of the education premium comes from actual learning.
 :::
 
 8. **Controlling for occupation when estimating the return to schooling is problematic because:**
@@ -1600,7 +1723,7 @@ test q2 q3 q4
 
 (1) **What the numbers show:** Both F-statistics should exceed the "rule of 10" threshold, confirming that quarter of birth is a relevant instrument for schooling.
 
-(2) **Why:** Students born in Q4 enter school at a younger age and can legally drop out with less completed schooling than those born in Q1, creating a systematic relationship between quarter of birth and years of schooling.
+(2) **Why:** Students born in Q4 enter school at a younger age, so by the time they reach the legal dropout age (e.g., 16), they have completed more years of schooling than those born in Q1, creating a systematic relationship between quarter of birth and years of schooling.
 
 (3) **What it teaches:** The first-stage F-statistic is the primary diagnostic for weak instruments. When F < 10, the IV estimate is biased toward OLS and standard errors are unreliable.
 :::

@@ -18,9 +18,10 @@ np.random.seed(2024)
 # 1. synthetic_ovb.csv — Omitted Variables Bias demonstration
 # =====================================================================
 # DGP: ability → schooling + earnings; schooling → occupation → earnings
-# True TOTAL return to schooling = 0.10 per year (0.06 direct + 0.04 via occupation)
-# OLS without ability ≈ 0.13 (upward bias from omitted ability)
-# OLS with ability ≈ 0.10 (correct total effect)
+# True TOTAL return to schooling ≈ 0.09 per year (0.06 direct + ~0.03 via occupation)
+# Note: np.clip on occupation reduces effective indirect effect below theoretical 0.3*0.10
+# OLS without ability ≈ 0.12 (upward bias from omitted ability)
+# OLS with ability ≈ 0.09 (correct total effect)
 # OLS with occupation (bad control) ≈ 0.06 (removes the occupation channel)
 
 n_ovb = 2000
