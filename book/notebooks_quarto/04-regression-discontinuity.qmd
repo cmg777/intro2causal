@@ -476,6 +476,118 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 
 ## Exercises
 
+### Multiple Choice Questions
+
+1. **What makes a regression discontinuity design possible?**
+   a) Random assignment of treatment to participants
+   b) A rigid rule or cutoff that determines treatment eligibility
+   c) A large sample size with many treated individuals
+   d) The availability of panel data over multiple time periods
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** RD exploits rigid rules — such as age thresholds, test score cutoffs, or income limits — that create sharp changes in treatment eligibility. People just above and just below the cutoff are nearly identical, creating a natural experiment. **(a) is wrong** because random assignment of treatment describes randomized controlled trials (RCTs), not RD — RD is observational, with treatment determined by a cutoff rule. **(c) is wrong** because while matching on observables can help, it is not what defines RD; RD specifically relies on a known cutoff in a running variable. **(d) is wrong** because before-after comparisons describe difference-in-differences, not RD.
+:::
+
+2. **In a sharp RD design, the "running variable" is:**
+   a) The outcome variable that we want to measure
+   b) The variable that determines treatment status through a cutoff
+   c) A control variable included to reduce bias
+   d) The time variable in a panel dataset
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** The running variable is the continuous variable (like age) that determines whether someone is above or below the cutoff. In the MLDA example, age is the running variable and 21 is the cutoff. **(a) is wrong** because the death rate is the outcome variable, not the running variable — the running variable determines treatment assignment, not the effect we measure. **(c) is wrong** because income is a potential confounder, not the variable that determines the sharp change in treatment at a cutoff. **(d) is wrong** because the treatment group label is a binary indicator derived from the running variable, not the running variable itself.
+:::
+
+3. **In the MLDA study, what serves as a placebo test?**
+   a) Comparing mortality rates for people aged 25 vs. 26
+   b) Checking whether internal-cause deaths (diseases) jump at age 21
+   c) Testing whether the drinking age varies across states
+   d) Comparing drunk driving rates before and after the policy change
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** Internal-cause deaths (cancer, heart disease) should NOT respond to turning 21, because these diseases develop over years. Finding no jump in internal-cause deaths at age 21 validates the design — it confirms that the observed jump in motor vehicle deaths is not an artifact of data reporting or other changes at age 21. This is a placebo test: if a variable that should be unaffected by the treatment also jumps at the cutoff, the design is suspect. **(a) is wrong** because a jump in internal deaths would undermine, not confirm, the design. **(c) is wrong** because internal causes are used precisely because they should not be affected by alcohol access — they serve as a falsification check. **(d) is wrong** because internal causes are relevant to validating the RD design, not irrelevant.
+:::
+
+4. **Why is bandwidth choice important in RD designs?**
+   a) A wider bandwidth always gives more accurate estimates
+   b) A narrower bandwidth reduces bias but increases variance — there is a trade-off
+   c) The bandwidth must equal the distance between the cutoff and the mean
+   d) Bandwidth only matters in fuzzy RD, not sharp RD
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** Narrower bandwidths compare people closer to the cutoff (more comparable, less bias) but use fewer observations (more noise, higher variance). Wider bandwidths use more data but include people farther from the cutoff who may differ in other ways. This bias-variance trade-off is fundamental to RD. **(a) is wrong** because wider bandwidths do not always give better estimates — they reduce variance but introduce bias from nonlinear trends in the running variable. **(c) is wrong** because bandwidth choice matters greatly for RD; it is not irrelevant. **(d) is wrong** because narrower bandwidths reduce bias (not increase it) by restricting comparison to more similar units near the cutoff.
+:::
+
+5. **What distinguishes a fuzzy RD from a sharp RD?**
+   a) A fuzzy RD requires perfect compliance at the cutoff
+   b) A fuzzy RD has an unknown cutoff value
+   c) In a fuzzy RD, the probability of treatment jumps at the cutoff but does not switch from 0 to 1
+   d) A fuzzy RD uses multiple cutoffs simultaneously
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(c)** In a fuzzy RD, the probability of receiving treatment jumps at the cutoff but does not switch from 0 to 1. For example, in Boston exam schools, scoring above the admission cutoff increases the probability of enrollment but does not guarantee it. A fuzzy RD is estimated using IV, with the cutoff indicator as the instrument for actual treatment. **(a) is wrong** because a fuzzy RD does not require perfect compliance — that would be a sharp RD. **(b) is wrong** because fuzzy RD does not mean the cutoff is unknown; the cutoff is known but compliance is imperfect. **(d) is wrong** because fuzzy RD applies to a single cutoff with partial compliance, not to multiple cutoffs.
+:::
+
+6. **The "continuity assumption" in RD requires that:**
+   a) The treatment variable is continuous
+   b) All factors other than treatment vary smoothly at the cutoff — no sudden jumps
+   c) The outcome variable follows a normal distribution
+   d) The sample includes observations far from the cutoff
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** The continuity assumption states that all determinants of the outcome (other than the treatment) change smoothly at the cutoff. This ensures that any discontinuity in the outcome at the cutoff is caused by the treatment, not by something else that also jumps there. **(a) is wrong** because the treatment variable is typically binary (treated/not treated at the cutoff), not continuous. **(c) is wrong** because normality is a distributional assumption irrelevant to RD validity. **(d) is wrong** because including observations far from the cutoff can actually introduce bias from nonlinear trends.
+:::
+
+7. **In an RD scatter plot, why do researchers fit separate regression lines on each side of the cutoff?**
+   a) To make the graph look more visually appealing
+   b) To estimate the treatment effect as the vertical gap between the two lines at the cutoff
+   c) To test whether the outcome is normally distributed
+   d) To increase the sample size
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** Separate regression lines on each side of the cutoff allow the relationship between the running variable and the outcome to differ on each side. The treatment effect is estimated as the vertical gap between the two lines at the cutoff point. If there is no treatment effect, the two lines would connect smoothly at the cutoff. **(a) is wrong** because the separate lines serve an analytical purpose, not just aesthetics. **(c) is wrong** because normality testing is unrelated to the RD scatter plot. **(d) is wrong** because the number of observations is determined by the data, not the plotting technique.
+:::
+
+8. **Why does the MLDA study focus on ages close to 21 rather than comparing 18-year-olds to 25-year-olds?**
+   a) Because data is only available for ages near 21
+   b) Because people close in age to the cutoff are more comparable, reducing confounding
+   c) Because mortality rates are only meaningful near age 21
+   d) Because alcohol consumption is similar at all ages
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** Comparing people just above and just below 21 ensures they are nearly identical in all respects except legal drinking access. Comparing 18-year-olds to 25-year-olds would introduce many confounders (maturity, employment, lifestyle changes) that differ systematically between these age groups. **(a) is wrong** because mortality data is available for all ages. **(c) is wrong** because mortality rates are meaningful at any age. **(d) is wrong** because alcohol consumption varies substantially across age groups.
+:::
+
+9. **Adding a quadratic term to the RD regression serves to:**
+   a) Double the treatment effect estimate
+   b) Allow for a curved (nonlinear) relationship between the running variable and the outcome
+   c) Eliminate all bias from the estimate
+   d) Increase the statistical significance of the treatment effect
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** A quadratic specification allows the relationship between age and mortality to curve rather than follow a straight line on each side of the cutoff. This flexibility can prevent the linear model from mistaking a nonlinear trend for a treatment-induced jump. **(a) is wrong** because quadratic terms change the functional form, not the magnitude of the treatment effect. **(c) is wrong** because no specification can eliminate all bias — researchers test robustness across multiple specifications. **(d) is wrong** because the quadratic term may increase or decrease the significance of the estimate depending on the true relationship.
+:::
+
+10. **The RD estimate is considered "local" because:**
+    a) It uses data from a local geographic area
+    b) It applies to people near the cutoff and may not generalize to those far from it
+    c) It requires a local computer to run
+    d) It is only valid for a limited time period
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** The RD estimate captures the effect of treatment for individuals right at the cutoff. People far from the cutoff may respond differently to treatment. In the MLDA example, the effect of legal drinking at age 21 may differ from the effect at age 18 (where risk-taking behavior is higher) or age 25 (where drinking patterns are more established). **(a) is wrong** because "local" refers to proximity to the cutoff in the running variable, not geography. **(c) is wrong** because locality refers to the population, not the computing environment. **(d) is wrong** because "local" describes who the estimate applies to, not when.
+:::
+
 ### Conceptual Questions
 
 ::: {.callout-caution}
@@ -502,22 +614,14 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 2. **Visualizing the suicide RD**: Using `mlda_clean.csv`, create an RD scatter plot for `suicide` deaths with separate fitted lines on each side of the cutoff. Does the visual pattern match what the regression coefficient suggests?
 
 3. **Quadratic vs. linear specification**: Using `mlda_clean.csv`, run the quadratic RD model for all-cause mortality (including `age2`, `over_age`, `over_age2`). Compare the coefficient on `over21` with the linear model. Is the estimate sensitive to the polynomial order?
+
+4. **Homicide as a nuanced placebo**: Using `mlda_clean.csv`, run the linear RD regression for `homicide` deaths and compare the estimate with those for `mva` and `internal` causes. Homicide is partly alcohol-related (bar fights, altercations) but not as directly as drunk driving. Where does homicide fall on the spectrum from "causally affected by alcohol access" to "placebo"?
+
+5. **Bandwidth sensitivity**: Using `mlda_clean.csv`, estimate the RD effect on all-cause mortality (`all`) using four progressively narrower bandwidths: the full sample, then `agecell` within 1.5 years of 21, within 1.0 year, and within 0.5 years. How do the coefficient and standard error change as the bandwidth narrows?
 :::
 
 
 ## Solutions
-
-### Multiple Choice Questions
-
-**MCQ1.** **(b)** RD exploits rigid rules --- such as age thresholds, test score cutoffs, or income limits --- that create sharp changes in treatment eligibility. People just above and just below the cutoff are nearly identical, creating a natural experiment. **(a) is wrong** because random assignment of treatment describes randomized controlled trials (RCTs), not RD --- RD is observational, with treatment determined by a cutoff rule. **(c) is wrong** because while matching on observables can help, it is not what defines RD; RD specifically relies on a known cutoff in a running variable. **(d) is wrong** because before-after comparisons describe difference-in-differences, not RD.
-
-**MCQ2.** **(b)** The running variable is the continuous variable (like age) that determines whether someone is above or below the cutoff. In the MLDA example, age is the running variable and 21 is the cutoff. **(a) is wrong** because the death rate is the outcome variable, not the running variable --- the running variable determines treatment assignment, not the effect we measure. **(c) is wrong** because income is a potential confounder, not the variable that determines the sharp change in treatment at a cutoff. **(d) is wrong** because the treatment group label is a binary indicator derived from the running variable, not the running variable itself.
-
-**MCQ3.** **(b)** Internal-cause deaths (cancer, heart disease) should NOT respond to turning 21, because these diseases develop over years. Finding no jump in internal-cause deaths at age 21 validates the design --- it confirms that the observed jump in motor vehicle deaths is not an artifact of data reporting or other changes at age 21. This is a placebo test: if a variable that should be unaffected by the treatment also jumps at the cutoff, the design is suspect. **(a) is wrong** because a jump in internal deaths would undermine, not confirm, the design. **(c) is wrong** because internal causes are used precisely because they should not be affected by alcohol access --- they serve as a falsification check. **(d) is wrong** because internal causes are relevant to validating the RD design, not irrelevant.
-
-**MCQ4.** **(b)** Narrower bandwidths compare people closer to the cutoff (more comparable, less bias) but use fewer observations (more noise, higher variance). Wider bandwidths use more data but include people farther from the cutoff who may differ in other ways. This bias-variance trade-off is fundamental to RD. **(a) is wrong** because wider bandwidths do not always give better estimates --- they reduce variance but introduce bias from nonlinear trends in the running variable. **(c) is wrong** because bandwidth choice matters greatly for RD; it is not irrelevant. **(d) is wrong** because narrower bandwidths reduce bias (not increase it) by restricting comparison to more similar units near the cutoff.
-
-**MCQ5.** **(c)** In a fuzzy RD, the probability of receiving treatment jumps at the cutoff but does not switch from 0 to 1. For example, in Boston exam schools, scoring above the admission cutoff increases the probability of enrollment but does not guarantee it. A fuzzy RD is estimated using IV, with the cutoff indicator as the instrument for actual treatment. **(a) is wrong** because a fuzzy RD does not require perfect compliance --- that would be a sharp RD. **(b) is wrong** because fuzzy RD does not mean the cutoff is unknown; the cutoff is known but compliance is imperfect. **(d) is wrong** because fuzzy RD applies to a single cutoff with partial compliance, not to multiple cutoffs.
 
 ### Conceptual Questions
 
@@ -579,6 +683,21 @@ for var, label in [("alcohol", "Alcohol-related"), ("mva", "Motor vehicle")]:
 pd.DataFrame(rows)
 ```
 
+Stata equivalent:
+
+```stata
+* --- RD estimates: alcohol vs. motor vehicle deaths ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+* Linear RD for alcohol-related deaths
+reg alcohol over21 age, robust
+
+* Linear RD for motor vehicle deaths (for comparison)
+reg mva over21 age, robust
+```
+
 **(1) What the numbers show:** The alcohol-related death jump is much smaller than the MVA jump (roughly one-fifth the size), but it is statistically significant. Both causes show a clear discontinuity at age 21. **(2) Why:** Relatively few young people die directly from alcohol poisoning, but many die in alcohol-related car accidents. The dominant mechanism through which legal drinking access kills is drunk driving, not direct alcohol toxicity. **(3) What it teaches:** Comparing RD estimates across different outcomes reveals the causal channels through which a treatment operates. The large MVA effect relative to the small alcohol-poisoning effect tells us that the policy-relevant margin of the MLDA is traffic safety, which informs where interventions (e.g., DUI enforcement) should be targeted.
 
 **R2.**
@@ -611,6 +730,24 @@ ax.set_ylabel("Deaths per 100,000")
 ax.set_title("Suicide deaths around the MLDA cutoff")
 plt.tight_layout()
 plt.show()
+```
+
+Stata equivalent:
+
+```stata
+* --- RD plot for suicide deaths ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+* Scatter plot with separate fitted lines on each side of the cutoff
+twoway (scatter suicide agecell, mcolor(gray) msymbol(circle)) ///
+       (lfit suicide agecell if age < 0, lcolor(black) lwidth(medium)) ///
+       (lfit suicide agecell if age >= 0, lcolor(black) lwidth(medium)), ///
+       xline(21, lcolor(red) lpattern(dash)) ///
+       xtitle("Age (years)") ytitle("Deaths per 100,000") ///
+       title("Suicide deaths around the MLDA cutoff") ///
+       legend(off)
 ```
 
 **(1) What the numbers show:** The visual shows a modest upward jump at age 21, consistent with the regression estimate of about 1.8 deaths per 100,000. The effect is smaller and noisier than for motor vehicle accidents. **(2) Why:** Alcohol can contribute to suicide through impulsivity and impaired judgment, but the link is less direct than for drunk driving. Suicide involves complex psychological factors that alcohol may exacerbate but rarely causes alone. **(3) What it teaches:** This RD plot illustrates why visual inspection is critical --- it reveals both the magnitude of the jump and the noise in the data. The gap between the two fitted lines at the cutoff is the RD estimate, and the scatter of points around the lines shows why standard errors matter for inference.
@@ -650,4 +787,140 @@ pd.DataFrame({
 })
 ```
 
+Stata equivalent:
+
+```stata
+* --- Linear vs. quadratic RD for all-cause mortality ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+* Linear RD
+reg all over21 age, robust
+
+* Quadratic RD with interactions
+reg all over21 age age2 over_age over_age2, robust
+```
+
 **(1) What the numbers show:** The quadratic estimate is somewhat larger (~9.5 vs. ~7.7) because the quadratic specification allows the outcome trend to curve differently on each side of the cutoff, potentially capturing a steeper jump. Both estimates are statistically significant and in the same ballpark. **(2) Why:** The linear specification constrains the relationship between age and mortality to be a straight line, which may underestimate the discontinuity if the true relationship is curved. The quadratic specification with interactions (over_age, over_age2) allows different slopes and curvature on each side, providing a more flexible fit. **(3) What it teaches:** The fact that the estimate is robust to polynomial order strengthens confidence in the RD design. Sensitivity to specification would suggest that the "discontinuity" might be an artifact of functional form assumptions rather than a true jump. Reporting multiple specifications is standard RD practice and essential for credibility.
+
+**R4.**
+
+```{python}
+#| label: tbl-sol-homicide-rd
+#| tbl-cap: "RD estimates across causes: MVA, homicide, and internal (placebo)"
+
+# --- Setup ---
+import pandas as pd
+import statsmodels.formula.api as smf
+
+mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
+
+# --- Compare RD Estimates Across Three Causes ---
+rows = []
+for var, label in [("mva", "Motor vehicle"), ("homicide", "Homicide"), ("internal", "Internal (placebo)")]:
+    r = smf.ols(f"{var} ~ over21 + age", data=mlda).fit(cov_type="HC1")
+    rows.append({
+        "Cause": label,
+        "RD estimate": round(r.params["over21"], 2),
+        "SE": round(r.bse["over21"], 2),
+        "t-stat": round(r.tvalues["over21"], 2),
+    })
+
+pd.DataFrame(rows)
+```
+
+Stata equivalent:
+
+```stata
+* --- RD estimates: MVA, homicide, and internal ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+* Linear RD for each cause of death
+foreach var in mva homicide internal {
+    display "=== `var' ==="
+    reg `var' over21 age, robust
+}
+```
+
+(1) **What the numbers show:** MVA shows a large, statistically significant jump at age 21. Internal causes (the clean placebo) show no significant jump, confirming the design's validity. Homicide falls in between --- it may show a modest positive estimate, but with a larger standard error and weaker significance than MVA.
+
+(2) **Why:** MVA deaths are directly caused by drunk driving, so legal alcohol access has an immediate, strong effect. Internal causes (cancer, heart disease) cannot plausibly respond to turning 21, making them a clean falsification test. Homicide occupies an ambiguous middle ground: alcohol can contribute to violent altercations, but homicide is driven by many factors beyond drinking. The intermediate result for homicide reflects this partial causal channel.
+
+(3) **What it teaches:** Not every outcome is cleanly "should jump" or "should not jump." Homicide illustrates the value of thinking about *mechanisms* when designing placebo tests. A nuanced researcher would predict a small homicide effect (partial alcohol channel) and a zero internal effect (no channel). Finding exactly this pattern --- large MVA, small homicide, null internal --- strengthens the causal story more than a simple "significant vs. not significant" binary.
+
+**R5.**
+
+```{python}
+#| label: tbl-sol-bandwidth
+#| tbl-cap: "Bandwidth sensitivity: RD estimate for all-cause mortality"
+
+# --- Setup ---
+mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
+
+# --- Define Bandwidths (distance from cutoff age 21) ---
+bandwidths = [
+    ("Full sample", None, None),
+    ("± 1.5 years", 19.5, 22.5),
+    ("± 1.0 year", 20.0, 22.0),
+    ("± 0.5 years", 20.5, 21.5),
+]
+
+# --- Estimate RD for Each Bandwidth ---
+rows = []
+for label, lo, hi in bandwidths:
+    if lo is None:
+        subset = mlda  # full sample
+    else:
+        subset = mlda[(mlda["agecell"] >= lo) & (mlda["agecell"] <= hi)]
+
+    if len(subset) > 4:  # need enough observations for regression
+        r = smf.ols("all ~ over21 + age", data=subset).fit(cov_type="HC1")
+        rows.append({
+            "Bandwidth": label,
+            "N": len(subset),
+            "RD estimate": round(r.params["over21"], 2),
+            "SE": round(r.bse["over21"], 2),
+            "t-stat": round(r.tvalues["over21"], 2),
+        })
+
+pd.DataFrame(rows)
+```
+
+Stata equivalent:
+
+```stata
+* --- Bandwidth sensitivity analysis ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+* Full sample
+reg all over21 age, robust
+
+* ± 1.5 years
+preserve
+keep if agecell >= 19.5 & agecell <= 22.5
+reg all over21 age, robust
+restore
+
+* ± 1.0 year
+preserve
+keep if agecell >= 20.0 & agecell <= 22.0
+reg all over21 age, robust
+restore
+
+* ± 0.5 years
+preserve
+keep if agecell >= 20.5 & agecell <= 21.5
+reg all over21 age, robust
+restore
+```
+
+(1) **What the numbers show:** As the bandwidth narrows, the coefficient may change modestly while the standard error increases substantially. With very narrow bandwidths, the estimate becomes imprecise (wide confidence intervals) due to fewer observations, even though the remaining observations are closer to the cutoff.
+
+(2) **Why:** This is the bias-variance tradeoff at the heart of RD design. Wider bandwidths use more data (lower variance) but include observations farther from the cutoff where nonlinear trends might bias the estimate. Narrower bandwidths restrict attention to observations closest to the cutoff (lower bias) but sacrifice statistical power. The optimal bandwidth balances these competing concerns.
+
+(3) **What it teaches:** If the RD estimate is stable across bandwidths, it suggests the result is robust and not driven by functional form assumptions far from the cutoff. If the estimate changes dramatically, it raises concerns about specification dependence. Reporting estimates across multiple bandwidths --- as this exercise requires --- is standard practice in applied RD research and essential for credibility.

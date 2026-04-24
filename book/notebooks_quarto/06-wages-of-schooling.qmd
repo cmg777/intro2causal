@@ -651,6 +651,118 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 
 ## Exercises
 
+### Multiple Choice Questions
+
+1. **The main econometric challenge in estimating the return to schooling is:**
+   a) Education data is poorly measured
+   b) Unobserved ability may be correlated with both education and earnings (ability bias)
+   c) The return to schooling varies across countries
+   d) Schooling has no effect on earnings
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** The core challenge is ability bias: people with higher unobserved ability tend to get more education AND earn more, regardless of schooling. This makes the OLS estimate of the return to schooling overstate the causal effect. **(a) is wrong** because while sample size matters for precision, it is not the fundamental identification problem — even with millions of observations, ability bias persists. **(c) is wrong** because while measurement error in schooling is a real concern (it causes attenuation bias), the chapter treats ability bias as the primary threat to causal inference. **(d) is wrong** because education clearly varies across individuals — there is no lack of variation in the key independent variable.
+:::
+
+2. **The twin fixed-effects strategy controls for ability bias by:**
+   a) Including IQ test scores as a control variable
+   b) Comparing earnings differences within identical twin pairs who share the same genes and family background
+   c) Using random assignment to determine who attends college
+   d) Restricting the sample to people with above-average ability
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** Identical twins share genetics and family environment — the key sources of ability differences. By comparing earnings within twin pairs, the strategy differences out shared ability. **(a) is wrong** because increasing sample size does not remove omitted variable bias — ability bias is a systematic problem, not a noise problem. **(c) is wrong** because adding control variables (like test scores) only partially captures ability and introduces its own measurement issues. **(d) is wrong** because randomizing education is ethically and practically infeasible for humans. The twin strategy is powerful precisely because identical twins are natural clones: if one twin has more education and higher earnings, that difference is attributable to schooling, not ability (which is the same for both).
+:::
+
+3. **The twin FE estimate (6%) is lower than OLS (11%). This is MOST likely because:**
+   a) The twin FE definitively proves the true return is 6%
+   b) Measurement error in self-reported education is amplified by differencing, biasing the estimate downward
+   c) Twins are not representative of the general population
+   d) OLS is always biased upward
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** When twins report their own education, small errors (misremembering a year) are amplified by differencing because the true within-pair variation is small relative to the noise. This attenuation bias pushes the twin FE estimate below the true return. **(a) is wrong** because it ignores the measurement error problem entirely — taking the low twin FE estimate at face value conflates measurement error attenuation with genuine ability bias removal. **(c) is wrong** because adding more control variables cannot fix measurement error in the key independent variable (education). **(d) is wrong** because discarding the twin design throws away its main advantage (ability bias control). The IV correction (using the co-twin's report as an instrument for own education) solves the measurement error problem and brings the estimate back up to about 11%.
+:::
+
+4. **Angrist and Krueger's quarter-of-birth instrument works because:**
+   a) People born in different quarters have different levels of ability
+   b) Compulsory schooling laws interact with birth quarter to create exogenous variation in years of education
+   c) Employers pay more to workers born in certain quarters
+   d) Season of birth directly affects earnings through health channels
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** Students born in Q4 (October--December) enter school at a younger age and can legally drop out with less schooling than those born in Q1. Compulsory schooling laws force Q1-born students to complete more school before reaching the dropout age (since they start school older, they accumulate more grade years before they can legally leave). This creates exogenous variation in education unrelated to ability. **(a) is wrong** because quarter of birth is not correlated with innate ability — there is no evidence that people born in January are smarter than those born in October. **(c) is wrong** because seasonal labor markets are not the mechanism; the instrument works through compulsory schooling laws, not job availability. **(d) is wrong** because if quarter of birth directly affected earnings (not just through schooling), the exclusion restriction would be violated and the IV estimate would be invalid.
+:::
+
+5. **A "sheepskin effect" refers to:**
+   a) The return to each additional year of schooling
+   b) A discrete jump in earnings at diploma/degree completion, beyond the effect of the extra year
+   c) The effect of attending a prestigious university
+   d) The bias introduced by omitting ability from the regression
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** A sheepskin effect is the extra earnings bump from completing a degree (crossing the finish line), above and beyond what the additional year of study would predict. **(a) is wrong** because a constant return per year of schooling is the opposite of a sheepskin effect — sheepskin effects mean degree-completion years are worth *more* than non-completion years. **(c) is wrong** because diminishing returns would mean each additional year is worth *less*, which is a different pattern from the discrete jump at degree completion. **(d) is wrong** because it describes a general credential effect, not the specific sheepskin finding — Clark and Martorell's Texas RD study showed the diploma itself (passing the exit exam vs. barely failing) caused only a modest ~4% earnings jump, suggesting most of the education premium comes from learning, not the credential.
+:::
+
+6. **The IV correction for measurement error in the twin study uses:**
+   a) Administrative records from schools
+   b) The co-twin's report of the other twin's education as an instrument for self-reported education
+   c) A larger sample of twins
+   d) Standardized test scores instead of years of education
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** The co-twin's report of the other twin's education is used as an instrument. The logic is that the co-twin's report contains different (independent) measurement error, so it is correlated with true education but uncorrelated with the self-report's error. This IV approach corrects for attenuation bias and brings the estimate back up to about 11%. **(a) is wrong** because the study uses survey reports, not administrative records. **(c) is wrong** because a larger sample improves precision but does not solve the measurement error problem. **(d) is wrong** because the key variable is years of education, not test scores — the instrument corrects how education is measured, not what is measured.
+:::
+
+7. **The reliability ratio in the context of measurement error in education refers to:**
+   a) The percentage of twins who report their education correctly
+   b) The ratio of true variance to total variance in the education measure — lower values mean more attenuation bias
+   c) The correlation between education and earnings
+   d) The share of the sample with a college degree
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** The reliability ratio $r = \text{Var}(S^*) / [\text{Var}(S^*) + \text{Var}(m)]$ measures how much of the observed variation in education is "signal" (true variation) versus "noise" (measurement error). When $r$ is low, OLS is attenuated — the coefficient is biased toward zero. In the twin FE context, differencing within pairs shrinks the signal while leaving noise unchanged, so $r$ falls and attenuation worsens. **(a) is wrong** because the reliability ratio is about variance ratios, not the fraction of correct reports. **(c) is wrong** because the education-earnings correlation is the estimated coefficient, not the reliability ratio. **(d) is wrong** because the degree share is a sample characteristic, not a measure of data quality.
+:::
+
+8. **Why do OLS and IV estimates of the return to schooling give similar results (~7%) in Angrist and Krueger's study?**
+   a) This proves that ability bias does not exist
+   b) Ability bias (upward) and measurement error bias (downward) may roughly offset each other
+   c) The IV estimate is always equal to OLS
+   d) Quarter of birth is a weak instrument
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** OLS suffers from upward ability bias (smart people get more school and earn more) but also from downward measurement error bias (noisy education data attenuates the coefficient). These two biases may roughly cancel, producing an OLS estimate close to the true causal return. **(a) is wrong** because similar estimates do not prove ability bias is absent — they suggest that ability bias and attenuation bias happen to offset. **(c) is wrong** because IV and OLS can and often do give different estimates. **(d) is wrong** because while the QOB instrument has been criticized for weakness, this does not explain the similarity — a weak instrument would make the IV estimate imprecise, not necessarily equal to OLS.
+:::
+
+9. **Clark and Martorell's Texas RD study found that the diploma itself (passing vs. barely failing the exit exam) caused:**
+   a) A large 20% earnings increase
+   b) Only a modest ~4% earnings jump, suggesting most of the education premium comes from learning, not the credential
+   c) No earnings difference at all
+   d) A large earnings increase only for college graduates
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** The Texas RD compared students who barely passed vs. barely failed the high school exit exam. Despite a ~40 percentage point difference in diploma receipt, the earnings difference was only about 4%. This suggests the sheepskin (credential) effect is small and that most of the return to education comes from human capital (skills and knowledge), not signaling. **(a) is wrong** because the actual effect was much smaller than 20%. **(c) is wrong** because there was a small positive effect — just not a large one. **(d) is wrong** because this study focused on high school diploma receipt, not college graduation.
+:::
+
+10. **The "monotonicity" assumption in the QOB IV framework means:**
+    a) The return to schooling is the same for everyone
+    b) No one gets less schooling because compulsory laws forced them to stay longer — the laws can only increase or leave unchanged years of schooling
+    c) Earnings always increase with education
+    d) The instrument must be positively correlated with the outcome
+
+::: {.callout-note collapse="true"}
+### Show answer
+**(b)** Monotonicity means the instrument (compulsory schooling laws interacted with birth quarter) can only push people to get more education, never less. No student gets fewer years of schooling because the law forced them to stay longer — the law either binds (for those who would otherwise drop out early) or is irrelevant. **(a) is wrong** because heterogeneous treatment effects are allowed under IV — that is why we get a LATE, not an ATE. **(c) is wrong** because monotonicity is about the instrument-treatment relationship, not the treatment-outcome relationship. **(d) is wrong** because the relevance condition (positive correlation between instrument and treatment) is a separate requirement from monotonicity.
+:::
+
 ### Conceptual Questions
 
 ::: {.callout-caution}
@@ -677,22 +789,14 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 2. **Multiple instruments**: Using `qob_clean.csv`, run the 2SLS regression using all three quarter dummies (`q2`, `q3`, `q4`) as instruments for schooling instead of just `q4`. Does the IV estimate change? How does the first-stage F-statistic compare?
 
 3. **White vs. non-white twins**: Using `twins_clean.csv`, split the sample by `white` status and run the OLS regression for each group. Is the return to schooling different for white vs. non-white twins?
+
+4. **OLS vs. IV head-to-head**: Using `qob_clean.csv`, run OLS (`lnw ~ s`) and 2SLS (`lnw ~ 1 + [s ~ q4]`) for the return to schooling side by side. Is the OLS estimate higher than IV, as ability bias theory predicts? Or are they similar, suggesting offsetting biases (ability bias upward, measurement error downward)?
+
+5. **First-stage F-statistic diagnostic**: Using `qob_clean.csv`, compute the first-stage F-statistic for the quarter-of-birth instrument(s). First run the first stage with just `q4` as the instrument and test its significance. Then run it with all three dummies (`q2 + q3 + q4`) and compute the joint F-statistic. Do both exceed the "rule of 10" threshold for strong instruments?
 :::
 
 
 ## Solutions
-
-### Multiple Choice Questions
-
-**MCQ1.** **(b)** The core challenge is ability bias: people with higher unobserved ability tend to get more education AND earn more, regardless of schooling. This makes the OLS estimate of the return to schooling overstate the causal effect. **(a)** is wrong because while sample size matters for precision, it is not the fundamental identification problem --- even with millions of observations, ability bias persists. **(c)** is wrong because while measurement error in schooling is a real concern (it causes attenuation bias), the chapter treats ability bias as the primary threat to causal inference. **(d)** is wrong because education clearly varies across individuals --- there is no lack of variation in the key independent variable.
-
-**MCQ2.** **(b)** Identical twins share genetics and family environment --- the key sources of ability differences. By comparing earnings within twin pairs, the strategy differences out shared ability. **(a)** is wrong because increasing sample size does not remove omitted variable bias --- ability bias is a systematic problem, not a noise problem. **(c)** is wrong because adding control variables (like test scores) only partially captures ability and introduces its own measurement issues. **(d)** is wrong because randomizing education is ethically and practically infeasible for humans. The twin strategy is powerful precisely because identical twins are natural clones: if one twin has more education and higher earnings, that difference is attributable to schooling, not ability (which is the same for both).
-
-**MCQ3.** **(b)** When twins report their own education, small errors (misremembering a year) are amplified by differencing because the true within-pair variation is small relative to the noise. This attenuation bias pushes the twin FE estimate below the true return. **(a)** is wrong because it ignores the measurement error problem entirely --- taking the low twin FE estimate at face value conflates measurement error attenuation with genuine ability bias removal. **(c)** is wrong because adding more control variables cannot fix measurement error in the key independent variable (education). **(d)** is wrong because discarding the twin design throws away its main advantage (ability bias control). The IV correction (using the co-twin's report as an instrument for own education) solves the measurement error problem and brings the estimate back up to about 11%.
-
-**MCQ4.** **(b)** Students born in Q4 (October--December) enter school at a younger age and can legally drop out with less schooling than those born in Q1. Compulsory schooling laws force Q1-born students to complete more school before reaching the dropout age (since they start school older, they accumulate more grade years before they can legally leave). This creates exogenous variation in education unrelated to ability. **(a)** is wrong because quarter of birth is not correlated with innate ability --- there is no evidence that people born in January are smarter than those born in October. **(c)** is wrong because seasonal labor markets are not the mechanism; the instrument works through compulsory schooling laws, not job availability. **(d)** is wrong because if quarter of birth directly affected earnings (not just through schooling), the exclusion restriction would be violated and the IV estimate would be invalid.
-
-**MCQ5.** **(b)** A sheepskin effect is the extra earnings bump from completing a degree (crossing the finish line), above and beyond what the additional year of study would predict. **(a)** is wrong because a constant return per year of schooling is the opposite of a sheepskin effect --- sheepskin effects mean degree-completion years are worth *more* than non-completion years. **(c)** is wrong because diminishing returns would mean each additional year is worth *less*, which is a different pattern from the discrete jump at degree completion. **(d)** is wrong because it describes a general credential effect, not the specific sheepskin finding --- Clark and Martorell's Texas RD study showed the diploma itself (passing the exit exam vs. barely failing) caused only a modest ~4% earnings jump, suggesting most of the education premium comes from learning, not the credential.
 
 ### Conceptual Questions
 
@@ -765,6 +869,27 @@ pd.DataFrame({
 })
 ```
 
+Stata equivalent:
+
+```stata
+* --- Returns to schooling: full sample vs. men only ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
+
+* Full sample OLS
+reg lwage educ age age2 female white, robust
+
+* Full sample twin FE (within-pair differences, no constant)
+reg dlwage deduc if first == 1, robust noconstant
+
+* Men only OLS
+reg lwage educ age age2 white if female == 0, robust
+
+* Men only twin FE
+reg dlwage deduc if first == 1 & female == 0, robust noconstant
+```
+
 (1) **What the numbers show:** The male-only estimates may differ from the full sample in both OLS and twin FE specifications. The smaller sample size for men increases standard errors. The key pattern --- OLS exceeding twin FE --- should persist in both samples.
 
 (2) **Why:** Returns to schooling can vary by gender due to differences in occupational sorting, labor market discrimination, and labor force participation patterns. The OLS-to-FE drop reflects ability bias removal, which should operate similarly for men and women since the twin design controls for shared genetics and family environment regardless of gender.
@@ -820,6 +945,28 @@ pd.DataFrame({
 })
 ```
 
+Stata equivalent:
+
+```stata
+* --- IV: single vs. multiple instruments ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+
+* Single instrument (Q4 only, no controls)
+ivregress 2sls lnw (s = q4), robust
+* First-stage F-test
+reg s q4, robust
+test q4
+
+* Multiple instruments with year-of-birth FE
+tab yob, gen(yob_)
+ivregress 2sls lnw yob_* (s = q2 q3 q4), robust
+* Joint first-stage F-test
+reg s q2 q3 q4 yob_*, robust
+test q2 q3 q4
+```
+
 (1) **What the numbers show:** Using all three quarter dummies as instruments (with year-of-birth controls) may slightly change the IV estimate and typically improves precision (smaller SE). The first-stage F-statistic should remain well above 10 in both cases, indicating strong instruments.
 
 (2) **Why:** Multiple instruments extract more variation from the compulsory schooling mechanism --- Q2 and Q3 also create schooling differences through the same birthday-cutoff channel. Adding year-of-birth fixed effects controls for cohort-level differences in earnings (e.g., older cohorts may have different wage levels), which sharpens the IV estimate. The overidentified model (3 instruments for 1 endogenous variable) gains precision but requires a stronger assumption: all three quarter dummies must satisfy the exclusion restriction (affect earnings only through schooling).
@@ -859,8 +1006,123 @@ for race, label in [(1, "White"), (0, "Non-white")]:
 pd.DataFrame(rows)
 ```
 
+Stata equivalent:
+
+```stata
+* --- Returns to schooling by race ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
+
+* OLS for white twins
+reg lwage educ age age2 female if white == 1, robust
+
+* OLS for non-white twins
+reg lwage educ age age2 female if white == 0, robust
+```
+
 (1) **What the numbers show:** The OLS return to schooling may differ between white and non-white subsamples. The non-white subsample is likely much smaller, producing wider confidence intervals and less precise estimates.
 
 (2) **Why:** Several factors could drive racial differences in the return to schooling: labor market discrimination may reduce the earnings premium non-white workers receive for additional education; school quality differences may mean a "year of schooling" represents different amounts of human capital accumulation; and occupational sorting patterns may channel workers of different races into different sectors where education is rewarded differently. Additionally, ability bias may differ by race if the correlation between ability and schooling varies across groups.
 
 (3) **What it teaches:** Comparing subgroup estimates reveals whether the overall return to schooling masks important heterogeneity. A single average return can be misleading if the education premium varies substantially by race. This exercise also highlights a practical limitation: the twins dataset is likely dominated by white respondents, making the non-white estimate imprecise. A complete analysis would ideally use the twin FE estimator within each racial subgroup, but sample size constraints may prevent this.
+
+**R4.**
+
+```{python}
+#| label: tbl-sol-ols-iv
+#| tbl-cap: "OLS vs. IV estimates of the return to schooling"
+
+# --- Setup ---
+import pandas as pd
+import statsmodels.formula.api as smf
+from linearmodels.iv import IV2SLS
+
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+
+# --- OLS: naive regression ---
+ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
+
+# --- IV: 2SLS with Q4 as instrument ---
+iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+
+# --- Compare ---
+pd.DataFrame({
+    "Method": ["OLS", "IV (2SLS, Q4 instrument)"],
+    "Return to schooling": [round(ols.params["s"], 4), round(iv.params["s"], 4)],
+    "SE": [round(ols.bse["s"], 4), round(iv.std_errors["s"], 4)],
+})
+```
+
+Stata equivalent:
+
+```stata
+* --- OLS vs. IV for returns to schooling ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+
+* OLS
+reg lnw s, robust
+
+* IV / 2SLS with Q4 as instrument
+ivregress 2sls lnw (s = q4), robust
+```
+
+(1) **What the numbers show:** The OLS and IV estimates are surprisingly close. OLS gives approximately 7% per year; IV gives a similar or slightly higher estimate. The IV standard error is considerably larger, reflecting the precision cost of using only the instrument-driven variation.
+
+(2) **Why:** Two offsetting biases explain the similarity. Ability bias pushes OLS *upward* (more able people get more schooling AND earn more). Measurement error in self-reported schooling pushes OLS *downward* (attenuation bias). IV using quarter of birth corrects both simultaneously --- it removes ability bias (quarter of birth is unrelated to ability) and measurement error attenuation (the instrument is measured without error). The net correction happens to be small because the two biases approximately cancel.
+
+(3) **What it teaches:** The close OLS-IV comparison does not mean OLS is unbiased --- it means two substantial biases happen to offset. This is a key insight from the chapter: similar point estimates can mask very different sources of variation. The IV estimate, despite its larger standard error, has a cleaner causal interpretation because it isolates exogenous variation in schooling driven by compulsory schooling laws interacting with quarter of birth.
+
+**R5.**
+
+```{python}
+#| label: tbl-sol-fstat
+#| tbl-cap: "First-stage F-statistics: single vs. multiple instruments"
+
+# --- Setup ---
+import numpy as np
+
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+
+# --- Single Instrument: Q4 only ---
+fs_q4 = smf.ols("s ~ q4", data=qob).fit()
+f_q4 = float(np.atleast_1d(fs_q4.f_test("q4 = 0").fvalue).flat[0])
+
+# --- Multiple Instruments: Q2 + Q3 + Q4 ---
+fs_multi = smf.ols("s ~ q2 + q3 + q4", data=qob).fit()
+f_multi = float(np.atleast_1d(fs_multi.f_test("q2 = 0, q3 = 0, q4 = 0").fvalue).flat[0])
+
+# --- Display ---
+pd.DataFrame({
+    "First stage": ["s ~ q4 (single)", "s ~ q2 + q3 + q4 (multiple)"],
+    "F-statistic": [round(f_q4, 1), round(f_multi, 1)],
+    "Exceeds rule of 10?": ["Yes" if f_q4 > 10 else "No",
+                             "Yes" if f_multi > 10 else "No"],
+    "N instruments": [1, 3],
+})
+```
+
+Stata equivalent:
+
+```stata
+* --- First-stage F-statistics ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+
+* Single instrument: Q4
+reg s q4, robust
+test q4
+
+* Multiple instruments: Q2 + Q3 + Q4
+reg s q2 q3 q4, robust
+test q2 q3 q4
+```
+
+(1) **What the numbers show:** Both F-statistics should exceed the "rule of 10" threshold, confirming that quarter of birth is a relevant instrument for schooling. The joint F-statistic with three instruments is typically higher because the additional quarter dummies extract more variation from the compulsory schooling mechanism.
+
+(2) **Why:** Students born in Q4 (October--December) enter school at a younger age and can legally drop out with less completed schooling than those born in Q1. This creates a systematic relationship between quarter of birth and years of schooling. Adding Q2 and Q3 dummies captures finer variation in this mechanism, strengthening the first stage. The F-statistic measures whether this relationship is strong enough to reliably identify the IV estimate.
+
+(3) **What it teaches:** The first-stage F-statistic is the primary diagnostic for weak instruments. When F < 10, the IV estimate is biased toward OLS, standard errors are unreliable, and confidence intervals have poor coverage. This exercise connects the theoretical discussion of weak instruments in Chapter 3 to a concrete empirical diagnostic. By comparing single and multiple instruments, students also see the tradeoff: more instruments improve precision but require stronger exclusion restriction assumptions (all instruments must be valid).
