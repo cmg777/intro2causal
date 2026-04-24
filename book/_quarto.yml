@@ -18,7 +18,7 @@ book:
     - part: "The Framework"
       chapters:
         - notebooks_quarto/01-randomized-trials.qmd
-    - part: "The Five Tools"
+    - part: "Quasi-Experiments"
       chapters:
         - notebooks_quarto/02-regression.qmd
         - notebooks_quarto/03-instrumental-variables.qmd
