@@ -75,9 +75,9 @@ format:
             var img = document.createElement('img');
             var path = window.location.pathname;
             if (path.indexOf('/notebooks_quarto/') !== -1) {
-              img.src = '../images/book1cover.svg';
+              img.src = '../images/cover.jpg';
             } else {
-              img.src = 'images/book1cover.svg';
+              img.src = 'images/cover.jpg';
             }
             img.alt = 'Mastering Causal Metrics';
             coverDiv.appendChild(img);
