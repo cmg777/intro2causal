@@ -47,6 +47,139 @@ graph TD
 ```
 
 
+## Key Concepts and Definitions
+
+**Regression Discontinuity (RD) Design:** A quasi-experimental method that exploits a sharp cutoff in a continuous variable to estimate causal effects. People just above and below the cutoff are nearly identical, but only one group receives treatment.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+The minimum legal drinking age of 21 creates a cutoff: people aged 20.9 years are nearly identical to those aged 21.1, but only the older group can legally buy alcohol.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a finish line in a race. The runner who finishes at 9.99 seconds and the one at 10.01 seconds are virtually the same in ability, but only one gets a medal. The medal is the "treatment" assigned by the cutoff.
+:::
+
+**Running Variable:** The continuous variable that determines treatment based on its position relative to the cutoff. It "runs" from below the threshold to above it.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+In the MLDA study, age (in months) is the running variable. The outcome (mortality) depends on where a person's age falls relative to the 21-year cutoff.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a thermometer measuring temperature. The reading (running variable) determines whether a thermostat turns the heater on (treatment): above a set point, the heater is off; below it, the heater kicks in.
+:::
+
+**Cutoff (Threshold):** The specific value of the running variable where treatment switches on or off. The causal effect is estimated as the discontinuous jump in the outcome at this point.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Age 21 is the cutoff for legal drinking. Score 70 might be the cutoff for passing an exam. 65 is the cutoff for Medicare eligibility.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a border between two countries. One step to the left, you are in Country A with its laws. One step to the right, you are in Country B with different rules. The border itself is the cutoff.
+:::
+
+**Sharp RD:** An RD design where treatment switches completely on or off at the cutoff. Everyone above the threshold is treated; everyone below is not.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+At age 21, legal drinking access switches from 0% to 100%. There are no exceptions --- it is a sharp, deterministic rule.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a light switch. It is either fully on or fully off at the threshold --- there is no dimmer.
+:::
+
+**Fuzzy RD:** An RD design where the probability of treatment jumps at the cutoff but does not go from 0 to 100%. Some people above the cutoff are untreated, and some below are treated. Fuzzy RD uses the cutoff as an instrument for treatment (combining RD with IV).
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Scoring above the admissions cutoff for Boston Latin School increases the probability of enrollment but does not guarantee it --- some students decline admission.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a dimmer switch rather than an on/off switch. Crossing the threshold makes treatment much more likely, but it does not guarantee it.
+:::
+
+**Natural Experiment:** A situation where some external event, policy, or institutional rule creates variation in treatment that is "as good as random" for the people affected, even though no researcher designed the experiment.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+The Oregon Medicaid lottery, where limited slots were allocated randomly among applicants, created a natural experiment for studying health insurance effects.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a snowstorm canceling some flights but not others. The storm was not designed as an experiment, but it randomly splits travelers into those who fly and those who are stuck, allowing you to study the effects of arriving on time.
+:::
+
+**Polynomial Regression (in RD):** A regression that fits a curve (linear, quadratic, or higher-order) to the relationship between the running variable and the outcome on each side of the cutoff, allowing the researcher to control for the smooth trend and isolate the jump.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+A linear fit assumes mortality changes at a constant rate with age. A quadratic fit allows the rate of change itself to vary. The RD estimate is the gap between the two curves at the cutoff.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like fitting a flexible ruler to a curved surface. A straight ruler (linear) may miss the curve; a bendable ruler (quadratic) follows it more closely. Either way, the jump at the cutoff is what matters.
+:::
+
+**Bandwidth:** The range of the running variable around the cutoff used in the analysis. A narrow bandwidth includes only observations close to the cutoff (more comparable, less data); a wide bandwidth includes more data but risks bias from the functional form.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Analyzing mortality for ages 20--22 (narrow) versus 19--23 (wide). The narrow window has fewer observations but more comparable people.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like zooming in on a photograph. A close-up (narrow bandwidth) shows fine detail around the cutoff but captures less of the broader picture. A wide shot includes more context but may blur the key feature.
+:::
+
+**Specification Check:** A robustness test in RD that varies the polynomial order, bandwidth, or other modeling choices to see whether the estimated jump at the cutoff remains stable.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Checking that the MLDA mortality jump is similar whether you fit a linear or quadratic model, and whether you use ages 20--22 or 19--23.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like reading a message through different pairs of glasses. If you see the same message every time, it is probably real. If the message changes with each pair, you cannot trust any single reading.
+:::
+
+**Placebo Test:** A test that checks for a discontinuity in an outcome that should not be affected by the treatment. A significant jump in a placebo outcome suggests the research design may be flawed.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Testing whether internal causes of death (cancer, heart disease) jump at age 21. They should not, because diseases do not respond to a birthday. Finding no jump validates the RD design.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like testing whether a new medicine affects hair color. If it does, something is wrong with the experiment --- a real drug should only affect the targeted condition.
+:::
+
+**Local Causal Effect:** An RD estimate that applies only to individuals near the cutoff, not to the broader population. People far from the cutoff may respond differently to treatment.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+The MLDA RD estimates the mortality effect of legal drinking for people right around age 21. The effect might be different for 16-year-olds or 30-year-olds.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like measuring the depth of a lake at the shoreline. The water is shallow near the edge (the cutoff), but the lake may be much deeper farther out. The shore measurement is accurate locally but may not generalize.
+:::
+
+**Continuity Assumption:** The assumption that, in the absence of treatment, the outcome would change smoothly through the cutoff --- there would be no jump. Any observed jump must therefore be caused by the treatment.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Without legal access to alcohol, mortality should change smoothly with age near 21. Any sudden spike at the cutoff is attributed to the drinking age policy.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like driving on a smooth road. If you suddenly hit a speed bump (the jump), you know something was placed there (the treatment). Without the bump, the road would have continued smoothly.
+:::
+
+**Attenuation Bias:** Bias toward zero caused by imprecise measurement of a variable. Measurement error adds noise that dilutes the estimated relationship, making the true effect appear smaller than it is.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+If self-reported years of education contain random errors, the estimated return to schooling will be biased toward zero because the noise obscures the true signal.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like listening to a radio with static. The song (true signal) is still playing, but the static (noise) makes it sound quieter and less distinct than it really is.
+:::
+
+
 ## Rules Create Experiments
 
 Many policies have sharp eligibility rules. You can vote at 18 but not at 17. You qualify for Medicare at 65 but not at 64. You can legally drink at 21 but not at 20. These cutoffs create a powerful opportunity: people just above and just below the threshold are nearly identical in every way --- except that one group receives the treatment and the other doesn't.

@@ -47,6 +47,139 @@ graph TD
 ```
 
 
+## Key Concepts and Definitions
+
+**Difference-in-Differences (DD):** A causal inference method that compares the change in outcomes over time for a treated group to the change for an untreated control group. By differencing twice --- across groups and across time --- DD removes both fixed group differences and common time trends.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Comparing the change in bank survival in the 6th Fed District (intervention) to the change in the 8th District (no intervention) during the Great Depression isolates the causal effect of Fed policy.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a diet experiment where you and your friend both weigh yourselves before and after the holidays. You dieted; your friend did not. The difference in your weight changes (not your weight levels) reveals whether the diet worked.
+:::
+
+**Parallel Trends Assumption:** The critical identifying assumption of DD: in the absence of treatment, the treated and control groups would have followed the same trajectory over time. Groups can start at different levels, but their changes must be similar.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+The assumption requires that, without the Fed's intervention, the 6th District would have lost banks at the same rate as the 8th District.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like two runners on parallel tracks. They can start at different positions, but without any intervention, they would run at the same pace. If one suddenly speeds up, the intervention (treatment) must have caused it.
+:::
+
+**Counterfactual:** The unobserved outcome that would have occurred in the absence of treatment. In DD, the control group's trajectory is used to construct the counterfactual for the treated group.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+The dashed line in the Mississippi banking chart shows how many banks the 6th District would have had if it had followed the 8th District's decline --- that is the counterfactual.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like an alternate timeline in a movie. You cannot observe what would have happened if the hero had made a different choice, but you can estimate it using information from other characters who faced similar circumstances.
+:::
+
+**Treatment Group vs. Control Group:** The treatment group receives the intervention; the control group does not. In DD, the control group provides the benchmark trajectory that estimates what would have happened to the treated group without the intervention.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+In the MLDA DD, states that lowered their drinking age are the treatment group; states that did not change their laws are the control group.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a science fair project where one plant gets fertilizer (treatment) and another identical plant does not (control). The control plant shows what growth looks like without the fertilizer.
+:::
+
+**Before-After Comparison:** A simple comparison of outcomes before and after a treatment within the same group. Alone, it is vulnerable to confounding by time trends; DD improves on it by subtracting the control group's change.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Comparing bank counts in the 6th District in 1930 vs. 1933 shows a decline, but some decline was caused by the Depression, not the policy. The before-after comparison alone cannot separate the two.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like noticing you feel better after taking medicine during flu season. You might have recovered naturally --- the improvement could be the passage of time, not the pill. You need a comparison group to tell.
+:::
+
+**Fixed Effects:** Variables included in a regression to absorb all time-invariant differences between groups (group fixed effects) or all group-invariant differences across time periods (time fixed effects).
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+State fixed effects remove permanent differences between states (culture, geography). Year fixed effects remove nationwide trends (improvements in vehicle safety).
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like adjusting for the home-court advantage in sports. Some teams always play better at home (group fixed effect); some seasons are more competitive overall (time fixed effect). Fixed effects remove these constant factors so you can see the effect of a specific coaching change.
+:::
+
+**State-Specific Trends:** An extension of the DD model that allows each state (or group) to follow its own linear time trend, rather than assuming all groups share the same trend. This is a more demanding test of the DD estimate.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Some states may have had declining death rates even before changing their drinking age. State-specific trends allow each state its own baseline trajectory, so the DD estimate captures deviations from that trajectory.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like allowing each student in a class to have their own grade trend (some improving, some declining) before a new teaching method is introduced. The method's effect is the change in trajectory, not just the change in level.
+:::
+
+**Clustered Standard Errors:** Standard errors that account for correlation among observations within the same cluster (e.g., state, school, firm) over time. Without clustering, standard errors are too small and significance tests are unreliable.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Death rates within the same state are correlated over time (a state with high rates one year tends to have high rates the next). Clustering by state corrects for this serial correlation.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like recognizing that poll responses from members of the same family are not truly independent. If you count each family member as a separate opinion, you overstate how much information you have.
+:::
+
+**Serial Correlation:** The tendency for a variable measured over time within the same unit (person, state, firm) to be correlated with its own past values. Positive serial correlation means high values tend to be followed by high values.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+A state with a high death rate in 1975 likely has a high rate in 1976 too, because the underlying factors (demographics, road conditions) change slowly.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like the weather. Today's temperature is a good predictor of tomorrow's --- hot days tend to follow hot days. Ignoring this correlation would make you overconfident in your forecasts.
+:::
+
+**Average Treatment Effect on the Treated (ATT):** The average causal effect of treatment specifically for the group that actually received treatment. DD typically estimates the ATT, not the ATE for the whole population.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+The DD estimate of the MLDA's effect on mortality applies to the states that actually changed their drinking laws, not to all states in the country.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like measuring how much a new exercise routine helped the people who actually did it, rather than averaging across everyone including those who never exercised.
+:::
+
+**Staggered Adoption:** A setting where different units (states, firms) adopt a policy at different times, creating multiple treatment-control comparisons. This is the typical setting for DD in practice.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+Different U.S. states lowered their drinking age to 18 at different points between 1970 and 1975, then raised it back to 21 at different points in the 1980s.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a chain of restaurants rolling out a new menu one location at a time over several months. Each new location becomes "treated" while the others serve as controls --- for now.
+:::
+
+**Panel Data:** A dataset that tracks the same units (individuals, states, firms) across multiple time periods. Panel data is the natural structure for DD because it allows researchers to observe changes within units over time.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+A dataset with death rates for each of 51 states in each year from 1970 to 1983 (51 states x 14 years = 714 observations).
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a class roster where the teacher records each student's grade on every test throughout the year. Following the same students over time reveals individual trajectories, not just snapshots.
+:::
+
+**Policy Variation:** Differences in policy across groups (states, countries) or over time that create the variation researchers exploit for causal identification. Without policy variation, there is nothing to compare.
+
+::: {.callout-tip collapse="true" appearance="simple" title="Example"}
+The fact that some states set the drinking age at 18 while others kept it at 21 creates policy variation that DD exploits.
+:::
+
+::: {.callout-note collapse="true" appearance="simple" title="Analogy"}
+Like a patchwork quilt where each square is a different color. The variation in colors (policies) across squares (states) is what lets you study the effect of a particular color on warmth.
+:::
+
+
 ## A Mississippi Experiment
 
 ### The Great Depression and the Fed
