@@ -49,14 +49,16 @@ The Python stack includes:
 - **linearmodels** for instrumental variables (2SLS)
 - **matplotlib** and **seaborn** for visualization
 
+Every chapter ends with exercises --- multiple choice and open-ended --- with solutions revealed through inline toggle boxes, so you can test your understanding immediately.
+
 ### Pillar 3: AI-Powered Learning
 
 AI-enhanced study materials complement the notebooks:
 
-- **AI Tutors** with different pedagogical styles (coaching, Socratic questioning, code-first exploration)
+- **Five AI Tutors** --- Learning Coach, Socratic Challenger, Code-First Experimenter, Exam Coach, and Case-Study Explainer --- each a Google Gemini Gem with a distinct pedagogical style
 - **Visual roadmaps** and concept diagrams for every chapter
-- **Interactive quizzes** for self-assessment
-- **AI-generated slides** for quick review
+- **AI-generated podcasts** (via NotebookLM) for each chapter, so you can review key ideas on the go
+- **YouTube videos** --- curated lectures and AI-generated video summaries --- linked per chapter
 
 ## Who This Book Is For
 
@@ -73,6 +75,8 @@ AI-enhanced study materials complement the notebooks:
 **If you're looking for a specific method**: Jump directly to the relevant chapter. Each study guide is self-contained with its own data loading and setup.
 
 **If you want hands-on practice**: Open the Google Colab notebooks and run the code yourself. Experiment with the data, modify the analyses, and work through the exercises.
+
+**Accessibility features**: The book supports dark and light reading modes, includes a Google Translate widget for multilingual access, and provides visual summary cards and historical perspective sections in most chapters to give you multiple entry points into each topic.
 
 ## Acknowledgments
 
