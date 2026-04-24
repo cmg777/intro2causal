@@ -1179,7 +1179,7 @@ Figure&nbsp;6.1: Roadmap: The Methods Ladder for Chapter 6
 <h2 class="anchored" data-anchor-id="the-earnings-education-gradient">The Earnings-Education Gradient</h2>
 <p>College graduates earn roughly twice as much as high school graduates. But how much of that gap reflects the causal effect of education, and how much reflects the fact that people who go to college were going to earn more anyway?</p>
 <p>Let’s start with the simplest possible approach: <strong>regress earnings on schooling with no controls</strong>.</p>
-<div id="255ce1f0" class="cell" data-execution_count="1">
+<div id="85f58aeb" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean quarter-of-birth data (Angrist &amp; Krueger 1991, 329k men born 1930-1939)</span></span>
@@ -1364,7 +1364,7 @@ Figure&nbsp;6.2: Average log weekly earnings by years of schooling. The positive
 <section id="adding-controls" class="level3">
 <h3 class="anchored" data-anchor-id="adding-controls">Adding Controls</h3>
 <p>Chapter 2 taught us that adding control variables can reduce omitted variables bias — as long as the controls are not “bad controls” (caused by the treatment). Let’s add demographic controls using a different dataset: the Twinsburg twins data.</p>
-<div id="ed40679a" class="cell" data-execution_count="4">
+<div id="64edf96d" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean twins data (340 twin pairs from Twinsburg, Ohio)</span></span>
@@ -2247,7 +2247,7 @@ Figure&nbsp;6.3: First stage (left) and reduced form (right). Q4 births get slig
 <h2 class="anchored" data-anchor-id="strategy-3-child-labor-law-iv">Strategy 3: Child Labor Law IV</h2>
 <p><strong>Research question:</strong> Do compulsory schooling laws that forced children to enter school by certain ages provide another valid instrument for estimating the return to education?</p>
 <p><strong>The data:</strong> Angrist and Acemoglu used data on compulsory schooling laws that varied across U.S. states. Three instruments capture whether a state required children to enter school by age 7 (<code>cl7</code>), 8 (<code>cl8</code>), or 9 (<code>cl9</code>). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means.</p>
-<div id="d625c5ce" class="cell" data-execution_count="13">
+<div id="aca03ccf" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load child labor law data (collapsed cell means, ~2400 observations)</span></span>
@@ -2483,7 +2483,7 @@ Table&nbsp;6.10: OLS vs.&nbsp;IV estimates of the return to schooling using comp
 <p><strong>Research question:</strong> Does the diploma credential itself boost earnings (the <strong>signaling</strong> view), or is it the skills learned in school that matter (the <strong>human capital</strong> view)?</p>
 <p><strong>The data:</strong> Clark and Martorell (2014) studied the Texas high school exit exam. The data consists of 46 score bins around the passing cutoff. The running variable is the test score relative to the passing threshold (<code>minscore</code>, where 0 = cutoff).</p>
 <p><strong>Why RD works here:</strong> Students who scored just above vs.&nbsp;just below the cutoff have nearly <strong>identical skills</strong> but very different diploma rates. Any jump in earnings at the cutoff reflects the value of the diploma credential itself.</p>
-<div id="ed88c4ce" class="cell" data-execution_count="16">
+<div id="88ea7f90" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean sheepskin RD data (Texas last-chance exam)</span></span>
@@ -2676,7 +2676,7 @@ Figure&nbsp;6.4: RD at the Texas exam cutoff. Left: diploma receipt jumps sharpl
 <p>This dataset simulates a compulsory schooling reform adopted by 10 out of 20 states in 2005. It was designed to illustrate the DiD concept with clear parallel pre-trends and a visible treatment effect.</p>
 </div>
 </div>
-<div id="453dce13" class="cell" data-execution_count="18">
+<div id="67c3a377" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load synthetic DiD data (20 states × 20 years)</span></span>
@@ -3063,7 +3063,7 @@ Figure&nbsp;6.6: How the key concepts of Chapter 6 connect: from the question th
 </div>
 </div>
 <ol type="1">
-<li><p><strong>Simple OLS returns to schooling (~10%)</strong> capture correlation, not causation.</p></li>
+<li><p><strong>Simple OLS returns to schooling (~7%)</strong> capture correlation, not causation.</p></li>
 <li><p><strong>The OVB formula</strong> predicts upward bias: ability raises both schooling and earnings.</p></li>
 <li><p><strong>RCTs</strong> are the gold standard but infeasible for schooling — motivating quasi-experimental methods.</p></li>
 <li><p><strong>OLS with controls (~11%)</strong> on the twins data shows that demographic controls do not substantially reduce the schooling coefficient.</p></li>
@@ -3094,7 +3094,7 @@ Figure&nbsp;6.6: How the key concepts of Chapter 6 connect: from the question th
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>qob <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/qob_clean.csv"</span>)</span>
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>bivariate <span class="op">=</span> smf.ols(<span class="st">"lnw ~ s"</span>, data<span class="op">=</span>qob).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Simple OLS return: </span><span class="sc">{</span><span class="bu">round</span>(bivariate.params[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(bivariate.bse[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~10% per year — raw correlation, likely biased by ability)</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~7% per year — raw correlation, likely biased by ability)</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 2: OLS with controls (twins data) ---</span></span>
 <span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>twins <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/twins_clean.csv"</span>)</span>
@@ -3123,7 +3123,7 @@ Figure&nbsp;6.6: How the key concepts of Chapter 6 connect: from the question th
 <span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wald IV estimate: </span><span class="sc">{</span><span class="bu">round</span>(wald, <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>iv_qob <span class="op">=</span> IV2SLS.from_formula(<span class="st">"lnw ~ 1 + [s ~ q4]"</span>, data<span class="op">=</span>qob).fit(cov_type<span class="op">=</span><span class="st">"robust"</span>)</span>
 <span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"2SLS estimate:    </span><span class="sc">{</span><span class="bu">round</span>(iv_qob.params[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(iv_qob.std_errors[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~8% per year via quarter-of-birth instrument)</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~7% per year via quarter-of-birth instrument)</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 6: Child labor law IV ---</span></span>
 <span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>cl <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/childlabor_clean.csv"</span>)</span>
@@ -3158,7 +3158,7 @@ Figure&nbsp;6.6: How the key concepts of Chapter 6 connect: from the question th
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>* --- Step 1: Simple bivariate OLS (no controls) ---</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv"</span>, <span class="kw">clear</span></span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> lnw <span class="fu">s</span>, <span class="kw">robust</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>* ~10% per <span class="fu">year</span> — raw <span class="kw">correlation</span>, likely biased <span class="kw">by</span> ability</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>* ~7% per <span class="fu">year</span> — raw <span class="kw">correlation</span>, likely biased <span class="kw">by</span> ability</span>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>* --- Step 2: OLS with controls (twins <span class="kw">data</span>) ---</span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv"</span>, <span class="kw">clear</span></span>
@@ -3190,7 +3190,7 @@ Figure&nbsp;6.6: How the key concepts of Chapter 6 connect: from the question th
 <span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>* 2SLS</span>
 <span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>ivregress 2sls lnw (<span class="fu">s</span> = q4), <span class="kw">robust</span></span>
-<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>* ~8% per <span class="fu">year</span> via <span class="fu">quarter</span>-<span class="kw">of</span>-birth instrument</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>* ~7% per <span class="fu">year</span> via <span class="fu">quarter</span>-<span class="kw">of</span>-birth instrument</span>
 <span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>* --- Step 6: Child labor law IV ---</span>
 <span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/childlabor_clean.csv"</span>, <span class="kw">clear</span></span>
@@ -5797,7 +5797,7 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb34-1161"><a href="#cb34-1161" aria-hidden="true" tabindex="-1"></a>    linkStyle <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span> stroke:<span class="co">#888,stroke-width:2px</span></span>
 <span id="cb34-1162"><a href="#cb34-1162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb34-1163"><a href="#cb34-1163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-1164"><a href="#cb34-1164" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Simple OLS returns to schooling (~10%)** capture correlation, not causation.</span>
+<span id="cb34-1164"><a href="#cb34-1164" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Simple OLS returns to schooling (~7%)** capture correlation, not causation.</span>
 <span id="cb34-1165"><a href="#cb34-1165" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-1166"><a href="#cb34-1166" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**The OVB formula** predicts upward bias: ability raises both schooling and earnings.</span>
 <span id="cb34-1167"><a href="#cb34-1167" aria-hidden="true" tabindex="-1"></a></span>
@@ -5841,7 +5841,7 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb34-1205"><a href="#cb34-1205" aria-hidden="true" tabindex="-1"></a>qob <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/qob_clean.csv"</span>)</span>
 <span id="cb34-1206"><a href="#cb34-1206" aria-hidden="true" tabindex="-1"></a>bivariate <span class="op">=</span> smf.ols(<span class="st">"lnw ~ s"</span>, data<span class="op">=</span>qob).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
 <span id="cb34-1207"><a href="#cb34-1207" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Simple OLS return: </span><span class="sc">{</span><span class="bu">round</span>(bivariate.params[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(bivariate.bse[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb34-1208"><a href="#cb34-1208" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~10% per year — raw correlation, likely biased by ability)</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb34-1208"><a href="#cb34-1208" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~7% per year — raw correlation, likely biased by ability)</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb34-1209"><a href="#cb34-1209" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-1210"><a href="#cb34-1210" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 2: OLS with controls (twins data) ---</span></span>
 <span id="cb34-1211"><a href="#cb34-1211" aria-hidden="true" tabindex="-1"></a>twins <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/twins_clean.csv"</span>)</span>
@@ -5870,7 +5870,7 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb34-1234"><a href="#cb34-1234" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wald IV estimate: </span><span class="sc">{</span><span class="bu">round</span>(wald, <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb34-1235"><a href="#cb34-1235" aria-hidden="true" tabindex="-1"></a>iv_qob <span class="op">=</span> IV2SLS.from_formula(<span class="st">"lnw ~ 1 + [s ~ q4]"</span>, data<span class="op">=</span>qob).fit(cov_type<span class="op">=</span><span class="st">"robust"</span>)</span>
 <span id="cb34-1236"><a href="#cb34-1236" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"2SLS estimate:    </span><span class="sc">{</span><span class="bu">round</span>(iv_qob.params[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="bu">round</span>(iv_qob.std_errors[<span class="st">'s'</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb34-1237"><a href="#cb34-1237" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~8% per year via quarter-of-birth instrument)</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb34-1237"><a href="#cb34-1237" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  (~7% per year via quarter-of-birth instrument)</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb34-1238"><a href="#cb34-1238" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-1239"><a href="#cb34-1239" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Step 6: Child labor law IV ---</span></span>
 <span id="cb34-1240"><a href="#cb34-1240" aria-hidden="true" tabindex="-1"></a>cl <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch6/childlabor_clean.csv"</span>)</span>
@@ -5901,7 +5901,7 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb34-1265"><a href="#cb34-1265" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Step 1: Simple bivariate OLS (no controls) ---</span></span>
 <span id="cb34-1266"><a href="#cb34-1266" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear</span></span>
 <span id="cb34-1267"><a href="#cb34-1267" aria-hidden="true" tabindex="-1"></a><span class="in">reg lnw s, robust</span></span>
-<span id="cb34-1268"><a href="#cb34-1268" aria-hidden="true" tabindex="-1"></a><span class="in">* ~10% per year — raw correlation, likely biased by ability</span></span>
+<span id="cb34-1268"><a href="#cb34-1268" aria-hidden="true" tabindex="-1"></a><span class="in">* ~7% per year — raw correlation, likely biased by ability</span></span>
 <span id="cb34-1269"><a href="#cb34-1269" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-1270"><a href="#cb34-1270" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Step 2: OLS with controls (twins data) ---</span></span>
 <span id="cb34-1271"><a href="#cb34-1271" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear</span></span>
@@ -5933,7 +5933,7 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb34-1297"><a href="#cb34-1297" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-1298"><a href="#cb34-1298" aria-hidden="true" tabindex="-1"></a><span class="in">* 2SLS</span></span>
 <span id="cb34-1299"><a href="#cb34-1299" aria-hidden="true" tabindex="-1"></a><span class="in">ivregress 2sls lnw (s = q4), robust</span></span>
-<span id="cb34-1300"><a href="#cb34-1300" aria-hidden="true" tabindex="-1"></a><span class="in">* ~8% per year via quarter-of-birth instrument</span></span>
+<span id="cb34-1300"><a href="#cb34-1300" aria-hidden="true" tabindex="-1"></a><span class="in">* ~7% per year via quarter-of-birth instrument</span></span>
 <span id="cb34-1301"><a href="#cb34-1301" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-1302"><a href="#cb34-1302" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Step 6: Child labor law IV ---</span></span>
 <span id="cb34-1303"><a href="#cb34-1303" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/childlabor_clean.csv", clear</span></span>

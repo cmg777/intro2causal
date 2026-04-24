@@ -1137,80 +1137,73 @@ graph TD
 
 ## Conceptual Questions
 
-::: {.callout-caution}
-## Conceptual Questions
-
 1. **Spotting selection bias**: A study reports that people who eat organic food live 3 years longer. List three reasons why this comparison might reflect selection bias rather than a causal effect of organic food.
 
-2. **Reading a regression**: In the balance check above, the coefficient on `plan_free` for `family_income` is approximately −976 with SE ≈ 1,345. (a) What is the t-statistic? (b) Is this difference statistically significant? (c) What does your answer tell us about whether randomization worked for this variable?
-
-3. **The RAND paradox**: Your friend says "The RAND experiment proves health insurance is worthless." Write a short paragraph explaining why this is an oversimplification. What did the Oregon experiment show that insurance *is* good for?
-
-4. **Random assignment and selection bias**: Using the decomposition equation from this chapter, explain step by step why random assignment makes the selection bias term equal to zero. What role does the Law of Large Numbers play?
-
-5. **Designing an RCT**: You want to test whether free school lunches improve student test scores. (a) How would you randomly assign treatment? (b) What outcome would you measure? (c) What balance check would you run? (d) Why might some students assigned to "free lunch" not actually eat it, and what problem does this create?
-:::
-
-## Research Tasks
-
-::: {.callout-caution}
-## Research Tasks
-
-1. **Binary balance check**: Using `rand_balance.csv`, run a balance check using the single dummy `any_insurance` (instead of the three plan dummies). Regress `age`, `education`, and `health_index` on `any_insurance` with family-clustered SEs. Do you reach the same conclusion about balance as the three-dummy specification?
-
-2. **Relative utilization increases**: Using `rand_utilization.csv`, compute the percentage increase in each utilization outcome for the free plan relative to the catastrophic group mean. Which outcome shows the largest *relative* increase: visits, outpatient expenses, admissions, or total expenses?
-
-3. **Husbands vs. wives**: Using `nhis_clean.csv`, run the insurance-health comparison separately for husbands and wives. Is the selection bias (the gap in education and income between insured and uninsured) larger for one gender? What might explain any differences?
-
-4. **Dose-response across plan generosity**: Using `rand_utilization.csv`, extract the three plan-dummy coefficients for `total_expenses` and rank them by plan generosity (free > coinsurance > deductible). Is there a monotonic relationship between plan generosity and spending? Test whether the free and coinsurance coefficients are statistically different.
-
-5. **Inpatient vs. outpatient elasticity**: Using `rand_utilization.csv`, compute the implied price elasticity of demand for inpatient vs. outpatient care. Use the free plan coefficient as the numerator (percentage change in quantity) and note that catastrophic plans cover ~5% of costs while free plans cover 100% (a 95-percentage-point price reduction). Which type of care is more price-sensitive?
-:::
-
-
-# Solutions
-
-## Conceptual Questions
-
-**Q1.** **Organic food buyers differ systematically from non-buyers, making any health comparison suspect.** Three sources of selection bias:
+::: {.callout-note collapse="true"}
+### Show answer
+**Organic food buyers differ systematically from non-buyers, making any health comparison suspect.** Three sources of selection bias:
 
 1. **Income:** People who buy organic food tend to have higher incomes, and wealthier people have better access to health care and live longer regardless of diet.
 2. **Health behavior:** Organic food buyers are likely more health-conscious overall --- they exercise more, smoke less, and manage stress better. This is a classic case of bundled lifestyle choices acting as confounders.
 3. **Education:** Education is correlated with both organic food consumption and longevity; more-educated people make healthier choices across many domains.
 
 All three sources violate the comparability assumption from the selection bias decomposition: $E[Y_{0i} | D_i = 1] \neq E[Y_{0i} | D_i = 0]$, so the observed difference overstates any true causal effect of organic food.
+:::
 
-**Q2.** **A small t-statistic confirms that randomization successfully balanced family income across plan groups.**
+2. **Reading a regression**: In the balance check above, the coefficient on `plan_free` for `family_income` is approximately −976 with SE ≈ 1,345. (a) What is the t-statistic? (b) Is this difference statistically significant? (c) What does your answer tell us about whether randomization worked for this variable?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**A small t-statistic confirms that randomization successfully balanced family income across plan groups.**
 
 1. **Compute:** The t-statistic is −976 / 1,345 ≈ −0.73.
 2. **Evaluate:** Since |−0.73| < 2, this difference is NOT statistically significant at conventional levels.
 3. **Interpret:** The difference in family income between the free plan and catastrophic plan groups is small enough to be attributable to chance. Randomization worked for this variable --- the groups are comparable on family income. This is exactly what the balance check in the chapter's Table "Balance of baseline characteristics" is designed to verify: if $D_i$ is randomly assigned, baseline covariates should look similar across groups.
+:::
 
-**Q3.** **No effect on physical health does not mean insurance is useless --- it means health is a narrow outcome that misses other benefits.**
+3. **The RAND paradox**: Your friend says "The RAND experiment proves health insurance is worthless." Write a short paragraph explaining why this is an oversimplification. What did the Oregon experiment show that insurance *is* good for?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**No effect on physical health does not mean insurance is useless --- it means health is a narrow outcome that misses other benefits.**
 
 1. **Financial protection:** The Oregon experiment showed that lottery winners had less medical debt and fewer catastrophic medical expenses. Insurance smooths financial risk, which is valuable even without health gains.
 2. **Mental health:** Oregon lottery winners reported better mental health scores, an outcome dimension the RAND study did not emphasize.
 3. **Access to care:** Insurance increases access to care, which may matter more for acute conditions or preventive services not captured by the RAND outcome measures.
 
 The correct conclusion connects both experiments from the chapter: more generous insurance increases spending without improving measurable physical health (RAND), but it provides valuable financial security and mental health benefits (Oregon). Different outcomes can tell different causal stories from the same intervention.
+:::
 
-**Q4.** **Random assignment eliminates selection bias by making the treatment and control groups statistically identical at baseline.**
+4. **Random assignment and selection bias**: Using the decomposition equation from this chapter, explain step by step why random assignment makes the selection bias term equal to zero. What role does the Law of Large Numbers play?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**Random assignment eliminates selection bias by making the treatment and control groups statistically identical at baseline.**
 
 1. **Start from the decomposition:** Observed difference = $\kappa$ + Selection bias, where selection bias = $E[Y_{0i} | D_i = 1] - E[Y_{0i} | D_i = 0]$.
 2. **Apply randomization:** When $D_i$ is randomly assigned, the treatment and control groups are drawn from the same population, so baseline characteristics are independent of treatment status.
 3. **Invoke the Law of Large Numbers:** With a large enough sample, the average baseline outcome $Y_{0i}$ will be nearly identical in both groups. Formally, $E[Y_{0i} | D_i = 1] = E[Y_{0i} | D_i = 0]$, so the selection bias term equals zero.
 4. **Conclude:** The observed difference then equals $\kappa$, the true causal effect. This is the core logic behind every balance check in the chapter --- if randomization works, baseline variables should be balanced.
+:::
 
-**Q5.** **Designing an experiment requires specifying randomization, outcomes, balance checks, and anticipating non-compliance.**
+5. **Designing an RCT**: You want to test whether free school lunches improve student test scores. (a) How would you randomly assign treatment? (b) What outcome would you measure? (c) What balance check would you run? (d) Why might some students assigned to "free lunch" not actually eat it, and what problem does this create?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**Designing an experiment requires specifying randomization, outcomes, balance checks, and anticipating non-compliance.**
 
 1. **Randomization:** Randomly select classrooms or schools to receive the program (cluster randomization), or randomly assign individual students within each school. Cluster randomization avoids contamination across students in the same classroom.
 2. **Outcome:** Measure standardized test scores at the end of the semester/year. This gives a clear, quantifiable dependent variable $Y_i$.
 3. **Balance check:** Compare baseline characteristics (prior test scores, demographics, family income) between treatment and control groups to verify balance --- just as the RAND experiment checked age, education, and income in the chapter.
 4. **Non-compliance threat:** Some students may refuse the lunch, share it, or already receive food from other sources. This is a *non-compliance* problem: the intent-to-treat effect (being offered lunch) may differ from the effect of actually eating it. This foreshadows the instrumental variables approach in Chapter 3, where random assignment serves as an instrument for actual treatment.
+:::
 
 ## Research Tasks
 
-**R1.**
+1. **Binary balance check**: Using `rand_balance.csv`, run a balance check using the single dummy `any_insurance` (instead of the three plan dummies). Regress `age`, `education`, and `health_index` on `any_insurance` with family-clustered SEs. Do you reach the same conclusion about balance as the three-dummy specification?
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-binary-balance
@@ -1260,8 +1253,12 @@ foreach var in age education health_index {
 (2) **Why:** Randomization ensures that treatment assignment is independent of pre-existing characteristics. The Law of Large Numbers makes the group means converge, as discussed in Q4.
 
 (3) **What it teaches:** Balance holds regardless of whether we use three plan dummies or a single binary indicator. The binary specification pools all non-catastrophic plans together, which is simpler but loses information about differences across plan types. This illustrates a general point: the choice of treatment variable definition can affect granularity but should not affect the core balance result if randomization worked.
+:::
 
-**R2.**
+2. **Relative utilization increases**: Using `rand_utilization.csv`, compute the percentage increase in each utilization outcome for the free plan relative to the catastrophic group mean. Which outcome shows the largest *relative* increase: visits, outpatient expenses, admissions, or total expenses?
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-pct-increase
@@ -1316,8 +1313,12 @@ foreach var in visits outpatient_expenses admissions inpatient_expenses total_ex
 (2) **Why:** Inpatient decisions are made primarily by doctors rather than patients, so reducing cost-sharing has less effect on admissions. Outpatient care, where patients have more discretion over whether to seek treatment, responds most strongly to price changes --- consistent with basic demand elasticity.
 
 (3) **What it teaches:** The same experiment can reveal heterogeneous causal effects across different outcomes. The RAND results show that moral hazard (the tendency to use more care when insured) is concentrated in outpatient services, not hospital stays. This pattern is key to understanding the policy implications of insurance design discussed in the chapter.
+:::
 
-**R3.**
+3. **Husbands vs. wives**: Using `nhis_clean.csv`, run the insurance-health comparison separately for husbands and wives. Is the selection bias (the gap in education and income between insured and uninsured) larger for one gender? What might explain any differences?
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-gender
@@ -1365,8 +1366,12 @@ foreach g in husband wife {
 (2) **Why:** Selection into insurance is driven by socioeconomic factors (education, income) that operate similarly for both spouses in a household. Any gender-specific differences in the health gap likely reflect gender-specific health patterns rather than differences in the selection mechanism.
 
 (3) **What it teaches:** Both groups show substantial selection bias, reinforcing the chapter's central lesson: observational comparisons between insured and uninsured people confound the causal effect of insurance with pre-existing differences. This is precisely why the RAND and Oregon experiments --- which use randomization to eliminate selection bias --- provide more credible evidence.
+:::
 
-**R4.**
+4. **Dose-response across plan generosity**: Using `rand_utilization.csv`, extract the three plan-dummy coefficients for `total_expenses` and rank them by plan generosity (free > coinsurance > deductible). Is there a monotonic relationship between plan generosity and spending? Test whether the free and coinsurance coefficients are statistically different.
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-dose-response
@@ -1418,8 +1423,12 @@ test plan_free = plan_coinsurance
 (2) **Why:** More generous plans reduce out-of-pocket costs more, lowering the price of care to patients. Basic demand theory predicts that lower prices increase quantity demanded. The free plan eliminates cost-sharing entirely, producing the strongest response. The coinsurance and deductible plans still require some out-of-pocket payment, partially restraining demand.
 
 (3) **What it teaches:** The dose-response pattern strengthens the causal interpretation of the RAND experiment. If insurance generosity had no real effect on spending, the coefficients would be similar across plan types. Instead, we see a gradient that matches the economic logic of moral hazard --- more generous coverage leads to more spending --- which is harder to explain by chance or confounding.
+:::
 
-**R5.**
+5. **Inpatient vs. outpatient elasticity**: Using `rand_utilization.csv`, compute the implied price elasticity of demand for inpatient vs. outpatient care. Use the free plan coefficient as the numerator (percentage change in quantity) and note that catastrophic plans cover ~5% of costs while free plans cover 100% (a 95-percentage-point price reduction). Which type of care is more price-sensitive?
+
+::: {.callout-note collapse="true"}
+### Show answer
 
 ```{python}
 #| label: tbl-sol-elasticity
@@ -1485,3 +1494,4 @@ display "Inpatient elasticity = " elast_in
 (2) **Why:** Outpatient visits are largely discretionary --- patients decide whether to schedule a check-up, seek a second opinion, or visit a specialist. Inpatient care (hospitalizations, surgeries) is typically driven by medical necessity and physician decisions, not patient choice. When the price drops to zero, patients exercise their discretion mainly in the outpatient domain.
 
 (3) **What it teaches:** This elasticity comparison reveals the *mechanism* behind moral hazard. The RAND experiment does not just show that free insurance increases spending --- it shows *where* the spending increase concentrates. Policy implications follow directly: if most of the moral hazard comes from discretionary outpatient care, cost-sharing designs that target outpatient visits (like copays for doctor visits) may be more effective at controlling costs than deductibles that apply equally to all services.
+:::

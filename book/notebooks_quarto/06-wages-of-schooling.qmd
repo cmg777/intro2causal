@@ -1117,7 +1117,7 @@ graph TD
     linkStyle 0,1,2,3,4,5,6,7,8,9,10 stroke:#888,stroke-width:2px
 ```
 
-1. **Simple OLS returns to schooling (~10%)** capture correlation, not causation.
+1. **Simple OLS returns to schooling (~7%)** capture correlation, not causation.
 
 2. **The OVB formula** predicts upward bias: ability raises both schooling and earnings.
 
@@ -1161,7 +1161,7 @@ DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
 bivariate = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
 print(f"Simple OLS return: {round(bivariate.params['s'], 3)} ({round(bivariate.bse['s'], 3)})")
-print("  (~10% per year — raw correlation, likely biased by ability)\n")
+print("  (~7% per year — raw correlation, likely biased by ability)\n")
 
 # --- Step 2: OLS with controls (twins data) ---
 twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
@@ -1190,7 +1190,7 @@ wald = rf.params["q4"] / fs.params["q4"]
 print(f"Wald IV estimate: {round(wald, 3)}")
 iv_qob = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
 print(f"2SLS estimate:    {round(iv_qob.params['s'], 3)} ({round(iv_qob.std_errors['s'], 3)})")
-print("  (~8% per year via quarter-of-birth instrument)\n")
+print("  (~7% per year via quarter-of-birth instrument)\n")
 
 # --- Step 6: Child labor law IV ---
 cl = pd.read_csv(DATA + "ch6/childlabor_clean.csv")
@@ -1221,7 +1221,7 @@ set more off
 * --- Step 1: Simple bivariate OLS (no controls) ---
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
 reg lnw s, robust
-* ~10% per year — raw correlation, likely biased by ability
+* ~7% per year — raw correlation, likely biased by ability
 
 * --- Step 2: OLS with controls (twins data) ---
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
@@ -1253,7 +1253,7 @@ display "Wald IV estimate: " round(wald, 0.001)
 
 * 2SLS
 ivregress 2sls lnw (s = q4), robust
-* ~8% per year via quarter-of-birth instrument
+* ~7% per year via quarter-of-birth instrument
 
 * --- Step 6: Child labor law IV ---
 import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/childlabor_clean.csv", clear
