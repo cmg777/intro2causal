@@ -1034,7 +1034,7 @@ Figure&nbsp;3.1: Roadmap for Chapter 3
 <li><strong>Separate</strong> them (remove suspect for 8 hours)</li>
 </ul>
 <p>The goal was to learn which response best prevented future violence. But police officers didn’t always follow their assignment.</p>
-<div id="37a4f887" class="cell" data-execution_count="1">
+<div id="89a69b4b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -3952,330 +3952,376 @@ Table&nbsp;3.8: Testing monotonicity: asymmetry in cross-over directions
 <span id="cb20-805"><a href="#cb20-805" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-806"><a href="#cb20-806" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
 <span id="cb20-807"><a href="#cb20-807" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-808"><a href="#cb20-808" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb20-809"><a href="#cb20-809" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb20-810"><a href="#cb20-810" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-811"><a href="#cb20-811" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Classifying complier types**: In a medical trial, patients are randomly assigned to receive a new drug or placebo, but some placebo patients obtain the drug on their own, and some drug patients refuse to take it. (a) Who are the always-takers? (b) Who are the compliers? (c) If 80% of the drug group takes the drug and 10% of the placebo group obtains it, what is the first stage?</span>
-<span id="cb20-812"><a href="#cb20-812" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-813"><a href="#cb20-813" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Computing LATE**: Using the MDVE numbers: first stage = 0.786, reduced form = 0.114. (a) Compute the LATE. (b) Why is this larger than the naive comparison of delivered treatments (0.087)? (c) What does "selection into treatment" mean in this context?</span>
-<span id="cb20-814"><a href="#cb20-814" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-815"><a href="#cb20-815" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Exclusion restriction**: A researcher uses rainfall as an instrument for agricultural output to estimate the effect of output on conflict. What could violate the exclusion restriction?</span>
-<span id="cb20-816"><a href="#cb20-816" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-817"><a href="#cb20-817" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Why LATE is local**: Using the MDVE context, explain why the IV estimate applies only to compliers. What can we say (or not say) about the effect of arrest on always-takers --- those suspects who would be arrested regardless of what the assignment form said?</span>
+<span id="cb20-808"><a href="#cb20-808" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Classifying complier types**: In a medical trial, patients are randomly assigned to receive a new drug or placebo, but some placebo patients obtain the drug on their own, and some drug patients refuse to take it. (a) Who are the always-takers? (b) Who are the compliers? (c) If 80% of the drug group takes the drug and 10% of the placebo group obtains it, what is the first stage?</span>
+<span id="cb20-809"><a href="#cb20-809" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-810"><a href="#cb20-810" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb20-811"><a href="#cb20-811" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb20-812"><a href="#cb20-812" aria-hidden="true" tabindex="-1"></a>**The compliance framework classifies individuals by how their treatment responds to the instrument, not by what they actually do.**</span>
+<span id="cb20-813"><a href="#cb20-813" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-814"><a href="#cb20-814" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Always-takers are patients who take the drug regardless of assignment --- those in the placebo group who obtain it on their own. Their behavior is unchanged by the instrument (random assignment), so IV tells us nothing about their treatment effect.</span>
+<span id="cb20-815"><a href="#cb20-815" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Compliers are patients who follow their assignment: they take the drug when assigned to drug, and don't take it when assigned to placebo. These are the individuals whose behavior the instrument actually changes, and LATE captures the causal effect specifically for this group.</span>
+<span id="cb20-816"><a href="#cb20-816" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The first stage measures how much the instrument shifts treatment uptake: $P(\text{take drug} | \text{assigned drug}) - P(\text{take drug} | \text{assigned placebo}) = 0.80 - 0.10 = 0.70$. A first stage of 0.70 means 70% of the sample are compliers --- those whose treatment status was determined by the instrument.</span>
+<span id="cb20-817"><a href="#cb20-817" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-818"><a href="#cb20-818" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-819"><a href="#cb20-819" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Monotonicity**: The IV framework assumes there are no "defiers" (people who do the opposite of their assignment). In the MDVE, a defier would be an officer who arrests when told to coddle and coddles when told to arrest. Why is this assumption reasonable in the MDVE context? Can you think of a setting where it might fail?</span>
-<span id="cb20-820"><a href="#cb20-820" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb20-821"><a href="#cb20-821" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-822"><a href="#cb20-822" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb20-823"><a href="#cb20-823" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-824"><a href="#cb20-824" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb20-825"><a href="#cb20-825" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb20-826"><a href="#cb20-826" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-827"><a href="#cb20-827" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Compliance by assignment group**: Using <span class="in">`mdve_clean.csv`</span>, compute the compliance rate separately for each of the three assignment groups (Arrest, Advise, Separate). Which group has the highest compliance? What does this asymmetry suggest about how police exercise discretion?</span>
-<span id="cb20-828"><a href="#cb20-828" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-829"><a href="#cb20-829" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Binary vs. multi-category first stage**: Using <span class="in">`mdve_clean.csv`</span>, compute the first stage two ways: (a) using the binary "arrest vs. coddle" indicator, and (b) using all three assignment categories in a cross-tabulation. Compare the results and explain which approach is simpler for an IV analysis.</span>
-<span id="cb20-830"><a href="#cb20-830" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-831"><a href="#cb20-831" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Cross-over patterns**: Using <span class="in">`mdve_clean.csv`</span>, among officers who deviated from their assignment, which direction did they most commonly cross over (e.g., from advise to arrest, or from separate to arrest)? What does this pattern suggest about officer behavior?</span>
-<span id="cb20-832"><a href="#cb20-832" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-833"><a href="#cb20-833" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**ITT vs. LATE comparison**: Using <span class="in">`mdve_clean.csv`</span>, compute the first-stage compliance rate for the binary arrest-vs-coddle instrument. Then, using the published recidivism rates (18% for the arrested group, 35% for the coddled group in the naive comparison; and the ITT of 11.4 percentage points from the reduced form), compute the LATE by dividing the ITT by the first stage. How much larger is the LATE than the ITT? Why does the ITT understate the causal effect for compliers?</span>
-<span id="cb20-834"><a href="#cb20-834" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-835"><a href="#cb20-835" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Testing monotonicity**: Using <span class="in">`mdve_clean.csv`</span>, examine the cross-tabulation for evidence against monotonicity (the "no defiers" assumption). Among those assigned to arrest, what fraction were actually coddled (advise or separate)? Among those assigned to coddle (advise or separate), what fraction were actually arrested? Is the asymmetry in these cross-over rates consistent with the monotonicity assumption?</span>
-<span id="cb20-836"><a href="#cb20-836" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb20-819"><a href="#cb20-819" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Computing LATE**: Using the MDVE numbers: first stage = 0.786, reduced form = 0.114. (a) Compute the LATE. (b) Why is this larger than the naive comparison of delivered treatments (0.087)? (c) What does "selection into treatment" mean in this context?</span>
+<span id="cb20-820"><a href="#cb20-820" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-821"><a href="#cb20-821" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb20-822"><a href="#cb20-822" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb20-823"><a href="#cb20-823" aria-hidden="true" tabindex="-1"></a>**The Wald estimator (IV ratio) removes selection bias that contaminates naive comparisons by isolating variation driven only by the instrument.**</span>
+<span id="cb20-824"><a href="#cb20-824" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-825"><a href="#cb20-825" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>LATE = reduced form / first stage = 0.114 / 0.786 = 0.145 (14.5 percentage points). The numerator captures the intent-to-treat effect of random assignment on recidivism; the denominator scales it by the fraction of cases whose treatment was actually changed by the assignment (compliers).</span>
+<span id="cb20-826"><a href="#cb20-826" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The naive comparison (0.087) is smaller because it is contaminated by selection bias: officers who deviated from their "coddle" assignment to arrest instead were responding to more violent suspects. These suspects would have reoffended at higher rates regardless, making arrest look less effective. The naive estimate mixes the true causal effect with this negative selection bias, biasing it toward zero.</span>
+<span id="cb20-827"><a href="#cb20-827" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>"Selection into treatment" means that the officers who chose to arrest (despite being told to coddle) were systematically selecting the most dangerous cases. This violates the independence assumption needed for causal inference --- treatment is correlated with potential outcomes. IV solves this by using only the exogenous variation from random assignment.</span>
+<span id="cb20-828"><a href="#cb20-828" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb20-829"><a href="#cb20-829" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-830"><a href="#cb20-830" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Exclusion restriction**: A researcher uses rainfall as an instrument for agricultural output to estimate the effect of output on conflict. What could violate the exclusion restriction?</span>
+<span id="cb20-831"><a href="#cb20-831" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-832"><a href="#cb20-832" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb20-833"><a href="#cb20-833" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb20-834"><a href="#cb20-834" aria-hidden="true" tabindex="-1"></a>**The exclusion restriction requires that the instrument affects the outcome only through the specified channel --- any alternative pathway invalidates the IV strategy.**</span>
+<span id="cb20-835"><a href="#cb20-835" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-836"><a href="#cb20-836" aria-hidden="true" tabindex="-1"></a>Rainfall could affect conflict through channels other than agricultural output, violating this core IV assumption:</span>
 <span id="cb20-837"><a href="#cb20-837" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-838"><a href="#cb20-838" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-839"><a href="#cb20-839" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
-<span id="cb20-840"><a href="#cb20-840" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-841"><a href="#cb20-841" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb20-842"><a href="#cb20-842" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-843"><a href="#cb20-843" aria-hidden="true" tabindex="-1"></a>**Q1.** **The compliance framework classifies individuals by how their treatment responds to the instrument, not by what they actually do.**</span>
+<span id="cb20-838"><a href="#cb20-838" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Heavy rain may flood roads and prevent armed groups from mobilizing, reducing conflict directly --- a logistical channel that bypasses agricultural output entirely.</span>
+<span id="cb20-839"><a href="#cb20-839" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Drought may force migration, creating social tensions and competition for resources in destination areas unrelated to agricultural output --- a demographic channel.</span>
+<span id="cb20-840"><a href="#cb20-840" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Rainfall affects water availability for drinking and sanitation, which could spark resource conflicts independent of crop yields --- a basic-needs channel.</span>
+<span id="cb20-841"><a href="#cb20-841" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-842"><a href="#cb20-842" aria-hidden="true" tabindex="-1"></a>Any of these channels would violate the exclusion restriction because rainfall would affect conflict independently of its effect on agricultural output. The IV estimate would then capture a mixture of effects through all channels, not just the agricultural mechanism the researchers intend to isolate.</span>
+<span id="cb20-843"><a href="#cb20-843" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-844"><a href="#cb20-844" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-845"><a href="#cb20-845" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Always-takers are patients who take the drug regardless of assignment --- those in the placebo group who obtain it on their own. Their behavior is unchanged by the instrument (random assignment), so IV tells us nothing about their treatment effect.</span>
-<span id="cb20-846"><a href="#cb20-846" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Compliers are patients who follow their assignment: they take the drug when assigned to drug, and don't take it when assigned to placebo. These are the individuals whose behavior the instrument actually changes, and LATE captures the causal effect specifically for this group.</span>
-<span id="cb20-847"><a href="#cb20-847" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The first stage measures how much the instrument shifts treatment uptake: $P(\text{take drug} | \text{assigned drug}) - P(\text{take drug} | \text{assigned placebo}) = 0.80 - 0.10 = 0.70$. A first stage of 0.70 means 70% of the sample are compliers --- those whose treatment status was determined by the instrument.</span>
-<span id="cb20-848"><a href="#cb20-848" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-849"><a href="#cb20-849" aria-hidden="true" tabindex="-1"></a>**Q2.** **The Wald estimator (IV ratio) removes selection bias that contaminates naive comparisons by isolating variation driven only by the instrument.**</span>
+<span id="cb20-845"><a href="#cb20-845" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Why LATE is local**: Using the MDVE context, explain why the IV estimate applies only to compliers. What can we say (or not say) about the effect of arrest on always-takers --- those suspects who would be arrested regardless of what the assignment form said?</span>
+<span id="cb20-846"><a href="#cb20-846" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-847"><a href="#cb20-847" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb20-848"><a href="#cb20-848" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb20-849"><a href="#cb20-849" aria-hidden="true" tabindex="-1"></a>**LATE applies only to compliers --- individuals whose treatment was changed by the instrument --- and cannot be generalized to always-takers or never-takers without additional assumptions.**</span>
 <span id="cb20-850"><a href="#cb20-850" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-851"><a href="#cb20-851" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>LATE = reduced form / first stage = 0.114 / 0.786 = 0.145 (14.5 percentage points). The numerator captures the intent-to-treat effect of random assignment on recidivism; the denominator scales it by the fraction of cases whose treatment was actually changed by the assignment (compliers).</span>
-<span id="cb20-852"><a href="#cb20-852" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The naive comparison (0.087) is smaller because it is contaminated by selection bias: officers who deviated from their "coddle" assignment to arrest instead were responding to more violent suspects. These suspects would have reoffended at higher rates regardless, making arrest look less effective. The naive estimate mixes the true causal effect with this negative selection bias, biasing it toward zero.</span>
-<span id="cb20-853"><a href="#cb20-853" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>"Selection into treatment" means that the officers who chose to arrest (despite being told to coddle) were systematically selecting the most dangerous cases. This violates the independence assumption needed for causal inference --- treatment is correlated with potential outcomes. IV solves this by using only the exogenous variation from random assignment.</span>
-<span id="cb20-854"><a href="#cb20-854" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-855"><a href="#cb20-855" aria-hidden="true" tabindex="-1"></a>**Q3.** **The exclusion restriction requires that the instrument affects the outcome only through the specified channel --- any alternative pathway invalidates the IV strategy.**</span>
+<span id="cb20-851"><a href="#cb20-851" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The IV estimate is a Local Average Treatment Effect: it captures the causal effect specifically for compliers, the subgroup whose treatment status changed because of the instrument (random assignment).</span>
+<span id="cb20-852"><a href="#cb20-852" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>In the MDVE, compliers are officers who followed their random assignment --- they arrested when told to arrest and coddled when told to coddle. LATE tells us how arrest affected recidivism for suspects handled by these compliant officers.</span>
+<span id="cb20-853"><a href="#cb20-853" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>For always-takers (officers who arrested regardless of what the form said), the instrument didn't change their behavior, so IV cannot tell us anything about the treatment effect for their cases. These officers may be more experienced and arrest only when necessary, making arrest more effective for their cases --- or less effective if they over-arrest.</span>
+<span id="cb20-854"><a href="#cb20-854" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>This is a fundamental limitation of LATE: external validity requires arguing that compliers are representative of the broader population, which is often uncertain.</span>
+<span id="cb20-855"><a href="#cb20-855" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb20-856"><a href="#cb20-856" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-857"><a href="#cb20-857" aria-hidden="true" tabindex="-1"></a>Rainfall could affect conflict through channels other than agricultural output, violating this core IV assumption:</span>
+<span id="cb20-857"><a href="#cb20-857" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Monotonicity**: The IV framework assumes there are no "defiers" (people who do the opposite of their assignment). In the MDVE, a defier would be an officer who arrests when told to coddle and coddles when told to arrest. Why is this assumption reasonable in the MDVE context? Can you think of a setting where it might fail?</span>
 <span id="cb20-858"><a href="#cb20-858" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-859"><a href="#cb20-859" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Heavy rain may flood roads and prevent armed groups from mobilizing, reducing conflict directly --- a logistical channel that bypasses agricultural output entirely.</span>
-<span id="cb20-860"><a href="#cb20-860" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Drought may force migration, creating social tensions and competition for resources in destination areas unrelated to agricultural output --- a demographic channel.</span>
-<span id="cb20-861"><a href="#cb20-861" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Rainfall affects water availability for drinking and sanitation, which could spark resource conflicts independent of crop yields --- a basic-needs channel.</span>
+<span id="cb20-859"><a href="#cb20-859" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb20-860"><a href="#cb20-860" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb20-861"><a href="#cb20-861" aria-hidden="true" tabindex="-1"></a>**Monotonicity requires that the instrument shifts everyone in the same direction --- no defiers --- and is essential for interpreting IV as LATE.**</span>
 <span id="cb20-862"><a href="#cb20-862" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-863"><a href="#cb20-863" aria-hidden="true" tabindex="-1"></a>Any of these channels would violate the exclusion restriction because rainfall would affect conflict independently of its effect on agricultural output. The IV estimate would then capture a mixture of effects through all channels, not just the agricultural mechanism the researchers intend to isolate.</span>
-<span id="cb20-864"><a href="#cb20-864" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-865"><a href="#cb20-865" aria-hidden="true" tabindex="-1"></a>**Q4.** **LATE applies only to compliers --- individuals whose treatment was changed by the instrument --- and cannot be generalized to always-takers or never-takers without additional assumptions.**</span>
-<span id="cb20-866"><a href="#cb20-866" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-867"><a href="#cb20-867" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The IV estimate is a Local Average Treatment Effect: it captures the causal effect specifically for compliers, the subgroup whose treatment status changed because of the instrument (random assignment).</span>
-<span id="cb20-868"><a href="#cb20-868" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>In the MDVE, compliers are officers who followed their random assignment --- they arrested when told to arrest and coddled when told to coddle. LATE tells us how arrest affected recidivism for suspects handled by these compliant officers.</span>
-<span id="cb20-869"><a href="#cb20-869" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>For always-takers (officers who arrested regardless of what the form said), the instrument didn't change their behavior, so IV cannot tell us anything about the treatment effect for their cases. These officers may be more experienced and arrest only when necessary, making arrest more effective for their cases --- or less effective if they over-arrest.</span>
-<span id="cb20-870"><a href="#cb20-870" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>This is a fundamental limitation of LATE: external validity requires arguing that compliers are representative of the broader population, which is often uncertain.</span>
-<span id="cb20-871"><a href="#cb20-871" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-872"><a href="#cb20-872" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb20-873"><a href="#cb20-873" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-874"><a href="#cb20-874" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
-<span id="cb20-875"><a href="#cb20-875" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-878"><a href="#cb20-878" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb20-879"><a href="#cb20-879" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-compliance</span></span>
-<span id="cb20-880"><a href="#cb20-880" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Compliance rates by assignment group"</span></span>
-<span id="cb20-881"><a href="#cb20-881" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-882"><a href="#cb20-882" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
-<span id="cb20-883"><a href="#cb20-883" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb20-863"><a href="#cb20-863" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>In the MDVE, monotonicity is reasonable: it is hard to imagine an officer who would arrest when told to coddle but coddle when told to arrest. The compliance data confirm that officers deviate *toward* arrest (the more cautious action), not away from it.</span>
+<span id="cb20-864"><a href="#cb20-864" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>If defiers existed (officers who systematically did the opposite of their assignment), the LATE interpretation breaks down because complier and defier effects would cancel each other in unknown proportions, making the IV estimate uninterpretable.</span>
+<span id="cb20-865"><a href="#cb20-865" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Monotonicity might fail in settings where the instrument triggers opposite reactions in different subgroups --- for example, a mandatory tutoring assignment where some students rebel against being told to attend (defiers who skip when assigned) but voluntarily attend when not assigned. In such cases, the IV estimate would not cleanly identify a causal effect for any well-defined group.</span>
+<span id="cb20-866"><a href="#cb20-866" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb20-867"><a href="#cb20-867" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-868"><a href="#cb20-868" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb20-869"><a href="#cb20-869" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-870"><a href="#cb20-870" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb20-871"><a href="#cb20-871" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb20-872"><a href="#cb20-872" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-873"><a href="#cb20-873" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Compliance by assignment group**: Using <span class="in">`mdve_clean.csv`</span>, compute the compliance rate separately for each of the three assignment groups (Arrest, Advise, Separate). Which group has the highest compliance? What does this asymmetry suggest about how police exercise discretion?</span>
+<span id="cb20-874"><a href="#cb20-874" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-875"><a href="#cb20-875" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Binary vs. multi-category first stage**: Using <span class="in">`mdve_clean.csv`</span>, compute the first stage two ways: (a) using the binary "arrest vs. coddle" indicator, and (b) using all three assignment categories in a cross-tabulation. Compare the results and explain which approach is simpler for an IV analysis.</span>
+<span id="cb20-876"><a href="#cb20-876" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-877"><a href="#cb20-877" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Cross-over patterns**: Using <span class="in">`mdve_clean.csv`</span>, among officers who deviated from their assignment, which direction did they most commonly cross over (e.g., from advise to arrest, or from separate to arrest)? What does this pattern suggest about officer behavior?</span>
+<span id="cb20-878"><a href="#cb20-878" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-879"><a href="#cb20-879" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**ITT vs. LATE comparison**: Using <span class="in">`mdve_clean.csv`</span>, compute the first-stage compliance rate for the binary arrest-vs-coddle instrument. Then, using the published recidivism rates (18% for the arrested group, 35% for the coddled group in the naive comparison; and the ITT of 11.4 percentage points from the reduced form), compute the LATE by dividing the ITT by the first stage. How much larger is the LATE than the ITT? Why does the ITT understate the causal effect for compliers?</span>
+<span id="cb20-880"><a href="#cb20-880" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-881"><a href="#cb20-881" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Testing monotonicity**: Using <span class="in">`mdve_clean.csv`</span>, examine the cross-tabulation for evidence against monotonicity (the "no defiers" assumption). Among those assigned to arrest, what fraction were actually coddled (advise or separate)? Among those assigned to coddle (advise or separate), what fraction were actually arrested? Is the asymmetry in these cross-over rates consistent with the monotonicity assumption?</span>
+<span id="cb20-882"><a href="#cb20-882" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb20-883"><a href="#cb20-883" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-884"><a href="#cb20-884" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-885"><a href="#cb20-885" aria-hidden="true" tabindex="-1"></a>mdve <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch3/mdve_clean.csv"</span>)</span>
+<span id="cb20-885"><a href="#cb20-885" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
 <span id="cb20-886"><a href="#cb20-886" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-887"><a href="#cb20-887" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Compute Compliance Rates ---</span></span>
-<span id="cb20-888"><a href="#cb20-888" aria-hidden="true" tabindex="-1"></a><span class="co"># Compliance rate: fraction who received their assigned treatment</span></span>
-<span id="cb20-889"><a href="#cb20-889" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb20-890"><a href="#cb20-890" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> group <span class="kw">in</span> [<span class="st">"Arrest"</span>, <span class="st">"Advise"</span>, <span class="st">"Separate"</span>]:</span>
-<span id="cb20-891"><a href="#cb20-891" aria-hidden="true" tabindex="-1"></a>    group_data <span class="op">=</span> mdve[mdve[<span class="st">"assigned"</span>] <span class="op">==</span> group]  <span class="co"># filter to this assignment group</span></span>
-<span id="cb20-892"><a href="#cb20-892" aria-hidden="true" tabindex="-1"></a>    complied <span class="op">=</span> (group_data[<span class="st">"delivered"</span>] <span class="op">==</span> group).<span class="bu">sum</span>()  <span class="co"># count cases where delivery matched assignment</span></span>
-<span id="cb20-893"><a href="#cb20-893" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
-<span id="cb20-894"><a href="#cb20-894" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Assigned"</span>: group,</span>
-<span id="cb20-895"><a href="#cb20-895" aria-hidden="true" tabindex="-1"></a>        <span class="st">"N"</span>: <span class="bu">len</span>(group_data),</span>
-<span id="cb20-896"><a href="#cb20-896" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Complied"</span>: complied,</span>
-<span id="cb20-897"><a href="#cb20-897" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Compliance rate"</span>: <span class="ss">f"</span><span class="sc">{</span>complied <span class="op">/</span> <span class="bu">len</span>(group_data)<span class="sc">:.1%}</span><span class="ss">"</span>,</span>
-<span id="cb20-898"><a href="#cb20-898" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb20-899"><a href="#cb20-899" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-900"><a href="#cb20-900" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Display Results ---</span></span>
-<span id="cb20-901"><a href="#cb20-901" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
-<span id="cb20-902"><a href="#cb20-902" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-903"><a href="#cb20-903" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-904"><a href="#cb20-904" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb20-905"><a href="#cb20-905" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-906"><a href="#cb20-906" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb20-907"><a href="#cb20-907" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Compliance rates by assignment group ---</span></span>
-<span id="cb20-908"><a href="#cb20-908" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb20-909"><a href="#cb20-909" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb20-910"><a href="#cb20-910" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear</span></span>
-<span id="cb20-911"><a href="#cb20-911" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-912"><a href="#cb20-912" aria-hidden="true" tabindex="-1"></a><span class="in">* Compute compliance rate for each assignment group</span></span>
-<span id="cb20-913"><a href="#cb20-913" aria-hidden="true" tabindex="-1"></a><span class="in">levelsof assigned, local(groups)</span></span>
-<span id="cb20-914"><a href="#cb20-914" aria-hidden="true" tabindex="-1"></a><span class="in">foreach g of local groups {</span></span>
-<span id="cb20-915"><a href="#cb20-915" aria-hidden="true" tabindex="-1"></a><span class="in">    count if assigned == "`g'"</span></span>
-<span id="cb20-916"><a href="#cb20-916" aria-hidden="true" tabindex="-1"></a><span class="in">    scalar n_`g' = r(N)</span></span>
-<span id="cb20-917"><a href="#cb20-917" aria-hidden="true" tabindex="-1"></a><span class="in">    count if assigned == "`g'" &amp; delivered == "`g'"</span></span>
-<span id="cb20-918"><a href="#cb20-918" aria-hidden="true" tabindex="-1"></a><span class="in">    scalar comply_`g' = r(N)</span></span>
-<span id="cb20-919"><a href="#cb20-919" aria-hidden="true" tabindex="-1"></a><span class="in">    display "`g': " comply_`g' " / " n_`g' " = " comply_`g'/n_`g'</span></span>
-<span id="cb20-920"><a href="#cb20-920" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb20-921"><a href="#cb20-921" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-922"><a href="#cb20-922" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-923"><a href="#cb20-923" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** Arrest has the highest compliance (99%), while advise (78%) and separate (73%) assignments show substantially lower compliance. **(2) Why:** Officers almost always arrest when told to because it is the most protective response, but they frequently deviate from advise and separate assignments --- usually by upgrading to arrest when they perceive the situation as dangerous. **(3) What it teaches:** This asymmetric non-compliance is precisely why comparing by *delivered* treatment introduces selection bias: officers who deviated toward arrest were responding to the most volatile cases, contaminating the arrested group with suspects who had higher baseline recidivism risk. The first stage in IV uses only the exogenous assignment to avoid this problem.</span>
-<span id="cb20-924"><a href="#cb20-924" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-925"><a href="#cb20-925" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
-<span id="cb20-926"><a href="#cb20-926" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-929"><a href="#cb20-929" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb20-930"><a href="#cb20-930" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-firststage</span></span>
-<span id="cb20-931"><a href="#cb20-931" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "First stage: binary vs. multi-category"</span></span>
+<span id="cb20-887"><a href="#cb20-887" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb20-888"><a href="#cb20-888" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-889"><a href="#cb20-889" aria-hidden="true" tabindex="-1"></a>**Q1.** **The compliance framework classifies individuals by how their treatment responds to the instrument, not by what they actually do.**</span>
+<span id="cb20-890"><a href="#cb20-890" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-891"><a href="#cb20-891" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Always-takers are patients who take the drug regardless of assignment --- those in the placebo group who obtain it on their own. Their behavior is unchanged by the instrument (random assignment), so IV tells us nothing about their treatment effect.</span>
+<span id="cb20-892"><a href="#cb20-892" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Compliers are patients who follow their assignment: they take the drug when assigned to drug, and don't take it when assigned to placebo. These are the individuals whose behavior the instrument actually changes, and LATE captures the causal effect specifically for this group.</span>
+<span id="cb20-893"><a href="#cb20-893" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The first stage measures how much the instrument shifts treatment uptake: $P(\text{take drug} | \text{assigned drug}) - P(\text{take drug} | \text{assigned placebo}) = 0.80 - 0.10 = 0.70$. A first stage of 0.70 means 70% of the sample are compliers --- those whose treatment status was determined by the instrument.</span>
+<span id="cb20-894"><a href="#cb20-894" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-895"><a href="#cb20-895" aria-hidden="true" tabindex="-1"></a>**Q2.** **The Wald estimator (IV ratio) removes selection bias that contaminates naive comparisons by isolating variation driven only by the instrument.**</span>
+<span id="cb20-896"><a href="#cb20-896" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-897"><a href="#cb20-897" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>LATE = reduced form / first stage = 0.114 / 0.786 = 0.145 (14.5 percentage points). The numerator captures the intent-to-treat effect of random assignment on recidivism; the denominator scales it by the fraction of cases whose treatment was actually changed by the assignment (compliers).</span>
+<span id="cb20-898"><a href="#cb20-898" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The naive comparison (0.087) is smaller because it is contaminated by selection bias: officers who deviated from their "coddle" assignment to arrest instead were responding to more violent suspects. These suspects would have reoffended at higher rates regardless, making arrest look less effective. The naive estimate mixes the true causal effect with this negative selection bias, biasing it toward zero.</span>
+<span id="cb20-899"><a href="#cb20-899" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>"Selection into treatment" means that the officers who chose to arrest (despite being told to coddle) were systematically selecting the most dangerous cases. This violates the independence assumption needed for causal inference --- treatment is correlated with potential outcomes. IV solves this by using only the exogenous variation from random assignment.</span>
+<span id="cb20-900"><a href="#cb20-900" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-901"><a href="#cb20-901" aria-hidden="true" tabindex="-1"></a>**Q3.** **The exclusion restriction requires that the instrument affects the outcome only through the specified channel --- any alternative pathway invalidates the IV strategy.**</span>
+<span id="cb20-902"><a href="#cb20-902" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-903"><a href="#cb20-903" aria-hidden="true" tabindex="-1"></a>Rainfall could affect conflict through channels other than agricultural output, violating this core IV assumption:</span>
+<span id="cb20-904"><a href="#cb20-904" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-905"><a href="#cb20-905" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Heavy rain may flood roads and prevent armed groups from mobilizing, reducing conflict directly --- a logistical channel that bypasses agricultural output entirely.</span>
+<span id="cb20-906"><a href="#cb20-906" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Drought may force migration, creating social tensions and competition for resources in destination areas unrelated to agricultural output --- a demographic channel.</span>
+<span id="cb20-907"><a href="#cb20-907" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Rainfall affects water availability for drinking and sanitation, which could spark resource conflicts independent of crop yields --- a basic-needs channel.</span>
+<span id="cb20-908"><a href="#cb20-908" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-909"><a href="#cb20-909" aria-hidden="true" tabindex="-1"></a>Any of these channels would violate the exclusion restriction because rainfall would affect conflict independently of its effect on agricultural output. The IV estimate would then capture a mixture of effects through all channels, not just the agricultural mechanism the researchers intend to isolate.</span>
+<span id="cb20-910"><a href="#cb20-910" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-911"><a href="#cb20-911" aria-hidden="true" tabindex="-1"></a>**Q4.** **LATE applies only to compliers --- individuals whose treatment was changed by the instrument --- and cannot be generalized to always-takers or never-takers without additional assumptions.**</span>
+<span id="cb20-912"><a href="#cb20-912" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-913"><a href="#cb20-913" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The IV estimate is a Local Average Treatment Effect: it captures the causal effect specifically for compliers, the subgroup whose treatment status changed because of the instrument (random assignment).</span>
+<span id="cb20-914"><a href="#cb20-914" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>In the MDVE, compliers are officers who followed their random assignment --- they arrested when told to arrest and coddled when told to coddle. LATE tells us how arrest affected recidivism for suspects handled by these compliant officers.</span>
+<span id="cb20-915"><a href="#cb20-915" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>For always-takers (officers who arrested regardless of what the form said), the instrument didn't change their behavior, so IV cannot tell us anything about the treatment effect for their cases. These officers may be more experienced and arrest only when necessary, making arrest more effective for their cases --- or less effective if they over-arrest.</span>
+<span id="cb20-916"><a href="#cb20-916" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>This is a fundamental limitation of LATE: external validity requires arguing that compliers are representative of the broader population, which is often uncertain.</span>
+<span id="cb20-917"><a href="#cb20-917" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-918"><a href="#cb20-918" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb20-919"><a href="#cb20-919" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-920"><a href="#cb20-920" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
+<span id="cb20-921"><a href="#cb20-921" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-924"><a href="#cb20-924" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb20-925"><a href="#cb20-925" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-compliance</span></span>
+<span id="cb20-926"><a href="#cb20-926" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Compliance rates by assignment group"</span></span>
+<span id="cb20-927"><a href="#cb20-927" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-928"><a href="#cb20-928" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
+<span id="cb20-929"><a href="#cb20-929" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb20-930"><a href="#cb20-930" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-931"><a href="#cb20-931" aria-hidden="true" tabindex="-1"></a>mdve <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch3/mdve_clean.csv"</span>)</span>
 <span id="cb20-932"><a href="#cb20-932" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-933"><a href="#cb20-933" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Binary First Stage ---</span></span>
-<span id="cb20-934"><a href="#cb20-934" aria-hidden="true" tabindex="-1"></a><span class="co"># Binary approach: arrest (Z=0) vs. coddle (Z=1)</span></span>
-<span id="cb20-935"><a href="#cb20-935" aria-hidden="true" tabindex="-1"></a>mdve[<span class="st">"z_coddle"</span>] <span class="op">=</span> (mdve[<span class="st">"assigned"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>).astype(<span class="bu">int</span>)  <span class="co"># instrument: 1 if assigned to coddle</span></span>
-<span id="cb20-936"><a href="#cb20-936" aria-hidden="true" tabindex="-1"></a>mdve[<span class="st">"d_coddle"</span>] <span class="op">=</span> (mdve[<span class="st">"delivered"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>).astype(<span class="bu">int</span>)  <span class="co"># treatment: 1 if actually coddled</span></span>
-<span id="cb20-937"><a href="#cb20-937" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-938"><a href="#cb20-938" aria-hidden="true" tabindex="-1"></a>fs_binary <span class="op">=</span> mdve.groupby(<span class="st">"z_coddle"</span>)[<span class="st">"d_coddle"</span>].mean()  <span class="co"># compliance rate by assignment</span></span>
-<span id="cb20-939"><a href="#cb20-939" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Binary first stage:"</span>)</span>
-<span id="cb20-940"><a href="#cb20-940" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  P(coddled | assigned coddle) = </span><span class="sc">{</span>fs_binary[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb20-941"><a href="#cb20-941" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  P(coddled | assigned arrest) = </span><span class="sc">{</span>fs_binary[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb20-942"><a href="#cb20-942" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Difference = </span><span class="sc">{</span>fs_binary[<span class="dv">1</span>] <span class="op">-</span> fs_binary[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)  <span class="co"># this is the first-stage coefficient</span></span>
-<span id="cb20-943"><a href="#cb20-943" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-944"><a href="#cb20-944" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Multi-Category Cross-Tabulation ---</span></span>
-<span id="cb20-945"><a href="#cb20-945" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Full cross-tabulation:"</span>)</span>
-<span id="cb20-946"><a href="#cb20-946" aria-hidden="true" tabindex="-1"></a>ct <span class="op">=</span> pd.crosstab(mdve[<span class="st">"assigned"</span>], mdve[<span class="st">"delivered"</span>], normalize<span class="op">=</span><span class="st">"index"</span>).<span class="bu">round</span>(<span class="dv">3</span>)  <span class="co"># row-normalized</span></span>
-<span id="cb20-947"><a href="#cb20-947" aria-hidden="true" tabindex="-1"></a>ct</span>
+<span id="cb20-933"><a href="#cb20-933" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Compute Compliance Rates ---</span></span>
+<span id="cb20-934"><a href="#cb20-934" aria-hidden="true" tabindex="-1"></a><span class="co"># Compliance rate: fraction who received their assigned treatment</span></span>
+<span id="cb20-935"><a href="#cb20-935" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb20-936"><a href="#cb20-936" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> group <span class="kw">in</span> [<span class="st">"Arrest"</span>, <span class="st">"Advise"</span>, <span class="st">"Separate"</span>]:</span>
+<span id="cb20-937"><a href="#cb20-937" aria-hidden="true" tabindex="-1"></a>    group_data <span class="op">=</span> mdve[mdve[<span class="st">"assigned"</span>] <span class="op">==</span> group]  <span class="co"># filter to this assignment group</span></span>
+<span id="cb20-938"><a href="#cb20-938" aria-hidden="true" tabindex="-1"></a>    complied <span class="op">=</span> (group_data[<span class="st">"delivered"</span>] <span class="op">==</span> group).<span class="bu">sum</span>()  <span class="co"># count cases where delivery matched assignment</span></span>
+<span id="cb20-939"><a href="#cb20-939" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
+<span id="cb20-940"><a href="#cb20-940" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Assigned"</span>: group,</span>
+<span id="cb20-941"><a href="#cb20-941" aria-hidden="true" tabindex="-1"></a>        <span class="st">"N"</span>: <span class="bu">len</span>(group_data),</span>
+<span id="cb20-942"><a href="#cb20-942" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Complied"</span>: complied,</span>
+<span id="cb20-943"><a href="#cb20-943" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Compliance rate"</span>: <span class="ss">f"</span><span class="sc">{</span>complied <span class="op">/</span> <span class="bu">len</span>(group_data)<span class="sc">:.1%}</span><span class="ss">"</span>,</span>
+<span id="cb20-944"><a href="#cb20-944" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb20-945"><a href="#cb20-945" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-946"><a href="#cb20-946" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Display Results ---</span></span>
+<span id="cb20-947"><a href="#cb20-947" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
 <span id="cb20-948"><a href="#cb20-948" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb20-949"><a href="#cb20-949" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-950"><a href="#cb20-950" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
 <span id="cb20-951"><a href="#cb20-951" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-952"><a href="#cb20-952" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb20-953"><a href="#cb20-953" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Binary vs. multi-category first stage ---</span></span>
+<span id="cb20-953"><a href="#cb20-953" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Compliance rates by assignment group ---</span></span>
 <span id="cb20-954"><a href="#cb20-954" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
 <span id="cb20-955"><a href="#cb20-955" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
 <span id="cb20-956"><a href="#cb20-956" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear</span></span>
 <span id="cb20-957"><a href="#cb20-957" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-958"><a href="#cb20-958" aria-hidden="true" tabindex="-1"></a><span class="in">* Binary: arrest (z=0) vs. coddle (z=1)</span></span>
-<span id="cb20-959"><a href="#cb20-959" aria-hidden="true" tabindex="-1"></a><span class="in">gen z_coddle = (assigned != "Arrest")</span></span>
-<span id="cb20-960"><a href="#cb20-960" aria-hidden="true" tabindex="-1"></a><span class="in">gen d_coddle = (delivered != "Arrest")</span></span>
-<span id="cb20-961"><a href="#cb20-961" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-962"><a href="#cb20-962" aria-hidden="true" tabindex="-1"></a><span class="in">* First stage</span></span>
-<span id="cb20-963"><a href="#cb20-963" aria-hidden="true" tabindex="-1"></a><span class="in">tab z_coddle d_coddle, row</span></span>
-<span id="cb20-964"><a href="#cb20-964" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-965"><a href="#cb20-965" aria-hidden="true" tabindex="-1"></a><span class="in">* Multi-category cross-tabulation</span></span>
-<span id="cb20-966"><a href="#cb20-966" aria-hidden="true" tabindex="-1"></a><span class="in">tab assigned delivered, row</span></span>
+<span id="cb20-958"><a href="#cb20-958" aria-hidden="true" tabindex="-1"></a><span class="in">* Compute compliance rate for each assignment group</span></span>
+<span id="cb20-959"><a href="#cb20-959" aria-hidden="true" tabindex="-1"></a><span class="in">levelsof assigned, local(groups)</span></span>
+<span id="cb20-960"><a href="#cb20-960" aria-hidden="true" tabindex="-1"></a><span class="in">foreach g of local groups {</span></span>
+<span id="cb20-961"><a href="#cb20-961" aria-hidden="true" tabindex="-1"></a><span class="in">    count if assigned == "`g'"</span></span>
+<span id="cb20-962"><a href="#cb20-962" aria-hidden="true" tabindex="-1"></a><span class="in">    scalar n_`g' = r(N)</span></span>
+<span id="cb20-963"><a href="#cb20-963" aria-hidden="true" tabindex="-1"></a><span class="in">    count if assigned == "`g'" &amp; delivered == "`g'"</span></span>
+<span id="cb20-964"><a href="#cb20-964" aria-hidden="true" tabindex="-1"></a><span class="in">    scalar comply_`g' = r(N)</span></span>
+<span id="cb20-965"><a href="#cb20-965" aria-hidden="true" tabindex="-1"></a><span class="in">    display "`g': " comply_`g' " / " n_`g' " = " comply_`g'/n_`g'</span></span>
+<span id="cb20-966"><a href="#cb20-966" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
 <span id="cb20-967"><a href="#cb20-967" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb20-968"><a href="#cb20-968" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-969"><a href="#cb20-969" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** The binary approach gives a clean first stage of ~0.786, meaning assignment shifts the probability of being coddled by about 79 percentage points. The multi-category cross-tab reveals the full compliance structure across all three arms. **(2) Why:** IV requires a single endogenous treatment variable and a single instrument, so the binary simplification (arrest vs. everything else) maps the three-arm experiment into the standard IV framework. The cross-tab is informative but cannot be directly plugged into a standard 2SLS regression. **(3) What it teaches:** Collapsing multi-armed experiments into binary comparisons is standard practice when the research question is directional ("does arrest reduce recidivism compared to alternatives?"). The strong first stage (~0.786) confirms that the instrument has substantial power to shift treatment --- a weak first stage would inflate standard errors and bias IV toward OLS.</span>
+<span id="cb20-969"><a href="#cb20-969" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** Arrest has the highest compliance (99%), while advise (78%) and separate (73%) assignments show substantially lower compliance. **(2) Why:** Officers almost always arrest when told to because it is the most protective response, but they frequently deviate from advise and separate assignments --- usually by upgrading to arrest when they perceive the situation as dangerous. **(3) What it teaches:** This asymmetric non-compliance is precisely why comparing by *delivered* treatment introduces selection bias: officers who deviated toward arrest were responding to the most volatile cases, contaminating the arrested group with suspects who had higher baseline recidivism risk. The first stage in IV uses only the exogenous assignment to avoid this problem.</span>
 <span id="cb20-970"><a href="#cb20-970" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-971"><a href="#cb20-971" aria-hidden="true" tabindex="-1"></a>**Q5.** **Monotonicity requires that the instrument shifts everyone in the same direction --- no defiers --- and is essential for interpreting IV as LATE.**</span>
+<span id="cb20-971"><a href="#cb20-971" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
 <span id="cb20-972"><a href="#cb20-972" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-973"><a href="#cb20-973" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>In the MDVE, monotonicity is reasonable: it is hard to imagine an officer who would arrest when told to coddle but coddle when told to arrest. The compliance data confirm that officers deviate *toward* arrest (the more cautious action), not away from it.</span>
-<span id="cb20-974"><a href="#cb20-974" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>If defiers existed (officers who systematically did the opposite of their assignment), the LATE interpretation breaks down because complier and defier effects would cancel each other in unknown proportions, making the IV estimate uninterpretable.</span>
-<span id="cb20-975"><a href="#cb20-975" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Monotonicity might fail in settings where the instrument triggers opposite reactions in different subgroups --- for example, a mandatory tutoring assignment where some students rebel against being told to attend (defiers who skip when assigned) but voluntarily attend when not assigned. In such cases, the IV estimate would not cleanly identify a causal effect for any well-defined group.</span>
-<span id="cb20-976"><a href="#cb20-976" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-977"><a href="#cb20-977" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
+<span id="cb20-975"><a href="#cb20-975" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb20-976"><a href="#cb20-976" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-firststage</span></span>
+<span id="cb20-977"><a href="#cb20-977" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "First stage: binary vs. multi-category"</span></span>
 <span id="cb20-978"><a href="#cb20-978" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-981"><a href="#cb20-981" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb20-982"><a href="#cb20-982" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-crossover</span></span>
-<span id="cb20-983"><a href="#cb20-983" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Cross-over patterns: where do deviating officers go?"</span></span>
-<span id="cb20-984"><a href="#cb20-984" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-985"><a href="#cb20-985" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Identify Non-Compliant Cases ---</span></span>
-<span id="cb20-986"><a href="#cb20-986" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to cases where the officer deviated from the random assignment</span></span>
-<span id="cb20-987"><a href="#cb20-987" aria-hidden="true" tabindex="-1"></a>deviators <span class="op">=</span> mdve[mdve[<span class="st">"assigned"</span>] <span class="op">!=</span> mdve[<span class="st">"delivered"</span>]]</span>
-<span id="cb20-988"><a href="#cb20-988" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-989"><a href="#cb20-989" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Cross-Tabulate Deviation Patterns ---</span></span>
-<span id="cb20-990"><a href="#cb20-990" aria-hidden="true" tabindex="-1"></a><span class="co"># Rows = what they were assigned; Columns = what they actually delivered</span></span>
-<span id="cb20-991"><a href="#cb20-991" aria-hidden="true" tabindex="-1"></a>crossover <span class="op">=</span> pd.crosstab(deviators[<span class="st">"assigned"</span>], deviators[<span class="st">"delivered"</span>])</span>
-<span id="cb20-992"><a href="#cb20-992" aria-hidden="true" tabindex="-1"></a>crossover</span>
-<span id="cb20-993"><a href="#cb20-993" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-994"><a href="#cb20-994" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-995"><a href="#cb20-995" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb20-996"><a href="#cb20-996" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-997"><a href="#cb20-997" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb20-998"><a href="#cb20-998" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Cross-over patterns among deviators ---</span></span>
-<span id="cb20-999"><a href="#cb20-999" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb20-1000"><a href="#cb20-1000" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb20-1001"><a href="#cb20-1001" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear</span></span>
-<span id="cb20-1002"><a href="#cb20-1002" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1003"><a href="#cb20-1003" aria-hidden="true" tabindex="-1"></a><span class="in">* Keep only non-compliant cases</span></span>
-<span id="cb20-1004"><a href="#cb20-1004" aria-hidden="true" tabindex="-1"></a><span class="in">keep if assigned != delivered</span></span>
-<span id="cb20-1005"><a href="#cb20-1005" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1006"><a href="#cb20-1006" aria-hidden="true" tabindex="-1"></a><span class="in">* Cross-tabulate: where did deviators go?</span></span>
-<span id="cb20-1007"><a href="#cb20-1007" aria-hidden="true" tabindex="-1"></a><span class="in">tab assigned delivered</span></span>
-<span id="cb20-1008"><a href="#cb20-1008" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-1009"><a href="#cb20-1009" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1010"><a href="#cb20-1010" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** The dominant pattern is cross-over from advise or separate **toward arrest**. Very few officers cross from arrest to another action. **(2) Why:** This asymmetry reflects officers exercising discretion toward the more protective response when they perceive the situation as dangerous. An officer told to "separate" a couple but facing a violent suspect will often upgrade to arrest for safety reasons. **(3) What it teaches:** This one-directional non-compliance supports the monotonicity assumption (no defiers) and simultaneously reveals the selection bias that makes naive comparisons misleading: the cases that crossed over to arrest are systematically more dangerous, so comparing outcomes by delivered treatment confounds the effect of arrest with the severity of the incident. IV resolves this by using only the random assignment as the source of identifying variation.</span>
-<span id="cb20-1011"><a href="#cb20-1011" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1012"><a href="#cb20-1012" aria-hidden="true" tabindex="-1"></a>**R4.**</span>
-<span id="cb20-1013"><a href="#cb20-1013" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1016"><a href="#cb20-1016" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb20-1017"><a href="#cb20-1017" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-itt-late</span></span>
-<span id="cb20-1018"><a href="#cb20-1018" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "ITT vs. LATE: scaling the intent-to-treat effect by compliance"</span></span>
-<span id="cb20-1019"><a href="#cb20-1019" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1020"><a href="#cb20-1020" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
-<span id="cb20-1021"><a href="#cb20-1021" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb20-979"><a href="#cb20-979" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Binary First Stage ---</span></span>
+<span id="cb20-980"><a href="#cb20-980" aria-hidden="true" tabindex="-1"></a><span class="co"># Binary approach: arrest (Z=0) vs. coddle (Z=1)</span></span>
+<span id="cb20-981"><a href="#cb20-981" aria-hidden="true" tabindex="-1"></a>mdve[<span class="st">"z_coddle"</span>] <span class="op">=</span> (mdve[<span class="st">"assigned"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>).astype(<span class="bu">int</span>)  <span class="co"># instrument: 1 if assigned to coddle</span></span>
+<span id="cb20-982"><a href="#cb20-982" aria-hidden="true" tabindex="-1"></a>mdve[<span class="st">"d_coddle"</span>] <span class="op">=</span> (mdve[<span class="st">"delivered"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>).astype(<span class="bu">int</span>)  <span class="co"># treatment: 1 if actually coddled</span></span>
+<span id="cb20-983"><a href="#cb20-983" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-984"><a href="#cb20-984" aria-hidden="true" tabindex="-1"></a>fs_binary <span class="op">=</span> mdve.groupby(<span class="st">"z_coddle"</span>)[<span class="st">"d_coddle"</span>].mean()  <span class="co"># compliance rate by assignment</span></span>
+<span id="cb20-985"><a href="#cb20-985" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Binary first stage:"</span>)</span>
+<span id="cb20-986"><a href="#cb20-986" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  P(coddled | assigned coddle) = </span><span class="sc">{</span>fs_binary[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb20-987"><a href="#cb20-987" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  P(coddled | assigned arrest) = </span><span class="sc">{</span>fs_binary[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb20-988"><a href="#cb20-988" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Difference = </span><span class="sc">{</span>fs_binary[<span class="dv">1</span>] <span class="op">-</span> fs_binary[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)  <span class="co"># this is the first-stage coefficient</span></span>
+<span id="cb20-989"><a href="#cb20-989" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-990"><a href="#cb20-990" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Multi-Category Cross-Tabulation ---</span></span>
+<span id="cb20-991"><a href="#cb20-991" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Full cross-tabulation:"</span>)</span>
+<span id="cb20-992"><a href="#cb20-992" aria-hidden="true" tabindex="-1"></a>ct <span class="op">=</span> pd.crosstab(mdve[<span class="st">"assigned"</span>], mdve[<span class="st">"delivered"</span>], normalize<span class="op">=</span><span class="st">"index"</span>).<span class="bu">round</span>(<span class="dv">3</span>)  <span class="co"># row-normalized</span></span>
+<span id="cb20-993"><a href="#cb20-993" aria-hidden="true" tabindex="-1"></a>ct</span>
+<span id="cb20-994"><a href="#cb20-994" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-995"><a href="#cb20-995" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-996"><a href="#cb20-996" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb20-997"><a href="#cb20-997" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-998"><a href="#cb20-998" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb20-999"><a href="#cb20-999" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Binary vs. multi-category first stage ---</span></span>
+<span id="cb20-1000"><a href="#cb20-1000" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb20-1001"><a href="#cb20-1001" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb20-1002"><a href="#cb20-1002" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear</span></span>
+<span id="cb20-1003"><a href="#cb20-1003" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1004"><a href="#cb20-1004" aria-hidden="true" tabindex="-1"></a><span class="in">* Binary: arrest (z=0) vs. coddle (z=1)</span></span>
+<span id="cb20-1005"><a href="#cb20-1005" aria-hidden="true" tabindex="-1"></a><span class="in">gen z_coddle = (assigned != "Arrest")</span></span>
+<span id="cb20-1006"><a href="#cb20-1006" aria-hidden="true" tabindex="-1"></a><span class="in">gen d_coddle = (delivered != "Arrest")</span></span>
+<span id="cb20-1007"><a href="#cb20-1007" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1008"><a href="#cb20-1008" aria-hidden="true" tabindex="-1"></a><span class="in">* First stage</span></span>
+<span id="cb20-1009"><a href="#cb20-1009" aria-hidden="true" tabindex="-1"></a><span class="in">tab z_coddle d_coddle, row</span></span>
+<span id="cb20-1010"><a href="#cb20-1010" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1011"><a href="#cb20-1011" aria-hidden="true" tabindex="-1"></a><span class="in">* Multi-category cross-tabulation</span></span>
+<span id="cb20-1012"><a href="#cb20-1012" aria-hidden="true" tabindex="-1"></a><span class="in">tab assigned delivered, row</span></span>
+<span id="cb20-1013"><a href="#cb20-1013" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-1014"><a href="#cb20-1014" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1015"><a href="#cb20-1015" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** The binary approach gives a clean first stage of ~0.786, meaning assignment shifts the probability of being coddled by about 79 percentage points. The multi-category cross-tab reveals the full compliance structure across all three arms. **(2) Why:** IV requires a single endogenous treatment variable and a single instrument, so the binary simplification (arrest vs. everything else) maps the three-arm experiment into the standard IV framework. The cross-tab is informative but cannot be directly plugged into a standard 2SLS regression. **(3) What it teaches:** Collapsing multi-armed experiments into binary comparisons is standard practice when the research question is directional ("does arrest reduce recidivism compared to alternatives?"). The strong first stage (~0.786) confirms that the instrument has substantial power to shift treatment --- a weak first stage would inflate standard errors and bias IV toward OLS.</span>
+<span id="cb20-1016"><a href="#cb20-1016" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1017"><a href="#cb20-1017" aria-hidden="true" tabindex="-1"></a>**Q5.** **Monotonicity requires that the instrument shifts everyone in the same direction --- no defiers --- and is essential for interpreting IV as LATE.**</span>
+<span id="cb20-1018"><a href="#cb20-1018" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1019"><a href="#cb20-1019" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>In the MDVE, monotonicity is reasonable: it is hard to imagine an officer who would arrest when told to coddle but coddle when told to arrest. The compliance data confirm that officers deviate *toward* arrest (the more cautious action), not away from it.</span>
+<span id="cb20-1020"><a href="#cb20-1020" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>If defiers existed (officers who systematically did the opposite of their assignment), the LATE interpretation breaks down because complier and defier effects would cancel each other in unknown proportions, making the IV estimate uninterpretable.</span>
+<span id="cb20-1021"><a href="#cb20-1021" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Monotonicity might fail in settings where the instrument triggers opposite reactions in different subgroups --- for example, a mandatory tutoring assignment where some students rebel against being told to attend (defiers who skip when assigned) but voluntarily attend when not assigned. In such cases, the IV estimate would not cleanly identify a causal effect for any well-defined group.</span>
 <span id="cb20-1022"><a href="#cb20-1022" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1023"><a href="#cb20-1023" aria-hidden="true" tabindex="-1"></a>mdve <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch3/mdve_clean.csv"</span>)</span>
+<span id="cb20-1023"><a href="#cb20-1023" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
 <span id="cb20-1024"><a href="#cb20-1024" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1025"><a href="#cb20-1025" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Compute Binary First Stage ---</span></span>
-<span id="cb20-1026"><a href="#cb20-1026" aria-hidden="true" tabindex="-1"></a><span class="co"># Binary instrument: arrest (Z=0) vs. coddle (Z=1)</span></span>
-<span id="cb20-1027"><a href="#cb20-1027" aria-hidden="true" tabindex="-1"></a>mdve[<span class="st">"z_coddle"</span>] <span class="op">=</span> (mdve[<span class="st">"assigned"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>).astype(<span class="bu">int</span>)</span>
-<span id="cb20-1028"><a href="#cb20-1028" aria-hidden="true" tabindex="-1"></a>mdve[<span class="st">"d_coddle"</span>] <span class="op">=</span> (mdve[<span class="st">"delivered"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>).astype(<span class="bu">int</span>)</span>
-<span id="cb20-1029"><a href="#cb20-1029" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1030"><a href="#cb20-1030" aria-hidden="true" tabindex="-1"></a><span class="co"># First stage = P(coddled | assigned coddle) - P(coddled | assigned arrest)</span></span>
-<span id="cb20-1031"><a href="#cb20-1031" aria-hidden="true" tabindex="-1"></a>fs <span class="op">=</span> mdve.groupby(<span class="st">"z_coddle"</span>)[<span class="st">"d_coddle"</span>].mean()</span>
-<span id="cb20-1032"><a href="#cb20-1032" aria-hidden="true" tabindex="-1"></a>first_stage <span class="op">=</span> fs[<span class="dv">1</span>] <span class="op">-</span> fs[<span class="dv">0</span>]</span>
-<span id="cb20-1033"><a href="#cb20-1033" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1034"><a href="#cb20-1034" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Published ITT from reduced form ---</span></span>
-<span id="cb20-1035"><a href="#cb20-1035" aria-hidden="true" tabindex="-1"></a>itt <span class="op">=</span> <span class="fl">0.114</span>  <span class="co"># 11.4 percentage points from Angrist (2006)</span></span>
-<span id="cb20-1036"><a href="#cb20-1036" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1037"><a href="#cb20-1037" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Compute LATE ---</span></span>
-<span id="cb20-1038"><a href="#cb20-1038" aria-hidden="true" tabindex="-1"></a>late <span class="op">=</span> itt <span class="op">/</span> first_stage</span>
-<span id="cb20-1039"><a href="#cb20-1039" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1040"><a href="#cb20-1040" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Display Results ---</span></span>
-<span id="cb20-1041"><a href="#cb20-1041" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb20-1042"><a href="#cb20-1042" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Quantity"</span>: [<span class="st">"P(coddled | assigned coddle)"</span>, <span class="st">"P(coddled | assigned arrest)"</span>,</span>
-<span id="cb20-1043"><a href="#cb20-1043" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"First stage"</span>, <span class="st">"ITT (reduced form)"</span>, <span class="st">"LATE = ITT / first stage"</span>],</span>
-<span id="cb20-1044"><a href="#cb20-1044" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Value"</span>: [<span class="bu">round</span>(fs[<span class="dv">1</span>], <span class="dv">3</span>), <span class="bu">round</span>(fs[<span class="dv">0</span>], <span class="dv">3</span>),</span>
-<span id="cb20-1045"><a href="#cb20-1045" aria-hidden="true" tabindex="-1"></a>              <span class="bu">round</span>(first_stage, <span class="dv">3</span>), itt, <span class="bu">round</span>(late, <span class="dv">3</span>)],</span>
-<span id="cb20-1046"><a href="#cb20-1046" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb20-1047"><a href="#cb20-1047" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-1027"><a href="#cb20-1027" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb20-1028"><a href="#cb20-1028" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-crossover</span></span>
+<span id="cb20-1029"><a href="#cb20-1029" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Cross-over patterns: where do deviating officers go?"</span></span>
+<span id="cb20-1030"><a href="#cb20-1030" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1031"><a href="#cb20-1031" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Identify Non-Compliant Cases ---</span></span>
+<span id="cb20-1032"><a href="#cb20-1032" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to cases where the officer deviated from the random assignment</span></span>
+<span id="cb20-1033"><a href="#cb20-1033" aria-hidden="true" tabindex="-1"></a>deviators <span class="op">=</span> mdve[mdve[<span class="st">"assigned"</span>] <span class="op">!=</span> mdve[<span class="st">"delivered"</span>]]</span>
+<span id="cb20-1034"><a href="#cb20-1034" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1035"><a href="#cb20-1035" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Cross-Tabulate Deviation Patterns ---</span></span>
+<span id="cb20-1036"><a href="#cb20-1036" aria-hidden="true" tabindex="-1"></a><span class="co"># Rows = what they were assigned; Columns = what they actually delivered</span></span>
+<span id="cb20-1037"><a href="#cb20-1037" aria-hidden="true" tabindex="-1"></a>crossover <span class="op">=</span> pd.crosstab(deviators[<span class="st">"assigned"</span>], deviators[<span class="st">"delivered"</span>])</span>
+<span id="cb20-1038"><a href="#cb20-1038" aria-hidden="true" tabindex="-1"></a>crossover</span>
+<span id="cb20-1039"><a href="#cb20-1039" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-1040"><a href="#cb20-1040" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1041"><a href="#cb20-1041" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb20-1042"><a href="#cb20-1042" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1043"><a href="#cb20-1043" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb20-1044"><a href="#cb20-1044" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Cross-over patterns among deviators ---</span></span>
+<span id="cb20-1045"><a href="#cb20-1045" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb20-1046"><a href="#cb20-1046" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb20-1047"><a href="#cb20-1047" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear</span></span>
 <span id="cb20-1048"><a href="#cb20-1048" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1049"><a href="#cb20-1049" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb20-1050"><a href="#cb20-1050" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1051"><a href="#cb20-1051" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb20-1052"><a href="#cb20-1052" aria-hidden="true" tabindex="-1"></a><span class="in">* --- ITT vs. LATE comparison ---</span></span>
-<span id="cb20-1053"><a href="#cb20-1053" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb20-1054"><a href="#cb20-1054" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb20-1055"><a href="#cb20-1055" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear</span></span>
-<span id="cb20-1056"><a href="#cb20-1056" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1057"><a href="#cb20-1057" aria-hidden="true" tabindex="-1"></a><span class="in">* Binary instrument and treatment</span></span>
-<span id="cb20-1058"><a href="#cb20-1058" aria-hidden="true" tabindex="-1"></a><span class="in">gen z_coddle = (assigned != "Arrest")</span></span>
-<span id="cb20-1059"><a href="#cb20-1059" aria-hidden="true" tabindex="-1"></a><span class="in">gen d_coddle = (delivered != "Arrest")</span></span>
-<span id="cb20-1060"><a href="#cb20-1060" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1061"><a href="#cb20-1061" aria-hidden="true" tabindex="-1"></a><span class="in">* First stage</span></span>
-<span id="cb20-1062"><a href="#cb20-1062" aria-hidden="true" tabindex="-1"></a><span class="in">tab z_coddle d_coddle, row</span></span>
-<span id="cb20-1063"><a href="#cb20-1063" aria-hidden="true" tabindex="-1"></a><span class="in">sum d_coddle if z_coddle == 1</span></span>
-<span id="cb20-1064"><a href="#cb20-1064" aria-hidden="true" tabindex="-1"></a><span class="in">scalar p_comply_coddle = r(mean)</span></span>
-<span id="cb20-1065"><a href="#cb20-1065" aria-hidden="true" tabindex="-1"></a><span class="in">sum d_coddle if z_coddle == 0</span></span>
-<span id="cb20-1066"><a href="#cb20-1066" aria-hidden="true" tabindex="-1"></a><span class="in">scalar p_comply_arrest = r(mean)</span></span>
-<span id="cb20-1067"><a href="#cb20-1067" aria-hidden="true" tabindex="-1"></a><span class="in">scalar first_stage = p_comply_coddle - p_comply_arrest</span></span>
+<span id="cb20-1049"><a href="#cb20-1049" aria-hidden="true" tabindex="-1"></a><span class="in">* Keep only non-compliant cases</span></span>
+<span id="cb20-1050"><a href="#cb20-1050" aria-hidden="true" tabindex="-1"></a><span class="in">keep if assigned != delivered</span></span>
+<span id="cb20-1051"><a href="#cb20-1051" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1052"><a href="#cb20-1052" aria-hidden="true" tabindex="-1"></a><span class="in">* Cross-tabulate: where did deviators go?</span></span>
+<span id="cb20-1053"><a href="#cb20-1053" aria-hidden="true" tabindex="-1"></a><span class="in">tab assigned delivered</span></span>
+<span id="cb20-1054"><a href="#cb20-1054" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-1055"><a href="#cb20-1055" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1056"><a href="#cb20-1056" aria-hidden="true" tabindex="-1"></a>**(1) What the numbers show:** The dominant pattern is cross-over from advise or separate **toward arrest**. Very few officers cross from arrest to another action. **(2) Why:** This asymmetry reflects officers exercising discretion toward the more protective response when they perceive the situation as dangerous. An officer told to "separate" a couple but facing a violent suspect will often upgrade to arrest for safety reasons. **(3) What it teaches:** This one-directional non-compliance supports the monotonicity assumption (no defiers) and simultaneously reveals the selection bias that makes naive comparisons misleading: the cases that crossed over to arrest are systematically more dangerous, so comparing outcomes by delivered treatment confounds the effect of arrest with the severity of the incident. IV resolves this by using only the random assignment as the source of identifying variation.</span>
+<span id="cb20-1057"><a href="#cb20-1057" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1058"><a href="#cb20-1058" aria-hidden="true" tabindex="-1"></a>**R4.**</span>
+<span id="cb20-1059"><a href="#cb20-1059" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1062"><a href="#cb20-1062" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb20-1063"><a href="#cb20-1063" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-itt-late</span></span>
+<span id="cb20-1064"><a href="#cb20-1064" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "ITT vs. LATE: scaling the intent-to-treat effect by compliance"</span></span>
+<span id="cb20-1065"><a href="#cb20-1065" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1066"><a href="#cb20-1066" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
+<span id="cb20-1067"><a href="#cb20-1067" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb20-1068"><a href="#cb20-1068" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1069"><a href="#cb20-1069" aria-hidden="true" tabindex="-1"></a><span class="in">* LATE = ITT / first stage</span></span>
-<span id="cb20-1070"><a href="#cb20-1070" aria-hidden="true" tabindex="-1"></a><span class="in">scalar itt = 0.114</span></span>
-<span id="cb20-1071"><a href="#cb20-1071" aria-hidden="true" tabindex="-1"></a><span class="in">scalar late = itt / first_stage</span></span>
-<span id="cb20-1072"><a href="#cb20-1072" aria-hidden="true" tabindex="-1"></a><span class="in">display "First stage = " first_stage</span></span>
-<span id="cb20-1073"><a href="#cb20-1073" aria-hidden="true" tabindex="-1"></a><span class="in">display "ITT = " itt</span></span>
-<span id="cb20-1074"><a href="#cb20-1074" aria-hidden="true" tabindex="-1"></a><span class="in">display "LATE = " late</span></span>
-<span id="cb20-1075"><a href="#cb20-1075" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-1076"><a href="#cb20-1076" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1077"><a href="#cb20-1077" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** The first stage is approximately 0.786, meaning random assignment shifts the probability of being coddled by about 79 percentage points. The LATE is 0.114 / 0.786 ≈ 0.145 (14.5 percentage points), which is larger than the ITT of 11.4 percentage points.</span>
-<span id="cb20-1078"><a href="#cb20-1078" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1079"><a href="#cb20-1079" aria-hidden="true" tabindex="-1"></a>(2) **Why:** The ITT averages over everyone --- compliers (whose treatment was changed by the assignment) AND non-compliers (who ignored it). Non-compliers dilute the estimate because their outcomes are unaffected by the instrument. The LATE rescales by dividing by the complier share, recovering the effect specifically for those whose behavior the instrument actually changed.</span>
-<span id="cb20-1080"><a href="#cb20-1080" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1081"><a href="#cb20-1081" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** This is the fundamental mechanics of the Wald estimator: LATE = ITT / first stage. The first stage measures the "dosage" of the instrument --- how much it actually shifts treatment. A weaker first stage (more non-compliance) would produce a larger gap between ITT and LATE. This exercise makes concrete why IV estimates are larger than ITT estimates whenever compliance is imperfect.</span>
+<span id="cb20-1069"><a href="#cb20-1069" aria-hidden="true" tabindex="-1"></a>mdve <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch3/mdve_clean.csv"</span>)</span>
+<span id="cb20-1070"><a href="#cb20-1070" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1071"><a href="#cb20-1071" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Compute Binary First Stage ---</span></span>
+<span id="cb20-1072"><a href="#cb20-1072" aria-hidden="true" tabindex="-1"></a><span class="co"># Binary instrument: arrest (Z=0) vs. coddle (Z=1)</span></span>
+<span id="cb20-1073"><a href="#cb20-1073" aria-hidden="true" tabindex="-1"></a>mdve[<span class="st">"z_coddle"</span>] <span class="op">=</span> (mdve[<span class="st">"assigned"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb20-1074"><a href="#cb20-1074" aria-hidden="true" tabindex="-1"></a>mdve[<span class="st">"d_coddle"</span>] <span class="op">=</span> (mdve[<span class="st">"delivered"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb20-1075"><a href="#cb20-1075" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1076"><a href="#cb20-1076" aria-hidden="true" tabindex="-1"></a><span class="co"># First stage = P(coddled | assigned coddle) - P(coddled | assigned arrest)</span></span>
+<span id="cb20-1077"><a href="#cb20-1077" aria-hidden="true" tabindex="-1"></a>fs <span class="op">=</span> mdve.groupby(<span class="st">"z_coddle"</span>)[<span class="st">"d_coddle"</span>].mean()</span>
+<span id="cb20-1078"><a href="#cb20-1078" aria-hidden="true" tabindex="-1"></a>first_stage <span class="op">=</span> fs[<span class="dv">1</span>] <span class="op">-</span> fs[<span class="dv">0</span>]</span>
+<span id="cb20-1079"><a href="#cb20-1079" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1080"><a href="#cb20-1080" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Published ITT from reduced form ---</span></span>
+<span id="cb20-1081"><a href="#cb20-1081" aria-hidden="true" tabindex="-1"></a>itt <span class="op">=</span> <span class="fl">0.114</span>  <span class="co"># 11.4 percentage points from Angrist (2006)</span></span>
 <span id="cb20-1082"><a href="#cb20-1082" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1083"><a href="#cb20-1083" aria-hidden="true" tabindex="-1"></a>**R5.**</span>
-<span id="cb20-1084"><a href="#cb20-1084" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1087"><a href="#cb20-1087" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb20-1088"><a href="#cb20-1088" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-monotonicity</span></span>
-<span id="cb20-1089"><a href="#cb20-1089" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Testing monotonicity: asymmetry in cross-over directions"</span></span>
-<span id="cb20-1090"><a href="#cb20-1090" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1091"><a href="#cb20-1091" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
-<span id="cb20-1092"><a href="#cb20-1092" aria-hidden="true" tabindex="-1"></a>mdve <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch3/mdve_clean.csv"</span>)</span>
-<span id="cb20-1093"><a href="#cb20-1093" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1094"><a href="#cb20-1094" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Cross-over rates by direction ---</span></span>
-<span id="cb20-1095"><a href="#cb20-1095" aria-hidden="true" tabindex="-1"></a><span class="co"># Among those assigned to arrest: how many were actually coddled?</span></span>
-<span id="cb20-1096"><a href="#cb20-1096" aria-hidden="true" tabindex="-1"></a>arrest_assigned <span class="op">=</span> mdve[mdve[<span class="st">"assigned"</span>] <span class="op">==</span> <span class="st">"Arrest"</span>]</span>
-<span id="cb20-1097"><a href="#cb20-1097" aria-hidden="true" tabindex="-1"></a>arrest_to_coddle <span class="op">=</span> (arrest_assigned[<span class="st">"delivered"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>).<span class="bu">sum</span>()</span>
-<span id="cb20-1098"><a href="#cb20-1098" aria-hidden="true" tabindex="-1"></a>arrest_n <span class="op">=</span> <span class="bu">len</span>(arrest_assigned)</span>
-<span id="cb20-1099"><a href="#cb20-1099" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1100"><a href="#cb20-1100" aria-hidden="true" tabindex="-1"></a><span class="co"># Among those assigned to coddle (advise or separate): how many were actually arrested?</span></span>
-<span id="cb20-1101"><a href="#cb20-1101" aria-hidden="true" tabindex="-1"></a>coddle_assigned <span class="op">=</span> mdve[mdve[<span class="st">"assigned"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>]</span>
-<span id="cb20-1102"><a href="#cb20-1102" aria-hidden="true" tabindex="-1"></a>coddle_to_arrest <span class="op">=</span> (coddle_assigned[<span class="st">"delivered"</span>] <span class="op">==</span> <span class="st">"Arrest"</span>).<span class="bu">sum</span>()</span>
-<span id="cb20-1103"><a href="#cb20-1103" aria-hidden="true" tabindex="-1"></a>coddle_n <span class="op">=</span> <span class="bu">len</span>(coddle_assigned)</span>
-<span id="cb20-1104"><a href="#cb20-1104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1105"><a href="#cb20-1105" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Display Asymmetry ---</span></span>
-<span id="cb20-1106"><a href="#cb20-1106" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb20-1107"><a href="#cb20-1107" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Direction"</span>: [<span class="st">"Arrest → Coddle (potential defiers)"</span>, <span class="st">"Coddle → Arrest (standard non-compliance)"</span>],</span>
-<span id="cb20-1108"><a href="#cb20-1108" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Count"</span>: [arrest_to_coddle, coddle_to_arrest],</span>
-<span id="cb20-1109"><a href="#cb20-1109" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Total assigned"</span>: [arrest_n, coddle_n],</span>
-<span id="cb20-1110"><a href="#cb20-1110" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Rate"</span>: [<span class="ss">f"</span><span class="sc">{</span>arrest_to_coddle<span class="op">/</span>arrest_n<span class="sc">:.1%}</span><span class="ss">"</span>, <span class="ss">f"</span><span class="sc">{</span>coddle_to_arrest<span class="op">/</span>coddle_n<span class="sc">:.1%}</span><span class="ss">"</span>],</span>
-<span id="cb20-1111"><a href="#cb20-1111" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb20-1112"><a href="#cb20-1112" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-1113"><a href="#cb20-1113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1114"><a href="#cb20-1114" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb20-1115"><a href="#cb20-1115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1116"><a href="#cb20-1116" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb20-1117"><a href="#cb20-1117" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Testing monotonicity: cross-over asymmetry ---</span></span>
-<span id="cb20-1118"><a href="#cb20-1118" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb20-1119"><a href="#cb20-1119" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb20-1120"><a href="#cb20-1120" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear</span></span>
-<span id="cb20-1121"><a href="#cb20-1121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1122"><a href="#cb20-1122" aria-hidden="true" tabindex="-1"></a><span class="in">* Among those assigned to arrest: how many were coddled?</span></span>
-<span id="cb20-1123"><a href="#cb20-1123" aria-hidden="true" tabindex="-1"></a><span class="in">count if assigned == "Arrest"</span></span>
-<span id="cb20-1124"><a href="#cb20-1124" aria-hidden="true" tabindex="-1"></a><span class="in">scalar n_arrest = r(N)</span></span>
-<span id="cb20-1125"><a href="#cb20-1125" aria-hidden="true" tabindex="-1"></a><span class="in">count if assigned == "Arrest" &amp; delivered != "Arrest"</span></span>
-<span id="cb20-1126"><a href="#cb20-1126" aria-hidden="true" tabindex="-1"></a><span class="in">scalar arrest_to_coddle = r(N)</span></span>
-<span id="cb20-1127"><a href="#cb20-1127" aria-hidden="true" tabindex="-1"></a><span class="in">display "Arrest -&gt; Coddle: " arrest_to_coddle " / " n_arrest " = " arrest_to_coddle/n_arrest</span></span>
+<span id="cb20-1083"><a href="#cb20-1083" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Compute LATE ---</span></span>
+<span id="cb20-1084"><a href="#cb20-1084" aria-hidden="true" tabindex="-1"></a>late <span class="op">=</span> itt <span class="op">/</span> first_stage</span>
+<span id="cb20-1085"><a href="#cb20-1085" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1086"><a href="#cb20-1086" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Display Results ---</span></span>
+<span id="cb20-1087"><a href="#cb20-1087" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb20-1088"><a href="#cb20-1088" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Quantity"</span>: [<span class="st">"P(coddled | assigned coddle)"</span>, <span class="st">"P(coddled | assigned arrest)"</span>,</span>
+<span id="cb20-1089"><a href="#cb20-1089" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"First stage"</span>, <span class="st">"ITT (reduced form)"</span>, <span class="st">"LATE = ITT / first stage"</span>],</span>
+<span id="cb20-1090"><a href="#cb20-1090" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Value"</span>: [<span class="bu">round</span>(fs[<span class="dv">1</span>], <span class="dv">3</span>), <span class="bu">round</span>(fs[<span class="dv">0</span>], <span class="dv">3</span>),</span>
+<span id="cb20-1091"><a href="#cb20-1091" aria-hidden="true" tabindex="-1"></a>              <span class="bu">round</span>(first_stage, <span class="dv">3</span>), itt, <span class="bu">round</span>(late, <span class="dv">3</span>)],</span>
+<span id="cb20-1092"><a href="#cb20-1092" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb20-1093"><a href="#cb20-1093" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-1094"><a href="#cb20-1094" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1095"><a href="#cb20-1095" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb20-1096"><a href="#cb20-1096" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1097"><a href="#cb20-1097" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb20-1098"><a href="#cb20-1098" aria-hidden="true" tabindex="-1"></a><span class="in">* --- ITT vs. LATE comparison ---</span></span>
+<span id="cb20-1099"><a href="#cb20-1099" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb20-1100"><a href="#cb20-1100" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb20-1101"><a href="#cb20-1101" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear</span></span>
+<span id="cb20-1102"><a href="#cb20-1102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1103"><a href="#cb20-1103" aria-hidden="true" tabindex="-1"></a><span class="in">* Binary instrument and treatment</span></span>
+<span id="cb20-1104"><a href="#cb20-1104" aria-hidden="true" tabindex="-1"></a><span class="in">gen z_coddle = (assigned != "Arrest")</span></span>
+<span id="cb20-1105"><a href="#cb20-1105" aria-hidden="true" tabindex="-1"></a><span class="in">gen d_coddle = (delivered != "Arrest")</span></span>
+<span id="cb20-1106"><a href="#cb20-1106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1107"><a href="#cb20-1107" aria-hidden="true" tabindex="-1"></a><span class="in">* First stage</span></span>
+<span id="cb20-1108"><a href="#cb20-1108" aria-hidden="true" tabindex="-1"></a><span class="in">tab z_coddle d_coddle, row</span></span>
+<span id="cb20-1109"><a href="#cb20-1109" aria-hidden="true" tabindex="-1"></a><span class="in">sum d_coddle if z_coddle == 1</span></span>
+<span id="cb20-1110"><a href="#cb20-1110" aria-hidden="true" tabindex="-1"></a><span class="in">scalar p_comply_coddle = r(mean)</span></span>
+<span id="cb20-1111"><a href="#cb20-1111" aria-hidden="true" tabindex="-1"></a><span class="in">sum d_coddle if z_coddle == 0</span></span>
+<span id="cb20-1112"><a href="#cb20-1112" aria-hidden="true" tabindex="-1"></a><span class="in">scalar p_comply_arrest = r(mean)</span></span>
+<span id="cb20-1113"><a href="#cb20-1113" aria-hidden="true" tabindex="-1"></a><span class="in">scalar first_stage = p_comply_coddle - p_comply_arrest</span></span>
+<span id="cb20-1114"><a href="#cb20-1114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1115"><a href="#cb20-1115" aria-hidden="true" tabindex="-1"></a><span class="in">* LATE = ITT / first stage</span></span>
+<span id="cb20-1116"><a href="#cb20-1116" aria-hidden="true" tabindex="-1"></a><span class="in">scalar itt = 0.114</span></span>
+<span id="cb20-1117"><a href="#cb20-1117" aria-hidden="true" tabindex="-1"></a><span class="in">scalar late = itt / first_stage</span></span>
+<span id="cb20-1118"><a href="#cb20-1118" aria-hidden="true" tabindex="-1"></a><span class="in">display "First stage = " first_stage</span></span>
+<span id="cb20-1119"><a href="#cb20-1119" aria-hidden="true" tabindex="-1"></a><span class="in">display "ITT = " itt</span></span>
+<span id="cb20-1120"><a href="#cb20-1120" aria-hidden="true" tabindex="-1"></a><span class="in">display "LATE = " late</span></span>
+<span id="cb20-1121"><a href="#cb20-1121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-1122"><a href="#cb20-1122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1123"><a href="#cb20-1123" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** The first stage is approximately 0.786, meaning random assignment shifts the probability of being coddled by about 79 percentage points. The LATE is 0.114 / 0.786 ≈ 0.145 (14.5 percentage points), which is larger than the ITT of 11.4 percentage points.</span>
+<span id="cb20-1124"><a href="#cb20-1124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1125"><a href="#cb20-1125" aria-hidden="true" tabindex="-1"></a>(2) **Why:** The ITT averages over everyone --- compliers (whose treatment was changed by the assignment) AND non-compliers (who ignored it). Non-compliers dilute the estimate because their outcomes are unaffected by the instrument. The LATE rescales by dividing by the complier share, recovering the effect specifically for those whose behavior the instrument actually changed.</span>
+<span id="cb20-1126"><a href="#cb20-1126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1127"><a href="#cb20-1127" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** This is the fundamental mechanics of the Wald estimator: LATE = ITT / first stage. The first stage measures the "dosage" of the instrument --- how much it actually shifts treatment. A weaker first stage (more non-compliance) would produce a larger gap between ITT and LATE. This exercise makes concrete why IV estimates are larger than ITT estimates whenever compliance is imperfect.</span>
 <span id="cb20-1128"><a href="#cb20-1128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1129"><a href="#cb20-1129" aria-hidden="true" tabindex="-1"></a><span class="in">* Among those assigned to coddle: how many were arrested?</span></span>
-<span id="cb20-1130"><a href="#cb20-1130" aria-hidden="true" tabindex="-1"></a><span class="in">count if assigned != "Arrest"</span></span>
-<span id="cb20-1131"><a href="#cb20-1131" aria-hidden="true" tabindex="-1"></a><span class="in">scalar n_coddle = r(N)</span></span>
-<span id="cb20-1132"><a href="#cb20-1132" aria-hidden="true" tabindex="-1"></a><span class="in">count if assigned != "Arrest" &amp; delivered == "Arrest"</span></span>
-<span id="cb20-1133"><a href="#cb20-1133" aria-hidden="true" tabindex="-1"></a><span class="in">scalar coddle_to_arrest = r(N)</span></span>
-<span id="cb20-1134"><a href="#cb20-1134" aria-hidden="true" tabindex="-1"></a><span class="in">display "Coddle -&gt; Arrest: " coddle_to_arrest " / " n_coddle " = " coddle_to_arrest/n_coddle</span></span>
-<span id="cb20-1135"><a href="#cb20-1135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-1129"><a href="#cb20-1129" aria-hidden="true" tabindex="-1"></a>**R5.**</span>
+<span id="cb20-1130"><a href="#cb20-1130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1133"><a href="#cb20-1133" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb20-1134"><a href="#cb20-1134" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-monotonicity</span></span>
+<span id="cb20-1135"><a href="#cb20-1135" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Testing monotonicity: asymmetry in cross-over directions"</span></span>
 <span id="cb20-1136"><a href="#cb20-1136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1137"><a href="#cb20-1137" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** Cross-over from arrest to coddle is extremely rare (near 0%), while cross-over from coddle to arrest is much more common (~20-25%). The asymmetry is dramatic and one-directional.</span>
-<span id="cb20-1138"><a href="#cb20-1138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1139"><a href="#cb20-1139" aria-hidden="true" tabindex="-1"></a>(2) **Why:** Officers almost never soften their response when told to arrest --- the stakes are too high to release a suspect flagged for arrest. But officers frequently upgrade from advise/separate to arrest when they perceive danger. This one-directional pattern is exactly what monotonicity requires: the instrument shifts everyone in the same direction (toward compliance with arrest) or not at all.</span>
-<span id="cb20-1140"><a href="#cb20-1140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-1141"><a href="#cb20-1141" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** If defiers existed in substantial numbers (officers who arrest when told to coddle AND coddle when told to arrest), the two cross-over rates would be more symmetric. The extreme asymmetry we observe is strong empirical evidence supporting monotonicity. While monotonicity cannot be formally tested (it involves counterfactuals), data patterns like this can make it more or less plausible. This exercise shows students how to evaluate an untestable assumption using observable evidence.</span>
+<span id="cb20-1137"><a href="#cb20-1137" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Setup ---</span></span>
+<span id="cb20-1138"><a href="#cb20-1138" aria-hidden="true" tabindex="-1"></a>mdve <span class="op">=</span> pd.read_csv(DATA <span class="op">+</span> <span class="st">"ch3/mdve_clean.csv"</span>)</span>
+<span id="cb20-1139"><a href="#cb20-1139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1140"><a href="#cb20-1140" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Cross-over rates by direction ---</span></span>
+<span id="cb20-1141"><a href="#cb20-1141" aria-hidden="true" tabindex="-1"></a><span class="co"># Among those assigned to arrest: how many were actually coddled?</span></span>
+<span id="cb20-1142"><a href="#cb20-1142" aria-hidden="true" tabindex="-1"></a>arrest_assigned <span class="op">=</span> mdve[mdve[<span class="st">"assigned"</span>] <span class="op">==</span> <span class="st">"Arrest"</span>]</span>
+<span id="cb20-1143"><a href="#cb20-1143" aria-hidden="true" tabindex="-1"></a>arrest_to_coddle <span class="op">=</span> (arrest_assigned[<span class="st">"delivered"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>).<span class="bu">sum</span>()</span>
+<span id="cb20-1144"><a href="#cb20-1144" aria-hidden="true" tabindex="-1"></a>arrest_n <span class="op">=</span> <span class="bu">len</span>(arrest_assigned)</span>
+<span id="cb20-1145"><a href="#cb20-1145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1146"><a href="#cb20-1146" aria-hidden="true" tabindex="-1"></a><span class="co"># Among those assigned to coddle (advise or separate): how many were actually arrested?</span></span>
+<span id="cb20-1147"><a href="#cb20-1147" aria-hidden="true" tabindex="-1"></a>coddle_assigned <span class="op">=</span> mdve[mdve[<span class="st">"assigned"</span>] <span class="op">!=</span> <span class="st">"Arrest"</span>]</span>
+<span id="cb20-1148"><a href="#cb20-1148" aria-hidden="true" tabindex="-1"></a>coddle_to_arrest <span class="op">=</span> (coddle_assigned[<span class="st">"delivered"</span>] <span class="op">==</span> <span class="st">"Arrest"</span>).<span class="bu">sum</span>()</span>
+<span id="cb20-1149"><a href="#cb20-1149" aria-hidden="true" tabindex="-1"></a>coddle_n <span class="op">=</span> <span class="bu">len</span>(coddle_assigned)</span>
+<span id="cb20-1150"><a href="#cb20-1150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1151"><a href="#cb20-1151" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Display Asymmetry ---</span></span>
+<span id="cb20-1152"><a href="#cb20-1152" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb20-1153"><a href="#cb20-1153" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Direction"</span>: [<span class="st">"Arrest → Coddle (potential defiers)"</span>, <span class="st">"Coddle → Arrest (standard non-compliance)"</span>],</span>
+<span id="cb20-1154"><a href="#cb20-1154" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Count"</span>: [arrest_to_coddle, coddle_to_arrest],</span>
+<span id="cb20-1155"><a href="#cb20-1155" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Total assigned"</span>: [arrest_n, coddle_n],</span>
+<span id="cb20-1156"><a href="#cb20-1156" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Rate"</span>: [<span class="ss">f"</span><span class="sc">{</span>arrest_to_coddle<span class="op">/</span>arrest_n<span class="sc">:.1%}</span><span class="ss">"</span>, <span class="ss">f"</span><span class="sc">{</span>coddle_to_arrest<span class="op">/</span>coddle_n<span class="sc">:.1%}</span><span class="ss">"</span>],</span>
+<span id="cb20-1157"><a href="#cb20-1157" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb20-1158"><a href="#cb20-1158" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-1159"><a href="#cb20-1159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1160"><a href="#cb20-1160" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb20-1161"><a href="#cb20-1161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1162"><a href="#cb20-1162" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb20-1163"><a href="#cb20-1163" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Testing monotonicity: cross-over asymmetry ---</span></span>
+<span id="cb20-1164"><a href="#cb20-1164" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb20-1165"><a href="#cb20-1165" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb20-1166"><a href="#cb20-1166" aria-hidden="true" tabindex="-1"></a><span class="in">import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear</span></span>
+<span id="cb20-1167"><a href="#cb20-1167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1168"><a href="#cb20-1168" aria-hidden="true" tabindex="-1"></a><span class="in">* Among those assigned to arrest: how many were coddled?</span></span>
+<span id="cb20-1169"><a href="#cb20-1169" aria-hidden="true" tabindex="-1"></a><span class="in">count if assigned == "Arrest"</span></span>
+<span id="cb20-1170"><a href="#cb20-1170" aria-hidden="true" tabindex="-1"></a><span class="in">scalar n_arrest = r(N)</span></span>
+<span id="cb20-1171"><a href="#cb20-1171" aria-hidden="true" tabindex="-1"></a><span class="in">count if assigned == "Arrest" &amp; delivered != "Arrest"</span></span>
+<span id="cb20-1172"><a href="#cb20-1172" aria-hidden="true" tabindex="-1"></a><span class="in">scalar arrest_to_coddle = r(N)</span></span>
+<span id="cb20-1173"><a href="#cb20-1173" aria-hidden="true" tabindex="-1"></a><span class="in">display "Arrest -&gt; Coddle: " arrest_to_coddle " / " n_arrest " = " arrest_to_coddle/n_arrest</span></span>
+<span id="cb20-1174"><a href="#cb20-1174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1175"><a href="#cb20-1175" aria-hidden="true" tabindex="-1"></a><span class="in">* Among those assigned to coddle: how many were arrested?</span></span>
+<span id="cb20-1176"><a href="#cb20-1176" aria-hidden="true" tabindex="-1"></a><span class="in">count if assigned != "Arrest"</span></span>
+<span id="cb20-1177"><a href="#cb20-1177" aria-hidden="true" tabindex="-1"></a><span class="in">scalar n_coddle = r(N)</span></span>
+<span id="cb20-1178"><a href="#cb20-1178" aria-hidden="true" tabindex="-1"></a><span class="in">count if assigned != "Arrest" &amp; delivered == "Arrest"</span></span>
+<span id="cb20-1179"><a href="#cb20-1179" aria-hidden="true" tabindex="-1"></a><span class="in">scalar coddle_to_arrest = r(N)</span></span>
+<span id="cb20-1180"><a href="#cb20-1180" aria-hidden="true" tabindex="-1"></a><span class="in">display "Coddle -&gt; Arrest: " coddle_to_arrest " / " n_coddle " = " coddle_to_arrest/n_coddle</span></span>
+<span id="cb20-1181"><a href="#cb20-1181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-1182"><a href="#cb20-1182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1183"><a href="#cb20-1183" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** Cross-over from arrest to coddle is extremely rare (near 0%), while cross-over from coddle to arrest is much more common (~20-25%). The asymmetry is dramatic and one-directional.</span>
+<span id="cb20-1184"><a href="#cb20-1184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1185"><a href="#cb20-1185" aria-hidden="true" tabindex="-1"></a>(2) **Why:** Officers almost never soften their response when told to arrest --- the stakes are too high to release a suspect flagged for arrest. But officers frequently upgrade from advise/separate to arrest when they perceive danger. This one-directional pattern is exactly what monotonicity requires: the instrument shifts everyone in the same direction (toward compliance with arrest) or not at all.</span>
+<span id="cb20-1186"><a href="#cb20-1186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-1187"><a href="#cb20-1187" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** If defiers existed in substantial numbers (officers who arrest when told to coddle AND coddle when told to arrest), the two cross-over rates would be more symmetric. The extreme asymmetry we observe is strong empirical evidence supporting monotonicity. While monotonicity cannot be formally tested (it involves counterfactuals), data patterns like this can make it more or less plausible. This exercise shows students how to evaluate an untestable assumption using observable evidence.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

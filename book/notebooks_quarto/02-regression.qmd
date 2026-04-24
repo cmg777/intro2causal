@@ -742,18 +742,60 @@ Copy the code above into a `.do` file and run it in Stata. No external data file
 
 ### Conceptual Questions
 
-::: {.callout-caution}
-### Conceptual Questions
-
 1. **OVB direction**: A study estimates the effect of job training on wages but does not control for prior work experience. Workers with more experience are more likely to receive training AND earn higher wages. Using the OVB formula, predict: is the training coefficient biased upward or downward?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**The training coefficient is biased upward because it absorbs the positive effect of the omitted experience variable.**
+
+1. **Identify $\pi_1$:** The relationship between experience and training is positive, since experienced workers tend to receive more training.
+2. **Identify $\gamma$:** The effect of experience on wages in the long regression is positive, since experience raises wages.
+3. **Apply the OVB formula:** OVB = $\pi_1 \times \gamma$ = positive $\times$ positive = **positive**.
+4. **Conclude:** The short regression overstates the true effect of training because it partly captures the wage-boosting effect of experience. This is a direct application of the OVB formula introduced in the chapter.
+:::
 
 2. **Short vs. long**: You run a regression of test scores on class size (small vs. large) and get a coefficient of -5. When you add family income as a control, the coefficient changes to -2. (a) What is the OVB? (b) What does this imply about the relationship between family income, class size, and test scores?
 
+::: {.callout-note collapse="true"}
+### Show answer
+**Omitting family income biases the class size effect downward, making smaller classes look more beneficial than they truly are.**
+
+1. **Compute OVB:** OVB = short $-$ long = $-5 - (-2) = -3$.
+2. **Decompose the sign:** Family income is negatively correlated with class size (richer families choose smaller classes, so $\pi_1 < 0$) and positively correlated with test scores ($\gamma > 0$). The product $\pi_1 \times \gamma$ is negative.
+3. **Interpret:** The negative OVB means the short regression exaggerates the class size penalty --- some of the apparent class size effect was really a family income effect. This illustrates the chapter's warning: the direction of OVB depends on the signs of both $\pi_1$ and $\gamma$.
+:::
+
 3. **Bad controls**: A researcher studies whether exercise improves mental health. She controls for body weight in her regression. Why might this be a bad control? (Hint: does exercise affect body weight?)
+
+::: {.callout-note collapse="true"}
+### Show answer
+**Body weight is a bad control because it is a downstream consequence of exercise, not a pre-treatment confounder.**
+
+1. **Identify the causal pathway:** Exercise causes changes in body weight, so weight is a mediator on the path exercise $\rightarrow$ lower weight $\rightarrow$ better mental health.
+2. **Explain the problem:** Controlling for weight blocks this pathway, absorbing part of the total effect of exercise. The regression would understate how much exercise improves mental health.
+3. **State the rule:** As the chapter emphasizes, only control for variables determined *before* the treatment (pre-treatment covariates). Bad controls --- variables that are themselves affected by treatment --- introduce bias by removing part of the causal effect you are trying to measure.
+:::
 
 4. **Sensitivity analysis**: Two studies estimate the effect of class size on test scores. Study A gets -3 without controls and -2.8 with controls. Study B gets -8 without controls and -2 with controls. Which study's results are more credible, and why?
 
+::: {.callout-note collapse="true"}
+### Show answer
+**Study A is more credible because coefficient stability across specifications signals low omitted variable bias.**
+
+1. **Compare the shifts:** Study A's estimate barely changes when controls are added ($-3$ to $-2.8$, a shift of $0.2$). Study B's estimate drops dramatically ($-8$ to $-2$, a shift of $6$).
+2. **Apply OVB logic:** By the OVB formula, the large change in Study B means the added controls were highly correlated with both class size ($\pi_1$ is large) and test scores ($\gamma$ is large). The uncontrolled estimate was severely biased.
+3. **Draw the conclusion:** Study A's stability suggests that omitted variables are less of a concern --- the short and long regressions tell a similar story. This coefficient-stability heuristic is a practical diagnostic from the chapter: when adding controls barely moves the estimate, we gain confidence that further omitted variables are unlikely to change it much either.
+:::
+
 5. **Regression vs. RCT**: A regression of health on exercise, controlling for age, income, and diet, finds that exercise improves health. Under what conditions would this estimate be causal? What could still go wrong?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**Regression can only deliver causal estimates if there are no unobserved confounders --- a strong assumption that is unlikely to hold here.**
+
+1. **State the assumption:** The regression estimate is causal only if age, income, and diet are the *only* confounders (the conditional independence assumption, or CIA).
+2. **List plausible violations:** Unobserved factors could still bias the result: genetics (some people are naturally healthier AND more inclined to exercise), motivation, social support, or pre-existing health conditions. Each of these is correlated with both exercise and health, creating OVB.
+3. **Connect to the broader course:** Without random assignment of exercise, we can never be sure we have controlled for everything. This fundamental limitation of regression motivates the methods in later chapters --- instrumental variables (Chapter 3), regression discontinuity (Chapter 4), and differences-in-differences (Chapter 5) --- which rely on research designs rather than exhaustive control lists.
 :::
 
 ### Research Tasks

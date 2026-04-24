@@ -464,7 +464,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions">Solutions</a>
   <ul class="collapse">
-  <li><a href="#conceptual-questions-2" id="toc-conceptual-questions-2" class="nav-link" data-scroll-target="#conceptual-questions-2">Conceptual Questions</a></li>
+  <li><a href="#conceptual-questions-1" id="toc-conceptual-questions-1" class="nav-link" data-scroll-target="#conceptual-questions-1">Conceptual Questions</a></li>
   <li><a href="#research-tasks-2" id="toc-research-tasks-2" class="nav-link" data-scroll-target="#research-tasks-2">Research Tasks</a></li>
   </ul></li>
   </ul>
@@ -951,7 +951,7 @@ Figure&nbsp;2.1: Roadmap for Chapter 2
 <section id="the-data-generating-process" class="level3">
 <h3 class="anchored" data-anchor-id="the-data-generating-process">The Data-Generating Process</h3>
 <p>We simulate 1,000 students choosing between private and public colleges:</p>
-<div id="34c35d5d" class="cell" data-execution_count="1">
+<div id="2308d7ec" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1937,23 +1937,125 @@ Figure&nbsp;2.2: How the key concepts of Chapter 2 connect
 </section>
 <section id="conceptual-questions" class="level3">
 <h3 class="anchored" data-anchor-id="conceptual-questions">Conceptual Questions</h3>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
+<ol type="1">
+<li><strong>OVB direction</strong>: A study estimates the effect of job training on wages but does not control for prior work experience. Workers with more experience are more likely to receive training AND earn higher wages. Using the OVB formula, predict: is the training coefficient biased upward or downward?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-42-contents" aria-controls="callout-42" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Conceptual Questions
+<span class="screen-reader-only">Note</span>Show answer
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-42" class="callout-42-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p><strong>The training coefficient is biased upward because it absorbs the positive effect of the omitted experience variable.</strong></p>
 <ol type="1">
-<li><p><strong>OVB direction</strong>: A study estimates the effect of job training on wages but does not control for prior work experience. Workers with more experience are more likely to receive training AND earn higher wages. Using the OVB formula, predict: is the training coefficient biased upward or downward?</p></li>
-<li><p><strong>Short vs.&nbsp;long</strong>: You run a regression of test scores on class size (small vs.&nbsp;large) and get a coefficient of -5. When you add family income as a control, the coefficient changes to -2. (a) What is the OVB? (b) What does this imply about the relationship between family income, class size, and test scores?</p></li>
-<li><p><strong>Bad controls</strong>: A researcher studies whether exercise improves mental health. She controls for body weight in her regression. Why might this be a bad control? (Hint: does exercise affect body weight?)</p></li>
-<li><p><strong>Sensitivity analysis</strong>: Two studies estimate the effect of class size on test scores. Study A gets -3 without controls and -2.8 with controls. Study B gets -8 without controls and -2 with controls. Which study’s results are more credible, and why?</p></li>
-<li><p><strong>Regression vs.&nbsp;RCT</strong>: A regression of health on exercise, controlling for age, income, and diet, finds that exercise improves health. Under what conditions would this estimate be causal? What could still go wrong?</p></li>
+<li><strong>Identify <span class="math inline">\(\pi_1\)</span>:</strong> The relationship between experience and training is positive, since experienced workers tend to receive more training.</li>
+<li><strong>Identify <span class="math inline">\(\gamma\)</span>:</strong> The effect of experience on wages in the long regression is positive, since experience raises wages.</li>
+<li><strong>Apply the OVB formula:</strong> OVB = <span class="math inline">\(\pi_1 \times \gamma\)</span> = positive <span class="math inline">\(\times\)</span> positive = <strong>positive</strong>.</li>
+<li><strong>Conclude:</strong> The short regression overstates the true effect of training because it partly captures the wage-boosting effect of experience. This is a direct application of the OVB formula introduced in the chapter.</li>
 </ol>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li><strong>Short vs.&nbsp;long</strong>: You run a regression of test scores on class size (small vs.&nbsp;large) and get a coefficient of -5. When you add family income as a control, the coefficient changes to -2. (a) What is the OVB? (b) What does this imply about the relationship between family income, class size, and test scores?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-43-contents" aria-controls="callout-43" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-43" class="callout-43-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Omitting family income biases the class size effect downward, making smaller classes look more beneficial than they truly are.</strong></p>
+<ol type="1">
+<li><strong>Compute OVB:</strong> OVB = short <span class="math inline">\(-\)</span> long = <span class="math inline">\(-5 - (-2) = -3\)</span>.</li>
+<li><strong>Decompose the sign:</strong> Family income is negatively correlated with class size (richer families choose smaller classes, so <span class="math inline">\(\pi_1 &lt; 0\)</span>) and positively correlated with test scores (<span class="math inline">\(\gamma &gt; 0\)</span>). The product <span class="math inline">\(\pi_1 \times \gamma\)</span> is negative.</li>
+<li><strong>Interpret:</strong> The negative OVB means the short regression exaggerates the class size penalty — some of the apparent class size effect was really a family income effect. This illustrates the chapter’s warning: the direction of OVB depends on the signs of both <span class="math inline">\(\pi_1\)</span> and <span class="math inline">\(\gamma\)</span>.</li>
+</ol>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li><strong>Bad controls</strong>: A researcher studies whether exercise improves mental health. She controls for body weight in her regression. Why might this be a bad control? (Hint: does exercise affect body weight?)</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-44-contents" aria-controls="callout-44" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-44" class="callout-44-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Body weight is a bad control because it is a downstream consequence of exercise, not a pre-treatment confounder.</strong></p>
+<ol type="1">
+<li><strong>Identify the causal pathway:</strong> Exercise causes changes in body weight, so weight is a mediator on the path exercise <span class="math inline">\(\rightarrow\)</span> lower weight <span class="math inline">\(\rightarrow\)</span> better mental health.</li>
+<li><strong>Explain the problem:</strong> Controlling for weight blocks this pathway, absorbing part of the total effect of exercise. The regression would understate how much exercise improves mental health.</li>
+<li><strong>State the rule:</strong> As the chapter emphasizes, only control for variables determined <em>before</em> the treatment (pre-treatment covariates). Bad controls — variables that are themselves affected by treatment — introduce bias by removing part of the causal effect you are trying to measure.</li>
+</ol>
+</div>
+</div>
+</div>
+<ol start="4" type="1">
+<li><strong>Sensitivity analysis</strong>: Two studies estimate the effect of class size on test scores. Study A gets -3 without controls and -2.8 with controls. Study B gets -8 without controls and -2 with controls. Which study’s results are more credible, and why?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-45" class="callout-45-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Study A is more credible because coefficient stability across specifications signals low omitted variable bias.</strong></p>
+<ol type="1">
+<li><strong>Compare the shifts:</strong> Study A’s estimate barely changes when controls are added (<span class="math inline">\(-3\)</span> to <span class="math inline">\(-2.8\)</span>, a shift of <span class="math inline">\(0.2\)</span>). Study B’s estimate drops dramatically (<span class="math inline">\(-8\)</span> to <span class="math inline">\(-2\)</span>, a shift of <span class="math inline">\(6\)</span>).</li>
+<li><strong>Apply OVB logic:</strong> By the OVB formula, the large change in Study B means the added controls were highly correlated with both class size (<span class="math inline">\(\pi_1\)</span> is large) and test scores (<span class="math inline">\(\gamma\)</span> is large). The uncontrolled estimate was severely biased.</li>
+<li><strong>Draw the conclusion:</strong> Study A’s stability suggests that omitted variables are less of a concern — the short and long regressions tell a similar story. This coefficient-stability heuristic is a practical diagnostic from the chapter: when adding controls barely moves the estimate, we gain confidence that further omitted variables are unlikely to change it much either.</li>
+</ol>
+</div>
+</div>
+</div>
+<ol start="5" type="1">
+<li><strong>Regression vs.&nbsp;RCT</strong>: A regression of health on exercise, controlling for age, income, and diet, finds that exercise improves health. Under what conditions would this estimate be causal? What could still go wrong?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-46" class="callout-46-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Regression can only deliver causal estimates if there are no unobserved confounders — a strong assumption that is unlikely to hold here.</strong></p>
+<ol type="1">
+<li><strong>State the assumption:</strong> The regression estimate is causal only if age, income, and diet are the <em>only</em> confounders (the conditional independence assumption, or CIA).</li>
+<li><strong>List plausible violations:</strong> Unobserved factors could still bias the result: genetics (some people are naturally healthier AND more inclined to exercise), motivation, social support, or pre-existing health conditions. Each of these is correlated with both exercise and health, creating OVB.</li>
+<li><strong>Connect to the broader course:</strong> Without random assignment of exercise, we can never be sure we have controlled for everything. This fundamental limitation of regression motivates the methods in later chapters — instrumental variables (Chapter 3), regression discontinuity (Chapter 4), and differences-in-differences (Chapter 5) — which rely on research designs rather than exhaustive control lists.</li>
+</ol>
+</div>
 </div>
 </div>
 </section>
@@ -1982,8 +2084,8 @@ Figure&nbsp;2.2: How the key concepts of Chapter 2 connect
 </section>
 <section id="solutions" class="level2">
 <h2 class="anchored" data-anchor-id="solutions">Solutions</h2>
-<section id="conceptual-questions-2" class="level3">
-<h3 class="anchored" data-anchor-id="conceptual-questions-2">Conceptual Questions</h3>
+<section id="conceptual-questions-1" class="level3">
+<h3 class="anchored" data-anchor-id="conceptual-questions-1">Conceptual Questions</h3>
 <p><strong>Q1.</strong> <strong>The training coefficient is biased upward because it absorbs the positive effect of the omitted experience variable.</strong></p>
 <ol type="1">
 <li><strong>Identify <span class="math inline">\(\pi_1\)</span>:</strong> The relationship between experience and training is positive, since experienced workers tend to receive more training.</li>
@@ -3801,404 +3903,446 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-754"><a href="#cb17-754" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-755"><a href="#cb17-755" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
 <span id="cb17-756"><a href="#cb17-756" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-757"><a href="#cb17-757" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb17-758"><a href="#cb17-758" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb17-759"><a href="#cb17-759" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-760"><a href="#cb17-760" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**OVB direction**: A study estimates the effect of job training on wages but does not control for prior work experience. Workers with more experience are more likely to receive training AND earn higher wages. Using the OVB formula, predict: is the training coefficient biased upward or downward?</span>
-<span id="cb17-761"><a href="#cb17-761" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-762"><a href="#cb17-762" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Short vs. long**: You run a regression of test scores on class size (small vs. large) and get a coefficient of -5. When you add family income as a control, the coefficient changes to -2. (a) What is the OVB? (b) What does this imply about the relationship between family income, class size, and test scores?</span>
-<span id="cb17-763"><a href="#cb17-763" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-764"><a href="#cb17-764" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Bad controls**: A researcher studies whether exercise improves mental health. She controls for body weight in her regression. Why might this be a bad control? (Hint: does exercise affect body weight?)</span>
-<span id="cb17-765"><a href="#cb17-765" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-766"><a href="#cb17-766" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Sensitivity analysis**: Two studies estimate the effect of class size on test scores. Study A gets -3 without controls and -2.8 with controls. Study B gets -8 without controls and -2 with controls. Which study's results are more credible, and why?</span>
-<span id="cb17-767"><a href="#cb17-767" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-768"><a href="#cb17-768" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Regression vs. RCT**: A regression of health on exercise, controlling for age, income, and diet, finds that exercise improves health. Under what conditions would this estimate be causal? What could still go wrong?</span>
-<span id="cb17-769"><a href="#cb17-769" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb17-757"><a href="#cb17-757" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**OVB direction**: A study estimates the effect of job training on wages but does not control for prior work experience. Workers with more experience are more likely to receive training AND earn higher wages. Using the OVB formula, predict: is the training coefficient biased upward or downward?</span>
+<span id="cb17-758"><a href="#cb17-758" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-759"><a href="#cb17-759" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb17-760"><a href="#cb17-760" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb17-761"><a href="#cb17-761" aria-hidden="true" tabindex="-1"></a>**The training coefficient is biased upward because it absorbs the positive effect of the omitted experience variable.**</span>
+<span id="cb17-762"><a href="#cb17-762" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-763"><a href="#cb17-763" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identify $\pi_1$:** The relationship between experience and training is positive, since experienced workers tend to receive more training.</span>
+<span id="cb17-764"><a href="#cb17-764" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Identify $\gamma$:** The effect of experience on wages in the long regression is positive, since experience raises wages.</span>
+<span id="cb17-765"><a href="#cb17-765" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Apply the OVB formula:** OVB = $\pi_1 \times \gamma$ = positive $\times$ positive = **positive**.</span>
+<span id="cb17-766"><a href="#cb17-766" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Conclude:** The short regression overstates the true effect of training because it partly captures the wage-boosting effect of experience. This is a direct application of the OVB formula introduced in the chapter.</span>
+<span id="cb17-767"><a href="#cb17-767" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb17-768"><a href="#cb17-768" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-769"><a href="#cb17-769" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Short vs. long**: You run a regression of test scores on class size (small vs. large) and get a coefficient of -5. When you add family income as a control, the coefficient changes to -2. (a) What is the OVB? (b) What does this imply about the relationship between family income, class size, and test scores?</span>
 <span id="cb17-770"><a href="#cb17-770" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-771"><a href="#cb17-771" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb17-772"><a href="#cb17-772" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-773"><a href="#cb17-773" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
-<span id="cb17-774"><a href="#cb17-774" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb17-775"><a href="#cb17-775" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-776"><a href="#cb17-776" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Change the true effect**: In the simulated data code above, change <span class="in">`true_effect`</span> from 5000 to 0 (no causal effect). Re-run the short and long regressions. Does the short regression still show a positive coefficient? What does this demonstrate about selection bias?</span>
-<span id="cb17-777"><a href="#cb17-777" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-778"><a href="#cb17-778" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Strengthen the confounder**: Modify the simulation so that ability has a *stronger* relationship with private school choice (change the division by 5 to division by 2 in <span class="in">`prob_private`</span>). How does this change the OVB? Verify with the formula.</span>
+<span id="cb17-771"><a href="#cb17-771" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb17-772"><a href="#cb17-772" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb17-773"><a href="#cb17-773" aria-hidden="true" tabindex="-1"></a>**Omitting family income biases the class size effect downward, making smaller classes look more beneficial than they truly are.**</span>
+<span id="cb17-774"><a href="#cb17-774" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-775"><a href="#cb17-775" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Compute OVB:** OVB = short $-$ long = $-5 - (-2) = -3$.</span>
+<span id="cb17-776"><a href="#cb17-776" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Decompose the sign:** Family income is negatively correlated with class size (richer families choose smaller classes, so $\pi_1 &lt; 0$) and positively correlated with test scores ($\gamma &gt; 0$). The product $\pi_1 \times \gamma$ is negative.</span>
+<span id="cb17-777"><a href="#cb17-777" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Interpret:** The negative OVB means the short regression exaggerates the class size penalty --- some of the apparent class size effect was really a family income effect. This illustrates the chapter's warning: the direction of OVB depends on the signs of both $\pi_1$ and $\gamma$.</span>
+<span id="cb17-778"><a href="#cb17-778" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-779"><a href="#cb17-779" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-780"><a href="#cb17-780" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Add a second confounder**: Add a <span class="in">`family_income`</span> variable to the simulation that affects both private school choice and earnings. Run the long regression with only ability (omitting family income), then with both. Use the OVB formula to explain the difference.</span>
+<span id="cb17-780"><a href="#cb17-780" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Bad controls**: A researcher studies whether exercise improves mental health. She controls for body weight in her regression. Why might this be a bad control? (Hint: does exercise affect body weight?)</span>
 <span id="cb17-781"><a href="#cb17-781" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-782"><a href="#cb17-782" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Reverse the confounder's sign**: Modify the simulation so that higher ability makes private school *less* likely (flip the sign in <span class="in">`prob_private`</span>). Run the short and long regressions. Is the OVB now negative? Verify using the OVB formula that the predicted direction matches.</span>
-<span id="cb17-783"><a href="#cb17-783" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-784"><a href="#cb17-784" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Progressive control addition**: Create a simulation with three confounders (ability, family income, motivation) that each affect both private school choice and earnings. Run four nested regressions (no controls, +ability, +ability +income, +all three). Display how the private school coefficient changes as controls are added. Does it stabilize near the true effect?</span>
-<span id="cb17-785"><a href="#cb17-785" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb17-786"><a href="#cb17-786" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-787"><a href="#cb17-787" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-788"><a href="#cb17-788" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
-<span id="cb17-789"><a href="#cb17-789" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-790"><a href="#cb17-790" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
-<span id="cb17-791"><a href="#cb17-791" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-792"><a href="#cb17-792" aria-hidden="true" tabindex="-1"></a>**Q1.** **The training coefficient is biased upward because it absorbs the positive effect of the omitted experience variable.**</span>
-<span id="cb17-793"><a href="#cb17-793" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-794"><a href="#cb17-794" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identify $\pi_1$:** The relationship between experience and training is positive, since experienced workers tend to receive more training.</span>
-<span id="cb17-795"><a href="#cb17-795" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Identify $\gamma$:** The effect of experience on wages in the long regression is positive, since experience raises wages.</span>
-<span id="cb17-796"><a href="#cb17-796" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Apply the OVB formula:** OVB = $\pi_1 \times \gamma$ = positive $\times$ positive = **positive**.</span>
-<span id="cb17-797"><a href="#cb17-797" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Conclude:** The short regression overstates the true effect of training because it partly captures the wage-boosting effect of experience. This is a direct application of the OVB formula introduced in the chapter.</span>
-<span id="cb17-798"><a href="#cb17-798" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-799"><a href="#cb17-799" aria-hidden="true" tabindex="-1"></a>**Q2.** **Omitting family income biases the class size effect downward, making smaller classes look more beneficial than they truly are.**</span>
-<span id="cb17-800"><a href="#cb17-800" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-801"><a href="#cb17-801" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Compute OVB:** OVB = short $-$ long = $-5 - (-2) = -3$.</span>
-<span id="cb17-802"><a href="#cb17-802" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Decompose the sign:** Family income is negatively correlated with class size (richer families choose smaller classes, so $\pi_1 &lt; 0$) and positively correlated with test scores ($\gamma &gt; 0$). The product $\pi_1 \times \gamma$ is negative.</span>
-<span id="cb17-803"><a href="#cb17-803" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Interpret:** The negative OVB means the short regression exaggerates the class size penalty --- some of the apparent class size effect was really a family income effect. This illustrates the chapter's warning: the direction of OVB depends on the signs of both $\pi_1$ and $\gamma$.</span>
-<span id="cb17-804"><a href="#cb17-804" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-805"><a href="#cb17-805" aria-hidden="true" tabindex="-1"></a>**Q3.** **Body weight is a bad control because it is a downstream consequence of exercise, not a pre-treatment confounder.**</span>
-<span id="cb17-806"><a href="#cb17-806" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-807"><a href="#cb17-807" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identify the causal pathway:** Exercise causes changes in body weight, so weight is a mediator on the path exercise $\rightarrow$ lower weight $\rightarrow$ better mental health.</span>
-<span id="cb17-808"><a href="#cb17-808" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Explain the problem:** Controlling for weight blocks this pathway, absorbing part of the total effect of exercise. The regression would understate how much exercise improves mental health.</span>
-<span id="cb17-809"><a href="#cb17-809" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**State the rule:** As the chapter emphasizes, only control for variables determined *before* the treatment (pre-treatment covariates). Bad controls --- variables that are themselves affected by treatment --- introduce bias by removing part of the causal effect you are trying to measure.</span>
-<span id="cb17-810"><a href="#cb17-810" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-811"><a href="#cb17-811" aria-hidden="true" tabindex="-1"></a>**Q4.** **Study A is more credible because coefficient stability across specifications signals low omitted variable bias.**</span>
+<span id="cb17-782"><a href="#cb17-782" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb17-783"><a href="#cb17-783" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb17-784"><a href="#cb17-784" aria-hidden="true" tabindex="-1"></a>**Body weight is a bad control because it is a downstream consequence of exercise, not a pre-treatment confounder.**</span>
+<span id="cb17-785"><a href="#cb17-785" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-786"><a href="#cb17-786" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identify the causal pathway:** Exercise causes changes in body weight, so weight is a mediator on the path exercise $\rightarrow$ lower weight $\rightarrow$ better mental health.</span>
+<span id="cb17-787"><a href="#cb17-787" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Explain the problem:** Controlling for weight blocks this pathway, absorbing part of the total effect of exercise. The regression would understate how much exercise improves mental health.</span>
+<span id="cb17-788"><a href="#cb17-788" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**State the rule:** As the chapter emphasizes, only control for variables determined *before* the treatment (pre-treatment covariates). Bad controls --- variables that are themselves affected by treatment --- introduce bias by removing part of the causal effect you are trying to measure.</span>
+<span id="cb17-789"><a href="#cb17-789" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb17-790"><a href="#cb17-790" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-791"><a href="#cb17-791" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Sensitivity analysis**: Two studies estimate the effect of class size on test scores. Study A gets -3 without controls and -2.8 with controls. Study B gets -8 without controls and -2 with controls. Which study's results are more credible, and why?</span>
+<span id="cb17-792"><a href="#cb17-792" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-793"><a href="#cb17-793" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb17-794"><a href="#cb17-794" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb17-795"><a href="#cb17-795" aria-hidden="true" tabindex="-1"></a>**Study A is more credible because coefficient stability across specifications signals low omitted variable bias.**</span>
+<span id="cb17-796"><a href="#cb17-796" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-797"><a href="#cb17-797" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Compare the shifts:** Study A's estimate barely changes when controls are added ($-3$ to $-2.8$, a shift of $0.2$). Study B's estimate drops dramatically ($-8$ to $-2$, a shift of $6$).</span>
+<span id="cb17-798"><a href="#cb17-798" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Apply OVB logic:** By the OVB formula, the large change in Study B means the added controls were highly correlated with both class size ($\pi_1$ is large) and test scores ($\gamma$ is large). The uncontrolled estimate was severely biased.</span>
+<span id="cb17-799"><a href="#cb17-799" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Draw the conclusion:** Study A's stability suggests that omitted variables are less of a concern --- the short and long regressions tell a similar story. This coefficient-stability heuristic is a practical diagnostic from the chapter: when adding controls barely moves the estimate, we gain confidence that further omitted variables are unlikely to change it much either.</span>
+<span id="cb17-800"><a href="#cb17-800" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb17-801"><a href="#cb17-801" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-802"><a href="#cb17-802" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Regression vs. RCT**: A regression of health on exercise, controlling for age, income, and diet, finds that exercise improves health. Under what conditions would this estimate be causal? What could still go wrong?</span>
+<span id="cb17-803"><a href="#cb17-803" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-804"><a href="#cb17-804" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb17-805"><a href="#cb17-805" aria-hidden="true" tabindex="-1"></a><span class="fu">### Show answer</span></span>
+<span id="cb17-806"><a href="#cb17-806" aria-hidden="true" tabindex="-1"></a>**Regression can only deliver causal estimates if there are no unobserved confounders --- a strong assumption that is unlikely to hold here.**</span>
+<span id="cb17-807"><a href="#cb17-807" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-808"><a href="#cb17-808" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the assumption:** The regression estimate is causal only if age, income, and diet are the *only* confounders (the conditional independence assumption, or CIA).</span>
+<span id="cb17-809"><a href="#cb17-809" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**List plausible violations:** Unobserved factors could still bias the result: genetics (some people are naturally healthier AND more inclined to exercise), motivation, social support, or pre-existing health conditions. Each of these is correlated with both exercise and health, creating OVB.</span>
+<span id="cb17-810"><a href="#cb17-810" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Connect to the broader course:** Without random assignment of exercise, we can never be sure we have controlled for everything. This fundamental limitation of regression motivates the methods in later chapters --- instrumental variables (Chapter 3), regression discontinuity (Chapter 4), and differences-in-differences (Chapter 5) --- which rely on research designs rather than exhaustive control lists.</span>
+<span id="cb17-811"><a href="#cb17-811" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-812"><a href="#cb17-812" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-813"><a href="#cb17-813" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Compare the shifts:** Study A's estimate barely changes when controls are added ($-3$ to $-2.8$, a shift of $0.2$). Study B's estimate drops dramatically ($-8$ to $-2$, a shift of $6$).</span>
-<span id="cb17-814"><a href="#cb17-814" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Apply OVB logic:** By the OVB formula, the large change in Study B means the added controls were highly correlated with both class size ($\pi_1$ is large) and test scores ($\gamma$ is large). The uncontrolled estimate was severely biased.</span>
-<span id="cb17-815"><a href="#cb17-815" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Draw the conclusion:** Study A's stability suggests that omitted variables are less of a concern --- the short and long regressions tell a similar story. This coefficient-stability heuristic is a practical diagnostic from the chapter: when adding controls barely moves the estimate, we gain confidence that further omitted variables are unlikely to change it much either.</span>
-<span id="cb17-816"><a href="#cb17-816" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-817"><a href="#cb17-817" aria-hidden="true" tabindex="-1"></a>**Q5.** **Regression can only deliver causal estimates if there are no unobserved confounders --- a strong assumption that is unlikely to hold here.**</span>
-<span id="cb17-818"><a href="#cb17-818" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-819"><a href="#cb17-819" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the assumption:** The regression estimate is causal only if age, income, and diet are the *only* confounders (the conditional independence assumption, or CIA).</span>
-<span id="cb17-820"><a href="#cb17-820" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**List plausible violations:** Unobserved factors could still bias the result: genetics (some people are naturally healthier AND more inclined to exercise), motivation, social support, or pre-existing health conditions. Each of these is correlated with both exercise and health, creating OVB.</span>
-<span id="cb17-821"><a href="#cb17-821" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Connect to the broader course:** Without random assignment of exercise, we can never be sure we have controlled for everything. This fundamental limitation of regression motivates the methods in later chapters --- instrumental variables (Chapter 3), regression discontinuity (Chapter 4), and differences-in-differences (Chapter 5) --- which rely on research designs rather than exhaustive control lists.</span>
-<span id="cb17-822"><a href="#cb17-822" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-823"><a href="#cb17-823" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
-<span id="cb17-824"><a href="#cb17-824" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-825"><a href="#cb17-825" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
-<span id="cb17-826"><a href="#cb17-826" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-829"><a href="#cb17-829" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb17-830"><a href="#cb17-830" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-zero</span></span>
-<span id="cb17-831"><a href="#cb17-831" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "With true effect = 0, the short regression still shows a positive (spurious) coefficient"</span></span>
-<span id="cb17-832"><a href="#cb17-832" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-833"><a href="#cb17-833" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Generate data with NO causal effect ---</span></span>
-<span id="cb17-834"><a href="#cb17-834" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb17-835"><a href="#cb17-835" aria-hidden="true" tabindex="-1"></a>ability2 <span class="op">=</span> np.random.normal(<span class="dv">50</span>, <span class="dv">10</span>, n)</span>
-<span id="cb17-836"><a href="#cb17-836" aria-hidden="true" tabindex="-1"></a>prob2 <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>(ability2 <span class="op">-</span> <span class="dv">50</span>) <span class="op">/</span> <span class="dv">5</span>))  <span class="co"># ability drives private school selection</span></span>
-<span id="cb17-837"><a href="#cb17-837" aria-hidden="true" tabindex="-1"></a>private2 <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, prob2)</span>
-<span id="cb17-838"><a href="#cb17-838" aria-hidden="true" tabindex="-1"></a>earnings2 <span class="op">=</span> <span class="dv">30000</span> <span class="op">+</span> <span class="dv">0</span> <span class="op">*</span> private2 <span class="op">+</span> <span class="dv">800</span> <span class="op">*</span> ability2 <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">5000</span>, n)  <span class="co"># true effect = 0</span></span>
-<span id="cb17-839"><a href="#cb17-839" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-840"><a href="#cb17-840" aria-hidden="true" tabindex="-1"></a>students2 <span class="op">=</span> pd.DataFrame({<span class="st">"earnings"</span>: earnings2, <span class="st">"private"</span>: private2, <span class="st">"ability"</span>: ability2})</span>
-<span id="cb17-841"><a href="#cb17-841" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-842"><a href="#cb17-842" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Run short vs long regressions ---</span></span>
-<span id="cb17-843"><a href="#cb17-843" aria-hidden="true" tabindex="-1"></a>short2 <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private"</span>, data<span class="op">=</span>students2).fit()             <span class="co"># omits ability (biased)</span></span>
-<span id="cb17-844"><a href="#cb17-844" aria-hidden="true" tabindex="-1"></a>long2 <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private + ability"</span>, data<span class="op">=</span>students2).fit()    <span class="co"># includes ability (correct)</span></span>
-<span id="cb17-845"><a href="#cb17-845" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-846"><a href="#cb17-846" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb17-847"><a href="#cb17-847" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Regression"</span>: [<span class="st">"Short (omit ability)"</span>, <span class="st">"Long (include ability)"</span>],</span>
-<span id="cb17-848"><a href="#cb17-848" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Private coefficient"</span>: [<span class="bu">round</span>(short2.params[<span class="st">"private"</span>]), <span class="bu">round</span>(long2.params[<span class="st">"private"</span>])],</span>
-<span id="cb17-849"><a href="#cb17-849" aria-hidden="true" tabindex="-1"></a>    <span class="st">"True effect"</span>: [<span class="dv">0</span>, <span class="dv">0</span>],</span>
-<span id="cb17-850"><a href="#cb17-850" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb17-851"><a href="#cb17-851" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-813"><a href="#cb17-813" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb17-814"><a href="#cb17-814" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-815"><a href="#cb17-815" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution}</span>
+<span id="cb17-816"><a href="#cb17-816" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb17-817"><a href="#cb17-817" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-818"><a href="#cb17-818" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Change the true effect**: In the simulated data code above, change <span class="in">`true_effect`</span> from 5000 to 0 (no causal effect). Re-run the short and long regressions. Does the short regression still show a positive coefficient? What does this demonstrate about selection bias?</span>
+<span id="cb17-819"><a href="#cb17-819" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-820"><a href="#cb17-820" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Strengthen the confounder**: Modify the simulation so that ability has a *stronger* relationship with private school choice (change the division by 5 to division by 2 in <span class="in">`prob_private`</span>). How does this change the OVB? Verify with the formula.</span>
+<span id="cb17-821"><a href="#cb17-821" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-822"><a href="#cb17-822" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Add a second confounder**: Add a <span class="in">`family_income`</span> variable to the simulation that affects both private school choice and earnings. Run the long regression with only ability (omitting family income), then with both. Use the OVB formula to explain the difference.</span>
+<span id="cb17-823"><a href="#cb17-823" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-824"><a href="#cb17-824" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Reverse the confounder's sign**: Modify the simulation so that higher ability makes private school *less* likely (flip the sign in <span class="in">`prob_private`</span>). Run the short and long regressions. Is the OVB now negative? Verify using the OVB formula that the predicted direction matches.</span>
+<span id="cb17-825"><a href="#cb17-825" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-826"><a href="#cb17-826" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Progressive control addition**: Create a simulation with three confounders (ability, family income, motivation) that each affect both private school choice and earnings. Run four nested regressions (no controls, +ability, +ability +income, +all three). Display how the private school coefficient changes as controls are added. Does it stabilize near the true effect?</span>
+<span id="cb17-827"><a href="#cb17-827" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb17-828"><a href="#cb17-828" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-829"><a href="#cb17-829" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-830"><a href="#cb17-830" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
+<span id="cb17-831"><a href="#cb17-831" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-832"><a href="#cb17-832" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conceptual Questions</span></span>
+<span id="cb17-833"><a href="#cb17-833" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-834"><a href="#cb17-834" aria-hidden="true" tabindex="-1"></a>**Q1.** **The training coefficient is biased upward because it absorbs the positive effect of the omitted experience variable.**</span>
+<span id="cb17-835"><a href="#cb17-835" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-836"><a href="#cb17-836" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identify $\pi_1$:** The relationship between experience and training is positive, since experienced workers tend to receive more training.</span>
+<span id="cb17-837"><a href="#cb17-837" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Identify $\gamma$:** The effect of experience on wages in the long regression is positive, since experience raises wages.</span>
+<span id="cb17-838"><a href="#cb17-838" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Apply the OVB formula:** OVB = $\pi_1 \times \gamma$ = positive $\times$ positive = **positive**.</span>
+<span id="cb17-839"><a href="#cb17-839" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Conclude:** The short regression overstates the true effect of training because it partly captures the wage-boosting effect of experience. This is a direct application of the OVB formula introduced in the chapter.</span>
+<span id="cb17-840"><a href="#cb17-840" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-841"><a href="#cb17-841" aria-hidden="true" tabindex="-1"></a>**Q2.** **Omitting family income biases the class size effect downward, making smaller classes look more beneficial than they truly are.**</span>
+<span id="cb17-842"><a href="#cb17-842" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-843"><a href="#cb17-843" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Compute OVB:** OVB = short $-$ long = $-5 - (-2) = -3$.</span>
+<span id="cb17-844"><a href="#cb17-844" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Decompose the sign:** Family income is negatively correlated with class size (richer families choose smaller classes, so $\pi_1 &lt; 0$) and positively correlated with test scores ($\gamma &gt; 0$). The product $\pi_1 \times \gamma$ is negative.</span>
+<span id="cb17-845"><a href="#cb17-845" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Interpret:** The negative OVB means the short regression exaggerates the class size penalty --- some of the apparent class size effect was really a family income effect. This illustrates the chapter's warning: the direction of OVB depends on the signs of both $\pi_1$ and $\gamma$.</span>
+<span id="cb17-846"><a href="#cb17-846" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-847"><a href="#cb17-847" aria-hidden="true" tabindex="-1"></a>**Q3.** **Body weight is a bad control because it is a downstream consequence of exercise, not a pre-treatment confounder.**</span>
+<span id="cb17-848"><a href="#cb17-848" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-849"><a href="#cb17-849" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identify the causal pathway:** Exercise causes changes in body weight, so weight is a mediator on the path exercise $\rightarrow$ lower weight $\rightarrow$ better mental health.</span>
+<span id="cb17-850"><a href="#cb17-850" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Explain the problem:** Controlling for weight blocks this pathway, absorbing part of the total effect of exercise. The regression would understate how much exercise improves mental health.</span>
+<span id="cb17-851"><a href="#cb17-851" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**State the rule:** As the chapter emphasizes, only control for variables determined *before* the treatment (pre-treatment covariates). Bad controls --- variables that are themselves affected by treatment --- introduce bias by removing part of the causal effect you are trying to measure.</span>
 <span id="cb17-852"><a href="#cb17-852" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-853"><a href="#cb17-853" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb17-853"><a href="#cb17-853" aria-hidden="true" tabindex="-1"></a>**Q4.** **Study A is more credible because coefficient stability across specifications signals low omitted variable bias.**</span>
 <span id="cb17-854"><a href="#cb17-854" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-855"><a href="#cb17-855" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb17-856"><a href="#cb17-856" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Simulation with true effect = 0 ---</span></span>
-<span id="cb17-857"><a href="#cb17-857" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb17-858"><a href="#cb17-858" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb17-859"><a href="#cb17-859" aria-hidden="true" tabindex="-1"></a><span class="in">set seed 42</span></span>
-<span id="cb17-860"><a href="#cb17-860" aria-hidden="true" tabindex="-1"></a><span class="in">set obs 1000</span></span>
-<span id="cb17-861"><a href="#cb17-861" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-862"><a href="#cb17-862" aria-hidden="true" tabindex="-1"></a><span class="in">* Generate data</span></span>
-<span id="cb17-863"><a href="#cb17-863" aria-hidden="true" tabindex="-1"></a><span class="in">gen ability = rnormal(50, 10)</span></span>
-<span id="cb17-864"><a href="#cb17-864" aria-hidden="true" tabindex="-1"></a><span class="in">gen prob_private = 1 / (1 + exp(-(ability - 50) / 5))</span></span>
-<span id="cb17-865"><a href="#cb17-865" aria-hidden="true" tabindex="-1"></a><span class="in">gen private = rbinomial(1, prob_private)</span></span>
-<span id="cb17-866"><a href="#cb17-866" aria-hidden="true" tabindex="-1"></a><span class="in">gen earnings = 30000 + 0 * private + 800 * ability + rnormal(0, 5000)</span></span>
-<span id="cb17-867"><a href="#cb17-867" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-868"><a href="#cb17-868" aria-hidden="true" tabindex="-1"></a><span class="in">* Short regression (omits ability — biased)</span></span>
-<span id="cb17-869"><a href="#cb17-869" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private</span></span>
-<span id="cb17-870"><a href="#cb17-870" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-871"><a href="#cb17-871" aria-hidden="true" tabindex="-1"></a><span class="in">* Long regression (includes ability — correct)</span></span>
-<span id="cb17-872"><a href="#cb17-872" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability</span></span>
-<span id="cb17-873"><a href="#cb17-873" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-855"><a href="#cb17-855" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Compare the shifts:** Study A's estimate barely changes when controls are added ($-3$ to $-2.8$, a shift of $0.2$). Study B's estimate drops dramatically ($-8$ to $-2$, a shift of $6$).</span>
+<span id="cb17-856"><a href="#cb17-856" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Apply OVB logic:** By the OVB formula, the large change in Study B means the added controls were highly correlated with both class size ($\pi_1$ is large) and test scores ($\gamma$ is large). The uncontrolled estimate was severely biased.</span>
+<span id="cb17-857"><a href="#cb17-857" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Draw the conclusion:** Study A's stability suggests that omitted variables are less of a concern --- the short and long regressions tell a similar story. This coefficient-stability heuristic is a practical diagnostic from the chapter: when adding controls barely moves the estimate, we gain confidence that further omitted variables are unlikely to change it much either.</span>
+<span id="cb17-858"><a href="#cb17-858" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-859"><a href="#cb17-859" aria-hidden="true" tabindex="-1"></a>**Q5.** **Regression can only deliver causal estimates if there are no unobserved confounders --- a strong assumption that is unlikely to hold here.**</span>
+<span id="cb17-860"><a href="#cb17-860" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-861"><a href="#cb17-861" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**State the assumption:** The regression estimate is causal only if age, income, and diet are the *only* confounders (the conditional independence assumption, or CIA).</span>
+<span id="cb17-862"><a href="#cb17-862" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**List plausible violations:** Unobserved factors could still bias the result: genetics (some people are naturally healthier AND more inclined to exercise), motivation, social support, or pre-existing health conditions. Each of these is correlated with both exercise and health, creating OVB.</span>
+<span id="cb17-863"><a href="#cb17-863" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Connect to the broader course:** Without random assignment of exercise, we can never be sure we have controlled for everything. This fundamental limitation of regression motivates the methods in later chapters --- instrumental variables (Chapter 3), regression discontinuity (Chapter 4), and differences-in-differences (Chapter 5) --- which rely on research designs rather than exhaustive control lists.</span>
+<span id="cb17-864"><a href="#cb17-864" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-865"><a href="#cb17-865" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research Tasks</span></span>
+<span id="cb17-866"><a href="#cb17-866" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-867"><a href="#cb17-867" aria-hidden="true" tabindex="-1"></a>**R1.**</span>
+<span id="cb17-868"><a href="#cb17-868" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-871"><a href="#cb17-871" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb17-872"><a href="#cb17-872" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-zero</span></span>
+<span id="cb17-873"><a href="#cb17-873" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "With true effect = 0, the short regression still shows a positive (spurious) coefficient"</span></span>
 <span id="cb17-874"><a href="#cb17-874" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-875"><a href="#cb17-875" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** The short regression shows a positive coefficient even though the true effect is zero. The long regression correctly recovers approximately zero.</span>
-<span id="cb17-876"><a href="#cb17-876" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-877"><a href="#cb17-877" aria-hidden="true" tabindex="-1"></a>(2) **Why:** This is pure OVB in action --- higher-ability students select into private school ($\pi_1 &gt; 0$) AND ability raises earnings ($\gamma &gt; 0$). The short regression attributes ability's effect to private schooling because the omitted variable is correlated with both the treatment and the outcome.</span>
-<span id="cb17-878"><a href="#cb17-878" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-879"><a href="#cb17-879" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** OVB can create the illusion of a causal effect where none exists. This is the most dangerous form of bias: a policy maker relying on the short regression would incorrectly conclude that private schooling boosts earnings. The long regression, by controlling for the confounder, eliminates the bias.</span>
-<span id="cb17-880"><a href="#cb17-880" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-881"><a href="#cb17-881" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
-<span id="cb17-882"><a href="#cb17-882" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-885"><a href="#cb17-885" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb17-886"><a href="#cb17-886" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-strong</span></span>
-<span id="cb17-887"><a href="#cb17-887" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Stronger confounder → larger OVB"</span></span>
-<span id="cb17-888"><a href="#cb17-888" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-889"><a href="#cb17-889" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Generate data with stronger confounder ---</span></span>
-<span id="cb17-890"><a href="#cb17-890" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb17-891"><a href="#cb17-891" aria-hidden="true" tabindex="-1"></a>ability3 <span class="op">=</span> np.random.normal(<span class="dv">50</span>, <span class="dv">10</span>, n)</span>
-<span id="cb17-892"><a href="#cb17-892" aria-hidden="true" tabindex="-1"></a>prob3 <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>(ability3 <span class="op">-</span> <span class="dv">50</span>) <span class="op">/</span> <span class="dv">2</span>))  <span class="co"># divide by 2 instead of 5 = stronger selection</span></span>
-<span id="cb17-893"><a href="#cb17-893" aria-hidden="true" tabindex="-1"></a>private3 <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, prob3)</span>
-<span id="cb17-894"><a href="#cb17-894" aria-hidden="true" tabindex="-1"></a>earnings3 <span class="op">=</span> <span class="dv">30000</span> <span class="op">+</span> <span class="dv">5000</span> <span class="op">*</span> private3 <span class="op">+</span> <span class="dv">800</span> <span class="op">*</span> ability3 <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">5000</span>, n)</span>
-<span id="cb17-895"><a href="#cb17-895" aria-hidden="true" tabindex="-1"></a>students3 <span class="op">=</span> pd.DataFrame({<span class="st">"earnings"</span>: earnings3, <span class="st">"private"</span>: private3, <span class="st">"ability"</span>: ability3})</span>
+<span id="cb17-875"><a href="#cb17-875" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Generate data with NO causal effect ---</span></span>
+<span id="cb17-876"><a href="#cb17-876" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb17-877"><a href="#cb17-877" aria-hidden="true" tabindex="-1"></a>ability2 <span class="op">=</span> np.random.normal(<span class="dv">50</span>, <span class="dv">10</span>, n)</span>
+<span id="cb17-878"><a href="#cb17-878" aria-hidden="true" tabindex="-1"></a>prob2 <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>(ability2 <span class="op">-</span> <span class="dv">50</span>) <span class="op">/</span> <span class="dv">5</span>))  <span class="co"># ability drives private school selection</span></span>
+<span id="cb17-879"><a href="#cb17-879" aria-hidden="true" tabindex="-1"></a>private2 <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, prob2)</span>
+<span id="cb17-880"><a href="#cb17-880" aria-hidden="true" tabindex="-1"></a>earnings2 <span class="op">=</span> <span class="dv">30000</span> <span class="op">+</span> <span class="dv">0</span> <span class="op">*</span> private2 <span class="op">+</span> <span class="dv">800</span> <span class="op">*</span> ability2 <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">5000</span>, n)  <span class="co"># true effect = 0</span></span>
+<span id="cb17-881"><a href="#cb17-881" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-882"><a href="#cb17-882" aria-hidden="true" tabindex="-1"></a>students2 <span class="op">=</span> pd.DataFrame({<span class="st">"earnings"</span>: earnings2, <span class="st">"private"</span>: private2, <span class="st">"ability"</span>: ability2})</span>
+<span id="cb17-883"><a href="#cb17-883" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-884"><a href="#cb17-884" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Run short vs long regressions ---</span></span>
+<span id="cb17-885"><a href="#cb17-885" aria-hidden="true" tabindex="-1"></a>short2 <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private"</span>, data<span class="op">=</span>students2).fit()             <span class="co"># omits ability (biased)</span></span>
+<span id="cb17-886"><a href="#cb17-886" aria-hidden="true" tabindex="-1"></a>long2 <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private + ability"</span>, data<span class="op">=</span>students2).fit()    <span class="co"># includes ability (correct)</span></span>
+<span id="cb17-887"><a href="#cb17-887" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-888"><a href="#cb17-888" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb17-889"><a href="#cb17-889" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Regression"</span>: [<span class="st">"Short (omit ability)"</span>, <span class="st">"Long (include ability)"</span>],</span>
+<span id="cb17-890"><a href="#cb17-890" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Private coefficient"</span>: [<span class="bu">round</span>(short2.params[<span class="st">"private"</span>]), <span class="bu">round</span>(long2.params[<span class="st">"private"</span>])],</span>
+<span id="cb17-891"><a href="#cb17-891" aria-hidden="true" tabindex="-1"></a>    <span class="st">"True effect"</span>: [<span class="dv">0</span>, <span class="dv">0</span>],</span>
+<span id="cb17-892"><a href="#cb17-892" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-893"><a href="#cb17-893" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-894"><a href="#cb17-894" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-895"><a href="#cb17-895" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
 <span id="cb17-896"><a href="#cb17-896" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-897"><a href="#cb17-897" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Run short, long, and auxiliary regressions ---</span></span>
-<span id="cb17-898"><a href="#cb17-898" aria-hidden="true" tabindex="-1"></a>short3 <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private"</span>, data<span class="op">=</span>students3).fit()       <span class="co"># biased estimate</span></span>
-<span id="cb17-899"><a href="#cb17-899" aria-hidden="true" tabindex="-1"></a>long3 <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private + ability"</span>, data<span class="op">=</span>students3).fit()  <span class="co"># closer to true effect</span></span>
-<span id="cb17-900"><a href="#cb17-900" aria-hidden="true" tabindex="-1"></a>aux3 <span class="op">=</span> smf.ols(<span class="st">"ability ~ private"</span>, data<span class="op">=</span>students3).fit()          <span class="co"># estimates pi_1</span></span>
-<span id="cb17-901"><a href="#cb17-901" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-902"><a href="#cb17-902" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Verify OVB formula ---</span></span>
-<span id="cb17-903"><a href="#cb17-903" aria-hidden="true" tabindex="-1"></a>ovb3 <span class="op">=</span> <span class="bu">round</span>(short3.params[<span class="st">"private"</span>] <span class="op">-</span> long3.params[<span class="st">"private"</span>])   <span class="co"># direct: short minus long</span></span>
-<span id="cb17-904"><a href="#cb17-904" aria-hidden="true" tabindex="-1"></a>formula3 <span class="op">=</span> <span class="bu">round</span>(aux3.params[<span class="st">"private"</span>] <span class="op">*</span> long3.params[<span class="st">"ability"</span>]) <span class="co"># formula: pi_1 * gamma</span></span>
-<span id="cb17-905"><a href="#cb17-905" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-906"><a href="#cb17-906" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb17-907"><a href="#cb17-907" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Metric"</span>: [<span class="st">"Short coef"</span>, <span class="st">"Long coef"</span>, <span class="st">"OVB (direct)"</span>, <span class="st">"pi_1"</span>, <span class="st">"gamma"</span>, <span class="st">"OVB (formula)"</span>],</span>
-<span id="cb17-908"><a href="#cb17-908" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Value"</span>: [<span class="bu">round</span>(short3.params[<span class="st">"private"</span>]), <span class="bu">round</span>(long3.params[<span class="st">"private"</span>]),</span>
-<span id="cb17-909"><a href="#cb17-909" aria-hidden="true" tabindex="-1"></a>              ovb3, <span class="bu">round</span>(aux3.params[<span class="st">"private"</span>], <span class="dv">2</span>), <span class="bu">round</span>(long3.params[<span class="st">"ability"</span>]),</span>
-<span id="cb17-910"><a href="#cb17-910" aria-hidden="true" tabindex="-1"></a>              formula3],</span>
-<span id="cb17-911"><a href="#cb17-911" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb17-912"><a href="#cb17-912" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb17-913"><a href="#cb17-913" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-914"><a href="#cb17-914" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb17-915"><a href="#cb17-915" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-916"><a href="#cb17-916" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb17-917"><a href="#cb17-917" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Stronger confounder (divide by 2 instead of 5) ---</span></span>
-<span id="cb17-918"><a href="#cb17-918" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb17-919"><a href="#cb17-919" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb17-920"><a href="#cb17-920" aria-hidden="true" tabindex="-1"></a><span class="in">set seed 42</span></span>
-<span id="cb17-921"><a href="#cb17-921" aria-hidden="true" tabindex="-1"></a><span class="in">set obs 1000</span></span>
+<span id="cb17-897"><a href="#cb17-897" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb17-898"><a href="#cb17-898" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Simulation with true effect = 0 ---</span></span>
+<span id="cb17-899"><a href="#cb17-899" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb17-900"><a href="#cb17-900" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb17-901"><a href="#cb17-901" aria-hidden="true" tabindex="-1"></a><span class="in">set seed 42</span></span>
+<span id="cb17-902"><a href="#cb17-902" aria-hidden="true" tabindex="-1"></a><span class="in">set obs 1000</span></span>
+<span id="cb17-903"><a href="#cb17-903" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-904"><a href="#cb17-904" aria-hidden="true" tabindex="-1"></a><span class="in">* Generate data</span></span>
+<span id="cb17-905"><a href="#cb17-905" aria-hidden="true" tabindex="-1"></a><span class="in">gen ability = rnormal(50, 10)</span></span>
+<span id="cb17-906"><a href="#cb17-906" aria-hidden="true" tabindex="-1"></a><span class="in">gen prob_private = 1 / (1 + exp(-(ability - 50) / 5))</span></span>
+<span id="cb17-907"><a href="#cb17-907" aria-hidden="true" tabindex="-1"></a><span class="in">gen private = rbinomial(1, prob_private)</span></span>
+<span id="cb17-908"><a href="#cb17-908" aria-hidden="true" tabindex="-1"></a><span class="in">gen earnings = 30000 + 0 * private + 800 * ability + rnormal(0, 5000)</span></span>
+<span id="cb17-909"><a href="#cb17-909" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-910"><a href="#cb17-910" aria-hidden="true" tabindex="-1"></a><span class="in">* Short regression (omits ability — biased)</span></span>
+<span id="cb17-911"><a href="#cb17-911" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private</span></span>
+<span id="cb17-912"><a href="#cb17-912" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-913"><a href="#cb17-913" aria-hidden="true" tabindex="-1"></a><span class="in">* Long regression (includes ability — correct)</span></span>
+<span id="cb17-914"><a href="#cb17-914" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability</span></span>
+<span id="cb17-915"><a href="#cb17-915" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-916"><a href="#cb17-916" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-917"><a href="#cb17-917" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** The short regression shows a positive coefficient even though the true effect is zero. The long regression correctly recovers approximately zero.</span>
+<span id="cb17-918"><a href="#cb17-918" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-919"><a href="#cb17-919" aria-hidden="true" tabindex="-1"></a>(2) **Why:** This is pure OVB in action --- higher-ability students select into private school ($\pi_1 &gt; 0$) AND ability raises earnings ($\gamma &gt; 0$). The short regression attributes ability's effect to private schooling because the omitted variable is correlated with both the treatment and the outcome.</span>
+<span id="cb17-920"><a href="#cb17-920" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-921"><a href="#cb17-921" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** OVB can create the illusion of a causal effect where none exists. This is the most dangerous form of bias: a policy maker relying on the short regression would incorrectly conclude that private schooling boosts earnings. The long regression, by controlling for the confounder, eliminates the bias.</span>
 <span id="cb17-922"><a href="#cb17-922" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-923"><a href="#cb17-923" aria-hidden="true" tabindex="-1"></a><span class="in">gen ability = rnormal(50, 10)</span></span>
-<span id="cb17-924"><a href="#cb17-924" aria-hidden="true" tabindex="-1"></a><span class="in">gen prob_private = 1 / (1 + exp(-(ability - 50) / 2))</span></span>
-<span id="cb17-925"><a href="#cb17-925" aria-hidden="true" tabindex="-1"></a><span class="in">gen private = rbinomial(1, prob_private)</span></span>
-<span id="cb17-926"><a href="#cb17-926" aria-hidden="true" tabindex="-1"></a><span class="in">gen earnings = 30000 + 5000 * private + 800 * ability + rnormal(0, 5000)</span></span>
-<span id="cb17-927"><a href="#cb17-927" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-928"><a href="#cb17-928" aria-hidden="true" tabindex="-1"></a><span class="in">* Short, long, and auxiliary regressions</span></span>
-<span id="cb17-929"><a href="#cb17-929" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private</span></span>
-<span id="cb17-930"><a href="#cb17-930" aria-hidden="true" tabindex="-1"></a><span class="in">scalar short_coef = _b[private]</span></span>
-<span id="cb17-931"><a href="#cb17-931" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-932"><a href="#cb17-932" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability</span></span>
-<span id="cb17-933"><a href="#cb17-933" aria-hidden="true" tabindex="-1"></a><span class="in">scalar long_coef = _b[private]</span></span>
-<span id="cb17-934"><a href="#cb17-934" aria-hidden="true" tabindex="-1"></a><span class="in">scalar gamma = _b[ability]</span></span>
-<span id="cb17-935"><a href="#cb17-935" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-936"><a href="#cb17-936" aria-hidden="true" tabindex="-1"></a><span class="in">reg ability private</span></span>
-<span id="cb17-937"><a href="#cb17-937" aria-hidden="true" tabindex="-1"></a><span class="in">scalar pi1 = _b[private]</span></span>
+<span id="cb17-923"><a href="#cb17-923" aria-hidden="true" tabindex="-1"></a>**R2.**</span>
+<span id="cb17-924"><a href="#cb17-924" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-927"><a href="#cb17-927" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb17-928"><a href="#cb17-928" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-strong</span></span>
+<span id="cb17-929"><a href="#cb17-929" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Stronger confounder → larger OVB"</span></span>
+<span id="cb17-930"><a href="#cb17-930" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-931"><a href="#cb17-931" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Generate data with stronger confounder ---</span></span>
+<span id="cb17-932"><a href="#cb17-932" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb17-933"><a href="#cb17-933" aria-hidden="true" tabindex="-1"></a>ability3 <span class="op">=</span> np.random.normal(<span class="dv">50</span>, <span class="dv">10</span>, n)</span>
+<span id="cb17-934"><a href="#cb17-934" aria-hidden="true" tabindex="-1"></a>prob3 <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>(ability3 <span class="op">-</span> <span class="dv">50</span>) <span class="op">/</span> <span class="dv">2</span>))  <span class="co"># divide by 2 instead of 5 = stronger selection</span></span>
+<span id="cb17-935"><a href="#cb17-935" aria-hidden="true" tabindex="-1"></a>private3 <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, prob3)</span>
+<span id="cb17-936"><a href="#cb17-936" aria-hidden="true" tabindex="-1"></a>earnings3 <span class="op">=</span> <span class="dv">30000</span> <span class="op">+</span> <span class="dv">5000</span> <span class="op">*</span> private3 <span class="op">+</span> <span class="dv">800</span> <span class="op">*</span> ability3 <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">5000</span>, n)</span>
+<span id="cb17-937"><a href="#cb17-937" aria-hidden="true" tabindex="-1"></a>students3 <span class="op">=</span> pd.DataFrame({<span class="st">"earnings"</span>: earnings3, <span class="st">"private"</span>: private3, <span class="st">"ability"</span>: ability3})</span>
 <span id="cb17-938"><a href="#cb17-938" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-939"><a href="#cb17-939" aria-hidden="true" tabindex="-1"></a><span class="in">* Verify OVB formula</span></span>
-<span id="cb17-940"><a href="#cb17-940" aria-hidden="true" tabindex="-1"></a><span class="in">scalar ovb_direct = short_coef - long_coef</span></span>
-<span id="cb17-941"><a href="#cb17-941" aria-hidden="true" tabindex="-1"></a><span class="in">scalar ovb_formula = pi1 * gamma</span></span>
-<span id="cb17-942"><a href="#cb17-942" aria-hidden="true" tabindex="-1"></a><span class="in">display "OVB (direct) = " ovb_direct</span></span>
-<span id="cb17-943"><a href="#cb17-943" aria-hidden="true" tabindex="-1"></a><span class="in">display "OVB (formula) = " ovb_formula</span></span>
-<span id="cb17-944"><a href="#cb17-944" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb17-945"><a href="#cb17-945" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-946"><a href="#cb17-946" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** With a stronger ability-private link, $\pi_1$ increases substantially and the OVB grows. The short regression coefficient is now much further from the true effect of 5,000. The OVB formula ($\pi_1 \times \gamma$) matches the direct calculation (short $-$ long), confirming the formula works exactly.</span>
+<span id="cb17-939"><a href="#cb17-939" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Run short, long, and auxiliary regressions ---</span></span>
+<span id="cb17-940"><a href="#cb17-940" aria-hidden="true" tabindex="-1"></a>short3 <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private"</span>, data<span class="op">=</span>students3).fit()       <span class="co"># biased estimate</span></span>
+<span id="cb17-941"><a href="#cb17-941" aria-hidden="true" tabindex="-1"></a>long3 <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private + ability"</span>, data<span class="op">=</span>students3).fit()  <span class="co"># closer to true effect</span></span>
+<span id="cb17-942"><a href="#cb17-942" aria-hidden="true" tabindex="-1"></a>aux3 <span class="op">=</span> smf.ols(<span class="st">"ability ~ private"</span>, data<span class="op">=</span>students3).fit()          <span class="co"># estimates pi_1</span></span>
+<span id="cb17-943"><a href="#cb17-943" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-944"><a href="#cb17-944" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Verify OVB formula ---</span></span>
+<span id="cb17-945"><a href="#cb17-945" aria-hidden="true" tabindex="-1"></a>ovb3 <span class="op">=</span> <span class="bu">round</span>(short3.params[<span class="st">"private"</span>] <span class="op">-</span> long3.params[<span class="st">"private"</span>])   <span class="co"># direct: short minus long</span></span>
+<span id="cb17-946"><a href="#cb17-946" aria-hidden="true" tabindex="-1"></a>formula3 <span class="op">=</span> <span class="bu">round</span>(aux3.params[<span class="st">"private"</span>] <span class="op">*</span> long3.params[<span class="st">"ability"</span>]) <span class="co"># formula: pi_1 * gamma</span></span>
 <span id="cb17-947"><a href="#cb17-947" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-948"><a href="#cb17-948" aria-hidden="true" tabindex="-1"></a>(2) **Why:** A tighter link between ability and private school selection (dividing by 2 instead of 5 in the logistic function) means ability is a stronger predictor of treatment. Since $\gamma$ (the effect of ability on earnings) stays the same, the larger $\pi_1$ mechanically produces larger OVB.</span>
-<span id="cb17-949"><a href="#cb17-949" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-950"><a href="#cb17-950" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** The magnitude of OVB depends on how strongly the omitted variable predicts treatment ($\pi_1$). This is a key practical insight from the chapter: even if you know the direction of bias, the size of the problem depends on how strongly confounders sort people into treatment and control groups.</span>
-<span id="cb17-951"><a href="#cb17-951" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-952"><a href="#cb17-952" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
-<span id="cb17-953"><a href="#cb17-953" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-956"><a href="#cb17-956" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb17-957"><a href="#cb17-957" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-twoconf</span></span>
-<span id="cb17-958"><a href="#cb17-958" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Adding a second confounder: family income"</span></span>
-<span id="cb17-959"><a href="#cb17-959" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-960"><a href="#cb17-960" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Generate data with two confounders ---</span></span>
-<span id="cb17-961"><a href="#cb17-961" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb17-962"><a href="#cb17-962" aria-hidden="true" tabindex="-1"></a>ability4 <span class="op">=</span> np.random.normal(<span class="dv">50</span>, <span class="dv">10</span>, n)</span>
-<span id="cb17-963"><a href="#cb17-963" aria-hidden="true" tabindex="-1"></a>family_income <span class="op">=</span> np.random.normal(<span class="dv">60000</span>, <span class="dv">20000</span>, n)</span>
-<span id="cb17-964"><a href="#cb17-964" aria-hidden="true" tabindex="-1"></a><span class="co"># Both ability and income affect private school choice</span></span>
-<span id="cb17-965"><a href="#cb17-965" aria-hidden="true" tabindex="-1"></a>prob4 <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>((ability4 <span class="op">-</span> <span class="dv">50</span>) <span class="op">/</span> <span class="dv">5</span> <span class="op">+</span> (family_income <span class="op">-</span> <span class="dv">60000</span>) <span class="op">/</span> <span class="dv">20000</span>)))</span>
-<span id="cb17-966"><a href="#cb17-966" aria-hidden="true" tabindex="-1"></a>private4 <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, prob4)</span>
-<span id="cb17-967"><a href="#cb17-967" aria-hidden="true" tabindex="-1"></a><span class="co"># Both ability and income affect earnings</span></span>
-<span id="cb17-968"><a href="#cb17-968" aria-hidden="true" tabindex="-1"></a>earnings4 <span class="op">=</span> <span class="dv">10000</span> <span class="op">+</span> <span class="dv">5000</span> <span class="op">*</span> private4 <span class="op">+</span> <span class="dv">800</span> <span class="op">*</span> ability4 <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> family_income <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">5000</span>, n)</span>
+<span id="cb17-948"><a href="#cb17-948" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb17-949"><a href="#cb17-949" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Metric"</span>: [<span class="st">"Short coef"</span>, <span class="st">"Long coef"</span>, <span class="st">"OVB (direct)"</span>, <span class="st">"pi_1"</span>, <span class="st">"gamma"</span>, <span class="st">"OVB (formula)"</span>],</span>
+<span id="cb17-950"><a href="#cb17-950" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Value"</span>: [<span class="bu">round</span>(short3.params[<span class="st">"private"</span>]), <span class="bu">round</span>(long3.params[<span class="st">"private"</span>]),</span>
+<span id="cb17-951"><a href="#cb17-951" aria-hidden="true" tabindex="-1"></a>              ovb3, <span class="bu">round</span>(aux3.params[<span class="st">"private"</span>], <span class="dv">2</span>), <span class="bu">round</span>(long3.params[<span class="st">"ability"</span>]),</span>
+<span id="cb17-952"><a href="#cb17-952" aria-hidden="true" tabindex="-1"></a>              formula3],</span>
+<span id="cb17-953"><a href="#cb17-953" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-954"><a href="#cb17-954" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-955"><a href="#cb17-955" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-956"><a href="#cb17-956" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb17-957"><a href="#cb17-957" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-958"><a href="#cb17-958" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb17-959"><a href="#cb17-959" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Stronger confounder (divide by 2 instead of 5) ---</span></span>
+<span id="cb17-960"><a href="#cb17-960" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb17-961"><a href="#cb17-961" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb17-962"><a href="#cb17-962" aria-hidden="true" tabindex="-1"></a><span class="in">set seed 42</span></span>
+<span id="cb17-963"><a href="#cb17-963" aria-hidden="true" tabindex="-1"></a><span class="in">set obs 1000</span></span>
+<span id="cb17-964"><a href="#cb17-964" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-965"><a href="#cb17-965" aria-hidden="true" tabindex="-1"></a><span class="in">gen ability = rnormal(50, 10)</span></span>
+<span id="cb17-966"><a href="#cb17-966" aria-hidden="true" tabindex="-1"></a><span class="in">gen prob_private = 1 / (1 + exp(-(ability - 50) / 2))</span></span>
+<span id="cb17-967"><a href="#cb17-967" aria-hidden="true" tabindex="-1"></a><span class="in">gen private = rbinomial(1, prob_private)</span></span>
+<span id="cb17-968"><a href="#cb17-968" aria-hidden="true" tabindex="-1"></a><span class="in">gen earnings = 30000 + 5000 * private + 800 * ability + rnormal(0, 5000)</span></span>
 <span id="cb17-969"><a href="#cb17-969" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-970"><a href="#cb17-970" aria-hidden="true" tabindex="-1"></a>students4 <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb17-971"><a href="#cb17-971" aria-hidden="true" tabindex="-1"></a>    <span class="st">"earnings"</span>: earnings4, <span class="st">"private"</span>: private4,</span>
-<span id="cb17-972"><a href="#cb17-972" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ability"</span>: ability4, <span class="st">"family_income"</span>: family_income,</span>
-<span id="cb17-973"><a href="#cb17-973" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb17-974"><a href="#cb17-974" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-975"><a href="#cb17-975" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Run three regressions with progressively more controls ---</span></span>
-<span id="cb17-976"><a href="#cb17-976" aria-hidden="true" tabindex="-1"></a>r_short <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private"</span>, data<span class="op">=</span>students4).fit()                        <span class="co"># no controls</span></span>
-<span id="cb17-977"><a href="#cb17-977" aria-hidden="true" tabindex="-1"></a>r_medium <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private + ability"</span>, data<span class="op">=</span>students4).fit()             <span class="co"># one control</span></span>
-<span id="cb17-978"><a href="#cb17-978" aria-hidden="true" tabindex="-1"></a>r_long <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private + ability + family_income"</span>, data<span class="op">=</span>students4).fit()  <span class="co"># both controls</span></span>
-<span id="cb17-979"><a href="#cb17-979" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-980"><a href="#cb17-980" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb17-981"><a href="#cb17-981" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Regression"</span>: [<span class="st">"Short (no controls)"</span>, <span class="st">"Medium (ability only)"</span>, <span class="st">"Long (ability + income)"</span>],</span>
-<span id="cb17-982"><a href="#cb17-982" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Private coefficient"</span>: [<span class="bu">round</span>(r_short.params[<span class="st">"private"</span>]),</span>
-<span id="cb17-983"><a href="#cb17-983" aria-hidden="true" tabindex="-1"></a>                             <span class="bu">round</span>(r_medium.params[<span class="st">"private"</span>]),</span>
-<span id="cb17-984"><a href="#cb17-984" aria-hidden="true" tabindex="-1"></a>                             <span class="bu">round</span>(r_long.params[<span class="st">"private"</span>])],</span>
-<span id="cb17-985"><a href="#cb17-985" aria-hidden="true" tabindex="-1"></a>    <span class="st">"True effect"</span>: [<span class="dv">5000</span>, <span class="dv">5000</span>, <span class="dv">5000</span>],</span>
-<span id="cb17-986"><a href="#cb17-986" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb17-987"><a href="#cb17-987" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb17-988"><a href="#cb17-988" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-989"><a href="#cb17-989" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb17-990"><a href="#cb17-990" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-991"><a href="#cb17-991" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb17-992"><a href="#cb17-992" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Two confounders: ability and family income ---</span></span>
-<span id="cb17-993"><a href="#cb17-993" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb17-994"><a href="#cb17-994" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb17-995"><a href="#cb17-995" aria-hidden="true" tabindex="-1"></a><span class="in">set seed 42</span></span>
-<span id="cb17-996"><a href="#cb17-996" aria-hidden="true" tabindex="-1"></a><span class="in">set obs 1000</span></span>
-<span id="cb17-997"><a href="#cb17-997" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-998"><a href="#cb17-998" aria-hidden="true" tabindex="-1"></a><span class="in">gen ability = rnormal(50, 10)</span></span>
-<span id="cb17-999"><a href="#cb17-999" aria-hidden="true" tabindex="-1"></a><span class="in">gen family_income = rnormal(60000, 20000)</span></span>
-<span id="cb17-1000"><a href="#cb17-1000" aria-hidden="true" tabindex="-1"></a><span class="in">gen prob_private = 1 / (1 + exp(-((ability - 50) / 5 + (family_income - 60000) / 20000)))</span></span>
-<span id="cb17-1001"><a href="#cb17-1001" aria-hidden="true" tabindex="-1"></a><span class="in">gen private = rbinomial(1, prob_private)</span></span>
-<span id="cb17-1002"><a href="#cb17-1002" aria-hidden="true" tabindex="-1"></a><span class="in">gen earnings = 10000 + 5000 * private + 800 * ability + 0.3 * family_income + rnormal(0, 5000)</span></span>
-<span id="cb17-1003"><a href="#cb17-1003" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1004"><a href="#cb17-1004" aria-hidden="true" tabindex="-1"></a><span class="in">* Progressive regressions</span></span>
-<span id="cb17-1005"><a href="#cb17-1005" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private</span></span>
-<span id="cb17-1006"><a href="#cb17-1006" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability</span></span>
-<span id="cb17-1007"><a href="#cb17-1007" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability family_income</span></span>
-<span id="cb17-1008"><a href="#cb17-1008" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb17-1009"><a href="#cb17-1009" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1010"><a href="#cb17-1010" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** The short regression (no controls) is the most biased. Adding ability alone (medium) moves the coefficient closer to the true 5,000, but it still overshoots. Adding both ability and family income (long) gets closest to the true effect.</span>
+<span id="cb17-970"><a href="#cb17-970" aria-hidden="true" tabindex="-1"></a><span class="in">* Short, long, and auxiliary regressions</span></span>
+<span id="cb17-971"><a href="#cb17-971" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private</span></span>
+<span id="cb17-972"><a href="#cb17-972" aria-hidden="true" tabindex="-1"></a><span class="in">scalar short_coef = _b[private]</span></span>
+<span id="cb17-973"><a href="#cb17-973" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-974"><a href="#cb17-974" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability</span></span>
+<span id="cb17-975"><a href="#cb17-975" aria-hidden="true" tabindex="-1"></a><span class="in">scalar long_coef = _b[private]</span></span>
+<span id="cb17-976"><a href="#cb17-976" aria-hidden="true" tabindex="-1"></a><span class="in">scalar gamma = _b[ability]</span></span>
+<span id="cb17-977"><a href="#cb17-977" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-978"><a href="#cb17-978" aria-hidden="true" tabindex="-1"></a><span class="in">reg ability private</span></span>
+<span id="cb17-979"><a href="#cb17-979" aria-hidden="true" tabindex="-1"></a><span class="in">scalar pi1 = _b[private]</span></span>
+<span id="cb17-980"><a href="#cb17-980" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-981"><a href="#cb17-981" aria-hidden="true" tabindex="-1"></a><span class="in">* Verify OVB formula</span></span>
+<span id="cb17-982"><a href="#cb17-982" aria-hidden="true" tabindex="-1"></a><span class="in">scalar ovb_direct = short_coef - long_coef</span></span>
+<span id="cb17-983"><a href="#cb17-983" aria-hidden="true" tabindex="-1"></a><span class="in">scalar ovb_formula = pi1 * gamma</span></span>
+<span id="cb17-984"><a href="#cb17-984" aria-hidden="true" tabindex="-1"></a><span class="in">display "OVB (direct) = " ovb_direct</span></span>
+<span id="cb17-985"><a href="#cb17-985" aria-hidden="true" tabindex="-1"></a><span class="in">display "OVB (formula) = " ovb_formula</span></span>
+<span id="cb17-986"><a href="#cb17-986" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-987"><a href="#cb17-987" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-988"><a href="#cb17-988" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** With a stronger ability-private link, $\pi_1$ increases substantially and the OVB grows. The short regression coefficient is now much further from the true effect of 5,000. The OVB formula ($\pi_1 \times \gamma$) matches the direct calculation (short $-$ long), confirming the formula works exactly.</span>
+<span id="cb17-989"><a href="#cb17-989" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-990"><a href="#cb17-990" aria-hidden="true" tabindex="-1"></a>(2) **Why:** A tighter link between ability and private school selection (dividing by 2 instead of 5 in the logistic function) means ability is a stronger predictor of treatment. Since $\gamma$ (the effect of ability on earnings) stays the same, the larger $\pi_1$ mechanically produces larger OVB.</span>
+<span id="cb17-991"><a href="#cb17-991" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-992"><a href="#cb17-992" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** The magnitude of OVB depends on how strongly the omitted variable predicts treatment ($\pi_1$). This is a key practical insight from the chapter: even if you know the direction of bias, the size of the problem depends on how strongly confounders sort people into treatment and control groups.</span>
+<span id="cb17-993"><a href="#cb17-993" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-994"><a href="#cb17-994" aria-hidden="true" tabindex="-1"></a>**R3.**</span>
+<span id="cb17-995"><a href="#cb17-995" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-998"><a href="#cb17-998" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb17-999"><a href="#cb17-999" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-twoconf</span></span>
+<span id="cb17-1000"><a href="#cb17-1000" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Adding a second confounder: family income"</span></span>
+<span id="cb17-1001"><a href="#cb17-1001" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1002"><a href="#cb17-1002" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Generate data with two confounders ---</span></span>
+<span id="cb17-1003"><a href="#cb17-1003" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb17-1004"><a href="#cb17-1004" aria-hidden="true" tabindex="-1"></a>ability4 <span class="op">=</span> np.random.normal(<span class="dv">50</span>, <span class="dv">10</span>, n)</span>
+<span id="cb17-1005"><a href="#cb17-1005" aria-hidden="true" tabindex="-1"></a>family_income <span class="op">=</span> np.random.normal(<span class="dv">60000</span>, <span class="dv">20000</span>, n)</span>
+<span id="cb17-1006"><a href="#cb17-1006" aria-hidden="true" tabindex="-1"></a><span class="co"># Both ability and income affect private school choice</span></span>
+<span id="cb17-1007"><a href="#cb17-1007" aria-hidden="true" tabindex="-1"></a>prob4 <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>((ability4 <span class="op">-</span> <span class="dv">50</span>) <span class="op">/</span> <span class="dv">5</span> <span class="op">+</span> (family_income <span class="op">-</span> <span class="dv">60000</span>) <span class="op">/</span> <span class="dv">20000</span>)))</span>
+<span id="cb17-1008"><a href="#cb17-1008" aria-hidden="true" tabindex="-1"></a>private4 <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, prob4)</span>
+<span id="cb17-1009"><a href="#cb17-1009" aria-hidden="true" tabindex="-1"></a><span class="co"># Both ability and income affect earnings</span></span>
+<span id="cb17-1010"><a href="#cb17-1010" aria-hidden="true" tabindex="-1"></a>earnings4 <span class="op">=</span> <span class="dv">10000</span> <span class="op">+</span> <span class="dv">5000</span> <span class="op">*</span> private4 <span class="op">+</span> <span class="dv">800</span> <span class="op">*</span> ability4 <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> family_income <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">5000</span>, n)</span>
 <span id="cb17-1011"><a href="#cb17-1011" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1012"><a href="#cb17-1012" aria-hidden="true" tabindex="-1"></a>(2) **Why:** Each omitted confounder contributes its own OVB term. Family income is positively correlated with both private school attendance and earnings, so omitting it inflates the private school coefficient. Adding ability removes one source of bias but leaves the income-driven bias in place.</span>
-<span id="cb17-1013"><a href="#cb17-1013" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1014"><a href="#cb17-1014" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** With multiple confounders, controlling for only some of them reduces bias but does not eliminate it. The progression from short to medium to long regression illustrates the chapter's core message: the long regression moves toward the causal effect only when it includes *all* relevant confounders. In practice, we can never be certain we have controlled for everything --- which is why the book introduces stronger research designs in later chapters.</span>
-<span id="cb17-1015"><a href="#cb17-1015" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1016"><a href="#cb17-1016" aria-hidden="true" tabindex="-1"></a>**R4.**</span>
-<span id="cb17-1017"><a href="#cb17-1017" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1020"><a href="#cb17-1020" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb17-1021"><a href="#cb17-1021" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-reverse</span></span>
-<span id="cb17-1022"><a href="#cb17-1022" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Reversed confounder: higher ability reduces private school probability"</span></span>
-<span id="cb17-1023"><a href="#cb17-1023" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1024"><a href="#cb17-1024" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Generate data with reversed confounder ---</span></span>
-<span id="cb17-1025"><a href="#cb17-1025" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb17-1026"><a href="#cb17-1026" aria-hidden="true" tabindex="-1"></a>ability_r <span class="op">=</span> np.random.normal(<span class="dv">50</span>, <span class="dv">10</span>, n)</span>
-<span id="cb17-1027"><a href="#cb17-1027" aria-hidden="true" tabindex="-1"></a><span class="co"># Flip the sign: higher ability now REDUCES private school probability</span></span>
-<span id="cb17-1028"><a href="#cb17-1028" aria-hidden="true" tabindex="-1"></a>prob_r <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp((ability_r <span class="op">-</span> <span class="dv">50</span>) <span class="op">/</span> <span class="dv">5</span>))  <span class="co"># note: positive sign in exponent</span></span>
-<span id="cb17-1029"><a href="#cb17-1029" aria-hidden="true" tabindex="-1"></a>private_r <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, prob_r)</span>
-<span id="cb17-1030"><a href="#cb17-1030" aria-hidden="true" tabindex="-1"></a>earnings_r <span class="op">=</span> <span class="dv">30000</span> <span class="op">+</span> <span class="dv">5000</span> <span class="op">*</span> private_r <span class="op">+</span> <span class="dv">800</span> <span class="op">*</span> ability_r <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">5000</span>, n)</span>
-<span id="cb17-1031"><a href="#cb17-1031" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1032"><a href="#cb17-1032" aria-hidden="true" tabindex="-1"></a>students_r <span class="op">=</span> pd.DataFrame({<span class="st">"earnings"</span>: earnings_r, <span class="st">"private"</span>: private_r, <span class="st">"ability"</span>: ability_r})</span>
-<span id="cb17-1033"><a href="#cb17-1033" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1034"><a href="#cb17-1034" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Run short, long, and auxiliary regressions ---</span></span>
-<span id="cb17-1035"><a href="#cb17-1035" aria-hidden="true" tabindex="-1"></a>short_r <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private"</span>, data<span class="op">=</span>students_r).fit()</span>
-<span id="cb17-1036"><a href="#cb17-1036" aria-hidden="true" tabindex="-1"></a>long_r <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private + ability"</span>, data<span class="op">=</span>students_r).fit()</span>
-<span id="cb17-1037"><a href="#cb17-1037" aria-hidden="true" tabindex="-1"></a>aux_r <span class="op">=</span> smf.ols(<span class="st">"ability ~ private"</span>, data<span class="op">=</span>students_r).fit()</span>
-<span id="cb17-1038"><a href="#cb17-1038" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1039"><a href="#cb17-1039" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Verify OVB formula ---</span></span>
-<span id="cb17-1040"><a href="#cb17-1040" aria-hidden="true" tabindex="-1"></a>ovb_r <span class="op">=</span> <span class="bu">round</span>(short_r.params[<span class="st">"private"</span>] <span class="op">-</span> long_r.params[<span class="st">"private"</span>])</span>
-<span id="cb17-1041"><a href="#cb17-1041" aria-hidden="true" tabindex="-1"></a>formula_r <span class="op">=</span> <span class="bu">round</span>(aux_r.params[<span class="st">"private"</span>] <span class="op">*</span> long_r.params[<span class="st">"ability"</span>])</span>
-<span id="cb17-1042"><a href="#cb17-1042" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1043"><a href="#cb17-1043" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb17-1044"><a href="#cb17-1044" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Metric"</span>: [<span class="st">"Short coef"</span>, <span class="st">"Long coef"</span>, <span class="st">"OVB (direct)"</span>, <span class="st">"pi_1"</span>, <span class="st">"gamma"</span>, <span class="st">"OVB (formula)"</span>],</span>
-<span id="cb17-1045"><a href="#cb17-1045" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Value"</span>: [<span class="bu">round</span>(short_r.params[<span class="st">"private"</span>]), <span class="bu">round</span>(long_r.params[<span class="st">"private"</span>]),</span>
-<span id="cb17-1046"><a href="#cb17-1046" aria-hidden="true" tabindex="-1"></a>              ovb_r, <span class="bu">round</span>(aux_r.params[<span class="st">"private"</span>], <span class="dv">2</span>), <span class="bu">round</span>(long_r.params[<span class="st">"ability"</span>]),</span>
-<span id="cb17-1047"><a href="#cb17-1047" aria-hidden="true" tabindex="-1"></a>              formula_r],</span>
-<span id="cb17-1048"><a href="#cb17-1048" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb17-1049"><a href="#cb17-1049" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb17-1050"><a href="#cb17-1050" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1051"><a href="#cb17-1051" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb17-1052"><a href="#cb17-1052" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1053"><a href="#cb17-1053" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb17-1054"><a href="#cb17-1054" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Reversed confounder: higher ability reduces private school probability ---</span></span>
-<span id="cb17-1055"><a href="#cb17-1055" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb17-1056"><a href="#cb17-1056" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb17-1057"><a href="#cb17-1057" aria-hidden="true" tabindex="-1"></a><span class="in">set seed 42</span></span>
-<span id="cb17-1058"><a href="#cb17-1058" aria-hidden="true" tabindex="-1"></a><span class="in">set obs 1000</span></span>
+<span id="cb17-1012"><a href="#cb17-1012" aria-hidden="true" tabindex="-1"></a>students4 <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb17-1013"><a href="#cb17-1013" aria-hidden="true" tabindex="-1"></a>    <span class="st">"earnings"</span>: earnings4, <span class="st">"private"</span>: private4,</span>
+<span id="cb17-1014"><a href="#cb17-1014" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ability"</span>: ability4, <span class="st">"family_income"</span>: family_income,</span>
+<span id="cb17-1015"><a href="#cb17-1015" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-1016"><a href="#cb17-1016" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1017"><a href="#cb17-1017" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Run three regressions with progressively more controls ---</span></span>
+<span id="cb17-1018"><a href="#cb17-1018" aria-hidden="true" tabindex="-1"></a>r_short <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private"</span>, data<span class="op">=</span>students4).fit()                        <span class="co"># no controls</span></span>
+<span id="cb17-1019"><a href="#cb17-1019" aria-hidden="true" tabindex="-1"></a>r_medium <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private + ability"</span>, data<span class="op">=</span>students4).fit()             <span class="co"># one control</span></span>
+<span id="cb17-1020"><a href="#cb17-1020" aria-hidden="true" tabindex="-1"></a>r_long <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private + ability + family_income"</span>, data<span class="op">=</span>students4).fit()  <span class="co"># both controls</span></span>
+<span id="cb17-1021"><a href="#cb17-1021" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1022"><a href="#cb17-1022" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb17-1023"><a href="#cb17-1023" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Regression"</span>: [<span class="st">"Short (no controls)"</span>, <span class="st">"Medium (ability only)"</span>, <span class="st">"Long (ability + income)"</span>],</span>
+<span id="cb17-1024"><a href="#cb17-1024" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Private coefficient"</span>: [<span class="bu">round</span>(r_short.params[<span class="st">"private"</span>]),</span>
+<span id="cb17-1025"><a href="#cb17-1025" aria-hidden="true" tabindex="-1"></a>                             <span class="bu">round</span>(r_medium.params[<span class="st">"private"</span>]),</span>
+<span id="cb17-1026"><a href="#cb17-1026" aria-hidden="true" tabindex="-1"></a>                             <span class="bu">round</span>(r_long.params[<span class="st">"private"</span>])],</span>
+<span id="cb17-1027"><a href="#cb17-1027" aria-hidden="true" tabindex="-1"></a>    <span class="st">"True effect"</span>: [<span class="dv">5000</span>, <span class="dv">5000</span>, <span class="dv">5000</span>],</span>
+<span id="cb17-1028"><a href="#cb17-1028" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-1029"><a href="#cb17-1029" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-1030"><a href="#cb17-1030" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1031"><a href="#cb17-1031" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb17-1032"><a href="#cb17-1032" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1033"><a href="#cb17-1033" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb17-1034"><a href="#cb17-1034" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Two confounders: ability and family income ---</span></span>
+<span id="cb17-1035"><a href="#cb17-1035" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb17-1036"><a href="#cb17-1036" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb17-1037"><a href="#cb17-1037" aria-hidden="true" tabindex="-1"></a><span class="in">set seed 42</span></span>
+<span id="cb17-1038"><a href="#cb17-1038" aria-hidden="true" tabindex="-1"></a><span class="in">set obs 1000</span></span>
+<span id="cb17-1039"><a href="#cb17-1039" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1040"><a href="#cb17-1040" aria-hidden="true" tabindex="-1"></a><span class="in">gen ability = rnormal(50, 10)</span></span>
+<span id="cb17-1041"><a href="#cb17-1041" aria-hidden="true" tabindex="-1"></a><span class="in">gen family_income = rnormal(60000, 20000)</span></span>
+<span id="cb17-1042"><a href="#cb17-1042" aria-hidden="true" tabindex="-1"></a><span class="in">gen prob_private = 1 / (1 + exp(-((ability - 50) / 5 + (family_income - 60000) / 20000)))</span></span>
+<span id="cb17-1043"><a href="#cb17-1043" aria-hidden="true" tabindex="-1"></a><span class="in">gen private = rbinomial(1, prob_private)</span></span>
+<span id="cb17-1044"><a href="#cb17-1044" aria-hidden="true" tabindex="-1"></a><span class="in">gen earnings = 10000 + 5000 * private + 800 * ability + 0.3 * family_income + rnormal(0, 5000)</span></span>
+<span id="cb17-1045"><a href="#cb17-1045" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1046"><a href="#cb17-1046" aria-hidden="true" tabindex="-1"></a><span class="in">* Progressive regressions</span></span>
+<span id="cb17-1047"><a href="#cb17-1047" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private</span></span>
+<span id="cb17-1048"><a href="#cb17-1048" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability</span></span>
+<span id="cb17-1049"><a href="#cb17-1049" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability family_income</span></span>
+<span id="cb17-1050"><a href="#cb17-1050" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-1051"><a href="#cb17-1051" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1052"><a href="#cb17-1052" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** The short regression (no controls) is the most biased. Adding ability alone (medium) moves the coefficient closer to the true 5,000, but it still overshoots. Adding both ability and family income (long) gets closest to the true effect.</span>
+<span id="cb17-1053"><a href="#cb17-1053" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1054"><a href="#cb17-1054" aria-hidden="true" tabindex="-1"></a>(2) **Why:** Each omitted confounder contributes its own OVB term. Family income is positively correlated with both private school attendance and earnings, so omitting it inflates the private school coefficient. Adding ability removes one source of bias but leaves the income-driven bias in place.</span>
+<span id="cb17-1055"><a href="#cb17-1055" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1056"><a href="#cb17-1056" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** With multiple confounders, controlling for only some of them reduces bias but does not eliminate it. The progression from short to medium to long regression illustrates the chapter's core message: the long regression moves toward the causal effect only when it includes *all* relevant confounders. In practice, we can never be certain we have controlled for everything --- which is why the book introduces stronger research designs in later chapters.</span>
+<span id="cb17-1057"><a href="#cb17-1057" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1058"><a href="#cb17-1058" aria-hidden="true" tabindex="-1"></a>**R4.**</span>
 <span id="cb17-1059"><a href="#cb17-1059" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1060"><a href="#cb17-1060" aria-hidden="true" tabindex="-1"></a><span class="in">gen ability = rnormal(50, 10)</span></span>
-<span id="cb17-1061"><a href="#cb17-1061" aria-hidden="true" tabindex="-1"></a><span class="in">* Flip the sign: positive exponent means higher ability -&gt; lower P(private)</span></span>
-<span id="cb17-1062"><a href="#cb17-1062" aria-hidden="true" tabindex="-1"></a><span class="in">gen prob_private = 1 / (1 + exp((ability - 50) / 5))</span></span>
-<span id="cb17-1063"><a href="#cb17-1063" aria-hidden="true" tabindex="-1"></a><span class="in">gen private = rbinomial(1, prob_private)</span></span>
-<span id="cb17-1064"><a href="#cb17-1064" aria-hidden="true" tabindex="-1"></a><span class="in">gen earnings = 30000 + 5000 * private + 800 * ability + rnormal(0, 5000)</span></span>
+<span id="cb17-1062"><a href="#cb17-1062" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb17-1063"><a href="#cb17-1063" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-reverse</span></span>
+<span id="cb17-1064"><a href="#cb17-1064" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Reversed confounder: higher ability reduces private school probability"</span></span>
 <span id="cb17-1065"><a href="#cb17-1065" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1066"><a href="#cb17-1066" aria-hidden="true" tabindex="-1"></a><span class="in">* Short and long regressions</span></span>
-<span id="cb17-1067"><a href="#cb17-1067" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private</span></span>
-<span id="cb17-1068"><a href="#cb17-1068" aria-hidden="true" tabindex="-1"></a><span class="in">scalar short_coef = _b[private]</span></span>
-<span id="cb17-1069"><a href="#cb17-1069" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1070"><a href="#cb17-1070" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability</span></span>
-<span id="cb17-1071"><a href="#cb17-1071" aria-hidden="true" tabindex="-1"></a><span class="in">scalar long_coef = _b[private]</span></span>
-<span id="cb17-1072"><a href="#cb17-1072" aria-hidden="true" tabindex="-1"></a><span class="in">scalar gamma = _b[ability]</span></span>
+<span id="cb17-1066"><a href="#cb17-1066" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Generate data with reversed confounder ---</span></span>
+<span id="cb17-1067"><a href="#cb17-1067" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb17-1068"><a href="#cb17-1068" aria-hidden="true" tabindex="-1"></a>ability_r <span class="op">=</span> np.random.normal(<span class="dv">50</span>, <span class="dv">10</span>, n)</span>
+<span id="cb17-1069"><a href="#cb17-1069" aria-hidden="true" tabindex="-1"></a><span class="co"># Flip the sign: higher ability now REDUCES private school probability</span></span>
+<span id="cb17-1070"><a href="#cb17-1070" aria-hidden="true" tabindex="-1"></a>prob_r <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp((ability_r <span class="op">-</span> <span class="dv">50</span>) <span class="op">/</span> <span class="dv">5</span>))  <span class="co"># note: positive sign in exponent</span></span>
+<span id="cb17-1071"><a href="#cb17-1071" aria-hidden="true" tabindex="-1"></a>private_r <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, prob_r)</span>
+<span id="cb17-1072"><a href="#cb17-1072" aria-hidden="true" tabindex="-1"></a>earnings_r <span class="op">=</span> <span class="dv">30000</span> <span class="op">+</span> <span class="dv">5000</span> <span class="op">*</span> private_r <span class="op">+</span> <span class="dv">800</span> <span class="op">*</span> ability_r <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">5000</span>, n)</span>
 <span id="cb17-1073"><a href="#cb17-1073" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1074"><a href="#cb17-1074" aria-hidden="true" tabindex="-1"></a><span class="in">reg ability private</span></span>
-<span id="cb17-1075"><a href="#cb17-1075" aria-hidden="true" tabindex="-1"></a><span class="in">scalar pi1 = _b[private]</span></span>
-<span id="cb17-1076"><a href="#cb17-1076" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1077"><a href="#cb17-1077" aria-hidden="true" tabindex="-1"></a><span class="in">* Verify OVB formula</span></span>
-<span id="cb17-1078"><a href="#cb17-1078" aria-hidden="true" tabindex="-1"></a><span class="in">scalar ovb_direct = short_coef - long_coef</span></span>
-<span id="cb17-1079"><a href="#cb17-1079" aria-hidden="true" tabindex="-1"></a><span class="in">scalar ovb_formula = pi1 * gamma</span></span>
-<span id="cb17-1080"><a href="#cb17-1080" aria-hidden="true" tabindex="-1"></a><span class="in">display "OVB (direct) = " ovb_direct " (should be negative)"</span></span>
-<span id="cb17-1081"><a href="#cb17-1081" aria-hidden="true" tabindex="-1"></a><span class="in">display "OVB (formula) = " ovb_formula</span></span>
-<span id="cb17-1082"><a href="#cb17-1082" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb17-1083"><a href="#cb17-1083" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1084"><a href="#cb17-1084" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** The short regression coefficient is now *below* the true effect of 5,000, not above it. The OVB is negative, and the formula ($\pi_1 \times \gamma$) correctly predicts this: $\pi_1 &lt; 0$ (ability reduces private school probability) times $\gamma &gt; 0$ (ability increases earnings) yields a negative product.</span>
-<span id="cb17-1085"><a href="#cb17-1085" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1086"><a href="#cb17-1086" aria-hidden="true" tabindex="-1"></a>(2) **Why:** When high-ability students attend strong public schools (making $\pi_1$ negative), the private school group has *lower* average ability than the public school group. The short regression attributes this ability disadvantage to private schooling itself, pulling the coefficient below the true effect. This is downward bias --- the opposite of the standard case.</span>
-<span id="cb17-1087"><a href="#cb17-1087" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1088"><a href="#cb17-1088" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** The OVB formula works for all four sign combinations of $\pi_1$ and $\gamma$. Students often assume bias is always upward, but this exercise shows that the direction depends on the institutional context. In settings where treatment is negatively selected (e.g., remedial programs that serve weaker students), OVB can be downward, making the treatment look *less* effective than it truly is.</span>
-<span id="cb17-1089"><a href="#cb17-1089" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1090"><a href="#cb17-1090" aria-hidden="true" tabindex="-1"></a>**R5.**</span>
-<span id="cb17-1091"><a href="#cb17-1091" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1094"><a href="#cb17-1094" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb17-1095"><a href="#cb17-1095" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-sensitivity</span></span>
-<span id="cb17-1096"><a href="#cb17-1096" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Coefficient stability across progressive control addition"</span></span>
-<span id="cb17-1097"><a href="#cb17-1097" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1098"><a href="#cb17-1098" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Generate data with three confounders ---</span></span>
-<span id="cb17-1099"><a href="#cb17-1099" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb17-1100"><a href="#cb17-1100" aria-hidden="true" tabindex="-1"></a>ability_s <span class="op">=</span> np.random.normal(<span class="dv">50</span>, <span class="dv">10</span>, n)</span>
-<span id="cb17-1101"><a href="#cb17-1101" aria-hidden="true" tabindex="-1"></a>income_s <span class="op">=</span> np.random.normal(<span class="dv">60000</span>, <span class="dv">20000</span>, n)</span>
-<span id="cb17-1102"><a href="#cb17-1102" aria-hidden="true" tabindex="-1"></a>motivation <span class="op">=</span> np.random.normal(<span class="dv">5</span>, <span class="dv">2</span>, n)</span>
-<span id="cb17-1103"><a href="#cb17-1103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1104"><a href="#cb17-1104" aria-hidden="true" tabindex="-1"></a><span class="co"># All three confounders affect private school choice</span></span>
-<span id="cb17-1105"><a href="#cb17-1105" aria-hidden="true" tabindex="-1"></a>prob_s <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>((ability_s <span class="op">-</span> <span class="dv">50</span>)<span class="op">/</span><span class="dv">5</span> <span class="op">+</span> (income_s <span class="op">-</span> <span class="dv">60000</span>)<span class="op">/</span><span class="dv">20000</span> <span class="op">+</span> (motivation <span class="op">-</span> <span class="dv">5</span>)<span class="op">/</span><span class="dv">2</span>)))</span>
-<span id="cb17-1106"><a href="#cb17-1106" aria-hidden="true" tabindex="-1"></a>private_s <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, prob_s)</span>
+<span id="cb17-1074"><a href="#cb17-1074" aria-hidden="true" tabindex="-1"></a>students_r <span class="op">=</span> pd.DataFrame({<span class="st">"earnings"</span>: earnings_r, <span class="st">"private"</span>: private_r, <span class="st">"ability"</span>: ability_r})</span>
+<span id="cb17-1075"><a href="#cb17-1075" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1076"><a href="#cb17-1076" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Run short, long, and auxiliary regressions ---</span></span>
+<span id="cb17-1077"><a href="#cb17-1077" aria-hidden="true" tabindex="-1"></a>short_r <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private"</span>, data<span class="op">=</span>students_r).fit()</span>
+<span id="cb17-1078"><a href="#cb17-1078" aria-hidden="true" tabindex="-1"></a>long_r <span class="op">=</span> smf.ols(<span class="st">"earnings ~ private + ability"</span>, data<span class="op">=</span>students_r).fit()</span>
+<span id="cb17-1079"><a href="#cb17-1079" aria-hidden="true" tabindex="-1"></a>aux_r <span class="op">=</span> smf.ols(<span class="st">"ability ~ private"</span>, data<span class="op">=</span>students_r).fit()</span>
+<span id="cb17-1080"><a href="#cb17-1080" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1081"><a href="#cb17-1081" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Verify OVB formula ---</span></span>
+<span id="cb17-1082"><a href="#cb17-1082" aria-hidden="true" tabindex="-1"></a>ovb_r <span class="op">=</span> <span class="bu">round</span>(short_r.params[<span class="st">"private"</span>] <span class="op">-</span> long_r.params[<span class="st">"private"</span>])</span>
+<span id="cb17-1083"><a href="#cb17-1083" aria-hidden="true" tabindex="-1"></a>formula_r <span class="op">=</span> <span class="bu">round</span>(aux_r.params[<span class="st">"private"</span>] <span class="op">*</span> long_r.params[<span class="st">"ability"</span>])</span>
+<span id="cb17-1084"><a href="#cb17-1084" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1085"><a href="#cb17-1085" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb17-1086"><a href="#cb17-1086" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Metric"</span>: [<span class="st">"Short coef"</span>, <span class="st">"Long coef"</span>, <span class="st">"OVB (direct)"</span>, <span class="st">"pi_1"</span>, <span class="st">"gamma"</span>, <span class="st">"OVB (formula)"</span>],</span>
+<span id="cb17-1087"><a href="#cb17-1087" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Value"</span>: [<span class="bu">round</span>(short_r.params[<span class="st">"private"</span>]), <span class="bu">round</span>(long_r.params[<span class="st">"private"</span>]),</span>
+<span id="cb17-1088"><a href="#cb17-1088" aria-hidden="true" tabindex="-1"></a>              ovb_r, <span class="bu">round</span>(aux_r.params[<span class="st">"private"</span>], <span class="dv">2</span>), <span class="bu">round</span>(long_r.params[<span class="st">"ability"</span>]),</span>
+<span id="cb17-1089"><a href="#cb17-1089" aria-hidden="true" tabindex="-1"></a>              formula_r],</span>
+<span id="cb17-1090"><a href="#cb17-1090" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-1091"><a href="#cb17-1091" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-1092"><a href="#cb17-1092" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1093"><a href="#cb17-1093" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb17-1094"><a href="#cb17-1094" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1095"><a href="#cb17-1095" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb17-1096"><a href="#cb17-1096" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Reversed confounder: higher ability reduces private school probability ---</span></span>
+<span id="cb17-1097"><a href="#cb17-1097" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb17-1098"><a href="#cb17-1098" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb17-1099"><a href="#cb17-1099" aria-hidden="true" tabindex="-1"></a><span class="in">set seed 42</span></span>
+<span id="cb17-1100"><a href="#cb17-1100" aria-hidden="true" tabindex="-1"></a><span class="in">set obs 1000</span></span>
+<span id="cb17-1101"><a href="#cb17-1101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1102"><a href="#cb17-1102" aria-hidden="true" tabindex="-1"></a><span class="in">gen ability = rnormal(50, 10)</span></span>
+<span id="cb17-1103"><a href="#cb17-1103" aria-hidden="true" tabindex="-1"></a><span class="in">* Flip the sign: positive exponent means higher ability -&gt; lower P(private)</span></span>
+<span id="cb17-1104"><a href="#cb17-1104" aria-hidden="true" tabindex="-1"></a><span class="in">gen prob_private = 1 / (1 + exp((ability - 50) / 5))</span></span>
+<span id="cb17-1105"><a href="#cb17-1105" aria-hidden="true" tabindex="-1"></a><span class="in">gen private = rbinomial(1, prob_private)</span></span>
+<span id="cb17-1106"><a href="#cb17-1106" aria-hidden="true" tabindex="-1"></a><span class="in">gen earnings = 30000 + 5000 * private + 800 * ability + rnormal(0, 5000)</span></span>
 <span id="cb17-1107"><a href="#cb17-1107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1108"><a href="#cb17-1108" aria-hidden="true" tabindex="-1"></a><span class="co"># All three confounders affect earnings</span></span>
-<span id="cb17-1109"><a href="#cb17-1109" aria-hidden="true" tabindex="-1"></a>earnings_s <span class="op">=</span> (<span class="dv">10000</span> <span class="op">+</span> <span class="dv">5000</span> <span class="op">*</span> private_s <span class="op">+</span> <span class="dv">800</span> <span class="op">*</span> ability_s</span>
-<span id="cb17-1110"><a href="#cb17-1110" aria-hidden="true" tabindex="-1"></a>              <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> income_s <span class="op">+</span> <span class="dv">2000</span> <span class="op">*</span> motivation <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">5000</span>, n))</span>
+<span id="cb17-1108"><a href="#cb17-1108" aria-hidden="true" tabindex="-1"></a><span class="in">* Short and long regressions</span></span>
+<span id="cb17-1109"><a href="#cb17-1109" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private</span></span>
+<span id="cb17-1110"><a href="#cb17-1110" aria-hidden="true" tabindex="-1"></a><span class="in">scalar short_coef = _b[private]</span></span>
 <span id="cb17-1111"><a href="#cb17-1111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1112"><a href="#cb17-1112" aria-hidden="true" tabindex="-1"></a>df_s <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb17-1113"><a href="#cb17-1113" aria-hidden="true" tabindex="-1"></a>    <span class="st">"earnings"</span>: earnings_s, <span class="st">"private"</span>: private_s,</span>
-<span id="cb17-1114"><a href="#cb17-1114" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ability"</span>: ability_s, <span class="st">"income"</span>: income_s, <span class="st">"motivation"</span>: motivation,</span>
-<span id="cb17-1115"><a href="#cb17-1115" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb17-1116"><a href="#cb17-1116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1117"><a href="#cb17-1117" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Run four nested regressions ---</span></span>
-<span id="cb17-1118"><a href="#cb17-1118" aria-hidden="true" tabindex="-1"></a>specs <span class="op">=</span> [</span>
-<span id="cb17-1119"><a href="#cb17-1119" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"No controls"</span>, <span class="st">"earnings ~ private"</span>),</span>
-<span id="cb17-1120"><a href="#cb17-1120" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"+ ability"</span>, <span class="st">"earnings ~ private + ability"</span>),</span>
-<span id="cb17-1121"><a href="#cb17-1121" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"+ ability + income"</span>, <span class="st">"earnings ~ private + ability + income"</span>),</span>
-<span id="cb17-1122"><a href="#cb17-1122" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"+ all three"</span>, <span class="st">"earnings ~ private + ability + income + motivation"</span>),</span>
-<span id="cb17-1123"><a href="#cb17-1123" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb17-1124"><a href="#cb17-1124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1125"><a href="#cb17-1125" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb17-1126"><a href="#cb17-1126" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label, formula <span class="kw">in</span> specs:</span>
-<span id="cb17-1127"><a href="#cb17-1127" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> smf.ols(formula, data<span class="op">=</span>df_s).fit()</span>
-<span id="cb17-1128"><a href="#cb17-1128" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
-<span id="cb17-1129"><a href="#cb17-1129" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Specification"</span>: label,</span>
-<span id="cb17-1130"><a href="#cb17-1130" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Private coefficient"</span>: <span class="bu">round</span>(r.params[<span class="st">"private"</span>]),</span>
-<span id="cb17-1131"><a href="#cb17-1131" aria-hidden="true" tabindex="-1"></a>        <span class="st">"True effect"</span>: <span class="dv">5000</span>,</span>
-<span id="cb17-1132"><a href="#cb17-1132" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb17-1112"><a href="#cb17-1112" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability</span></span>
+<span id="cb17-1113"><a href="#cb17-1113" aria-hidden="true" tabindex="-1"></a><span class="in">scalar long_coef = _b[private]</span></span>
+<span id="cb17-1114"><a href="#cb17-1114" aria-hidden="true" tabindex="-1"></a><span class="in">scalar gamma = _b[ability]</span></span>
+<span id="cb17-1115"><a href="#cb17-1115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1116"><a href="#cb17-1116" aria-hidden="true" tabindex="-1"></a><span class="in">reg ability private</span></span>
+<span id="cb17-1117"><a href="#cb17-1117" aria-hidden="true" tabindex="-1"></a><span class="in">scalar pi1 = _b[private]</span></span>
+<span id="cb17-1118"><a href="#cb17-1118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1119"><a href="#cb17-1119" aria-hidden="true" tabindex="-1"></a><span class="in">* Verify OVB formula</span></span>
+<span id="cb17-1120"><a href="#cb17-1120" aria-hidden="true" tabindex="-1"></a><span class="in">scalar ovb_direct = short_coef - long_coef</span></span>
+<span id="cb17-1121"><a href="#cb17-1121" aria-hidden="true" tabindex="-1"></a><span class="in">scalar ovb_formula = pi1 * gamma</span></span>
+<span id="cb17-1122"><a href="#cb17-1122" aria-hidden="true" tabindex="-1"></a><span class="in">display "OVB (direct) = " ovb_direct " (should be negative)"</span></span>
+<span id="cb17-1123"><a href="#cb17-1123" aria-hidden="true" tabindex="-1"></a><span class="in">display "OVB (formula) = " ovb_formula</span></span>
+<span id="cb17-1124"><a href="#cb17-1124" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-1125"><a href="#cb17-1125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1126"><a href="#cb17-1126" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** The short regression coefficient is now *below* the true effect of 5,000, not above it. The OVB is negative, and the formula ($\pi_1 \times \gamma$) correctly predicts this: $\pi_1 &lt; 0$ (ability reduces private school probability) times $\gamma &gt; 0$ (ability increases earnings) yields a negative product.</span>
+<span id="cb17-1127"><a href="#cb17-1127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1128"><a href="#cb17-1128" aria-hidden="true" tabindex="-1"></a>(2) **Why:** When high-ability students attend strong public schools (making $\pi_1$ negative), the private school group has *lower* average ability than the public school group. The short regression attributes this ability disadvantage to private schooling itself, pulling the coefficient below the true effect. This is downward bias --- the opposite of the standard case.</span>
+<span id="cb17-1129"><a href="#cb17-1129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1130"><a href="#cb17-1130" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** The OVB formula works for all four sign combinations of $\pi_1$ and $\gamma$. Students often assume bias is always upward, but this exercise shows that the direction depends on the institutional context. In settings where treatment is negatively selected (e.g., remedial programs that serve weaker students), OVB can be downward, making the treatment look *less* effective than it truly is.</span>
+<span id="cb17-1131"><a href="#cb17-1131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1132"><a href="#cb17-1132" aria-hidden="true" tabindex="-1"></a>**R5.**</span>
 <span id="cb17-1133"><a href="#cb17-1133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1134"><a href="#cb17-1134" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
-<span id="cb17-1135"><a href="#cb17-1135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb17-1136"><a href="#cb17-1136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1137"><a href="#cb17-1137" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
-<span id="cb17-1138"><a href="#cb17-1138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1139"><a href="#cb17-1139" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
-<span id="cb17-1140"><a href="#cb17-1140" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Progressive control addition (sensitivity analysis) ---</span></span>
-<span id="cb17-1141"><a href="#cb17-1141" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
-<span id="cb17-1142"><a href="#cb17-1142" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
-<span id="cb17-1143"><a href="#cb17-1143" aria-hidden="true" tabindex="-1"></a><span class="in">set seed 42</span></span>
-<span id="cb17-1144"><a href="#cb17-1144" aria-hidden="true" tabindex="-1"></a><span class="in">set obs 1000</span></span>
+<span id="cb17-1136"><a href="#cb17-1136" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb17-1137"><a href="#cb17-1137" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-sol-sensitivity</span></span>
+<span id="cb17-1138"><a href="#cb17-1138" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Coefficient stability across progressive control addition"</span></span>
+<span id="cb17-1139"><a href="#cb17-1139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1140"><a href="#cb17-1140" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Generate data with three confounders ---</span></span>
+<span id="cb17-1141"><a href="#cb17-1141" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb17-1142"><a href="#cb17-1142" aria-hidden="true" tabindex="-1"></a>ability_s <span class="op">=</span> np.random.normal(<span class="dv">50</span>, <span class="dv">10</span>, n)</span>
+<span id="cb17-1143"><a href="#cb17-1143" aria-hidden="true" tabindex="-1"></a>income_s <span class="op">=</span> np.random.normal(<span class="dv">60000</span>, <span class="dv">20000</span>, n)</span>
+<span id="cb17-1144"><a href="#cb17-1144" aria-hidden="true" tabindex="-1"></a>motivation <span class="op">=</span> np.random.normal(<span class="dv">5</span>, <span class="dv">2</span>, n)</span>
 <span id="cb17-1145"><a href="#cb17-1145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1146"><a href="#cb17-1146" aria-hidden="true" tabindex="-1"></a><span class="in">gen ability = rnormal(50, 10)</span></span>
-<span id="cb17-1147"><a href="#cb17-1147" aria-hidden="true" tabindex="-1"></a><span class="in">gen income = rnormal(60000, 20000)</span></span>
-<span id="cb17-1148"><a href="#cb17-1148" aria-hidden="true" tabindex="-1"></a><span class="in">gen motivation = rnormal(5, 2)</span></span>
-<span id="cb17-1149"><a href="#cb17-1149" aria-hidden="true" tabindex="-1"></a><span class="in">gen prob_private = 1 / (1 + exp(-((ability - 50)/5 + (income - 60000)/20000 + (motivation - 5)/2)))</span></span>
-<span id="cb17-1150"><a href="#cb17-1150" aria-hidden="true" tabindex="-1"></a><span class="in">gen private = rbinomial(1, prob_private)</span></span>
-<span id="cb17-1151"><a href="#cb17-1151" aria-hidden="true" tabindex="-1"></a><span class="in">gen earnings = 10000 + 5000*private + 800*ability + 0.3*income + 2000*motivation + rnormal(0, 5000)</span></span>
-<span id="cb17-1152"><a href="#cb17-1152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1153"><a href="#cb17-1153" aria-hidden="true" tabindex="-1"></a><span class="in">* Nested regressions — watch the coefficient on private stabilize</span></span>
-<span id="cb17-1154"><a href="#cb17-1154" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private</span></span>
-<span id="cb17-1155"><a href="#cb17-1155" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability</span></span>
-<span id="cb17-1156"><a href="#cb17-1156" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability income</span></span>
-<span id="cb17-1157"><a href="#cb17-1157" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability income motivation</span></span>
-<span id="cb17-1158"><a href="#cb17-1158" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb17-1159"><a href="#cb17-1159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1160"><a href="#cb17-1160" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** The private school coefficient starts far from 5,000 with no controls, moves closer with each added confounder, and converges near the true effect when all three are included. Each control removes one source of OVB.</span>
-<span id="cb17-1161"><a href="#cb17-1161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1162"><a href="#cb17-1162" aria-hidden="true" tabindex="-1"></a>(2) **Why:** Each omitted confounder contributes its own OVB term. Adding ability removes the ability-driven bias but leaves income and motivation bias in place. Adding income removes a second source. Only when all three confounders are included does the coefficient approach the true causal effect.</span>
-<span id="cb17-1163"><a href="#cb17-1163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-1164"><a href="#cb17-1164" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** This is the logic behind the coefficient stability diagnostic discussed in the chapter: if adding controls barely changes the estimate, the remaining OVB is likely small. If each new control produces a large shift, it signals that other omitted variables may also matter --- and we can never be sure we have controlled for everything. This fundamental uncertainty is what motivates the stronger research designs in Chapters 3--6.</span>
+<span id="cb17-1146"><a href="#cb17-1146" aria-hidden="true" tabindex="-1"></a><span class="co"># All three confounders affect private school choice</span></span>
+<span id="cb17-1147"><a href="#cb17-1147" aria-hidden="true" tabindex="-1"></a>prob_s <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>((ability_s <span class="op">-</span> <span class="dv">50</span>)<span class="op">/</span><span class="dv">5</span> <span class="op">+</span> (income_s <span class="op">-</span> <span class="dv">60000</span>)<span class="op">/</span><span class="dv">20000</span> <span class="op">+</span> (motivation <span class="op">-</span> <span class="dv">5</span>)<span class="op">/</span><span class="dv">2</span>)))</span>
+<span id="cb17-1148"><a href="#cb17-1148" aria-hidden="true" tabindex="-1"></a>private_s <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, prob_s)</span>
+<span id="cb17-1149"><a href="#cb17-1149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1150"><a href="#cb17-1150" aria-hidden="true" tabindex="-1"></a><span class="co"># All three confounders affect earnings</span></span>
+<span id="cb17-1151"><a href="#cb17-1151" aria-hidden="true" tabindex="-1"></a>earnings_s <span class="op">=</span> (<span class="dv">10000</span> <span class="op">+</span> <span class="dv">5000</span> <span class="op">*</span> private_s <span class="op">+</span> <span class="dv">800</span> <span class="op">*</span> ability_s</span>
+<span id="cb17-1152"><a href="#cb17-1152" aria-hidden="true" tabindex="-1"></a>              <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> income_s <span class="op">+</span> <span class="dv">2000</span> <span class="op">*</span> motivation <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">5000</span>, n))</span>
+<span id="cb17-1153"><a href="#cb17-1153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1154"><a href="#cb17-1154" aria-hidden="true" tabindex="-1"></a>df_s <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb17-1155"><a href="#cb17-1155" aria-hidden="true" tabindex="-1"></a>    <span class="st">"earnings"</span>: earnings_s, <span class="st">"private"</span>: private_s,</span>
+<span id="cb17-1156"><a href="#cb17-1156" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ability"</span>: ability_s, <span class="st">"income"</span>: income_s, <span class="st">"motivation"</span>: motivation,</span>
+<span id="cb17-1157"><a href="#cb17-1157" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-1158"><a href="#cb17-1158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1159"><a href="#cb17-1159" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Run four nested regressions ---</span></span>
+<span id="cb17-1160"><a href="#cb17-1160" aria-hidden="true" tabindex="-1"></a>specs <span class="op">=</span> [</span>
+<span id="cb17-1161"><a href="#cb17-1161" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"No controls"</span>, <span class="st">"earnings ~ private"</span>),</span>
+<span id="cb17-1162"><a href="#cb17-1162" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"+ ability"</span>, <span class="st">"earnings ~ private + ability"</span>),</span>
+<span id="cb17-1163"><a href="#cb17-1163" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"+ ability + income"</span>, <span class="st">"earnings ~ private + ability + income"</span>),</span>
+<span id="cb17-1164"><a href="#cb17-1164" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"+ all three"</span>, <span class="st">"earnings ~ private + ability + income + motivation"</span>),</span>
+<span id="cb17-1165"><a href="#cb17-1165" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-1166"><a href="#cb17-1166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1167"><a href="#cb17-1167" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb17-1168"><a href="#cb17-1168" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label, formula <span class="kw">in</span> specs:</span>
+<span id="cb17-1169"><a href="#cb17-1169" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> smf.ols(formula, data<span class="op">=</span>df_s).fit()</span>
+<span id="cb17-1170"><a href="#cb17-1170" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
+<span id="cb17-1171"><a href="#cb17-1171" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Specification"</span>: label,</span>
+<span id="cb17-1172"><a href="#cb17-1172" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Private coefficient"</span>: <span class="bu">round</span>(r.params[<span class="st">"private"</span>]),</span>
+<span id="cb17-1173"><a href="#cb17-1173" aria-hidden="true" tabindex="-1"></a>        <span class="st">"True effect"</span>: <span class="dv">5000</span>,</span>
+<span id="cb17-1174"><a href="#cb17-1174" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb17-1175"><a href="#cb17-1175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1176"><a href="#cb17-1176" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows)</span>
+<span id="cb17-1177"><a href="#cb17-1177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-1178"><a href="#cb17-1178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1179"><a href="#cb17-1179" aria-hidden="true" tabindex="-1"></a>Stata equivalent:</span>
+<span id="cb17-1180"><a href="#cb17-1180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1181"><a href="#cb17-1181" aria-hidden="true" tabindex="-1"></a><span class="in">```stata</span></span>
+<span id="cb17-1182"><a href="#cb17-1182" aria-hidden="true" tabindex="-1"></a><span class="in">* --- Progressive control addition (sensitivity analysis) ---</span></span>
+<span id="cb17-1183"><a href="#cb17-1183" aria-hidden="true" tabindex="-1"></a><span class="in">clear all</span></span>
+<span id="cb17-1184"><a href="#cb17-1184" aria-hidden="true" tabindex="-1"></a><span class="in">set more off</span></span>
+<span id="cb17-1185"><a href="#cb17-1185" aria-hidden="true" tabindex="-1"></a><span class="in">set seed 42</span></span>
+<span id="cb17-1186"><a href="#cb17-1186" aria-hidden="true" tabindex="-1"></a><span class="in">set obs 1000</span></span>
+<span id="cb17-1187"><a href="#cb17-1187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1188"><a href="#cb17-1188" aria-hidden="true" tabindex="-1"></a><span class="in">gen ability = rnormal(50, 10)</span></span>
+<span id="cb17-1189"><a href="#cb17-1189" aria-hidden="true" tabindex="-1"></a><span class="in">gen income = rnormal(60000, 20000)</span></span>
+<span id="cb17-1190"><a href="#cb17-1190" aria-hidden="true" tabindex="-1"></a><span class="in">gen motivation = rnormal(5, 2)</span></span>
+<span id="cb17-1191"><a href="#cb17-1191" aria-hidden="true" tabindex="-1"></a><span class="in">gen prob_private = 1 / (1 + exp(-((ability - 50)/5 + (income - 60000)/20000 + (motivation - 5)/2)))</span></span>
+<span id="cb17-1192"><a href="#cb17-1192" aria-hidden="true" tabindex="-1"></a><span class="in">gen private = rbinomial(1, prob_private)</span></span>
+<span id="cb17-1193"><a href="#cb17-1193" aria-hidden="true" tabindex="-1"></a><span class="in">gen earnings = 10000 + 5000*private + 800*ability + 0.3*income + 2000*motivation + rnormal(0, 5000)</span></span>
+<span id="cb17-1194"><a href="#cb17-1194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1195"><a href="#cb17-1195" aria-hidden="true" tabindex="-1"></a><span class="in">* Nested regressions — watch the coefficient on private stabilize</span></span>
+<span id="cb17-1196"><a href="#cb17-1196" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private</span></span>
+<span id="cb17-1197"><a href="#cb17-1197" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability</span></span>
+<span id="cb17-1198"><a href="#cb17-1198" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability income</span></span>
+<span id="cb17-1199"><a href="#cb17-1199" aria-hidden="true" tabindex="-1"></a><span class="in">reg earnings private ability income motivation</span></span>
+<span id="cb17-1200"><a href="#cb17-1200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-1201"><a href="#cb17-1201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1202"><a href="#cb17-1202" aria-hidden="true" tabindex="-1"></a>(1) **What the numbers show:** The private school coefficient starts far from 5,000 with no controls, moves closer with each added confounder, and converges near the true effect when all three are included. Each control removes one source of OVB.</span>
+<span id="cb17-1203"><a href="#cb17-1203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1204"><a href="#cb17-1204" aria-hidden="true" tabindex="-1"></a>(2) **Why:** Each omitted confounder contributes its own OVB term. Adding ability removes the ability-driven bias but leaves income and motivation bias in place. Adding income removes a second source. Only when all three confounders are included does the coefficient approach the true causal effect.</span>
+<span id="cb17-1205"><a href="#cb17-1205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-1206"><a href="#cb17-1206" aria-hidden="true" tabindex="-1"></a>(3) **What it teaches:** This is the logic behind the coefficient stability diagnostic discussed in the chapter: if adding controls barely changes the estimate, the remaining OVB is likely small. If each new control produces a large shift, it signals that other omitted variables may also matter --- and we can never be sure we have controlled for everything. This fundamental uncertainty is what motivates the stronger research designs in Chapters 3--6.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

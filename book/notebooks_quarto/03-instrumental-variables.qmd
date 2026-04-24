@@ -791,18 +791,64 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 
 ### Conceptual Questions
 
-::: {.callout-caution}
-### Conceptual Questions
-
 1. **Classifying complier types**: In a medical trial, patients are randomly assigned to receive a new drug or placebo, but some placebo patients obtain the drug on their own, and some drug patients refuse to take it. (a) Who are the always-takers? (b) Who are the compliers? (c) If 80% of the drug group takes the drug and 10% of the placebo group obtains it, what is the first stage?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**The compliance framework classifies individuals by how their treatment responds to the instrument, not by what they actually do.**
+
+1. Always-takers are patients who take the drug regardless of assignment --- those in the placebo group who obtain it on their own. Their behavior is unchanged by the instrument (random assignment), so IV tells us nothing about their treatment effect.
+2. Compliers are patients who follow their assignment: they take the drug when assigned to drug, and don't take it when assigned to placebo. These are the individuals whose behavior the instrument actually changes, and LATE captures the causal effect specifically for this group.
+3. The first stage measures how much the instrument shifts treatment uptake: $P(\text{take drug} | \text{assigned drug}) - P(\text{take drug} | \text{assigned placebo}) = 0.80 - 0.10 = 0.70$. A first stage of 0.70 means 70% of the sample are compliers --- those whose treatment status was determined by the instrument.
+:::
 
 2. **Computing LATE**: Using the MDVE numbers: first stage = 0.786, reduced form = 0.114. (a) Compute the LATE. (b) Why is this larger than the naive comparison of delivered treatments (0.087)? (c) What does "selection into treatment" mean in this context?
 
+::: {.callout-note collapse="true"}
+### Show answer
+**The Wald estimator (IV ratio) removes selection bias that contaminates naive comparisons by isolating variation driven only by the instrument.**
+
+1. LATE = reduced form / first stage = 0.114 / 0.786 = 0.145 (14.5 percentage points). The numerator captures the intent-to-treat effect of random assignment on recidivism; the denominator scales it by the fraction of cases whose treatment was actually changed by the assignment (compliers).
+2. The naive comparison (0.087) is smaller because it is contaminated by selection bias: officers who deviated from their "coddle" assignment to arrest instead were responding to more violent suspects. These suspects would have reoffended at higher rates regardless, making arrest look less effective. The naive estimate mixes the true causal effect with this negative selection bias, biasing it toward zero.
+3. "Selection into treatment" means that the officers who chose to arrest (despite being told to coddle) were systematically selecting the most dangerous cases. This violates the independence assumption needed for causal inference --- treatment is correlated with potential outcomes. IV solves this by using only the exogenous variation from random assignment.
+:::
+
 3. **Exclusion restriction**: A researcher uses rainfall as an instrument for agricultural output to estimate the effect of output on conflict. What could violate the exclusion restriction?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**The exclusion restriction requires that the instrument affects the outcome only through the specified channel --- any alternative pathway invalidates the IV strategy.**
+
+Rainfall could affect conflict through channels other than agricultural output, violating this core IV assumption:
+
+1. Heavy rain may flood roads and prevent armed groups from mobilizing, reducing conflict directly --- a logistical channel that bypasses agricultural output entirely.
+2. Drought may force migration, creating social tensions and competition for resources in destination areas unrelated to agricultural output --- a demographic channel.
+3. Rainfall affects water availability for drinking and sanitation, which could spark resource conflicts independent of crop yields --- a basic-needs channel.
+
+Any of these channels would violate the exclusion restriction because rainfall would affect conflict independently of its effect on agricultural output. The IV estimate would then capture a mixture of effects through all channels, not just the agricultural mechanism the researchers intend to isolate.
+:::
 
 4. **Why LATE is local**: Using the MDVE context, explain why the IV estimate applies only to compliers. What can we say (or not say) about the effect of arrest on always-takers --- those suspects who would be arrested regardless of what the assignment form said?
 
+::: {.callout-note collapse="true"}
+### Show answer
+**LATE applies only to compliers --- individuals whose treatment was changed by the instrument --- and cannot be generalized to always-takers or never-takers without additional assumptions.**
+
+1. The IV estimate is a Local Average Treatment Effect: it captures the causal effect specifically for compliers, the subgroup whose treatment status changed because of the instrument (random assignment).
+2. In the MDVE, compliers are officers who followed their random assignment --- they arrested when told to arrest and coddled when told to coddle. LATE tells us how arrest affected recidivism for suspects handled by these compliant officers.
+3. For always-takers (officers who arrested regardless of what the form said), the instrument didn't change their behavior, so IV cannot tell us anything about the treatment effect for their cases. These officers may be more experienced and arrest only when necessary, making arrest more effective for their cases --- or less effective if they over-arrest.
+4. This is a fundamental limitation of LATE: external validity requires arguing that compliers are representative of the broader population, which is often uncertain.
+:::
+
 5. **Monotonicity**: The IV framework assumes there are no "defiers" (people who do the opposite of their assignment). In the MDVE, a defier would be an officer who arrests when told to coddle and coddles when told to arrest. Why is this assumption reasonable in the MDVE context? Can you think of a setting where it might fail?
+
+::: {.callout-note collapse="true"}
+### Show answer
+**Monotonicity requires that the instrument shifts everyone in the same direction --- no defiers --- and is essential for interpreting IV as LATE.**
+
+1. In the MDVE, monotonicity is reasonable: it is hard to imagine an officer who would arrest when told to coddle but coddle when told to arrest. The compliance data confirm that officers deviate *toward* arrest (the more cautious action), not away from it.
+2. If defiers existed (officers who systematically did the opposite of their assignment), the LATE interpretation breaks down because complier and defier effects would cancel each other in unknown proportions, making the IV estimate uninterpretable.
+3. Monotonicity might fail in settings where the instrument triggers opposite reactions in different subgroups --- for example, a mandatory tutoring assignment where some students rebel against being told to attend (defiers who skip when assigned) but voluntarily attend when not assigned. In such cases, the IV estimate would not cleanly identify a causal effect for any well-defined group.
 :::
 
 ### Research Tasks

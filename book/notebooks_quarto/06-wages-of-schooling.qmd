@@ -34,7 +34,7 @@ By the end of this chapter, you will be able to:
 
 graph TD
     A["THE QUESTION: Does education cause higher earnings?"]
-    B["SIMPLE OLS: Naive regression shows about 10% return"]
+    B["SIMPLE OLS: Naive regression shows about 7% return"]
     C["THE PROBLEM: Ability bias and omitted variables inflate the estimate"]
     D["MULTIPLE REGRESSION: Adding controls helps but cannot fix unobservables"]
     E["QUASI-EXPERIMENTS: IV with twins, QOB, and child labor laws"]
@@ -254,7 +254,7 @@ pd.DataFrame({
 })
 ```
 
-Each additional year of schooling is associated with about **10% higher weekly earnings**. With 329,000 observations, the estimate is extremely precise.
+Each additional year of schooling is associated with about **7% higher weekly earnings**. With 329,000 observations, the estimate is extremely precise.
 
 ```{python}
 #| label: fig-gradient
@@ -326,7 +326,7 @@ pd.DataFrame({
 })
 ```
 
-The OLS return with controls is about **11% per year of schooling**. Adding age, gender, and race barely changes the estimate --- because these observables explain little of the ability-education correlation.
+The OLS return with controls is about **11% per year of schooling**. Note that this estimate uses a different dataset (the Twinsburg twins) than the bivariate regression above (the 1980 Census). The higher estimate partly reflects the different sample. Even within this dataset, adding demographic controls does not substantially reduce the schooling coefficient --- because these observables explain little of the ability-education correlation.
 
 ### The OVB Formula Applied to Schooling
 
@@ -370,12 +370,12 @@ pd.DataFrame({
     "Schooling coefficient": [
         f"{short_reg.params['schooling']:.4f} ({short_reg.bse['schooling']:.4f})",
         f"{long_reg.params['schooling']:.4f} ({long_reg.bse['schooling']:.4f})",
-        "0.0800",
+        "0.0900",
     ],
 })
 ```
 
-The short regression gives about 0.11 --- **overstating** the true 0.08 return by roughly 40%. Adding the unobservable ability recovers the true return. In real life, we cannot observe ability, so we need a different strategy.
+The short regression gives about 0.12 --- **overstating** the true return by roughly 40%. Adding the unobservable ability recovers the true total causal return (about 0.09). In real life, we cannot observe ability, so we need a different strategy.
 
 ### Bad Controls: Do Not Control for Occupation
 
@@ -397,7 +397,7 @@ pd.DataFrame({
     "Schooling coefficient": [
         f"{short_reg.params['schooling']:.4f} ({short_reg.bse['schooling']:.4f})",
         f"{bad_control.params['schooling']:.4f} ({bad_control.bse['schooling']:.4f})",
-        "0.0800",
+        "0.0900",
     ],
 })
 ```
@@ -418,7 +418,7 @@ To see *why* random assignment works, we use a synthetic dataset that simulates 
 ::: {.callout-note}
 ### Synthetic data
 
-This dataset simulates a hypothetical scholarship experiment. 500 individuals were randomly assigned to receive a scholarship (or not). The scholarship increases schooling by about 1 year. The true causal return to schooling is 0.08 per year, so the scholarship should increase earnings by about 0.08.
+This dataset simulates a hypothetical scholarship experiment. 2,000 individuals were randomly assigned to receive a scholarship (or not). The scholarship increases schooling by about 2 years. The true causal return to schooling is 0.08 per year, so the scholarship should increase earnings by about 0.16.
 :::
 
 ```{python}
@@ -643,7 +643,7 @@ pd.DataFrame({
 })
 ```
 
-The reduced form shows that Q4 births earn slightly more. The first stage shows they get about 0.09 more years of schooling. Dividing gives the Wald estimate of about **7--8% per year** --- which the 2SLS verification confirms.
+The reduced form shows that Q4 births earn slightly more. The first stage shows they get about 0.09 more years of schooling. Dividing gives the Wald estimate of about **7% per year** --- which the 2SLS verification confirms.
 
 ### Visualizing the First Stage and Reduced Form
 
@@ -771,7 +771,7 @@ pd.DataFrame({
 ::: {.callout-important}
 ### What the child labor law results tell us
 
-The IV estimate using compulsory schooling laws is broadly consistent with the quarter-of-birth IV: both point to a causal return in the **7--10% range**. Different instruments applied to different populations give similar estimates, strengthening the causal claim.
+The OLS estimate with fixed effects gives about **7%**, while the IV estimate is larger at about **13%**. The IV estimate is less precise than the QOB results, in part because the first-stage F-statistic is below 10 --- a sign of **weak instruments** that can inflate IV estimates. Despite the imprecision, the results are broadly consistent with the other IV strategies in pointing to a causal return that is at least as large as the OLS estimate.
 :::
 
 Both the twins and IV strategies estimate the *overall* return to education. But they leave open a deeper question: does education raise earnings because of the skills you learn, or because employers value the diploma?
@@ -970,14 +970,14 @@ This chapter has applied **all five methods** from the book to a single question
 
 | Method | Estimate | Main Bias | Direction |
 |:---|:---:|:---|:---:|
-| Simple OLS (no controls) | ~0.10 | Ability + OVB | Upward |
+| Simple OLS (no controls) | ~0.07 | Ability + OVB | Upward |
 | OLS with controls | ~0.11 | Unobserved ability | Upward |
 | Twin FE | ~0.06 | Measurement error | Downward |
 | Twin IV | ~0.11 | Corrects measurement error | --- |
 | Quarter-of-birth IV | ~0.07--0.08 | LATE for compliers only | --- |
-| Child labor law IV | ~0.07--0.10 | LATE for dropouts | --- |
+| Child labor law IV | ~0.07--0.13 | Weak instruments, imprecise | --- |
 | Sheepskin RD | ~0 | Diploma effect specifically | --- |
-| DD (synthetic) | ~0.08 | Parallel trends required | --- |
+| DD (synthetic) | ~0.06 | Parallel trends required | --- |
 
 : Comparing returns to schooling across all methods {.striped}
 
@@ -1043,13 +1043,13 @@ graph TD
 
 3. **RCTs** are the gold standard but infeasible for schooling --- motivating quasi-experimental methods.
 
-4. **OLS with controls (~11%)** barely changes the estimate, because observables don't capture ability.
+4. **OLS with controls (~11%)** on the twins data shows that demographic controls do not substantially reduce the schooling coefficient.
 
 5. **Twin fixed effects (~6%)** control for shared ability but suffer from measurement error amplification.
 
 6. **IV using twin's report (~11%)** corrects measurement error, recovering a higher estimate.
 
-7. **Quarter-of-birth IV (~7--8%)** uses compulsory schooling as exogenous variation, estimating a LATE for dropout-margin students.
+7. **Quarter-of-birth IV (~7%)** uses compulsory schooling as exogenous variation, estimating a LATE for dropout-margin students.
 
 8. **Child labor law IV (~7--10%)** uses a different set of instruments, confirming the QOB results.
 
@@ -1192,7 +1192,7 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 
 ### Multiple Choice Questions
 
-1. **In the simple bivariate regression of earnings on schooling, the estimated return is about 10%. This estimate is likely:**
+1. **In the simple bivariate regression of earnings on schooling, the estimated return is about 7%. This estimate is likely:**
    a) Too low because it ignores the earnings premium for higher-status jobs
    b) Too high because unobserved ability inflates the correlation between schooling and earnings
    c) Exactly right because the sample is very large
@@ -1317,7 +1317,7 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 
 5. **Sheepskin interpretation**: The Texas RD shows a ~40 percentage point jump in diploma receipt but near-zero earnings effect. A skeptic says "this proves education doesn't matter." Explain why this conclusion is wrong. What does the sheepskin RD actually tell us about the *mechanism* through which education raises earnings?
 
-6. **OVB formula**: Using the synthetic OVB dataset, the short regression gives ~0.11 and the long regression gives ~0.08. Apply the OVB formula: what are the signs of $\gamma$ (ability → earnings) and $\pi_1$ (ability → schooling)? Is the bias direction consistent with what you observe?
+6. **OVB formula**: Using the synthetic OVB dataset, the short regression gives ~0.12 and the long regression gives ~0.09. Apply the OVB formula: what are the signs of $\gamma$ (ability → earnings) and $\pi_1$ (ability → schooling)? Is the bias direction consistent with what you observe?
 
 7. **Bad controls vs. good controls**: Explain the difference between controlling for age (a good control) and controlling for occupation (a bad control) when estimating returns to schooling. What determines whether a control variable is "good" or "bad"?
 :::
@@ -1372,7 +1372,7 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 2. This separates human capital theory from signaling theory. The small sheepskin effect supports human capital.
 3. Education clearly raises earnings --- the finding tells us *why* (skills, not signals) rather than *whether*.
 
-**Q6.** Both $\gamma > 0$ (ability raises earnings) and $\pi_1 > 0$ (ability raises schooling). OVB = $\gamma \times \pi_1 > 0$, matching the pattern: short regression (~0.11) overstates the true return (~0.08) by about 0.03.
+**Q6.** Both $\gamma > 0$ (ability raises earnings) and $\pi_1 > 0$ (ability raises schooling). OVB = $\gamma \times \pi_1 > 0$, matching the pattern: short regression (~0.12) overstates the true return (~0.09) by about 0.03.
 
 **Q7.** Age is determined before schooling decisions --- it is a pre-treatment variable. Occupation is *caused by* education --- it is post-treatment. Controlling for occupation removes part of the causal pathway (education → better job → higher earnings). The rule: a control is "good" if determined before the treatment, "bad" if it is a consequence.
 
