@@ -45,7 +45,7 @@
   <text x="535" y="882" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#ffffff" opacity="0.8">Ch 4</text>
 
   <circle cx="670" cy="870" r="28" fill="#f87171"/>
-  <text x="670" y="866" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#ffffff">DD</text>
+  <text x="670" y="866" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#ffffff">DiD</text>
   <text x="670" y="882" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#ffffff" opacity="0.8">Ch 5</text>
 
   <!-- Connecting line between circles -->
