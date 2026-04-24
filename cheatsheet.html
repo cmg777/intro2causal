@@ -230,18 +230,56 @@
 
   <!-- Table of Contents -->
   <section class="px-4 pb-12">
-    <div class="max-w-4xl mx-auto">
-      <div class="card rounded-xl p-6">
-        <h3 class="text-lg font-semibold mb-4">Contents</h3>
-        <div class="grid md:grid-cols-2 gap-2 text-sm">
-          <a href="#furious-five" class="text-blue hover:underline">&#9733; The Furious Five &mdash; Overview of All Methods</a>
-          <a href="#ch1" class="text-blue hover:underline">Ch 1. Randomized Trials</a>
-          <a href="#ch2" class="text-blue hover:underline">Ch 2. Regression</a>
-          <a href="#ch3" class="text-blue hover:underline">Ch 3. Instrumental Variables</a>
-          <a href="#ch4" class="text-blue hover:underline">Ch 4. Regression Discontinuity</a>
-          <a href="#ch5" class="text-blue hover:underline">Ch 5. Differences-in-Differences</a>
-          <a href="#ch6" class="text-blue hover:underline">Ch 6. The Wages of Schooling</a>
+    <div class="max-w-5xl mx-auto">
+      <!-- Furious Five feature card -->
+      <a href="#furious-five" class="card rounded-xl p-6 mb-6 block" style="border-left: 4px solid var(--purple); text-decoration: none;">
+        <div class="flex items-center gap-4">
+          <div style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:rgba(167,139,250,0.15);color:var(--purple);flex-shrink:0;">&#9733;</div>
+          <div>
+            <h3 class="text-lg font-bold" style="color:var(--purple);">The Furious Five</h3>
+            <p class="text-sm text-muted">All 5 causal inference methods applied to one question &mdash; the ultimate code summary</p>
+          </div>
         </div>
+      </a>
+
+      <!-- Chapter cards grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="#ch1" class="card rounded-xl p-5 block" style="text-decoration:none; border-top: 3px solid var(--blue);">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">&#127922;</div>
+          <p class="text-xs font-mono text-muted mb-1">Chapter 1</p>
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--blue);">Randomized Trials</h4>
+          <p class="text-xs text-muted">Selection bias &middot; Potential outcomes &middot; RAND HIE</p>
+        </a>
+        <a href="#ch2" class="card rounded-xl p-5 block" style="text-decoration:none; border-top: 3px solid var(--purple);">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">&#128200;</div>
+          <p class="text-xs font-mono text-muted mb-1">Chapter 2</p>
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--purple);">Regression</h4>
+          <p class="text-xs text-muted">OLS &middot; Omitted variable bias &middot; Bad controls</p>
+        </a>
+        <a href="#ch3" class="card rounded-xl p-5 block" style="text-decoration:none; border-top: 3px solid var(--green);">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">&#128295;</div>
+          <p class="text-xs font-mono text-muted mb-1">Chapter 3</p>
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--green);">Instrumental Variables</h4>
+          <p class="text-xs text-muted">LATE &middot; Compliers &middot; Minneapolis DV Experiment</p>
+        </a>
+        <a href="#ch4" class="card rounded-xl p-5 block" style="text-decoration:none; border-top: 3px solid var(--orange);">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">&#128201;</div>
+          <p class="text-xs font-mono text-muted mb-1">Chapter 4</p>
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--orange);">Regression Discontinuity</h4>
+          <p class="text-xs text-muted">Sharp RD &middot; Bandwidth &middot; MLDA &amp; mortality</p>
+        </a>
+        <a href="#ch5" class="card rounded-xl p-5 block" style="text-decoration:none; border-top: 3px solid var(--red);">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">&#128202;</div>
+          <p class="text-xs font-mono text-muted mb-1">Chapter 5</p>
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--red);">Differences-in-Differences</h4>
+          <p class="text-xs text-muted">Parallel trends &middot; Two-way FE &middot; Banking crisis</p>
+        </a>
+        <a href="#ch6" class="card rounded-xl p-5 block" style="text-decoration:none; border-top: 3px solid var(--blue);">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;">&#127891;</div>
+          <p class="text-xs font-mono text-muted mb-1">Chapter 6</p>
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--blue);">The Wages of Schooling</h4>
+          <p class="text-xs text-muted">Twins &middot; Quarter of birth &middot; Sheepskin effects</p>
+        </a>
       </div>
     </div>
   </section>
