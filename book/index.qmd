@@ -2,8 +2,6 @@
 
 # Preface {.unnumbered}
 
-![](images/cover.jpg)
-
 ![](images/ch00_visual_summary.svg)
 
 **Welcome to *Mastering Causal Metrics*!** This book is an AI-powered study guide designed to accompany *Mastering 'Metrics: The Path from Cause to Effect* by Joshua D. Angrist and Jorn-Steffen Pischke. It brings the key lessons, empirical examples, and econometric tools of the book into the interactive, computational world of Python programming and AI-enhanced learning.
