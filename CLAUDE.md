@@ -54,6 +54,8 @@ uv run quarto render notebooks_quarto/01-randomized-trials.qmd
 for f in notebooks_quarto/*.qmd; do uv run quarto render "$f"; done
 ```
 
+**Important:** After editing any `.qmd` file or `_quarto.yml` in the `book/` directory, always re-render the book with `uv run quarto render book/` and commit the updated `book/_book/` output in the same push. The rendered HTML in `book/_book/` is what readers see on the public site — if you skip re-rendering, the published book will be out of date.
+
 ## Coding Conventions
 
 ### Study Guides (.qmd files)
