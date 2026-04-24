@@ -535,6 +535,10 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 3. **Quadratic vs. linear specification**: Using `mlda_clean.csv`, run the quadratic RD model for all-cause mortality (including `age2`, `over_age`, `over_age2`). Compare the coefficient on `over21` with the linear model. Is the estimate sensitive to the polynomial order?
 
+4. **Homicide as a nuanced placebo**: Run the linear RD for `homicide` and compare with `mva` and `internal`. Where does homicide fall on the placebo spectrum?
+
+5. **Bandwidth sensitivity**: Estimate the all-cause RD using four progressively narrower bandwidths. How do the coefficient and SE change?
+
 
 ## Solutions
 
@@ -607,6 +611,19 @@ for var, label in [("alcohol", "Alcohol-related"), ("mva", "Motor vehicle")]:
 pd.DataFrame(rows)
 ```
 
+Stata equivalent:
+
+```stata
+* --- Compare RD estimates: alcohol vs. MVA ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+foreach var in alcohol mva {
+    reg `var' over21 age, robust
+}
+```
+
 **(1) What the numbers show:** The alcohol-related death jump is much smaller than the MVA jump (roughly one-fifth the size), but it is statistically significant. Both causes show a clear discontinuity at age 21. **(2) Why:** Relatively few young people die directly from alcohol poisoning, but many die in alcohol-related car accidents. The dominant mechanism through which legal drinking access kills is drunk driving, not direct alcohol toxicity. **(3) What it teaches:** Comparing RD estimates across different outcomes reveals the causal channels through which a treatment operates. The large MVA effect relative to the small alcohol-poisoning effect tells us that the policy-relevant margin of the MLDA is traffic safety, which informs where interventions (e.g., DUI enforcement) should be targeted.
 
 **R2.**
@@ -636,6 +653,23 @@ ax.set_ylabel("Deaths per 100,000")
 ax.set_title("Suicide deaths around the MLDA cutoff")
 plt.tight_layout()
 plt.show()
+```
+
+Stata equivalent:
+
+```stata
+* --- RD scatter plot for suicide ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+* Scatter plot with separate fitted lines on each side of the cutoff
+twoway (scatter suicide agecell, mcolor(gray) msymbol(O)) ///
+       (lfit suicide agecell if age < 0, lcolor(black) lwidth(medthick)) ///
+       (lfit suicide agecell if age >= 0, lcolor(black) lwidth(medthick)), ///
+       xline(21, lcolor(red) lpattern(dash)) ///
+       xtitle("Age (years)") ytitle("Deaths per 100,000") ///
+       title("Suicide deaths around the MLDA cutoff") legend(off)
 ```
 
 **(1) What the numbers show:** The visual shows a modest upward jump at age 21, consistent with the regression estimate of about 1.8 deaths per 100,000. The effect is smaller and noisier than for motor vehicle accidents. **(2) Why:** Alcohol can contribute to suicide through impulsivity and impaired judgment, but the link is less direct than for drunk driving. Suicide involves complex psychological factors that alcohol may exacerbate but rarely causes alone. **(3) What it teaches:** This RD plot illustrates why visual inspection is critical --- it reveals both the magnitude of the jump and the noise in the data. The gap between the two fitted lines at the cutoff is the RD estimate, and the scatter of points around the lines shows why standard errors matter for inference.
@@ -672,4 +706,127 @@ pd.DataFrame({
 })
 ```
 
+Stata equivalent:
+
+```stata
+* --- Linear vs. quadratic RD ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+* Linear specification
+reg all over21 age, robust
+
+* Quadratic specification with interactions
+reg all over21 age age2 over_age over_age2, robust
+```
+
 **(1) What the numbers show:** The quadratic estimate is somewhat larger (~9.5 vs. ~7.7) because the quadratic specification allows the outcome trend to curve differently on each side of the cutoff, potentially capturing a steeper jump. Both estimates are statistically significant and in the same ballpark. **(2) Why:** The linear specification constrains the relationship between age and mortality to be a straight line, which may underestimate the discontinuity if the true relationship is curved. The quadratic specification with interactions (over_age, over_age2) allows different slopes and curvature on each side, providing a more flexible fit. **(3) What it teaches:** The fact that the estimate is robust to polynomial order strengthens confidence in the RD design. Sensitivity to specification would suggest that the "discontinuity" might be an artifact of functional form assumptions rather than a true jump. Reporting multiple specifications is standard RD practice and essential for credibility.
+
+**R4.**
+
+```python
+# --- Setup ---
+import pandas as pd
+import statsmodels.formula.api as smf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
+
+# --- Compare RD Estimates: MVA vs. Homicide vs. Internal ---
+# Run the linear RD for three causes to see where homicide falls on the placebo spectrum
+rows = []
+for var, label in [("mva", "Motor vehicle"), ("homicide", "Homicide"), ("internal", "Internal causes")]:
+    r = smf.ols(f"{var} ~ over21 + age", data=mlda).fit(cov_type="HC1")  # linear RD with robust SEs
+    rows.append({
+        "Cause": label,
+        "RD estimate (over21)": round(r.params["over21"], 2),  # jump at cutoff
+        "SE": round(r.bse["over21"], 2),
+        "t-stat": round(r.tvalues["over21"], 2),
+    })
+
+# --- Display Results ---
+pd.DataFrame(rows)
+```
+
+Stata equivalent:
+
+```stata
+* --- Homicide as nuanced placebo ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+foreach var in mva homicide internal {
+    reg `var' over21 age, robust
+}
+```
+
+**(1) What the numbers show:** Motor vehicle accidents show a large, statistically significant jump at age 21. Internal causes show essentially no jump --- the classic placebo. Homicide falls in between: it may show a modest positive jump, but the coefficient is smaller than MVA and may or may not reach statistical significance. **(2) Why:** Homicide is a plausible intermediate case. Alcohol can fuel violent encounters (bar fights, impaired judgment in confrontations), so some increase at age 21 is biologically plausible. But the link is weaker than for drunk driving, where alcohol directly impairs the motor skills needed to operate a vehicle. Internal causes have no plausible connection to alcohol access at age 21. **(3) What it teaches:** Placebo tests are not strictly pass/fail. Outcomes can be ranked by their expected sensitivity to the treatment. A graduated pattern --- large effect on MVA, modest effect on homicide, null effect on internal causes --- is more informative than testing a single placebo. It traces the causal chain from alcohol access through different mechanisms, strengthening the overall RD interpretation.
+
+**R5.**
+
+```python
+# --- Setup ---
+import pandas as pd
+import statsmodels.formula.api as smf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
+
+# --- Bandwidth Sensitivity Analysis ---
+# Estimate the all-cause RD using four progressively narrower bandwidths
+# Each bandwidth restricts the sample to agecells within that range of the cutoff (age 21)
+bandwidths = [
+    ("Full sample (19-22)", 19, 22),
+    ("Narrow (19.5-22)", 19.5, 22),
+    ("Narrower (20-22)", 20, 22),
+    ("Narrowest (20.5-21.5)", 20.5, 21.5),
+]
+
+rows = []
+for label, lo, hi in bandwidths:
+    sub = mlda[(mlda["agecell"] >= lo) & (mlda["agecell"] <= hi)]  # restrict sample to bandwidth
+    r = smf.ols("all ~ over21 + age", data=sub).fit(cov_type="HC1")  # linear RD with robust SEs
+    rows.append({
+        "Bandwidth": label,
+        "N": len(sub),
+        "RD estimate": round(r.params["over21"], 2),
+        "SE": round(r.bse["over21"], 2),
+    })
+
+# --- Display Results ---
+pd.DataFrame(rows)
+```
+
+Stata equivalent:
+
+```stata
+* --- Bandwidth sensitivity ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch4/mlda_clean.csv", clear
+
+* Full sample
+reg all over21 age, robust
+
+* Narrow (19.5-22)
+preserve
+keep if agecell >= 19.5 & agecell <= 22
+reg all over21 age, robust
+restore
+
+* Narrower (20-22)
+preserve
+keep if agecell >= 20 & agecell <= 22
+reg all over21 age, robust
+restore
+
+* Narrowest (20.5-21.5)
+preserve
+keep if agecell >= 20.5 & agecell <= 21.5
+reg all over21 age, robust
+restore
+```
+
+**(1) What the numbers show:** As the bandwidth narrows, the RD coefficient tends to increase slightly (from around 7.7 to around 9--10), while the standard error grows due to fewer observations. The estimate remains statistically significant across all bandwidths. **(2) Why:** Narrower bandwidths compare people closer to the cutoff, who are more comparable. The linear model may underestimate the jump when applied to a wider bandwidth if the true relationship between age and mortality is nonlinear far from the cutoff. With fewer observations near the cutoff, the estimate becomes noisier but less biased. **(3) What it teaches:** This exercise demonstrates the fundamental bias-variance tradeoff in RD estimation. Wide bandwidths give precise but potentially biased estimates; narrow bandwidths give less biased but noisier estimates. The fact that the RD estimate remains positive and significant across all four bandwidths is strong evidence that the mortality jump at age 21 is real, not an artifact of sample selection or functional form assumptions.

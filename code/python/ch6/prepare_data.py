@@ -44,3 +44,20 @@ for i in range(1, 5):
     out[f"right_{i}"] = (cm["minscore"] ** i) * (cm["minscore"] >= 0).astype(int)
 out.to_csv(DATA_DIR / "sheepskin_clean.csv", index=False)
 print(f"Saved sheepskin_clean.csv ({len(out)} rows)")
+
+# --- Child labor law data (collapsed to cell means) ---
+aa = pd.read_stata(DATA_DIR / "AA_small.dta")
+# Instruments (cl7, cl8, cl9) vary at state-of-birth × year-of-birth level,
+# so collapsing to (sob, yob, year) cell means preserves all instrument variation.
+# WLS on cell means with analytical weights ≈ individual-level WLS.
+collapsed = aa.groupby(["sob", "yob", "year"]).agg(
+    lnwkwage=("lnwkwage", lambda x: np.average(x, weights=aa.loc[x.index, "weight"])),
+    indEduc=("indEduc", lambda x: np.average(x, weights=aa.loc[x.index, "weight"])),
+    cl7=("cl7", "first"),
+    cl8=("cl8", "first"),
+    cl9=("cl9", "first"),
+    weight=("weight", "sum"),
+    n=("lnwkwage", "count"),
+).reset_index()
+collapsed.to_csv(DATA_DIR / "childlabor_clean.csv", index=False)
+print(f"Saved childlabor_clean.csv ({len(collapsed)} rows)")

@@ -572,6 +572,10 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 3. **Population-weighted DD**: Using `deaths_clean.csv`, run the all-cause DD regression with population weights (`smf.wls` with `weights=pop`). Compare the coefficient with the unweighted result. Why might weighting by population change the estimate?
 
+4. **Cross-cause DD comparison**: Run the DD separately for all, MVA, suicide, homicide, and internal causes. Which causes respond to the MLDA?
+
+5. **State-specific trend robustness**: Run the MVA DD with and without state-specific linear time trends. How much does the coefficient change?
+
 
 ## Solutions
 
@@ -654,6 +658,30 @@ pd.DataFrame(rows)
 ```
 
 
+Stata equivalent:
+
+```stata
+* --- DD for suicide vs. all-cause deaths ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/deaths_clean.csv", clear
+
+* Encode state as numeric for fixed effects
+encode state, gen(state_num)
+
+* All-cause deaths
+preserve
+keep if dtype == "all"
+reg mrate legal i.state_num i.year, cluster(state_num)
+restore
+
+* Suicide deaths
+preserve
+keep if dtype == "suicide"
+reg mrate legal i.state_num i.year, cluster(state_num)
+restore
+```
+
 (1) **What the numbers show:** The suicide effect is much smaller than the all-cause effect and is not statistically significant (t-stat well below 2), while the all-cause effect is substantial and significant.
 
 (2) **Why:** Alcohol access primarily increases mortality through motor vehicle accidents, where impaired driving has immediate lethal consequences. Suicide is a more complex outcome driven by mental health, social, and economic factors --- simply being able to buy alcohol legally is unlikely to be a dominant cause.
@@ -698,6 +726,29 @@ pd.DataFrame(rows)
 3  1934  -33                      -56                      23
 ```
 
+
+Stata equivalent:
+
+```stata
+* --- Year-by-year DD for bank survival ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/banks_clean.csv", clear
+
+* Display the raw data
+list
+
+* Compute DD for each post-crisis year relative to 1930
+local pre6 = bib6[2]
+local pre8 = bib8[2]
+
+forvalues i = 3/6 {
+    local change6 = bib6[`i'] - `pre6'
+    local change8 = bib8[`i'] - `pre8'
+    local dd = `change6' - `change8'
+    display "Year " year[`i'] ": DD = " `dd' " banks saved"
+}
+```
 
 (1) **What the numbers show:** The DD effect grows from 19 banks in 1931 to 23 in 1932, then stabilizes around 21 in 1933--1934. Both districts lost banks, but the 8th District (restrictive policy) consistently lost more.
 
@@ -751,8 +802,136 @@ pd.DataFrame({
 ```
 
 
+Stata equivalent:
+
+```stata
+* --- Unweighted vs. population-weighted DD ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/deaths_clean.csv", clear
+
+encode state, gen(state_num)
+
+preserve
+keep if dtype == "all"
+
+* Unweighted OLS
+reg mrate legal i.state_num i.year, cluster(state_num)
+
+* Population-weighted WLS
+reg mrate legal i.state_num i.year [aweight=pop], cluster(state_num)
+
+restore
+```
+
 (1) **What the numbers show:** The two specifications may produce somewhat different point estimates and standard errors, reflecting how weighting shifts influence across states.
 
 (2) **Why:** Population weighting gives more influence to large states (California, Texas, New York) where death rates are measured more precisely due to larger samples. Unweighted OLS treats each state-year equally, giving small states (Wyoming, Vermont) the same weight as large ones. If MLDA effects vary by state size --- for example, if urban states have different drinking cultures --- the two estimates will diverge.
 
 (3) **What it teaches:** Comparing weighted and unweighted estimates is a robustness check. Similar estimates suggest the MLDA effect is consistent across states of different sizes. Divergent estimates reveal heterogeneity and raise the question of which estimate is more policy-relevant: the unweighted estimate answers "what is the average effect across states?" while the weighted estimate answers "what is the effect for the average person?"
+
+**R4.**
+
+```python
+# --- Setup ---
+import pandas as pd
+import statsmodels.formula.api as smf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
+
+# --- Cross-Cause DD Comparison ---
+# Run the DD regression separately for each cause of death
+# to see which causes respond to legal drinking access
+rows = []
+for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle"),
+                          ("suicide", "Suicide"), ("homicide", "Homicide"),
+                          ("internal", "Internal")]:
+    s = deaths[deaths["dtype"] == dtype_val].copy()  # filter to one cause
+    r = smf.ols("mrate ~ legal + C(state) + C(year)", data=s).fit(
+        cov_type="cluster", cov_kwds={"groups": s["state"]})  # cluster SEs by state
+    rows.append({
+        "Cause": label,
+        "DD estimate": round(r.params["legal"], 2),  # effect of legal drinking
+        "SE": round(r.bse["legal"], 2),
+        "t-stat": round(r.tvalues["legal"], 2),
+    })
+
+# --- Display Results ---
+pd.DataFrame(rows)
+```
+
+Stata equivalent:
+
+```stata
+* --- Cross-cause DD comparison ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/deaths_clean.csv", clear
+
+encode state, gen(state_num)
+
+foreach cause in "all" "MVA" "suicide" "homicide" "internal" {
+    preserve
+    keep if dtype == `"`cause'"'
+    reg mrate legal i.state_num i.year, cluster(state_num)
+    restore
+}
+```
+
+**(1) What the numbers show:** Motor vehicle accidents show the largest and most significant DD effect, accounting for the bulk of the all-cause result. Suicide and homicide show smaller effects that may or may not reach statistical significance. Internal causes show no significant effect, serving as a placebo. **(2) Why:** The MLDA primarily affects mortality through drunk driving, which is the most direct mechanism linking alcohol access to death among young people. Suicide and homicide have weaker but plausible links to alcohol (impulsivity, violence), while diseases (internal causes) have no short-run connection to legal drinking access. **(3) What it teaches:** Decomposing the all-cause effect across specific causes of death traces the causal channels through which the MLDA operates. The pattern --- strong MVA effect, weak suicide/homicide effects, null internal effect --- is exactly what we would predict if alcohol access causes deaths primarily through impaired driving. This cross-cause comparison is both a mechanism analysis and a multi-outcome placebo test that strengthens the causal interpretation.
+
+**R5.**
+
+```python
+# --- Setup ---
+import pandas as pd
+import statsmodels.formula.api as smf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
+
+# --- MVA DD: Baseline vs. State-Specific Trends ---
+mva = deaths[deaths["dtype"] == "MVA"].copy()
+
+# Baseline DD: state + year fixed effects only
+r_base = smf.ols("mrate ~ legal + C(state) + C(year)", data=mva).fit(
+    cov_type="cluster", cov_kwds={"groups": mva["state"]})
+
+# Trend-augmented DD: add state-specific linear time trends
+# C(state):year gives each state its own slope over time
+r_trend = smf.ols("mrate ~ legal + C(state) + C(year) + C(state):year", data=mva).fit(
+    cov_type="cluster", cov_kwds={"groups": mva["state"]})
+
+# --- Display Comparison ---
+pd.DataFrame({
+    "Specification": ["Baseline (state + year FE)", "With state-specific trends"],
+    "DD estimate (legal)": [round(r_base.params["legal"], 2), round(r_trend.params["legal"], 2)],
+    "SE": [round(r_base.bse["legal"], 2), round(r_trend.bse["legal"], 2)],
+    "t-stat": [round(r_base.tvalues["legal"], 2), round(r_trend.tvalues["legal"], 2)],
+})
+```
+
+Stata equivalent:
+
+```stata
+* --- MVA DD: baseline vs. state-specific trends ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/deaths_clean.csv", clear
+
+encode state, gen(state_num)
+
+preserve
+keep if dtype == "MVA"
+
+* Baseline DD
+reg mrate legal i.state_num i.year, cluster(state_num)
+
+* With state-specific linear time trends
+reg mrate legal i.state_num i.year i.state_num#c.year, cluster(state_num)
+
+restore
+```
+
+**(1) What the numbers show:** The MVA DD estimate may change modestly when state-specific linear time trends are added. Both specifications should show a positive and significant effect, though the trend-augmented model may produce a somewhat smaller coefficient and larger standard error. **(2) Why:** State-specific trends allow each state to have its own baseline trajectory in motor vehicle deaths. Some states were already experiencing declining MVA deaths due to road improvements or enforcement campaigns. By removing these pre-existing trends, the model isolates whether MLDA changes caused *deviations* from each state's trajectory, rather than attributing trend differences to the policy. The larger standard error reflects the cost of estimating additional parameters. **(3) What it teaches:** Stability of the DD estimate after adding state-specific trends is a strong robustness check. If the estimate changed dramatically, it would suggest that the baseline parallel trends assumption was violated --- states that changed their MLDA were on different pre-existing trajectories. A stable estimate across the two specifications provides reassurance that the DD is capturing the causal effect of legal drinking access, not confounding it with differential state-level trends in traffic safety.

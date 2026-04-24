@@ -587,6 +587,10 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 3. **Cross-over patterns**: Using `mdve_clean.csv`, among officers who deviated from their assignment, which direction did they most commonly cross over (e.g., from advise to arrest, or from separate to arrest)? What does this pattern suggest about officer behavior?
 
+4. **ITT vs. LATE comparison**: Using `mdve_clean.csv`, compute the first-stage compliance rate for the binary arrest-vs-coddle instrument. Then, using the published ITT of 11.4 percentage points, compute the LATE by dividing the ITT by the first stage. How much larger is the LATE than the ITT?
+
+5. **Testing monotonicity**: Using `mdve_clean.csv`, examine the cross-tabulation for evidence against monotonicity. Among those assigned to arrest, what fraction were actually coddled? Among those assigned to coddle, what fraction were actually arrested? Is the asymmetry consistent with monotonicity?
+
 
 ## Solutions
 
@@ -660,6 +664,25 @@ for group in ["Arrest", "Advise", "Separate"]:
 pd.DataFrame(rows)
 ```
 
+Stata equivalent:
+
+```stata
+* --- Compliance rates by assignment group ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear
+
+* Compute compliance rate for each assignment group
+levelsof assigned, local(groups)
+foreach g of local groups {
+    count if assigned == "`g'"
+    scalar n_`g' = r(N)
+    count if assigned == "`g'" & delivered == "`g'"
+    scalar comply_`g' = r(N)
+    display "`g': " comply_`g' " / " n_`g' " = " comply_`g'/n_`g'
+}
+```
+
 **(1) What the numbers show:** Arrest has the highest compliance (99%), while advise (78%) and separate (73%) assignments show substantially lower compliance. **(2) Why:** Officers almost always arrest when told to because it is the most protective response, but they frequently deviate from advise and separate assignments --- usually by upgrading to arrest when they perceive the situation as dangerous. **(3) What it teaches:** This asymmetric non-compliance is precisely why comparing by *delivered* treatment introduces selection bias: officers who deviated toward arrest were responding to the most volatile cases, contaminating the arrested group with suspects who had higher baseline recidivism risk. The first stage in IV uses only the exogenous assignment to avoid this problem.
 
 **R2.**
@@ -680,6 +703,25 @@ print(f"  Difference = {fs_binary[1] - fs_binary[0]:.3f}")  # this is the first-
 print("\nFull cross-tabulation:")
 ct = pd.crosstab(mdve["assigned"], mdve["delivered"], normalize="index").round(3)  # row-normalized
 ct
+```
+
+Stata equivalent:
+
+```stata
+* --- Binary vs. multi-category first stage ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear
+
+* Binary: arrest (z=0) vs. coddle (z=1)
+gen z_coddle = (assigned != "Arrest")
+gen d_coddle = (delivered != "Arrest")
+
+* First stage
+tab z_coddle d_coddle, row
+
+* Multi-category cross-tabulation
+tab assigned delivered, row
 ```
 
 **(1) What the numbers show:** The binary approach gives a clean first stage of ~0.786, meaning assignment shifts the probability of being coddled by about 79 percentage points. The multi-category cross-tab reveals the full compliance structure across all three arms. **(2) Why:** IV requires a single endogenous treatment variable and a single instrument, so the binary simplification (arrest vs. everything else) maps the three-arm experiment into the standard IV framework. The cross-tab is informative but cannot be directly plugged into a standard 2SLS regression. **(3) What it teaches:** Collapsing multi-armed experiments into binary comparisons is standard practice when the research question is directional ("does arrest reduce recidivism compared to alternatives?"). The strong first stage (~0.786) confirms that the instrument has substantial power to shift treatment --- a weak first stage would inflate standard errors and bias IV toward OLS.
@@ -703,4 +745,134 @@ crossover = pd.crosstab(deviators["assigned"], deviators["delivered"])
 crossover
 ```
 
+Stata equivalent:
+
+```stata
+* --- Cross-over patterns among deviators ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear
+
+* Keep only non-compliant cases
+keep if assigned != delivered
+
+* Cross-tabulate: where did deviators go?
+tab assigned delivered
+```
+
 **(1) What the numbers show:** The dominant pattern is cross-over from advise or separate **toward arrest**. Very few officers cross from arrest to another action. **(2) Why:** This asymmetry reflects officers exercising discretion toward the more protective response when they perceive the situation as dangerous. An officer told to "separate" a couple but facing a violent suspect will often upgrade to arrest for safety reasons. **(3) What it teaches:** This one-directional non-compliance supports the monotonicity assumption (no defiers) and simultaneously reveals the selection bias that makes naive comparisons misleading: the cases that crossed over to arrest are systematically more dangerous, so comparing outcomes by delivered treatment confounds the effect of arrest with the severity of the incident. IV resolves this by using only the random assignment as the source of identifying variation.
+
+**R4.**
+
+```python
+# --- Setup ---
+import pandas as pd
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
+
+# --- Compute Binary First Stage ---
+# Binary instrument: arrest (Z=0) vs. coddle (Z=1)
+mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)
+mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)
+
+# First stage = P(coddled | assigned coddle) - P(coddled | assigned arrest)
+fs = mdve.groupby("z_coddle")["d_coddle"].mean()
+first_stage = fs[1] - fs[0]
+
+# --- Published ITT from reduced form ---
+itt = 0.114  # 11.4 percentage points from Angrist (2006)
+
+# --- Compute LATE ---
+late = itt / first_stage
+
+# --- Display Results ---
+pd.DataFrame({
+    "Quantity": ["P(coddled | assigned coddle)", "P(coddled | assigned arrest)",
+                 "First stage", "ITT (reduced form)", "LATE = ITT / first stage"],
+    "Value": [round(fs[1], 3), round(fs[0], 3),
+              round(first_stage, 3), itt, round(late, 3)],
+})
+```
+
+Stata equivalent:
+
+```stata
+* --- ITT vs. LATE ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear
+gen z_coddle = (assigned != "Arrest")
+gen d_coddle = (delivered != "Arrest")
+tab z_coddle d_coddle, row
+sum d_coddle if z_coddle == 1
+scalar p_comply_coddle = r(mean)
+sum d_coddle if z_coddle == 0
+scalar p_comply_arrest = r(mean)
+scalar first_stage = p_comply_coddle - p_comply_arrest
+scalar itt = 0.114
+scalar late = itt / first_stage
+display "First stage = " first_stage
+display "ITT = " itt
+display "LATE = " late
+```
+
+(1) **What the numbers show:** The first stage is approximately 0.786, meaning random assignment shifts the probability of being coddled by about 79 percentage points. The LATE is 0.114 / 0.786 ≈ 0.145 (14.5 percentage points), which is larger than the ITT of 11.4 percentage points.
+
+(2) **Why:** The ITT averages over everyone --- compliers (whose treatment was changed by the assignment) AND non-compliers (who ignored it). Non-compliers dilute the estimate because their outcomes are unaffected by the instrument. The LATE rescales by dividing by the complier share, recovering the effect specifically for those whose behavior the instrument actually changed.
+
+(3) **What it teaches:** This is the fundamental mechanics of the Wald estimator: LATE = ITT / first stage. The first stage measures the "dosage" of the instrument --- how much it actually shifts treatment. A weaker first stage (more non-compliance) would produce a larger gap between ITT and LATE. This exercise makes concrete why IV estimates are larger than ITT estimates whenever compliance is imperfect.
+
+**R5.**
+
+```python
+# --- Setup ---
+import pandas as pd
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
+
+# --- Cross-over rates by direction ---
+# Among those assigned to arrest: how many were actually coddled?
+arrest_assigned = mdve[mdve["assigned"] == "Arrest"]
+arrest_to_coddle = (arrest_assigned["delivered"] != "Arrest").sum()
+arrest_n = len(arrest_assigned)
+
+# Among those assigned to coddle (advise or separate): how many were actually arrested?
+coddle_assigned = mdve[mdve["assigned"] != "Arrest"]
+coddle_to_arrest = (coddle_assigned["delivered"] == "Arrest").sum()
+coddle_n = len(coddle_assigned)
+
+# --- Display Asymmetry ---
+pd.DataFrame({
+    "Direction": ["Arrest -> Coddle (potential defiers)", "Coddle -> Arrest (standard non-compliance)"],
+    "Count": [arrest_to_coddle, coddle_to_arrest],
+    "Total assigned": [arrest_n, coddle_n],
+    "Rate": [f"{arrest_to_coddle/arrest_n:.1%}", f"{coddle_to_arrest/coddle_n:.1%}"],
+})
+```
+
+Stata equivalent:
+
+```stata
+* --- Testing monotonicity ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear
+count if assigned == "Arrest"
+scalar n_arrest = r(N)
+count if assigned == "Arrest" & delivered != "Arrest"
+scalar arrest_to_coddle = r(N)
+display "Arrest -> Coddle: " arrest_to_coddle " / " n_arrest " = " arrest_to_coddle/n_arrest
+count if assigned != "Arrest"
+scalar n_coddle = r(N)
+count if assigned != "Arrest" & delivered == "Arrest"
+scalar coddle_to_arrest = r(N)
+display "Coddle -> Arrest: " coddle_to_arrest " / " n_coddle " = " coddle_to_arrest/n_coddle
+```
+
+(1) **What the numbers show:** Cross-over from arrest to coddle is extremely rare (near 0%), while cross-over from coddle to arrest is much more common (~20-25%). The asymmetry is dramatic and one-directional.
+
+(2) **Why:** Officers almost never soften their response when told to arrest --- the stakes are too high to release a suspect flagged for arrest. But officers frequently upgrade from advise/separate to arrest when they perceive danger. This one-directional pattern is exactly what monotonicity requires: the instrument shifts everyone in the same direction (toward compliance with arrest) or not at all.
+
+(3) **What it teaches:** If defiers existed in substantial numbers (officers who arrest when told to coddle AND coddle when told to arrest), the two cross-over rates would be more symmetric. The extreme asymmetry we observe is strong empirical evidence supporting monotonicity. While monotonicity cannot be formally tested (it involves counterfactuals), data patterns like this can make it more or less plausible. This exercise shows students how to evaluate an untestable assumption using observable evidence.

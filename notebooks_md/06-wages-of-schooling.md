@@ -701,6 +701,10 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 3. **White vs. non-white twins**: Using `twins_clean.csv`, split the sample by `white` status and run the OLS regression for each group. Is the return to schooling different for white vs. non-white twins?
 
+4. **OLS vs. IV head-to-head**: Run OLS and 2SLS for returns to schooling using `qob_clean.csv`. Is OLS higher than IV?
+
+5. **First-stage F-statistic diagnostic**: Compute the first-stage F-stat with q4 alone, then with q2+q3+q4. Do both exceed the rule of 10?
+
 
 ## Solutions
 
@@ -798,6 +802,27 @@ pd.DataFrame({
 ```
 
 
+Stata equivalent:
+
+```stata
+* --- Returns to schooling: full sample vs. men only ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
+
+* Full sample OLS
+reg lwage educ age age2 female white, robust
+
+* Full sample Twin FE (within-pair differences, first twin only)
+reg dlwage deduc if first == 1, robust noconstant
+
+* Men only OLS
+reg lwage educ age age2 white if female == 0, robust
+
+* Men only Twin FE
+reg dlwage deduc if first == 1 & female == 0, robust noconstant
+```
+
 (1) **What the numbers show:** The male-only estimates may differ from the full sample in both OLS and twin FE specifications. The smaller sample size for men increases standard errors. The key pattern --- OLS exceeding twin FE --- should persist in both samples.
 
 (2) **Why:** Returns to schooling can vary by gender due to differences in occupational sorting, labor market discrimination, and labor force participation patterns. The OLS-to-FE drop reflects ability bias removal, which should operate similarly for men and women since the twin design controls for shared genetics and family environment regardless of gender.
@@ -862,6 +887,25 @@ pd.DataFrame({
 ```
 
 
+Stata equivalent:
+
+```stata
+* --- IV with single vs. multiple instruments ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+
+* IV with Q4 only
+ivregress 2sls lnw (s = q4), robust
+reg s q4, robust
+test q4
+
+* IV with Q2+Q3+Q4 and year-of-birth FE
+ivregress 2sls lnw i.yob (s = q2 q3 q4), robust
+reg s q2 q3 q4 i.yob, robust
+test q2 q3 q4
+```
+
 (1) **What the numbers show:** Using all three quarter dummies as instruments (with year-of-birth controls) may slightly change the IV estimate and typically improves precision (smaller SE). The first-stage F-statistic should remain well above 10 in both cases, indicating strong instruments.
 
 (2) **Why:** Multiple instruments extract more variation from the compulsory schooling mechanism --- Q2 and Q3 also create schooling differences through the same birthday-cutoff channel. Adding year-of-birth fixed effects controls for cohort-level differences in earnings (e.g., older cohorts may have different wage levels), which sharpens the IV estimate. The overidentified model (3 instruments for 1 endogenous variable) gains precision but requires a stronger assumption: all three quarter dummies must satisfy the exclusion restriction (affect earnings only through schooling).
@@ -910,8 +954,115 @@ pd.DataFrame(rows)
 ```
 
 
+Stata equivalent:
+
+```stata
+* --- Returns to schooling by race ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
+
+* White twins
+reg lwage educ age age2 female if white == 1, robust
+
+* Non-white twins
+reg lwage educ age age2 female if white == 0, robust
+```
+
 (1) **What the numbers show:** The OLS return to schooling may differ between white and non-white subsamples. The non-white subsample is likely much smaller, producing wider confidence intervals and less precise estimates.
 
 (2) **Why:** Several factors could drive racial differences in the return to schooling: labor market discrimination may reduce the earnings premium non-white workers receive for additional education; school quality differences may mean a "year of schooling" represents different amounts of human capital accumulation; and occupational sorting patterns may channel workers of different races into different sectors where education is rewarded differently. Additionally, ability bias may differ by race if the correlation between ability and schooling varies across groups.
 
 (3) **What it teaches:** Comparing subgroup estimates reveals whether the overall return to schooling masks important heterogeneity. A single average return can be misleading if the education premium varies substantially by race. This exercise also highlights a practical limitation: the twins dataset is likely dominated by white respondents, making the non-white estimate imprecise. A complete analysis would ideally use the twin FE estimator within each racial subgroup, but sample size constraints may prevent this.
+
+**R4.**
+
+```python
+# --- Setup ---
+import pandas as pd
+import statsmodels.formula.api as smf
+from linearmodels.iv import IV2SLS
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+
+# --- OLS vs. IV Head-to-Head ---
+# OLS: regress log wages on years of schooling (no controls)
+ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
+
+# IV/2SLS: instrument schooling with Q4 birth dummy
+# [s ~ q4] means: s is endogenous, instrumented by q4
+iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+
+# --- Display Comparison ---
+pd.DataFrame({
+    "Method": ["OLS", "IV (2SLS, instrument = q4)"],
+    "Return to schooling": [round(ols.params["s"], 4), round(iv.params["s"], 4)],
+    "SE": [round(ols.bse["s"], 4), round(iv.std_errors["s"], 4)],
+})
+```
+
+Stata equivalent:
+
+```stata
+* --- OLS vs. IV head-to-head ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+
+* OLS
+reg lnw s, robust
+
+* IV/2SLS
+ivregress 2sls lnw (s = q4), robust
+```
+
+**(1) What the numbers show:** OLS gives a return of about 7% per year, while the IV estimate is also close to 7--8%. The two estimates are strikingly similar, though the IV standard error is substantially larger due to the loss of efficiency from using an instrument. **(2) Why:** If ability bias were large and positive, we would expect OLS to substantially exceed IV. The similarity suggests either that ability bias is modest in the QOB data, or that offsetting biases are at work: ability bias pushes OLS up, while measurement error in self-reported schooling pushes OLS down, and the two roughly cancel. The IV estimate is free of both biases but applies only to compliers --- marginal students affected by compulsory schooling laws. **(3) What it teaches:** Comparing OLS and IV side-by-side is the most direct way to assess the magnitude of ability bias. When the estimates converge, it increases confidence that the OLS estimate is not wildly misleading. When they diverge (as in the twins data where OLS = 0.11 vs. twin FE = 0.06), it signals that selection bias is important. The comparison also highlights the precision cost of IV: correct but noisy estimates must be weighed against biased but precise OLS estimates.
+
+**R5.**
+
+```python
+# --- Setup ---
+import pandas as pd
+import numpy as np
+import statsmodels.formula.api as smf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+
+# --- First-Stage F-Statistic Diagnostic ---
+
+# Specification 1: Single instrument (q4 only)
+fs_q4 = smf.ols("s ~ q4", data=qob).fit(cov_type="HC1")
+f_q4 = float(np.atleast_1d(fs_q4.f_test("q4 = 0").fvalue).flat[0])
+
+# Specification 2: Multiple instruments (q2 + q3 + q4)
+fs_multi = smf.ols("s ~ q2 + q3 + q4", data=qob).fit(cov_type="HC1")
+f_multi = float(np.atleast_1d(fs_multi.f_test("q2 = 0, q3 = 0, q4 = 0").fvalue).flat[0])
+
+# --- Display Comparison ---
+pd.DataFrame({
+    "Specification": ["q4 alone", "q2 + q3 + q4"],
+    "First-stage F": [round(f_q4, 1), round(f_multi, 1)],
+    "Exceeds rule of 10?": ["Yes" if f_q4 > 10 else "No", "Yes" if f_multi > 10 else "No"],
+})
+```
+
+Stata equivalent:
+
+```stata
+* --- First-stage F-statistic diagnostic ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+
+* Single instrument (q4)
+reg s q4, robust
+test q4
+
+* Multiple instruments (q2 + q3 + q4)
+reg s q2 q3 q4, robust
+test q2 q3 q4
+```
+
+**(1) What the numbers show:** The F-statistic with q4 alone is well above 10 (around 48), confirming that quarter of birth is a strong instrument. The joint F-statistic with all three quarter dummies is also well above 10 (around 30--35), confirming joint relevance. Both specifications pass the weak-instrument threshold comfortably. **(2) Why:** The first-stage F-statistic measures how well the instruments predict the endogenous variable (years of schooling). The rule-of-thumb threshold of 10 comes from Stock and Yogo (2005): below this threshold, 2SLS estimates are unreliable because weak instruments amplify any small violation of the exclusion restriction, producing large biases. With a single instrument, the F-statistic is simply the squared t-statistic on q4. With multiple instruments, the joint F-test asks whether the instruments collectively predict schooling, not whether each one does individually. **(3) What it teaches:** Always check the first-stage F-statistic before interpreting IV results. A strong first stage is necessary (though not sufficient) for reliable IV inference. The QOB instruments are strong because compulsory schooling laws create a mechanical link between birth quarter and years of completed education for the population of marginal students. This diagnostic should be reported in every IV analysis --- it is as important as the standard error on the second-stage coefficient.

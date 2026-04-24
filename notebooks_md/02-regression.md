@@ -572,6 +572,10 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 3. **Add a second confounder**: Add a `family_income` variable to the simulation that affects both private school choice and earnings. Run the long regression with only ability (omitting family income), then with both. Use the OVB formula to explain the difference.
 
+4. **Reverse the confounder's sign**: Modify the simulation so that higher ability makes private school *less* likely (flip the sign in `prob_private`). Run the short and long regressions. Is the OVB now negative? Verify using the OVB formula that the predicted direction matches.
+
+5. **Progressive control addition**: Create a simulation with three confounders (ability, family income, motivation) that each affect both private school choice and earnings. Run four nested regressions (no controls, +ability, +ability +income, +all three). Display how the private school coefficient changes as controls are added. Does it stabilize near the true effect?
+
 
 ## Solutions
 
@@ -638,6 +642,28 @@ pd.DataFrame({
 })
 ```
 
+Stata equivalent:
+
+```stata
+* --- Simulation with true effect = 0 ---
+clear all
+set more off
+set seed 42
+set obs 1000
+
+* Generate data
+gen ability = rnormal(50, 10)
+gen prob_private = 1 / (1 + exp(-(ability - 50) / 5))
+gen private = rbinomial(1, prob_private)
+gen earnings = 30000 + 0 * private + 800 * ability + rnormal(0, 5000)
+
+* Short regression (omits ability — biased)
+reg earnings private
+
+* Long regression (includes ability — correct)
+reg earnings private ability
+```
+
 (1) **What the numbers show:** The short regression shows a positive coefficient even though the true effect is zero. The long regression correctly recovers approximately zero.
 
 (2) **Why:** This is pure OVB in action --- higher-ability students select into private school ($\pi_1 > 0$) AND ability raises earnings ($\gamma > 0$). The short regression attributes ability's effect to private schooling because the omitted variable is correlated with both the treatment and the outcome.
@@ -670,6 +696,38 @@ pd.DataFrame({
               ovb3, round(aux3.params["private"], 2), round(long3.params["ability"]),
               formula3],
 })
+```
+
+Stata equivalent:
+
+```stata
+* --- Stronger confounder (divide by 2 instead of 5) ---
+clear all
+set more off
+set seed 42
+set obs 1000
+
+gen ability = rnormal(50, 10)
+gen prob_private = 1 / (1 + exp(-(ability - 50) / 2))
+gen private = rbinomial(1, prob_private)
+gen earnings = 30000 + 5000 * private + 800 * ability + rnormal(0, 5000)
+
+* Short, long, and auxiliary regressions
+reg earnings private
+scalar short_coef = _b[private]
+
+reg earnings private ability
+scalar long_coef = _b[private]
+scalar gamma = _b[ability]
+
+reg ability private
+scalar pi1 = _b[private]
+
+* Verify OVB formula
+scalar ovb_direct = short_coef - long_coef
+scalar ovb_formula = pi1 * gamma
+display "OVB (direct) = " ovb_direct
+display "OVB (formula) = " ovb_formula
 ```
 
 (1) **What the numbers show:** With a stronger ability-private link, $\pi_1$ increases substantially and the OVB grows. The short regression coefficient is now much further from the true effect of 5,000. The OVB formula ($\pi_1 \times \gamma$) matches the direct calculation (short $-$ long), confirming the formula works exactly.
@@ -710,8 +768,168 @@ pd.DataFrame({
 })
 ```
 
+Stata equivalent:
+
+```stata
+* --- Two confounders: ability and family income ---
+clear all
+set more off
+set seed 42
+set obs 1000
+
+gen ability = rnormal(50, 10)
+gen family_income = rnormal(60000, 20000)
+gen prob_private = 1 / (1 + exp(-((ability - 50) / 5 + (family_income - 60000) / 20000)))
+gen private = rbinomial(1, prob_private)
+gen earnings = 10000 + 5000 * private + 800 * ability + 0.3 * family_income + rnormal(0, 5000)
+
+* Progressive regressions
+reg earnings private
+reg earnings private ability
+reg earnings private ability family_income
+```
+
 (1) **What the numbers show:** The short regression (no controls) is the most biased. Adding ability alone (medium) moves the coefficient closer to the true 5,000, but it still overshoots. Adding both ability and family income (long) gets closest to the true effect.
 
 (2) **Why:** Each omitted confounder contributes its own OVB term. Family income is positively correlated with both private school attendance and earnings, so omitting it inflates the private school coefficient. Adding ability removes one source of bias but leaves the income-driven bias in place.
 
 (3) **What it teaches:** With multiple confounders, controlling for only some of them reduces bias but does not eliminate it. The progression from short to medium to long regression illustrates the chapter's core message: the long regression moves toward the causal effect only when it includes *all* relevant confounders. In practice, we can never be certain we have controlled for everything --- which is why the book introduces stronger research designs in later chapters.
+
+**R4.**
+
+```python
+# --- Generate data with reversed confounder ---
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as smf
+
+np.random.seed(42)
+n = 1000
+ability_r = np.random.normal(50, 10, n)
+# Flip the sign: higher ability now REDUCES private school probability
+prob_r = 1 / (1 + np.exp((ability_r - 50) / 5))  # note: positive sign in exponent
+private_r = np.random.binomial(1, prob_r)
+earnings_r = 30000 + 5000 * private_r + 800 * ability_r + np.random.normal(0, 5000, n)
+
+students_r = pd.DataFrame({"earnings": earnings_r, "private": private_r, "ability": ability_r})
+
+# --- Run short, long, and auxiliary regressions ---
+short_r = smf.ols("earnings ~ private", data=students_r).fit()
+long_r = smf.ols("earnings ~ private + ability", data=students_r).fit()
+aux_r = smf.ols("ability ~ private", data=students_r).fit()
+
+# --- Verify OVB formula ---
+ovb_r = round(short_r.params["private"] - long_r.params["private"])
+formula_r = round(aux_r.params["private"] * long_r.params["ability"])
+
+pd.DataFrame({
+    "Metric": ["Short coef", "Long coef", "OVB (direct)", "pi_1", "gamma", "OVB (formula)"],
+    "Value": [round(short_r.params["private"]), round(long_r.params["private"]),
+              ovb_r, round(aux_r.params["private"], 2), round(long_r.params["ability"]),
+              formula_r],
+})
+```
+
+Stata equivalent:
+
+```stata
+* --- Reversed confounder ---
+clear all
+set more off
+set seed 42
+set obs 1000
+gen ability = rnormal(50, 10)
+gen prob_private = 1 / (1 + exp((ability - 50) / 5))
+gen private = rbinomial(1, prob_private)
+gen earnings = 30000 + 5000 * private + 800 * ability + rnormal(0, 5000)
+reg earnings private
+scalar short_coef = _b[private]
+reg earnings private ability
+scalar long_coef = _b[private]
+scalar gamma = _b[ability]
+reg ability private
+scalar pi1 = _b[private]
+scalar ovb_direct = short_coef - long_coef
+scalar ovb_formula = pi1 * gamma
+display "OVB (direct) = " ovb_direct " (should be negative)"
+display "OVB (formula) = " ovb_formula
+```
+
+(1) **What the numbers show:** The short regression coefficient is now *below* the true effect of 5,000, not above it. The OVB is negative, and the formula ($\pi_1 \times \gamma$) correctly predicts this: $\pi_1 < 0$ (ability reduces private school probability) times $\gamma > 0$ (ability increases earnings) yields a negative product.
+
+(2) **Why:** When high-ability students attend strong public schools (making $\pi_1$ negative), the private school group has *lower* average ability than the public school group. The short regression attributes this ability disadvantage to private schooling itself, pulling the coefficient below the true effect. This is downward bias --- the opposite of the standard case.
+
+(3) **What it teaches:** The OVB formula works for all four sign combinations of $\pi_1$ and $\gamma$. Students often assume bias is always upward, but this exercise shows that the direction depends on the institutional context. In settings where treatment is negatively selected (e.g., remedial programs that serve weaker students), OVB can be downward, making the treatment look *less* effective than it truly is.
+
+**R5.**
+
+```python
+# --- Generate data with three confounders ---
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as smf
+
+np.random.seed(42)
+n = 1000
+ability_s = np.random.normal(50, 10, n)
+income_s = np.random.normal(60000, 20000, n)
+motivation = np.random.normal(5, 2, n)
+
+# All three confounders affect private school choice
+prob_s = 1 / (1 + np.exp(-((ability_s - 50)/5 + (income_s - 60000)/20000 + (motivation - 5)/2)))
+private_s = np.random.binomial(1, prob_s)
+
+# All three confounders affect earnings
+earnings_s = (10000 + 5000 * private_s + 800 * ability_s
+              + 0.3 * income_s + 2000 * motivation + np.random.normal(0, 5000, n))
+
+df_s = pd.DataFrame({
+    "earnings": earnings_s, "private": private_s,
+    "ability": ability_s, "income": income_s, "motivation": motivation,
+})
+
+# --- Run four nested regressions ---
+specs = [
+    ("No controls", "earnings ~ private"),
+    ("+ ability", "earnings ~ private + ability"),
+    ("+ ability + income", "earnings ~ private + ability + income"),
+    ("+ all three", "earnings ~ private + ability + income + motivation"),
+]
+
+rows = []
+for label, formula in specs:
+    r = smf.ols(formula, data=df_s).fit()
+    rows.append({
+        "Specification": label,
+        "Private coefficient": round(r.params["private"]),
+        "True effect": 5000,
+    })
+
+pd.DataFrame(rows)
+```
+
+Stata equivalent:
+
+```stata
+* --- Progressive control addition ---
+clear all
+set more off
+set seed 42
+set obs 1000
+gen ability = rnormal(50, 10)
+gen income = rnormal(60000, 20000)
+gen motivation = rnormal(5, 2)
+gen prob_private = 1 / (1 + exp(-((ability - 50)/5 + (income - 60000)/20000 + (motivation - 5)/2)))
+gen private = rbinomial(1, prob_private)
+gen earnings = 10000 + 5000*private + 800*ability + 0.3*income + 2000*motivation + rnormal(0, 5000)
+reg earnings private
+reg earnings private ability
+reg earnings private ability income
+reg earnings private ability income motivation
+```
+
+(1) **What the numbers show:** The private school coefficient starts far from 5,000 with no controls, moves closer with each added confounder, and converges near the true effect when all three are included. Each control removes one source of OVB.
+
+(2) **Why:** Each omitted confounder contributes its own OVB term. Adding ability removes the ability-driven bias but leaves income and motivation bias in place. Adding income removes a second source. Only when all three confounders are included does the coefficient approach the true causal effect.
+
+(3) **What it teaches:** This is the logic behind the coefficient stability diagnostic discussed in the chapter: if adding controls barely changes the estimate, the remaining OVB is likely small. If each new control produces a large shift, it signals that other omitted variables may also matter --- and we can never be sure we have controlled for everything. This fundamental uncertainty is what motivates the stronger research designs in Chapters 3--6.

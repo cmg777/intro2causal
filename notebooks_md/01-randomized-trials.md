@@ -904,6 +904,10 @@ Copy the code above and paste it into [this Google Colab scratchpad](https://col
 
 3. **Husbands vs. wives**: Using `nhis_clean.csv`, run the insurance-health comparison separately for husbands and wives. Is the selection bias (the gap in education and income between insured and uninsured) larger for one gender? What might explain any differences?
 
+4. **Dose-response across plan generosity**: Using `rand_utilization.csv`, extract the three plan-dummy coefficients for `total_expenses` and rank them by plan generosity (free > coinsurance > deductible). Is there a monotonic relationship between plan generosity and spending? Test whether the free and coinsurance coefficients are statistically different.
+
+5. **Inpatient vs. outpatient elasticity**: Using `rand_utilization.csv`, compute the implied price elasticity of demand for inpatient vs. outpatient care. Use the free plan coefficient as the numerator (percentage change in quantity) and note that catastrophic plans cover ~5% of costs while free plans cover 100% (a 95-percentage-point price reduction). Which type of care is more price-sensitive?
+
 
 ## Solutions
 
@@ -976,6 +980,19 @@ for var in ["age", "education", "health_index"]:
 pd.DataFrame(rows)
 ```
 
+Stata equivalent:
+
+```stata
+* --- Binary balance check ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_balance.csv", clear
+
+foreach var in age education health_index {
+    reg `var' any_insurance, cluster(family_id)
+}
+```
+
 (1) **What the numbers show:** All t-statistics are small (well below 2), so none of the baseline differences are statistically significant. The catastrophic and any-insurance groups look comparable on age, education, and health.
 
 (2) **Why:** Randomization ensures that treatment assignment is independent of pre-existing characteristics. The Law of Large Numbers makes the group means converge, as discussed in Q4.
@@ -1010,6 +1027,23 @@ for var in ["visits", "outpatient_expenses", "admissions", "inpatient_expenses",
 pd.DataFrame(rows)
 ```
 
+Stata equivalent:
+
+```stata
+* --- Percentage increase in utilization for the free plan ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_utilization.csv", clear
+
+foreach var in visits outpatient_expenses admissions inpatient_expenses total_expenses {
+    reg `var' plan_free plan_deductible plan_coinsurance, cluster(family_id)
+    scalar cat_mean = _b[_cons]
+    scalar free_effect = _b[plan_free]
+    scalar pct_increase = (free_effect / cat_mean) * 100
+    display "`var': catastrophic mean = " cat_mean ", free effect = " free_effect ", % increase = " pct_increase
+}
+```
+
 (1) **What the numbers show:** Outpatient expenses show the largest relative increase (~68%), followed by face-to-face visits (~60%). Hospital admissions show a smaller relative increase (~29%). Total expenses rose ~45%.
 
 (2) **Why:** Inpatient decisions are made primarily by doctors rather than patients, so reducing cost-sharing has less effect on admissions. Outpatient care, where patients have more discretion over whether to seek treatment, responds most strongly to price changes --- consistent with basic demand elasticity.
@@ -1039,8 +1073,131 @@ for gender in ["husband", "wife"]:
 pd.DataFrame(rows)
 ```
 
+Stata equivalent:
+
+```stata
+* --- Selection bias by gender ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/nhis_clean.csv", clear
+
+foreach g in husband wife {
+    display "=== Gender: `g' ==="
+    foreach var in health education family_income {
+        reg `var' insurance [aw=weight] if gender == "`g'", robust
+    }
+}
+```
+
 (1) **What the numbers show:** The education and income gaps between insured and uninsured are similar for husbands and wives. The health gap may differ slightly across genders.
 
 (2) **Why:** Selection into insurance is driven by socioeconomic factors (education, income) that operate similarly for both spouses in a household. Any gender-specific differences in the health gap likely reflect gender-specific health patterns rather than differences in the selection mechanism.
 
 (3) **What it teaches:** Both groups show substantial selection bias, reinforcing the chapter's central lesson: observational comparisons between insured and uninsured people confound the causal effect of insurance with pre-existing differences. This is precisely why the RAND and Oregon experiments --- which use randomization to eliminate selection bias --- provide more credible evidence.
+
+**R4.**
+
+```python
+# --- Load data ---
+import pandas as pd
+import statsmodels.formula.api as smf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
+
+# --- Regression with three plan dummies ---
+d = hie[["total_expenses", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
+r = smf.ols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
+    cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+
+# --- Extract and rank coefficients by plan generosity ---
+pd.DataFrame({
+    "Plan": ["Free (most generous)", "Coinsurance (medium)", "Deductible (least generous)"],
+    "Effect vs. catastrophic": [round(r.params["plan_free"]),
+                                 round(r.params["plan_coinsurance"]),
+                                 round(r.params["plan_deductible"])],
+    "SE": [round(r.bse["plan_free"]),
+           round(r.bse["plan_coinsurance"]),
+           round(r.bse["plan_deductible"])],
+    "t-stat": [round(r.tvalues["plan_free"], 2),
+               round(r.tvalues["plan_coinsurance"], 2),
+               round(r.tvalues["plan_deductible"], 2)],
+})
+```
+
+Stata equivalent:
+
+```stata
+* --- Dose-response: plan generosity and total expenses ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_utilization.csv", clear
+
+reg total_expenses plan_free plan_deductible plan_coinsurance, cluster(family_id)
+test plan_free = plan_coinsurance
+```
+
+(1) **What the numbers show:** The free plan produces the largest increase in total expenses, followed by the coinsurance plan, then the deductible plan. The ordering generally follows plan generosity, though the differences between coinsurance and deductible may not be statistically significant.
+
+(2) **Why:** More generous plans reduce out-of-pocket costs more, lowering the price of care to patients. Basic demand theory predicts that lower prices increase quantity demanded. The free plan eliminates cost-sharing entirely, producing the strongest response.
+
+(3) **What it teaches:** The dose-response pattern strengthens the causal interpretation of the RAND experiment. If insurance generosity had no real effect on spending, the coefficients would be similar across plan types. Instead, we see a gradient that matches the economic logic of moral hazard.
+
+**R5.**
+
+```python
+# --- Load data ---
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
+
+# --- Compute elasticities for inpatient and outpatient care ---
+price_drop = 0.95
+
+rows = []
+for var, label in [("outpatient_expenses", "Outpatient"), ("inpatient_expenses", "Inpatient")]:
+    d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
+    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
+        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    cat_mean = r.params["Intercept"]
+    free_effect = r.params["plan_free"]
+    pct_change_q = free_effect / cat_mean
+    elasticity = pct_change_q / price_drop
+
+    rows.append({
+        "Care type": label,
+        "Catastrophic mean": round(cat_mean),
+        "Free plan effect": round(free_effect),
+        "% change in quantity": round(pct_change_q * 100, 1),
+        "Implied elasticity": round(elasticity, 2),
+    })
+
+pd.DataFrame(rows)
+```
+
+Stata equivalent:
+
+```stata
+* --- Implied price elasticity: inpatient vs. outpatient ---
+clear all
+set more off
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_utilization.csv", clear
+
+scalar price_drop = 0.95
+
+reg outpatient_expenses plan_free plan_deductible plan_coinsurance, cluster(family_id)
+scalar cat_mean_out = _b[_cons]
+scalar free_effect_out = _b[plan_free]
+scalar elast_out = (free_effect_out / cat_mean_out) / price_drop
+display "Outpatient elasticity = " elast_out
+
+reg inpatient_expenses plan_free plan_deductible plan_coinsurance, cluster(family_id)
+scalar cat_mean_in = _b[_cons]
+scalar free_effect_in = _b[plan_free]
+scalar elast_in = (free_effect_in / cat_mean_in) / price_drop
+display "Inpatient elasticity = " elast_in
+```
+
+(1) **What the numbers show:** Outpatient care has a substantially higher implied elasticity than inpatient care. Patients increase their outpatient spending by a larger percentage than their inpatient spending when insurance becomes more generous.
+
+(2) **Why:** Outpatient visits are largely discretionary --- patients decide whether to schedule a check-up, seek a second opinion, or visit a specialist. Inpatient care is typically driven by medical necessity and physician decisions, not patient choice.
+
+(3) **What it teaches:** This elasticity comparison reveals the *mechanism* behind moral hazard. The RAND experiment shows *where* the spending increase concentrates. Policy implications follow directly: cost-sharing designs that target outpatient visits may be more effective at controlling costs.
