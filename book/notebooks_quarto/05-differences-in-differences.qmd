@@ -8,6 +8,7 @@ execute:
 ![](../images/ch05_visual_summary.svg)
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb)
+[![Return to Book Website](https://img.shields.io/badge/Return_to-Book_Website-38bdf8?logo=google-chrome&logoColor=white)](https://cmg777.github.io/intro2causal/)
 
 
 ::: {.callout-tip}
