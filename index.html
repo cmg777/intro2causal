@@ -210,6 +210,100 @@
       50% { opacity: 0; }
     }
 
+    /* Animated gradient title */
+    .gradient-title {
+      background: linear-gradient(270deg, #38bdf8, #a78bfa, #34d399, #38bdf8);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 6s ease infinite;
+    }
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Cover image hover */
+    .cover-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .cover-hover:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 40px rgba(37,99,235,0.25), 0 0 60px rgba(124,58,237,0.15);
+    }
+
+    /* Chapter number pill */
+    .ch-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.2s;
+      z-index: 50;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .back-to-top.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .back-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+    }
+
+    /* AI footer pills */
+    .ai-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .ai-pill:hover {
+      transform: translateY(-2px);
+      border-color: var(--blue);
+    }
+    .ai-pill img {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
     /* Light-mode navbar */
     .light nav { background-color: rgba(248,250,252,0.85) !important; }
 
@@ -270,15 +364,15 @@
   <!-- Hero -->
   <section class="pt-32 pb-16 px-4 hero-glow">
     <div class="max-w-4xl mx-auto text-center">
-      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--purple);">An AI-Powered Study Guide <span class="blink-cursor">_</span></p>
-      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
-        Mastering <span class="text-blue">Causal</span> <span class="text-purple">Metrics</span>
+      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--purple);"><span id="typewriter"></span><span class="blink-cursor">_</span></p>
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 gradient-title">
+        Mastering Causal Metrics
       </h1>
       <p class="text-lg max-w-2xl mx-auto mb-8 text-muted">
         A hands-on AI-powered study guide to Mastering Causal Metrics.
         Learn the foundations of causal inference with interactive Python notebooks and AI tools.
       </p>
-      <img src="cover.jpg" alt="The Furious Five: Five Methods to Separate Cause from Correlation — RCT, OLS, IV, RD, DiD" class="rounded-xl mb-8 mx-auto" style="max-width: 100%; border: 1px solid var(--border); box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+      <img src="cover.jpg" alt="The Furious Five: Five Methods to Separate Cause from Correlation — RCT, OLS, IV, RD, DiD" class="rounded-xl mb-8 mx-auto cover-hover" style="max-width: 100%; border: 1px solid var(--border); box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="#curriculum" class="btn-primary">&#128214; Revise Study Guide</a>
         <a href="tutors.html" class="btn-secondary">&#129302; Chat with AI Tutors</a>
@@ -320,7 +414,7 @@
         <div class="card rounded-lg overflow-hidden">
           <div class="chapter-row flex items-center justify-between px-4 py-3">
             <div class="flex items-center gap-3 badge-row">
-              <span class="text-xs font-mono text-muted">01</span>
+              <span class="ch-num">01</span>
               <a href="book/_book/notebooks_quarto/01-randomized-trials.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Randomized Trials</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
               <a href="#" onclick="openVideo('eGRd8jBdNYg','Randomized Trials: The Ideal Weapon');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
@@ -337,7 +431,7 @@
         <div class="card rounded-lg overflow-hidden">
           <div class="chapter-row flex items-center justify-between px-4 py-3">
             <div class="flex items-center gap-3 badge-row">
-              <span class="text-xs font-mono text-muted">02</span>
+              <span class="ch-num">02</span>
               <a href="book/_book/notebooks_quarto/02-regression.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Regression</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
               <a href="#" onclick="openVideo('iPBV3BlV7jk','Ceteris Paribus: Public vs. Private University');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
@@ -347,7 +441,7 @@
           </div>
           <div class="chapter-row flex items-center justify-between px-4 py-3">
             <div class="flex items-center gap-3 badge-row">
-              <span class="text-xs font-mono text-muted">03</span>
+              <span class="ch-num">03</span>
               <a href="book/_book/notebooks_quarto/03-instrumental-variables.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Instrumental Variables</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
               <a href="#" onclick="openVideo('eoJUPd6104Q','Introduction to Instrumental Variables');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
@@ -358,7 +452,7 @@
           </div>
           <div class="chapter-row flex items-center justify-between px-4 py-3">
             <div class="flex items-center gap-3 badge-row">
-              <span class="text-xs font-mono text-muted">04</span>
+              <span class="ch-num">04</span>
               <a href="book/_book/notebooks_quarto/04-regression-discontinuity.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Regression Discontinuity</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
               <a href="#" onclick="openVideo('d4S2STNOHBk','Regression Discontinuity: AI Video','notebooklm');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
@@ -368,7 +462,7 @@
           </div>
           <div class="chapter-row flex items-center justify-between px-4 py-3">
             <div class="flex items-center gap-3 badge-row">
-              <span class="text-xs font-mono text-muted">05</span>
+              <span class="ch-num">05</span>
               <a href="book/_book/notebooks_quarto/05-differences-in-differences.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Differences-in-Differences</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
               <a href="#" onclick="openVideo('eiffOVbYvNc','Introduction to Differences-in-Differences');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
@@ -385,7 +479,7 @@
         <div class="card rounded-lg overflow-hidden">
           <div class="chapter-row flex items-center justify-between px-4 py-3">
             <div class="flex items-center gap-3 badge-row">
-              <span class="text-xs font-mono text-muted">06</span>
+              <span class="ch-num">06</span>
               <a href="book/_book/notebooks_quarto/06-wages-of-schooling.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">The Wages of Schooling</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
               <a href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
@@ -416,16 +510,24 @@
   <!-- AI Acknowledgment -->
   <footer class="py-8 px-4" style="border-top: 1px solid var(--border); background-color: rgba(0,0,0,0.15);">
     <div class="max-w-4xl mx-auto text-center">
-      <p class="text-xs text-muted mb-2" style="letter-spacing: 0.05em;">
+      <p class="text-xs text-muted mb-3" style="letter-spacing: 0.05em;">
         BUILT WITH AI TOOLS
       </p>
-      <p class="text-xs text-muted">
-        <a href="https://claude.ai/code" target="_blank" style="color: var(--purple);">Claude Code</a> (Anthropic) &mdash; technological infrastructure, website development, and study guide content review.
-        &nbsp;&middot;&nbsp;
-        <a href="https://gemini.google.com" target="_blank" style="color: var(--green);">Google Gemini</a> &mdash; AI tutors.
-      </p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+        <a href="https://claude.ai/code" target="_blank" class="ai-pill">
+          <img src="https://cdn.simpleicons.org/anthropic/a78bfa" alt="Claude">
+          <span><strong style="color:var(--purple);">Claude Code</strong> &mdash; infrastructure &amp; content</span>
+        </a>
+        <a href="https://gemini.google.com" target="_blank" class="ai-pill">
+          <img src="https://cdn.simpleicons.org/googlegemini/34d399" alt="Gemini">
+          <span><strong style="color:var(--green);">Google Gemini</strong> &mdash; AI tutors</span>
+        </a>
+      </div>
     </div>
   </footer>
+
+  <!-- Back to top -->
+  <button id="back-to-top" class="back-to-top" onclick="window.scrollTo({top:0})" aria-label="Back to top">&#8593;</button>
 
   <script>
     // Dark mode toggle
@@ -555,6 +657,31 @@
     // Close modals on Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') { closeVideo(); closeAudio(); }
+    });
+
+    // Typewriter effect
+    (function() {
+      var text = 'An AI-Powered Study Guide';
+      var el = document.getElementById('typewriter');
+      var i = 0;
+      function type() {
+        if (i <= text.length) {
+          el.textContent = text.substring(0, i);
+          i++;
+          setTimeout(type, 60);
+        }
+      }
+      type();
+    })();
+
+    // Back to top button
+    var topBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 400) {
+        topBtn.classList.add('show');
+      } else {
+        topBtn.classList.remove('show');
+      }
     });
 
     // Scroll-triggered fade-in animations
