@@ -8,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; }
     code, .mono { font-family: 'JetBrains Mono', monospace; }
 
@@ -40,7 +41,11 @@
     .card {
       background-color: var(--bg-card);
       border: 1px solid var(--border);
-      transition: background-color 0.3s, border-color 0.3s;
+      transition: background-color 0.3s, border-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    }
+    .card.pillar:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
     .text-blue { color: var(--blue); }
     .text-purple { color: var(--purple); }
@@ -195,6 +200,37 @@
       outline: none;
     }
     .audio-speed option { background: var(--bg-card); color: var(--text); }
+
+    /* Light-mode navbar */
+    .light nav { background-color: rgba(248,250,252,0.85) !important; }
+
+    /* Hero gradient glow */
+    .hero-glow {
+      background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.15) 0%, rgba(124,58,237,0.1) 40%, transparent 70%);
+    }
+
+    /* Badge wrapping on narrow screens */
+    .badge-row { flex-wrap: wrap; gap: 4px; }
+
+    /* Scroll-triggered fade-in */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer author card */
+    .author-card {
+      display: inline-block;
+      padding: 24px 32px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background-color: var(--bg-card);
+    }
   </style>
 </head>
 <body>
@@ -223,7 +259,7 @@
   </nav>
 
   <!-- Hero -->
-  <section class="pt-32 pb-16 px-4">
+  <section class="pt-32 pb-16 px-4 hero-glow">
     <div class="max-w-4xl mx-auto text-center">
       <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--purple);">An AI-Powered Study Guide</p>
       <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
@@ -243,19 +279,19 @@
   </section>
 
   <!-- Three Pillars -->
-  <section class="py-16 px-4">
+  <section class="py-16 px-4 fade-in-up">
     <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-6">
-      <div class="card rounded-xl p-6">
+      <div class="card pillar rounded-xl p-6">
         <div class="pillar-icon mb-4" style="background-color: rgba(37,99,235,0.15); color: var(--blue);">&#9881;</div>
         <h3 class="text-lg font-semibold mb-2 text-blue">Foundational Methods</h3>
         <p class="text-sm text-muted">Based on <a href="https://www.masteringmetrics.com/" target="_blank" style="color: var(--blue);"><em>Mastering 'Metrics</em></a> by Angrist &amp; Pischke. Learn causal inference from randomized trials to differences-in-differences.</p>
       </div>
-      <div class="card rounded-xl p-6">
+      <div class="card pillar rounded-xl p-6">
         <div class="pillar-icon mb-4" style="background-color: rgba(124,58,237,0.15); color: var(--purple);">&#128187;</div>
         <h3 class="text-lg font-semibold mb-2 text-purple">Python Notebooks</h3>
         <p class="text-sm text-muted">Zero-installation Google Colab notebooks. Real datasets, working code, and complete implementations of every method.</p>
       </div>
-      <div class="card rounded-xl p-6">
+      <div class="card pillar rounded-xl p-6">
         <div class="pillar-icon mb-4" style="background-color: rgba(5,150,105,0.15); color: var(--green);">&#129302;</div>
         <h3 class="text-lg font-semibold mb-2 text-green">AI-Powered Learning</h3>
         <p class="text-sm text-muted">Multiple AI tutors with distinct pedagogical styles.</p>
@@ -264,7 +300,7 @@
   </section>
 
   <!-- Curriculum -->
-  <section id="curriculum" class="py-16 px-4">
+  <section id="curriculum" class="py-16 px-4 fade-in-up">
     <div class="max-w-5xl mx-auto">
       <h2 class="text-2xl font-bold mb-2 text-center">Curriculum</h2>
       <p class="text-center text-muted mb-10">6 chapters organized around the five tools of causal inference</p>
@@ -274,7 +310,7 @@
         <h3 class="text-xs font-semibold tracking-widest uppercase mb-3" style="color: var(--purple);">Part I &mdash; The Framework</h3>
         <div class="card rounded-lg overflow-hidden">
           <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 badge-row">
               <span class="text-xs font-mono text-muted">01</span>
               <a href="book/_book/notebooks_quarto/01-randomized-trials.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Randomized Trials</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
@@ -291,7 +327,7 @@
         <h3 class="text-xs font-semibold tracking-widest uppercase mb-3" style="color: var(--purple);">Part II &mdash; Quasi-Experiments</h3>
         <div class="card rounded-lg overflow-hidden">
           <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 badge-row">
               <span class="text-xs font-mono text-muted">02</span>
               <a href="book/_book/notebooks_quarto/02-regression.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Regression</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
@@ -301,7 +337,7 @@
             <span class="text-xs text-muted hidden sm:inline">OLS &middot; Omitted Variable Bias &middot; Bad Controls</span>
           </div>
           <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 badge-row">
               <span class="text-xs font-mono text-muted">03</span>
               <a href="book/_book/notebooks_quarto/03-instrumental-variables.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Instrumental Variables</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
@@ -312,7 +348,7 @@
             <span class="text-xs text-muted hidden sm:inline">LATE &middot; Compliers &middot; Minneapolis DV Experiment</span>
           </div>
           <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 badge-row">
               <span class="text-xs font-mono text-muted">04</span>
               <a href="book/_book/notebooks_quarto/04-regression-discontinuity.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Regression Discontinuity</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
@@ -322,7 +358,7 @@
             <span class="text-xs text-muted hidden sm:inline">Sharp RD &middot; Bandwidth &middot; MLDA and Mortality</span>
           </div>
           <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 badge-row">
               <span class="text-xs font-mono text-muted">05</span>
               <a href="book/_book/notebooks_quarto/05-differences-in-differences.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Differences-in-Differences</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
@@ -339,7 +375,7 @@
         <h3 class="text-xs font-semibold tracking-widest uppercase mb-3" style="color: var(--purple);">Part III &mdash; Synthesis</h3>
         <div class="card rounded-lg overflow-hidden">
           <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 badge-row">
               <span class="text-xs font-mono text-muted">06</span>
               <a href="book/_book/notebooks_quarto/06-wages-of-schooling.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">The Wages of Schooling</a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
@@ -354,18 +390,17 @@
   </section>
 
   <!-- Footer -->
-  <footer class="py-12 px-4" style="border-top: 1px solid var(--border);">
+  <footer class="py-12 px-4 fade-in-up" style="border-top: 1px solid var(--border);">
     <div class="max-w-5xl mx-auto text-center">
-      <p class="text-lg font-semibold mb-2" style="color: var(--text);">
-        Mastering Causal Metrics: An AI-Powered Study Guide
-      </p>
-      <img src="https://github.com/cmg777.png" alt="Carlos Mendez" style="width:64px;height:64px;border-radius:50%;margin:0 auto 8px;display:block;">
-      <p class="text-base mb-1" style="color: var(--text);">
-        By <a href="https://carlos-mendez.org" target="_blank" style="color: var(--blue); font-weight: 600;">Carlos Mendez</a>
-      </p>
-      <p class="text-sm text-muted mb-2">
-        Based on <a href="https://www.masteringmetrics.com/" target="_blank" style="color: var(--blue);"><em>Mastering 'Metrics</em></a> by Angrist &amp; Pischke (Princeton University Press)
-      </p>
+      <div class="author-card">
+        <img src="https://github.com/cmg777.png" alt="Carlos Mendez" style="width:64px;height:64px;border-radius:50%;margin:0 auto 8px;display:block;">
+        <p class="text-base mb-1" style="color: var(--text);">
+          By <a href="https://carlos-mendez.org" target="_blank" style="color: var(--blue); font-weight: 600;">Carlos Mendez</a>
+        </p>
+        <p class="text-sm text-muted mb-0">
+          Based on <a href="https://www.masteringmetrics.com/" target="_blank" style="color: var(--blue);"><em>Mastering 'Metrics</em></a> by Angrist &amp; Pischke
+        </p>
+      </div>
     </div>
   </footer>
 
@@ -511,6 +546,19 @@
     // Close modals on Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') { closeVideo(); closeAudio(); }
+    });
+
+    // Scroll-triggered fade-in animations
+    var fadeObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in-up').forEach(function(el) {
+      fadeObserver.observe(el);
     });
   </script>
 
