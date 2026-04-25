@@ -334,12 +334,84 @@
       border-radius: 16px;
       background-color: var(--bg-card);
     }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--green));
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* Mobile menu slide animation */
+    #mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    #mobile-menu.open {
+      max-height: 300px;
+      padding-top: 0;
+      padding-bottom: 1rem;
+    }
+
+    /* Chapter row hover accent */
+    .chapter-row {
+      border-left: 3px solid transparent;
+      transition: background-color 0.15s, border-left-color 0.2s;
+    }
+    .chapter-row:hover {
+      border-left-color: var(--blue);
+    }
+
+    /* Navbar shrink on scroll */
+    nav .nav-inner {
+      transition: padding 0.3s ease;
+    }
+    nav.scrolled .nav-inner {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Gradient section divider */
+    .gradient-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--purple), transparent);
+      border: none;
+    }
+
+    /* Stats counter */
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
+  <!-- Scroll Progress -->
+  <div id="scroll-progress" class="scroll-progress"></div>
+
   <!-- Navigation -->
-  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(15,23,42,0.85);">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+  <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(15,23,42,0.85);">
+    <div class="nav-inner max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="index.html" class="text-lg font-bold" style="color: var(--blue);">Mastering Causal Metrics</a>
       <div class="hidden md:flex items-center gap-6">
         <a href="book/_book/index.html" class="nav-link text-sm">Study Guide</a>
@@ -398,6 +470,24 @@
         <div class="pillar-icon mb-4" style="background-color: rgba(5,150,105,0.15); color: var(--green);">&#129302;</div>
         <h3 class="text-lg font-semibold mb-2 text-green">AI-Powered Learning</h3>
         <p class="text-sm text-muted">Multiple AI tutors with distinct pedagogical styles.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-12 px-4 fade-in-up">
+    <div class="max-w-3xl mx-auto grid grid-cols-3 gap-6">
+      <div class="stat-item">
+        <div class="stat-number" data-target="6">0</div>
+        <div class="stat-label">Chapters</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="5">0</div>
+        <div class="stat-label">Methods</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="5">0</div>
+        <div class="stat-label">AI Tutors</div>
       </div>
     </div>
   </section>
@@ -493,7 +583,8 @@
   </section>
 
   <!-- Footer -->
-  <footer class="py-12 px-4 fade-in-up" style="border-top: 1px solid var(--border);">
+  <div class="gradient-divider"></div>
+  <footer class="py-12 px-4 fade-in-up">
     <div class="max-w-5xl mx-auto text-center">
       <div class="author-card">
         <img src="https://github.com/cmg777.png" alt="Carlos Mendez" style="width:64px;height:64px;border-radius:50%;margin:0 auto 8px;display:block;">
@@ -508,7 +599,8 @@
   </footer>
 
   <!-- AI Acknowledgment -->
-  <footer class="py-8 px-4" style="border-top: 1px solid var(--border); background-color: rgba(0,0,0,0.15);">
+  <div class="gradient-divider"></div>
+  <footer class="py-8 px-4" style="background-color: rgba(0,0,0,0.15);">
     <div class="max-w-4xl mx-auto text-center">
       <p class="text-xs text-muted mb-3" style="letter-spacing: 0.05em;">
         BUILT WITH AI TOOLS
@@ -548,9 +640,16 @@
     // Set initial icon
     document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
 
-    // Mobile menu
+    // Mobile menu (slide animation)
     document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-      document.getElementById('mobile-menu').classList.toggle('hidden');
+      var menu = document.getElementById('mobile-menu');
+      if (menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        setTimeout(function() { menu.classList.add('hidden'); }, 300);
+      } else {
+        menu.classList.remove('hidden');
+        requestAnimationFrame(function() { menu.classList.add('open'); });
+      }
     });
 
     // Video modal
@@ -674,13 +773,27 @@
       type();
     })();
 
-    // Back to top button
+    // Scroll progress bar + back to top + navbar shrink
     var topBtn = document.getElementById('back-to-top');
+    var scrollBar = document.getElementById('scroll-progress');
+    var mainNav = document.getElementById('main-nav');
     window.addEventListener('scroll', function() {
-      if (window.scrollY > 400) {
+      // Progress bar
+      var scrollTop = window.scrollY;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = docHeight > 0 ? (scrollTop / docHeight * 100) : 0;
+      scrollBar.style.width = pct + '%';
+      // Back to top
+      if (scrollTop > 400) {
         topBtn.classList.add('show');
       } else {
         topBtn.classList.remove('show');
+      }
+      // Navbar shrink
+      if (scrollTop > 80) {
+        mainNav.classList.add('scrolled');
+      } else {
+        mainNav.classList.remove('scrolled');
       }
     });
 
@@ -696,6 +809,28 @@
     document.querySelectorAll('.fade-in-up').forEach(function(el) {
       fadeObserver.observe(el);
     });
+
+    // Stats counter animation
+    var statsAnimated = false;
+    var statsObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !statsAnimated) {
+          statsAnimated = true;
+          document.querySelectorAll('.stat-number[data-target]').forEach(function(el) {
+            var target = parseInt(el.getAttribute('data-target'));
+            var current = 0;
+            var step = Math.ceil(target / 30);
+            var interval = setInterval(function() {
+              current += step;
+              if (current >= target) { current = target; clearInterval(interval); }
+              el.textContent = current;
+            }, 40);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    var statsSection = document.querySelector('.stat-item');
+    if (statsSection) statsObserver.observe(statsSection.parentElement);
   </script>
 
   <!-- Video Modal -->
