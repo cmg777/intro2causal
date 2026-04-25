@@ -386,24 +386,6 @@
       border: none;
     }
 
-    /* Stats counter */
-    .stat-item {
-      text-align: center;
-    }
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--blue), var(--purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .stat-label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
     /* ===== Other Resources section ===== */
     .filter-pill {
       display: inline-flex;
@@ -634,23 +616,6 @@
     </div>
   </section>
 
-  <!-- Stats -->
-  <section class="py-12 px-4 fade-in-up">
-    <div class="max-w-3xl mx-auto grid grid-cols-3 gap-6">
-      <div class="stat-item">
-        <div class="stat-number" data-target="6">0</div>
-        <div class="stat-label">Chapters</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number" data-target="5">0</div>
-        <div class="stat-label">Methods</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number" data-target="5">0</div>
-        <div class="stat-label">AI Tutors</div>
-      </div>
-    </div>
-  </section>
 
   <!-- Curriculum -->
   <section id="curriculum" class="py-16 px-4 fade-in-up">
@@ -1017,28 +982,6 @@
     document.querySelectorAll('.fade-in-up').forEach(function(el) {
       fadeObserver.observe(el);
     });
-
-    // Stats counter animation
-    var statsAnimated = false;
-    var statsObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting && !statsAnimated) {
-          statsAnimated = true;
-          document.querySelectorAll('.stat-number[data-target]').forEach(function(el) {
-            var target = parseInt(el.getAttribute('data-target'));
-            var current = 0;
-            var step = Math.ceil(target / 30);
-            var interval = setInterval(function() {
-              current += step;
-              if (current >= target) { current = target; clearInterval(interval); }
-              el.textContent = current;
-            }, 40);
-          });
-        }
-      });
-    }, { threshold: 0.3 });
-    var statsSection = document.querySelector('.stat-item');
-    if (statsSection) statsObserver.observe(statsSection.parentElement);
 
     // ============================================
     // Other Resources: filterable card grid
