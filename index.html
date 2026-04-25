@@ -201,6 +201,15 @@
     }
     .audio-speed option { background: var(--bg-card); color: var(--text); }
 
+    /* Blinking cursor */
+    .blink-cursor {
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
     /* Light-mode navbar */
     .light nav { background-color: rgba(248,250,252,0.85) !important; }
 
@@ -261,7 +270,7 @@
   <!-- Hero -->
   <section class="pt-32 pb-16 px-4 hero-glow">
     <div class="max-w-4xl mx-auto text-center">
-      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--purple);">An AI-Powered Study Guide</p>
+      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--purple);">An AI-Powered Study Guide <span class="blink-cursor">_</span></p>
       <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
         Mastering <span class="text-blue">Causal</span> <span class="text-purple">Metrics</span>
       </h1>
