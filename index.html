@@ -403,6 +403,164 @@
       color: var(--text-muted);
       margin-top: 4px;
     }
+
+    /* ===== Other Resources section ===== */
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .filter-pill:hover {
+      color: var(--text);
+      border-color: var(--blue);
+    }
+    .filter-pill .pill-count {
+      font-size: 0.7rem;
+      opacity: 0.7;
+      font-weight: 500;
+    }
+    .filter-pill.active {
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      border-color: transparent;
+    }
+    .filter-pill.active .pill-count { opacity: 0.85; }
+
+    .resource-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s, border-color 0.2s;
+    }
+    .resource-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--blue);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+    }
+    .resource-card.hiding {
+      opacity: 0;
+      transform: scale(0.96) translateY(8px);
+    }
+    .resource-card.showing {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .resource-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      background-color: var(--border);
+      color: var(--text);
+    }
+    .resource-type-badge.type-video    { background: rgba(239,68,68,0.15);  color: #f87171; }
+    .resource-type-badge.type-course   { background: rgba(167,139,250,0.15); color: var(--purple); }
+    .resource-type-badge.type-website  { background: rgba(148,163,184,0.18); color: var(--text-muted); }
+    .resource-type-badge.type-article  { background: rgba(56,189,248,0.15);  color: var(--blue); }
+
+    .resource-pinned-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: rgba(251,191,36,0.15);
+      color: #fbbf24;
+    }
+
+    .resource-cat-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .resource-cat-icon.cat-general    { background: rgba(56,189,248,0.15);  color: var(--blue); }
+    .resource-cat-icon.cat-rct        { background: rgba(52,211,153,0.15);  color: var(--green); }
+    .resource-cat-icon.cat-regression { background: rgba(34,211,238,0.15);  color: #22d3ee; }
+    .resource-cat-icon.cat-iv         { background: rgba(251,191,36,0.15);  color: #fbbf24; }
+    .resource-cat-icon.cat-rd         { background: rgba(248,113,113,0.15); color: #f87171; }
+    .resource-cat-icon.cat-did        { background: rgba(167,139,250,0.15); color: var(--purple); }
+    .resource-cat-icon.cat-sc         { background: rgba(251,146,60,0.15);  color: #fb923c; }
+    .resource-cat-icon.cat-econ       { background: rgba(52,211,153,0.15);  color: var(--green); }
+
+    .resource-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .resource-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--blue);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .resource-link:hover { color: var(--purple); }
+    .resource-link .arrow {
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    .resource-link:hover .arrow { transform: translateX(3px); }
+
+    .show-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s, color 0.2s;
+    }
+    .show-more-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
@@ -417,6 +575,7 @@
         <a href="book/_book/index.html" class="nav-link text-sm">Study Guide</a>
         <a href="tutors.html" class="nav-link text-sm">AI Tutors</a>
         <a href="cheatsheet.html" class="nav-link text-sm">Code Cheatsheet</a>
+        <a href="#resources" class="nav-link text-sm">Other Resources</a>
         <button id="theme-toggle" class="nav-link text-sm cursor-pointer" aria-label="Toggle theme">
           <span id="theme-icon">&#9790;</span>
         </button>
@@ -429,6 +588,7 @@
       <a href="book/_book/index.html" class="block py-2 nav-link text-sm">Study Guide</a>
       <a href="tutors.html" class="block py-2 nav-link text-sm">AI Tutors</a>
       <a href="cheatsheet.html" class="block py-2 nav-link text-sm">Code Cheatsheet</a>
+      <a href="#resources" class="block py-2 nav-link text-sm">Other Resources</a>
       <button id="theme-toggle-mobile" class="block py-2 nav-link text-sm cursor-pointer text-left w-full">Toggle Theme</button>
     </div>
   </nav>
@@ -582,6 +742,35 @@
     </div>
   </section>
 
+  <!-- Other Resources -->
+  <div class="gradient-divider"></div>
+  <section id="resources" class="py-16 px-4 fade-in-up" style="scroll-margin-top: 80px;">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold mb-2">Other Resources</h2>
+        <p class="text-muted">Curated materials to deepen your causal inference toolkit</p>
+      </div>
+
+      <!-- Filter pills (rendered by JS) -->
+      <div id="resource-filters" class="flex flex-wrap justify-center gap-2 mb-8"></div>
+
+      <!-- Resource cards grid (rendered by JS) -->
+      <div id="resource-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+
+      <!-- Show more button -->
+      <div id="show-more-container" class="text-center mt-8 hidden">
+        <button id="show-more-btn" class="show-more-btn" onclick="showMoreResources()">
+          <span>&#43;</span> Show <span id="show-more-count">0</span> more resources
+        </button>
+      </div>
+
+      <!-- Empty state -->
+      <div id="resource-empty" class="hidden text-center py-12 text-muted">
+        No resources found in this category yet.
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <div class="gradient-divider"></div>
   <footer class="py-12 px-4 fade-in-up">
@@ -597,6 +786,25 @@
       </div>
     </div>
   </footer>
+
+  <!-- Help Improve This Project -->
+  <div class="gradient-divider"></div>
+  <section class="py-12 px-4 fade-in-up">
+    <div class="max-w-3xl mx-auto">
+      <div class="card rounded-xl p-6 text-center">
+        <h3 class="text-lg font-semibold mb-3" style="color: var(--text);">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;display:inline-block;vertical-align:-3px;margin-right:6px;color:var(--blue);"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          Help Improve This Project
+        </h3>
+        <p class="text-sm text-muted mb-5" style="max-width: 36rem; margin-left: auto; margin-right: auto;">
+          Found an error in the notebooks, study guide, or AI materials? Your feedback helps make this project better for everyone. Please open an issue on GitHub describing what you found, and we'll work to fix it.
+        </p>
+        <a href="https://github.com/cmg777/intro2causal/issues" target="_blank" class="btn-primary">
+          &#128030; Submit an Issue on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
 
   <!-- AI Acknowledgment -->
   <div class="gradient-divider"></div>
@@ -831,6 +1039,235 @@
     }, { threshold: 0.3 });
     var statsSection = document.querySelector('.stat-item');
     if (statsSection) statsObserver.observe(statsSection.parentElement);
+
+    // ============================================
+    // Other Resources: filterable card grid
+    // ============================================
+    var RESOURCE_CATEGORIES = [
+      { id: 'all',        label: 'All',                       icon: '📚' },
+      { id: 'general',    label: 'General',                   icon: '🌐' },
+      { id: 'rct',        label: 'Randomized Trials',         icon: '🎲' },
+      { id: 'regression', label: 'Regression',                icon: '📈' },
+      { id: 'iv',         label: 'Instrumental Variables',    icon: '🔧' },
+      { id: 'rd',         label: 'Regression Discontinuity',  icon: '✂️' },
+      { id: 'did',        label: 'Differences-in-Differences', icon: '⏳' },
+      { id: 'sc',         label: 'Synthetic Control',         icon: '🧪' },
+      { id: 'econ',       label: 'Python in Economics',       icon: '🐍' }
+    ];
+
+    var RESOURCE_TYPES = {
+      video:   { label: 'Video',   action: 'Watch Video' },
+      article: { label: 'Article', action: 'Read Article' },
+      website: { label: 'Website', action: 'Visit Website' },
+      course:  { label: 'Course',  action: 'Start Learning' }
+    };
+
+    var RESOURCES = [
+      // General — foundational books, multi-method frameworks
+      { title: 'metricsAI',
+        description: "An AI-powered companion study guide for econometrics by Carlos Mendez and A. Colin Cameron. Interactive Python notebooks, AI tutors, and podcasts covering Cameron's Analysis of Economics Data.",
+        category: 'general', type: 'course', url: 'https://quarcs-lab.github.io/metricsai/', pinned: true },
+      { title: 'Causal Inference for The Brave and True',
+        description: 'A practical guide to causal inference using Python, covering key econometric and statistical methods with real-world examples by Matheus Facure.',
+        category: 'general', type: 'course', url: 'https://matheusfacure.github.io/python-causality-handbook/landing-page.html', pinned: true },
+      { title: 'Applied Causal Inference Powered by ML and AI',
+        description: 'Textbook on causal inference enhanced by machine learning and AI, covering debiased ML, treatment effects, and instrumental variables by Chernozhukov, Hansen, Kallus, Spindler & Syrgkanis.',
+        category: 'general', type: 'course', url: 'https://causalml-book.org/', pinned: true },
+      { title: 'URFIE — Introductory Econometrics',
+        description: 'Introductory econometrics textbook with code examples in R, Python, and Julia.',
+        category: 'general', type: 'website', url: 'https://www.urfie.net/' },
+      { title: 'Econometrics in Python',
+        description: 'Curated reference guide cataloging econometric and statistical Python libraries across 20+ categories, from core regression tools to causal inference methods.',
+        category: 'general', type: 'website', url: 'https://github.com/rawatpranjal/econometrics-in-python' },
+      { title: 'Causal Inference with DoWhy and the Lalonde Dataset',
+        description: "Estimate the causal effect of a job training program on earnings using DoWhy's four-step framework in Python.",
+        category: 'general', type: 'article', url: 'https://carlos-mendez.org/post/python_dowhy/' },
+      { title: 'Causal Inference with Double Machine Learning',
+        description: 'Estimate the causal effect of a cash bonus on unemployment duration using Double Machine Learning in Python.',
+        category: 'general', type: 'article', url: 'https://carlos-mendez.org/post/python_doubleml/' },
+      { title: 'Introduction to Partial Identification',
+        description: 'Compute causal bounds under unmeasured confounding using Manski and Tian–Pearl bounds in Python.',
+        category: 'general', type: 'article', url: 'https://carlos-mendez.org/post/python_partial_identification/' },
+
+      // Randomized Trials (RCT)
+      { title: 'Evaluating a Cash Transfer Program (RCT) with Panel Data in Stata',
+        description: 'Estimate causal effects of a cash transfer using regression adjustment, inverse probability weighting, doubly robust methods, and DiD.',
+        category: 'rct', type: 'article', url: 'https://carlos-mendez.org/post/stata_rct/' },
+
+      // Regression Discontinuity (RD)
+      { title: 'RDD in Stata: Evaluating a Tutoring Program',
+        description: "Estimate the causal effect of a school tutoring program on student exit exam scores using sharp regression discontinuity design in Stata.",
+        category: 'rd', type: 'article', url: 'https://carlos-mendez.org/post/stata_rd/' },
+
+      // Regression — Frisch–Waugh–Lovell theorem
+      { title: 'The FWL Theorem: Making Multivariate Regressions Intuitive',
+        description: 'Use the Frisch–Waugh–Lovell theorem to isolate causal relationships by partialling out confounders in a simulated retail store dataset (Python).',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/python_fwl/' },
+      { title: 'Visualizing Regression with FWL in R',
+        description: 'A hands-on guide to the fwlplot package — from the Frisch–Waugh–Lovell theorem through simulated confounding to visualizing fixed effects in real panel data.',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/r_fwlplot/' },
+      { title: 'Visualizing Regression with FWL in Stata',
+        description: 'A hands-on guide to the scatterfit package — from the Frisch–Waugh–Lovell theorem through simulated confounding to visualizing fixed effects in real panel data.',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/stata_fwl/' },
+      { title: 'TWFE Demystified: Manual Demeaning via the FWL Theorem',
+        description: 'Show that two-way fixed effects is just OLS on demeaned data via the Frisch–Waugh–Lovell theorem, with a hands-on Barro convergence panel in R.',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/r_demeaning_twfe/' },
+
+      // Differences-in-Differences (DiD)
+      { title: 'Sensitivity Analysis for Parallel Trends in DiD (honestdid)',
+        description: 'Assess how robust difference-in-differences results are to violations of the parallel trends assumption using the honestdid package in Stata.',
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/stata_honestdid/' },
+      { title: 'DiD for Policy Evaluation: A Tutorial in R',
+        description: "A practical guide to difference-in-differences with staggered treatment — from TWFE pitfalls to the Callaway–Sant'Anna estimator.",
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/r_did/' },
+      { title: 'Heterogeneous Treatment Effects via Two-Stage DiD',
+        description: 'Introduction to heterogeneous treatment effects using the two-stage difference-in-differences estimator in R.',
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/r_two_stage_did/' },
+
+      // Synthetic Control
+      { title: "Synthetic Control with Prediction Intervals: Germany's Reunification",
+        description: "Apply synthetic control with prediction intervals to quantify uncertainty in the GDP impact of Germany's reunification.",
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/python_scpi/' },
+      { title: 'Causal Effects of a CO2 Tax',
+        description: 'Replicate the AEJ paper on the causal effects of a CO2 tax in Sweden using synthetic control in R.',
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/r_causal_effects_of_co2_tax/' },
+      { title: 'Basic Synthetic Control',
+        description: "Foundational tutorial on synthetic control — constructing a weighted control unit that approximates the treated unit's pre-treatment trajectory.",
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/r_basic_synthetic_control/' },
+
+      // Python in Economics
+      { title: 'QuantEcon',
+        description: 'Python programming lectures for economics and finance by Sargent & Stachurski.',
+        category: 'econ', type: 'website', url: 'https://quantecon.org/' },
+      { title: 'A First Course in Quantitative Economics',
+        description: 'Introductory lectures on quantitative economics using Python with simulation and visualization by Sargent & Stachurski.',
+        category: 'econ', type: 'course', url: 'https://intro.quantecon.org/' },
+      { title: 'Intermediate Quantitative Economics with Python',
+        description: 'Intermediate lectures on quantitative economic modeling and computational methods by Sargent & Stachurski.',
+        category: 'econ', type: 'course', url: 'https://python.quantecon.org/' },
+      { title: 'Quantitative Economics with JAX',
+        description: 'GPU-accelerated quantitative economic modeling using Google JAX by Sargent & Stachurski.',
+        category: 'econ', type: 'course', url: 'https://jax.quantecon.org/' },
+      { title: 'Quantitative Economics with Julia',
+        description: 'Quantitative economic modeling lectures using Julia by Perla, Sargent & Stachurski.',
+        category: 'econ', type: 'course', url: 'https://julia.quantecon.org/' },
+      { title: 'DS4DS — Data Science for Development',
+        description: 'Computational data science notebooks and apps for development studies.',
+        category: 'econ', type: 'website', url: 'https://cmg777.github.io/ds4ds/' },
+      { title: 'DS4Bolivia',
+        description: 'Spatial data science repository for sustainable development analysis in Bolivia.',
+        category: 'econ', type: 'website', url: 'https://quarcs-lab.github.io/ds4bolivia/' }
+    ];
+
+    var currentResourceFilter = 'all';
+    var resourceShowAll = false;
+    var RESOURCE_INITIAL_COUNT = 9;
+
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function createResourceCard(r) {
+      var typeInfo = RESOURCE_TYPES[r.type] || RESOURCE_TYPES.website;
+      var titleEsc = escapeHtml(r.title);
+      var actionAttr = r.videoId
+        ? 'href="#" onclick="openVideo(\'' + r.videoId + '\', \'' + titleEsc.replace(/'/g, "\\'") + '\');return false;"'
+        : 'href="' + r.url + '" target="_blank" rel="noopener"';
+      var pinned = r.pinned
+        ? '<span class="resource-pinned-badge">&#9733; Must check</span>'
+        : '';
+      return '<div class="resource-card hiding" data-category="' + r.category + '">'
+        + '<div class="flex items-center justify-between mb-3" style="gap:6px;">'
+        +   '<div class="flex items-center" style="gap:6px;flex-wrap:wrap;">'
+        +     '<span class="resource-type-badge type-' + r.type + '">' + typeInfo.label + '</span>'
+        +     pinned
+        +   '</div>'
+        +   '<span class="resource-cat-icon cat-' + r.category + '">'
+        +     (RESOURCE_CATEGORIES.find(function(c){return c.id===r.category;}) || {icon:''}).icon
+        +   '</span>'
+        + '</div>'
+        + '<h3 class="resource-title">' + titleEsc + '</h3>'
+        + '<p class="resource-desc line-clamp-2">' + escapeHtml(r.description) + '</p>'
+        + '<a ' + actionAttr + ' class="resource-link">'
+        +   typeInfo.action + ' <span class="arrow">&rarr;</span>'
+        + '</a>'
+        + '</div>';
+    }
+
+    function renderResourceFilters() {
+      var container = document.getElementById('resource-filters');
+      if (!container) return;
+      container.innerHTML = RESOURCE_CATEGORIES.map(function(cat) {
+        var count = cat.id === 'all'
+          ? RESOURCES.length
+          : RESOURCES.filter(function(r){return r.category === cat.id;}).length;
+        var active = currentResourceFilter === cat.id ? ' active' : '';
+        return '<button class="filter-pill' + active + '" data-filter="' + cat.id + '" onclick="filterResources(\'' + cat.id + '\')">'
+          + '<span>' + cat.icon + '</span>'
+          + '<span>' + cat.label + '</span>'
+          + '<span class="pill-count">(' + count + ')</span>'
+          + '</button>';
+      }).join('');
+    }
+
+    function renderResources() {
+      var grid = document.getElementById('resource-grid');
+      var empty = document.getElementById('resource-empty');
+      var moreContainer = document.getElementById('show-more-container');
+      var moreCount = document.getElementById('show-more-count');
+      if (!grid) return;
+
+      var filtered = currentResourceFilter === 'all'
+        ? RESOURCES.slice()
+        : RESOURCES.filter(function(r){return r.category === currentResourceFilter;});
+      filtered.sort(function(a, b){ return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0); });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        moreContainer.classList.add('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      var toShow = resourceShowAll ? filtered : filtered.slice(0, RESOURCE_INITIAL_COUNT);
+      var hasMore = filtered.length > RESOURCE_INITIAL_COUNT && !resourceShowAll;
+
+      grid.innerHTML = toShow.map(createResourceCard).join('');
+
+      if (hasMore) {
+        moreContainer.classList.remove('hidden');
+        moreCount.textContent = filtered.length - RESOURCE_INITIAL_COUNT;
+      } else {
+        moreContainer.classList.add('hidden');
+      }
+
+      requestAnimationFrame(function() {
+        grid.querySelectorAll('.resource-card').forEach(function(card, i) {
+          setTimeout(function() {
+            card.classList.remove('hiding');
+            card.classList.add('showing');
+          }, i * 40);
+        });
+      });
+    }
+
+    function filterResources(catId) {
+      currentResourceFilter = catId;
+      resourceShowAll = false;
+      renderResourceFilters();
+      renderResources();
+    }
+
+    function showMoreResources() {
+      resourceShowAll = true;
+      renderResources();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderResourceFilters();
+      renderResources();
+    });
   </script>
 
   <!-- Video Modal -->
