@@ -8,10 +8,15 @@ dependencies = [
     "jupyter>=1.1.1",
     "linearmodels>=7.0",
     "matplotlib>=3.10.8",
-    "numpy>=2.4.4",
+    "numpy>=2.3,<2.4",
     "pandas>=3.0.2",
+    "pyfixest>=0.50",
     "pyyaml>=6.0.3",
     "scipy>=1.17.1",
     "seaborn>=0.13.2",
     "statsmodels>=0.14.6",
 ]
+
+[tool.uv]
+no-build-package = ["llvmlite"]
+constraint-dependencies = ["numba<0.63", "llvmlite<0.46"]

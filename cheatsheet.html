@@ -12,6 +12,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/stata.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/r.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
     body { font-family: 'Inter', sans-serif; }
@@ -334,19 +335,19 @@
   <!-- Hero -->
   <section class="pt-32 pb-8 px-4">
     <div class="max-w-4xl mx-auto text-center">
-      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--green);">Python &amp; Stata</p>
+      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--green);">Python, Stata &amp; R</p>
       <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4">
         Code <span class="text-green">Cheatsheet</span>
       </h1>
       <p class="text-lg max-w-2xl mx-auto mb-6 text-muted">
-        Quick-reference code for every causal inference method in the book. Python and Stata side by side.
+        Quick-reference code for every causal inference method in the book. Python, Stata, and R side by side.
       </p>
       <div class="flex flex-wrap gap-4 justify-center text-sm text-muted">
         <span>6 chapters</span>
         <span>&middot;</span>
         <span>5 methods</span>
         <span>&middot;</span>
-        <span>Python + Stata</span>
+        <span>Python + Stata + R</span>
       </div>
     </div>
   </section>
@@ -464,11 +465,11 @@
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('f5','python')">Python</button>
         <button class="lang-tab" onclick="showLang('f5','stata')">Stata</button>
+        <button class="lang-tab" onclick="showLang('f5','r')">R</button>
       </div>
       <div id="f5-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd
 import numpy as np
-import statsmodels.formula.api as smf
-from linearmodels.iv import IV2SLS
+import pyfixest as pf
 
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
@@ -499,8 +500,8 @@ print(f"1. RCT (Wald):  {wald_rct:.4f}")
 #           individuals may get more schooling AND earn more regardless.
 # ----------------------------------------------------------------
 qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
-ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
-print(f"2. OLS:         {ols.params['s']:.4f}")
+ols = pf.feols("lnw ~ s", data=qob, vcov="hetero")
+print(f"2. OLS:         {ols.coef()['s']:.4f}")
 
 # ================================================================
 # METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
@@ -512,8 +513,8 @@ print(f"2. OLS:         {ols.params['s']:.4f}")
 #           (students kept in school solely due to compulsory schooling laws).
 # Bias:     None, provided Z is relevant and the exclusion restriction holds.
 # ----------------------------------------------------------------
-iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
-print(f"3. IV (QOB):    {iv.params['s']:.4f}")
+iv = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
+print(f"3. IV (QOB):    {iv.coef()['s']:.4f}")
 
 # ================================================================
 # METHOD 4: REGRESSION DISCONTINUITY (RD)
@@ -529,10 +530,9 @@ sheep = pd.read_csv(DATA + "ch6/sheepskin_clean.csv")
 # Center the running variable if not already centered, and apply a bandwidth (e.g., +/- 30)
 bandwidth_data = sheep[abs(sheep["minscore"]) &lt;= 30]
 # Use robust local linear regression allowing varying slopes on either side of cutoff
-rd = smf.wls("avgearnings ~ pass_exam * minscore",
-             data=bandwidth_data,
-             weights=bandwidth_data["person_years"]).fit(cov_type="HC1")
-print(f"4. RD:          ${rd.params['pass_exam']:.0f} (Credential effect)")
+rd = pf.feols("avgearnings ~ pass_exam * minscore",
+              data=bandwidth_data, weights="person_years", vcov="hetero")
+print(f"4. RD:          ${rd.coef()['pass_exam']:.0f} (Credential effect)")
 
 # ================================================================
 # METHOD 5: DIFFERENCES-IN-DIFFERENCES (WALD-DiD)
@@ -549,15 +549,100 @@ did = pd.read_csv(DATA + "ch6/synthetic_did.csv")
 did["treat_post"] = did["treated"] * did["post"]
 
 # First stage: Effect of policy on schooling
-dd_s = smf.ols("avg_schooling ~ treat_post + C(state) + C(year)",
-               data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
+dd_s = pf.feols("avg_schooling ~ treat_post | state + year",
+                data=did, vcov={"CRV1": "state"})
 
 # Reduced form: Effect of policy on earnings
-dd_e = smf.ols("avg_earnings ~ treat_post + C(state) + C(year)",
-               data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
+dd_e = pf.feols("avg_earnings ~ treat_post | state + year",
+                data=did, vcov={"CRV1": "state"})
 
-wald_did = dd_e.params['treat_post'] / dd_s.params['treat_post']
+wald_did = dd_e.coef()['treat_post'] / dd_s.coef()['treat_post']
 print(f"5. Wald-DiD:    {wald_did:.4f}")</div>
+      <div id="f5-r" class="code-block" style="display:none; border-top-left-radius:0;">library(fixest)
+
+DATA &lt;- "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# ================================================================
+# METHOD 1: RANDOMIZED CONTROLLED TRIAL (WITH NON-COMPLIANCE)
+# ================================================================
+# Question: Does education cause higher earnings?
+# Equation: ln(W) = a + rho*S + e  (First Stage: S = g0 + g1*Z + u)
+# Logic:    Z (scholarship offer) is randomly assigned. We use it to
+#           isolate exogenous variation in S (actual schooling).
+# Estimate: Wald ratio = (Reduced Form effect on W) / (First Stage effect on S)
+# Bias:     None, assuming the offer only affects earnings through schooling
+# ----------------------------------------------------------------
+rct &lt;- read.csv(paste0(DATA, "ch6/synthetic_rct.csv"))
+means &lt;- aggregate(cbind(schooling, earnings) ~ scholarship, data = rct, FUN = mean)
+wald_rct &lt;- (means$earnings[2] - means$earnings[1]) /
+            (means$schooling[2] - means$schooling[1])
+cat(sprintf("1. RCT (Wald):  %.4f\n", wald_rct))
+
+# ================================================================
+# METHOD 2: REGRESSION (OLS)
+# ================================================================
+# Question: What is the raw return to each year of schooling?
+# Equation: ln(W) = a + rho*S + e
+# Logic:    Control for observables, hoping all confounders are captured.
+# Estimate: Conditional average association (not necessarily causal).
+# Bias:     Omitted Variable Bias (e.g., Ability Bias - upward). Smarter
+#           individuals may get more schooling AND earn more regardless.
+# ----------------------------------------------------------------
+qob &lt;- read.csv(paste0(DATA, "ch6/qob_clean.csv"))
+ols &lt;- feols(lnw ~ s, data = qob, vcov = "hetero")
+cat(sprintf("2. OLS:         %.4f\n", coef(ols)["s"]))
+
+# ================================================================
+# METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
+# ================================================================
+# Question: What is the causal return to schooling, using exogenous variation?
+# Equation: Wald = Cov(Y, Z) / Cov(D, Z)
+# Logic:    Quarter of birth (Z) shifts schooling laws but is unrelated to ability.
+# Estimate: LATE -- Local Average Treatment Effect for "compliers"
+#           (students kept in school solely due to compulsory schooling laws).
+# Bias:     None, provided Z is relevant and the exclusion restriction holds.
+# ----------------------------------------------------------------
+iv &lt;- feols(lnw ~ 1 | s ~ q4, data = qob, vcov = "hetero")
+cat(sprintf("3. IV (QOB):    %.4f\n", coef(iv)["fit_s"]))
+
+# ================================================================
+# METHOD 4: REGRESSION DISCONTINUITY (RD)
+# ================================================================
+# Question: Does the diploma credential itself boost earnings?
+# Equation: Y = a + rho*D + b1*(Score) + b2*(D x Score) + e
+# Logic:    Compare students just above vs. just below the passing cutoff.
+# Estimate: LATE at the cutoff (the "sheepskin" or credential effect).
+# Bias:     None, assuming continuity of potential outcomes at the cutoff
+#           (students cannot precisely manipulate their scores).
+# ----------------------------------------------------------------
+sheep &lt;- read.csv(paste0(DATA, "ch6/sheepskin_clean.csv"))
+bw_data &lt;- sheep[abs(sheep$minscore) &lt;= 30, ]
+rd &lt;- feols(avgearnings ~ pass_exam * minscore, data = bw_data,
+            weights = ~person_years, vcov = "hetero")
+cat(sprintf("4. RD:          $%.0f (Credential effect)\n", coef(rd)["pass_exam"]))
+
+# ================================================================
+# METHOD 5: DIFFERENCES-IN-DIFFERENCES (WALD-DiD)
+# ================================================================
+# Question: Do compulsory schooling reforms (T) raise causal earnings?
+# Equation: Wald-DiD = DiD_Earnings / DiD_Schooling
+# Logic:    Compare changes over time in reform vs. non-reform states, using
+#           the reform as an instrument for actual years of schooling.
+# Estimate: LATE of schooling on earnings driven by the policy change.
+# Bias:     Biased if parallel trends assumption fails (states would have
+#           had different trajectories absent the reform).
+# ----------------------------------------------------------------
+did &lt;- read.csv(paste0(DATA, "ch6/synthetic_did.csv"))
+did$treat_post &lt;- did$treated * did$post
+
+# First stage: Effect of policy on schooling
+dd_s &lt;- feols(avg_schooling ~ treat_post | state + year, data = did, vcov = ~state)
+
+# Reduced form: Effect of policy on earnings
+dd_e &lt;- feols(avg_earnings ~ treat_post | state + year, data = did, vcov = ~state)
+
+wald_did &lt;- coef(dd_e)["treat_post"] / coef(dd_s)["treat_post"]
+cat(sprintf("5. Wald-DiD:    %.4f\n", wald_did))</div>
       <div id="f5-stata" class="code-block" style="display:none; border-top-left-radius:0;">* =================================================================
 * METHOD 1: RANDOMIZED CONTROLLED TRIAL (WITH NON-COMPLIANCE)
 * =================================================================
@@ -673,37 +758,67 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)</div>
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch1','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch1','stata')">Stata</button>
+        <button class="lang-tab" onclick="showLang('ch1','r')">R</button>
       </div>
       <div id="ch1-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # --- Step 1: Compare health by insurance status (observational) ---
 nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
 print(nhis.groupby("insurance")["health"].mean().round(2))
-result = smf.ols("health ~ insurance", data=nhis).fit(cov_type="HC1")
-print(result.summary().tables[1])
+result = pf.feols("health ~ insurance", data=nhis, vcov="hetero")
+result.summary()
 
 # --- Step 2: Balance check (RAND HIE — did randomization work?) ---
 rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
 d = rand[["age","plan_free","plan_deductible","plan_coinsurance","family_id"]].dropna()
-result = smf.ols("age ~ plan_free+plan_deductible+plan_coinsurance", data=d) \
-    .fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-print(result.summary().tables[1])
+result = pf.feols("age ~ plan_free+plan_deductible+plan_coinsurance",
+                  data=d, vcov={"CRV1": "family_id"})
+result.summary()
 
 # --- Step 3: Causal effect on spending (free insurance → more spending) ---
 hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 d = hie[["total_expenses","plan_free","plan_deductible","plan_coinsurance","family_id"]].dropna()
-result = smf.ols("total_expenses ~ plan_free+plan_deductible+plan_coinsurance", data=d) \
-    .fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-print(result.summary().tables[1])
+result = pf.feols("total_expenses ~ plan_free+plan_deductible+plan_coinsurance",
+                  data=d, vcov={"CRV1": "family_id"})
+result.summary()
 
 # --- Step 4: Causal effect on health (the RAND paradox: no effect!) ---
 health = pd.read_csv(DATA + "ch1/rand_health_outcomes.csv")
 d = health[["health_index","plan_free","plan_deductible","plan_coinsurance","family_id"]].dropna()
-result = smf.ols("health_index ~ plan_free+plan_deductible+plan_coinsurance", data=d) \
-    .fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-print(result.summary().tables[1])</div>
+result = pf.feols("health_index ~ plan_free+plan_deductible+plan_coinsurance",
+                  data=d, vcov={"CRV1": "family_id"})
+result.summary()</div>
+      <div id="ch1-r" class="code-block" style="display:none; border-top-left-radius:0;">library(fixest)
+DATA &lt;- "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Compare health by insurance status (observational) ---
+nhis &lt;- read.csv(paste0(DATA, "ch1/nhis_clean.csv"))
+print(aggregate(health ~ insurance, data = nhis, FUN = mean))
+result &lt;- feols(health ~ insurance, data = nhis, vcov = "hetero")
+summary(result)
+
+# --- Step 2: Balance check (RAND HIE -- did randomization work?) ---
+rand &lt;- read.csv(paste0(DATA, "ch1/rand_balance.csv"))
+d &lt;- na.omit(rand[, c("age","plan_free","plan_deductible","plan_coinsurance","family_id")])
+result &lt;- feols(age ~ plan_free + plan_deductible + plan_coinsurance,
+                data = d, vcov = ~family_id)
+summary(result)
+
+# --- Step 3: Causal effect on spending (free insurance -&gt; more spending) ---
+hie &lt;- read.csv(paste0(DATA, "ch1/rand_utilization.csv"))
+d &lt;- na.omit(hie[, c("total_expenses","plan_free","plan_deductible","plan_coinsurance","family_id")])
+result &lt;- feols(total_expenses ~ plan_free + plan_deductible + plan_coinsurance,
+                data = d, vcov = ~family_id)
+summary(result)
+
+# --- Step 4: Causal effect on health (the RAND paradox: no effect!) ---
+health &lt;- read.csv(paste0(DATA, "ch1/rand_health_outcomes.csv"))
+d &lt;- na.omit(health[, c("health_index","plan_free","plan_deductible","plan_coinsurance","family_id")])
+result &lt;- feols(health_index ~ plan_free + plan_deductible + plan_coinsurance,
+                data = d, vcov = ~family_id)
+summary(result)</div>
       <div id="ch1-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
 set more off
 
@@ -748,8 +863,9 @@ reg health_index plan_free plan_deductible plan_coinsurance, cluster(family_id)<
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch2','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch2','stata')">Stata</button>
+        <button class="lang-tab" onclick="showLang('ch2','r')">R</button>
       </div>
-      <div id="ch2-python" class="code-block" style="border-top-left-radius:0;">import numpy as np, pandas as pd, statsmodels.formula.api as smf
+      <div id="ch2-python" class="code-block" style="border-top-left-radius:0;">import numpy as np, pandas as pd, pyfixest as pf
 
 # --- Step 1: Simulate data where we KNOW the true causal effect ---
 np.random.seed(42)
@@ -762,19 +878,48 @@ earnings = 30000 + true_effect*private + 800*ability + np.random.normal(0, 5000,
 students = pd.DataFrame({"earnings": earnings, "private": private, "ability": ability})
 
 # --- Step 2: Short regression (omitting ability → biased) ---
-short = smf.ols("earnings ~ private", data=students).fit()
-print(f"Short (biased):  ${short.params['private']:,.0f}  (true = $5,000)")
+short = pf.feols("earnings ~ private", data=students)
+print(f"Short (biased):  ${short.coef()['private']:,.0f}  (true = $5,000)")
 
 # --- Step 3: Long regression (including ability → unbiased) ---
-long = smf.ols("earnings ~ private + ability", data=students).fit()
-print(f"Long (unbiased): ${long.params['private']:,.0f}")
+long = pf.feols("earnings ~ private + ability", data=students)
+print(f"Long (unbiased): ${long.coef()['private']:,.0f}")
 
 # --- Step 4: Verify the OVB formula ---
-aux = smf.ols("ability ~ private", data=students).fit()
-pi_1 = aux.params["private"]
-gamma = long.params["ability"]
+aux = pf.feols("ability ~ private", data=students)
+pi_1 = aux.coef()["private"]
+gamma = long.coef()["ability"]
 ovb = pi_1 * gamma
 print(f"OVB = pi1 x gamma = {pi_1:.2f} x {gamma:.0f} = ${ovb:,.0f}")</div>
+      <div id="ch2-r" class="code-block" style="display:none; border-top-left-radius:0;">library(fixest)
+
+# --- Step 1: Simulate data where we KNOW the true causal effect ---
+set.seed(42)
+n &lt;- 1000
+ability &lt;- rnorm(n, 50, 10)
+prob_private &lt;- 1 / (1 + exp(-(ability - 50) / 5))
+private &lt;- rbinom(n, 1, prob_private)
+true_effect &lt;- 5000
+earnings &lt;- 30000 + true_effect * private + 800 * ability + rnorm(n, 0, 5000)
+students &lt;- data.frame(earnings = earnings, private = private, ability = ability)
+
+# --- Step 2: Short regression (omitting ability -&gt; biased) ---
+short &lt;- feols(earnings ~ private, data = students)
+cat(sprintf("Short (biased):  $%s  (true = $5,000)\n",
+    formatC(coef(short)["private"], format = "f", digits = 0, big.mark = ",")))
+
+# --- Step 3: Long regression (including ability -&gt; unbiased) ---
+long &lt;- feols(earnings ~ private + ability, data = students)
+cat(sprintf("Long (unbiased): $%s\n",
+    formatC(coef(long)["private"], format = "f", digits = 0, big.mark = ",")))
+
+# --- Step 4: Verify the OVB formula ---
+aux &lt;- feols(ability ~ private, data = students)
+pi_1 &lt;- coef(aux)["private"]
+gamma &lt;- coef(long)["ability"]
+ovb &lt;- pi_1 * gamma
+cat(sprintf("OVB = pi1 x gamma = %.2f x %.0f = $%s\n",
+    pi_1, gamma, formatC(ovb, format = "f", digits = 0, big.mark = ",")))</div>
       <div id="ch2-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
 set more off
 set seed 42
@@ -825,8 +970,9 @@ display "OVB = " _b[private] " x " gamma " = " _b[private]*gamma</div>
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch3','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch3','stata')">Stata</button>
+        <button class="lang-tab" onclick="showLang('ch3','r')">R</button>
       </div>
-      <div id="ch3-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, statsmodels.formula.api as smf
+      <div id="ch3-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, pyfixest as pf
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # --- Step 1: Load Minneapolis Domestic Violence Experiment ---
@@ -840,17 +986,43 @@ mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)   # instrument
 mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)   # treatment
 
 # --- Step 4: First stage ---
-fs = smf.ols("d_coddle ~ z_coddle", data=mdve).fit(cov_type="HC1")
-print(f"First stage: {fs.params['z_coddle']:.3f}")
+fs = pf.feols("d_coddle ~ z_coddle", data=mdve, vcov="hetero")
+print(f"First stage: {fs.coef()['z_coddle']:.3f}")
 
 # --- Step 5: Reduced form (from published data) ---
 reduced_form = 0.211 - 0.097
 print(f"Reduced form: {reduced_form:.3f}")
 
 # --- Step 6: LATE = reduced form / first stage ---
-late = reduced_form / fs.params["z_coddle"]
-print(f"LATE = {reduced_form:.3f} / {fs.params['z_coddle']:.3f} = {late:.3f}")
+late = reduced_form / fs.coef()["z_coddle"]
+print(f"LATE = {reduced_form:.3f} / {fs.coef()['z_coddle']:.3f} = {late:.3f}")
 print("Coddling increases recidivism by ~15 pp among compliers")</div>
+      <div id="ch3-r" class="code-block" style="display:none; border-top-left-radius:0;">library(fixest)
+DATA &lt;- "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Load Minneapolis Domestic Violence Experiment ---
+mdve &lt;- read.csv(paste0(DATA, "ch3/mdve_clean.csv"))
+
+# --- Step 2: Check compliance (assigned vs. delivered) ---
+print(table(mdve$assigned, mdve$delivered))
+
+# --- Step 3: Create binary treatment variables ---
+mdve$z_coddle &lt;- as.integer(mdve$assigned != "Arrest")   # instrument
+mdve$d_coddle &lt;- as.integer(mdve$delivered != "Arrest")   # treatment
+
+# --- Step 4: First stage ---
+fs &lt;- feols(d_coddle ~ z_coddle, data = mdve, vcov = "hetero")
+cat(sprintf("First stage: %.3f\n", coef(fs)["z_coddle"]))
+
+# --- Step 5: Reduced form (from published data) ---
+reduced_form &lt;- 0.211 - 0.097
+cat(sprintf("Reduced form: %.3f\n", reduced_form))
+
+# --- Step 6: LATE = reduced form / first stage ---
+late &lt;- reduced_form / coef(fs)["z_coddle"]
+cat(sprintf("LATE = %.3f / %.3f = %.3f\n",
+    reduced_form, coef(fs)["z_coddle"], late))
+cat("Coddling increases recidivism by ~15 pp among compliers\n")</div>
       <div id="ch3-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
 set more off
 
@@ -898,8 +1070,9 @@ display "LATE = " reduced_form " / " first_stage " = " reduced_form/first_stage<
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch4','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch4','stata')">Stata</button>
+        <button class="lang-tab" onclick="showLang('ch4','r')">R</button>
       </div>
-      <div id="ch4-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, matplotlib.pyplot as plt, statsmodels.formula.api as smf
+      <div id="ch4-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, matplotlib.pyplot as plt, pyfixest as pf
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # --- Step 1: Load MLDA mortality data ---
@@ -913,16 +1086,40 @@ ax.set_xlabel("Age"); ax.set_ylabel("Deaths per 100,000")
 ax.legend(); plt.show()
 
 # --- Step 3: Sharp RD (linear) ---
-result = smf.ols("all ~ over21 + age", data=mlda).fit(cov_type="HC1")
-print(f"Linear RD jump: {result.params['over21']:.2f} deaths per 100k")
+result = pf.feols("all ~ over21 + age", data=mlda, vcov="hetero")
+print(f"Linear RD jump: {result.coef()['over21']:.2f} deaths per 100k")
 
 # --- Step 4: Quadratic RD (robustness) ---
-result = smf.ols("all ~ over21+age+age2+over_age+over_age2", data=mlda).fit(cov_type="HC1")
-print(f"Quadratic RD jump: {result.params['over21']:.2f}")
+result = pf.feols("all ~ over21+age+age2+over_age+over_age2", data=mlda, vcov="hetero")
+print(f"Quadratic RD jump: {result.coef()['over21']:.2f}")
 
 # --- Step 5: Placebo (internal causes should NOT jump) ---
-result = smf.ols("internal ~ over21 + age", data=mlda).fit(cov_type="HC1")
-print(f"Placebo (internal): {result.params['over21']:.2f} (expect ~0)")</div>
+result = pf.feols("internal ~ over21 + age", data=mlda, vcov="hetero")
+print(f"Placebo (internal): {result.coef()['over21']:.2f} (expect ~0)")</div>
+      <div id="ch4-r" class="code-block" style="display:none; border-top-left-radius:0;">library(fixest)
+DATA &lt;- "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Load MLDA mortality data ---
+mlda &lt;- read.csv(paste0(DATA, "ch4/mlda_clean.csv"))
+
+# --- Step 2: Plot the discontinuity ---
+plot(mlda$agecell, mlda$all, pch = 16, col = "gray",
+     xlab = "Age", ylab = "Deaths per 100,000", main = "MLDA RD")
+abline(v = 21, col = "red", lty = 2)
+legend("topleft", legend = "MLDA cutoff", col = "red", lty = 2)
+
+# --- Step 3: Sharp RD (linear) ---
+result &lt;- feols(all ~ over21 + age, data = mlda, vcov = "hetero")
+cat(sprintf("Linear RD jump: %.2f deaths per 100k\n", coef(result)["over21"]))
+
+# --- Step 4: Quadratic RD (robustness) ---
+result &lt;- feols(all ~ over21 + age + age2 + over_age + over_age2,
+                data = mlda, vcov = "hetero")
+cat(sprintf("Quadratic RD jump: %.2f\n", coef(result)["over21"]))
+
+# --- Step 5: Placebo (internal causes should NOT jump) ---
+result &lt;- feols(internal ~ over21 + age, data = mlda, vcov = "hetero")
+cat(sprintf("Placebo (internal): %.2f (expect ~0)\n", coef(result)["over21"]))</div>
       <div id="ch4-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
 set more off
 
@@ -961,8 +1158,9 @@ reg internal over21 age, robust</div>
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch5','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch5','stata')">Stata</button>
+        <button class="lang-tab" onclick="showLang('ch5','r')">R</button>
       </div>
-      <div id="ch5-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, statsmodels.formula.api as smf
+      <div id="ch5-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, pyfixest as pf
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # --- Step 1: Manual DD (Great Depression banking data) ---
@@ -977,21 +1175,48 @@ print(f"Manual DD: {dd} banks saved by Atlanta Fed")
 # --- Step 2: Regression DD with fixed effects ---
 deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 allcause = deaths[deaths["dtype"] == "all"]
-result = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause) \
-    .fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
-print(f"DD (all-cause): {result.params['legal']:.2f} (SE: {result.bse['legal']:.2f})")
+result = pf.feols("mrate ~ legal | state + year",
+                  data=allcause, vcov={"CRV1": "state"})
+print(f"DD (all-cause): {result.coef()['legal']:.2f} (SE: {result.se()['legal']:.2f})")
 
 # --- Step 3: Population-weighted DD ---
-result = smf.wls("mrate ~ legal + C(state) + C(year)", data=allcause,
-    weights=allcause["pop"]).fit(cov_type="cluster",
-    cov_kwds={"groups": allcause["state"]})
-print(f"Weighted DD: {result.params['legal']:.2f}")
+result = pf.feols("mrate ~ legal | state + year",
+                  data=allcause, weights="pop", vcov={"CRV1": "state"})
+print(f"Weighted DD: {result.coef()['legal']:.2f}")
 
 # --- Step 4: Placebo (suicide should NOT respond) ---
 suicide = deaths[deaths["dtype"] == "suicide"]
-result = smf.ols("mrate ~ legal + C(state) + C(year)", data=suicide) \
-    .fit(cov_type="cluster", cov_kwds={"groups": suicide["state"]})
-print(f"Placebo (suicide): {result.params['legal']:.2f} (expect ~0)")</div>
+result = pf.feols("mrate ~ legal | state + year",
+                  data=suicide, vcov={"CRV1": "state"})
+print(f"Placebo (suicide): {result.coef()['legal']:.2f} (expect ~0)")</div>
+      <div id="ch5-r" class="code-block" style="display:none; border-top-left-radius:0;">library(fixest)
+DATA &lt;- "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Manual DD (Great Depression banking data) ---
+banks &lt;- read.csv(paste0(DATA, "ch5/banks_clean.csv"))
+pre_6  &lt;- banks$bib6[banks$year == 1930]
+post_6 &lt;- banks$bib6[banks$year == 1931]
+pre_8  &lt;- banks$bib8[banks$year == 1930]
+post_8 &lt;- banks$bib8[banks$year == 1931]
+dd &lt;- (post_6 - pre_6) - (post_8 - pre_8)
+cat(sprintf("Manual DD: %d banks saved by Atlanta Fed\n", dd))
+
+# --- Step 2: Regression DD with fixed effects ---
+deaths &lt;- read.csv(paste0(DATA, "ch5/deaths_clean.csv"))
+allcause &lt;- deaths[deaths$dtype == "all", ]
+result &lt;- feols(mrate ~ legal | state + year, data = allcause, vcov = ~state)
+cat(sprintf("DD (all-cause): %.2f (SE: %.2f)\n",
+    coef(result)["legal"], se(result)["legal"]))
+
+# --- Step 3: Population-weighted DD ---
+result &lt;- feols(mrate ~ legal | state + year, data = allcause,
+                weights = ~pop, vcov = ~state)
+cat(sprintf("Weighted DD: %.2f\n", coef(result)["legal"]))
+
+# --- Step 4: Placebo (suicide should NOT respond) ---
+suicide &lt;- deaths[deaths$dtype == "suicide", ]
+result &lt;- feols(mrate ~ legal | state + year, data = suicide, vcov = ~state)
+cat(sprintf("Placebo (suicide): %.2f (expect ~0)\n", coef(result)["legal"]))</div>
       <div id="ch5-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
 set more off
 
@@ -1036,47 +1261,83 @@ reg mrate legal i.state i.year, cluster(state)</div>
       <div class="lang-tabs">
         <button class="lang-tab active" onclick="showLang('ch6','python')">Python</button>
         <button class="lang-tab" onclick="showLang('ch6','stata')">Stata</button>
+        <button class="lang-tab" onclick="showLang('ch6','r')">R</button>
       </div>
-      <div id="ch6-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, numpy as np, statsmodels.formula.api as smf
-from linearmodels.iv import IV2SLS
+      <div id="ch6-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, pyfixest as pf
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # --- Step 1: Simple bivariate OLS ---
 qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
-ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
-print(f"Simple OLS: {ols.params['s']:.3f} (~7%/year, biased by ability)")
+ols = pf.feols("lnw ~ s", data=qob, vcov="hetero")
+print(f"Simple OLS: {ols.coef()['s']:.3f} (~7%/year, biased by ability)")
 
 # --- Step 2: OLS with controls (twins data) ---
 twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
-ols_c = smf.ols("lwage ~ educ+age+age2+female+white", data=twins).fit(cov_type="HC1")
-print(f"OLS + controls: {ols_c.params['educ']:.3f} (~11%)")
+ols_c = pf.feols("lwage ~ educ+age+age2+female+white", data=twins, vcov="hetero")
+print(f"OLS + controls: {ols_c.coef()['educ']:.3f} (~11%)")
 
 # --- Step 3: Twin fixed effects ---
 first = twins[twins["first"] == 1]
-fe = smf.ols("dlwage ~ deduc - 1", data=first).fit(cov_type="HC1")
-print(f"Twin FE: {fe.params['deduc']:.3f} (~6%, attenuated)")
+fe = pf.feols("dlwage ~ deduc - 1", data=first, vcov="hetero")
+print(f"Twin FE: {fe.coef()['deduc']:.3f} (~6%, attenuated)")
 
 # --- Step 4: Twin IV (corrects measurement error) ---
-iv_twin = IV2SLS.from_formula(
-    "lwage ~ 1+age+age2+female+white+[educ ~ educt_t]", data=twins
-).fit(cov_type="robust")
-print(f"Twin IV: {iv_twin.params['educ']:.3f} (~11%)")
+iv_twin = pf.feols("lwage ~ age+age2+female+white | educ ~ educt_t",
+                   data=twins, vcov="hetero")
+print(f"Twin IV: {iv_twin.coef()['educ']:.3f} (~11%)")
 
 # --- Step 5: Quarter-of-birth IV ---
-iv_qob = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
-print(f"QOB IV:  {iv_qob.params['s']:.3f} (~7%)")
+iv_qob = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
+print(f"QOB IV:  {iv_qob.coef()['s']:.3f} (~7%)")
 
 # --- Step 6: Child labor law IV ---
 cl = pd.read_csv(DATA + "ch6/childlabor_clean.csv")
-ols_cl = smf.wls("lnwkwage ~ indEduc+C(sob)+C(yob)+C(year)",
-    data=cl, weights=cl["weight"]).fit(
-    cov_type="cluster", cov_kwds={"groups": cl["sob"]})
-print(f"OLS (child labor): {ols_cl.params['indEduc']:.4f}")
+ols_cl = pf.feols("lnwkwage ~ indEduc | sob + yob + year",
+                  data=cl, weights="weight", vcov={"CRV1": "sob"})
+print(f"OLS (child labor): {ols_cl.coef()['indEduc']:.4f}")
 
 # --- Step 7: First-stage F-statistic ---
-fs = smf.ols("s ~ q4", data=qob).fit()
-f_stat = float(np.atleast_1d(fs.f_test("q4 = 0").fvalue).flat[0])
-print(f"First-stage F (QOB): {f_stat:.1f} (should be > 10)")</div>
+fs = pf.feols("s ~ q4", data=qob)
+f_stat = fs.tstat()['q4'] ** 2  # F = t-squared for a single restriction
+print(f"First-stage F (QOB): {f_stat:.1f} (should be &gt; 10)")</div>
+      <div id="ch6-r" class="code-block" style="display:none; border-top-left-radius:0;">library(fixest)
+DATA &lt;- "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Simple bivariate OLS ---
+qob &lt;- read.csv(paste0(DATA, "ch6/qob_clean.csv"))
+ols &lt;- feols(lnw ~ s, data = qob, vcov = "hetero")
+cat(sprintf("Simple OLS: %.3f (~7%%/year, biased by ability)\n", coef(ols)["s"]))
+
+# --- Step 2: OLS with controls (twins data) ---
+twins &lt;- read.csv(paste0(DATA, "ch6/twins_clean.csv"))
+ols_c &lt;- feols(lwage ~ educ + age + age2 + female + white,
+               data = twins, vcov = "hetero")
+cat(sprintf("OLS + controls: %.3f (~11%%)\n", coef(ols_c)["educ"]))
+
+# --- Step 3: Twin fixed effects ---
+first &lt;- twins[which(twins$first == 1), ]
+fe &lt;- feols(dlwage ~ deduc - 1, data = first, vcov = "hetero")
+cat(sprintf("Twin FE: %.3f (~6%%, attenuated)\n", coef(fe)["deduc"]))
+
+# --- Step 4: Twin IV (corrects measurement error) ---
+iv_twin &lt;- feols(lwage ~ age + age2 + female + white | educ ~ educt_t,
+                 data = twins, vcov = "hetero")
+cat(sprintf("Twin IV: %.3f (~11%%)\n", coef(iv_twin)["fit_educ"]))
+
+# --- Step 5: Quarter-of-birth IV ---
+iv_qob &lt;- feols(lnw ~ 1 | s ~ q4, data = qob, vcov = "hetero")
+cat(sprintf("QOB IV:  %.3f (~7%%)\n", coef(iv_qob)["fit_s"]))
+
+# --- Step 6: Child labor law IV ---
+cl &lt;- read.csv(paste0(DATA, "ch6/childlabor_clean.csv"))
+ols_cl &lt;- feols(lnwkwage ~ indEduc | sob + yob + year, data = cl,
+                weights = ~weight, vcov = ~sob)
+cat(sprintf("OLS (child labor): %.4f\n", coef(ols_cl)["indEduc"]))
+
+# --- Step 7: First-stage F-statistic ---
+fs &lt;- feols(s ~ q4, data = qob)
+cat(sprintf("First-stage F (QOB): %.1f (should be &gt; 10)\n",
+    fitstat(fs, "f")$f$stat))</div>
       <div id="ch6-stata" class="code-block" style="display:none; border-top-left-radius:0;">clear all
 set more off
 
@@ -1228,14 +1489,13 @@ ivregress 2sls lnwkwage i.sob i.yob i.year (indeduc = cl7 cl8 cl9) [aw=weight], 
     function showLang(section, lang) {
       var pyW = document.getElementById(section + '-python-wrapper');
       var stW = document.getElementById(section + '-stata-wrapper');
+      var rW  = document.getElementById(section + '-r-wrapper');
       var tabs = pyW.parentElement.querySelectorAll('.lang-tab');
-      if (lang === 'python') {
-        pyW.style.display = 'block'; stW.style.display = 'none';
-        tabs[0].classList.add('active'); tabs[1].classList.remove('active');
-      } else {
-        pyW.style.display = 'none'; stW.style.display = 'block';
-        tabs[1].classList.add('active'); tabs[0].classList.remove('active');
-      }
+      pyW.style.display = 'none'; stW.style.display = 'none'; rW.style.display = 'none';
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      if (lang === 'python') { pyW.style.display = 'block'; tabs[0].classList.add('active'); }
+      else if (lang === 'stata') { stW.style.display = 'block'; tabs[1].classList.add('active'); }
+      else { rW.style.display = 'block'; tabs[2].classList.add('active'); }
     }
 
     // Copy to clipboard
@@ -1329,7 +1589,7 @@ ivregress 2sls lnwkwage i.sob i.yob i.year (indeduc = cl7 cl8 cl9) [aw=weight], 
       var blocks = document.querySelectorAll('.code-block');
       blocks.forEach(function(div) {
         var id = div.id;
-        var lang = id.includes('python') ? 'python' : 'stata';
+        var lang = id.includes('python') ? 'python' : (id.includes('stata') ? 'stata' : 'r');
         var isHidden = div.style.display === 'none';
         var text = div.textContent;
 
@@ -1365,7 +1625,7 @@ ivregress 2sls lnwkwage i.sob i.yob i.year (indeduc = cl7 cl8 cl9) [aw=weight], 
         var lastWrapper = wrappers[wrappers.length - 1];
         var tip = document.createElement('div');
         tip.className = 'colab-tip';
-        tip.innerHTML = '&#128161; Copy the Python code and paste it into a <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank">Google Colab Scratchpad</a> to run it instantly \u2014 no setup needed.';
+        tip.innerHTML = '&#128161; Copy the Python code into a <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank">Google Colab Scratchpad</a>, or the R code into <a href="https://posit.cloud" target="_blank">Posit Cloud</a>, to run instantly \u2014 no setup needed.';
         lastWrapper.parentNode.insertBefore(tip, lastWrapper.nextSibling);
       });
 
