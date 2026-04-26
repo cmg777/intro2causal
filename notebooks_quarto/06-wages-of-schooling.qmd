@@ -637,11 +637,11 @@ The fix: use each twin's *report of the other's education* as an instrument. Thi
 ::: {.callout-note}
 ### Reading the pyfixest IV formula syntax
 
-In `linearmodels`, the IV formula uses **square brackets** to specify the endogenous variable and its instrument:
+In `pyfixest`, the IV formula uses a **pipe** (`|`) to specify the endogenous variable and its instrument:
 
-- `[educ ~ educt_t]` means: *educ* is the endogenous variable, instrumented by *educt_t*
-- `~ 0` or `~ 1` controls whether an intercept is included (0 = no intercept, 1 = with intercept)
-- `cov_type="robust"` gives heteroskedasticity-robust standard errors (equivalent to `"HC1"` in `statsmodels`)
+- `| educ ~ educt_t` means: *educ* is the endogenous variable, instrumented by *educt_t*
+- Controls go before the first `|`; fixed effects (if any) go between the first and second `|`
+- `vcov="hetero"` gives heteroskedasticity-robust standard errors (HC1)
 :::
 
 The twin IV corrects measurement error using two stages. In the within-pair (differenced) version:
@@ -854,9 +854,9 @@ $$\ln W_{scy} = \alpha_2 + \rho_{IV} \, \hat{S}_{scy} + \beta_s + \gamma_c + \de
 where:
 
 - $CL7$, $CL8$, $CL9$ = indicators for compulsory school entry by age 7, 8, or 9 (`cl7`, `cl8`, `cl9`)
-- $\beta_s$ = state-of-birth fixed effects (`C(sob)`)
-- $\gamma_c$ = year-of-birth cohort effects (`C(yob)`)
-- $\delta_y$ = census-year effects (`C(year)`)
+- $\beta_s$ = state-of-birth fixed effects (`| sob`)
+- $\gamma_c$ = year-of-birth cohort effects (`| yob`)
+- $\delta_y$ = census-year effects (`| year`)
 - $\hat{S}_{scy}$ = the fitted value of schooling from the first stage
 - $\rho_{IV}$ = the causal return to schooling, identified by the three instruments jointly
 
@@ -871,11 +871,15 @@ cl.head(3)
 #| tbl-cap: "First stage: compulsory schooling laws jointly predict education. The F-statistic tests instrument relevance."
 
 # First stage: do child labor laws predict education?
-fs_cl = pf.feols("indEduc ~ cl7 + cl8 + cl9 + C(sob) + C(yob) + C(year)", data=cl, weights="weight", vcov={"CRV1": "sob"})
+fs_cl = pf.feols("indEduc ~ cl7 + cl8 + cl9 | sob + yob + year",
+                 data=cl, weights="weight", vcov={"CRV1": "sob"})
 
-# Joint F-test on instruments
-f_test = fs_cl.f_test("cl7 = 0, cl8 = 0, cl9 = 0")
-f_stat = float(np.atleast_1d(f_test.fvalue).flat[0])
+# Joint F-test on instruments (Wald test)
+import numpy as np
+coefs = np.array([fs_cl.coef()['cl7'], fs_cl.coef()['cl8'], fs_cl.coef()['cl9']])
+idx = [list(fs_cl.coef().index).index(v) for v in ['cl7', 'cl8', 'cl9']]
+V_sub = fs_cl._vcov[np.ix_(idx, idx)]
+f_stat = float(coefs @ np.linalg.inv(V_sub) @ coefs / 3)
 
 pd.DataFrame({
     "Instrument": ["cl7 (enter by age 7)", "cl8 (enter by age 8)", "cl9 (enter by age 9)", "Joint F-statistic"],
@@ -893,27 +897,18 @@ pd.DataFrame({
 #| tbl-cap: "OLS vs. IV estimates of the return to schooling using compulsory schooling laws as instruments."
 
 # OLS with fixed effects
-ols_cl = pf.feols("lnwkwage ~ indEduc + C(sob) + C(yob) + C(year)", data=cl, weights="weight", vcov={"CRV1": "sob"})
+ols_cl = pf.feols("lnwkwage ~ indEduc | sob + yob + year",
+                  data=cl, weights="weight", vcov={"CRV1": "sob"})
 
-# IV/2SLS: residualize out fixed effects first (Frisch-Waugh-Lovell approach)
-def residualize(data, y_col, fe_cols, weights):
-    """Partial out fixed effects using WLS (Frisch-Waugh-Lovell)."""
-    formula = f"{y_col} ~ " + " + ".join([f"C({c})" for c in fe_cols])
-    res = pf.feols(formula, data=data, weights=weights)
-    return res.resid
-
-fe_vars = ["sob", "yob", "year"]
-iv_cl = cl.copy()
-for var in ["lnwkwage", "indEduc", "cl7", "cl8", "cl9"]:
-    iv_cl[f"{var}_r"] = residualize(iv_cl, var, fe_vars, iv_cl["weight"])
-
-iv_result = pf.feols("lnwkwage_r ~ 0 | indEduc_r ~ cl7_r + cl8_r + cl9_r", data=iv_cl)
+# IV/2SLS with fixed effects and multiple instruments
+iv_result = pf.feols("lnwkwage ~ 1 | sob + yob + year | indEduc ~ cl7 + cl8 + cl9",
+                     data=cl, weights="weight", vcov={"CRV1": "sob"})
 
 pd.DataFrame({
     "Method": ["OLS (with state, YOB, year FE)", "IV/2SLS (child labor law instruments)"],
     "Return to schooling": [
         f"{ols_cl.coef()['indEduc']:.4f} ({ols_cl.se()['indEduc']:.4f})",
-        f"{iv_result.coef()['indEduc_r']:.4f} ({iv_result.se()['indEduc_r']:.4f})",
+        f"{iv_result.coef()['indEduc']:.4f} ({iv_result.se()['indEduc']:.4f})",
     ],
 })
 ```
@@ -988,7 +983,8 @@ ax.set_ylim(0, 1)
 ax = axes[1]
 ax.scatter(sheep["minscore"], sheep["avgearnings"], color="black", s=20, alpha=0.6)
 
-earn_l = pf.feols("avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4", data=left[left["minscore"] >= -30], weights="person_years")
+earn_l = pf.feols("avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4",
+                  data=left[left["minscore"] >= -30], weights="person_years")
 earn_r = pf.feols("avgearnings ~ pass_exam + right_1 + right_2 + right_3 + right_4", data=right, weights="person_years")
 
 left_earn = sheep[sheep["minscore"] <= 0].copy()
@@ -1041,8 +1037,8 @@ where:
 
 - $Y_{st}$ = average earnings (`avg_earnings`) or average schooling (`avg_schooling`) in state $s$ at time $t$
 - $\text{Treated}_s \times \text{Post}_t$ = the interaction term (`treat_post`), equal to 1 for treated states after the reform
-- $\beta_s$ = state fixed effects (`C(state)`) --- absorb permanent differences between states
-- $\gamma_t$ = year fixed effects (`C(year)`) --- absorb common time trends
+- $\beta_s$ = state fixed effects (`| state`) --- absorb permanent differences between states
+- $\gamma_t$ = year fixed effects (`| year`) --- absorb common time trends
 - $\delta$ = the DD estimate of the reform's causal effect
 
 The **parallel trends assumption** requires that treated and control states would have followed the same trajectory absent the reform: $E[Y_{st}(0) \mid \text{Treated}=1] - E[Y_{st}(0) \mid \text{Treated}=0]$ is constant over time.
@@ -1096,10 +1092,10 @@ plt.show()
 
 # DD regression for schooling (first stage)
 did["treat_post"] = did["treated"] * did["post"]
-dd_school = pf.feols("avg_schooling ~ treat_post + C(state) + C(year)", data=did, vcov={"CRV1": "state"})
+dd_school = pf.feols("avg_schooling ~ treat_post | state + year", data=did, vcov={"CRV1": "state"})
 
 # DD regression for earnings (reduced form)
-dd_earn = pf.feols("avg_earnings ~ treat_post + C(state) + C(year)", data=did, vcov={"CRV1": "state"})
+dd_earn = pf.feols("avg_earnings ~ treat_post | state + year", data=did, vcov={"CRV1": "state"})
 
 # Implied return: earnings effect / schooling effect
 dd_return = dd_earn.coef()["treat_post"] / dd_school.coef()["treat_post"]
@@ -1298,11 +1294,12 @@ print("  (~7% per year via quarter-of-birth instrument)\n")
 
 # --- Step 6: Child labor law IV ---
 cl = pd.read_csv(DATA + "ch6/childlabor_clean.csv")
-ols_cl = pf.feols("lnwkwage ~ indEduc + C(sob) + C(yob) + C(year)", data=cl, weights="weight", vcov={"CRV1": "sob"})
+ols_cl = pf.feols("lnwkwage ~ indEduc | sob + yob + year",
+                  data=cl, weights="weight", vcov={"CRV1": "sob"})
 print(f"OLS (child labor data): {round(ols_cl.coef()['indEduc'], 4)}")
 
 # --- Step 7: First-stage F-statistic ---
-f_stat = fs.tstat()["q4"] ** 2
+f_stat = fs.tstat()['q4'] ** 2  # F = t² for a single restriction
 print(f"First-stage F-stat (QOB): {round(f_stat, 1)} (should be > 10)")
 ```
 
@@ -1492,10 +1489,10 @@ did = pd.read_csv(DATA + "ch6/synthetic_did.csv")
 did["treat_post"] = did["treated"] * did["post"]
 
 # First stage: Effect of policy on schooling
-dd_s = pf.feols("avg_schooling ~ treat_post + C(state) + C(year)", data=did, vcov={"CRV1": "state"})
+dd_s = pf.feols("avg_schooling ~ treat_post | state + year", data=did, vcov={"CRV1": "state"})
 
 # Reduced form: Effect of policy on earnings
-dd_e = pf.feols("avg_earnings ~ treat_post + C(state) + C(year)", data=did, vcov={"CRV1": "state"})
+dd_e = pf.feols("avg_earnings ~ treat_post | state + year", data=did, vcov={"CRV1": "state"})
 
 wald_did = dd_e.coef()['treat_post'] / dd_s.coef()['treat_post']
 print(f"5. Wald-DiD:    {wald_did:.4f}")
@@ -1858,16 +1855,15 @@ The key pattern --- OLS exceeding twin FE --- should persist in both samples.
 
 iv_q4 = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
 fs_q4 = pf.feols("s ~ q4", data=qob)
-f_q4 = fs_q4.tstat()["q4"] ** 2
+f_q4 = fs_q4.tstat()['q4'] ** 2  # F = t² for single restriction
 
-yob_dummies = pd.get_dummies(qob["yob"].astype(int), prefix="yob", drop_first=True, dtype=float)
-iv_data = pd.concat([qob[["lnw", "s", "q2", "q3", "q4"]], yob_dummies], axis=1)
-yob_str = " + ".join(yob_dummies.columns)
+iv_multi = pf.feols("lnw ~ 1 | yob | s ~ q2 + q3 + q4", data=qob, vcov="hetero")
 
-iv_multi = pf.feols("lnw ~ 1 + {yob_str} | s ~ q2 + q3 + q4", data=iv_data, vcov="hetero")
-
-fs_multi = pf.feols(f"s ~ q2 + q3 + q4 + {yob_str}", data=iv_data)
-f_multi = float(np.atleast_1d(fs_multi.f_test("q2 = 0, q3 = 0, q4 = 0").fvalue).flat[0])
+fs_multi = pf.feols("s ~ q2 + q3 + q4 | yob", data=qob)
+t_q2 = fs_multi.tstat()["q2"]
+t_q3 = fs_multi.tstat()["q3"]
+t_q4_m = fs_multi.tstat()["q4"]
+f_multi = (t_q2**2 + t_q3**2 + t_q4_m**2) / 3  # approximate joint F
 
 pd.DataFrame({
     "Specification": ["IV (Q4 only, no controls)", "IV (Q2+Q3+Q4, with YOB FE)"],
@@ -1985,11 +1981,15 @@ ivregress 2sls lnw (s = q4), robust
 
 # --- Single Instrument: Q4 only ---
 fs_q4_solo = pf.feols("s ~ q4", data=qob)
-f_q4_solo = fs_q4_solo.tstat()["q4"] ** 2
+f_q4_solo = fs_q4_solo.tstat()['q4'] ** 2  # F = t² for single restriction
 
 # --- Multiple Instruments: Q2 + Q3 + Q4 ---
 fs_multi_solo = pf.feols("s ~ q2 + q3 + q4", data=qob)
-f_multi_solo = float(np.atleast_1d(fs_multi_solo.f_test("q2 = 0, q3 = 0, q4 = 0").fvalue).flat[0])
+# Joint F-test for multiple instruments (Wald test)
+coefs_m = np.array([fs_multi_solo.coef()['q2'], fs_multi_solo.coef()['q3'], fs_multi_solo.coef()['q4']])
+idx_m = [list(fs_multi_solo.coef().index).index(v) for v in ['q2', 'q3', 'q4']]
+V_m = fs_multi_solo._vcov[np.ix_(idx_m, idx_m)]
+f_multi_solo = float(coefs_m @ np.linalg.inv(V_m) @ coefs_m / 3)
 
 pd.DataFrame({
     "First stage": ["s ~ q4 (single)", "s ~ q2 + q3 + q4 (multiple)"],
@@ -2034,7 +2034,7 @@ pre = did[did["year"] < 2005].copy()
 pre["placebo_post"] = (pre["year"] >= 2000).astype(int)
 pre["placebo_treat_post"] = pre["treated"] * pre["placebo_post"]
 
-placebo_dd = pf.feols("avg_earnings ~ placebo_treat_post + C(state) + C(year)", data=pre, vcov={"CRV1": "state"})
+placebo_dd = pf.feols("avg_earnings ~ placebo_treat_post | state + year", data=pre, vcov={"CRV1": "state"})
 
 pd.DataFrame({
     "Test": ["Placebo DD (pre-reform only, fake reform at 2000)"],

@@ -33,7 +33,7 @@ Causal Inference Concept:
 # =============================================================================
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -78,15 +78,15 @@ df["ext_oth"] = df["external"] - df["homicide"] - df["suicide"] - df["mva"]
 print("\n--- Figure 4.2: Linear RD for all-cause mortality ---")
 
 # Fit linear model (same slope both sides)
-model_lin = smf.ols("all ~ age + over21", data=df).fit()
-df["allfitlin"] = model_lin.predict(df)
+model_lin = pf.feols("all ~ age + over21", data=df)
+df["allfitlin"] = model_lin.predict()
 
 # Fit linear model (different slopes each side)
-model_lini = smf.ols("all ~ age + over21 + over_age", data=df).fit()
-df["allfitlini"] = model_lini.predict(df)
+model_lini = pf.feols("all ~ age + over21 + over_age", data=df)
+df["allfitlini"] = model_lini.predict()
 
-print(f"  Linear (common slope):   over21 coef = {model_lin.params['over21']:.2f}")
-print(f"  Linear (different slopes): over21 coef = {model_lini.params['over21']:.2f}")
+print(f"  Linear (common slope):   over21 coef = {model_lin.coef()['over21']:.2f}")
+print(f"  Linear (different slopes): over21 coef = {model_lini.coef()['over21']:.2f}")
 
 # Plot Figure 4.2
 fig, ax = plt.subplots(figsize=(8, 5))
@@ -111,8 +111,8 @@ print("  Saved: fig4_2_rd_linear.png")
 print("\n--- Figure 4.4: Linear vs. Quadratic control ---")
 
 # Quadratic with different curvature on each side
-model_qi = smf.ols("all ~ age + age2 + over21 + over_age + over_age2", data=df).fit()
-df["allfitqi"] = model_qi.predict(df)
+model_qi = pf.feols("all ~ age + age2 + over21 + over_age + over_age2", data=df)
+df["allfitqi"] = model_qi.predict()
 
 fig, ax = plt.subplots(figsize=(8, 5))
 ax.scatter(df["agecell"], df["all"], color="gray", alpha=0.6, s=30, label="Data")
@@ -138,12 +138,12 @@ print("  Saved: fig4_4_rd_quadratic.png")
 print("\n--- Figure 4.5: Motor Vehicle Fatalities vs. Internal Causes ---")
 
 # MVA: quadratic on each side
-model_mva = smf.ols("mva ~ age + age2 + over21 + over_age + over_age2", data=df).fit()
-df["exfitqi"] = model_mva.predict(df)
+model_mva = pf.feols("mva ~ age + age2 + over21 + over_age + over_age2", data=df)
+df["exfitqi"] = model_mva.predict()
 
 # Internal causes: quadratic on each side
-model_int = smf.ols("internal ~ age + age2 + over21 + over_age + over_age2", data=df).fit()
-df["infitqi"] = model_int.predict(df)
+model_int = pf.feols("internal ~ age + age2 + over21 + over_age + over_age2", data=df)
+df["infitqi"] = model_int.predict()
 
 fig, ax = plt.subplots(figsize=(8, 5))
 ax.scatter(df["agecell"], df["mva"], color="blue", alpha=0.5, s=25, label="Motor Vehicle Accidents")
@@ -190,20 +190,20 @@ for var, label in outcomes.items():
     results = []
 
     # Spec 1: Linear, full sample
-    r1 = smf.ols(f"{var} ~ age + over21", data=df).fit(cov_type="HC1")
-    results.append((r1.params["over21"], r1.bse["over21"]))
+    r1 = pf.feols(f"{var} ~ age + over21", data=df, vcov="hetero")
+    results.append((r1.coef()["over21"], r1.se()["over21"]))
 
     # Spec 2: Quadratic (interacted), full sample
-    r2 = smf.ols(f"{var} ~ age + age2 + over21 + over_age + over_age2", data=df).fit(cov_type="HC1")
-    results.append((r2.params["over21"], r2.bse["over21"]))
+    r2 = pf.feols(f"{var} ~ age + age2 + over21 + over_age + over_age2", data=df, vcov="hetero")
+    results.append((r2.coef()["over21"], r2.se()["over21"]))
 
     # Spec 3: Linear, narrow bandwidth (ages 20-22)
-    r3 = smf.ols(f"{var} ~ age + over21", data=df_narrow).fit(cov_type="HC1")
-    results.append((r3.params["over21"], r3.bse["over21"]))
+    r3 = pf.feols(f"{var} ~ age + over21", data=df_narrow, vcov="hetero")
+    results.append((r3.coef()["over21"], r3.se()["over21"]))
 
     # Spec 4: Quadratic (interacted), narrow bandwidth
-    r4 = smf.ols(f"{var} ~ age + age2 + over21 + over_age + over_age2", data=df_narrow).fit(cov_type="HC1")
-    results.append((r4.params["over21"], r4.bse["over21"]))
+    r4 = pf.feols(f"{var} ~ age + age2 + over21 + over_age + over_age2", data=df_narrow, vcov="hetero")
+    results.append((r4.coef()["over21"], r4.se()["over21"]))
 
     coefs = "  ".join([f"{r[0]:>8.2f}" for r in results])
     ses = "  ".join([f"({r[1]:>6.2f})" for r in results])

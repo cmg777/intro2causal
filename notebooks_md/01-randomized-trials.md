@@ -1146,8 +1146,7 @@ reg health_index plan_free plan_deductible plan_coinsurance, cluster(family_id)
 > for var in ["age", "education", "health_index"]:
 > d = rand[[var, "any_insurance", "family_id"]].dropna()
 > # OLS with clustered SEs at the family level
-> r = pf.feols(f"{var} ~ any_insurance", data=d).fit(
-> cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+> r = pf.feols(f"{var} ~ any_insurance", data=d, vcov={"CRV1": "family_id"})
 > rows.append({
 > "Variable": var,
 > "Catastrophic mean": round(r.coef()["Intercept"], 1),  # control group mean
@@ -1194,8 +1193,7 @@ reg health_index plan_free plan_deductible plan_coinsurance, cluster(family_id)
 > for var in ["visits", "outpatient_expenses", "admissions", "inpatient_expenses", "total_expenses"]:
 > d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 > # OLS with plan dummies; clustered SEs at the family level
-> r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-> cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+> r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 >
 > cat_mean = r.coef()["Intercept"]       # intercept = catastrophic plan mean (reference group)
 > free_effect = r.coef()["plan_free"]     # coefficient = absolute increase from free plan
@@ -1301,8 +1299,7 @@ reg health_index plan_free plan_deductible plan_coinsurance, cluster(family_id)
 >
 > # --- Regression with three plan dummies ---
 > d = hie[["total_expenses", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-> r = pf.feols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-> cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+> r = pf.feols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 >
 > # --- Extract and rank coefficients by plan generosity ---
 > pd.DataFrame({
@@ -1358,8 +1355,7 @@ reg health_index plan_free plan_deductible plan_coinsurance, cluster(family_id)
 > rows = []
 > for var, label in [("outpatient_expenses", "Outpatient"), ("inpatient_expenses", "Inpatient")]:
 > d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-> r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-> cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+> r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 > cat_mean = r.coef()["Intercept"]        # catastrophic group mean (baseline spending)
 > free_effect = r.coef()["plan_free"]      # absolute increase from free plan
 > pct_change_q = free_effect / cat_mean    # percentage change in quantity

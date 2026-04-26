@@ -848,9 +848,9 @@ $$\ln W_{scy} = \alpha_2 + \rho_{IV} \, \hat{S}_{scy} + \beta_s + \gamma_c + \de
 where:
 
 - $CL7$, $CL8$, $CL9$ = indicators for compulsory school entry by age 7, 8, or 9 (`cl7`, `cl8`, `cl9`)
-- $\beta_s$ = state-of-birth fixed effects (`C(sob)`)
-- $\gamma_c$ = year-of-birth cohort effects (`C(yob)`)
-- $\delta_y$ = census-year effects (`C(year)`)
+- $\beta_s$ = state-of-birth fixed effects (`| sob`)
+- $\gamma_c$ = year-of-birth cohort effects (`| yob`)
+- $\delta_y$ = census-year effects (`| year`)
 - $\hat{S}_{scy}$ = the fitted value of schooling from the first stage
 - $\rho_{IV}$ = the causal return to schooling, identified by the three instruments jointly
 
@@ -1031,8 +1031,8 @@ where:
 
 - $Y_{st}$ = average earnings (`avg_earnings`) or average schooling (`avg_schooling`) in state $s$ at time $t$
 - $\text{Treated}_s \times \text{Post}_t$ = the interaction term (`treat_post`), equal to 1 for treated states after the reform
-- $\beta_s$ = state fixed effects (`C(state)`) --- absorb permanent differences between states
-- $\gamma_t$ = year fixed effects (`C(year)`) --- absorb common time trends
+- $\beta_s$ = state fixed effects (`| state`) --- absorb permanent differences between states
+- $\gamma_t$ = year fixed effects (`| year`) --- absorb common time trends
 - $\delta$ = the DD estimate of the reform's causal effect
 
 The **parallel trends assumption** requires that treated and control states would have followed the same trajectory absent the reform: $E[Y_{st}(0) \mid \text{Treated}=1] - E[Y_{st}(0) \mid \text{Treated}=0]$ is constant over time.

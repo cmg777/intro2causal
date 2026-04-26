@@ -32,7 +32,7 @@ Causal Inference Concept:
 # =============================================================================
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -75,30 +75,28 @@ print("\n--- Figure 6.3: Diploma receipt around the cutoff ---")
 
 # Fit 4th-order polynomial on the LEFT (fail) side
 left_data = df[df["minscore"] < 0].copy()
-left_model = smf.wls(
+left_model = pf.feols(
     "receivehsd ~ pass_exam + left_1 + left_2 + left_3 + left_4",
-    data=left_data,
-    weights=left_data["n"],
-).fit()
+    data=left_data, weights="n",
+)
 # Predict fitted values for left side (including cutoff point)
 left_pred_data = df[df["minscore"] <= 0].copy()
-left_pred_data["fit"] = left_model.predict(left_pred_data)
+left_pred_data["fit"] = left_model.predict(newdata=left_pred_data)
 
 # Fit 4th-order polynomial on the RIGHT (pass) side
 right_data = df[df["minscore"] >= 0].copy()
-right_model = smf.wls(
+right_model = pf.feols(
     "receivehsd ~ pass_exam + right_1 + right_2 + right_3 + right_4",
-    data=right_data,
-    weights=right_data["n"],
-).fit()
+    data=right_data, weights="n",
+)
 right_pred_data = df[df["minscore"] >= 0].copy()
-right_pred_data["fit"] = right_model.predict(right_pred_data)
+right_pred_data["fit"] = right_model.predict(newdata=right_pred_data)
 
 # RD estimate at the cutoff
-left_at_cutoff = left_model.predict(pd.DataFrame({
+left_at_cutoff = left_model.predict(newdata=pd.DataFrame({
     "pass_exam": [0], "left_1": [0], "left_2": [0], "left_3": [0], "left_4": [0]
 })).values[0]
-right_at_cutoff = right_model.predict(pd.DataFrame({
+right_at_cutoff = right_model.predict(newdata=pd.DataFrame({
     "pass_exam": [1], "right_1": [0], "right_2": [0], "right_3": [0], "right_4": [0]
 })).values[0]
 rd_diploma = right_at_cutoff - left_at_cutoff
@@ -130,29 +128,27 @@ print("\n--- Figure 6.4: Earnings around the cutoff ---")
 
 # Fit polynomial on LEFT side (weighted by person-years)
 earn_left = df[(df["minscore"] < 0) & (df["minscore"] >= -30)].copy()
-earn_left_model = smf.wls(
+earn_left_model = pf.feols(
     "avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4",
-    data=earn_left,
-    weights=earn_left["person_years"],
-).fit()
+    data=earn_left, weights="person_years",
+)
 earn_left_pred = df[df["minscore"] <= 0].copy()
-earn_left_pred["fit"] = earn_left_model.predict(earn_left_pred)
+earn_left_pred["fit"] = earn_left_model.predict(newdata=earn_left_pred)
 
 # Fit polynomial on RIGHT side
 earn_right = df[df["minscore"] >= 0].copy()
-earn_right_model = smf.wls(
+earn_right_model = pf.feols(
     "avgearnings ~ pass_exam + right_1 + right_2 + right_3 + right_4",
-    data=earn_right,
-    weights=earn_right["person_years"],
-).fit()
+    data=earn_right, weights="person_years",
+)
 earn_right_pred = df[df["minscore"] >= 0].copy()
-earn_right_pred["fit"] = earn_right_model.predict(earn_right_pred)
+earn_right_pred["fit"] = earn_right_model.predict(newdata=earn_right_pred)
 
 # RD estimate for earnings
-earn_left_at_cutoff = earn_left_model.predict(pd.DataFrame({
+earn_left_at_cutoff = earn_left_model.predict(newdata=pd.DataFrame({
     "pass_exam": [0], "left_1": [0], "left_2": [0], "left_3": [0], "left_4": [0]
 })).values[0]
-earn_right_at_cutoff = earn_right_model.predict(pd.DataFrame({
+earn_right_at_cutoff = earn_right_model.predict(newdata=pd.DataFrame({
     "pass_exam": [1], "right_1": [0], "right_2": [0], "right_3": [0], "right_4": [0]
 })).values[0]
 rd_earnings = earn_right_at_cutoff - earn_left_at_cutoff

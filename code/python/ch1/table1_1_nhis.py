@@ -21,7 +21,7 @@ Causal Inference Concept:
 # =============================================================================
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 # =============================================================================
 # DATA LOADING
@@ -129,11 +129,10 @@ def make_comparison_table(data, label):
 
         # Regression for difference with robust standard errors
         # Using analytic weights (aweights in Stata) = WLS with normalized weights
-        model = smf.wls(f"{var} ~ hi", data=data, weights=data["perweight"])
-        result = model.fit(cov_type="HC1")  # HC1 = Stata's "robust"
+        result = pf.feols(f"{var} ~ hi", data=data, weights="perweight", vcov="hetero")
 
-        diff = result.params["hi"]
-        se = result.bse["hi"]
+        diff = result.coef()["hi"]
+        se = result.se()["hi"]
 
         # For health index, also show standard deviations
         if var == "hlth":

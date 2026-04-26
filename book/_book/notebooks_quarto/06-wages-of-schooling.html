@@ -1186,7 +1186,7 @@ Figure&nbsp;6.1: Roadmap: The Methods Ladder for Chapter 6
 <li><span class="math inline">\(e_i\)</span> = residual (includes ability, motivation, family background, and everything else we cannot observe)</li>
 </ul>
 <p>Because <span class="math inline">\(\ln W\)</span> is the outcome, the coefficient <span class="math inline">\(\rho\)</span> has a convenient interpretation: a value of 0.07 means each year of schooling is associated with approximately <strong>7% higher earnings</strong>.</p>
-<div id="73462fda" class="cell" data-execution_count="1">
+<div id="e82f2d5a" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean quarter-of-birth data (Angrist &amp; Krueger 1991, 329k men born 1930-1939)</span></span>
@@ -1373,7 +1373,7 @@ Figure&nbsp;6.2: Average log weekly earnings by years of schooling. The positive
 <p>Chapter 2 taught us that adding control variables can reduce omitted variables bias — as long as the controls are not “bad controls” (caused by the treatment). The long regression adds observable controls to the bivariate equation:</p>
 <p><span class="math display">\[\ln W_i = \alpha + \rho \, S_i + \gamma_1 \, \text{Age}_i + \gamma_2 \, \text{Age}_i^2 + \gamma_3 \, \text{Female}_i + \gamma_4 \, \text{White}_i + e_i\]</span></p>
 <p>where <span class="math inline">\(S_i\)</span> is years of education (<code>educ</code>), and the <span class="math inline">\(\gamma\)</span> coefficients capture the effects of age (<code>age</code>, <code>age2</code>), gender (<code>female</code>), and race (<code>white</code>). If ability remains in <span class="math inline">\(e_i\)</span>, then <span class="math inline">\(\hat{\rho}\)</span> is still biased — adding observable controls only helps if they capture the omitted confounders. Let’s see this using the Twinsburg twins data.</p>
-<div id="b7558707" class="cell" data-execution_count="4">
+<div id="ba2dc25d" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean twins data (340 twin pairs from Twinsburg, Ohio)</span></span>
@@ -2281,13 +2281,13 @@ Figure&nbsp;6.3: First stage (left) and reduced form (right). Q4 births get slig
 <p>where:</p>
 <ul>
 <li><span class="math inline">\(CL7\)</span>, <span class="math inline">\(CL8\)</span>, <span class="math inline">\(CL9\)</span> = indicators for compulsory school entry by age 7, 8, or 9 (<code>cl7</code>, <code>cl8</code>, <code>cl9</code>)</li>
-<li><span class="math inline">\(\beta_s\)</span> = state-of-birth fixed effects (<code>C(sob)</code>)</li>
-<li><span class="math inline">\(\gamma_c\)</span> = year-of-birth cohort effects (<code>C(yob)</code>)</li>
-<li><span class="math inline">\(\delta_y\)</span> = census-year effects (<code>C(year)</code>)</li>
+<li><span class="math inline">\(\beta_s\)</span> = state-of-birth fixed effects (<code>| sob</code>)</li>
+<li><span class="math inline">\(\gamma_c\)</span> = year-of-birth cohort effects (<code>| yob</code>)</li>
+<li><span class="math inline">\(\delta_y\)</span> = census-year effects (<code>| year</code>)</li>
 <li><span class="math inline">\(\hat{S}_{scy}\)</span> = the fitted value of schooling from the first stage</li>
 <li><span class="math inline">\(\rho_{IV}\)</span> = the causal return to schooling, identified by the three instruments jointly</li>
 </ul>
-<div id="86ef40d7" class="cell" data-execution_count="13">
+<div id="9b0aac41" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load child labor law data (collapsed cell means, ~2400 observations)</span></span>
@@ -2519,7 +2519,7 @@ Table&nbsp;6.10: OLS vs.&nbsp;IV estimates of the return to schooling using comp
 <li><span class="math inline">\(\rho\)</span> = the <strong>sheepskin effect</strong> — the jump in the outcome at the passing threshold</li>
 </ul>
 <p>If <span class="math inline">\(\rho\)</span> is large for earnings, the diploma itself has value (signaling). If <span class="math inline">\(\rho \approx 0\)</span>, the diploma credential adds little beyond the skills already reflected in the score.</p>
-<div id="7fb8a1a3" class="cell" data-execution_count="16">
+<div id="92aad590" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean sheepskin RD data (Texas last-chance exam)</span></span>
@@ -2717,12 +2717,12 @@ Figure&nbsp;6.4: RD at the Texas exam cutoff. Left: diploma receipt jumps sharpl
 <ul>
 <li><span class="math inline">\(Y_{st}\)</span> = average earnings (<code>avg_earnings</code>) or average schooling (<code>avg_schooling</code>) in state <span class="math inline">\(s\)</span> at time <span class="math inline">\(t\)</span></li>
 <li><span class="math inline">\(\text{Treated}_s \times \text{Post}_t\)</span> = the interaction term (<code>treat_post</code>), equal to 1 for treated states after the reform</li>
-<li><span class="math inline">\(\beta_s\)</span> = state fixed effects (<code>C(state)</code>) — absorb permanent differences between states</li>
-<li><span class="math inline">\(\gamma_t\)</span> = year fixed effects (<code>C(year)</code>) — absorb common time trends</li>
+<li><span class="math inline">\(\beta_s\)</span> = state fixed effects (<code>| state</code>) — absorb permanent differences between states</li>
+<li><span class="math inline">\(\gamma_t\)</span> = year fixed effects (<code>| year</code>) — absorb common time trends</li>
 <li><span class="math inline">\(\delta\)</span> = the DD estimate of the reform’s causal effect</li>
 </ul>
 <p>The <strong>parallel trends assumption</strong> requires that treated and control states would have followed the same trajectory absent the reform: <span class="math inline">\(E[Y_{st}(0) \mid \text{Treated}=1] - E[Y_{st}(0) \mid \text{Treated}=0]\)</span> is constant over time.</p>
-<div id="b91282f5" class="cell" data-execution_count="18">
+<div id="95f936fb" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load synthetic DiD data (20 states × 20 years)</span></span>
@@ -5897,9 +5897,9 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb36-874"><a href="#cb36-874" aria-hidden="true" tabindex="-1"></a>where:</span>
 <span id="cb36-875"><a href="#cb36-875" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-876"><a href="#cb36-876" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$CL7$, $CL8$, $CL9$ = indicators for compulsory school entry by age 7, 8, or 9 (<span class="in">`cl7`</span>, <span class="in">`cl8`</span>, <span class="in">`cl9`</span>)</span>
-<span id="cb36-877"><a href="#cb36-877" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\beta_s$ = state-of-birth fixed effects (<span class="in">`C(sob)`</span>)</span>
-<span id="cb36-878"><a href="#cb36-878" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\gamma_c$ = year-of-birth cohort effects (<span class="in">`C(yob)`</span>)</span>
-<span id="cb36-879"><a href="#cb36-879" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\delta_y$ = census-year effects (<span class="in">`C(year)`</span>)</span>
+<span id="cb36-877"><a href="#cb36-877" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\beta_s$ = state-of-birth fixed effects (<span class="in">`| sob`</span>)</span>
+<span id="cb36-878"><a href="#cb36-878" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\gamma_c$ = year-of-birth cohort effects (<span class="in">`| yob`</span>)</span>
+<span id="cb36-879"><a href="#cb36-879" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\delta_y$ = census-year effects (<span class="in">`| year`</span>)</span>
 <span id="cb36-880"><a href="#cb36-880" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\hat{S}_{scy}$ = the fitted value of schooling from the first stage</span>
 <span id="cb36-881"><a href="#cb36-881" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\rho_{IV}$ = the causal return to schooling, identified by the three instruments jointly</span>
 <span id="cb36-882"><a href="#cb36-882" aria-hidden="true" tabindex="-1"></a></span>
@@ -6080,8 +6080,8 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb36-1067"><a href="#cb36-1067" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-1068"><a href="#cb36-1068" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$Y_{st}$ = average earnings (<span class="in">`avg_earnings`</span>) or average schooling (<span class="in">`avg_schooling`</span>) in state $s$ at time $t$</span>
 <span id="cb36-1069"><a href="#cb36-1069" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\text{Treated}_s \times \text{Post}_t$ = the interaction term (<span class="in">`treat_post`</span>), equal to 1 for treated states after the reform</span>
-<span id="cb36-1070"><a href="#cb36-1070" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\beta_s$ = state fixed effects (<span class="in">`C(state)`</span>) --- absorb permanent differences between states</span>
-<span id="cb36-1071"><a href="#cb36-1071" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\gamma_t$ = year fixed effects (<span class="in">`C(year)`</span>) --- absorb common time trends</span>
+<span id="cb36-1070"><a href="#cb36-1070" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\beta_s$ = state fixed effects (<span class="in">`| state`</span>) --- absorb permanent differences between states</span>
+<span id="cb36-1071"><a href="#cb36-1071" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\gamma_t$ = year fixed effects (<span class="in">`| year`</span>) --- absorb common time trends</span>
 <span id="cb36-1072"><a href="#cb36-1072" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\delta$ = the DD estimate of the reform's causal effect</span>
 <span id="cb36-1073"><a href="#cb36-1073" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-1074"><a href="#cb36-1074" aria-hidden="true" tabindex="-1"></a>The **parallel trends assumption** requires that treated and control states would have followed the same trajectory absent the reform: $E<span class="co">[</span><span class="ot">Y_{st}(0) \mid \text{Treated}=1</span><span class="co">]</span> - E<span class="co">[</span><span class="ot">Y_{st}(0) \mid \text{Treated}=0</span><span class="co">]</span>$ is constant over time.</span>

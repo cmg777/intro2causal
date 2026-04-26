@@ -456,7 +456,7 @@ Let's start with a single regression for all-cause mortality:
 allcause = deaths[deaths["dtype"] == "all"]
 
 # DD regression with state and year fixed effects
-result = pf.feols("mrate ~ legal + C(state) + C(year)", data=allcause, vcov={"CRV1": "state"})
+result = pf.feols("mrate ~ legal | state + year", data=allcause, vcov={"CRV1": "state"})
 
 # Show just the key coefficient
 coef_table = pd.DataFrame({
@@ -484,17 +484,18 @@ dtype_labels = {"all": "All causes", "MVA": "Motor vehicle", "suicide": "Suicide
 rows = []
 for dtype_val, label in dtype_labels.items():
     s = deaths[deaths["dtype"] == dtype_val].copy()
+    s["year_num"] = s["year"] - s["year"].min()  # center year for numerical stability
 
     # Spec 1: State + Year FE, unweighted
-    r1 = pf.feols("mrate ~ legal + C(state) + C(year)", data=s, vcov={"CRV1": "state"})
+    r1 = pf.feols("mrate ~ legal | state + year", data=s, vcov={"CRV1": "state"})
 
     # Spec 2: Add state-specific linear trends
-    # C(state):year = interaction of state dummies with year, giving each state its own slope
-    r2 = pf.feols("mrate ~ legal + C(state) + C(year) + C(state):year", data=s, vcov={"CRV1": "state"})
+    # i(state, year_num) = interaction of state dummies with year, giving each state its own slope
+    r2 = pf.feols("mrate ~ legal + i(state, year_num) | state + year", data=s, vcov={"CRV1": "state"})
 
     # Spec 3: Population-weighted (WLS)
     # Weight by state population so larger states count more (more reliable death rates)
-    r3 = pf.feols("mrate ~ legal + C(state) + C(year)", data=s, weights="pop", vcov={"CRV1": "state"})
+    r3 = pf.feols("mrate ~ legal | state + year", data=s, weights="pop", vcov={"CRV1": "state"})
 
     # Format each result as "coefficient (standard error)"
     coef1 = format(round(r1.coef()["legal"], 2), ".2f") + " (" + format(round(r1.se()["legal"], 2), ".2f") + ")"
@@ -542,7 +543,7 @@ rows = []
 for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle")]:
     s = deaths[deaths["dtype"] == dtype_val].dropna(subset=["beertax"]).copy()
 
-    r = pf.feols("mrate ~ legal + beertax + C(state) + C(year)", data=s, vcov={"CRV1": "state"})
+    r = pf.feols("mrate ~ legal + beertax | state + year", data=s, vcov={"CRV1": "state"})
 
     # Format results as "coefficient (standard error)"
     legal_str = format(round(r.coef()["legal"], 2), ".2f") + " (" + format(round(r.se()["legal"], 2), ".2f") + ")"
@@ -671,17 +672,17 @@ allcause = deaths[deaths["dtype"] == "all"]
 print(f"\nDeath rate panel: {allcause.shape[0]} state-year observations")
 
 # --- Step 3: Regression DD with state and year fixed effects ---
-result = pf.feols("mrate ~ legal + C(state) + C(year)", data=allcause, vcov={"CRV1": "state"})
+result = pf.feols("mrate ~ legal | state + year", data=allcause, vcov={"CRV1": "state"})
 print(f"\nDD estimate (all-cause deaths): {round(result.coef()['legal'], 2)}")
 print(f"  Standard error: {round(result.se()['legal'], 2)}")
 
 # --- Step 4: Population-weighted DD ---
-result = pf.feols("mrate ~ legal + C(state) + C(year)", data=allcause, weights="pop", vcov={"CRV1": "state"})
+result = pf.feols("mrate ~ legal | state + year", data=allcause, weights="pop", vcov={"CRV1": "state"})
 print(f"\nWeighted DD estimate: {round(result.coef()['legal'], 2)}")
 
 # --- Step 5: Placebo test (suicide should NOT respond to drinking age) ---
 suicide = deaths[deaths["dtype"] == "suicide"]
-result = pf.feols("mrate ~ legal + C(state) + C(year)", data=suicide, vcov={"CRV1": "state"})
+result = pf.feols("mrate ~ legal | state + year", data=suicide, vcov={"CRV1": "state"})
 print(f"\nPlacebo (suicide): {round(result.coef()['legal'], 2)}")
 print("  (Expect: small and insignificant)")
 ```
@@ -881,19 +882,19 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 
 **State and year fixed effects work together to isolate the within-state, within-year variation in MLDA policy --- the only variation that can credibly identify the causal effect.**
 
-1. State fixed effects (`C(state)`) absorb all time-invariant differences between states --- geography, culture, road infrastructure, baseline drinking norms. Without them, we might attribute Montana's permanently higher death rate to its MLDA policy rather than to its rural roads and long driving distances.
-2. Year fixed effects (`C(year)`) absorb all nationwide changes over time --- improvements in vehicle safety, national campaigns against drunk driving, economic conditions. Without them, a nationwide decline in mortality could be falsely attributed to states that happened to change their MLDA.
+1. State fixed effects (`| state`) absorb all time-invariant differences between states --- geography, culture, road infrastructure, baseline drinking norms. Without them, we might attribute Montana's permanently higher death rate to its MLDA policy rather than to its rural roads and long driving distances.
+2. Year fixed effects (`| year`) absorb all nationwide changes over time --- improvements in vehicle safety, national campaigns against drunk driving, economic conditions. Without them, a nationwide decline in mortality could be falsely attributed to states that happened to change their MLDA.
 3. Together, they implement the DD logic in a regression framework: we ask whether a state's death rate changed differentially in years when its MLDA policy changed, compared to its own average and compared to the national trend. This is the within-state, within-year variation that identifies the causal effect of MLDA on mortality.
 :::
 
-4. **State-specific trends**: Explain what adding `C(state):year` to the DD regression does. Under what circumstances might the DD estimate change substantially when you add state-specific trends, and what would that imply about the parallel trends assumption?
+4. **State-specific trends**: Explain what adding `i(state, year_num)` (state-specific linear time trends) to the DD regression does. Under what circumstances might the DD estimate change substantially when you add state-specific trends, and what would that imply about the parallel trends assumption?
 
 ::: {.callout-note collapse="true"}
 ### Show answer
 
 **Adding state-specific trends is a more demanding test of the DD design: it asks whether MLDA changes caused deviations from each state's own trajectory, not just from the national average.**
 
-1. The term `C(state):year` gives each state its own linear time trend. Standard DD with year fixed effects only removes the *common* national trend, assuming all states would have followed the same path absent treatment. State-specific trends relax this by allowing each state to have its own baseline trajectory.
+1. The term `i(state, year_num)` gives each state its own linear time trend. Standard DD with year fixed effects only removes the *common* national trend, assuming all states would have followed the same path absent treatment. State-specific trends relax this by allowing each state to have its own baseline trajectory.
 2. If the DD estimate changes substantially after adding state-specific trends, it suggests the standard parallel trends assumption is questionable --- some states were on different trajectories for reasons unrelated to MLDA (e.g., southern states experiencing rapid economic development, or western states with changing demographics).
 3. If the estimate remains stable, it strengthens our confidence in the original DD design, because the result is robust to allowing for differential pre-existing trends across states. This is a useful robustness check, though not a definitive test of parallel trends.
 :::
@@ -932,7 +933,13 @@ deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 rows = []
 for dtype_val, label in [("all", "All causes"), ("suicide", "Suicide")]:
     s = deaths[deaths["dtype"] == dtype_val].copy()  # filter to one cause of death
-    r = pf.feols("mrate ~ legal + C(state) + C(year)", data=s, vcov={"CRV1": "state"})
+    r = pf.feols("mrate ~ legal | state + year", data=s, vcov={"CRV1": "state"})
+    rows.append({
+        "Cause": label,
+        "Legal effect": round(r.coef()["legal"], 2),  # DD estimate of MLDA effect
+        "SE": round(r.se()["legal"], 2),
+        "t-stat": round(r.tstat()["legal"], 2),  # significance check
+    })
 
 # --- Display Results ---
 pd.DataFrame(rows)
@@ -1049,7 +1056,10 @@ deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 allcause = deaths[deaths["dtype"] == "all"]  # keep only all-cause deaths
 
 # --- Unweighted OLS ---
-r_uw = pf.feols("mrate ~ legal + C(state) + C(year)", data=allcause, vcov={"CRV1": "state"})
+r_uw = pf.feols("mrate ~ legal | state + year", data=allcause, vcov={"CRV1": "state"})
+
+# --- Population-Weighted WLS ---
+r_wt = pf.feols("mrate ~ legal | state + year", data=allcause, weights="pop", vcov={"CRV1": "state"})
 
 # --- Display Comparison ---
 pd.DataFrame({
@@ -1106,7 +1116,7 @@ for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle"),
                           ("internal", "Internal (placebo)")]:
     s = deaths[deaths["dtype"] == dtype_val].copy()
     if len(s) > 0:
-        r = pf.feols("mrate ~ legal + C(state) + C(year)", data=s, vcov={"CRV1": "state"})
+        r = pf.feols("mrate ~ legal | state + year", data=s, vcov={"CRV1": "state"})
         rows.append({
             "Cause": label,
             "Legal effect": round(r.coef()["legal"], 2),
@@ -1143,7 +1153,7 @@ foreach cause in "all" "MVA" "suicide" "homicide" "internal" {
 (3) **What it teaches:** This systematic cross-cause comparison is a powerful diagnostic for DD designs. If the `legal` coefficient were large and significant for internal causes, it would suggest the DD is capturing a confounding trend rather than the causal effect of alcohol access. The pattern of results --- strong for MVA, weak for other causes, null for internal --- reinforces the causal interpretation and identifies the primary mechanism (traffic fatalities) through which the MLDA affects mortality.
 :::
 
-5. **State-specific trend robustness**: Using `deaths_clean.csv`, run the DD regression for motor vehicle deaths (`dtype == "MVA"`) with and without state-specific linear time trends. The baseline model uses `mrate ~ legal + C(state) + C(year)`. The augmented model adds `C(state):year` interactions. How much does the coefficient change? What does this imply about the parallel trends assumption?
+5. **State-specific trend robustness**: Using `deaths_clean.csv`, run the DD regression for motor vehicle deaths (`dtype == "MVA"`) with and without state-specific linear time trends. The baseline model uses `mrate ~ legal | state + year`. The augmented model adds `i(state, year_num)` interactions. How much does the coefficient change? What does this imply about the parallel trends assumption?
 
 ::: {.callout-note collapse="true"}
 ### Show answer
@@ -1157,11 +1167,11 @@ deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 mva = deaths[deaths["dtype"] == "MVA"].copy()
 
 # --- Baseline DD ---
-r_base = pf.feols("mrate ~ legal + C(state) + C(year)", data=mva, vcov={"CRV1": "state"})
+r_base = pf.feols("mrate ~ legal | state + year", data=mva, vcov={"CRV1": "state"})
 
 # --- DD with State-Specific Linear Time Trends ---
 mva["year_num"] = mva["year"] - mva["year"].min()  # center year for numerical stability
-r_trend = pf.feols("mrate ~ legal + C(state) + C(year) + C(state):year_num", data=mva, vcov={"CRV1": "state"})
+r_trend = pf.feols("mrate ~ legal + i(state, year_num) | state + year", data=mva, vcov={"CRV1": "state"})
 
 # --- Compare ---
 pd.DataFrame({
@@ -1192,7 +1202,7 @@ reg mrate legal i.state_num i.year i.state_num#c.year, cluster(state_num)
 
 (1) **What the numbers show:** The coefficient on `legal` may change when state-specific trends are added. If the change is small, the baseline DD is robust. If the coefficient drops substantially or loses significance, the parallel trends assumption may be questionable for MVA deaths.
 
-(2) **Why:** State-specific trends (`C(state):year`) allow each state to follow its own linear trajectory over time. The baseline DD assumes all states would have followed the same mortality trend absent MLDA changes. If some states were already experiencing declining MVA deaths (due to road improvements, vehicle safety, or enforcement) at different rates, the baseline DD could attribute this pre-existing trend to MLDA changes. State-specific trends absorb these differential trajectories.
+(2) **Why:** State-specific trends (`i(state, year_num)`) allow each state to follow its own linear trajectory over time. The baseline DD assumes all states would have followed the same mortality trend absent MLDA changes. If some states were already experiencing declining MVA deaths (due to road improvements, vehicle safety, or enforcement) at different rates, the baseline DD could attribute this pre-existing trend to MLDA changes. State-specific trends absorb these differential trajectories.
 
 (3) **What it teaches:** This is the most demanding robustness check in the DD toolkit. Adding state-specific trends asks: "Did mortality deviate from each state's own trend when the MLDA changed?" rather than "Did mortality deviate from the national average?" If the estimate survives this test, it provides strong evidence that the MLDA effect is not an artifact of differential pre-existing trends. This exercise connects directly to the conceptual discussion of parallel trends in the chapter.
 :::

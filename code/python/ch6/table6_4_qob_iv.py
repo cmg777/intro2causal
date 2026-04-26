@@ -39,8 +39,7 @@ Causal Inference Concept:
 # =============================================================================
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
-from linearmodels.iv import IV2SLS
+import pyfixest as pf
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -75,11 +74,11 @@ print("TABLE 6.4: IV Recipe — Step by Step")
 print("─" * 70)
 
 # REDUCED FORM: Effect of Q4 birth on earnings (Y on Z)
-rf = smf.ols("lnw ~ q4", data=df).fit(cov_type="HC1")
-rf_coef = rf.params["q4"]
-rf_se = rf.bse["q4"]
-rf_q1_mean = rf.params["Intercept"]  # Mean for Q1-Q3
-rf_q4_mean = rf.params["Intercept"] + rf.params["q4"]  # Mean for Q4
+rf = pf.feols("lnw ~ q4", data=df, vcov="hetero")
+rf_coef = rf.coef()["q4"]
+rf_se = rf.se()["q4"]
+rf_q1_mean = rf.coef()["Intercept"]  # Mean for Q1-Q3
+rf_q4_mean = rf.coef()["Intercept"] + rf.coef()["q4"]  # Mean for Q4
 
 print(f"\n  STEP 1: Reduced Form (earnings on Q4 dummy)")
 print(f"    Mean log earnings (Q1-Q3): {rf_q1_mean:.4f}")
@@ -87,11 +86,11 @@ print(f"    Mean log earnings (Q4):    {rf_q4_mean:.4f}")
 print(f"    Difference (Q4 - rest):    {rf_coef:.4f}  ({rf_se:.4f})")
 
 # FIRST STAGE: Effect of Q4 birth on schooling (X on Z)
-fs = smf.ols("s ~ q4", data=df).fit(cov_type="HC1")
-fs_coef = fs.params["q4"]
-fs_se = fs.bse["q4"]
-fs_q1_mean = fs.params["Intercept"]
-fs_q4_mean = fs.params["Intercept"] + fs.params["q4"]
+fs = pf.feols("s ~ q4", data=df, vcov="hetero")
+fs_coef = fs.coef()["q4"]
+fs_se = fs.se()["q4"]
+fs_q1_mean = fs.coef()["Intercept"]
+fs_q4_mean = fs.coef()["Intercept"] + fs.coef()["q4"]
 
 print(f"\n  STEP 2: First Stage (schooling on Q4 dummy)")
 print(f"    Mean schooling (Q1-Q3): {fs_q1_mean:.4f}")
@@ -104,8 +103,8 @@ print(f"\n  STEP 3: Wald Estimate = Reduced Form / First Stage")
 print(f"    IV estimate = {rf_coef:.4f} / {fs_coef:.4f} = {wald:.4f}")
 
 # Verify with 2SLS
-iv_check = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=df).fit(cov_type="robust")
-print(f"    2SLS check:  {iv_check.params['s']:.4f}  ({iv_check.std_errors['s']:.4f})")
+iv_check = pf.feols("lnw ~ 1 | s ~ q4", data=df, vcov="hetero")
+print(f"    2SLS check:  {iv_check.coef()['s']:.4f}  ({iv_check.se()['s']:.4f})")
 
 # =============================================================================
 # TABLE 6.5: REGRESSION ESTIMATES ACROSS SPECIFICATIONS
@@ -115,43 +114,35 @@ print("TABLE 6.5: Returns to schooling — OLS vs IV specifications")
 print("─" * 70)
 
 # Column 1: OLS, no controls
-ols1 = smf.ols("lnw ~ s", data=df).fit(cov_type="HC1")
-print(f"\n  (1) OLS, no controls:           {ols1.params['s']:.4f}  ({ols1.bse['s']:.4f})")
+ols1 = pf.feols("lnw ~ s", data=df, vcov="hetero")
+print(f"\n  (1) OLS, no controls:           {ols1.coef()['s']:.4f}  ({ols1.se()['s']:.4f})")
 
 # Column 2: IV with Q4 only, no controls
-# First stage F-stat
-fs2 = smf.ols("s ~ q4", data=df).fit()
-f_result2 = fs2.f_test("q4 = 0")
-f_stat2 = float(np.atleast_1d(f_result2.fvalue).flat[0])
-iv2 = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=df).fit(cov_type="robust")
-print(f"  (2) IV (Q4), no controls:       {iv2.params['s']:.4f}  ({iv2.std_errors['s']:.4f})  F={f_stat2:.1f}")
+# First stage F-stat (single instrument: t² = F)
+fs2 = pf.feols("s ~ q4", data=df, vcov="hetero")
+f_stat2 = fs2.tstat()["q4"] ** 2
+iv2 = pf.feols("lnw ~ 1 | s ~ q4", data=df, vcov="hetero")
+print(f"  (2) IV (Q4), no controls:       {iv2.coef()['s']:.4f}  ({iv2.se()['s']:.4f})  F={f_stat2:.1f}")
 
-# Column 3: OLS with year-of-birth FE
-ols3 = smf.ols("lnw ~ s + C(yob)", data=df).fit(cov_type="HC1")
-print(f"  (3) OLS + YOB FE:               {ols3.params['s']:.4f}  ({ols3.bse['s']:.4f})")
+# Column 3: OLS with year-of-birth FE (absorbed)
+ols3 = pf.feols("lnw ~ s | yob", data=df, vcov="hetero")
+print(f"  (3) OLS + YOB FE:               {ols3.coef()['s']:.4f}  ({ols3.se()['s']:.4f})")
 
-# Column 4: IV (Q4) with year-of-birth FE
-df["yob_int"] = df["yob"].astype(int)
-yob_dummies = pd.get_dummies(df["yob_int"], prefix="yob", drop_first=True, dtype=float)
-iv_data = pd.concat([df[["lnw", "s", "q4"]], yob_dummies], axis=1)
-yob_str = " + ".join(yob_dummies.columns)
-fs4 = smf.ols(f"s ~ q4 + {yob_str}", data=iv_data).fit()
-f_stat4 = float(np.atleast_1d(fs4.f_test("q4 = 0").fvalue).flat[0])
-iv4 = IV2SLS.from_formula(f"lnw ~ 1 + {yob_str} + [s ~ q4]", data=iv_data).fit(cov_type="robust")
-print(f"  (4) IV (Q4) + YOB FE:           {iv4.params['s']:.4f}  ({iv4.std_errors['s']:.4f})  F={f_stat4:.1f}")
+# Column 4: IV (Q4) with year-of-birth FE (absorbed)
+fs4 = pf.feols("s ~ q4 | yob", data=df, vcov="hetero")
+f_stat4 = fs4.tstat()["q4"] ** 2
+iv4 = pf.feols("lnw ~ 1 | yob | s ~ q4", data=df, vcov="hetero")
+print(f"  (4) IV (Q4) + YOB FE:           {iv4.coef()['s']:.4f}  ({iv4.se()['s']:.4f})  F={f_stat4:.1f}")
 
-# Column 5: IV with all quarter dummies + YOB FE
-qob_dummies = pd.get_dummies(df["qob"].astype(int), prefix="qob", drop_first=True, dtype=float)
-iv_data5 = pd.concat([df[["lnw", "s"]], qob_dummies, yob_dummies], axis=1)
-qob_str = " + ".join(qob_dummies.columns)
-fs5 = smf.ols(f"s ~ {qob_str} + {yob_str}", data=iv_data5).fit()
-qob_cols = list(qob_dummies.columns)
-f_test_str = ", ".join([f"{c} = 0" for c in qob_cols])
-f_stat5 = float(np.atleast_1d(fs5.f_test(f_test_str).fvalue).flat[0])
-iv5 = IV2SLS.from_formula(
-    f"lnw ~ 1 + {yob_str} + [s ~ {qob_str}]", data=iv_data5
-).fit(cov_type="robust")
-print(f"  (5) IV (all QOB) + YOB FE:      {iv5.params['s']:.4f}  ({iv5.std_errors['s']:.4f})  F={f_stat5:.1f}")
+# Column 5: IV with all quarter dummies + YOB FE (multiple instruments)
+fs5 = pf.feols("s ~ q2 + q3 + q4 | yob", data=df, vcov="hetero")
+# Joint F-test on 3 instruments using Wald test
+coefs5 = np.array([fs5.coef()['q2'], fs5.coef()['q3'], fs5.coef()['q4']])
+idx5 = [list(fs5.coef().index).index(v) for v in ['q2', 'q3', 'q4']]
+V5 = fs5._vcov[np.ix_(idx5, idx5)]
+f_stat5 = float(coefs5 @ np.linalg.inv(V5) @ coefs5 / 3)
+iv5 = pf.feols("lnw ~ 1 | yob | s ~ q2 + q3 + q4", data=df, vcov="hetero")
+print(f"  (5) IV (all QOB) + YOB FE:      {iv5.coef()['s']:.4f}  ({iv5.se()['s']:.4f})  F={f_stat5:.1f}")
 
 # =============================================================================
 # FIGURES 6.1 AND 6.2: FIRST STAGE AND REDUCED FORM

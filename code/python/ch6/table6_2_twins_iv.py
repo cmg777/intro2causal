@@ -39,8 +39,7 @@ Causal Inference Concept:
 # IMPORTS
 # =============================================================================
 import pandas as pd
-import statsmodels.formula.api as smf
-from linearmodels.iv import IV2SLS
+import pyfixest as pf
 
 # =============================================================================
 # DATA LOADING
@@ -80,10 +79,10 @@ print("─" * 60)
 print("  Model: lwage = β₀ + β₁·educ + β₂·age + β₃·age² + β₄·female + β₅·white + ε")
 print("  Problem: β₁ captures education effect + ability bias")
 
-ols = smf.ols("lwage ~ educ + age + age2 + female + white", data=df).fit(cov_type="HC1")
-print(f"\n  Return to schooling (OLS): {ols.params['educ']:.4f}")
-print(f"  Robust SE:                  ({ols.bse['educ']:.4f})")
-print(f"  N = {int(ols.nobs)}")
+ols = pf.feols("lwage ~ educ + age + age2 + female + white", data=df, vcov="hetero")
+print(f"\n  Return to schooling (OLS): {ols.coef()['educ']:.4f}")
+print(f"  Robust SE:                  ({ols.se()['educ']:.4f})")
+print(f"  N = {int(ols._N)}")
 
 # =============================================================================
 # COLUMN 2: WITHIN-TWINS DIFFERENCES
@@ -98,10 +97,10 @@ print("         genetics, family background, and upbringing")
 # Use only first twin to avoid double-counting
 first_twins = df[df["first"] == 1].copy()
 
-twins_ols = smf.ols("dlwage ~ deduc - 1", data=first_twins).fit(cov_type="HC1")
-print(f"\n  Return to schooling (twins Δ): {twins_ols.params['deduc']:.4f}")
-print(f"  Robust SE:                      ({twins_ols.bse['deduc']:.4f})")
-print(f"  N = {int(twins_ols.nobs)} twin pairs")
+twins_ols = pf.feols("dlwage ~ deduc - 1", data=first_twins, vcov="hetero")
+print(f"\n  Return to schooling (twins Δ): {twins_ols.coef()['deduc']:.4f}")
+print(f"  Robust SE:                      ({twins_ols.se()['deduc']:.4f})")
+print(f"  N = {int(twins_ols._N)} twin pairs")
 
 # =============================================================================
 # COLUMN 3: IV USING TWIN'S EDUCATION (LEVELS)
@@ -115,14 +114,14 @@ print("  Controls: age, age², female, white")
 print("  Logic: Twin's report is correlated with true education")
 print("         but may be less prone to measurement error")
 
-iv_levels = IV2SLS.from_formula(
-    "lwage ~ 1 + age + age2 + female + white + [educ ~ educt_t]",
-    data=df,
-).fit(cov_type="robust")
+iv_levels = pf.feols(
+    "lwage ~ age + age2 + female + white | educ ~ educt_t",
+    data=df, vcov="hetero",
+)
 
-print(f"\n  Return to schooling (IV): {iv_levels.params['educ']:.4f}")
-print(f"  Robust SE:                ({iv_levels.std_errors['educ']:.4f})")
-print(f"  N = {int(iv_levels.nobs)}")
+print(f"\n  Return to schooling (IV): {iv_levels.coef()['educ']:.4f}")
+print(f"  Robust SE:                ({iv_levels.se()['educ']:.4f})")
+print(f"  N = {int(iv_levels._N)}")
 
 # =============================================================================
 # COLUMN 4: IV USING TWIN'S EDUCATION (DIFFERENCES)
@@ -137,14 +136,14 @@ print("  This combines twin FE with IV to address measurement error")
 # For the differenced IV, we need first twins only
 first_twins_iv = first_twins[["dlwage", "deduc", "deduct"]].dropna()
 
-iv_diff = IV2SLS.from_formula(
-    "dlwage ~ 0 + [deduc ~ deduct]",
-    data=first_twins_iv,
-).fit(cov_type="robust")
+iv_diff = pf.feols(
+    "dlwage ~ 0 | deduc ~ deduct",
+    data=first_twins_iv, vcov="hetero",
+)
 
-print(f"\n  Return to schooling (IV-Δ): {iv_diff.params['deduc']:.4f}")
-print(f"  Robust SE:                   ({iv_diff.std_errors['deduc']:.4f})")
-print(f"  N = {int(iv_diff.nobs)} twin pairs")
+print(f"\n  Return to schooling (IV-Δ): {iv_diff.coef()['deduc']:.4f}")
+print(f"  Robust SE:                   ({iv_diff.se()['deduc']:.4f})")
+print(f"  N = {int(iv_diff._N)} twin pairs")
 
 # =============================================================================
 # SUMMARY TABLE
@@ -154,10 +153,10 @@ print("SUMMARY: Table 6.2 — Returns to Schooling")
 print("=" * 70)
 print(f"{'Method':<35} {'Coefficient':>12} {'SE':>10}")
 print("─" * 60)
-print(f"{'(1) OLS':<35} {ols.params['educ']:>12.4f} ({ols.bse['educ']:.4f})")
-print(f"{'(2) Twin differences':<35} {twins_ols.params['deduc']:>12.4f} ({twins_ols.bse['deduc']:.4f})")
-print(f"{'(3) IV (levels)':<35} {iv_levels.params['educ']:>12.4f} ({iv_levels.std_errors['educ']:.4f})")
-print(f"{'(4) IV (differences)':<35} {iv_diff.params['deduc']:>12.4f} ({iv_diff.std_errors['deduc']:.4f})")
+print(f"{'(1) OLS':<35} {ols.coef()['educ']:>12.4f} ({ols.se()['educ']:.4f})")
+print(f"{'(2) Twin differences':<35} {twins_ols.coef()['deduc']:>12.4f} ({twins_ols.se()['deduc']:.4f})")
+print(f"{'(3) IV (levels)':<35} {iv_levels.coef()['educ']:>12.4f} ({iv_levels.se()['educ']:.4f})")
+print(f"{'(4) IV (differences)':<35} {iv_diff.coef()['deduc']:>12.4f} ({iv_diff.se()['deduc']:.4f})")
 
 # =============================================================================
 # INTERPRETATION

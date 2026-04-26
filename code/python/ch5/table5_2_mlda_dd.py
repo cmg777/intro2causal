@@ -33,7 +33,7 @@ Causal Inference Concept:
 # =============================================================================
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 # =============================================================================
 # DATA LOADING
@@ -81,39 +81,26 @@ print("─" * 75)
 
 for dtype_val, dtype_label in dtype_labels.items():
     s = sample[sample["dtype"] == dtype_val].copy()
+    s["year_num"] = s["year"] - s["year"].min()  # center year for numerical stability
 
     results = []
 
     # Specification 1: State + Year FE, no trends, no weights
-    formula = "mrate ~ legal + C(state) + C(year_cat)"
-    r1 = smf.ols(formula, data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]}
-    )
-    results.append((r1.params["legal"], r1.bse["legal"]))
+    r1 = pf.feols("mrate ~ legal | state + year_cat", data=s, vcov={"CRV1": "state"})
+    results.append((r1.coef()["legal"], r1.se()["legal"]))
 
     # Specification 2: State + Year FE + state-specific trends, no weights
-    # State-specific trends = interaction of state dummies with year
-    formula_trend = "mrate ~ legal + C(state) + C(year_cat) + C(state):year"
-    r2 = smf.ols(formula_trend, data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]}
-    )
-    results.append((r2.params["legal"], r2.bse["legal"]))
+    # i(state, year_num) = interaction of state dummies with year, giving each state its own slope
+    r2 = pf.feols("mrate ~ legal + i(state, year_num) | state + year_cat", data=s, vcov={"CRV1": "state"})
+    results.append((r2.coef()["legal"], r2.se()["legal"]))
 
     # Specification 3: State + Year FE, no trends, population weights
-    r3 = smf.wls(
-        "mrate ~ legal + C(state) + C(year_cat)",
-        data=s,
-        weights=s["pop"],
-    ).fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
-    results.append((r3.params["legal"], r3.bse["legal"]))
+    r3 = pf.feols("mrate ~ legal | state + year_cat", data=s, weights="pop", vcov={"CRV1": "state"})
+    results.append((r3.coef()["legal"], r3.se()["legal"]))
 
     # Specification 4: State + Year FE + state trends, population weights
-    r4 = smf.wls(
-        "mrate ~ legal + C(state) + C(year_cat) + C(state):year",
-        data=s,
-        weights=s["pop"],
-    ).fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
-    results.append((r4.params["legal"], r4.bse["legal"]))
+    r4 = pf.feols("mrate ~ legal + i(state, year_num) | state + year_cat", data=s, weights="pop", vcov={"CRV1": "state"})
+    results.append((r4.coef()["legal"], r4.se()["legal"]))
 
     coefs = "  ".join([f"{r[0]:>12.2f}" for r in results])
     ses = "  ".join([f"  ({r[1]:>8.2f})" for r in results])
@@ -137,18 +124,16 @@ print("─" * 70)
 for dtype_val, dtype_label in dtype_labels.items():
     s = sample[sample["dtype"] == dtype_val].dropna(subset=["mrate", "legal", "beertax"]).copy()
 
+    s["year_num"] = s["year"] - s["year"].min()
+
     # Without state trends
-    r1 = smf.ols(
-        "mrate ~ legal + beertax + C(state) + C(year_cat)", data=s
-    ).fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
+    r1 = pf.feols("mrate ~ legal + beertax | state + year_cat", data=s, vcov={"CRV1": "state"})
 
     # With state trends
-    r2 = smf.ols(
-        "mrate ~ legal + beertax + C(state) + C(year_cat) + C(state):year", data=s
-    ).fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
+    r2 = pf.feols("mrate ~ legal + beertax + i(state, year_num) | state + year_cat", data=s, vcov={"CRV1": "state"})
 
-    print(f"{dtype_label:<15} {r1.params['legal']:>10.2f}  {r1.params['beertax']:>10.2f}  {r2.params['legal']:>10.2f}  {r2.params['beertax']:>10.2f}")
-    print(f"{'':>15} ({r1.bse['legal']:>8.2f}) ({r1.bse['beertax']:>8.2f}) ({r2.bse['legal']:>8.2f}) ({r2.bse['beertax']:>8.2f})")
+    print(f"{dtype_label:<15} {r1.coef()['legal']:>10.2f}  {r1.coef()['beertax']:>10.2f}  {r2.coef()['legal']:>10.2f}  {r2.coef()['beertax']:>10.2f}")
+    print(f"{'':>15} ({r1.se()['legal']:>8.2f}) ({r1.se()['beertax']:>8.2f}) ({r2.se()['legal']:>8.2f}) ({r2.se()['beertax']:>8.2f})")
 
 print("─" * 70)
 

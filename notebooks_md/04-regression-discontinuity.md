@@ -335,9 +335,8 @@ for var, label in outcomes.items():
     specs.append(format(coef1, ".2f") + " (" + format(se1, ".2f") + ")")
 
     # Spec 2: Quadratic, full sample
-    model2 = pf.feols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
-                      data=mlda)
-    r2 = model2, vcov="hetero")
+    r2 = pf.feols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
+                      data=mlda, vcov="hetero")
     coef2 = round(r2.coef()["over21"], 2)
     se2 = round(r2.se()["over21"], 2)
     specs.append(format(coef2, ".2f") + " (" + format(se2, ".2f") + ")")
@@ -349,9 +348,8 @@ for var, label in outcomes.items():
     specs.append(format(coef3, ".2f") + " (" + format(se3, ".2f") + ")")
 
     # Spec 4: Quadratic, narrow bandwidth
-    model4 = pf.feols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
-                      data=narrow)
-    r4 = model4, vcov="hetero")
+    r4 = pf.feols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
+                      data=narrow, vcov="hetero")
     coef4 = round(r4.coef()["over21"], 2)
     se4 = round(r4.se()["over21"], 2)
     specs.append(format(coef4, ".2f") + " (" + format(se4, ".2f") + ")")

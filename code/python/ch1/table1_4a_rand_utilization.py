@@ -25,7 +25,7 @@ Causal Inference Concept:
 # =============================================================================
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 # =============================================================================
 # DATA LOADING & PREPARATION
@@ -114,22 +114,20 @@ for var, label in variables.items():
 
     # Columns 2-4: Regression on plan dummies with clustered SEs
     reg_data = df[[var, "plantype_1", "plantype_2", "plantype_3", "famid"]].dropna()
-    model = smf.ols(f"{var} ~ plantype_1 + plantype_2 + plantype_3", data=reg_data)
-    res = model.fit(cov_type="cluster", cov_kwds={"groups": reg_data["famid"]})
+    res = pf.feols(f"{var} ~ plantype_1 + plantype_2 + plantype_3", data=reg_data, vcov={"CRV1": "famid"})
 
-    deduct_diff = res.params["plantype_2"]
-    deduct_se = res.bse["plantype_2"]
-    coins_diff = res.params["plantype_3"]
-    coins_se = res.bse["plantype_3"]
-    free_diff = res.params["plantype_1"]
-    free_se = res.bse["plantype_1"]
+    deduct_diff = res.coef()["plantype_2"]
+    deduct_se = res.se()["plantype_2"]
+    coins_diff = res.coef()["plantype_3"]
+    coins_se = res.se()["plantype_3"]
+    free_diff = res.coef()["plantype_1"]
+    free_se = res.se()["plantype_1"]
 
     # Column 5: Any insurance vs catastrophic
     reg_data2 = df[[var, "any_ins", "famid"]].dropna()
-    model2 = smf.ols(f"{var} ~ any_ins", data=reg_data2)
-    res2 = model2.fit(cov_type="cluster", cov_kwds={"groups": reg_data2["famid"]})
-    any_diff = res2.params["any_ins"]
-    any_se = res2.bse["any_ins"]
+    res2 = pf.feols(f"{var} ~ any_ins", data=reg_data2, vcov={"CRV1": "famid"})
+    any_diff = res2.coef()["any_ins"]
+    any_se = res2.se()["any_ins"]
 
     print(f"{label:<25} {cat_mean:>10.0f}  [{cat_sd:>7.0f}]  {deduct_diff:>7.0f}   {coins_diff:>7.0f}   {free_diff:>7.0f}   {any_diff:>7.0f}")
     print(f"{'':>25} {'':>10}  {'':>9}  ({deduct_se:>5.0f})  ({coins_se:>5.0f})  ({free_se:>5.0f})  ({any_se:>5.0f})")
