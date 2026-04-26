@@ -15,8 +15,10 @@ execute:
   message: false
 ---
 
+
+
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -28,12 +30,7 @@ By the end of this chapter, you will be able to:
 - Understand **standard errors** and **statistical significance**
 :::
 
-This chapter has four steps:
-
-1. Ask a real-world question about health insurance
-2. Show why naive comparisons fail
-3. Learn the framework that explains the problem
-4. See how randomized experiments solve it
+This chapter follows a clear arc: we start with a real-world question, discover why naive data comparisons are misleading, learn the theoretical framework that explains the problem, and then see how randomized experiments provide a solution.
 
 ```{mermaid}
 %%| label: fig-roadmap
@@ -53,6 +50,7 @@ graph TD
     style C fill:#c0392b,color:#fff
     style D fill:#8e44ad,color:#fff
     style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 
@@ -344,36 +342,33 @@ Like averaging restaurant reviews but trusting a reviewer who has eaten there 50
 :::::
 
 
-# Does Health Insurance Improve Health?
+## Does Health Insurance Improve Health?
 
-**The big question: Does health insurance make people healthier?**
-
-The United States spends more on health care than any other developed country. Yet millions of Americans remain uninsured. If we could answer this one question, it would reshape policy.
+The United States spends more on health care than any other developed country, yet millions of Americans remain uninsured. A natural question arises: **does having health insurance actually make people healthier?**
 
 ::: {.callout-note}
-## Intuition Builder: The Road Not Taken
+### Intuition Builder: The Road Not Taken
 
-Imagine standing at a fork in a road. One path leads to having insurance. The other doesn't.
-
-You can only walk one path. You'll never see what would have happened on the other.
-
-This is the **fundamental problem of causal inference**: we observe one outcome per person, but the causal effect requires comparing two.
+Imagine standing at a fork in a road. One path leads through a world where you have health insurance; the other through a world where you don't. You can only walk one path --- you'll never know what would have happened on the other. This is the **fundamental problem of causal inference**: we observe one outcome per person, but the causal effect requires comparing two.
 :::
 
 At first glance, the answer seems obvious. We can look at survey data and compare the health of insured and uninsured people. Let's do exactly that using the **National Health Interview Survey (NHIS)**, an annual survey of the U.S. population.
 
 ```{python}
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
+
+# Data URL — all datasets are hosted on GitHub
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # Load pre-cleaned NHIS 2009 data (married couples aged 26-59)
-nhis = pd.read_csv("../data/ch1/nhis_clean.csv")
+nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
 nhis.head(3)
 ```
 
 The dataset contains a health index (1 = poor, 5 = excellent), insurance status (1 = insured, 0 = uninsured), and demographic characteristics for married couples.
 
-## A First Look: Insured vs. Uninsured
+### A First Look: Insured vs. Uninsured
 
 Let's start with the simplest possible comparison. What is the average health of insured people versus uninsured people?
 
@@ -381,20 +376,22 @@ Let's start with the simplest possible comparison. What is the average health of
 #| label: tbl-means
 #| tbl-cap: "Average health by insurance status"
 
-# Simple group means: average health by insurance status
-nhis.groupby("insurance")["health"].mean().round(2).reset_index().rename(
-    columns={"insurance": "Insurance Status", "health": "Average Health (1-5)"}
-).replace({"Insurance Status": {0: "Uninsured", 1: "Insured"}})
+# Average health by insurance status
+means = nhis.groupby("insurance")["health"].mean()
+pd.DataFrame({
+    "Insurance Status": ["Uninsured", "Insured"],
+    "Average Health (1-5)": [round(means[0], 2), round(means[1], 2)]
+})
 ```
 
 Insured people *are* healthier. But can we conclude that insurance *caused* this difference?
 
-## The Problem: Other Differences Between Groups
+### The Problem: Other Differences Between Groups
 
 Before drawing causal conclusions, let's check whether insured and uninsured people differ in other ways too.
 
 ::: {.callout-note}
-## Regression as a comparison tool
+### Regression as a comparison tool
 
 A simple but powerful trick: if you regress an outcome $Y$ on a dummy variable $D$ (where $D = 1$ for treated, $D = 0$ for untreated), the regression gives you:
 
@@ -408,7 +405,7 @@ This is exactly the same as computing group means and their difference --- but r
 Before we dive into the numbers, let's clarify how to read the regression output we will use throughout this study guide.
 
 ::: {.callout-note}
-## How to read regression results
+### How to read regression results
 
 Throughout this study guide, we report regression results with **standard errors** (SE) in parentheses.
 
@@ -428,26 +425,25 @@ Let's apply this to compare insured and uninsured people across multiple charact
 outcomes = ["health", "nonwhite", "age", "education",
             "family_size", "employed", "family_income"]
 
+# Run a separate regression for each variable and collect results
 rows = []
 for var in outcomes:
     # Regress each variable on insurance dummy (with survey weights and robust SEs)
-    result = smf.wls(
-        f"{var} ~ insurance", data=nhis, weights=nhis["weight"]
-    ).fit(cov_type="HC1")
+    result = pf.feols(f"{var} ~ insurance", data=nhis, weights="weight", vcov="hetero")
 
     # Intercept = uninsured mean; insurance coefficient = difference
     rows.append({
         "Variable": var,
-        "Uninsured mean": round(result.params["Intercept"], 2),
-        "Insured − Uninsured": round(result.params["insurance"], 2),
-        "Std. Error": round(result.bse["insurance"], 2),
+        "Uninsured mean": round(result.coef()["Intercept"], 2),
+        "Insured − Uninsured": round(result.coef()["insurance"], 2),
+        "Std. Error": round(result.se()["insurance"], 2),
     })
 
 pd.DataFrame(rows)
 ```
 
 ::: {.callout-warning}
-## The red flags of selection bias
+### The red flags of selection bias
 
 The insured are healthier --- but they are also:
 
@@ -459,22 +455,20 @@ These are *enormous* differences. People who choose insurance are fundamentally 
 :::
 
 
-# Why Naive Comparisons Fail: Selection Bias
+## Why Naive Comparisons Fail: Selection Bias
 
-The NHIS comparison reveals a deep problem. To understand it, we need a framework for thinking about **counterfactuals** --- what *would have happened* under different circumstances.
+The NHIS comparison illustrates a deep problem in causal inference. To understand it precisely, we need a framework for thinking about what *would have happened* under different circumstances.
 
-## The Potential Outcomes Framework
+### The Potential Outcomes Framework
 
-Every person $i$ has two **potential outcomes**:
+Imagine person $i$ stands at a fork in the road. One path leads to having insurance; the other doesn't. Each path leads to a health outcome:
 
-- $Y_{1i}$ = health **with** insurance
-- $Y_{0i}$ = health **without** insurance
+- $Y_{1i}$ = health **with** insurance (what happens on the insurance road)
+- $Y_{0i}$ = health **without** insurance (what happens on the other road)
 
-The **causal effect** for person $i$ is simply $Y_{1i} - Y_{0i}$.
+The **causal effect** of insurance for person $i$ is $Y_{1i} - Y_{0i}$ --- the difference between the two roads. But here's the catch: each person takes only one road. We observe $Y_{1i}$ or $Y_{0i}$, never both.
 
-Here's the catch: each person takes only one road. We observe $Y_{1i}$ or $Y_{0i}$, **never both**.
-
-### Seeing It Through an Example
+#### Seeing It Through an Example
 
 | | **Anika** | **Ben** |
 |:---|:---:|:---:|
@@ -486,19 +480,17 @@ Here's the catch: each person takes only one road. We observe $Y_{1i}$ or $Y_{0i
 
 : Potential outcomes for two hypothetical students {.striped}
 
-Anika is prone to illness. She buys insurance, and it improves her health by 1 point. Ben is naturally robust. He skips insurance --- it wouldn't have helped him anyway.
+Anika, who is prone to illness, buys insurance --- it improves her health by 1 point. Ben, naturally robust, skips it --- insurance wouldn't have helped him anyway.
 
-**The paradox:** We observe Anika's health as 4 and Ben's as 5. The naive comparison ($4 - 5 = -1$) suggests insurance is *harmful*!
-
-But we know the truth. Anika's real gain from insurance is +1. The comparison fails because Ben was healthier **to begin with** --- a difference that has nothing to do with insurance.
+**What do we observe?** Anika's health is 4; Ben's is 5. The naive comparison ($4 - 5 = -1$) suggests insurance is *harmful*! The true effect on Anika is +1, but the comparison is polluted by the fact that Ben was healthier to begin with.
 
 ::: {.callout-warning}
-## Common Misconception
+### Common Misconception
 
 "Insured people are healthier, so insurance must work." This confuses correlation with causation. The Anika/Ben example shows that even when the treated group looks *worse*, the true treatment effect can be positive. The observed comparison reflects both the causal effect and the pre-existing differences between people who choose treatment and those who don't. You cannot read causation from a simple comparison --- ever.
 :::
 
-## The Decomposition
+### The Decomposition
 
 This leads to a fundamental equation. Any observed comparison can be split into two pieces:
 
@@ -513,10 +505,13 @@ graph LR
     A --> C["Selection Bias<br/>Pre-existing differences<br/>between the groups"]
     style B fill:#2d8659,color:#fff
     style C fill:#c0392b,color:#fff
-    style A fill:#2c3e50,color:#fff
+    style A fill:#475569,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
-**Selection bias** is the difference in health that would exist *even without insurance*. In other words: healthier, wealthier, and more educated people are more likely to be insured *regardless of its actual effects*. The NHIS data above showed exactly this pattern.
+**Selection bias** is the difference in health that would exist *even without insurance* --- it reflects the fact that healthier, wealthier, more educated people are more likely to be insured. The NHIS data above showed exactly this pattern.
+
+We can visualize this problem as a causal diagram. Confounders like education, income, and employment create a "backdoor path" between insurance status and health outcomes. Because these factors influence *both* who gets insured *and* how healthy they are, the naive comparison captures their influence along with any true causal effect of insurance.
 
 ```{mermaid}
 %%| label: fig-dag-bias
@@ -529,31 +524,32 @@ graph TD
     style C fill:#e67e22,color:#fff
     style I fill:#3498db,color:#fff
     style H fill:#2d8659,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 ::: {.callout-important}
-## The Fundamental Problem of Causal Inference
+### The Fundamental Problem of Causal Inference
 
 We want $\kappa$ (the causal effect), but what we observe is $\kappa$ **plus** selection bias. We cannot separate the two without a strategy that eliminates the bias.
 :::
 
 
-# The Solution: Random Assignment
+## The Solution: Random Assignment
 
-## The Core Idea
+### The Core Idea
 
-**Here's the key insight.** What if we assigned insurance *randomly* --- like a coin flip? This is a **randomized controlled trial (RCT)**.
+What if, instead of letting people *choose* insurance, we assigned it randomly --- like a coin flip? This is the insight behind **randomized controlled trials (RCTs)**.
 
-When we randomly assign treatment:
+When treatment is randomly assigned:
 
-- Both groups come from the **same population**
-- They have similar education, income, and health habits
-- They also match on things we **cannot observe or measure**
+- The insured and uninsured groups are drawn from the **same population**
+- They have similar education, income, health habits, and *every other characteristic*
+- This includes characteristics we **cannot observe or measure**
 
-The **Law of Large Numbers (LLN)** guarantees this. In large random samples, group averages converge to the population average. Both groups end up looking alike.
+The **Law of Large Numbers** guarantees this: in large random samples, group averages converge to the population average. So both groups end up looking alike.
 
 ::: {.callout-note}
-## Intuition Builder: The Dice Analogy
+### Intuition Builder: The Dice Analogy
 
 Roll a fair die once --- you might get 1 or 6, far from the expected value of 3.5. Roll it 10 times --- the average gets closer. Roll it 10,000 times --- the average is almost exactly 3.5. This is why **casinos always win in the long run**: any single bet is a toss-up, but over thousands of plays, the house edge reliably prevails. Random assignment works the same way: with enough people, the treatment and control groups converge to being identical on *every* characteristic --- even ones we can't see.
 :::
@@ -571,13 +567,17 @@ graph TD
     OT --> D["Difference in Means<br/>= Causal Effect (κ)"]
     OC --> D
 
+    style P fill:#3498db,color:#fff
     style R fill:#8e44ad,color:#fff
     style T fill:#2d8659,color:#fff
     style C fill:#c0392b,color:#fff
-    style D fill:#2c3e50,color:#fff
+    style OT fill:#475569,color:#fff
+    style OC fill:#475569,color:#fff
+    style D fill:#2d8659,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
-## Why It Works Mathematically
+### Why It Works Mathematically
 
 With random assignment, the expected baseline health is the same in both groups:
 
@@ -587,17 +587,14 @@ This makes the selection bias term **zero**, so the observed difference equals t
 
 $$E[Y_i \mid D_i = 1] - E[Y_i \mid D_i = 0] = \kappa$$
 
-## Checking for Balance
+### Checking for Balance
 
-Even in a randomized experiment, we should **check for balance**. This means: verify that baseline characteristics look similar across treatment groups.
-
-If they do, we can trust that randomization worked. If they don't, something may have gone wrong.
+Even in a randomized experiment, good practice requires us to **check for balance**: verify that baseline characteristics look similar across treatment groups. If they do, we can be confident that randomization worked and that the comparison is credible.
 
 
+## Case Study 1: The RAND Health Insurance Experiment
 
-# Case Study 1: The RAND Health Insurance Experiment
-
-## Background
+### Background
 
 The **RAND Health Insurance Experiment (HIE)**, running from 1974 to 1982, remains one of the most influential social experiments ever conducted. Nearly 4,000 people from six U.S. sites were randomly assigned to insurance plans with varying levels of generosity:
 
@@ -615,23 +612,13 @@ The experiment asked two questions:
 1. When health care is cheaper, do people use more of it?
 2. Does using more health care improve health?
 
-**The research challenge:** People who voluntarily purchase insurance differ from those who don't (as we saw in the NHIS comparison). Any observational comparison would be contaminated by selection bias. The RAND HIE solved this by *randomly assigning* families to insurance plans, ensuring that groups were comparable at baseline.
-
-**The data:**
-
-- **Sample**: 3,958 people aged 14--61 from six U.S. sites (1974--1982)
-- **Treatment**: Randomly assigned to one of 14 insurance plans (grouped into four categories above)
-- **Utilization outcomes**: Health-care spending, tracked annually via administrative claims
-- **Health outcomes**: General health index, cholesterol, blood pressure, and mental health --- measured at baseline and at exit (3--5 years later)
-- **Standard errors** are clustered at the family level, because all family members share the same plan
-
-## Step 1: Verify Randomization (Balance Check)
+### Step 1: Verify Randomization (Balance Check)
 
 First, we check whether randomization created comparable groups. We regress each baseline characteristic on plan-type dummies. The **catastrophic plan is the omitted reference group**, so each coefficient represents the difference between that plan group and the catastrophic group.
 
 ```{python}
 # Load pre-cleaned RAND HIE baseline data
-rand = pd.read_csv("../data/ch1/rand_balance.csv")
+rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
 rand.head(3)
 ```
 
@@ -645,25 +632,22 @@ Before running the full table, let's see what a single balance check looks like.
 d = rand[["age", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
 # Regress age on plan-type dummies (catastrophic = omitted reference group)
-# Cluster standard errors by family (family members share the same plan)
-result = smf.ols(
-    "age ~ plan_free + plan_deductible + plan_coinsurance", data=d
-).fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+result = pf.feols("age ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": result.params.index,
-    "Coefficient": result.params.round(4).values,
-    "Std. Error": result.bse.round(4).values,
-    "t-statistic": result.tvalues.round(2).values,
-    "p-value": result.pvalues.round(3).values,
+    "Variable": result.coef().index,
+    "Coefficient": result.coef().round(4).values,
+    "Std. Error": result.se().round(4).values,
+    "t-statistic": result.tstat().round(2).values,
+    "p-value": result.pvalue().round(3).values,
 })
 ```
 
 The **Intercept** (32.4) is the average age in the catastrophic group. The coefficients on the plan dummies (0.43 to 0.97) are the age differences --- all small and statistically insignificant. Age is balanced.
 
 ::: {.callout-note collapse="true"}
-## Why do we cluster standard errors by family?
+### Why do we cluster standard errors by family?
 
 In the RAND HIE, all members of a family were assigned to the **same** insurance plan. This means observations within a family are not independent --- knowing one family member's plan tells you the other's. **Clustering** standard errors at the family level corrects for this correlation, preventing us from overstating the precision of our estimates.
 :::
@@ -678,26 +662,26 @@ Now let's run the full balance check across all baseline variables:
 balance_vars = ["female", "nonwhite", "age", "education", "family_income",
                 "health_index", "cholesterol", "blood_pressure", "mental_health"]
 
+# Run a separate regression for each variable and collect results
 rows = []
 for var in balance_vars:
     # Drop missing values for this variable
     d = rand[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
-    # Regress baseline variable on plan dummies, with family-clustered SEs
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    # Regress baseline variable on plan dummies
+    r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
     # Extract coefficients and standard errors for each plan comparison
-    coef_free = round(r.params["plan_free"], 2)
-    se_free = round(r.bse["plan_free"], 2)
-    coef_ded = round(r.params["plan_deductible"], 2)
-    se_ded = round(r.bse["plan_deductible"], 2)
-    coef_coin = round(r.params["plan_coinsurance"], 2)
-    se_coin = round(r.bse["plan_coinsurance"], 2)
+    coef_free = round(r.coef()["plan_free"], 2)
+    se_free = round(r.se()["plan_free"], 2)
+    coef_ded = round(r.coef()["plan_deductible"], 2)
+    se_ded = round(r.se()["plan_deductible"], 2)
+    coef_coin = round(r.coef()["plan_coinsurance"], 2)
+    se_coin = round(r.se()["plan_coinsurance"], 2)
 
     rows.append({
         "Variable": var,
-        "Catastrophic mean": round(r.params["Intercept"], 1),
+        "Catastrophic mean": round(r.coef()["Intercept"], 1),
         "Free − Catastrophic": format(coef_free, ".2f") + " (" + format(se_free, ".2f") + ")",
         "Deductible − Catastrophic": format(coef_ded, ".2f") + " (" + format(se_ded, ".2f") + ")",
         "Coinsurance − Catastrophic": format(coef_coin, ".2f") + " (" + format(se_coin, ".2f") + ")",
@@ -709,15 +693,13 @@ pd.DataFrame(rows)
 **Verdict:** Differences are small, go in both directions, and almost none are statistically significant. Randomization worked. Compare this to the NHIS table earlier, where insured and uninsured groups differed dramatically on *every* dimension.
 
 
-## Step 2: Estimate Causal Effects on Health-Care Use
+### Step 2: Estimate Causal Effects on Health-Care Use
 
-Now we turn to outcomes. Because treatment was randomly assigned, the regression approach that checked balance now gives us **causal effects**.
-
-Here's the key insight: the coefficient on each plan dummy tells us how much that plan *caused* health-care use to change, relative to having no insurance.
+Now we turn to outcomes. Because treatment was randomly assigned, the same regression approach that checked balance now gives us **causal effects**. The coefficient on each plan dummy tells us how much that plan changed health-care use *relative to having no insurance*.
 
 ```{python}
 # Load pre-cleaned RAND HIE utilization data (person-year panel)
-hie = pd.read_csv("../data/ch1/rand_utilization.csv")
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 hie.head(3)
 ```
 
@@ -729,27 +711,27 @@ hie.head(3)
 use_vars = ["visits", "outpatient_expenses", "admissions",
             "inpatient_expenses", "total_expenses"]
 
+# Run a separate regression for each variable and collect results
 rows = []
 for var in use_vars:
     # Drop missing values for this outcome
     d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
     # Regress outcome on plan dummies — gives causal effects (because of randomization!)
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
     # Intercept = control group (catastrophic plan) mean
     # Coefficients = causal effect of each plan relative to catastrophic
-    coef_free = int(round(r.params["plan_free"]))
-    se_free = int(round(r.bse["plan_free"]))
-    coef_ded = int(round(r.params["plan_deductible"]))
-    se_ded = int(round(r.bse["plan_deductible"]))
-    coef_coin = int(round(r.params["plan_coinsurance"]))
-    se_coin = int(round(r.bse["plan_coinsurance"]))
+    coef_free = int(round(r.coef()["plan_free"]))
+    se_free = int(round(r.se()["plan_free"]))
+    coef_ded = int(round(r.coef()["plan_deductible"]))
+    se_ded = int(round(r.se()["plan_deductible"]))
+    coef_coin = int(round(r.coef()["plan_coinsurance"]))
+    se_coin = int(round(r.se()["plan_coinsurance"]))
 
     rows.append({
         "Outcome": var,
-        "Catastrophic mean": int(round(r.params["Intercept"])),
+        "Catastrophic mean": int(round(r.coef()["Intercept"])),
         "Free effect": str(coef_free) + " (" + str(se_free) + ")",
         "Deductible effect": str(coef_ded) + " (" + str(se_ded) + ")",
         "Coinsurance effect": str(coef_coin) + " (" + str(se_coin) + ")",
@@ -759,7 +741,7 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-note}
-## Interpretation: The demand for health care
+### Interpretation: The demand for health care
 
 The free plan caused large increases in utilization:
 
@@ -771,15 +753,13 @@ This is the **demand curve** at work: when insurance lowers the out-of-pocket pr
 :::
 
 
-## Step 3: Estimate Causal Effects on Health
+### Step 3: Estimate Causal Effects on Health
 
-**The crucial test.** All that extra spending bought more care. But did it buy better **health**?
-
-These outcomes were measured 3--5 years after random assignment.
+Here is the crucial test. All that extra spending bought more health care --- but did it buy better **health**? These outcomes were measured 3--5 years after random assignment.
 
 ```{python}
 # Load pre-cleaned RAND HIE exit health measures
-health = pd.read_csv("../data/ch1/rand_health_outcomes.csv")
+health = pd.read_csv(DATA + "ch1/rand_health_outcomes.csv")
 health.head(3)
 ```
 
@@ -790,26 +770,26 @@ health.head(3)
 # Health outcome variables (measured at the end of the experiment)
 health_vars = ["health_index", "cholesterol", "blood_pressure", "mental_health"]
 
+# Run a separate regression for each variable and collect results
 rows = []
 for var in health_vars:
     # Drop missing values
     d = health[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
-    # Same regression approach — now for health outcomes
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    # Regress health outcome on plan dummies
+    r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
     # Extract coefficients and standard errors
-    coef_free = round(r.params["plan_free"], 2)
-    se_free = round(r.bse["plan_free"], 2)
-    coef_ded = round(r.params["plan_deductible"], 2)
-    se_ded = round(r.bse["plan_deductible"], 2)
-    coef_coin = round(r.params["plan_coinsurance"], 2)
-    se_coin = round(r.bse["plan_coinsurance"], 2)
+    coef_free = round(r.coef()["plan_free"], 2)
+    se_free = round(r.se()["plan_free"], 2)
+    coef_ded = round(r.coef()["plan_deductible"], 2)
+    se_ded = round(r.se()["plan_deductible"], 2)
+    coef_coin = round(r.coef()["plan_coinsurance"], 2)
+    se_coin = round(r.se()["plan_coinsurance"], 2)
 
     rows.append({
         "Health Measure": var,
-        "Catastrophic mean": round(r.params["Intercept"], 1),
+        "Catastrophic mean": round(r.coef()["Intercept"], 1),
         "Free effect": format(coef_free, ".2f") + " (" + format(se_free, ".2f") + ")",
         "Deductible effect": format(coef_ded, ".2f") + " (" + format(se_ded, ".2f") + ")",
         "Coinsurance effect": format(coef_coin, ".2f") + " (" + format(se_coin, ".2f") + ")",
@@ -819,18 +799,16 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-important}
-## The RAND Paradox: More Care ≠ Better Health
+### The RAND Paradox: More Care ≠ Better Health
 
-**The bottom line: more care did NOT mean better health.**
+The results are striking. Across all four health measures --- general health, cholesterol, blood pressure, and mental health --- the differences between plan groups are **small and statistically insignificant**.
 
-Across all four measures --- general health, cholesterol, blood pressure, mental health --- the differences are **small and statistically insignificant**.
+Despite consuming **45% more health care**, participants in the free plan showed **no measurable improvement** in health compared to those with minimal coverage.
 
-Free-plan participants consumed **45% more health care**. Yet they showed **no measurable health improvement** over those with minimal coverage.
-
-This is a **precisely estimated null**. The standard errors are small enough to rule out large benefits. The experiment was not too small to detect an effect. The effect simply wasn't there.
+This is a **precisely estimated null**: the standard errors are small enough to rule out large health benefits. The experiment was not too small to detect an effect --- the effect simply wasn't there.
 :::
 
-### What Did We Learn from the RAND HIE?
+#### What Did We Learn from the RAND HIE?
 
 The RAND experiment delivered three key lessons:
 
@@ -838,34 +816,26 @@ The RAND experiment delivered three key lessons:
 2. **More care does not automatically mean better health.** The marginal medical care consumed when it's free may not be very valuable.
 3. **Randomization reveals the truth.** The naive NHIS comparison suggested a large health benefit of insurance. The randomized experiment showed this was mostly selection bias.
 
-**Limitations and open questions:**
-
-- All participants had at least **catastrophic coverage** (paying 95%, capped). So the experiment did not test: *no insurance at all* vs. *some insurance*.
-- **Attrition** differed across plans. Fewer people left the free plan. If healthier people left the less generous plans, the results may be biased.
-- The sample was mostly **middle-class**. The value of insurance might be very different for the poor or elderly.
-
 These findings directly shaped the policy debate around the **Affordable Care Act** (2010). Proponents argued for universal coverage to improve health; skeptics cited RAND to argue that subsidized insurance mainly increases spending. The truth, as we'll see from Oregon, is more nuanced.
 
 The RAND experiment studied middle-class families who already had at least catastrophic coverage. But what about the people most affected by insurance policy debates --- low-income adults with no coverage at all? A natural experiment in Oregon addressed exactly this gap.
 
 
-# Case Study 2: The Oregon Health Plan
+## Case Study 2: The Oregon Health Plan
 
-**Research question:** Does Medicaid coverage improve health and financial well-being for low-income adults who are currently uninsured?
+### Why a Second Experiment?
 
-**The challenge:** The RAND HIE studied middle-class families who all had at least catastrophic coverage. Today's uninsured are younger, poorer, and less educated. Standard Medicaid expansions give coverage to *everyone* who qualifies, leaving no natural control group.
+The RAND HIE was groundbreaking, but it studied **middle-class families** who all had at least catastrophic coverage. Today's uninsured Americans are different: younger, poorer, less educated. Would insurance help *them* more?
 
-**The data:** In 2008, Oregon opened its Medicaid program (the Oregon Health Plan, OHP) to low-income adults through a **public lottery**. About 75,000 people applied; roughly 30,000 were randomly selected to apply for coverage. Outcomes were measured using hospital discharge records, emergency department administrative data, and follow-up surveys conducted by Amy Finkelstein and colleagues. Key outcomes include Medicaid enrollment, health-care utilization (hospital admissions, ED visits, outpatient visits), self-reported health, clinical measures (cholesterol, blood pressure), and financial health (medical debt, catastrophic expenses).
-
-**Why this method works:** The lottery randomly determined who could apply, creating comparable treatment and control groups among low-income adults --- the exact population that current policy debates focus on. However, only about **25% of lottery winners** actually enrolled in Medicaid (some failed paperwork, some were ineligible on review). This non-compliance means the simple winner/loser comparison understates the true effect on those who gained insurance --- a complication addressed by IV methods (Chapter 3).
+In 2008, the state of Oregon ran a **health insurance lottery**. About 75,000 low-income adults applied for Medicaid expansion; roughly 30,000 were randomly selected to apply for coverage. Economist Amy Finkelstein and colleagues studied the results.
 
 ::: {.callout-note}
-## Connection to Chapter 3: Non-Compliance
+### Connection to Chapter 3: Non-Compliance
 
-Only about **25% of lottery winners** actually enrolled in Medicaid. This means the simple winner/loser comparison understates the true effect on those who gained insurance. Adjusting for this non-compliance requires **instrumental variables** (Chapter 3): divide the winner/loser difference by the enrollment rate. This is a preview of the IV method.
+In the Oregon lottery, only about **25% of winners** actually enrolled in Medicaid (the rest failed paperwork or were ineligible). This means the simple winner/loser comparison understates the true effect on those who gained insurance. Adjusting for this non-compliance requires **instrumental variables** (Chapter 3): divide the winner/loser difference by the enrollment rate. This is a preview of the IV method.
 :::
 
-## Results at a Glance
+### Results at a Glance
 
 | Outcome | Effect of Winning the Lottery |
 |:---|:---|
@@ -880,7 +850,7 @@ Only about **25% of lottery winners** actually enrolled in Medicaid. This means 
 
 : Oregon Health Plan lottery results (Finkelstein et al., 2012; Baicker et al., 2013) {#tbl-ohp .striped}
 
-## Comparing the Two Experiments
+### Comparing the Two Experiments
 
 | | RAND HIE (1974--1982) | Oregon OHP (2008) |
 |:---|:---:|:---:|
@@ -892,17 +862,10 @@ Only about **25% of lottery winners** actually enrolled in Medicaid. This means 
 
 : Comparing findings from two landmark health insurance experiments {#tbl-comparison .striped}
 
-**The bottom line:** Two experiments, decades apart, on very different populations, reached the same conclusion about physical health.
-
-The Oregon study added two insights:
-
-- Insurance provides **financial protection** (less medical debt)
-- Insurance improves **mental health**
-
-These may be its primary value for low-income populations.
+The two experiments, conducted decades apart on very different populations, reached remarkably similar conclusions about physical health. The Oregon study added two important insights: insurance provides **financial protection** (less medical debt) and **mental health benefits** --- which may be its primary value for low-income populations.
 
 
-# Historical Perspective: Pioneers of Randomization
+## Historical Perspective: Pioneers of Randomization
 
 The idea of using controlled comparisons did not appear overnight. Key milestones in the development of experimental methods:
 
@@ -933,18 +896,18 @@ timeline
 - **James Lind** (1747) tested citrus fruits against other scurvy remedies. His theory (acids cure scurvy) was wrong, but his empirical finding was correct --- a lesson about letting data speak
 - **R.A. Fisher** (1920s--30s) formalized the theory of random assignment and experimental design, launching the modern era of RCTs
 
+
 Throughout this chapter, we have relied on standard errors and t-statistics to judge whether differences are real or due to chance. The following toolkit formalizes these concepts.
 
-
-# Statistical Inference Toolkit
+## Statistical Inference Toolkit
 
 Here is a brief guide to interpreting the numbers we have been using.
 
-## The Core Problem: Sampling Variability
+### The Core Problem: Sampling Variability
 
-Any estimate could change if we drew a different sample. **Statistical inference** tells us *how much* we should expect it to change.
+Any estimate from a sample could differ if we drew a different sample from the same population. **Statistical inference** quantifies this uncertainty.
 
-## Key Concepts
+### Key Concepts
 
 | Concept | Symbol | Plain English |
 |:---|:---:|:---|
@@ -955,10 +918,10 @@ Any estimate could change if we drew a different sample. **Statistical inference
 
 : Key inference tools. {.striped}
 
-## The Rule of Thumb
+### The Rule of Thumb
 
 ::: {.callout-tip}
-## When is a result "statistically significant"?
+### When is a result "statistically significant"?
 
 If the **t-statistic** (coefficient divided by its standard error) exceeds **2** in absolute value, the result is statistically significant at the 5% level. This means it is unlikely to have arisen by chance alone.
 
@@ -967,18 +930,20 @@ If the **t-statistic** (coefficient divided by its standard error) exceeds **2**
 **For treatment effects**: significant results provide evidence of a real causal effect.
 :::
 
-## A Crucial Caveat
+### A Crucial Caveat
 
 Statistical significance measures **precision**, not **importance**:
 
 - A large t-statistic can come from a huge sample (very precise), not necessarily a large effect
-- A small t-statistic can mean the effect is small *or* that our sample is too noisy to detect it
+- A small t-statistic can mean the effect is small *or* that our sample is too small to detect it
 - **Lack of significance ≠ lack of effect** --- it may just mean insufficient data
 
-**The bottom line:** Always consider both the **size** of a coefficient and its **statistical precision**. A big coefficient with a big SE is uncertain. A small coefficient with a tiny SE is precisely zero.
+Always consider both the **size** of a coefficient and its **statistical precision**.
 
 
-# Key Takeaways
+## Key Takeaways
+
+The following concept map shows how the key ideas in this chapter connect --- from the initial causal question, through the problem of selection bias, to the solution of random assignment and the evidence from two landmark experiments.
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -994,7 +959,7 @@ graph TD
     TE --> R["RAND HIE: more care does not improve health"]
     TE --> O["Oregon OHP: insurance helps finances and mental health"]
 
-    style Q fill:#2c3e50,color:#fff
+    style Q fill:#475569,color:#fff
     style SB fill:#c0392b,color:#fff
     style PO fill:#e67e22,color:#fff
     style RA fill:#8e44ad,color:#fff
@@ -1002,6 +967,7 @@ graph TD
     style TE fill:#2d8659,color:#fff
     style R fill:#2d8659,color:#fff
     style O fill:#2d8659,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 1. **Correlation is not causation.** Observed differences between groups reflect causal effects *plus* selection bias.
@@ -1021,9 +987,94 @@ graph TD
 8. **The Oregon OHP** confirmed these findings and showed that insurance helps with financial protection and mental health.
 
 
-# Exercises
+## Learn by Coding
 
-## Multiple Choice Questions
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 1: Randomized Trials — Code Cheatsheet
+# ============================================================
+import pandas as pd
+import pyfixest as pf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Load NHIS data and compare health by insurance status ---
+nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
+print("Average health by insurance status:")
+print(nhis.groupby("insurance")["health"].mean().round(2))
+
+# --- Step 2: Regression on a dummy (difference in means + standard error) ---
+result = pf.feols("health ~ insurance", data=nhis, vcov="hetero")
+print("\nHealth ~ Insurance:")
+print(result.summary())
+
+# --- Step 3: Balance check (RAND HIE — did randomization work?) ---
+rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
+d = rand[["age", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
+result = pf.feols("age ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
+print("\nBalance check — Age across plan groups:")
+print(result.summary())
+
+# --- Step 4: Causal effect of free insurance on spending ---
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
+d = hie[["total_expenses", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
+result = pf.feols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
+print("\nCausal effect on total spending:")
+print(result.summary())
+
+# --- Step 5: Causal effect on health (the RAND paradox: no effect!) ---
+health = pd.read_csv(DATA + "ch1/rand_health_outcomes.csv")
+d = health[["health_index", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
+result = pf.feols("health_index ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
+print("\nCausal effect on health (expect: no significant effect):")
+print(result.summary())
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+Below is the same cheatsheet in Stata syntax.
+
+```stata
+* ============================================================
+* Chapter 1: Randomized Trials — Stata Cheatsheet
+* ============================================================
+clear all
+set more off
+
+* --- Step 1: Load NHIS data and compare health by insurance status ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/nhis_clean.csv", clear
+tabstat health, by(insurance)
+
+* --- Step 2: Regression on a dummy (difference in means + standard error) ---
+reg health insurance, robust
+
+* --- Step 3: Balance check (RAND HIE — did randomization work?) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_balance.csv", clear
+reg age plan_free plan_deductible plan_coinsurance, cluster(family_id)
+
+* --- Step 4: Causal effect of free insurance on spending ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_utilization.csv", clear
+reg total_expenses plan_free plan_deductible plan_coinsurance, cluster(family_id)
+
+* --- Step 5: Causal effect on health (the RAND paradox: no effect!) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch1/rand_health_outcomes.csv", clear
+reg health_index plan_free plan_deductible plan_coinsurance, cluster(family_id)
+```
+
+::: {.callout-tip}
+### Try it in Stata!
+Copy the code above into a `.do` file and run it in Stata 14 or later (which supports loading data from URLs). If your Stata cannot access the internet, download the CSV files from the `data/` folder on [GitHub](https://github.com/cmg777/intro2causal/tree/main/data) and replace each URL with a local file path.
+:::
+
+
+## Exercises
+
+### Multiple Choice Questions
 
 1. **What is the fundamental problem of causal inference?**
    a) We cannot measure outcomes accurately
@@ -1135,7 +1186,7 @@ graph TD
 **(b)** Non-compliance occurs when participants do not follow their assigned treatment — for example, people assigned to a free insurance plan who do not enroll, or people assigned to the control group who obtain insurance elsewhere. **(a) is wrong** because attrition (dropping out) is a separate problem from non-compliance — non-compliers stay in the study but don't follow their assignment. **(c) is wrong** because non-compliance is about participant behavior, not technical failure. **(d) is wrong** because contamination is one specific form of non-compliance (control group receiving treatment), but non-compliance also includes treated subjects not taking the treatment.
 :::
 
-## Conceptual Questions
+### Conceptual Questions
 
 1. **Spotting selection bias**: A study reports that people who eat organic food live 3 years longer. List three reasons why this comparison might reflect selection bias rather than a causal effect of organic food.
 
@@ -1198,7 +1249,7 @@ The correct conclusion connects both experiments from the chapter: more generous
 4. **Non-compliance threat:** Some students may refuse the lunch, share it, or already receive food from other sources. This is a *non-compliance* problem: the intent-to-treat effect (being offered lunch) may differ from the effect of actually eating it. This foreshadows the instrumental variables approach in Chapter 3, where random assignment serves as an instrument for actual treatment.
 :::
 
-## Research Tasks
+### Research Tasks
 
 1. **Binary balance check**: Using `rand_balance.csv`, run a balance check using the single dummy `any_insurance` (instead of the three plan dummies). Regress `age`, `education`, and `health_index` on `any_insurance` with family-clustered SEs. Do you reach the same conclusion about balance as the three-dummy specification?
 
@@ -1211,9 +1262,9 @@ The correct conclusion connects both experiments from the chapter: more generous
 
 # --- Load data ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
-rand = pd.read_csv("../data/ch1/rand_balance.csv")
+rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
 
 # --- Run balance regressions ---
 # Use a single binary dummy (any_insurance) instead of three plan dummies
@@ -1221,14 +1272,13 @@ rows = []
 for var in ["age", "education", "health_index"]:
     d = rand[[var, "any_insurance", "family_id"]].dropna()
     # OLS with clustered SEs at the family level
-    r = smf.ols(f"{var} ~ any_insurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    r = pf.feols(f"{var} ~ any_insurance", data=d, vcov={"CRV1": "family_id"})
     rows.append({
         "Variable": var,
-        "Catastrophic mean": round(r.params["Intercept"], 1),  # control group mean
-        "Any ins. difference": round(r.params["any_insurance"], 2),  # treatment-control gap
-        "SE": round(r.bse["any_insurance"], 2),
-        "t-stat": round(r.tvalues["any_insurance"], 2),  # difference / SE
+        "Catastrophic mean": round(r.coef()["Intercept"], 1),  # control group mean
+        "Any ins. difference": round(r.coef()["any_insurance"], 2),  # treatment-control gap
+        "SE": round(r.se()["any_insurance"], 2),
+        "t-stat": round(r.tstat()["any_insurance"], 2),  # difference / SE
     })
 
 pd.DataFrame(rows)
@@ -1265,18 +1315,17 @@ foreach var in age education health_index {
 #| tbl-cap: "Percentage increase in utilization for the free plan relative to catastrophic"
 
 # --- Load data ---
-hie = pd.read_csv("../data/ch1/rand_utilization.csv")
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 
 # --- Run regressions and compute percentage effects ---
 rows = []
 for var in ["visits", "outpatient_expenses", "admissions", "inpatient_expenses", "total_expenses"]:
     d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
     # OLS with plan dummies; clustered SEs at the family level
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
-    cat_mean = r.params["Intercept"]       # intercept = catastrophic plan mean (reference group)
-    free_effect = r.params["plan_free"]     # coefficient = absolute increase from free plan
+    cat_mean = r.coef()["Intercept"]       # intercept = catastrophic plan mean (reference group)
+    free_effect = r.coef()["plan_free"]     # coefficient = absolute increase from free plan
     pct_increase = (free_effect / cat_mean) * 100  # express as percentage of baseline
 
     rows.append({
@@ -1325,7 +1374,7 @@ foreach var in visits outpatient_expenses admissions inpatient_expenses total_ex
 #| tbl-cap: "Selection bias by gender: comparing insured vs. uninsured separately for husbands and wives"
 
 # --- Load data ---
-nhis = pd.read_csv("../data/ch1/nhis_clean.csv")
+nhis = pd.read_csv(DATA + "ch1/nhis_clean.csv")
 
 # --- Run WLS regressions by gender ---
 rows = []
@@ -1333,12 +1382,12 @@ for gender in ["husband", "wife"]:
     subset = nhis[nhis["gender"] == gender]  # split sample by gender
     for var in ["health", "education", "family_income"]:
         # WLS with survey weights; HC1 robust standard errors
-        r = smf.wls(f"{var} ~ insurance", data=subset, weights=subset["weight"]).fit(cov_type="HC1")
+        r = pf.feols(f"{var} ~ insurance", data=subset, weights="weight", vcov="hetero")
         rows.append({
             "Gender": gender,
             "Variable": var,
-            "Difference (Ins - Unins)": round(r.params["insurance"], 2),  # coefficient = gap
-            "SE": round(r.bse["insurance"], 2),
+            "Difference (Ins - Unins)": round(r.coef()["insurance"], 2),  # coefficient = gap
+            "SE": round(r.se()["insurance"], 2),
         })
 
 pd.DataFrame(rows)
@@ -1379,27 +1428,26 @@ foreach g in husband wife {
 
 # --- Load data ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
-hie = pd.read_csv("../data/ch1/rand_utilization.csv")
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 
 # --- Regression with three plan dummies ---
 d = hie[["total_expenses", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-r = smf.ols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-    cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+r = pf.feols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
 # --- Extract and rank coefficients by plan generosity ---
 pd.DataFrame({
     "Plan": ["Free (most generous)", "Coinsurance (medium)", "Deductible (least generous)"],
-    "Effect vs. catastrophic": [round(r.params["plan_free"]),
-                                 round(r.params["plan_coinsurance"]),
-                                 round(r.params["plan_deductible"])],
-    "SE": [round(r.bse["plan_free"]),
-           round(r.bse["plan_coinsurance"]),
-           round(r.bse["plan_deductible"])],
-    "t-stat": [round(r.tvalues["plan_free"], 2),
-               round(r.tvalues["plan_coinsurance"], 2),
-               round(r.tvalues["plan_deductible"], 2)],
+    "Effect vs. catastrophic": [round(r.coef()["plan_free"]),
+                                 round(r.coef()["plan_coinsurance"]),
+                                 round(r.coef()["plan_deductible"])],
+    "SE": [round(r.se()["plan_free"]),
+           round(r.se()["plan_coinsurance"]),
+           round(r.se()["plan_deductible"])],
+    "t-stat": [round(r.tstat()["plan_free"], 2),
+               round(r.tstat()["plan_coinsurance"], 2),
+               round(r.tstat()["plan_deductible"], 2)],
 })
 ```
 
@@ -1435,7 +1483,7 @@ test plan_free = plan_coinsurance
 #| tbl-cap: "Implied price elasticity of demand: inpatient vs. outpatient care"
 
 # --- Load data ---
-hie = pd.read_csv("../data/ch1/rand_utilization.csv")
+hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 
 # --- Compute elasticities for inpatient and outpatient care ---
 # Price change: catastrophic plan covers ~5% (price = 0.95), free covers 100% (price = 0.00)
@@ -1445,12 +1493,11 @@ price_drop = 0.95
 rows = []
 for var, label in [("outpatient_expenses", "Outpatient"), ("inpatient_expenses", "Inpatient")]:
     d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-    cat_mean = r.params["Intercept"]
-    free_effect = r.params["plan_free"]
-    pct_change_q = free_effect / cat_mean
-    elasticity = pct_change_q / price_drop
+    r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
+    cat_mean = r.coef()["Intercept"]        # catastrophic group mean (baseline spending)
+    free_effect = r.coef()["plan_free"]      # absolute increase from free plan
+    pct_change_q = free_effect / cat_mean    # percentage change in quantity
+    elasticity = pct_change_q / price_drop   # arc elasticity of demand
 
     rows.append({
         "Care type": label,

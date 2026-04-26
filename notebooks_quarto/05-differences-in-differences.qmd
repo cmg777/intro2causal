@@ -1,5 +1,5 @@
 ---
-title: "Chapter 5: Differences-in-Differences"
+title: "Chapter 5: Differences in Differences"
 subtitle: "A Study Guide for *Mastering 'Metrics* by Angrist & Pischke"
 format:
   html:
@@ -15,8 +15,10 @@ execute:
   message: false
 ---
 
+
+
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -28,7 +30,7 @@ By the end of this chapter, you will be able to:
 - Interpret DD results from two case studies: banking crises and drinking age policy
 :::
 
-**What if treatment isn't randomly assigned, but changes at different times for different groups?** This chapter teaches **Difference-in-Differences (DD)** --- a method that compares *changes* over time between treatment and control groups. By focusing on changes, DD removes confounders that are fixed over time.
+This chapter introduces a method for settings where treatment is not randomly assigned but varies across groups and over time. By comparing *changes* rather than levels, DD removes time-invariant confounders.
 
 ```{mermaid}
 %%| label: fig-roadmap
@@ -48,6 +50,7 @@ graph TD
     style C fill:#c0392b,color:#fff
     style D fill:#8e44ad,color:#fff
     style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 
@@ -249,24 +252,18 @@ Like a patchwork quilt where each square is a different color. The variation in 
 :::::
 
 
-# A Mississippi Experiment
+## A Mississippi Experiment
 
-## The Great Depression and the Fed
+### The Great Depression and the Fed
 
-**The question:** Could the Federal Reserve have saved banks during the Great Depression?
+In 1930, the collapse of Caldwell and Company, a Nashville banking giant, triggered a cascade of bank failures across the American South. Within weeks, dozens of banks closed. The question for policymakers: **could aggressive central bank intervention have prevented the collapse?**
 
-In 1930, Caldwell and Company --- Nashville's largest bank --- collapsed. Within weeks, dozens of banks failed across the South.
-
-**The natural experiment:** The Federal Reserve System splits Mississippi between two districts:
+A natural experiment emerged from the structure of the Federal Reserve System. The border between two Fed districts runs through Mississippi, splitting the state between:
 
 - **6th District (Atlanta Fed)**: favored easy credit and liquidity support for struggling banks
 - **8th District (St. Louis Fed)**: followed a restrictive "Real Bills" doctrine, tightening credit during the crisis
 
 Banks on either side of this border faced the same economic conditions but received very different policy responses.
-
-**The data:** Richardson and Troost (2009) compiled the number of banks in business in each district on July 1 of each year, from 1929 to 1934. The unit of analysis is the district-year. The 6th District had 135 banks and the 8th had 165 in 1930 (before the crisis deepened). The key outcome is the *change* in the number of surviving banks over time.
-
-**Why DD works here:** Both districts shared the same state, the same economic conditions, and the same banking crisis. The only difference was the Fed's response. By comparing the *change* in bank survival across districts, DD removes any fixed differences between them (different number of banks, different local economies) and isolates the causal effect of the policy.
 
 ```{python}
 # Load clean bank failure data (July 1 each year, both districts)
@@ -274,16 +271,19 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import statsmodels.formula.api as smf
+import pyfixest as pf
 sns.set_style("whitegrid")
+
+# --- Data source ---
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # bib6 = banks in business (6th district), bib8 = banks in business (8th district)
 # counterfactual = what 6th district would look like under parallel trends
-banks = pd.read_csv("../data/ch5/banks_clean.csv")
+banks = pd.read_csv(DATA + "ch5/banks_clean.csv")
 banks
 ```
 
-## Visualizing the DD
+### Visualizing the DD
 
 ```{python}
 #| label: fig-banks
@@ -308,7 +308,7 @@ plt.show()
 
 The divergence is striking. Both districts started with roughly similar numbers of banks in 1930. After the crisis hit, the 8th District (no intervention) lost banks rapidly, while the 6th District (Fed intervention) held up much better. The dashed counterfactual line shows where the 6th District would have ended up if it had followed the same trajectory as the 8th --- the gap between the actual and counterfactual lines is the DD estimate of how many banks the Fed saved.
 
-## Computing the DD
+### Computing the DD
 
 Let's quantify this visual impression. The DD calculation compares **changes** across groups, which removes any fixed differences between the districts:
 
@@ -317,12 +317,18 @@ Let's quantify this visual impression. The DD calculation compares **changes** a
 #| tbl-cap: "Difference-in-differences calculation for bank survival. The DD estimate represents the causal effect of Fed intervention."
 
 # Compute DD for each post-crisis year
+# Get the 1930 baseline values for each district
+pre_6 = banks.loc[banks["year"] == 1930, "bib6"].values[0]
+pre_8 = banks.loc[banks["year"] == 1930, "bib8"].values[0]
+
+# Loop over each year after 1930
 rows = []
-pre = banks[banks["year"] == 1930].iloc[0]
-for _, row in banks[banks["year"] > 1930].iterrows():
+post_years = banks[banks["year"] > 1930]
+for _, row in post_years.iterrows():
     # Change in each district relative to 1930
-    change_6 = row["bib6"] - pre["bib6"]
-    change_8 = row["bib8"] - pre["bib8"]
+    change_6 = row["bib6"] - pre_6
+    change_8 = row["bib8"] - pre_8
+    # DD = treated change minus control change
     dd = change_6 - change_8
 
     rows.append({
@@ -336,13 +342,13 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-important}
-## Key finding
+### Key finding
 
 The Atlanta Fed's easy money policy saved approximately **19--23 banks** relative to the restrictive St. Louis Fed approach. The DD works by subtracting the control group's change from the treated group's change, removing any common trends.
 :::
 
 ::: {.callout-note}
-## Intuition Builder: The Diet Analogy
+### Intuition Builder: The Diet Analogy
 
 Suppose you and a friend both plan to eat well over the holidays. You go on a new diet; your friend doesn't. After the holidays, you gained 2 lbs and your friend gained 7 lbs. Did the diet work?
 
@@ -353,9 +359,9 @@ The key assumption: without the diet, you would have gained the same 7 lbs as yo
 :::
 
 
-# The DD Framework
+## The DD Framework
 
-## The Core Logic
+### The Core Logic
 
 DD compares changes over time in a treatment group with changes in a control group:
 
@@ -381,15 +387,20 @@ graph TD
     DT --> DD
     DC --> DD
 
+    style T1 fill:#475569,color:#fff
+    style T2 fill:#475569,color:#fff
+    style C1 fill:#475569,color:#fff
+    style C2 fill:#475569,color:#fff
     style DD fill:#2d8659,color:#fff
     style DT fill:#3498db,color:#fff
     style DC fill:#e67e22,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
-## The Parallel Trends Assumption
+### The Parallel Trends Assumption
 
 ::: {.callout-warning}
-## The key assumption
+### The key assumption
 
 DD requires that, **absent treatment**, the treated and control groups would have followed **parallel trends**. The treatment and control groups can start at different levels --- but their *changes over time* must be similar.
 
@@ -397,28 +408,15 @@ If this assumption fails (e.g., the treated group was already on a different tra
 :::
 
 ::: {.callout-warning}
-## Common Misconception: DD does NOT require equal levels
+### Common Misconception: DD does NOT require equal levels
 
 Students often think DD requires the treatment and control groups to have the same *level* of the outcome. This is wrong. The 6th District had 135 banks and the 8th had 165 --- very different levels. What matters is that they would have *changed at the same rate* without the intervention. Groups can start miles apart; DD only needs them to travel in the same direction at the same speed.
 :::
 
 
-# Case Study: MLDA and Death Rates
+## Case Study: MLDA and Death Rates
 
-**Research question:** Did states that lowered their minimum legal drinking age experience more deaths among 18--20 year olds?
-
-**The challenge:** States that changed their drinking age may differ from those that didn't --- in wealth, driving culture, alcohol consumption norms, and many other ways. A simple comparison of "changed" vs. "didn't change" states confounds the policy effect with these pre-existing differences.
-
-**The data:** The analysis uses a state-year panel covering 51 states (including D.C.) from 1970 to 1983. The key variables are:
-
-- **Outcome** (`mrate`): death rate per 100,000 among 18--20 year olds, by cause (all causes, MVA, suicide, internal)
-- **Treatment** (`legal`): fraction of 18--20 year olds in each state-year who can legally drink (ranges from 0 to 1, depending on the state's MLDA)
-- **Controls**: state fixed effects, year fixed effects, and optionally beer taxes and state-specific trends
-- **Weights**: state population of 18--20 year olds (`pop`)
-
-Standard errors are clustered at the state level because the treatment varies at the state level and death rates within a state are correlated over time.
-
-## The Policy Variation
+### The Policy Variation
 
 After Prohibition ended in 1933, states set their own drinking ages. In 1984, federal legislation pushed all states to adopt a minimum legal drinking age of 21, but states complied at different times. This staggered adoption creates variation for a DD analysis.
 
@@ -426,11 +424,11 @@ After Prohibition ended in 1933, states set their own drinking ages. In 1984, fe
 # Load clean MLDA death rate data (state-year panel, 18-20 year olds, 1970-1983)
 # mrate = death rate per 100,000; legal = fraction of 18-20 yr olds who can legally drink
 # dtype = cause of death (all, MVA, suicide, internal); pop = state population of 18-20 yr olds
-deaths = pd.read_csv("../data/ch5/deaths_clean.csv")
+deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 deaths.head(3)
 ```
 
-## The Regression DD Model
+### The Regression DD Model
 
 With many states and years, DD is implemented as a regression with **fixed effects**:
 
@@ -443,7 +441,7 @@ where $Y_{st}$ is the death rate (`mrate`) in state $s$ at time $t$, and $D_{st}
 - **$\delta$** is the DD estimate: the causal effect of legal drinking access on the death rate
 
 ::: {.callout-note}
-## Why cluster standard errors by state?
+### Why cluster standard errors by state?
 
 The treatment variable (`legal`) changes at the state level, and death rates within a state are correlated over time. **Clustering** standard errors at the state level accounts for this serial correlation, preventing us from overstating precision.
 :::
@@ -458,16 +456,14 @@ Let's start with a single regression for all-cause mortality:
 allcause = deaths[deaths["dtype"] == "all"]
 
 # DD regression with state and year fixed effects
-result = smf.ols(
-    "mrate ~ legal + C(state) + C(year)", data=allcause
-).fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+result = pf.feols("mrate ~ legal + C(state) + C(year)", data=allcause, vcov={"CRV1": "state"})
 
 # Show just the key coefficient
 coef_table = pd.DataFrame({
     "Variable": ["legal"],
-    "Coefficient": [round(result.params["legal"], 2)],
-    "Std. Error": [round(result.bse["legal"], 2)],
-    "t-stat": [round(result.tvalues["legal"], 2)],
+    "Coefficient": [round(result.coef()["legal"], 2)],
+    "Std. Error": [round(result.se()["legal"], 2)],
+    "t-stat": [round(result.tstat()["legal"], 2)],
 })
 coef_table
 ```
@@ -478,7 +474,11 @@ The `legal` coefficient tells us that a one-unit increase in the fraction of 18-
 #| label: tbl-dd-full
 #| tbl-cap: "Regression DD estimates of MLDA effects on death rates across causes and specifications. Standard errors clustered at the state level."
 
-# Four specifications for each cause of death
+# Compare three specifications for each cause of death:
+#   Spec 1 — Unweighted OLS with state + year fixed effects
+#   Spec 2 — Add state-specific linear trends (each state gets its own slope over time)
+#   Spec 3 — Population-weighted WLS (larger states count more)
+
 dtype_labels = {"all": "All causes", "MVA": "Motor vehicle", "suicide": "Suicide", "internal": "Internal"}
 
 rows = []
@@ -486,39 +486,33 @@ for dtype_val, label in dtype_labels.items():
     s = deaths[deaths["dtype"] == dtype_val].copy()
 
     # Spec 1: State + Year FE, unweighted
-    r1 = smf.ols("mrate ~ legal + C(state) + C(year)", data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})
+    r1 = pf.feols("mrate ~ legal + C(state) + C(year)", data=s, vcov={"CRV1": "state"})
 
     # Spec 2: Add state-specific linear trends
     # C(state):year = interaction of state dummies with year, giving each state its own slope
-    r2 = smf.ols("mrate ~ legal + C(state) + C(year) + C(state):year", data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})
+    r2 = pf.feols("mrate ~ legal + C(state) + C(year) + C(state):year", data=s, vcov={"CRV1": "state"})
 
     # Spec 3: Population-weighted (WLS)
     # Weight by state population so larger states count more (more reliable death rates)
-    r3 = smf.wls("mrate ~ legal + C(state) + C(year)", data=s, weights=s["pop"]).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})
+    r3 = pf.feols("mrate ~ legal + C(state) + C(year)", data=s, weights="pop", vcov={"CRV1": "state"})
 
     # Format each result as "coefficient (standard error)"
-    coef1 = round(r1.params["legal"], 2)
-    se1 = round(r1.bse["legal"], 2)
-    coef2 = round(r2.params["legal"], 2)
-    se2 = round(r2.bse["legal"], 2)
-    coef3 = round(r3.params["legal"], 2)
-    se3 = round(r3.bse["legal"], 2)
+    coef1 = format(round(r1.coef()["legal"], 2), ".2f") + " (" + format(round(r1.se()["legal"], 2), ".2f") + ")"
+    coef2 = format(round(r2.coef()["legal"], 2), ".2f") + " (" + format(round(r2.se()["legal"], 2), ".2f") + ")"
+    coef3 = format(round(r3.coef()["legal"], 2), ".2f") + " (" + format(round(r3.se()["legal"], 2), ".2f") + ")"
 
     rows.append({
         "Cause": label,
-        "Unweighted": format(coef1, ".2f") + " (" + format(se1, ".2f") + ")",
-        "With state trends": format(coef2, ".2f") + " (" + format(se2, ".2f") + ")",
-        "Pop. weighted": format(coef3, ".2f") + " (" + format(se3, ".2f") + ")",
+        "Unweighted": coef1,
+        "With state trends": coef2,
+        "Pop. weighted": coef3,
     })
 
 pd.DataFrame(rows)
 ```
 
 ::: {.callout-important}
-## Interpreting the DD results
+### Interpreting the DD results
 
 - **Legal drinking access increases the death rate** by approximately **8--12 per 100,000** among 18--20 year olds
 - **Motor vehicle accidents** account for most of the effect (~7--8 deaths)
@@ -526,16 +520,16 @@ pd.DataFrame(rows)
 - Results are **robust** to adding state-specific trends and population weighting
 :::
 
+
+## Robustness Checks
+
 The baseline results are encouraging, but how confident can we be? A careful researcher should probe whether the findings hold up under alternative specifications.
 
-
-# Robustness Checks
-
-## State-Specific Trends
+### State-Specific Trends
 
 Adding state-specific linear time trends is a more demanding test. It allows each state to have its own background trajectory and asks whether the MLDA effect is a **deviation from this trend** rather than a continuation of pre-existing patterns. The results hold up.
 
-## Beer Tax Control
+### Beer Tax Control
 
 Another potential confounder is beer taxes, which some states changed around the same time as their drinking age laws. If beer taxes independently affect mortality, omitting them could bias the DD estimate. Controlling for beer taxes tests whether the MLDA effect is confounded by these concurrent policy changes:
 
@@ -543,23 +537,21 @@ Another potential confounder is beer taxes, which some states changed around the
 #| label: tbl-beertax
 #| tbl-cap: "DD estimates controlling for beer taxes. MLDA effects remain robust."
 
+# Check if MLDA effects hold after controlling for beer taxes
 rows = []
 for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle")]:
     s = deaths[deaths["dtype"] == dtype_val].dropna(subset=["beertax"]).copy()
 
-    r = smf.ols("mrate ~ legal + beertax + C(state) + C(year)", data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})
+    r = pf.feols("mrate ~ legal + beertax + C(state) + C(year)", data=s, vcov={"CRV1": "state"})
 
-    # Extract coefficients and standard errors
-    coef_legal = round(r.params["legal"], 2)
-    se_legal = round(r.bse["legal"], 2)
-    coef_tax = round(r.params["beertax"], 2)
-    se_tax = round(r.bse["beertax"], 2)
+    # Format results as "coefficient (standard error)"
+    legal_str = format(round(r.coef()["legal"], 2), ".2f") + " (" + format(round(r.se()["legal"], 2), ".2f") + ")"
+    tax_str = format(round(r.coef()["beertax"], 2), ".2f") + " (" + format(round(r.se()["beertax"], 2), ".2f") + ")"
 
     rows.append({
         "Cause": label,
-        "Legal effect": format(coef_legal, ".2f") + " (" + format(se_legal, ".2f") + ")",
-        "Beer tax effect": format(coef_tax, ".2f") + " (" + format(se_tax, ".2f") + ")",
+        "Legal effect": legal_str,
+        "Beer tax effect": tax_str,
     })
 
 pd.DataFrame(rows)
@@ -568,7 +560,7 @@ pd.DataFrame(rows)
 The MLDA coefficients are largely unchanged after controlling for beer taxes, reinforcing the causal interpretation.
 
 
-# How DD Compares to Other Methods
+## How DD Compares to Other Methods
 
 We now have four causal inference tools in our toolkit. How do they relate to each other?
 
@@ -582,7 +574,7 @@ We now have four causal inference tools in our toolkit. How do they relate to ea
 : Comparing the four causal inference methods covered so far {.striped}
 
 ::: {.callout-note}
-## Connection to Chapters 1 and 4
+### Connection to Chapters 1 and 4
 
 DD complements the other methods:
 
@@ -591,9 +583,11 @@ DD complements the other methods:
 :::
 
 
-# Historical Perspective: John Snow
+## Historical Perspective: John Snow
 
-The logic of DD has a surprisingly long history. Long before modern econometrics, **John Snow** (1813--1858) used DD reasoning to solve one of the great public health mysteries: the cause of cholera.
+The logic of DD has a surprisingly long history.
+
+Long before modern econometrics, **John Snow** (1813--1858) used DD reasoning to solve one of the great public health mysteries: the cause of cholera.
 
 In 1854 London, Snow noticed that cholera deaths were concentrated in neighborhoods served by the **Southwark and Vauxhall** water company, which drew from a contaminated stretch of the Thames. A competing company, **Lambeth**, had moved its intake upstream to cleaner water in 1852.
 
@@ -602,7 +596,9 @@ Snow compared the *change* in cholera death rates before and after Lambeth's mov
 This was a DD analysis avant la lettre: two groups (water companies), a treatment that changed for one but not the other, and a comparison of changes in outcomes.
 
 
-# Key Takeaways
+## Key Takeaways
+
+The following concept map shows how the key ideas in this chapter connect --- from policy variation across groups and time, through the DD method and its parallel trends assumption, to regression implementation with fixed effects and robustness checks.
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -626,7 +622,9 @@ graph TD
     style DD fill:#8e44ad,color:#fff
     style PT fill:#c0392b,color:#fff
     style FE fill:#e67e22,color:#fff
+    style ROB fill:#475569,color:#fff
     style EV fill:#2d8659,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 1. **DD compares changes over time** between treatment and control groups, removing time-invariant confounders.
@@ -642,9 +640,102 @@ graph TD
 6. **Robustness checks** include state-specific trends, population weighting, and placebo tests on unaffected outcomes.
 
 
-# Exercises
+## Learn by Coding
 
-## Multiple Choice Questions
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 5: Differences-in-Differences — Code Cheatsheet
+# ============================================================
+import pandas as pd
+import pyfixest as pf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Manual DD with the Great Depression banking data ---
+banks = pd.read_csv(DATA + "ch5/banks_clean.csv")
+print("Banks in business by district and year:")
+print(banks)
+
+pre_6 = banks.loc[banks["year"] == 1930, "bib6"].values[0]
+pre_8 = banks.loc[banks["year"] == 1930, "bib8"].values[0]
+post_6 = banks.loc[banks["year"] == 1931, "bib6"].values[0]
+post_8 = banks.loc[banks["year"] == 1931, "bib8"].values[0]
+dd = (post_6 - pre_6) - (post_8 - pre_8)
+print(f"\nDD estimate (1931 vs 1930): {dd} banks saved by Atlanta Fed intervention")
+
+# --- Step 2: Load MLDA death rate panel data ---
+deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
+allcause = deaths[deaths["dtype"] == "all"]
+print(f"\nDeath rate panel: {allcause.shape[0]} state-year observations")
+
+# --- Step 3: Regression DD with state and year fixed effects ---
+result = pf.feols("mrate ~ legal + C(state) + C(year)", data=allcause, vcov={"CRV1": "state"})
+print(f"\nDD estimate (all-cause deaths): {round(result.coef()['legal'], 2)}")
+print(f"  Standard error: {round(result.se()['legal'], 2)}")
+
+# --- Step 4: Population-weighted DD ---
+result = pf.feols("mrate ~ legal + C(state) + C(year)", data=allcause, weights="pop", vcov={"CRV1": "state"})
+print(f"\nWeighted DD estimate: {round(result.coef()['legal'], 2)}")
+
+# --- Step 5: Placebo test (suicide should NOT respond to drinking age) ---
+suicide = deaths[deaths["dtype"] == "suicide"]
+result = pf.feols("mrate ~ legal + C(state) + C(year)", data=suicide, vcov={"CRV1": "state"})
+print(f"\nPlacebo (suicide): {round(result.coef()['legal'], 2)}")
+print("  (Expect: small and insignificant)")
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+Below is the same cheatsheet in Stata syntax.
+
+```stata
+* ============================================================
+* Chapter 5: Differences-in-Differences — Stata Cheatsheet
+* ============================================================
+clear all
+set more off
+
+* --- Step 1: Manual DD with the Great Depression banking data ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/banks_clean.csv", clear
+list
+scalar pre_6  = bib6[2]   // District 6 in 1930
+scalar pre_8  = bib8[2]   // District 8 in 1930
+scalar post_6 = bib6[3]   // District 6 in 1931
+scalar post_8 = bib8[3]   // District 8 in 1931
+scalar dd = (post_6 - pre_6) - (post_8 - pre_8)
+display "DD estimate (1931 vs 1930): " dd " banks saved by Atlanta Fed"
+
+* --- Step 2: Load MLDA death rate panel data ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/deaths_clean.csv", clear
+keep if dtype == "all"
+
+* --- Step 3: Regression DD with state and year fixed effects ---
+reg mrate legal i.state i.year, cluster(state)
+
+* --- Step 4: Population-weighted DD ---
+reg mrate legal i.state i.year [aw=pop], cluster(state)
+
+* --- Step 5: Placebo test (suicide should NOT respond to drinking age) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch5/deaths_clean.csv", clear
+keep if dtype == "suicide"
+reg mrate legal i.state i.year, cluster(state)
+* Expect: small and insignificant coefficient on legal
+```
+
+::: {.callout-tip}
+### Try it in Stata!
+Copy the code above into a `.do` file and run it in Stata 14 or later (which supports loading data from URLs). If your Stata cannot access the internet, download the CSV files from the `data/` folder on [GitHub](https://github.com/cmg777/intro2causal/tree/main/data) and replace each URL with a local file path.
+:::
+
+
+## Exercises
+
+### Multiple Choice Questions
 
 1. **The key identifying assumption of differences-in-differences is:**
    a) Treatment and control groups have the same level of the outcome variable
@@ -653,7 +744,7 @@ graph TD
    d) The treatment effect is constant across all individuals
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(c)** The parallel trends assumption states that, without the treatment, the treated and control groups would have changed at the same rate. **(a) is wrong** because DD allows the groups to start at different levels — that is precisely why we take differences. **(b) is wrong** because random assignment describes RCTs, not DD; DD exploits policy changes in observational data. **(d) is wrong** because DD does not require the same treatment effect for everyone. The key requirement is parallel *trends*, not equal levels, randomization, or homogeneous effects.
 :::
 
@@ -664,7 +755,7 @@ graph TD
    d) To make the treatment and control groups the same size
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** Both groups may be affected by common shocks (e.g., a national recession, improving vehicle safety). By subtracting the control group's change, DD removes these common trends, isolating the treatment effect. **(a) is wrong** because a single before-after comparison for the treated group cannot distinguish the treatment effect from time trends that affect everyone. **(c) is wrong** because comparing treated and control groups at one point in time conflates the treatment effect with pre-existing level differences. **(d) is wrong** because DD does not require equal group sizes — it relies on the parallel trends assumption instead.
 :::
 
@@ -675,7 +766,7 @@ graph TD
    d) The end of the gold standard
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** The treatment was the Atlanta Fed's (6th District) policy of providing easy credit and liquidity support to struggling banks, in contrast to the St. Louis Fed's (8th District) restrictive approach. **(a) is wrong** because the Caldwell collapse was the triggering event (common shock), not the treatment — it affected both districts. **(c) is wrong** because the Federal Reserve System was created in 1913, long before the study period. **(d) is wrong** because the end of the gold standard is a macroeconomic event unrelated to the district-level policy comparison.
 :::
 
@@ -686,7 +777,7 @@ graph TD
    d) Differences between treatment and control states after treatment
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** State fixed effects absorb all characteristics of a state that are constant over time — geography, culture, climate, institutional history, etc. They allow us to compare changes *within* each state over time, rather than comparing levels across states. **(a) is wrong** because it describes state-specific time trends (which allow each state its own slope over time), a more demanding specification than simple fixed effects. **(c) is wrong** because it describes an interaction term between treatment and time, which is the DD coefficient itself, not a fixed effect. **(d) is wrong** because fixed effects do not eliminate measurement error in the dependent variable — they only remove time-invariant confounders.
 :::
 
@@ -697,7 +788,7 @@ graph TD
    d) Valid only for the treated group
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(c)** If the treated group was already on a different trajectory before treatment, the DD estimate captures both the treatment effect and this pre-existing trend difference — a violation of the parallel trends assumption. **(a) is wrong** because heteroscedasticity affects standard errors but does not bias the DD point estimate. **(b) is wrong** because unequal group sizes reduce precision but do not inherently bias the estimate. **(d) is wrong** because a single pre-treatment observation is insufficient to detect diverging trends; multiple pre-treatment periods are needed to assess whether parallel trends hold.
 :::
 
@@ -708,7 +799,7 @@ graph TD
    d) Measurement error in the outcome variable
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** Year fixed effects absorb common shocks — economy-wide recessions, nationwide policy changes, or secular trends in mortality — that affect all states in the same year. Without year fixed effects, these common trends could be mistaken for treatment effects. **(a) is wrong** because that describes state fixed effects, not year fixed effects. **(c) is wrong** because the treatment effect is captured by the interaction of treatment group and post-treatment period, not by year fixed effects. **(d) is wrong** because fixed effects do not correct measurement error.
 :::
 
@@ -719,7 +810,7 @@ graph TD
    d) It is required whenever the sample size is large
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** Within a state, outcomes are correlated over time (serial correlation). If we ignore this and treat each state-year as independent, we understate the true uncertainty and get artificially small standard errors, leading to false rejections of the null. Clustering at the state level corrects for this. **(a) is wrong** because clustering typically makes results *less* significant by increasing standard errors. **(c) is wrong** because clustering affects standard errors and inference, not the point estimates. **(d) is wrong** because clustering is motivated by the data structure (repeated observations within units), not by sample size.
 :::
 
@@ -730,7 +821,7 @@ graph TD
    d) Has no effect on the treatment coefficient
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** State-specific trends allow each state its own linear slope over time. If the DD estimate is robust to adding these trends, it suggests the result is not driven by pre-existing divergent trajectories. If the estimate changes substantially, the parallel trends assumption may be suspect. **(a) is wrong** because state trends are a robustness check, not a requirement — many valid DD studies do not include them. **(c) is wrong** because state trends partially address the concern but do not eliminate it; non-linear differential trends could still bias the estimate. **(d) is wrong** because adding state trends often changes the coefficient, sometimes substantially.
 :::
 
@@ -741,7 +832,7 @@ graph TD
    d) Male mortality to female mortality in the same year
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(a)** The MLDA DD compares changes in mortality in states that lowered their legal drinking age to 18 versus states that kept it at 21, before and after the policy change. The within-state change removes permanent state differences, and the cross-state comparison removes common time trends. **(b) is wrong** because DD compares treatment and control states, not age groups within a state (that would be more like an RD approach). **(c) is wrong** because DD does not compare states by drinking levels but by whether they changed their policy. **(d) is wrong** because comparing across genders is not the DD variation — it could serve as a placebo test, but is not the main identification strategy.
 :::
 
@@ -752,16 +843,16 @@ graph TD
     d) Running the regression without fixed effects
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** A placebo test checks whether the DD estimate produces a significant effect on an outcome the treatment should not affect. For example, if a pollution regulation appears to reduce asthma but also "reduces" broken bones, the design is suspect. A clean placebo test (no effect on the irrelevant outcome) strengthens the causal interpretation. **(a) is wrong** because DD is observational — there is no literal placebo administered. **(c) is wrong** because randomly reassigning treatment is a permutation test, not a placebo test. **(d) is wrong** because omitting fixed effects changes the specification but is not a placebo test — it would introduce bias rather than test validity.
 :::
 
-## Conceptual Questions
+### Conceptual Questions
 
 1. **Parallel trends**: A city implements a minimum wage increase in 2020. You plan to compare employment changes in that city with a neighboring city that didn't raise the minimum wage. What would it mean if the two cities already had diverging employment trends before 2020? How would this affect your DD estimate?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 **Diverging pre-treatment trends violate the parallel trends assumption and contaminate the DD estimate with a pre-existing trend difference.**
 
@@ -774,7 +865,7 @@ graph TD
 2. **Computing DD**: Before a policy change, the treatment group's outcome average is 50 and the control group's is 40. After the change, they are 55 and 48. (a) Compute the DD estimate. (b) What assumption is needed for this to be causal?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 **The DD estimate is -3, meaning the treatment caused the outcome to be 3 units lower than it would have been without the policy.**
 
@@ -786,7 +877,7 @@ graph TD
 3. **Fixed effects**: Explain in your own words why we need *both* state and year fixed effects in the MLDA regression. What would happen if we omitted state effects? Year effects?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 **State and year fixed effects work together to isolate the within-state, within-year variation in MLDA policy --- the only variation that can credibly identify the causal effect.**
 
@@ -798,7 +889,7 @@ graph TD
 4. **State-specific trends**: Explain what adding `C(state):year` to the DD regression does. Under what circumstances might the DD estimate change substantially when you add state-specific trends, and what would that imply about the parallel trends assumption?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 **Adding state-specific trends is a more demanding test of the DD design: it asks whether MLDA changes caused deviations from each state's own trajectory, not just from the national average.**
 
@@ -810,7 +901,7 @@ graph TD
 5. **Placebo test design**: You are studying whether a new air pollution regulation reduced asthma hospitalizations. Propose a placebo outcome that should NOT be affected by the regulation. Why would finding a significant effect on your placebo outcome be concerning?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 **A placebo outcome should be theoretically unaffected by the treatment; a significant placebo result is a red flag that the DD design is flawed.**
 
@@ -820,12 +911,12 @@ graph TD
 4. This connects to the MLDA analysis in this chapter: the suicide death rate serves a similar placebo-like function, testing whether the DD picks up effects on outcomes less directly linked to legal drinking.
 :::
 
-## Research Tasks
+### Research Tasks
 
 1. **DD for suicide deaths**: Using `deaths_clean.csv`, run the DD regression for suicide deaths (`dtype == "suicide"`) with state and year fixed effects and state-clustered SEs. Is the effect of legal drinking significant for suicides? How does the coefficient compare to the all-cause result?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-suicide-dd
@@ -833,7 +924,7 @@ graph TD
 
 # --- Setup ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 
@@ -841,14 +932,7 @@ deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 rows = []
 for dtype_val, label in [("all", "All causes"), ("suicide", "Suicide")]:
     s = deaths[deaths["dtype"] == dtype_val].copy()  # filter to one cause of death
-    r = smf.ols("mrate ~ legal + C(state) + C(year)", data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})  # cluster SEs by state
-    rows.append({
-        "Cause": label,
-        "Legal effect": round(r.params["legal"], 2),  # DD estimate of MLDA effect
-        "SE": round(r.bse["legal"], 2),
-        "t-stat": round(r.tvalues["legal"], 2),  # significance check
-    })
+    r = pf.feols("mrate ~ legal + C(state) + C(year)", data=s, vcov={"CRV1": "state"})
 
 # --- Display Results ---
 pd.DataFrame(rows)
@@ -889,7 +973,7 @@ restore
 2. **DD over time for banks**: Using `banks_clean.csv`, compute the DD estimate for each post-crisis year (1931, 1932, 1933, 1934) relative to the 1930 baseline. Does the effect grow or shrink over time? What does this trend suggest about the lasting impact of the Fed's intervention?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-banks-dd
@@ -948,10 +1032,10 @@ forvalues y = 1931/1934 {
 (3) **What it teaches:** This year-by-year DD reveals the *dynamics* of the treatment effect, something a single DD estimate would miss. The growing then stabilizing gap shows that the intervention had both an immediate rescue effect (1931) and a durable protective effect (1932--1934). This pattern supports a causal interpretation: the Fed's policy permanently changed the trajectory of bank survival in its district.
 :::
 
-3. **Population-weighted DD**: Using `deaths_clean.csv`, run the all-cause DD regression with population weights (`smf.wls` with `weights=pop`). Compare the coefficient with the unweighted result. Why might weighting by population change the estimate?
+3. **Population-weighted DD**: Using `deaths_clean.csv`, run the all-cause DD regression with population weights (`pf.feols` with `weights="pop"`). Compare the coefficient with the unweighted result. Why might weighting by population change the estimate?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-wls
@@ -959,25 +1043,19 @@ forvalues y = 1931/1934 {
 
 # --- Setup ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 allcause = deaths[deaths["dtype"] == "all"]  # keep only all-cause deaths
 
 # --- Unweighted OLS ---
-r_uw = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause).fit(
-    cov_type="cluster", cov_kwds={"groups": allcause["state"]})  # cluster SEs by state
-
-# --- Population-Weighted WLS ---
-r_wt = smf.wls("mrate ~ legal + C(state) + C(year)", data=allcause,
-    weights=allcause["pop"]).fit(  # weight by state population
-    cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+r_uw = pf.feols("mrate ~ legal + C(state) + C(year)", data=allcause, vcov={"CRV1": "state"})
 
 # --- Display Comparison ---
 pd.DataFrame({
     "Specification": ["Unweighted OLS", "Population-weighted WLS"],
-    "Legal effect": [round(r_uw.params["legal"], 2), round(r_wt.params["legal"], 2)],
-    "SE": [round(r_uw.bse["legal"], 2), round(r_wt.bse["legal"], 2)],
+    "Legal effect": [round(r_uw.coef()["legal"], 2), round(r_wt.coef()["legal"], 2)],
+    "SE": [round(r_uw.se()["legal"], 2), round(r_wt.se()["legal"], 2)],
 })
 ```
 
@@ -1009,7 +1087,7 @@ reg mrate legal i.state_num i.year [aw=pop], cluster(state_num)
 4. **Cross-cause DD comparison**: Using `deaths_clean.csv`, run the DD regression (with state and year fixed effects, clustered SEs) separately for each available cause of death: all, MVA, suicide, homicide, and internal. Build a comparison table showing the `legal` coefficient for each. Which causes are plausibly affected by the MLDA, and which serve as placebos?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-cross-cause
@@ -1017,7 +1095,7 @@ reg mrate legal i.state_num i.year [aw=pop], cluster(state_num)
 
 # --- Setup ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 
@@ -1028,13 +1106,12 @@ for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle"),
                           ("internal", "Internal (placebo)")]:
     s = deaths[deaths["dtype"] == dtype_val].copy()
     if len(s) > 0:
-        r = smf.ols("mrate ~ legal + C(state) + C(year)", data=s).fit(
-            cov_type="cluster", cov_kwds={"groups": s["state"]})
+        r = pf.feols("mrate ~ legal + C(state) + C(year)", data=s, vcov={"CRV1": "state"})
         rows.append({
             "Cause": label,
-            "Legal effect": round(r.params["legal"], 2),
-            "SE": round(r.bse["legal"], 2),
-            "t-stat": round(r.tvalues["legal"], 2),
+            "Legal effect": round(r.coef()["legal"], 2),
+            "SE": round(r.se()["legal"], 2),
+            "t-stat": round(r.tstat()["legal"], 2),
         })
 
 pd.DataFrame(rows)
@@ -1069,7 +1146,7 @@ foreach cause in "all" "MVA" "suicide" "homicide" "internal" {
 5. **State-specific trend robustness**: Using `deaths_clean.csv`, run the DD regression for motor vehicle deaths (`dtype == "MVA"`) with and without state-specific linear time trends. The baseline model uses `mrate ~ legal + C(state) + C(year)`. The augmented model adds `C(state):year` interactions. How much does the coefficient change? What does this imply about the parallel trends assumption?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-mva-trends
@@ -1080,20 +1157,18 @@ deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 mva = deaths[deaths["dtype"] == "MVA"].copy()
 
 # --- Baseline DD ---
-r_base = smf.ols("mrate ~ legal + C(state) + C(year)", data=mva).fit(
-    cov_type="cluster", cov_kwds={"groups": mva["state"]})
+r_base = pf.feols("mrate ~ legal + C(state) + C(year)", data=mva, vcov={"CRV1": "state"})
 
 # --- DD with State-Specific Linear Time Trends ---
 mva["year_num"] = mva["year"] - mva["year"].min()  # center year for numerical stability
-r_trend = smf.ols("mrate ~ legal + C(state) + C(year) + C(state):year_num", data=mva).fit(
-    cov_type="cluster", cov_kwds={"groups": mva["state"]})
+r_trend = pf.feols("mrate ~ legal + C(state) + C(year) + C(state):year_num", data=mva, vcov={"CRV1": "state"})
 
 # --- Compare ---
 pd.DataFrame({
     "Specification": ["Baseline DD", "DD + state-specific trends"],
-    "Legal effect": [round(r_base.params["legal"], 2), round(r_trend.params["legal"], 2)],
-    "SE": [round(r_base.bse["legal"], 2), round(r_trend.bse["legal"], 2)],
-    "t-stat": [round(r_base.tvalues["legal"], 2), round(r_trend.tvalues["legal"], 2)],
+    "Legal effect": [round(r_base.coef()["legal"], 2), round(r_trend.coef()["legal"], 2)],
+    "SE": [round(r_base.se()["legal"], 2), round(r_trend.se()["legal"], 2)],
+    "t-stat": [round(r_base.tstat()["legal"], 2), round(r_trend.tstat()["legal"], 2)],
 })
 ```
 

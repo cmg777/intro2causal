@@ -15,8 +15,10 @@ execute:
   message: false
 ---
 
+
+
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -28,7 +30,7 @@ By the end of this chapter, you will be able to:
 - Recognize **weak instruments** and why they matter
 :::
 
-**What happens when people don't follow their assigned treatment?** Experiments break down when subjects don't comply. This chapter teaches **instrumental variables (IV)** --- a method that turns partial compliance into a tool for causal inference.
+This chapter addresses a common real-world complication: what happens when people don't follow their assigned treatment? The solution --- instrumental variables --- turns partial compliance into a powerful tool for causal inference.
 
 ```{mermaid}
 %%| label: fig-roadmap
@@ -48,6 +50,7 @@ graph TD
     style C fill:#c0392b,color:#fff
     style D fill:#8e44ad,color:#fff
     style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 
@@ -264,17 +267,13 @@ Like assuming that a "Buy one, get one free" offer never causes someone to buy f
 :::::
 
 
-# When Experiments Break Down
+## When Experiments Break Down
 
-Randomized experiments are the gold standard (Chapter 1). But real people don't always follow orders:
+Randomized experiments are the gold standard for causal inference (Chapter 1). But in practice, experiments rarely go exactly as planned. Police officers may not follow their assigned protocol. Patients may not take their assigned medication. Lottery winners may not enroll in the program they won.
 
-- Police officers deviate from protocol
-- Patients skip their medication
-- Lottery winners don't enroll in the program
+When the treatment people **receive** differs from the treatment they were **assigned**, we face the problem of **non-compliance**. Simply comparing outcomes by *received* treatment reintroduces selection bias, because the choice to comply may be related to the outcome.
 
-**The problem:** When the treatment people *receive* differs from what they were *assigned*, we call this **non-compliance**. If we compare by *received* treatment, selection bias returns. Why? Because the choice to comply may itself be related to the outcome.
-
-## The Minneapolis Domestic Violence Experiment
+### The Minneapolis Domestic Violence Experiment
 
 The **Minneapolis Domestic Violence Experiment (MDVE)** illustrates this perfectly. In the early 1980s, researchers randomly assigned police officers responding to domestic violence calls to one of three actions:
 
@@ -282,19 +281,18 @@ The **Minneapolis Domestic Violence Experiment (MDVE)** illustrates this perfect
 - **Advise** the couple (counseling/mediation)
 - **Separate** them (remove suspect for 8 hours)
 
-The goal was to learn which response best prevented future violence.
-
-**The data:** The MDVE covered 314 domestic violence cases in Minneapolis during 1981--82. Police officers responding to misdemeanor domestic assault calls were randomly assigned a response using color-coded report forms. The outcome --- **recidivism** (any new domestic assault at the same address within 6 months) --- was measured from police records. The unit of analysis is the incident, not the individual.
-
-**The challenge:** Officers didn't always follow their assignment.
+The goal was to learn which response best prevented future violence. But police officers didn't always follow their assignment.
 
 ```{python}
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
+
+# --- Data source ---
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # Load clean MDVE data: each row is one domestic violence case
 # 'assigned' = what police were told to do; 'delivered' = what they actually did
-mdve = pd.read_csv("../data/ch3/mdve_clean.csv")
+mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
 mdve.head(3)
 ```
 
@@ -317,6 +315,7 @@ The cross-tabulation reveals a striking pattern: the diagonal (where assigned = 
 #| tbl-cap: "Compliance rates by assignment group. Officers almost always followed arrest orders but frequently deviated from advise/separate assignments."
 
 # Compute compliance rate for each assignment group
+# Loop through each assignment type and count how many officers followed orders
 rows = []
 for group in ["Arrest", "Advise", "Separate"]:
     group_data = mdve[mdve["assigned"] == group]
@@ -334,13 +333,13 @@ pd.DataFrame(rows)
 ```
 
 ::: {.callout-warning}
-## Asymmetric compliance
+### Asymmetric compliance
 
 Officers followed arrest orders **99% of the time** but deviated from advise and separate assignments much more often (78% and 73%). When they deviated, they almost always chose to arrest instead --- likely because the suspect was particularly aggressive. This means the group that *actually received* arrest includes both randomly assigned arrests and the most dangerous cases from other assignments. Comparing outcomes by delivered treatment would be biased.
 :::
 
 ::: {.callout-note}
-## Intuition Builder: IV as a Chain Reaction
+### Intuition Builder: IV as a Chain Reaction
 
 Think of IV as tracing a chain of dominoes:
 
@@ -353,11 +352,11 @@ The instrument must push the first domino (relevance) and must *only* work throu
 :::
 
 
-# The IV Framework
+## The IV Framework
 
-## The Core Idea
+### The Core Idea
 
-**IV solves this.** Instead of comparing by actual treatment, we compare by *assignment*. The logic is a chain reaction:
+Instrumental variables solves the compliance problem by using the **random assignment** (the instrument) instead of the actual treatment to estimate causal effects. The logic is a chain reaction:
 
 ```{mermaid}
 %%| label: fig-iv-chain
@@ -375,6 +374,7 @@ graph LR
     style Z fill:#8e44ad,color:#fff
     style D fill:#3498db,color:#fff
     style Y fill:#2d8659,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 The **LATE (Local Average Treatment Effect)** combines these two pieces:
@@ -383,7 +383,7 @@ $$\lambda_{LATE} = \frac{\rho}{\phi} = \frac{\text{Reduced form (effect of } Z \
 
 where $\rho$ (rho) is the reduced-form effect of the instrument on the outcome, and $\phi$ (phi) is the first-stage effect of the instrument on the treatment.
 
-## Three Requirements for a Valid Instrument
+### Three Requirements for a Valid Instrument
 
 1. **Relevance**: The instrument must affect the treatment. In the MDVE, random assignment must actually change what police do (first stage $\neq$ 0).
 
@@ -391,7 +391,7 @@ where $\rho$ (rho) is the reduced-form effect of the instrument on the outcome, 
 
 3. **Exclusion restriction**: The instrument affects the outcome **only through** the treatment. The random assignment shouldn't directly affect recidivism except through the police action taken.
 
-## Applying the IV Formula to the MDVE
+### Applying the IV Formula to the MDVE
 
 Let's compute the IV estimate step by step using the MDVE data. We simplify to a binary comparison: **arrest** ($Z = 0$) vs. **coddle** (advise or separate, $Z = 1$).
 
@@ -406,35 +406,37 @@ mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)
 # D = treatment: actually coddled (advise or separate) vs. arrested
 mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)
 
-# Step 1: FIRST STAGE — does assignment affect actual treatment?
-# Fraction coddled when assigned to coddle vs. assigned to arrest
+# Step 1: FIRST STAGE — does assignment (Z) affect actual treatment (D)?
+# Compute the mean of D for each value of Z
+# .loc[] selects rows where the condition is true, then takes the mean of d_coddle
 fs_coddle = mdve.loc[mdve["z_coddle"] == 1, "d_coddle"].mean()
 fs_arrest = mdve.loc[mdve["z_coddle"] == 0, "d_coddle"].mean()
 first_stage = fs_coddle - fs_arrest
 
-# Step 2: REDUCED FORM — does assignment affect recidivism?
+# Step 2: REDUCED FORM — does assignment (Z) affect recidivism (Y)?
 # (We don't have recidivism in this clean dataset, so we use published numbers)
 reduced_form = 0.211 - 0.097  # from the original study
 
 # Step 3: LATE = reduced form / first stage
+# This isolates the causal effect for compliers
 late = reduced_form / first_stage
 
 pd.DataFrame({
     "Step": ["First stage (coddled if assigned coddle)", "First stage (coddled if assigned arrest)",
              "First stage (difference)", "Reduced form (recidivism difference)", "LATE = RF / FS"],
-    "Value": [f"{fs_coddle:.3f}", f"{fs_arrest:.3f}", f"{first_stage:.3f}",
-              f"{reduced_form:.3f}", f"{late:.3f}"],
+    "Value": [round(fs_coddle, 3), round(fs_arrest, 3), round(first_stage, 3),
+              round(reduced_form, 3), round(late, 3)],
 })
 ```
 
 ::: {.callout-important}
-## Key finding
+### Key finding
 
 Coddling (advise/separate) **increases recidivism by 14.5 percentage points** among compliers --- those officers who followed their assignment. This is much larger than the naive comparison of delivered treatments (8.7 pp) would suggest, because the naive estimate is contaminated by selection bias.
 :::
 
 ::: {.callout-warning}
-## Common Misconception: LATE is not the Average Treatment Effect
+### Common Misconception: LATE is not the Average Treatment Effect
 
 The IV estimate of 14.5 pp applies **only to compliers** --- officers who followed whatever their assignment form said. It tells us nothing about:
 
@@ -445,7 +447,7 @@ Different instruments identify effects for *different subpopulations*. A KIPP lo
 :::
 
 
-# The Four Types of Subjects
+## The Four Types of Subjects
 
 In any IV setting, subjects fall into four categories based on how they would respond to the instrument:
 
@@ -459,21 +461,15 @@ In any IV setting, subjects fall into four categories based on how they would re
 : The four complier types in an IV framework {.striped}
 
 ::: {.callout-note}
-## LATE is the effect for compliers only
+### LATE is the effect for compliers only
 
 The IV estimate tells us the causal effect **specifically for compliers** --- people whose treatment was determined by the instrument. It does not necessarily apply to always-takers or never-takers. In the MDVE, compliers are officers who followed whatever assignment they received. The LATE tells us what happens when *these particular officers* arrest vs. coddle.
 :::
 
 
-# Case Study: KIPP Charter School Lotteries
+## Case Study: KIPP Charter School Lotteries
 
-**Research question:** Does attending a KIPP charter school improve math achievement for disadvantaged students?
-
-**The challenge:** KIPP attracts motivated families who actively seek out better schools for their children. Comparing KIPP students to non-KIPP students confounds school quality with family motivation and other unobserved characteristics.
-
-**The data:** The **Knowledge Is Power Program (KIPP)** is a network of charter schools with extended school days and a "no excuses" discipline culture. KIPP Lynn in Massachusetts became oversubscribed after 2005, so admission was decided by **lottery**. The data includes 446 applicants for 5th-grade slots (2005--2008). The outcome is standardized math test scores (measured in standard deviations). Balance checks confirmed that lottery winners and losers were similar on baseline demographics and prior test scores.
-
-**Why IV works here:** The lottery creates a natural instrument: winning the lottery ($Z$) strongly predicts KIPP attendance ($D$) but is independent of family characteristics (because it's random). The exclusion restriction requires that the lottery affects test scores *only through* its effect on attendance.
+The **Knowledge Is Power Program (KIPP)** is a network of charter schools with extended school days and a "no excuses" discipline culture. KIPP Lynn in Massachusetts became oversubscribed after 2005, so admission was decided by lottery --- creating a natural instrument.
 
 **The IV components:**
 
@@ -498,15 +494,11 @@ This lottery-based evidence has been influential in education policy. Charter sc
 The KIPP lottery gave us a clean instrument for school attendance. Our next case study finds instruments in an even more surprising place: the biology of twin births and the psychology of gender preferences.
 
 
-# Case Study: Does Family Size Reduce Children's Education?
+## Case Study: Does Family Size Reduce Children's Education?
 
-**Research question:** Does having more siblings *cause* children to receive less education (the "quantity-quality tradeoff")?
+The quantity-quality tradeoff hypothesis suggests that larger families dilute parental investment, reducing each child's education. The naive correlation supports this: children with more siblings get less schooling (-0.15 years per sibling in OLS).
 
-**The challenge:** The naive OLS correlation is strong: children with more siblings get 0.15 fewer years of schooling per additional sibling. But less-educated parents have more children AND less-educated children --- the correlation reflects parental characteristics, not a causal effect of family size.
-
-**The data:** Angrist, Lavy, and Schlosser (ALS) used Israeli census data covering firstborn children of mothers with at least two children. Education is measured in years of completed schooling. The sample size is approximately 89,000 families.
-
-But is this causal? Two clever instruments exploit natural variation in family size to address the selection bias:
+But is this causal? Less-educated parents tend to have more children *and* less-educated children. Two clever instruments address this:
 
 **Twin births**: When a second birth produces twins instead of a singleton, family size increases by one --- essentially at random. First stage: +0.32 children.
 
@@ -515,7 +507,7 @@ But is this causal? Two clever instruments exploit natural variation in family s
 **Results**: Both instruments show a reduced form of approximately **zero** --- no effect of family size on children's education. The 2SLS estimate using both instruments is +0.24 (SE: 0.13), completely reversing the negative OLS estimate.
 
 ::: {.callout-important}
-## Selection bias explains the naive correlation
+### Selection bias explains the naive correlation
 
 The strong negative OLS relationship between family size and education appears to be entirely driven by selection bias. When we use instruments that generate exogenous variation in family size, the effect vanishes. Less-educated parents have more children AND less-educated children --- but one does not cause the other.
 :::
@@ -523,7 +515,7 @@ The strong negative OLS relationship between family size and education appears t
 This finding has major **policy implications**. For decades, governments promoted smaller families based on the belief that fewer children means more investment per child (the "quantity-quality tradeoff"). China's one-child policy and India's forced sterilization programs were partly justified by this logic. The IV evidence suggests the tradeoff is much weaker than previously thought --- the naive correlation was driven by confounders, not causation.
 
 
-## When to Use IV vs. Other Methods
+### When to Use IV vs. Other Methods
 
 | Feature | RCT (Chapter 1) | OLS with Controls | IV / 2SLS (This Chapter) |
 |:---|:---|:---|:---|
@@ -535,7 +527,7 @@ This finding has major **policy implications**. For decades, governments promote
 : When to use which method {.striped}
 
 
-# Two-Stage Least Squares (2SLS)
+## Two-Stage Least Squares (2SLS)
 
 The IV formula $\lambda = \rho / \phi$ works for a single binary instrument. In practice, we often have multiple instruments, covariates, or non-binary treatments. **Two-Stage Least Squares** handles all of these.
 
@@ -546,14 +538,14 @@ $$D_i = \alpha_1 + \phi Z_i + \gamma_1 X_i + e_{1i}$$
 $$Y_i = \alpha_2 + \lambda_{2SLS} \hat{D}_i + \gamma_2 X_i + e_{2i}$$
 
 ::: {.callout-warning}
-## Never run 2SLS by hand
+### Never run 2SLS by hand
 
 If you manually run two separate regressions and use fitted values from the first in the second, you will get the right coefficient but **wrong standard errors**. Always use dedicated IV software that computes correct standard errors automatically.
 :::
 
-## 2SLS in Python
+### 2SLS in Python
 
-In Python, the `linearmodels` library provides `IV2SLS`. The formula syntax uses **square brackets** to indicate the endogenous variable and its instrument:
+In Python, the `pyfixest` library provides `feols()` with IV support. The formula syntax uses a **pipe** (`|`) to indicate the endogenous variable and its instrument:
 
 ```
 "outcome ~ exogenous_controls + [endogenous_variable ~ instrument]"
@@ -563,12 +555,9 @@ Here is how you would run 2SLS for the KIPP charter school example (using hypoth
 
 ```
 # Syntax demonstration (not run — KIPP data is not publicly available)
-from linearmodels.iv import IV2SLS
+# (IV handled by pf.feols with pipe syntax)
 
-result = IV2SLS.from_formula(
-    "math_score ~ 1 + [attended_kipp ~ won_lottery]",
-    data=kipp_data,
-).fit(cov_type="robust")
+result = pf.feols("math_score ~ 1 | attended_kipp ~ won_lottery", data=kipp_data, vcov="hetero")
 
 # The key parts:
 #   math_score           = outcome (Y)
@@ -579,13 +568,13 @@ result = IV2SLS.from_formula(
 ```
 
 ::: {.callout-note}
-## Why no live IV code in this chapter?
+### Why no live IV code in this chapter?
 
-The KIPP and family size datasets used in this chapter's case studies are not publicly available. The syntax block above shows how you *would* run 2SLS in Python. Chapter 6 provides a full working IV analysis using quarter-of-birth data, where you will see `IV2SLS` in action with real data.
+The KIPP and family size datasets used in this chapter's case studies are not publicly available. The syntax block above shows how you *would* run 2SLS in Python. Chapter 6 provides a full working IV analysis using quarter-of-birth data, where you will see `pf.feols()` in action with real data.
 :::
 
 
-# Weak Instruments
+## Weak Instruments
 
 An instrument is **weak** when it has only a small effect on the treatment (small first stage). Weak instruments cause:
 
@@ -594,19 +583,19 @@ An instrument is **weak** when it has only a small effect on the treatment (smal
 - Unreliable inference
 
 ::: {.callout-tip}
-## The F > 10 rule of thumb
+### The F > 10 rule of thumb
 
 Test the joint significance of instruments in the first-stage regression. If the **F-statistic is below 10**, the instruments may be too weak. When in doubt, check the reduced form --- if the instrument's direct effect on the outcome isn't visible, the IV estimate is likely unreliable.
 :::
 
 ::: {.callout-warning}
-## Common Misconception: More data doesn't fix weak instruments
+### Common Misconception: More data doesn't fix weak instruments
 
 Unlike standard estimation, where larger samples give more precise estimates, **weak-instrument bias does not vanish with more data**. Even with a million observations, if the first-stage F-statistic is below 10, the 2SLS estimate can be severely biased toward OLS. The solution is a stronger instrument, not a bigger sample.
 :::
 
 ::: {.callout-note}
-## Connection to Chapters 1 and 4
+### Connection to Chapters 1 and 4
 
 IV connects the methods from other chapters:
 
@@ -615,14 +604,16 @@ IV connects the methods from other chapters:
 :::
 
 
-# Historical Perspective: Philip Wright
+## Historical Perspective: Philip Wright
 
 The identification problem --- how to separate supply from demand when both are determined simultaneously --- was solved by **Philip G. Wright** in 1928. In an appendix to his book on tariffs, Wright introduced "external factors" (what we now call instruments) that shift one curve without affecting the other.
 
 Wright's innovation lay dormant for decades before being rediscovered. His son **Sewall Wright**, a geneticist, contributed the mathematical framework of path analysis. Together, they pioneered the idea that researchers must find sources of variation that affect one part of a system without directly affecting the outcome of interest.
 
 
-# Key Takeaways
+## Key Takeaways
+
+The following concept map shows how the key ideas in this chapter connect --- from the problem of non-compliance, through the IV framework of first stage and reduced form, to the LATE estimand and its practical implementation via 2SLS.
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -646,8 +637,12 @@ graph TD
 
     style Q fill:#c0392b,color:#fff
     style Z fill:#8e44ad,color:#fff
+    style FS fill:#3498db,color:#fff
+    style RF fill:#3498db,color:#fff
     style LATE fill:#2d8659,color:#fff
-    style TSLS fill:#3498db,color:#fff
+    style CT fill:#e67e22,color:#fff
+    style TSLS fill:#475569,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 1. **Non-compliance** is common in experiments. Comparing outcomes by *received* treatment reintroduces selection bias.
@@ -665,9 +660,98 @@ graph TD
 7. **Weak instruments** (F < 10) produce unreliable estimates. Always check the first stage.
 
 
-# Exercises
+## Learn by Coding
 
-## Multiple Choice Questions
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 3: Instrumental Variables — Code Cheatsheet
+# ============================================================
+import pandas as pd
+import pyfixest as pf
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Load Minneapolis Domestic Violence Experiment data ---
+mdve = pd.read_csv(DATA + "ch3/mdve_clean.csv")
+print("MDVE data:", mdve.shape[0], "cases")
+print(mdve[["assigned", "delivered"]].head())
+
+# --- Step 2: Compliance — did officers follow their assignment? ---
+print("\nAssigned vs. delivered treatment:")
+print(pd.crosstab(mdve["assigned"], mdve["delivered"], margins=True))
+
+# --- Step 3: Create binary variables (arrest vs. coddle) ---
+mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)   # instrument
+mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)   # treatment
+
+# --- Step 4: First stage (does assignment change actual treatment?) ---
+fs = pf.feols("d_coddle ~ z_coddle", data=mdve, vcov="hetero")
+first_stage = fs.coef()["z_coddle"]
+print(f"\nFirst stage: {first_stage:.3f}")
+print("  (Fraction who comply with coddle assignment)")
+
+# --- Step 5: Reduced form (does assignment affect recidivism?) ---
+# Recidivism data not in this clean dataset; use published numbers
+reduced_form = 0.211 - 0.097  # recidivism rate: coddle vs. arrest assignment
+print(f"\nReduced form: {reduced_form:.3f}")
+print("  (Effect of coddle ASSIGNMENT on recidivism, from published data)")
+
+# --- Step 6: IV estimate (LATE = reduced form / first stage) ---
+late = reduced_form / first_stage
+print(f"\nLATE = {reduced_form:.3f} / {first_stage:.3f} = {late:.3f}")
+print("  Coddling increases recidivism by ~15 pp among compliers")
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+Below is the same cheatsheet in Stata syntax.
+
+```stata
+* ============================================================
+* Chapter 3: Instrumental Variables — Stata Cheatsheet
+* ============================================================
+clear all
+set more off
+
+* --- Step 1: Load Minneapolis Domestic Violence Experiment data ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch3/mdve_clean.csv", clear
+list in 1/5
+
+* --- Step 2: Compliance — did officers follow their assignment? ---
+tabulate assigned delivered
+
+* --- Step 3: Create binary variables (arrest vs. coddle) ---
+gen z_coddle = (assigned != "Arrest")   // instrument
+gen d_coddle = (delivered != "Arrest")   // treatment
+
+* --- Step 4: First stage (does assignment change actual treatment?) ---
+reg d_coddle z_coddle, robust
+scalar first_stage = _b[z_coddle]
+
+* --- Step 5: Reduced form (does assignment affect recidivism?) ---
+* Recidivism data not in this clean dataset; use published numbers
+scalar reduced_form = 0.211 - 0.097  // recidivism rate: coddle vs. arrest
+
+* --- Step 6: IV estimate (LATE = reduced form / first stage) ---
+scalar late = reduced_form / first_stage
+display "LATE = " reduced_form " / " first_stage " = " late
+display "Coddling increases recidivism by ~15 pp among compliers"
+```
+
+::: {.callout-tip}
+### Try it in Stata!
+Copy the code above into a `.do` file and run it in Stata 14 or later (which supports loading data from URLs). If your Stata cannot access the internet, download the CSV files from the `data/` folder on [GitHub](https://github.com/cmg777/intro2causal/tree/main/data) and replace each URL with a local file path.
+:::
+
+
+## Exercises
+
+### Multiple Choice Questions
 
 1. **What problem does instrumental variables (IV) solve?**
    a) Small sample sizes in randomized experiments
@@ -676,7 +760,7 @@ graph TD
    d) Missing data in the control variables
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** IV was developed to handle non-compliance — situations where the treatment actually received differs from what was assigned. In the MDVE, officers did not always follow their random assignment (e.g., arresting when told to advise). IV uses the assignment as an instrument for actual treatment to recover the causal effect. **(a) is wrong** because IV addresses bias from non-compliance, not small sample sizes. **(c) is wrong** because while IV can address measurement error in some settings, the chapter focuses on non-compliance as the core motivation. **(d) is wrong** because missing data requires imputation or selection corrections, not instrumental variables.
 :::
 
@@ -687,7 +771,7 @@ graph TD
    d) The effect applies only to the time period studied
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** "Local" means the IV estimate applies only to compliers — the subpopulation whose treatment status is actually changed by the instrument. Always-takers and never-takers are unaffected by the instrument, so IV tells us nothing about their treatment effects. **(a) is wrong** because "local" refers to the complier subpopulation, not a geographic area. **(c) is wrong** because local polynomial regression is an RD technique, not related to LATE. **(d) is wrong** because "local" describes who the effect applies to, not when.
 :::
 
@@ -698,7 +782,7 @@ graph TD
    d) The instrument must affect the outcome only through the treatment (exclusion restriction)
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(c)** A valid instrument must NOT directly affect the outcome — this would violate the exclusion restriction. The three requirements are: (1) relevance (instrument affects treatment), (2) independence (instrument is as good as randomly assigned), and (3) exclusion restriction (instrument affects outcome only through treatment). **(a) is wrong** because relevance is indeed required — a weak instrument produces imprecise and biased estimates. **(b) is wrong** because independence is required to ensure the instrument is uncorrelated with confounders. **(d) is wrong** because the exclusion restriction is indeed required — if the instrument has a direct effect on the outcome, the IV estimate is biased.
 :::
 
@@ -709,7 +793,7 @@ graph TD
    d) The officer's years of experience
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** The instrument was the randomly assigned treatment recommendation on the form (arrest, advise, or separate). This is distinct from the treatment actually delivered, since officers did not always comply with their assignment. The random form satisfies independence (randomly assigned) and relevance (it strongly predicted actual treatment). **(a) is wrong** because actual arrest is the endogenous treatment variable, not the instrument. **(c) is wrong** because incident severity is a potential confounder, not the instrument. **(d) is wrong** because officer experience is a characteristic that might affect compliance but was not the randomized assignment.
 :::
 
@@ -720,7 +804,7 @@ graph TD
    d) Does the opposite of their assignment
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(c)** Compliers are individuals whose treatment status is determined by the instrument — they take the treatment when assigned to it and do not take it when not assigned. LATE captures the causal effect specifically for this group. **(a) is wrong** because that describes always-takers, who receive treatment regardless of assignment. **(b) is wrong** because that describes never-takers, who refuse treatment regardless of assignment. **(d) is wrong** because that describes defiers, whose existence is ruled out by the monotonicity assumption.
 :::
 
@@ -731,7 +815,7 @@ graph TD
    d) The regression of the instrument on the control variables
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** The first stage regresses the endogenous treatment variable on the instrument (and any controls), producing predicted values of treatment that reflect only the exogenous variation induced by the instrument. **(a) is wrong** because regressing the outcome on the instrument gives the reduced form, not the first stage. **(c) is wrong** because that describes the second stage of 2SLS. **(d) is wrong** because the first stage predicts treatment from the instrument, not the other way around.
 :::
 
@@ -742,7 +826,7 @@ graph TD
    d) The difference in means between treatment and control groups
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** The Wald estimator is: LATE = reduced form / first stage = $\frac{E[Y|Z=1] - E[Y|Z=0]}{E[D|Z=1] - E[D|Z=0]}$. The numerator is the instrument's effect on the outcome (reduced form) and the denominator is the instrument's effect on treatment uptake (first stage). **(a) is wrong** because the division is the other way around. **(c) is wrong** because that describes the OVB decomposition, not the IV/Wald formula. **(d) is wrong** because a simple difference in means is the naive (potentially biased) comparison, not the IV estimate.
 :::
 
@@ -753,7 +837,7 @@ graph TD
    d) The first stage must be positive for all subgroups
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** Monotonicity rules out defiers — people who would take the treatment when assigned to control and refuse it when assigned to treatment. In the MDVE, this means no officer would arrest when told to coddle AND coddle when told to arrest. Without this assumption, compliers and defiers would cancel out in the first stage. **(a) is wrong** because IV allows for heterogeneous treatment effects — that is precisely why we get a LATE rather than an ATE. **(c) is wrong** because instruments can be multi-valued (like the three MDVE categories). **(d) is wrong** because monotonicity is about individual behavior (no one switches in the "wrong" direction), not about the sign of the first stage across subgroups.
 :::
 
@@ -764,7 +848,7 @@ graph TD
    d) Because IV always produces larger estimates than OLS
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** Officers who deviated from their assignment tended to arrest suspects they perceived as most dangerous. These high-risk suspects were more likely to reoffend regardless of arrest, so comparing arrested vs. non-arrested suspects understates the deterrent effect of arrest. IV removes this selection bias by using only the exogenous variation from the random assignment. **(a) is wrong** because IV and OLS use the same data — the difference is in what variation they exploit. **(c) is wrong** for the same reason. **(d) is wrong** because IV can produce estimates that are larger, smaller, or the same as OLS, depending on the direction of selection bias.
 :::
 
@@ -775,16 +859,16 @@ graph TD
     d) The outcome variable has high variance
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** A weak instrument barely affects treatment uptake, meaning the first stage coefficient is close to zero. This produces imprecise and potentially biased IV estimates because dividing by a near-zero first stage amplifies any small bias in the reduced form. A common rule of thumb is that the first-stage F-statistic should exceed 10. **(a) is wrong** because violating the exclusion restriction makes an instrument invalid, not weak — these are distinct problems. **(c) is wrong** because instrument strength is about the predictive power for treatment, not sample size. **(d) is wrong** because outcome variance affects precision but does not determine instrument strength.
 :::
 
-## Conceptual Questions
+### Conceptual Questions
 
 1. **Classifying complier types**: In a medical trial, patients are randomly assigned to receive a new drug or placebo, but some placebo patients obtain the drug on their own, and some drug patients refuse to take it. (a) Who are the always-takers? (b) Who are the compliers? (c) If 80% of the drug group takes the drug and 10% of the placebo group obtains it, what is the first stage?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **The compliance framework classifies individuals by how their treatment responds to the instrument, not by what they actually do.**
 
 1. Always-takers are patients who take the drug regardless of assignment --- those in the placebo group who obtain it on their own. Their behavior is unchanged by the instrument (random assignment), so IV tells us nothing about their treatment effect.
@@ -795,7 +879,7 @@ graph TD
 2. **Computing LATE**: Using the MDVE numbers: first stage = 0.786, reduced form = 0.114. (a) Compute the LATE. (b) Why is this larger than the naive comparison of delivered treatments (0.087)? (c) What does "selection into treatment" mean in this context?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **The Wald estimator (IV ratio) removes selection bias that contaminates naive comparisons by isolating variation driven only by the instrument.**
 
 1. LATE = reduced form / first stage = 0.114 / 0.786 = 0.145 (14.5 percentage points). The numerator captures the intent-to-treat effect of random assignment on recidivism; the denominator scales it by the fraction of cases whose treatment was actually changed by the assignment (compliers).
@@ -806,7 +890,7 @@ graph TD
 3. **Exclusion restriction**: A researcher uses rainfall as an instrument for agricultural output to estimate the effect of output on conflict. What could violate the exclusion restriction?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **The exclusion restriction requires that the instrument affects the outcome only through the specified channel --- any alternative pathway invalidates the IV strategy.**
 
 Rainfall could affect conflict through channels other than agricultural output, violating this core IV assumption:
@@ -821,7 +905,7 @@ Any of these channels would violate the exclusion restriction because rainfall w
 4. **Why LATE is local**: Using the MDVE context, explain why the IV estimate applies only to compliers. What can we say (or not say) about the effect of arrest on always-takers --- those suspects who would be arrested regardless of what the assignment form said?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **LATE applies only to compliers --- individuals whose treatment was changed by the instrument --- and cannot be generalized to always-takers or never-takers without additional assumptions.**
 
 1. The IV estimate is a Local Average Treatment Effect: it captures the causal effect specifically for compliers, the subgroup whose treatment status changed because of the instrument (random assignment).
@@ -833,7 +917,7 @@ Any of these channels would violate the exclusion restriction because rainfall w
 5. **Monotonicity**: The IV framework assumes there are no "defiers" (people who do the opposite of their assignment). In the MDVE, a defier would be an officer who arrests when told to coddle and coddles when told to arrest. Why is this assumption reasonable in the MDVE context? Can you think of a setting where it might fail?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **Monotonicity requires that the instrument shifts everyone in the same direction --- no defiers --- and is essential for interpreting IV as LATE.**
 
 1. In the MDVE, monotonicity is reasonable: it is hard to imagine an officer who would arrest when told to coddle but coddle when told to arrest. The compliance data confirm that officers deviate *toward* arrest (the more cautious action), not away from it.
@@ -841,12 +925,12 @@ Any of these channels would violate the exclusion restriction because rainfall w
 3. Monotonicity might fail in settings where the instrument triggers opposite reactions in different subgroups --- for example, a mandatory tutoring assignment where some students rebel against being told to attend (defiers who skip when assigned) but voluntarily attend when not assigned. In such cases, the IV estimate would not cleanly identify a causal effect for any well-defined group.
 :::
 
-## Research Tasks
+### Research Tasks
 
 1. **Compliance by assignment group**: Using `mdve_clean.csv`, compute the compliance rate separately for each of the three assignment groups (Arrest, Advise, Separate). Which group has the highest compliance? What does this asymmetry suggest about how police exercise discretion?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-compliance
@@ -899,7 +983,7 @@ foreach g of local groups {
 2. **Binary vs. multi-category first stage**: Using `mdve_clean.csv`, compute the first stage two ways: (a) using the binary "arrest vs. coddle" indicator, and (b) using all three assignment categories in a cross-tabulation. Compare the results and explain which approach is simpler for an IV analysis.
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-firststage
@@ -947,7 +1031,7 @@ tab assigned delivered, row
 3. **Cross-over patterns**: Using `mdve_clean.csv`, among officers who deviated from their assignment, which direction did they most commonly cross over (e.g., from advise to arrest, or from separate to arrest)? What does this pattern suggest about officer behavior?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-crossover
@@ -984,7 +1068,7 @@ tab assigned delivered
 4. **ITT vs. LATE comparison**: Using `mdve_clean.csv`, compute the first-stage compliance rate for the binary arrest-vs-coddle instrument. Then, using the published recidivism rates (18% for the arrested group, 35% for the coddled group in the naive comparison; and the ITT of 11.4 percentage points from the reduced form), compute the LATE by dividing the ITT by the first stage. How much larger is the LATE than the ITT? Why does the ITT understate the causal effect for compliers?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-itt-late
@@ -1057,7 +1141,7 @@ display "LATE = " late
 5. **Testing monotonicity**: Using `mdve_clean.csv`, examine the cross-tabulation for evidence against monotonicity (the "no defiers" assumption). Among those assigned to arrest, what fraction were actually coddled (advise or separate)? Among those assigned to coddle (advise or separate), what fraction were actually arrested? Is the asymmetry in these cross-over rates consistent with the monotonicity assumption?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-monotonicity

@@ -15,8 +15,10 @@ execute:
   message: false
 ---
 
+
+
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -28,7 +30,7 @@ By the end of this chapter, you will be able to:
 - Apply regression sensitivity analysis to assess the robustness of causal estimates
 :::
 
-**Regression** is your main tool when you can't run experiments. The core idea: hold observable characteristics constant, then compare people who received different treatments. This approximates what a randomized experiment would show.
+This chapter introduces regression --- the most widely used tool in the econometrician's toolkit. When randomized experiments are not available, regression lets us approximate an experimental comparison by holding observable characteristics constant.
 
 ```{mermaid}
 %%| label: fig-roadmap
@@ -48,6 +50,7 @@ graph TD
     style C fill:#8e44ad,color:#fff
     style D fill:#e67e22,color:#fff
     style E fill:#2d8659,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 
@@ -204,16 +207,14 @@ Like a golfer who shoots a 62 on Saturday. His Sunday round will probably be clo
 :::::
 
 
-# Is a Private College Worth It?
+## Is a Private College Worth It?
 
-Private university students pay ~$20,000 more per year in tuition. They also earn substantially more after graduation. **But does the school cause the higher earnings?**
+Students at elite private universities in the United States pay roughly $20,000 more per year in tuition than those at public universities. Graduates of Harvard, Stanford, and Yale earn substantially more than graduates of state schools. But does the private school *cause* higher earnings, or are the students who attend these schools simply different --- smarter, more motivated, better connected --- in ways that would lead to high earnings regardless?
 
-Or are Harvard students simply smarter, more motivated, and better connected --- in ways that would lead to high earnings regardless?
-
-This is the same **selection bias** problem from Chapter 1. But we can't randomize college admissions. Instead, we use regression.
+This is the same selection bias problem we met in Chapter 1. But here, we can't run a randomized experiment (Harvard's admissions office won't flip a coin). Instead, we reach for regression.
 
 ::: {.callout-note}
-## Intuition Builder: Regression as Automated Matching
+### Intuition Builder: Regression as Automated Matching
 
 Think of regression as a matchmaking service. It finds pairs of students who look similar on paper --- same test scores, same family income, same types of schools applied to --- but one went private and the other went public. The regression estimate is like averaging the earnings difference across all these matched pairs.
 
@@ -223,13 +224,11 @@ When the matching is on **all the right variables**, regression approximates wha
 To separate the school's causal effect from the student's pre-existing advantages, we need a tool that holds observable characteristics constant. That tool is regression.
 
 
-# How Regression Works
+## How Regression Works
 
-## The Regression Model
+### The Regression Model
 
-Regression answers one question: **What happens to $Y$ when $P$ changes, if we hold $X$ constant?**
-
-The formula:
+A regression links an outcome ($Y_i$) to a treatment variable ($P_i$) while holding control variables ($X_i$) constant:
 
 $$Y_i = \alpha + \beta P_i + \gamma X_i + e_i$$
 
@@ -240,48 +239,53 @@ where:
 - $\gamma$ = effect of the control variable
 - $e_i$ = residual (everything else affecting $Y$ that's not in the model)
 
-**OLS (Ordinary Least Squares)** picks the values of $\alpha$, $\beta$, and $\gamma$ that make predictions as close to the actual data as possible. It does this by minimizing the sum of squared residuals.
+**OLS (Ordinary Least Squares)** chooses $\alpha$, $\beta$, and $\gamma$ to minimize the sum of squared residuals --- making the model's predictions as close to the actual data as possible.
 
 ::: {.callout-note}
-## Connection to Chapter 1
+### Connection to Chapter 1
 
 In Chapter 1, we regressed outcomes on a treatment dummy with no controls. The coefficient was the difference in means between treated and untreated. Adding controls is the key innovation of Chapter 2: regression holds the controls constant, producing an "other things equal" comparison within groups that share the same control values.
 :::
 
 
-# Seeing OVB with Simulated Data
+## Seeing OVB with Simulated Data
 
 To understand omitted variables bias, let's create a dataset where we **know the truth** --- because we designed it ourselves. This makes it easy to see when regression gets it right and when it goes wrong.
 
-## The Data-Generating Process
+### The Data-Generating Process
 
 We simulate 1,000 students choosing between private and public colleges:
 
 ```{python}
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
-# Set seed for reproducibility
+# Set seed so everyone gets the same random numbers
 np.random.seed(42)
-n = 1000
+n = 1000  # number of simulated students
 
-# Step 1: Generate ABILITY (unobserved confounder)
-# Ability varies across students — some are high-ability, some low
+# --- Step 1: Generate ABILITY (the unobserved confounder) ---
+# Each student gets a random ability score (mean=50, sd=10)
 ability = np.random.normal(50, 10, n)
 
-# Step 2: Private school CHOICE depends on ability
-# Higher-ability students are more likely to attend private school
+# --- Step 2: Private school CHOICE depends on ability ---
+# Higher ability → higher probability of choosing private school (logistic function)
+# Students with ability above 50 have >50% chance; below 50 have <50% chance
 prob_private = 1 / (1 + np.exp(-(ability - 50) / 5))
+# Flip a coin for each student using their personal probability
 private = np.random.binomial(1, prob_private)
 
-# Step 3: EARNINGS depend on both private school AND ability
-# True causal effect of private school = $5,000
-# Ability also independently affects earnings
+# --- Step 3: EARNINGS depend on both private school AND ability ---
+# The TRUE causal effect of private school is exactly $5,000
 true_effect = 5000
-earnings = 30000 + true_effect * private + 800 * ability + np.random.normal(0, 5000, n)
+# Base pay ($30,000) + private school bonus + ability bonus + random noise
+earnings = (30000
+            + true_effect * private
+            + 800 * ability
+            + np.random.normal(0, 5000, n))
 
-# Combine into a clean dataset
+# --- Step 4: Combine into a clean dataset ---
 students = pd.DataFrame({
     "earnings": earnings,
     "private": private,
@@ -292,7 +296,7 @@ students.head(5)
 ```
 
 ::: {.callout-important}
-## The Ground Truth
+### The Ground Truth
 
 We built this data so that:
 
@@ -302,7 +306,7 @@ We built this data so that:
 :::
 
 
-## The Short Regression (Omitting Ability)
+### The Short Regression (Omitting Ability)
 
 What happens if we regress earnings on `private` without controlling for ability?
 
@@ -311,22 +315,22 @@ What happens if we regress earnings on `private` without controlling for ability
 #| tbl-cap: "Short regression: earnings on private school dummy only. The coefficient is biased upward because ability is omitted."
 
 # SHORT regression: omit the confounder (ability)
-short = smf.ols("earnings ~ private", data=students).fit()
+short = pf.feols("earnings ~ private", data=students)
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": short.params.index,
-    "Coefficient": short.params.round(2).values,
-    "Std. Error": short.bse.round(2).values,
-    "t-statistic": short.tvalues.round(2).values,
-    "p-value": short.pvalues.round(3).values,
+    "Variable": short.coef().index,
+    "Coefficient": short.coef().round(2).values,
+    "Std. Error": short.se().round(2).values,
+    "t-statistic": short.tstat().round(2).values,
+    "p-value": short.pvalue().round(3).values,
 })
 ```
 
 The coefficient on `private` is well above $5,000. This is **omitted variables bias** --- the regression attributes some of ability's effect to the private school dummy because the two are correlated.
 
 
-## The Long Regression (Including Ability)
+### The Long Regression (Including Ability)
 
 Now add ability as a control:
 
@@ -335,30 +339,30 @@ Now add ability as a control:
 #| tbl-cap: "Long regression: earnings on private school dummy plus ability control. The coefficient is close to the true effect of $5,000."
 
 # LONG regression: include the confounder (ability)
-long = smf.ols("earnings ~ private + ability", data=students).fit()
+long = pf.feols("earnings ~ private + ability", data=students)
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": long.params.index,
-    "Coefficient": long.params.round(2).values,
-    "Std. Error": long.bse.round(2).values,
-    "t-statistic": long.tvalues.round(2).values,
-    "p-value": long.pvalues.round(3).values,
+    "Variable": long.coef().index,
+    "Coefficient": long.coef().round(2).values,
+    "Std. Error": long.se().round(2).values,
+    "t-statistic": long.tstat().round(2).values,
+    "p-value": long.pvalue().round(3).values,
 })
 ```
 
 With ability controlled, the private school coefficient drops to approximately $5,000 --- close to the true causal effect we built into the data.
 
 ::: {.callout-warning}
-## Common Misconception: "Just add more controls"
+### Common Misconception: "Just add more controls"
 
 Adding controls helps *only* when the controls are confounders (variables that affect both treatment and outcome). Adding irrelevant variables wastes statistical precision. And adding **bad controls** --- variables that are *caused by* the treatment --- can actually introduce bias. We return to this danger in Chapter 6.
 :::
 
 
-# The OVB Formula
+## The OVB Formula
 
-## The Most Important Equation in Econometrics
+### The Most Important Equation in Econometrics
 
 The relationship between the short and long regression coefficients follows a precise formula:
 
@@ -372,7 +376,7 @@ where:
 - $\gamma$ = coefficient on the **omitted variable** in the long regression
 
 ::: {.callout-note}
-## Intuition Builder: The Missing Ingredient
+### Intuition Builder: The Missing Ingredient
 
 Think of baking a cake. The recipe calls for flour, sugar, and eggs. If you forget the sugar (omitted variable), the cake will taste different from what you intended. The OVB formula tells you *how much* the taste changes and *in what direction*:
 
@@ -383,7 +387,7 @@ Think of baking a cake. The recipe calls for flour, sugar, and eggs. If you forg
 If either factor is zero --- the omitted variable is unrelated to treatment, or it doesn't affect the outcome --- there's no bias.
 :::
 
-## Verifying the OVB Formula
+### Verifying the OVB Formula
 
 Let's check that the formula works with our simulated data:
 
@@ -391,26 +395,42 @@ Let's check that the formula works with our simulated data:
 #| label: tbl-ovb
 #| tbl-cap: "Verifying the OVB formula: the product of the two components exactly equals the difference between short and long regression coefficients."
 
-# Step 1: Compute OVB directly (short minus long)
-ovb_direct = short.params["private"] - long.params["private"]
+# --- Step 1: Get the short and long coefficients on "private" ---
+beta_short = short.coef()["private"]
+beta_long = long.coef()["private"]
 
-# Step 2: Compute the two components of the OVB formula
-# pi_1: regress the omitted variable (ability) on the treatment (private)
-auxiliary = smf.ols("ability ~ private", data=students).fit()
-pi_1 = auxiliary.params["private"]
+# --- Step 2: Compute OVB directly (short minus long) ---
+ovb_direct = beta_short - beta_long
 
-# gamma: coefficient on ability in the long regression
-gamma = long.params["ability"]
+# --- Step 3: Compute the two components of the OVB formula ---
+# pi_1: regress the OMITTED variable (ability) on the TREATMENT (private)
+auxiliary = pf.feols("ability ~ private", data=students)
+pi_1 = auxiliary.coef()["private"]  # how much ability differs by private status
 
-# OVB from formula
+# gamma: coefficient on ability in the LONG regression
+gamma = long.coef()["ability"]  # how much ability affects earnings
+
+# --- Step 4: OVB from the formula (should match Step 2) ---
 ovb_formula = pi_1 * gamma
 
+# --- Display results ---
 pd.DataFrame({
-    "Component": ["Short reg coefficient (private)", "Long reg coefficient (private)",
-                   "OVB (direct: short - long)", "pi_1 (ability ~ private)",
-                   "gamma (ability in long reg)", "OVB (formula: pi_1 x gamma)"],
-    "Value": [round(short.params["private"]), round(long.params["private"]),
-              round(ovb_direct), round(pi_1, 2), round(gamma), round(ovb_formula)],
+    "Component": [
+        "Short reg coefficient (private)",
+        "Long reg coefficient (private)",
+        "OVB (direct: short - long)",
+        "pi_1 (ability ~ private)",
+        "gamma (ability in long reg)",
+        "OVB (formula: pi_1 x gamma)",
+    ],
+    "Value": [
+        round(beta_short),
+        round(beta_long),
+        round(ovb_direct),
+        round(pi_1, 2),
+        round(gamma),
+        round(ovb_formula),
+    ],
 })
 ```
 
@@ -420,7 +440,7 @@ The formula matches. The two components reveal *why* the bias exists:
 - **$\gamma > 0$**: Higher ability increases earnings
 - **OVB = positive $\times$ positive = positive**: The short regression overstates the private school effect
 
-## Predicting the Direction of Bias
+### Predicting the Direction of Bias
 
 Even when we can't observe the omitted variable, the OVB formula lets us **predict the direction of bias** by reasoning about the signs of $\pi_1$ and $\gamma$:
 
@@ -434,15 +454,11 @@ Even when we can't observe the omitted variable, the OVB formula lets us **predi
 : The sign of OVB depends on the signs of both components {.striped}
 
 
-# Case Study: The Private College Premium
+## Case Study: The Private College Premium
 
-**Research question:** Does attending an elite private college *cause* higher earnings, or does the earnings gap reflect the pre-existing advantages of students who attend these schools?
+### Dale and Krueger's Self-Revelation Model
 
-**The challenge:** Students at Harvard and Stanford are smarter, more motivated, and better connected than the average state school student. A simple comparison of alumni earnings confounds the school's causal effect with these pre-existing differences --- classic selection bias. We can't randomly assign students to colleges, so we need a regression strategy.
-
-**The data:** Economists Stacy Dale and Alan Krueger used the **College and Beyond (C&B)** dataset, which tracked over 14,000 students from the 1976 college-entering cohort. The data includes the colleges each student applied to, where they were admitted, where they enrolled, their SAT scores, parental income, and their earnings in 1995 (about 19 years after college entry). Colleges are classified by Barron's selectivity rating (Most Competitive, Highly Competitive, Competitive, etc.). *Note: The C&B dataset is not publicly available, so we discuss Dale and Krueger's findings rather than replicating the analysis in code. The simulated data above demonstrated the same OVB principles that their study applies to real data.*
-
-**Why regression works here:** The key insight was that the schools students *applied to* reveal information about their ambition and ability. Two students who both applied to Harvard, Princeton, and their state school --- but one chose Harvard and the other chose the state school --- are arguably similar in motivation and ability. By controlling for application behavior (the "self-revelation" model), regression can approximate the comparison we'd get from a randomized experiment.
+Economists Stacy Dale and Alan Krueger studied the earnings of over 14,000 college students using the **College and Beyond (C&B)** dataset. Their key insight was that the schools students *applied to* reveal information about their ambition and ability. *Note: The C&B dataset is not publicly available, so we discuss Dale and Krueger's findings rather than replicating the analysis in code. The simulated data above demonstrated the same OVB principles that their study applies to real data.*
 
 **The matching strategy**: Compare students who were admitted to the same set of schools but chose to attend different ones. For example, a student admitted to both Harvard and UMass who chose Harvard versus one who chose UMass. Both students were *equally qualified* (admitted to the same schools), but made different enrollment decisions.
 
@@ -453,14 +469,14 @@ Even when we can't observe the omitted variable, the OVB formula lets us **predi
 - Controlling for the specific schools applied to (the "self-revelation" model) reduced it to **close to zero**
 
 ::: {.callout-important}
-## Key Finding: The Private School Premium is Mostly Selection
+### Key Finding: The Private School Premium is Mostly Selection
 
 Once you compare students who were equally ambitious (applied to similar schools), the earnings advantage of attending an elite private college **largely disappears**. Most of the raw earnings gap reflects who attends private school, not what private school does.
 
 This is a textbook demonstration of OVB at work: when you add the right controls, the treatment effect shrinks dramatically.
 :::
 
-## Regression Sensitivity Analysis
+### Regression Sensitivity Analysis
 
 The Dale and Krueger results illustrate an important robustness check: **sensitivity analysis**. When adding controls doesn't change the estimate much, we can be more confident that the remaining estimate isn't driven by further omitted variables.
 
@@ -469,20 +485,13 @@ In their data:
 - Adding SAT scores, parental income, and demographics **barely changed** the private school coefficient once the self-revelation controls were included
 - The OVB formula explains why: conditional on application behavior, private school attendance was **no longer correlated** with these variables ($\pi_1 \approx 0$), so omitting them caused little bias
 
-**Lessons and open questions:**
-
-- The private school premium is mostly **selection, not causation**. Students who attend elite schools would have earned similarly high incomes even at a state university.
-- The findings apply to the **1976 cohort** --- the college landscape has changed dramatically since then (higher tuition, more student debt, different labor markets). The premium might be different for today's students.
-- The regression approach assumes that application behavior captures all relevant confounders. If some unobserved factor (e.g., network connections from private school alumni) is missing, some bias may remain.
-- Later work by Dale and Krueger found that the private school premium *was* significant for students from **low-income families** and **minority groups** --- suggesting that elite colleges provide networking benefits that matter more for disadvantaged students.
-
 The Dale and Krueger study succeeded because they controlled for the *right* variables --- pre-treatment characteristics like application behavior. But what happens when researchers control for the *wrong* variables?
 
 
-# When Controls Go Wrong: Bad Controls
+## When Controls Go Wrong: Bad Controls
 
 ::: {.callout-warning}
-## Not All Controls Are Good Controls
+### Not All Controls Are Good Controls
 
 A **bad control** is a variable that is *caused by* the treatment. Controlling for it blocks the causal pathway and distorts the estimate.
 
@@ -492,13 +501,13 @@ A **bad control** is a variable that is *caused by* the treatment. Controlling f
 :::
 
 ::: {.callout-note}
-## Connection to Chapter 6
+### Connection to Chapter 6
 
 Chapter 6 revisits bad controls in the context of returns to schooling. Controlling for occupation when estimating the effect of education is a classic bad-control mistake. The lesson is the same: controls must be *pre-treatment* characteristics, not downstream outcomes.
 :::
 
 
-# How Regression Connects to Every Other Chapter
+## How Regression Connects to Every Other Chapter
 
 Regression is not just a standalone method --- it is the **building block** for every other tool in this book:
 
@@ -513,20 +522,22 @@ Regression is not just a standalone method --- it is the **building block** for 
 : Regression is the foundation of all five methods in the book {.striped}
 
 
-# Historical Perspective: Galton and Yule
+## Historical Perspective: Galton and Yule
 
-## Francis Galton and "Regression to the Mean"
+### Francis Galton and "Regression to the Mean"
 
 The word "regression" comes from **Sir Francis Galton** (1886), who studied the heights of parents and children. He observed that very tall parents tend to have children who are tall but *less extreme* than their parents --- heights "regress toward the mean." Galton's finding was about a statistical regularity, not causation, but the mathematical tool he developed to describe it became the foundation of modern regression analysis.
 
-## George Udny Yule and Social Statistics
+### George Udny Yule and Social Statistics
 
 **George Udny Yule** (1899) was among the first to apply regression to social policy questions. He studied the causes of changes in pauperism (poverty) in England, using regression to control for multiple factors simultaneously. Yule's work pioneered the use of regression with multiple control variables --- exactly the approach we've been learning.
 
 Both Galton and Yule worked in an era before causal inference was formalized. Their statistical tools were designed for description and prediction. The causal interpretation of regression --- asking whether $\beta$ represents a causal effect --- is a modern contribution that depends on the assumptions we've discussed (correct controls, no omitted variables).
 
 
-# Key Takeaways
+## Key Takeaways
+
+The following concept map traces the logic of this chapter --- from the initial causal question, through regression as the primary tool, to the key concepts of omitted variable bias, sensitivity analysis, and the danger of bad controls.
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -549,11 +560,14 @@ graph TD
     OVB --> SENS
     REG --> BC
 
-    style Q fill:#2c3e50,color:#fff
+    style Q fill:#475569,color:#fff
     style REG fill:#8e44ad,color:#fff
+    style SHORT fill:#3498db,color:#fff
+    style LONG fill:#3498db,color:#fff
     style OVB fill:#e67e22,color:#fff
     style SENS fill:#2d8659,color:#fff
     style BC fill:#c0392b,color:#fff
+    linkStyle default stroke:#64748b,stroke-width:2px
 ```
 
 1. **Regression approximates an experiment** by comparing treated and untreated observations that share the same values of control variables.
@@ -571,9 +585,104 @@ graph TD
 7. **The private college premium** largely disappears once you match students by the schools they applied to --- most of the raw gap is selection, not causation.
 
 
-# Exercises
+## Learn by Coding
 
-## Multiple Choice Questions
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 2: Regression — Code Cheatsheet
+# ============================================================
+import numpy as np
+import pandas as pd
+import pyfixest as pf
+
+# --- Step 1: Simulate data where we KNOW the true causal effect ---
+np.random.seed(42)
+n = 1000
+ability = np.random.normal(50, 10, n)
+prob_private = 1 / (1 + np.exp(-(ability - 50) / 5))
+private = np.random.binomial(1, prob_private)
+true_effect = 5000
+earnings = 30000 + true_effect * private + 800 * ability + np.random.normal(0, 5000, n)
+students = pd.DataFrame({"earnings": earnings, "private": private, "ability": ability})
+
+# --- Step 2: Short regression (omitting ability → biased) ---
+short = pf.feols("earnings ~ private", data=students)
+print("SHORT regression (biased — omits ability):")
+print(f"  Private school coefficient: ${short.coef()['private']:,.0f}")
+print(f"  True effect is $5,000 — the estimate is too high!\n")
+
+# --- Step 3: Long regression (including ability → unbiased) ---
+long = pf.feols("earnings ~ private + ability", data=students)
+print("LONG regression (controls for ability):")
+print(f"  Private school coefficient: ${long.coef()['private']:,.0f}")
+print(f"  Close to the true effect of $5,000\n")
+
+# --- Step 4: Verify the OVB formula ---
+ovb_direct = short.coef()["private"] - long.coef()["private"]
+aux = pf.feols("ability ~ private", data=students)
+pi_1 = aux.coef()["private"]       # relationship: omitted ↔ treatment
+gamma = long.coef()["ability"]      # effect of omitted in long regression
+ovb_formula = pi_1 * gamma
+print("OVB Formula Verification:")
+print(f"  Direct OVB (short - long):  ${ovb_direct:,.0f}")
+print(f"  Formula OVB (pi1 x gamma): ${ovb_formula:,.0f}")
+print(f"  pi1 = {pi_1:.2f}, gamma = {gamma:.0f}")
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+Below is the same cheatsheet in Stata syntax.
+
+```stata
+* ============================================================
+* Chapter 2: Regression — Stata Cheatsheet
+* ============================================================
+clear all
+set more off
+set seed 42
+set obs 1000
+
+* --- Step 1: Simulate data where we KNOW the true causal effect ---
+gen ability = rnormal(50, 10)
+gen prob_private = 1 / (1 + exp(-(ability - 50) / 5))
+gen private = rbinomial(1, prob_private)
+gen earnings = 30000 + 5000 * private + 800 * ability + rnormal(0, 5000)
+
+* --- Step 2: Short regression (omitting ability — biased) ---
+reg earnings private
+* The private coefficient is too high (above 5,000) due to OVB
+
+* --- Step 3: Long regression (including ability — unbiased) ---
+reg earnings private ability
+* The private coefficient is now close to the true effect of 5,000
+
+* --- Step 4: Verify the OVB formula ---
+scalar long_private = _b[private]
+scalar gamma = _b[ability]
+quietly reg earnings private
+scalar short_private = _b[private]
+scalar ovb_direct = short_private - long_private
+quietly reg ability private
+scalar pi_1 = _b[private]
+scalar ovb_formula = pi_1 * gamma
+display "Direct OVB (short - long):  " ovb_direct
+display "Formula OVB (pi1 x gamma): " ovb_formula
+```
+
+::: {.callout-tip}
+### Try it in Stata!
+Copy the code above into a `.do` file and run it in Stata. No external data files are needed — this chapter uses simulated data generated within the script.
+:::
+
+
+## Exercises
+
+### Multiple Choice Questions
 
 1. **What is the main purpose of adding control variables in a regression?**
    a) To increase the R-squared of the model
@@ -685,7 +794,7 @@ graph TD
 **(b)** SAT scores proxy for ability, which affects both college selectivity (students with higher ability attend more selective schools) and wages (ability raises earnings regardless of school). Including SAT scores can help reduce OVB from ability, but if SAT is an imperfect proxy, residual OVB remains. The Dale and Krueger strategy of matching on application behavior is arguably better because it captures revealed ambition. **(a) is wrong** because while measurement error exists, the main issue is that SAT is a proxy variable, not a bad control. **(c) is wrong** because availability is a practical consideration, not a conceptual problem. **(d) is wrong** because SAT scores are in fact highly correlated with college selectivity — that is precisely why they matter for this analysis.
 :::
 
-## Conceptual Questions
+### Conceptual Questions
 
 1. **OVB direction**: A study estimates the effect of job training on wages but does not control for prior work experience. Workers with more experience are more likely to receive training AND earn higher wages. Using the OVB formula, predict: is the training coefficient biased upward or downward?
 
@@ -743,7 +852,7 @@ graph TD
 3. **Connect to the broader course:** Without random assignment of exercise, we can never be sure we have controlled for everything. This fundamental limitation of regression motivates the methods in later chapters --- instrumental variables (Chapter 3), regression discontinuity (Chapter 4), and differences-in-differences (Chapter 5) --- which rely on research designs rather than exhaustive control lists.
 :::
 
-## Research Tasks
+### Research Tasks
 
 1. **Change the true effect**: In the simulated data code above, change `true_effect` from 5000 to 0 (no causal effect). Re-run the short and long regressions. Does the short regression still show a positive coefficient? What does this demonstrate about selection bias?
 
@@ -764,12 +873,12 @@ earnings2 = 30000 + 0 * private2 + 800 * ability2 + np.random.normal(0, 5000, n)
 students2 = pd.DataFrame({"earnings": earnings2, "private": private2, "ability": ability2})
 
 # --- Run short vs long regressions ---
-short2 = smf.ols("earnings ~ private", data=students2).fit()             # omits ability (biased)
-long2 = smf.ols("earnings ~ private + ability", data=students2).fit()    # includes ability (correct)
+short2 = pf.feols("earnings ~ private", data=students2)             # omits ability (biased)
+long2 = pf.feols("earnings ~ private + ability", data=students2)    # includes ability (correct)
 
 pd.DataFrame({
     "Regression": ["Short (omit ability)", "Long (include ability)"],
-    "Private coefficient": [round(short2.params["private"]), round(long2.params["private"])],
+    "Private coefficient": [round(short2.coef()["private"]), round(long2.coef()["private"])],
     "True effect": [0, 0],
 })
 ```
@@ -821,18 +930,18 @@ earnings3 = 30000 + 5000 * private3 + 800 * ability3 + np.random.normal(0, 5000,
 students3 = pd.DataFrame({"earnings": earnings3, "private": private3, "ability": ability3})
 
 # --- Run short, long, and auxiliary regressions ---
-short3 = smf.ols("earnings ~ private", data=students3).fit()       # biased estimate
-long3 = smf.ols("earnings ~ private + ability", data=students3).fit()  # closer to true effect
-aux3 = smf.ols("ability ~ private", data=students3).fit()          # estimates pi_1
+short3 = pf.feols("earnings ~ private", data=students3)       # biased estimate
+long3 = pf.feols("earnings ~ private + ability", data=students3)  # closer to true effect
+aux3 = pf.feols("ability ~ private", data=students3)          # estimates pi_1
 
 # --- Verify OVB formula ---
-ovb3 = round(short3.params["private"] - long3.params["private"])   # direct: short minus long
-formula3 = round(aux3.params["private"] * long3.params["ability"]) # formula: pi_1 * gamma
+ovb3 = round(short3.coef()["private"] - long3.coef()["private"])   # direct: short minus long
+formula3 = round(aux3.coef()["private"] * long3.coef()["ability"]) # formula: pi_1 * gamma
 
 pd.DataFrame({
     "Metric": ["Short coef", "Long coef", "OVB (direct)", "pi_1", "gamma", "OVB (formula)"],
-    "Value": [round(short3.params["private"]), round(long3.params["private"]),
-              ovb3, round(aux3.params["private"], 2), round(long3.params["ability"]),
+    "Value": [round(short3.coef()["private"]), round(long3.coef()["private"]),
+              ovb3, round(aux3.coef()["private"], 2), round(long3.coef()["ability"]),
               formula3],
 })
 ```
@@ -901,15 +1010,15 @@ students4 = pd.DataFrame({
 })
 
 # --- Run three regressions with progressively more controls ---
-r_short = smf.ols("earnings ~ private", data=students4).fit()                        # no controls
-r_medium = smf.ols("earnings ~ private + ability", data=students4).fit()             # one control
-r_long = smf.ols("earnings ~ private + ability + family_income", data=students4).fit()  # both controls
+r_short = pf.feols("earnings ~ private", data=students4)                        # no controls
+r_medium = pf.feols("earnings ~ private + ability", data=students4)             # one control
+r_long = pf.feols("earnings ~ private + ability + family_income", data=students4)  # both controls
 
 pd.DataFrame({
     "Regression": ["Short (no controls)", "Medium (ability only)", "Long (ability + income)"],
-    "Private coefficient": [round(r_short.params["private"]),
-                             round(r_medium.params["private"]),
-                             round(r_long.params["private"])],
+    "Private coefficient": [round(r_short.coef()["private"]),
+                             round(r_medium.coef()["private"]),
+                             round(r_long.coef()["private"])],
     "True effect": [5000, 5000, 5000],
 })
 ```
@@ -962,18 +1071,18 @@ earnings_r = 30000 + 5000 * private_r + 800 * ability_r + np.random.normal(0, 50
 students_r = pd.DataFrame({"earnings": earnings_r, "private": private_r, "ability": ability_r})
 
 # --- Run short, long, and auxiliary regressions ---
-short_r = smf.ols("earnings ~ private", data=students_r).fit()
-long_r = smf.ols("earnings ~ private + ability", data=students_r).fit()
-aux_r = smf.ols("ability ~ private", data=students_r).fit()
+short_r = pf.feols("earnings ~ private", data=students_r)
+long_r = pf.feols("earnings ~ private + ability", data=students_r)
+aux_r = pf.feols("ability ~ private", data=students_r)
 
 # --- Verify OVB formula ---
-ovb_r = round(short_r.params["private"] - long_r.params["private"])
-formula_r = round(aux_r.params["private"] * long_r.params["ability"])
+ovb_r = round(short_r.coef()["private"] - long_r.coef()["private"])
+formula_r = round(aux_r.coef()["private"] * long_r.coef()["ability"])
 
 pd.DataFrame({
     "Metric": ["Short coef", "Long coef", "OVB (direct)", "pi_1", "gamma", "OVB (formula)"],
-    "Value": [round(short_r.params["private"]), round(long_r.params["private"]),
-              ovb_r, round(aux_r.params["private"], 2), round(long_r.params["ability"]),
+    "Value": [round(short_r.coef()["private"]), round(long_r.coef()["private"]),
+              ovb_r, round(aux_r.coef()["private"], 2), round(long_r.coef()["ability"]),
               formula_r],
 })
 ```
@@ -1056,10 +1165,10 @@ specs = [
 
 rows = []
 for label, formula in specs:
-    r = smf.ols(formula, data=df_s).fit()
+    r = pf.feols(formula, data=df_s)
     rows.append({
         "Specification": label,
-        "Private coefficient": round(r.params["private"]),
+        "Private coefficient": round(r.coef()["private"]),
         "True effect": 5000,
     })
 

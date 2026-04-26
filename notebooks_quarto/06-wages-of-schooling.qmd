@@ -1,5 +1,5 @@
 ---
-title: "Chapter 6: The Wages of Schooling"
+title: "Chapter 6: Wages of Schooling"
 subtitle: "A Study Guide for *Mastering 'Metrics* by Angrist & Pischke"
 format:
   html:
@@ -15,8 +15,10 @@ execute:
   message: false
 ---
 
+
+
 ::: {.callout-tip}
-## Learning Objectives
+### Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -55,6 +57,8 @@ graph TD
     style E fill:#8e44ad,color:#fff
     style F fill:#2d8659,color:#fff
     style G fill:#2d8659,color:#fff
+
+    linkStyle 0,1,2,3,4,5 stroke:#888,stroke-width:2px
 ```
 
 
@@ -301,7 +305,7 @@ Like the chicken-and-egg problem. Did the variable cause the outcome, or did the
 :::::
 
 
-# The Earnings-Education Gradient
+## The Earnings-Education Gradient
 
 College graduates earn roughly twice as much as high school graduates. But how much of that gap reflects the causal effect of education, and how much reflects the fact that people who go to college were going to earn more anyway?
 
@@ -322,9 +326,12 @@ Because $\ln W$ is the outcome, the coefficient $\rho$ has a convenient interpre
 # Load clean quarter-of-birth data (Angrist & Krueger 1991, 329k men born 1930-1939)
 import pandas as pd
 import numpy as np
-import statsmodels.formula.api as smf
+import pyfixest as pf
+# (IV handled by pf.feols with pipe syntax)
 
-qob = pd.read_csv("../data/ch6/qob_clean.csv")
+GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+qob = pd.read_csv(GITHUB_DATA_URL + "ch6/qob_clean.csv")
 qob.head(3)
 ```
 
@@ -333,15 +340,15 @@ qob.head(3)
 #| tbl-cap: "Simple bivariate regression of log weekly earnings on years of schooling. No controls — just the raw correlation."
 
 # Bivariate OLS: the simplest possible regression
-bivariate = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
+bivariate = pf.feols("lnw ~ s", data=qob, vcov="hetero")
 
 # Display results
 pd.DataFrame({
-    "Variable": bivariate.params.index,
-    "Coefficient": bivariate.params.round(4).values,
-    "Std. Error": bivariate.bse.round(4).values,
-    "t-statistic": bivariate.tvalues.round(2).values,
-    "p-value": bivariate.pvalues.round(3).values,
+    "Variable": bivariate.coef().index,
+    "Coefficient": bivariate.coef().round(4).values,
+    "Std. Error": bivariate.se().round(4).values,
+    "t-statistic": bivariate.tstat().round(2).values,
+    "p-value": bivariate.pvalue().round(3).values,
 })
 ```
 
@@ -381,9 +388,9 @@ where $\rho$ is the true causal return to schooling and $\hat{\rho}_{OLS}$ is th
 To understand how much of this 7% estimate is causal, we need to think carefully about omitted variables.
 
 
-# Multiple Regression and the OVB Problem
+## Multiple Regression and the OVB Problem
 
-## Adding Controls
+### Adding Controls
 
 Chapter 2 taught us that adding control variables can reduce omitted variables bias --- as long as the controls are not "bad controls" (caused by the treatment). The long regression adds observable controls to the bivariate equation:
 
@@ -393,9 +400,7 @@ where $S_i$ is years of education (`educ`), and the $\gamma$ coefficients captur
 
 ```{python}
 # Load clean twins data (340 twin pairs from Twinsburg, Ohio)
-from linearmodels.iv import IV2SLS
-
-twins = pd.read_csv("../data/ch6/twins_clean.csv")
+twins = pd.read_csv(GITHUB_DATA_URL + "ch6/twins_clean.csv")
 
 # Key variables:
 #   lwage  = log weekly wage; educ = own years of education
@@ -411,21 +416,21 @@ twins.head(3)
 #| tbl-cap: "OLS return to schooling using the Twinsburg twins data. Controls include age, age-squared, gender, and race."
 
 # OLS: regress log wages on education with demographic controls
-ols = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins).fit(cov_type="HC1")
+ols = pf.feols("lwage ~ educ + age + age2 + female + white", data=twins, vcov="hetero")
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": ols.params.index,
-    "Coefficient": ols.params.round(4).values,
-    "Std. Error": ols.bse.round(4).values,
-    "t-statistic": ols.tvalues.round(2).values,
-    "p-value": ols.pvalues.round(3).values,
+    "Variable": ols.coef().index,
+    "Coefficient": ols.coef().round(4).values,
+    "Std. Error": ols.se().round(4).values,
+    "t-statistic": ols.tstat().round(2).values,
+    "p-value": ols.pvalue().round(3).values,
 })
 ```
 
 The OLS return with controls is about **11% per year of schooling**. Note that this estimate uses a different dataset (the Twinsburg twins) than the bivariate regression above (the 1980 Census). The higher estimate partly reflects the different sample. Even within this dataset, adding demographic controls does not substantially reduce the schooling coefficient --- because these observables explain little of the ability-education correlation.
 
-## The OVB Formula Applied to Schooling
+### The OVB Formula Applied to Schooling
 
 From Chapter 2, the omitted variables bias formula is:
 
@@ -438,12 +443,12 @@ For schooling:
 
 Therefore $\text{OVB} > 0$, and OLS **overstates** the true return. The short regression (without ability) gives a coefficient that is too large.
 
-## Seeing OVB in Action
+### Seeing OVB in Action
 
 To see this concretely, we use a synthetic dataset where we *know* the true causal return (about 0.09 per year) because we designed the data-generating process.
 
 ::: {.callout-note}
-## Synthetic data
+### Synthetic data
 
 This dataset was designed to illustrate the OVB concept. It contains 2,000 simulated individuals with schooling, earnings, unobserved ability, and occupation. The true total causal return to schooling is about 0.09 (9%) per year --- combining a direct effect on earnings and an indirect effect through occupation.
 :::
@@ -453,20 +458,20 @@ This dataset was designed to illustrate the OVB concept. It contains 2,000 simul
 #| tbl-cap: "OVB demonstration: the short regression (without ability) overstates the true return. The long regression (with ability) recovers it."
 
 # Load synthetic OVB data (2000 simulated individuals)
-ovb = pd.read_csv("../data/ch6/synthetic_ovb.csv")
+ovb = pd.read_csv(GITHUB_DATA_URL + "ch6/synthetic_ovb.csv")
 
 # Short regression: omit ability (like real life — we can't observe ability)
-short_reg = smf.ols("earnings ~ schooling", data=ovb).fit(cov_type="HC1")
+short_reg = pf.feols("earnings ~ schooling", data=ovb, vcov="hetero")
 
 # Long regression: include ability (the "oracle" regression we can't run with real data)
-long_reg = smf.ols("earnings ~ schooling + ability", data=ovb).fit(cov_type="HC1")
+long_reg = pf.feols("earnings ~ schooling + ability", data=ovb, vcov="hetero")
 
 # Compare coefficients
 pd.DataFrame({
     "Specification": ["Short (omit ability)", "Long (include ability)", "True causal return"],
     "Schooling coefficient": [
-        f"{short_reg.params['schooling']:.4f} ({short_reg.bse['schooling']:.4f})",
-        f"{long_reg.params['schooling']:.4f} ({long_reg.bse['schooling']:.4f})",
+        f"{short_reg.coef()['schooling']:.4f} ({short_reg.se()['schooling']:.4f})",
+        f"{long_reg.coef()['schooling']:.4f} ({long_reg.se()['schooling']:.4f})",
         "0.0900",
     ],
 })
@@ -474,10 +479,10 @@ pd.DataFrame({
 
 The short regression gives about 0.12 --- **overstating** the true return by roughly 40%. Adding the unobservable ability recovers the true total causal return (about 0.09). In real life, we cannot observe ability, so we need a different strategy.
 
-## Bad Controls: Do Not Control for Occupation
+### Bad Controls: Do Not Control for Occupation
 
 ::: {.callout-warning}
-## Bad controls
+### Bad controls
 
 Occupation is *caused by* education --- it is a "bad control" (a mediator or post-treatment variable). Controlling for it absorbs part of the causal effect of education on earnings, biasing the estimate downward. If education raises earnings partly by giving access to higher-paying occupations, then holding occupation constant removes that channel.
 :::
@@ -487,13 +492,13 @@ Occupation is *caused by* education --- it is a "bad control" (a mediator or pos
 #| tbl-cap: "Adding occupation (a bad control) biases the schooling return downward by absorbing part of the causal pathway."
 
 # Bad control: add occupation (which is caused by schooling)
-bad_control = smf.ols("earnings ~ schooling + occupation", data=ovb).fit(cov_type="HC1")
+bad_control = pf.feols("earnings ~ schooling + occupation", data=ovb, vcov="hetero")
 
 pd.DataFrame({
     "Specification": ["Without occupation", "With occupation (bad control)", "True causal return"],
     "Schooling coefficient": [
-        f"{short_reg.params['schooling']:.4f} ({short_reg.bse['schooling']:.4f})",
-        f"{bad_control.params['schooling']:.4f} ({bad_control.bse['schooling']:.4f})",
+        f"{short_reg.coef()['schooling']:.4f} ({short_reg.se()['schooling']:.4f})",
+        f"{bad_control.coef()['schooling']:.4f} ({bad_control.se()['schooling']:.4f})",
         "0.0900",
     ],
 })
@@ -504,7 +509,7 @@ Adding occupation shrinks the schooling coefficient --- not because it reduces b
 Even with good controls, we can never be sure we have accounted for all confounders. What we really want is a research design --- like the randomized experiments in Chapter 1 --- that eliminates ability bias by construction.
 
 
-# Why Not an RCT?
+## Why Not an RCT?
 
 The gold standard for causal inference is the **randomized controlled trial**: randomly assign some people to get more education, and compare their earnings to a control group. Random assignment breaks the link between ability and education, so the simple difference in means is causal.
 
@@ -521,7 +526,7 @@ $$\hat{\rho} = \frac{\hat{\beta}}{\text{Schooling difference}} = \frac{\text{Red
 This is the Wald estimator from Chapter 3, applied to the scholarship "instrument." We use a synthetic dataset to demonstrate this.
 
 ::: {.callout-note}
-## Synthetic data
+### Synthetic data
 
 This dataset simulates a hypothetical scholarship experiment. 2,000 individuals were randomly assigned to receive a scholarship (or not). The scholarship increases schooling by about 2 years. The true causal return to schooling is 0.08 per year, so the scholarship should increase earnings by about 0.16.
 :::
@@ -531,7 +536,7 @@ This dataset simulates a hypothetical scholarship experiment. 2,000 individuals 
 #| tbl-cap: "Synthetic scholarship RCT: random assignment eliminates ability bias, so a simple comparison of means recovers the causal effect."
 
 # Load synthetic RCT data
-rct = pd.read_csv("../data/ch6/synthetic_rct.csv")
+rct = pd.read_csv(GITHUB_DATA_URL + "ch6/synthetic_rct.csv")
 
 # Simple comparison of means by scholarship status
 means = rct.groupby("scholarship")[["schooling", "earnings"]].mean()
@@ -539,7 +544,7 @@ diff_school = means.loc[1, "schooling"] - means.loc[0, "schooling"]
 diff_earn = means.loc[1, "earnings"] - means.loc[0, "earnings"]
 
 # Regression of earnings on scholarship (= difference in means)
-rct_reg = smf.ols("earnings ~ scholarship", data=rct).fit(cov_type="HC1")
+rct_reg = pf.feols("earnings ~ scholarship", data=rct, vcov="hetero")
 
 # Wald estimate: earnings effect / schooling effect = per-year return
 wald_rct = diff_earn / diff_school
@@ -561,19 +566,19 @@ pd.DataFrame({
 With random assignment, the simple difference in earnings between scholarship and non-scholarship groups gives an unbiased estimate of the causal effect. Dividing by the schooling difference gives the per-year return --- close to the true 0.08.
 
 ::: {.callout-important}
-## The lesson
+### The lesson
 
 The RCT recovers the right answer because random assignment makes the scholarship independent of ability. Since the scholarship affects earnings only through schooling, the Wald ratio (earnings effect / schooling effect) gives an unbiased per-year return. But since we cannot run a real schooling RCT, we need **quasi-experimental** methods that approximate random assignment. The rest of this chapter explores four such strategies.
 :::
 
 
-# Strategy 1: Twin Comparisons
+## Strategy 1: Twin Comparisons
 
-## The Logic
+### The Logic
 
 Identical twins share genes and family upbringing --- the very factors we suspect drive ability bias. If one twin gets more education than the other, the earnings difference within the pair reflects the causal return, not ability.
 
-## Within-Twin Differences
+### Within-Twin Differences
 
 By taking the difference within each twin pair, we eliminate everything shared between them:
 
@@ -591,22 +596,22 @@ first = twins[twins["first"] == 1]
 # Regress wage difference on education difference
 # The "- 1" removes the intercept: when both twins have the same education,
 # we expect zero wage difference, so there's no constant term needed
-twin_fe = smf.ols("dlwage ~ deduc - 1", data=first).fit(cov_type="HC1")
+twin_fe = pf.feols("dlwage ~ deduc - 1", data=first, vcov="hetero")
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": twin_fe.params.index,
-    "Coefficient": twin_fe.params.round(4).values,
-    "Std. Error": twin_fe.bse.round(4).values,
-    "t-statistic": twin_fe.tvalues.round(2).values,
-    "p-value": twin_fe.pvalues.round(3).values,
+    "Variable": twin_fe.coef().index,
+    "Coefficient": twin_fe.coef().round(4).values,
+    "Std. Error": twin_fe.se().round(4).values,
+    "t-statistic": twin_fe.tstat().round(2).values,
+    "p-value": twin_fe.pvalue().round(3).values,
 })
 ```
 
 The twin estimate drops to about **6%** --- nearly half the OLS estimate. This suggests ability bias pushes OLS upward.
 
 ::: {.callout-warning}
-## Common Misconception: A lower estimate is not necessarily a better estimate
+### Common Misconception: A lower estimate is not necessarily a better estimate
 
 Twin FE gives 0.06. OLS gives 0.11. Students often assume the lower number must be "more correct."
 
@@ -623,14 +628,14 @@ $$\hat{\rho}_{FE} \approx \rho \times \underbrace{\frac{\text{Var}(\Delta S^*_f)
 
 where $\Delta S^*_f$ is the true within-twin difference in schooling and $\Delta m_f$ is the measurement error in the differenced data. When twins are very similar, $\text{Var}(\Delta S^*)$ is small but $\text{Var}(\Delta m)$ stays the same size, so the reliability ratio drops well below 1 and $\hat{\rho}_{FE}$ is attenuated toward zero. A reliability ratio of 0.5 would cut the estimate in half.
 
-## IV: Using the Twin's Report as an Instrument
+### IV: Using the Twin's Report as an Instrument
 
 The twin estimate may be biased *downward* by **measurement error** in self-reported education. If twins misremember their schooling, the differenced data amplifies noise relative to signal.
 
 The fix: use each twin's *report of the other's education* as an instrument. This report is correlated with true education but has independent measurement error, so it satisfies the IV requirements. (This assumes twins do not simply agree on inaccurate reports. If twins discuss their education and reach consensus, their measurement errors may be correlated, weakening the IV correction.)
 
 ::: {.callout-note}
-## Reading the IV2SLS formula syntax
+### Reading the pyfixest IV formula syntax
 
 In `linearmodels`, the IV formula uses **square brackets** to specify the endogenous variable and its instrument:
 
@@ -656,29 +661,21 @@ where $\Delta S^{twin}_f$ is the difference in the twin's report of the other's 
 #| tbl-cap: "IV estimates using twin's report of education as instrument. Corrects for measurement error in self-reported schooling."
 
 # IV in levels: instrument own education (educ) with twin's report (educt_t)
-# The [educ ~ educt_t] tells IV2SLS: "educ is endogenous, use educt_t as instrument"
-iv_levels = IV2SLS.from_formula(
-    "lwage ~ 1 + age + age2 + female + white + [educ ~ educt_t]", data=twins
-).fit(cov_type="robust")
+iv_levels = pf.feols("lwage ~ 1 + age + age2 + female + white | educ ~ educt_t", data=twins, vcov="hetero")
 
 # IV in differences: instrument own-reported difference (deduc) with twin's report diff (deduct)
-# "~ 0" means no intercept (same logic as twin FE: differencing removes the constant)
 first_iv = first[["dlwage", "deduc", "deduct"]].dropna()
-iv_diff = IV2SLS.from_formula(
-    "dlwage ~ 0 + [deduc ~ deduct]", data=first_iv
-).fit(cov_type="robust")
+iv_diff = pf.feols("dlwage ~ 0 | deduc ~ deduct", data=first_iv, vcov="hetero")
 
 # Combine all four estimates into one table
-# Format each as "coefficient (standard error)"
-ols_coef = round(ols.params["educ"], 3)
-ols_se = round(ols.bse["educ"], 3)
-fe_coef = round(twin_fe.params["deduc"], 3)
-fe_se = round(twin_fe.bse["deduc"], 3)
-# Note: linearmodels uses .std_errors instead of .bse
-iv_lev_coef = round(iv_levels.params["educ"], 3)
-iv_lev_se = round(iv_levels.std_errors["educ"], 3)
-iv_dif_coef = round(iv_diff.params["deduc"], 3)
-iv_dif_se = round(iv_diff.std_errors["deduc"], 3)
+ols_coef = round(ols.coef()["educ"], 3)
+ols_se = round(ols.se()["educ"], 3)
+fe_coef = round(twin_fe.coef()["deduc"], 3)
+fe_se = round(twin_fe.se()["deduc"], 3)
+iv_lev_coef = round(iv_levels.coef()["educ"], 3)
+iv_lev_se = round(iv_levels.se()["educ"], 3)
+iv_dif_coef = round(iv_diff.coef()["deduc"], 3)
+iv_dif_se = round(iv_diff.se()["deduc"], 3)
 
 pd.DataFrame({
     "Method": ["OLS (levels)", "Twin FE (differences)", "IV (levels)", "IV (differences)"],
@@ -692,7 +689,7 @@ pd.DataFrame({
 ```
 
 ::: {.callout-important}
-## What the twin results tell us
+### What the twin results tell us
 
 | Method | Estimate | Interpretation |
 |:---|:---:|:---|
@@ -705,7 +702,7 @@ The true return is probably **8--11% per year**, with OLS slightly overstating a
 :::
 
 ::: {.callout-note}
-## Intuition Builder: The Bathroom Scale Analogy
+### Intuition Builder: The Bathroom Scale Analogy
 
 Imagine weighing yourself on a bathroom scale that randomly adds or subtracts 5 pounds. On average, the scale is right --- but any single reading is noisy. Now suppose you weigh yourself in the morning and evening to measure how much weight you gained during the day. The true gain might be 0.5 lbs, but the scale's error (±5 lbs in each reading) means the *difference* between readings is dominated by noise. This is exactly what happens with twin differences in education: the true within-pair variation is small (twins are similar), but measurement error stays the same size, so noise overwhelms the signal.
 :::
@@ -714,18 +711,18 @@ Imagine weighing yourself on a bathroom scale that randomly adds or subtracts 5 
 
 - Twin FE controls for shared ability but amplifies measurement error --- two biases push in opposite directions
 - IV using the twin's report corrects measurement error, recovering a return near 11%
-- **Limitation:** The Twinsburg twins are a self-selected sample (twins who attend an annual twin festival in Ohio). They may not represent the general population. The findings are suggestive but should be confirmed with other approaches
+- **Limitation:** The Twinsburg twins are a self-selected sample (twins who attend an annual twin festival in Ohio). They may not represent the general population
 
 The twins approach offered a first crack at ability bias but raised a new concern: measurement error. Our next strategy sidesteps both problems by finding a source of schooling variation that is entirely independent of ability --- and precisely measured in census data.
 
 
-# Strategy 2: Quarter-of-Birth IV
+## Strategy 2: Quarter-of-Birth IV
 
 **Research question:** What is the causal return to an additional year of schooling, using a source of variation that is independent of ability?
 
 **The data:** Angrist and Krueger (1991) used the 1980 U.S. Census, extracting 329,509 men born between 1930 and 1939. The outcome is log weekly earnings (`lnw`). Schooling is measured in years (`s`). Quarter of birth (`qob`, 1--4) serves as the instrument.
 
-## The Idea
+### The Idea
 
 Compulsory schooling laws allow students to drop out at age 16. Because school-entry rules are based on birth date cutoffs, children born later in the year start school younger and accumulate more schooling before reaching the dropout age.
 
@@ -747,33 +744,32 @@ $$\hat{\rho}_{IV} = \frac{\hat{\rho}_{RF}}{\hat{\phi}} = \frac{\text{Effect of }
 
 where $Q4_i$ = 1 if individual $i$ was born in the fourth quarter (`q4`), $S_i$ is years of schooling (`s`), and $\ln W_i$ is log weekly earnings (`lnw`). This estimate is a **LATE** (Local Average Treatment Effect): it applies only to compliers whose schooling was changed by compulsory attendance interacting with their birth quarter.
 
-## The IV Recipe: Step by Step
+### The IV Recipe: Step by Step
 
 ```{python}
 #| label: tbl-wald
 #| tbl-cap: "The IV recipe (Wald estimate): reduced form divided by first stage gives the causal return to schooling."
 
 # Step 1: Reduced form — does Q4 birth predict higher earnings?
-rf = smf.ols("lnw ~ q4", data=qob).fit(cov_type="HC1")
+rf = pf.feols("lnw ~ q4", data=qob, vcov="hetero")
 
 # Step 2: First stage — does Q4 birth predict more schooling?
-fs = smf.ols("s ~ q4", data=qob).fit(cov_type="HC1")
+fs = pf.feols("s ~ q4", data=qob, vcov="hetero")
 
 # Step 3: Wald estimate = reduced form / first stage
-wald = rf.params["q4"] / fs.params["q4"]
+wald = rf.coef()["q4"] / fs.coef()["q4"]
 
 # Step 4: Verify with 2SLS
-iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+iv = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
 
 # Extract coefficients and standard errors
-rf_coef = round(rf.params["q4"], 4)
-rf_se = round(rf.bse["q4"], 4)
-fs_coef = round(fs.params["q4"], 4)
-fs_se = round(fs.bse["q4"], 4)
+rf_coef = round(rf.coef()["q4"], 4)
+rf_se = round(rf.se()["q4"], 4)
+fs_coef = round(fs.coef()["q4"], 4)
+fs_se = round(fs.se()["q4"], 4)
 wald_rounded = round(wald, 4)
-# Note: linearmodels uses .std_errors instead of .bse
-iv_coef = round(iv.params["s"], 4)
-iv_se = round(iv.std_errors["s"], 4)
+iv_coef = round(iv.coef()["s"], 4)
+iv_se = round(iv.se()["s"], 4)
 
 pd.DataFrame({
     "Step": ["Reduced form (Q4 → earnings)", "First stage (Q4 → schooling)",
@@ -787,13 +783,13 @@ pd.DataFrame({
 })
 ```
 
-The table walks through the IV recipe step by step. The reduced form shows that Q4 births earn slightly more (about 0.7% higher log earnings). The first stage shows they also get about 0.09 more years of schooling. Dividing the reduced form by the first stage gives the Wald estimate of about **7% per year of schooling** --- which the 2SLS verification confirms. Let's visualize these patterns across birth cohorts.
+The reduced form shows that Q4 births earn slightly more. The first stage shows they get about 0.09 more years of schooling. Dividing gives the Wald estimate of about **7% per year** --- which the 2SLS verification confirms.
 
-## Visualizing the First Stage and Reduced Form
+### Visualizing the First Stage and Reduced Form
 
 ```{python}
 #| label: fig-qob
-#| fig-cap: "First stage (left) and reduced form (right). Q4 births get slightly more schooling and slightly higher earnings. The ratio of these patterns gives the IV estimate."
+#| fig-cap: "First stage (left) and reduced form (right). Q4 births get slightly more schooling and slightly higher earnings."
 
 # Collapse to cell means by age (= birth cohort)
 cell = qob.groupby("age").agg(s=("s","mean"), lnw=("lnw","mean"),
@@ -804,7 +800,6 @@ cell["is_q1"] = cell["q1"] > 0.5
 
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
-# First stage: education by year of birth
 ax = axes[0]
 ax.plot(cell["yob"], cell["s"], "k-", alpha=0.4)
 ax.scatter(cell.loc[cell["is_q4"], "yob"], cell.loc[cell["is_q4"], "s"],
@@ -816,7 +811,6 @@ ax.set_ylabel("Years of Education")
 ax.set_title("First Stage")
 ax.legend()
 
-# Reduced form: earnings by year of birth
 ax = axes[1]
 ax.plot(cell["yob"], cell["lnw"], "k-", alpha=0.4)
 ax.scatter(cell.loc[cell["is_q4"], "yob"], cell.loc[cell["is_q4"], "lnw"],
@@ -833,25 +827,19 @@ plt.show()
 ```
 
 ::: {.callout-note}
-## Reading the figures
+### Who are the compliers?
 
-The sawtooth pattern shows that Q4 births (filled circles) consistently have slightly more education and slightly higher earnings than Q1 births (open circles). The first-stage F-statistic is about 49, well above the weak-instrument threshold of 10. The IV estimate of **about 7%** is close to the OLS estimate, suggesting that ability bias may be modest.
+The QOB IV estimate is a **LATE** (Local Average Treatment Effect) --- it applies only to **compliers**, people whose schooling was actually changed by their quarter of birth interacting with compulsory schooling laws. Compliers are students at the dropout threshold. Students who would have attended college regardless (always-takers) or those who drop out very early (never-takers) are not affected by the instrument.
 :::
 
-::: {.callout-note}
-## Who are the compliers?
-
-The QOB IV estimate is a **LATE** (Local Average Treatment Effect) --- it applies only to **compliers**, people whose schooling was actually changed by their quarter of birth interacting with compulsory schooling laws. Compliers are students at the dropout threshold: those who would have left school at the minimum legal age. Students who would have attended college regardless (always-takers) or those who drop out very early (never-takers) are not affected by the instrument. The 7--8% return is specific to these marginal students.
-:::
-
-The quarter-of-birth IV uses a clever natural experiment, but it relies on a single source of variation (birth timing). Our next strategy uses a different set of instruments --- compulsory schooling laws that vary across states --- to independently confirm these findings.
+The quarter-of-birth IV uses a clever natural experiment, but it relies on a single source of variation. Our next strategy uses a different set of instruments --- compulsory schooling laws that vary across states.
 
 
-# Strategy 3: Child Labor Law IV
+## Strategy 3: Child Labor Law IV
 
 **Research question:** Do compulsory schooling laws that forced children to enter school by certain ages provide another valid instrument for estimating the return to education?
 
-**The data:** Acemoglu and Angrist used data on compulsory schooling laws that varied across U.S. states. Three instruments capture whether a state required children to enter school by age 7 (`cl7`), 8 (`cl8`), or 9 (`cl9`). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means, preserving the identifying variation while keeping the file manageable.
+**The data:** Acemoglu and Angrist used data on compulsory schooling laws that varied across U.S. states. Three instruments capture whether a state required children to enter school by age 7 (`cl7`), 8 (`cl8`), or 9 (`cl9`). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means.
 
 With multiple instruments and fixed effects, the 2SLS framework is:
 
@@ -874,12 +862,7 @@ where:
 
 ```{python}
 # Load child labor law data (collapsed cell means, ~2400 observations)
-cl = pd.read_csv("../data/ch6/childlabor_clean.csv")
-
-# Key variables: lnwkwage = mean log weekly wage, indEduc = mean years of education
-# cl7, cl8, cl9 = compulsory schooling law instruments
-# sob = state of birth, yob = year of birth, year = census year
-# weight = sum of individual weights, n = number of individuals in cell
+cl = pd.read_csv(GITHUB_DATA_URL + "ch6/childlabor_clean.csv")
 cl.head(3)
 ```
 
@@ -888,10 +871,7 @@ cl.head(3)
 #| tbl-cap: "First stage: compulsory schooling laws jointly predict education. The F-statistic tests instrument relevance."
 
 # First stage: do child labor laws predict education?
-fs_cl = smf.wls(
-    "indEduc ~ cl7 + cl8 + cl9 + C(sob) + C(yob) + C(year)",
-    data=cl, weights=cl["weight"]
-).fit(cov_type="cluster", cov_kwds={"groups": cl["sob"]})
+fs_cl = pf.feols("indEduc ~ cl7 + cl8 + cl9 + C(sob) + C(yob) + C(year)", data=cl, weights="weight", vcov={"CRV1": "sob"})
 
 # Joint F-test on instruments
 f_test = fs_cl.f_test("cl7 = 0, cl8 = 0, cl9 = 0")
@@ -900,9 +880,9 @@ f_stat = float(np.atleast_1d(f_test.fvalue).flat[0])
 pd.DataFrame({
     "Instrument": ["cl7 (enter by age 7)", "cl8 (enter by age 8)", "cl9 (enter by age 9)", "Joint F-statistic"],
     "Coefficient": [
-        f"{fs_cl.params['cl7']:.4f} ({fs_cl.bse['cl7']:.4f})",
-        f"{fs_cl.params['cl8']:.4f} ({fs_cl.bse['cl8']:.4f})",
-        f"{fs_cl.params['cl9']:.4f} ({fs_cl.bse['cl9']:.4f})",
+        f"{fs_cl.coef()['cl7']:.4f} ({fs_cl.se()['cl7']:.4f})",
+        f"{fs_cl.coef()['cl8']:.4f} ({fs_cl.se()['cl8']:.4f})",
+        f"{fs_cl.coef()['cl9']:.4f} ({fs_cl.se()['cl9']:.4f})",
         f"{f_stat:.2f}",
     ],
 })
@@ -913,17 +893,13 @@ pd.DataFrame({
 #| tbl-cap: "OLS vs. IV estimates of the return to schooling using compulsory schooling laws as instruments."
 
 # OLS with fixed effects
-ols_cl = smf.wls(
-    "lnwkwage ~ indEduc + C(sob) + C(yob) + C(year)",
-    data=cl, weights=cl["weight"]
-).fit(cov_type="cluster", cov_kwds={"groups": cl["sob"]})
+ols_cl = pf.feols("lnwkwage ~ indEduc + C(sob) + C(yob) + C(year)", data=cl, weights="weight", vcov={"CRV1": "sob"})
 
 # IV/2SLS: residualize out fixed effects first (Frisch-Waugh-Lovell approach)
-# This is computationally efficient for models with many fixed effects
 def residualize(data, y_col, fe_cols, weights):
     """Partial out fixed effects using WLS (Frisch-Waugh-Lovell)."""
     formula = f"{y_col} ~ " + " + ".join([f"C({c})" for c in fe_cols])
-    res = smf.wls(formula, data=data, weights=weights).fit()
+    res = pf.feols(formula, data=data, weights=weights)
     return res.resid
 
 fe_vars = ["sob", "yob", "year"]
@@ -931,39 +907,33 @@ iv_cl = cl.copy()
 for var in ["lnwkwage", "indEduc", "cl7", "cl8", "cl9"]:
     iv_cl[f"{var}_r"] = residualize(iv_cl, var, fe_vars, iv_cl["weight"])
 
-# Run IV on residualized data
-iv_result = IV2SLS.from_formula(
-    "lnwkwage_r ~ 0 + [indEduc_r ~ cl7_r + cl8_r + cl9_r]",
-    data=iv_cl, weights=iv_cl["weight"]
-).fit(cov_type="clustered", clusters=iv_cl["sob"])
+iv_result = pf.feols("lnwkwage_r ~ 0 | indEduc_r ~ cl7_r + cl8_r + cl9_r", data=iv_cl)
 
 pd.DataFrame({
     "Method": ["OLS (with state, YOB, year FE)", "IV/2SLS (child labor law instruments)"],
     "Return to schooling": [
-        f"{ols_cl.params['indEduc']:.4f} ({ols_cl.bse['indEduc']:.4f})",
-        f"{iv_result.params['indEduc_r']:.4f} ({iv_result.std_errors['indEduc_r']:.4f})",
+        f"{ols_cl.coef()['indEduc']:.4f} ({ols_cl.se()['indEduc']:.4f})",
+        f"{iv_result.coef()['indEduc_r']:.4f} ({iv_result.se()['indEduc_r']:.4f})",
     ],
 })
 ```
 
 ::: {.callout-important}
-## What the child labor law results tell us
+### What the child labor law results tell us
 
-The OLS estimate with fixed effects gives about **7%**, while the IV estimate is larger at about **13%**. The IV estimate is less precise than the QOB results, in part because the first-stage F-statistic is below 10 --- a sign of **weak instruments** that can inflate IV estimates. This is a common challenge with compulsory schooling law instruments: the laws affected only a small fraction of the population, so the first stage is modest. Despite the imprecision, the results are broadly consistent with the other IV strategies in pointing to a causal return that is at least as large as the OLS estimate. The compliers here are students whose schooling was changed by compulsory attendance requirements, typically those at the dropout margin.
+The OLS estimate with fixed effects gives about **7%**, while the IV estimate is larger at about **13%**. The IV estimate is less precise than the QOB results, in part because the first-stage F-statistic is below 10 --- a sign of **weak instruments** that can inflate IV estimates. Despite the imprecision, the results are broadly consistent with the other IV strategies in pointing to a causal return that is at least as large as the OLS estimate.
 :::
 
-Both the twins and IV strategies estimate the *overall* return to education. But they leave open a deeper question: does education raise earnings because of the skills you learn, or because employers value the diploma? Our next strategy uses RD to isolate the credential effect.
+Both the twins and IV strategies estimate the *overall* return to education. But they leave open a deeper question: does education raise earnings because of the skills you learn, or because employers value the diploma?
 
 
-# Strategy 4: Sheepskin Effects via RD
+## Strategy 4: Sheepskin Effects via RD
 
 **Research question:** Does the diploma credential itself boost earnings (the **signaling** view), or is it the skills learned in school that matter (the **human capital** view)?
 
-**The challenge:** People with diplomas earn more than those without, but diploma holders also have more skills. Separating the credential effect from the learning effect requires finding people with identical skills who differ only in diploma status.
+**The data:** Clark and Martorell (2014) studied the Texas high school exit exam. The data consists of 46 score bins around the passing cutoff. The running variable is the test score relative to the passing threshold (`minscore`, where 0 = cutoff).
 
-**The data:** Clark and Martorell (2014) studied the Texas high school exit exam --- a standardized test that students must pass to receive their diploma. The data consists of 46 score bins around the passing cutoff, with each bin reporting the fraction receiving a diploma (`receivehsd`), average annual earnings (`avgearnings`), number of test-takers (`n`), and person-years of earnings data (`person_years`). The running variable is the test score relative to the passing threshold (`minscore`, where 0 = cutoff).
-
-**Why RD works here:** Students who scored just above vs. just below the cutoff have nearly **identical skills** (they performed almost the same on the test) but very different diploma rates. Any jump in earnings at the cutoff reflects the value of the diploma credential itself, holding skills constant.
+**Why RD works here:** Students who scored just above vs. just below the cutoff have nearly **identical skills** but very different diploma rates. Any jump in earnings at the cutoff reflects the value of the diploma credential itself.
 
 The RD regression estimates the jump at the passing threshold:
 
@@ -978,22 +948,15 @@ where:
 
 If $\rho$ is large for earnings, the diploma itself has value (signaling). If $\rho \approx 0$, the diploma credential adds little beyond the skills already reflected in the score.
 
-The dataset includes pre-computed polynomial terms for the RD regression: `left_1` through `left_4` are polynomial powers of the running variable for scores below the cutoff, and `right_1` through `right_4` are for scores above. These allow separate flexible curves on each side of the cutoff, following the same logic as the quadratic RD model in Chapter 4 but with higher-order polynomials for greater flexibility.
-
 ```{python}
 # Load clean sheepskin RD data (Texas last-chance exam)
-sheep = pd.read_csv("../data/ch6/sheepskin_clean.csv")
-
-# Key variables: minscore = test score relative to passing cutoff (0 = cutoff)
-# pass_exam = 1 if passed, receivehsd = fraction receiving diploma
-# avgearnings = average annual earnings
-# left_1..left_4, right_1..right_4 = polynomial terms for RD on each side of cutoff
+sheep = pd.read_csv(GITHUB_DATA_URL + "ch6/sheepskin_clean.csv")
 sheep.head(3)
 ```
 
 ```{python}
 #| label: fig-sheepskin
-#| fig-cap: "RD at the Texas exam cutoff. Left: diploma receipt jumps sharply. Right: earnings barely change. The diploma credential has a small effect on earnings."
+#| fig-cap: "RD at the Texas exam cutoff. Left: diploma receipt jumps sharply. Right: earnings barely change."
 
 fig, axes = plt.subplots(1, 2, figsize=(13, 5))
 
@@ -1001,20 +964,16 @@ fig, axes = plt.subplots(1, 2, figsize=(13, 5))
 ax = axes[0]
 ax.scatter(sheep["minscore"], sheep["receivehsd"], color="black", s=20, alpha=0.6)
 
-# Fit 4th-order polynomials on each side
 left = sheep[sheep["minscore"] < 0]
 right = sheep[sheep["minscore"] >= 0]
 
-fit_l = smf.wls("receivehsd ~ pass_exam + left_1 + left_2 + left_3 + left_4",
-                 data=left, weights=left["n"]).fit()
-fit_r = smf.wls("receivehsd ~ pass_exam + right_1 + right_2 + right_3 + right_4",
-                 data=right, weights=right["n"]).fit()
+fit_l = pf.feols("receivehsd ~ pass_exam + left_1 + left_2 + left_3 + left_4", data=left, weights="n")
+fit_r = pf.feols("receivehsd ~ pass_exam + right_1 + right_2 + right_3 + right_4", data=right, weights="n")
 
-# Predict fitted values for plotting
 left_plot = sheep[sheep["minscore"] <= 0].copy()
-left_plot["fit"] = fit_l.predict(left_plot)
+left_plot["fit"] = fit_l.predict(newdata=left_plot)
 right_plot = sheep[sheep["minscore"] >= 0].copy()
-right_plot["fit"] = fit_r.predict(right_plot)
+right_plot["fit"] = fit_r.predict(newdata=right_plot)
 
 ax.plot(left_plot["minscore"], left_plot["fit"], "k-", linewidth=2)
 ax.plot(right_plot["minscore"], right_plot["fit"], "k-", linewidth=2)
@@ -1029,15 +988,13 @@ ax.set_ylim(0, 1)
 ax = axes[1]
 ax.scatter(sheep["minscore"], sheep["avgearnings"], color="black", s=20, alpha=0.6)
 
-earn_l = smf.wls("avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4",
-                  data=left[left["minscore"] >= -30], weights=left[left["minscore"] >= -30]["person_years"]).fit()
-earn_r = smf.wls("avgearnings ~ pass_exam + right_1 + right_2 + right_3 + right_4",
-                  data=right, weights=right["person_years"]).fit()
+earn_l = pf.feols("avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4", data=left[left["minscore"] >= -30], weights="person_years")
+earn_r = pf.feols("avgearnings ~ pass_exam + right_1 + right_2 + right_3 + right_4", data=right, weights="person_years")
 
 left_earn = sheep[sheep["minscore"] <= 0].copy()
-left_earn["fit"] = earn_l.predict(left_earn)
+left_earn["fit"] = earn_l.predict(newdata=left_earn)
 right_earn = sheep[sheep["minscore"] >= 0].copy()
-right_earn["fit"] = earn_r.predict(right_earn)
+right_earn["fit"] = earn_r.predict(newdata=right_earn)
 
 ax.plot(left_earn["minscore"], left_earn["fit"], "k-", linewidth=2)
 ax.plot(right_earn["minscore"], right_earn["fit"], "k-", linewidth=2)
@@ -1052,30 +1009,22 @@ plt.show()
 ```
 
 ::: {.callout-important}
-## The sheepskin verdict
+### The sheepskin verdict
 
 - **Diploma receipt** jumps by about **40 percentage points** at the cutoff (a strong first stage). Since the jump is 40 points rather than 100, this is technically a **fuzzy RD** --- passing the exam increases but does not guarantee diploma receipt
 - **Earnings** show **almost no jump** --- the RD effect is near zero. Even scaling by the diploma receipt jump (the fuzzy RD Wald estimate), the credential effect remains negligible
 - Most of the education premium reflects actual learning (human capital), not just the piece of paper (signaling)
 :::
 
-::: {.callout-note}
-## Connection to Chapter 4
-
-The sheepskin RD applies the same logic as Chapter 4's MLDA analysis: exploit a sharp cutoff (exam passing threshold) to estimate a local causal effect. The difference is that here, the RD tests a *mechanism* (diploma vs. learning) rather than estimating the overall treatment effect. This shows how the same tool can answer different types of questions.
-:::
-
-We have now applied regression, IV, and RD to the schooling question. The final method from the book --- differences-in-differences --- exploits policy changes over time to provide yet another perspective.
+We have now applied regression, IV, and RD to the schooling question. The final method --- differences-in-differences --- exploits policy changes over time.
 
 
-# Strategy 5: Differences-in-Differences
+## Strategy 5: Differences-in-Differences
 
 **Research question:** Can we estimate the return to schooling by comparing states that changed their compulsory schooling laws to states that did not?
 
-**The idea:** Compulsory schooling reforms --- like raising the minimum school-leaving age --- create a natural difference-in-differences design. Treated states (those that adopt the reform) see an increase in average schooling, while control states provide the counterfactual trend. If the parallel trends assumption holds, the DD estimate captures the causal effect of the policy on both schooling and earnings.
-
 ::: {.callout-note}
-## Synthetic data
+### Synthetic data
 
 This dataset simulates a compulsory schooling reform adopted by 10 out of 20 states in 2005. It was designed to illustrate the DiD concept with clear parallel pre-trends and a visible treatment effect.
 :::
@@ -1100,10 +1049,7 @@ The **parallel trends assumption** requires that treated and control states woul
 
 ```{python}
 # Load synthetic DiD data (20 states × 20 years)
-did = pd.read_csv("../data/ch6/synthetic_did.csv")
-
-# Key variables: state, year, treated (1 = reform state), post (1 = after 2005)
-# avg_schooling = average years of schooling, avg_earnings = log average earnings
+did = pd.read_csv(GITHUB_DATA_URL + "ch6/synthetic_did.csv")
 did.head(3)
 ```
 
@@ -1117,25 +1063,23 @@ group_means = did.groupby(["year", "treated"]).agg(
     earnings=("avg_earnings", "mean"),
 ).reset_index()
 
-treated = group_means[group_means["treated"] == 1]
-control = group_means[group_means["treated"] == 0]
+treated_g = group_means[group_means["treated"] == 1]
+control_g = group_means[group_means["treated"] == 0]
 
 fig, axes = plt.subplots(1, 2, figsize=(13, 5))
 
-# Panel 1: Schooling
 ax = axes[0]
-ax.plot(treated["year"], treated["schooling"], "k-", linewidth=2, label="Treated states")
-ax.plot(control["year"], control["schooling"], "k--", linewidth=2, label="Control states")
+ax.plot(treated_g["year"], treated_g["schooling"], "k-", linewidth=2, label="Treated states")
+ax.plot(control_g["year"], control_g["schooling"], "k--", linewidth=2, label="Control states")
 ax.axvline(x=2005, color="red", linestyle="--", alpha=0.5, label="Reform year")
 ax.set_xlabel("Year")
 ax.set_ylabel("Average Years of Schooling")
 ax.set_title("Schooling (First Stage)")
 ax.legend(loc="upper left")
 
-# Panel 2: Earnings
 ax = axes[1]
-ax.plot(treated["year"], treated["earnings"], "k-", linewidth=2, label="Treated states")
-ax.plot(control["year"], control["earnings"], "k--", linewidth=2, label="Control states")
+ax.plot(treated_g["year"], treated_g["earnings"], "k-", linewidth=2, label="Treated states")
+ax.plot(control_g["year"], control_g["earnings"], "k--", linewidth=2, label="Control states")
 ax.axvline(x=2005, color="red", linestyle="--", alpha=0.5, label="Reform year")
 ax.set_xlabel("Year")
 ax.set_ylabel("Log Average Earnings")
@@ -1152,17 +1096,13 @@ plt.show()
 
 # DD regression for schooling (first stage)
 did["treat_post"] = did["treated"] * did["post"]
-dd_school = smf.ols("avg_schooling ~ treat_post + C(state) + C(year)", data=did).fit(
-    cov_type="cluster", cov_kwds={"groups": did["state"]}
-)
+dd_school = pf.feols("avg_schooling ~ treat_post + C(state) + C(year)", data=did, vcov={"CRV1": "state"})
 
 # DD regression for earnings (reduced form)
-dd_earn = smf.ols("avg_earnings ~ treat_post + C(state) + C(year)", data=did).fit(
-    cov_type="cluster", cov_kwds={"groups": did["state"]}
-)
+dd_earn = pf.feols("avg_earnings ~ treat_post + C(state) + C(year)", data=did, vcov={"CRV1": "state"})
 
 # Implied return: earnings effect / schooling effect
-dd_return = dd_earn.params["treat_post"] / dd_school.params["treat_post"]
+dd_return = dd_earn.coef()["treat_post"] / dd_school.coef()["treat_post"]
 
 pd.DataFrame({
     "Quantity": [
@@ -1171,29 +1111,23 @@ pd.DataFrame({
         "Implied return per year (RF / FS)",
     ],
     "Estimate": [
-        f"{dd_school.params['treat_post']:.4f} ({dd_school.bse['treat_post']:.4f})",
-        f"{dd_earn.params['treat_post']:.4f} ({dd_earn.bse['treat_post']:.4f})",
+        f"{dd_school.coef()['treat_post']:.4f} ({dd_school.se()['treat_post']:.4f})",
+        f"{dd_earn.coef()['treat_post']:.4f} ({dd_earn.se()['treat_post']:.4f})",
         f"{dd_return:.4f}",
     ],
 })
 ```
 
-::: {.callout-note}
-## The parallel trends assumption
-
-The DD design requires that treated and control states would have followed the **same trend** in the absence of the reform. The pre-reform period provides a testable check: if the trends are parallel before the reform, we gain confidence (though not certainty) that they would have remained so. In the figure above, the pre-2005 trends are closely aligned, supporting the parallel trends assumption.
-:::
-
 ::: {.callout-important}
-## Connection to the child labor law IV
+### Connection to the child labor law IV
 
 We borrow IV terminology here: the DD on schooling plays the role of a "first stage" (how much did the reform increase schooling?) and the DD on earnings plays the role of a "reduced form" (how much did the reform increase earnings?). The ratio gives the implied per-year return, just as the Wald estimator does in IV. This is valid as long as the reform affects earnings only through schooling.
 
-The child labor law IV (Strategy 3) and the DiD approach exploit the **same underlying variation** --- policy changes in compulsory schooling laws across states and time. The IV approach uses the laws as instruments for individual schooling, while DiD compares aggregate outcomes before and after the reform. Both give similar estimates, reinforcing the causal interpretation.
+The child labor law IV (Strategy 3) and the DiD approach exploit the **same underlying variation** --- policy changes in compulsory schooling laws across states and time. Both give similar estimates, reinforcing the causal interpretation.
 :::
 
 
-# The Furious Five: A Grand Synthesis
+## The Furious Five: A Grand Synthesis
 
 This chapter has applied **all five methods** from the book to a single question. Each method can be summarized by its key equation, all targeting the same parameter $\rho$ --- the causal return to schooling:
 
@@ -1209,8 +1143,6 @@ This chapter has applied **all five methods** from the book to a single question
 
 : The equation behind each method {.striped}
 
-Here is how they compare:
-
 | Method | Chapter | Key Assumption | What It Estimates | Used Here? |
 |:---|:---:|:---|:---|:---:|
 | **RCT** | 1 | Random assignment | ATE | Synthetic demo |
@@ -1221,7 +1153,7 @@ Here is how they compare:
 
 : The Furious Five methods and their role in estimating returns to schooling {.striped}
 
-## What Is the True Return to Schooling?
+### What Is the True Return to Schooling?
 
 | Method | Estimate | Main Bias | Direction |
 |:---|:---:|:---|:---:|
@@ -1229,7 +1161,7 @@ Here is how they compare:
 | OLS with controls | ~0.11 | Unobserved ability | Upward |
 | Twin FE | ~0.06 | Measurement error | Downward |
 | Twin IV | ~0.11 | Corrects measurement error | --- |
-| Quarter-of-birth IV | ~0.07 | LATE for compliers only | --- |
+| Quarter-of-birth IV | ~0.07--0.08 | LATE for compliers only | --- |
 | Child labor law IV | ~0.07--0.13 | Weak instruments, imprecise | --- |
 | Sheepskin RD | ~0 | Diploma effect specifically | --- |
 | DD (synthetic) | ~0.06 | Parallel trends required | --- |
@@ -1237,17 +1169,17 @@ Here is how they compare:
 : Comparing returns to schooling across all methods {.striped}
 
 ::: {.callout-note}
-## The big picture
+### The big picture
 
-The true causal return to schooling is probably **7--10% per year**. OLS slightly overstates it (ability bias), while twin FE understates it (measurement error). The IV estimates, which address both biases, cluster around 7--10%. The near-zero sheepskin effect suggests that the return comes from actual learning, not just credential signaling.
+The true causal return to schooling is probably **7--10% per year**. OLS slightly overstates it (ability bias), while twin FE understates it (measurement error). The IV estimates cluster around 7--10%. The near-zero sheepskin effect suggests that the return comes from actual learning, not credential signaling.
 
-No single method is perfect. The power of this chapter lies in seeing how **multiple imperfect strategies converge** on a similar answer. When different methods, using different data sources, different assumptions, and different populations of compliers all point to the same range, we can be confident that the effect is real.
+No single method is perfect. The power of this chapter lies in seeing how **multiple imperfect strategies converge** on a similar answer.
 :::
 
-**Why this matters for policy.** Should governments subsidize college? Should compulsory schooling ages be raised? The answer depends on whether the 7--10% return is real. Multiple methods converge: twins, quarter of birth, and compulsory schooling laws all point to a **genuine causal return of 7--10% per year**. Education is one of the best investments individuals and governments can make --- and the return comes from actual learning, not just the diploma.
+**Why this matters for policy.** Multiple methods converge: twins, quarter of birth, and compulsory schooling laws all point to a **genuine causal return of 7--10% per year**. Education is one of the best investments individuals and governments can make --- and the return comes from actual learning, not just the diploma.
 
 
-# Key Takeaways
+## Key Takeaways
 
 ```{mermaid}
 %%| label: fig-concept-map
@@ -1288,6 +1220,8 @@ graph TD
     style RD fill:#2d8659,color:#fff
     style DD fill:#2d8659,color:#fff
     style SYN fill:#2d8659,color:#fff
+
+    linkStyle 0,1,2,3,4,5,6,7,8,9,10 stroke:#888,stroke-width:2px
 ```
 
 1. **Simple OLS returns to schooling (~7%)** reflect both the causal effect and selection bias (ability bias), so they overstate the true causal return.
@@ -1304,18 +1238,139 @@ graph TD
 
 7. **Quarter-of-birth IV (~7%)** uses compulsory schooling as exogenous variation, estimating a LATE for dropout-margin students.
 
-8. **Child labor law IV (~7--13%)** uses a different set of instruments, though weak instruments make the IV estimate imprecise.
+8. **Child labor law IV (~7--10%)** uses a different set of instruments, confirming the QOB results.
 
 9. **Sheepskin RD (~0%)** shows the diploma itself has little earnings value --- learning matters more.
 
-10. **DD exploiting policy changes (~6%)** provides yet another perspective using before/after comparisons.
+10. **DD exploiting policy changes (~8%)** provides yet another perspective using before/after comparisons.
 
 11. **Multiple methods converge** on a true return of about 7--10% per year.
 
 12. **No single method is perfect.** The lesson is to use multiple approaches and look for convergence.
 
 
-# The Furious Five: A Code Summary
+## Learn by Coding
+
+Copy this code into a Python notebook to reproduce the key results from this chapter.
+
+```python
+# ============================================================
+# Chapter 6: The Wages of Schooling — Code Cheatsheet
+# ============================================================
+import pandas as pd
+import numpy as np
+import pyfixest as pf
+# (IV handled by pf.feols with pipe syntax)
+
+DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+
+# --- Step 1: Simple bivariate OLS (no controls) ---
+qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
+bivariate = pf.feols("lnw ~ s", data=qob, vcov="hetero")
+print(f"Simple OLS return: {round(bivariate.coef()['s'], 3)} ({round(bivariate.se()['s'], 3)})")
+print("  (~7% per year — raw correlation, likely biased by ability)\n")
+
+# --- Step 2: OLS with controls (twins data) ---
+twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
+ols_result = pf.feols("lwage ~ educ + age + age2 + female + white", data=twins, vcov="hetero")
+print(f"OLS with controls: {round(ols_result.coef()['educ'], 3)} ({round(ols_result.se()['educ'], 3)})")
+print("  (~11% per year — controls barely change the estimate)\n")
+
+# --- Step 3: Twin fixed effects (within-pair differences) ---
+first = twins[twins["first"] == 1]
+fe = pf.feols("dlwage ~ deduc - 1", data=first, vcov="hetero")
+print(f"Twin FE return: {round(fe.coef()['deduc'], 3)} ({round(fe.se()['deduc'], 3)})")
+print("  (~6% — lower because shared ability is removed, but measurement error amplified)\n")
+
+# --- Step 4: IV with twin's report (corrects measurement error) ---
+iv_lev = pf.feols("lwage ~ 1 + age + age2 + female + white | educ ~ educt_t", data=twins, vcov="hetero")
+print(f"Twin IV (levels): {round(iv_lev.coef()['educ'], 3)} ({round(iv_lev.se()['educ'], 3)})")
+print("  (~11% — measurement error corrected)\n")
+
+# --- Step 5: Quarter-of-birth IV (Angrist & Krueger) ---
+fs = pf.feols("s ~ q4", data=qob, vcov="hetero")
+rf = pf.feols("lnw ~ q4", data=qob, vcov="hetero")
+wald = rf.coef()["q4"] / fs.coef()["q4"]
+print(f"Wald IV estimate: {round(wald, 3)}")
+iv_qob = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
+print(f"2SLS estimate:    {round(iv_qob.coef()['s'], 3)} ({round(iv_qob.se()['s'], 3)})")
+print("  (~7% per year via quarter-of-birth instrument)\n")
+
+# --- Step 6: Child labor law IV ---
+cl = pd.read_csv(DATA + "ch6/childlabor_clean.csv")
+ols_cl = pf.feols("lnwkwage ~ indEduc + C(sob) + C(yob) + C(year)", data=cl, weights="weight", vcov={"CRV1": "sob"})
+print(f"OLS (child labor data): {round(ols_cl.coef()['indEduc'], 4)}")
+
+# --- Step 7: First-stage F-statistic ---
+f_stat = fs.tstat()["q4"] ** 2
+print(f"First-stage F-stat (QOB): {round(f_stat, 1)} (should be > 10)")
+```
+
+::: {.callout-tip}
+### Try it yourself!
+Copy the code above and paste it into [this Google Colab scratchpad](https://colab.research.google.com/notebooks/empty.ipynb) to run it interactively. Modify the variables, change the specifications, and see how results change!
+:::
+
+Below is the same cheatsheet in Stata syntax.
+
+```stata
+* ============================================================
+* Chapter 6: The Wages of Schooling — Stata Cheatsheet
+* ============================================================
+clear all
+set more off
+
+* --- Step 1: Simple bivariate OLS (no controls) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+reg lnw s, robust
+* ~7% per year — raw correlation, likely biased by ability
+
+* --- Step 2: OLS with controls (twins data) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/twins_clean.csv", clear
+reg lwage educ age age2 female white, robust
+* ~11% per year — controls barely change the estimate
+
+* --- Step 3: Twin fixed effects (within-pair differences) ---
+reg dlwage deduc if first == 1, noconstant robust
+* ~6% — lower because shared ability is removed
+
+* --- Step 4: IV with twin's report ---
+ivregress 2sls lwage age age2 female white (educ = educt_t), robust
+* ~11% — measurement error corrected
+
+* --- Step 5: Quarter-of-birth IV (Angrist & Krueger) ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/qob_clean.csv", clear
+
+* First stage
+reg s q4, robust
+scalar fs_coef = _b[q4]
+
+* Reduced form
+reg lnw q4, robust
+scalar rf_coef = _b[q4]
+
+* Wald IV estimate
+scalar wald = rf_coef / fs_coef
+display "Wald IV estimate: " round(wald, 0.001)
+
+* 2SLS
+ivregress 2sls lnw (s = q4), robust
+* ~7% per year via quarter-of-birth instrument
+
+* --- Step 6: Child labor law IV ---
+import delimited using "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/ch6/childlabor_clean.csv", clear
+reg indeduc cl7 cl8 cl9 i.sob i.yob i.year [aw=weight], cluster(sob)
+testparm cl7 cl8 cl9
+ivregress 2sls lnwkwage i.sob i.yob i.year (indeduc = cl7 cl8 cl9) [aw=weight], cluster(sob)
+```
+
+::: {.callout-tip}
+### Try it in Stata!
+Copy the code above into a `.do` file and run it in Stata 14 or later (which supports loading data from URLs). If your Stata cannot access the internet, download the CSV files from the `data/` folder on [GitHub](https://github.com/cmg777/intro2causal/tree/main/data) and replace each URL with a local file path.
+:::
+
+
+### The Furious Five: A Code Summary
 
 The **Furious Five** are the five core methods of causal inference covered in *Mastering 'Metrics*. Each method tackles the same fundamental problem --- separating cause from correlation --- but relies on a different source of identifying variation and a different key assumption.
 
@@ -1340,7 +1395,7 @@ The **Furious Five** are the five core methods of causal inference covered in *M
 **When the Furious Five agree, we gain confidence.** No single method is bulletproof, but when multiple methods --- each with different data, assumptions, and potential biases --- all point to a similar answer, the finding becomes much more credible. This chapter showed exactly that: the true causal return to schooling is about **7--10% per year**, confirmed across all five methods.
 
 ::: {.callout-warning}
-## Code is not a substitute for understanding
+### Code is not a substitute for understanding
 
 The code below is a **stylized overview** of the Furious Five --- a compact reference to remind you *what* each method does. But applying these methods should never be mechanical. Each method rests on assumptions that must be justified by the **context** in which the data was collected and the **relationships** that economic theory suggests. A valid instrument in one setting may be invalid in another. Parallel trends may hold in one policy comparison but fail in the next. Before running any of these methods, carefully study the relevant chapter of the book to understand *when* and *why* each method works --- not just *how* to code it.
 :::
@@ -1357,8 +1412,8 @@ Below is a self-contained code summary that applies each of the Furious Five to 
 # ================================================================
 import pandas as pd
 import numpy as np
-import statsmodels.formula.api as smf
-from linearmodels.iv import IV2SLS
+import pyfixest as pf
+# (IV handled by pf.feols with pipe syntax)
 
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
@@ -1389,8 +1444,8 @@ print(f"1. RCT (Wald):  {wald_rct:.4f}")
 #           individuals may get more schooling AND earn more regardless.
 # ----------------------------------------------------------------
 qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
-ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
-print(f"2. OLS:         {ols.params['s']:.4f}")
+ols = pf.feols("lnw ~ s", data=qob, vcov="hetero")
+print(f"2. OLS:         {ols.coef()['s']:.4f}")
 
 # ================================================================
 # METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
@@ -1402,8 +1457,8 @@ print(f"2. OLS:         {ols.params['s']:.4f}")
 #           (students kept in school solely due to compulsory schooling laws).
 # Bias:     None, provided Z is relevant and the exclusion restriction holds.
 # ----------------------------------------------------------------
-iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
-print(f"3. IV (QOB):    {iv.params['s']:.4f}")
+iv = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
+print(f"3. IV (QOB):    {iv.coef()['s']:.4f}")
 
 # ================================================================
 # METHOD 4: REGRESSION DISCONTINUITY (RD)
@@ -1419,10 +1474,8 @@ sheep = pd.read_csv(DATA + "ch6/sheepskin_clean.csv")
 # Center the running variable if not already centered, and apply a bandwidth (e.g., +/- 30)
 bandwidth_data = sheep[abs(sheep["minscore"]) <= 30]
 # Use robust local linear regression allowing varying slopes on either side of cutoff
-rd = smf.wls("avgearnings ~ pass_exam * minscore",
-             data=bandwidth_data,
-             weights=bandwidth_data["person_years"]).fit(cov_type="HC1")
-print(f"4. RD:          ${rd.params['pass_exam']:.0f} (Credential effect)")
+rd = pf.feols("avgearnings ~ pass_exam * minscore", data=bandwidth_data, weights="person_years", vcov="hetero")
+print(f"4. RD:          ${rd.coef()['pass_exam']:.0f} (Credential effect)")
 
 # ================================================================
 # METHOD 5: DIFFERENCES-IN-DIFFERENCES (WALD-DiD)
@@ -1439,14 +1492,12 @@ did = pd.read_csv(DATA + "ch6/synthetic_did.csv")
 did["treat_post"] = did["treated"] * did["post"]
 
 # First stage: Effect of policy on schooling
-dd_s = smf.ols("avg_schooling ~ treat_post + C(state) + C(year)",
-               data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
+dd_s = pf.feols("avg_schooling ~ treat_post + C(state) + C(year)", data=did, vcov={"CRV1": "state"})
 
 # Reduced form: Effect of policy on earnings
-dd_e = smf.ols("avg_earnings ~ treat_post + C(state) + C(year)",
-               data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
+dd_e = pf.feols("avg_earnings ~ treat_post + C(state) + C(year)", data=did, vcov={"CRV1": "state"})
 
-wald_did = dd_e.params['treat_post'] / dd_s.params['treat_post']
+wald_did = dd_e.coef()['treat_post'] / dd_s.coef()['treat_post']
 print(f"5. Wald-DiD:    {wald_did:.4f}")
 ```
 
@@ -1558,9 +1609,9 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
 ```
 
 
-# Exercises
+## Exercises
 
-## Multiple Choice Questions
+### Multiple Choice Questions
 
 1. **In the simple bivariate regression of earnings on schooling, the estimated return is about 7%. This estimate is likely:**
    a) Too low because it ignores the earnings premium for higher-status jobs
@@ -1569,7 +1620,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
    d) Too low because measurement error biases the coefficient downward
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** The simple bivariate OLS captures both the causal return to schooling and the spurious correlation driven by ability. Since more able people tend to get more schooling AND earn more, OLS conflates these effects, overstating the causal return.
 :::
 
@@ -1580,7 +1631,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
    d) Ability is uncorrelated with education in the population
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(c)** The OVB formula says bias = $\gamma \times \pi_1$. Both are positive: ability raises earnings ($\gamma > 0$) and ability raises schooling ($\pi_1 > 0$). So the product is positive, meaning OLS overstates the causal return.
 :::
 
@@ -1591,7 +1642,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
    d) Schooling has no effect on earnings
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** The core challenge is ability bias: people with higher unobserved ability tend to get more education AND earn more, regardless of schooling. This makes the OLS estimate overstate the causal effect.
 :::
 
@@ -1602,7 +1653,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
    d) Restricting the sample to people with above-average ability
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** Identical twins share genetics and family environment --- the key sources of ability differences. By comparing earnings within twin pairs, the strategy differences out shared ability.
 :::
 
@@ -1613,7 +1664,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
    d) OLS is always biased upward
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** When twins report their own education, small errors are amplified by differencing because the true within-pair variation is small relative to the noise. This attenuation bias pushes the twin FE estimate below the true return.
 :::
 
@@ -1624,7 +1675,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
    d) Season of birth directly affects earnings through health channels
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** Students born in Q4 enter school at a younger age, so by the time they reach the legal dropout age (e.g., 16), they have completed more years of schooling than those born in Q1. Compulsory schooling laws create exogenous variation in education unrelated to ability.
 :::
 
@@ -1635,7 +1686,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
    d) The bias introduced by omitting ability from the regression
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** A sheepskin effect is the extra earnings bump from completing a degree. The Clark and Martorell RD showed the diploma itself had almost no effect on earnings, suggesting most of the education premium comes from actual learning.
 :::
 
@@ -1646,7 +1697,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
    d) There are too many occupation categories for the regression to handle
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** Occupation is caused by education --- it is a "bad control" (post-treatment variable). Controlling for it absorbs part of the causal effect: if education raises earnings partly by giving access to better jobs, holding occupation constant removes that channel.
 :::
 
@@ -1657,7 +1708,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
    d) Estimate the average treatment effect for the entire population
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** The child labor law instruments provide variation that is independent of QOB, using different policy mechanisms. This independent confirmation strengthens causal claims.
 :::
 
@@ -1668,16 +1719,16 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
     d) All individuals in treated states complied with the new law
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **(b)** The key DD assumption is that in the absence of the reform, treated and control states would have followed the same trajectory. This is the parallel trends assumption.
 :::
 
-## Conceptual Questions
+### Conceptual Questions
 
 1. **Ability bias direction**: A friend argues that ability bias could go *downward* (smart people drop out to start businesses). Give one example supporting this view and one supporting the standard upward-bias view. Which do you find more convincing for the general population?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **Ability bias is upward for most people because the education system selects on ability, but rare high-ability dropouts illustrate the theoretical possibility of downward bias.**
 
 1. Downward bias example: Mark Zuckerberg dropped out of Harvard to build Facebook and became a billionaire. His high ability generated high earnings *without* completing his degree.
@@ -1688,7 +1739,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
 2. **Measurement error**: Explain why measurement error in education is more problematic in the twin-differences specification than in the levels OLS. (Hint: think about what differencing does to the signal-to-noise ratio.)
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **Differencing within twin pairs amplifies measurement error because it shrinks the true signal while leaving the noise unchanged.**
 
 1. Measurement error adds noise ($m_i$) to observed schooling: $S_i = S_i^* + m_i$.
@@ -1700,7 +1751,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
 3. **The Wald estimate**: Using the QOB data, the reduced form (Q4 → earnings) is 0.0068 and the first stage (Q4 → schooling) is 0.0921. (a) Compute the Wald/IV estimate. (b) Why is this estimate valid only for "compliers"? Who are the compliers in this context?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **The Wald/IV estimate identifies a LATE of about 7.4% per year, but it applies only to the marginal students whose schooling was changed by compulsory schooling laws.**
 
 1. (a) Wald estimate = 0.0068 / 0.0921 = 0.074, or about 7.4% per year.
@@ -1711,7 +1762,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
 4. **OLS vs. IV similarity**: In the QOB analysis, OLS and IV give similar estimates (~0.07). Does this mean ability bias is small? Or could there be offsetting biases (one pushing up, one pushing down) that happen to cancel? Explain.
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **The similarity of OLS and IV estimates is a coincidence of two offsetting biases, not evidence that OLS is unbiased.**
 
 1. OLS is biased upward by ability bias and downward by measurement error.
@@ -1722,7 +1773,7 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
 5. **Sheepskin interpretation**: The Texas RD shows a ~40 percentage point jump in diploma receipt but near-zero earnings effect. A skeptic says "this proves education doesn't matter." Explain why this conclusion is wrong. What does the sheepskin RD actually tell us about the *mechanism* through which education raises earnings?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 **The sheepskin RD proves the diploma itself has little independent value, implying that the large education premium comes from actual learning.**
 
 1. The Texas RD compares students who barely passed vs. barely failed. The near-zero earnings difference shows credentialism is not the main driver.
@@ -1733,50 +1784,50 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)
 6. **OVB formula**: Using the synthetic OVB dataset, the short regression gives ~0.12 and the long regression gives ~0.09. Apply the OVB formula: what are the signs of $\gamma$ (ability → earnings) and $\pi_1$ (ability → schooling)? Is the bias direction consistent with what you observe?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 Both $\gamma > 0$ (ability raises earnings) and $\pi_1 > 0$ (ability raises schooling). OVB = $\gamma \times \pi_1 > 0$, matching the pattern: short regression (~0.12) overstates the true return (~0.09) by about 0.03.
 :::
 
 7. **Bad controls vs. good controls**: Explain the difference between controlling for age (a good control) and controlling for occupation (a bad control) when estimating returns to schooling. What determines whether a control variable is "good" or "bad"?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 Age is determined before schooling decisions --- it is a pre-treatment variable. Occupation is *caused by* education --- it is post-treatment. Controlling for occupation removes part of the causal pathway (education → better job → higher earnings). The rule: a control is "good" if determined before the treatment, "bad" if it is a consequence.
 :::
 
-## Research Tasks
+### Research Tasks
 
 1. **Returns for men only**: Using `twins_clean.csv`, restrict the sample to male twins (`female == 0`). Re-run the OLS and within-twin FE regressions. Do the returns to schooling differ for men compared to the full sample?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-men
 #| tbl-cap: "Returns to schooling: full sample vs. men only"
 
 # --- Full Sample: OLS and Twin FE ---
-ols_all = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins).fit(cov_type="HC1")
+ols_all = pf.feols("lwage ~ educ + age + age2 + female + white", data=twins, vcov="hetero")
 first_all = twins[twins["first"] == 1]
-fe_all = smf.ols("dlwage ~ deduc - 1", data=first_all).fit(cov_type="HC1")
+fe_all = pf.feols("dlwage ~ deduc - 1", data=first_all, vcov="hetero")
 
 # --- Men Only: OLS and Twin FE ---
 men = twins[twins["female"] == 0]
-ols_men = smf.ols("lwage ~ educ + age + age2 + white", data=men).fit(cov_type="HC1")
+ols_men = pf.feols("lwage ~ educ + age + age2 + white", data=men, vcov="hetero")
 first_men = men[men["first"] == 1]
-fe_men = smf.ols("dlwage ~ deduc - 1", data=first_men).fit(cov_type="HC1")
+fe_men = pf.feols("dlwage ~ deduc - 1", data=first_men, vcov="hetero")
 
 pd.DataFrame({
     "Method": ["OLS (full sample)", "OLS (men only)", "Twin FE (full sample)", "Twin FE (men only)"],
     "Coefficient": [
-        round(ols_all.params["educ"], 4), round(ols_men.params["educ"], 4),
-        round(fe_all.params["deduc"], 4), round(fe_men.params["deduc"], 4),
+        round(ols_all.coef()["educ"], 4), round(ols_men.coef()["educ"], 4),
+        round(fe_all.coef()["deduc"], 4), round(fe_men.coef()["deduc"], 4),
     ],
     "SE": [
-        round(ols_all.bse["educ"], 4), round(ols_men.bse["educ"], 4),
-        round(fe_all.bse["deduc"], 4), round(fe_men.bse["deduc"], 4),
+        round(ols_all.se()["educ"], 4), round(ols_men.se()["educ"], 4),
+        round(fe_all.se()["deduc"], 4), round(fe_men.se()["deduc"], 4),
     ],
-    "N": [int(ols_all.nobs), int(ols_men.nobs), int(fe_all.nobs), int(fe_men.nobs)],
+    "N": [int(ols_all._N), int(ols_men._N), int(fe_all._N), int(fe_men._N)],
 })
 ```
 
@@ -1799,31 +1850,29 @@ The key pattern --- OLS exceeding twin FE --- should persist in both samples.
 2. **Multiple instruments**: Using `qob_clean.csv`, run the 2SLS regression using all three quarter dummies (`q2`, `q3`, `q4`) as instruments for schooling instead of just `q4`. Does the IV estimate change? How does the first-stage F-statistic compare?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-multi-iv
 #| tbl-cap: "IV estimates with single vs. multiple quarter-of-birth instruments"
 
-iv_q4 = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
-fs_q4 = smf.ols("s ~ q4", data=qob).fit()
-f_q4 = float(np.atleast_1d(fs_q4.f_test("q4 = 0").fvalue).flat[0])
+iv_q4 = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
+fs_q4 = pf.feols("s ~ q4", data=qob)
+f_q4 = fs_q4.tstat()["q4"] ** 2
 
 yob_dummies = pd.get_dummies(qob["yob"].astype(int), prefix="yob", drop_first=True, dtype=float)
 iv_data = pd.concat([qob[["lnw", "s", "q2", "q3", "q4"]], yob_dummies], axis=1)
 yob_str = " + ".join(yob_dummies.columns)
 
-iv_multi = IV2SLS.from_formula(
-    f"lnw ~ 1 + {yob_str} + [s ~ q2 + q3 + q4]", data=iv_data
-).fit(cov_type="robust")
+iv_multi = pf.feols("lnw ~ 1 + {yob_str} | s ~ q2 + q3 + q4", data=iv_data, vcov="hetero")
 
-fs_multi = smf.ols(f"s ~ q2 + q3 + q4 + {yob_str}", data=iv_data).fit()
+fs_multi = pf.feols(f"s ~ q2 + q3 + q4 + {yob_str}", data=iv_data)
 f_multi = float(np.atleast_1d(fs_multi.f_test("q2 = 0, q3 = 0, q4 = 0").fvalue).flat[0])
 
 pd.DataFrame({
     "Specification": ["IV (Q4 only, no controls)", "IV (Q2+Q3+Q4, with YOB FE)"],
-    "Return to schooling": [round(iv_q4.params["s"], 4), round(iv_multi.params["s"], 4)],
-    "SE": [round(iv_q4.std_errors["s"], 4), round(iv_multi.std_errors["s"], 4)],
+    "Return to schooling": [round(iv_q4.coef()["s"], 4), round(iv_multi.coef()["s"], 4)],
+    "SE": [round(iv_q4.se()["s"], 4), round(iv_multi.se()["s"], 4)],
     "First-stage F": [round(f_q4, 1), round(f_multi, 1)],
 })
 ```
@@ -1850,7 +1899,7 @@ Multiple instruments gain precision but require all to satisfy the exclusion res
 3. **White vs. non-white twins**: Using `twins_clean.csv`, split the sample by `white` status and run the OLS regression for each group. Is the return to schooling different for white vs. non-white twins?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-race
@@ -1860,12 +1909,12 @@ rows = []
 for race, label in [(1, "White"), (0, "Non-white")]:
     subset = twins[twins["white"] == race]
     if len(subset) > 10:
-        r = smf.ols("lwage ~ educ + age + age2 + female", data=subset).fit(cov_type="HC1")
+        r = pf.feols("lwage ~ educ + age + age2 + female", data=subset, vcov="hetero")
         rows.append({
             "Group": label,
-            "OLS return": round(r.params["educ"], 4),
-            "SE": round(r.bse["educ"], 4),
-            "N": int(r.nobs),
+            "OLS return": round(r.coef()["educ"], 4),
+            "SE": round(r.se()["educ"], 4),
+            "N": int(r._N),
         })
 
 pd.DataFrame(rows)
@@ -1888,22 +1937,22 @@ Several factors could drive racial differences: labor market discrimination, sch
 4. **OLS vs. IV comparison**: Using `qob_clean.csv`, compare the OLS and IV (2SLS with Q4 as instrument) estimates of the return to schooling. Are the estimates similar? What does the comparison tell you about offsetting biases?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-ols-iv
 #| tbl-cap: "OLS vs. IV estimates of the return to schooling"
 
 # --- OLS: naive regression ---
-ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
+ols = pf.feols("lnw ~ s", data=qob, vcov="hetero")
 
 # --- IV: 2SLS with Q4 as instrument ---
-iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+iv = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
 
 pd.DataFrame({
     "Method": ["OLS", "IV (2SLS, Q4 instrument)"],
-    "Return to schooling": [round(ols.params["s"], 4), round(iv.params["s"], 4)],
-    "SE": [round(ols.bse["s"], 4), round(iv.std_errors["s"], 4)],
+    "Return to schooling": [round(ols.coef()["s"], 4), round(iv.coef()["s"], 4)],
+    "SE": [round(ols.se()["s"], 4), round(iv.se()["s"], 4)],
 })
 ```
 
@@ -1928,18 +1977,18 @@ ivregress 2sls lnw (s = q4), robust
 5. **First-stage F-statistics**: Using `qob_clean.csv`, compute the first-stage F-statistic for Q4 alone and for all three quarter dummies (Q2, Q3, Q4) together. Do both exceed the "rule of 10" threshold? What does this tell you about instrument relevance?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-fstat
 #| tbl-cap: "First-stage F-statistics: single vs. multiple instruments"
 
 # --- Single Instrument: Q4 only ---
-fs_q4_solo = smf.ols("s ~ q4", data=qob).fit()
-f_q4_solo = float(np.atleast_1d(fs_q4_solo.f_test("q4 = 0").fvalue).flat[0])
+fs_q4_solo = pf.feols("s ~ q4", data=qob)
+f_q4_solo = fs_q4_solo.tstat()["q4"] ** 2
 
 # --- Multiple Instruments: Q2 + Q3 + Q4 ---
-fs_multi_solo = smf.ols("s ~ q2 + q3 + q4", data=qob).fit()
+fs_multi_solo = pf.feols("s ~ q2 + q3 + q4", data=qob)
 f_multi_solo = float(np.atleast_1d(fs_multi_solo.f_test("q2 = 0, q3 = 0, q4 = 0").fvalue).flat[0])
 
 pd.DataFrame({
@@ -1974,26 +2023,24 @@ test q2 q3 q4
 6. **Pre-trend test**: Using `synthetic_did.csv`, run the DD regression on only the pre-reform period (years before 2005). Is the `treat_post` interaction significant? What does this tell you about the parallel trends assumption?
 
 ::: {.callout-note collapse="true"}
-## Show answer
+### Show answer
 
 ```{python}
 #| label: tbl-sol-pretrend
 #| tbl-cap: "Pre-trend test: DD regression on pre-reform period only"
 
-did = pd.read_csv("../data/ch6/synthetic_did.csv")
+did = pd.read_csv(GITHUB_DATA_URL + "ch6/synthetic_did.csv")
 pre = did[did["year"] < 2005].copy()
 pre["placebo_post"] = (pre["year"] >= 2000).astype(int)
 pre["placebo_treat_post"] = pre["treated"] * pre["placebo_post"]
 
-placebo_dd = smf.ols(
-    "avg_earnings ~ placebo_treat_post + C(state) + C(year)", data=pre
-).fit(cov_type="cluster", cov_kwds={"groups": pre["state"]})
+placebo_dd = pf.feols("avg_earnings ~ placebo_treat_post + C(state) + C(year)", data=pre, vcov={"CRV1": "state"})
 
 pd.DataFrame({
     "Test": ["Placebo DD (pre-reform only, fake reform at 2000)"],
-    "Coefficient": [f"{placebo_dd.params['placebo_treat_post']:.4f}"],
-    "SE": [f"{placebo_dd.bse['placebo_treat_post']:.4f}"],
-    "p-value": [f"{placebo_dd.pvalues['placebo_treat_post']:.3f}"],
+    "Coefficient": [f"{placebo_dd.coef()['placebo_treat_post']:.4f}"],
+    "SE": [f"{placebo_dd.se()['placebo_treat_post']:.4f}"],
+    "p-value": [f"{placebo_dd.pvalue()['placebo_treat_post']:.3f}"],
 })
 ```
 
