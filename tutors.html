@@ -51,6 +51,14 @@
       font-size: 0.85rem; font-weight: 600; text-decoration: none;
       transition: all 0.2s;
     }
+    .tag-pill {
+      display: inline-block; font-size: 0.68rem; padding: 2px 8px;
+      border-radius: 999px; font-weight: 600; letter-spacing: 0.02em;
+    }
+    .example-prompt {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+      padding: 2px 6px; border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -109,12 +117,23 @@
         <div class="tutor-icon" style="background: rgba(56,189,248,0.15); color: var(--blue);">&#127891;</div>
         <h3 class="text-xl font-semibold mb-1 text-blue">Learning Coach</h3>
         <p class="text-xs text-muted mb-3">Recommended for first-time learners</p>
-        <p class="text-sm text-muted mb-4">
-          Your step-by-step guide through causal inference. Breaks down complex concepts into manageable pieces,
-          provides worked examples, and checks understanding at each stage. Ideal for working through the material
-          chapter by chapter.
+        <p class="text-sm text-muted mb-3">
+          Your step-by-step guide through causal inference. Starts with intuition before introducing formulas,
+          breaks concepts into manageable pieces, and provides worked examples using chapter datasets. Checks
+          your understanding at each stage and guides you to answers with positive reinforcement. Covers all
+          6 chapters: RCTs, Regression, IV, RD, DD, and the Wages of Schooling.
         </p>
-        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Structured learning, homework help, building intuition</p>
+        <div class="flex flex-wrap gap-1.5 mb-3">
+          <span class="tag-pill" style="background: rgba(56,189,248,0.12); color: var(--blue);">Step-by-Step</span>
+          <span class="tag-pill" style="background: rgba(56,189,248,0.12); color: var(--blue);">Worked Examples</span>
+          <span class="tag-pill" style="background: rgba(56,189,248,0.12); color: var(--blue);">Comprehension Checks</span>
+          <span class="tag-pill" style="background: rgba(56,189,248,0.12); color: var(--blue);">Homework Help</span>
+          <span class="tag-pill" style="background: rgba(56,189,248,0.12); color: var(--blue);">Beginner Friendly</span>
+        </div>
+        <p class="text-xs text-muted mb-3" style="font-style: italic;">
+          Try: <span class="example-prompt" style="background: rgba(56,189,248,0.08); color: var(--blue); font-style: normal;">"Walk me through the RAND Health Insurance Experiment from Chapter 1 step by step"</span>
+        </p>
+        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Building intuition chapter by chapter, getting unstuck on homework problems</p>
         <a href="https://gemini.google.com/gem/1wDacVuUPK9sY_FMn1n8T_lH9M5zge_o0?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(56,189,248,0.15); color: var(--blue);">Start Learning &rarr;</a>
       </div>
 
@@ -122,13 +141,23 @@
       <div class="card rounded-xl p-6">
         <div class="tutor-icon" style="background: rgba(249,115,22,0.15); color: var(--orange);">&#127963;</div>
         <h3 class="text-xl font-semibold mb-1 text-orange">Case-Study Explainer</h3>
-        <p class="text-xs text-muted mb-3">For understanding the real-world settings</p>
-        <p class="text-sm text-muted mb-4">
-          The domain expert who brings each case study to life. Explains the historical context, institutional
-          details, and policy features that create the natural experiments behind each chapter's causal analysis.
-          Maps real-world settings to method ingredients and draws out policy implications for decision-makers.
+        <p class="text-xs text-muted mb-3">For understanding the stories behind the data</p>
+        <p class="text-sm text-muted mb-3">
+          The domain expert who brings each natural experiment to life. Uses a Context-Design-Identification-Policy
+          framework to explain the historical circumstances, institutional details, and policy features that make
+          each study's causal strategy work. Covers 11 case studies including the RAND HIE, Oregon Health Lottery,
+          MDVE, KIPP schools, MLDA mortality, and Great Depression banking.
         </p>
-        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Institutional context, policy analysis, research design intuition</p>
+        <div class="flex flex-wrap gap-1.5 mb-3">
+          <span class="tag-pill" style="background: rgba(249,115,22,0.12); color: var(--orange);">Historical Context</span>
+          <span class="tag-pill" style="background: rgba(249,115,22,0.12); color: var(--orange);">Policy Analysis</span>
+          <span class="tag-pill" style="background: rgba(249,115,22,0.12); color: var(--orange);">11 Case Studies</span>
+          <span class="tag-pill" style="background: rgba(249,115,22,0.12); color: var(--orange);">Identification Strategy</span>
+        </div>
+        <p class="text-xs text-muted mb-3" style="font-style: italic;">
+          Try: <span class="example-prompt" style="background: rgba(249,115,22,0.08); color: var(--orange); font-style: normal;">"Explain the institutional context behind the Oregon Health Plan lottery from Chapter 1"</span>
+        </p>
+        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Understanding why each causal method works in its real-world setting, preparing policy discussions</p>
         <a href="https://gemini.google.com/gem/1JENt-nAh0uMHozwHarid09vQdVP5rMwV?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(249,115,22,0.15); color: var(--orange);">Start Learning &rarr;</a>
       </div>
 
@@ -136,13 +165,24 @@
       <div class="card rounded-xl p-6">
         <div class="tutor-icon" style="background: rgba(251,191,36,0.15); color: #fbbf24;">&#128221;</div>
         <h3 class="text-xl font-semibold mb-1" style="color: #fbbf24;">Exam Coach</h3>
-        <p class="text-xs text-muted mb-3">For test preparation</p>
-        <p class="text-sm text-muted mb-4">
-          Focused on assessment readiness. Provides practice questions, identifies knowledge gaps, and drills
-          key concepts and formulas. Covers the distinction between methods, when each applies, and common
-          exam pitfalls in causal inference courses.
+        <p class="text-xs text-muted mb-3">For midterm and final preparation</p>
+        <p class="text-sm text-muted mb-3">
+          Your test-preparation specialist. Starts with diagnostic questions to find your weak spots, then builds
+          targeted practice sets with increasing difficulty. Drills the distinctions between IV, RD, and DD,
+          provides flashcard-style concept summaries, and flags common exam pitfalls. Question formats include
+          multiple choice, short answer, Wald estimator calculations, and scenario-based problems.
         </p>
-        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Exam review, self-assessment, concept retention</p>
+        <div class="flex flex-wrap gap-1.5 mb-3">
+          <span class="tag-pill" style="background: rgba(251,191,36,0.12); color: #fbbf24;">Practice Questions</span>
+          <span class="tag-pill" style="background: rgba(251,191,36,0.12); color: #fbbf24;">Weak Spot Diagnosis</span>
+          <span class="tag-pill" style="background: rgba(251,191,36,0.12); color: #fbbf24;">Method Distinctions</span>
+          <span class="tag-pill" style="background: rgba(251,191,36,0.12); color: #fbbf24;">Flashcard Summaries</span>
+          <span class="tag-pill" style="background: rgba(251,191,36,0.12); color: #fbbf24;">Increasing Difficulty</span>
+        </div>
+        <p class="text-xs text-muted mb-3" style="font-style: italic;">
+          Try: <span class="example-prompt" style="background: rgba(251,191,36,0.08); color: #fbbf24; font-style: normal;">"Quiz me on the difference between IV and RD for Chapters 3 and 4"</span>
+        </p>
+        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Drilling key concepts before exams, identifying gaps in your understanding of the 5 causal methods</p>
         <a href="https://gemini.google.com/gem/1g4hoQvY6M9TS3q9tk8YeyWo8oDrZgkzK?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(251,191,36,0.15); color: #fbbf24;">Start Learning &rarr;</a>
       </div>
 
@@ -150,13 +190,24 @@
       <div class="card rounded-xl p-6">
         <div class="tutor-icon" style="background: rgba(167,139,250,0.15); color: var(--purple);">&#129300;</div>
         <h3 class="text-xl font-semibold mb-1 text-purple">Socratic Challenger</h3>
-        <p class="text-xs text-muted mb-3">For deeper understanding</p>
-        <p class="text-sm text-muted mb-4">
-          Teaches through questions rather than answers. Challenges your assumptions about causation, pushes you
-          to think about identification strategies, and helps you develop the critical thinking skills needed
-          for research design.
+        <p class="text-xs text-muted mb-3">For students with some foundation</p>
+        <p class="text-sm text-muted mb-3">
+          Teaches through probing questions, never direct answers. Challenges your assumptions about correlation
+          and causation, pushes you to identify validity threats, and asks the hard questions: &lsquo;Why can&rsquo;t
+          we just compare?&rsquo;, &lsquo;What assumption does the heavy lifting?&rsquo;, &lsquo;Who are the
+          compliers?&rsquo; Gives direct help after 3 rounds if you&rsquo;re stuck, or immediately for Python syntax.
         </p>
-        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Critical thinking, research design, exam preparation</p>
+        <div class="flex flex-wrap gap-1.5 mb-3">
+          <span class="tag-pill" style="background: rgba(167,139,250,0.12); color: var(--purple);">Questions Only</span>
+          <span class="tag-pill" style="background: rgba(167,139,250,0.12); color: var(--purple);">Assumption Challenges</span>
+          <span class="tag-pill" style="background: rgba(167,139,250,0.12); color: var(--purple);">Validity Threats</span>
+          <span class="tag-pill" style="background: rgba(167,139,250,0.12); color: var(--purple);">Deep Thinking</span>
+          <span class="tag-pill" style="background: rgba(167,139,250,0.12); color: var(--purple);">Critical Reasoning</span>
+        </div>
+        <p class="text-xs text-muted mb-3" style="font-style: italic;">
+          Try: <span class="example-prompt" style="background: rgba(167,139,250,0.08); color: var(--purple); font-style: normal;">"I think comparing average outcomes between treated and control groups always gives a causal effect"</span>
+        </p>
+        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Developing critical thinking about identification, preparing to defend research design choices</p>
         <a href="https://gemini.google.com/gem/1NY_-bU2XsnElee4rA2PIdQqrK0iCpwvK?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(167,139,250,0.15); color: var(--purple);">Start Learning &rarr;</a>
       </div>
 
@@ -164,13 +215,23 @@
       <div class="card rounded-xl p-6">
         <div class="tutor-icon" style="background: rgba(52,211,153,0.15); color: var(--green);">&#128187;</div>
         <h3 class="text-xl font-semibold mb-1 text-green">Code-First Experimenter</h3>
-        <p class="text-xs text-muted mb-3">For hands-on learners</p>
-        <p class="text-sm text-muted mb-4">
-          Learns by doing. Starts with Python code and real data, then builds up to the theory. Helps you modify
-          and extend the chapter notebooks, run your own analyses, and understand causal methods through
-          computational experimentation.
+        <p class="text-xs text-muted mb-3">For hands-on, learn-by-doing coders</p>
+        <p class="text-sm text-muted mb-3">
+          Starts with Python code and real data, then builds up to theory. Shows you the result first and explains
+          why it works. Encourages &lsquo;What if&rsquo; experiments: change the bandwidth, drop control variables,
+          compare OLS to IV. Uses pandas, statsmodels, and linearmodels with all course datasets streamed from GitHub.
         </p>
-        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Python practice, data analysis, extending examples</p>
+        <div class="flex flex-wrap gap-1.5 mb-3">
+          <span class="tag-pill" style="background: rgba(52,211,153,0.12); color: var(--green);">Python Code</span>
+          <span class="tag-pill" style="background: rgba(52,211,153,0.12); color: var(--green);">Real Datasets</span>
+          <span class="tag-pill" style="background: rgba(52,211,153,0.12); color: var(--green);">What-If Experiments</span>
+          <span class="tag-pill" style="background: rgba(52,211,153,0.12); color: var(--green);">statsmodels</span>
+          <span class="tag-pill" style="background: rgba(52,211,153,0.12); color: var(--green);">Google Colab Ready</span>
+        </div>
+        <p class="text-xs text-muted mb-3" style="font-style: italic;">
+          Try: <span class="example-prompt" style="background: rgba(52,211,153,0.08); color: var(--green); font-style: normal;">"Show me IV estimation of returns to schooling using quarter-of-birth data from Chapter 6"</span>
+        </p>
+        <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Learning causal methods through code, extending chapter notebooks with your own experiments</p>
         <a href="https://gemini.google.com/gem/1R7ugDrQpJgL8_gGKcxszy801Wjh4MSi8?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(52,211,153,0.15); color: var(--green);">Start Learning &rarr;</a>
       </div>
 
