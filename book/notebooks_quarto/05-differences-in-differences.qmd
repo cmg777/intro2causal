@@ -265,7 +265,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import statsmodels.formula.api as smf
+import pyfixest as pf
 sns.set_style("whitegrid")
 
 # --- Data source ---
@@ -450,17 +450,14 @@ Let's start with a single regression for all-cause mortality:
 allcause = deaths[deaths["dtype"] == "all"]
 
 # DD regression with state and year fixed effects
-model = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause)
-
-# Cluster standard errors by state because treatment (legal) varies at the state level
-result = model.fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+result = pf.feols("mrate ~ legal | state + year", data=allcause, vcov={"CRV1": "state"})
 
 # Show just the key coefficient
 coef_table = pd.DataFrame({
     "Variable": ["legal"],
-    "Coefficient": [round(result.params["legal"], 2)],
-    "Std. Error": [round(result.bse["legal"], 2)],
-    "t-stat": [round(result.tvalues["legal"], 2)],
+    "Coefficient": [round(result.coef()["legal"], 2)],
+    "Std. Error": [round(result.se()["legal"], 2)],
+    "t-stat": [round(result.tstat()["legal"], 2)],
 })
 coef_table
 ```
@@ -483,23 +480,20 @@ for dtype_val, label in dtype_labels.items():
     s = deaths[deaths["dtype"] == dtype_val].copy()
 
     # Spec 1: State + Year FE, unweighted
-    model1 = smf.ols("mrate ~ legal + C(state) + C(year)", data=s)
-    r1 = model1.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
+    r1 = pf.feols("mrate ~ legal + C(state) + C(year)", data=s, vcov={"CRV1": "state"})
 
     # Spec 2: Add state-specific linear trends
     # C(state):year = interaction of state dummies with year, giving each state its own slope
-    model2 = smf.ols("mrate ~ legal + C(state) + C(year) + C(state):year", data=s)
-    r2 = model2.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
+    r2 = pf.feols("mrate ~ legal + C(state) + C(year) + C(state):year", data=s, vcov={"CRV1": "state"})
 
     # Spec 3: Population-weighted (WLS)
     # Weight by state population so larger states count more (more reliable death rates)
-    model3 = smf.wls("mrate ~ legal + C(state) + C(year)", data=s, weights=s["pop"])
-    r3 = model3.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
+    r3 = pf.feols("mrate ~ legal + C(state) + C(year)", data=s, weights="pop", vcov={"CRV1": "state"})
 
     # Format each result as "coefficient (standard error)"
-    coef1 = format(round(r1.params["legal"], 2), ".2f") + " (" + format(round(r1.bse["legal"], 2), ".2f") + ")"
-    coef2 = format(round(r2.params["legal"], 2), ".2f") + " (" + format(round(r2.bse["legal"], 2), ".2f") + ")"
-    coef3 = format(round(r3.params["legal"], 2), ".2f") + " (" + format(round(r3.bse["legal"], 2), ".2f") + ")"
+    coef1 = format(round(r1.coef()["legal"], 2), ".2f") + " (" + format(round(r1.se()["legal"], 2), ".2f") + ")"
+    coef2 = format(round(r2.coef()["legal"], 2), ".2f") + " (" + format(round(r2.se()["legal"], 2), ".2f") + ")"
+    coef3 = format(round(r3.coef()["legal"], 2), ".2f") + " (" + format(round(r3.se()["legal"], 2), ".2f") + ")"
 
     rows.append({
         "Cause": label,
@@ -542,13 +536,11 @@ rows = []
 for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle")]:
     s = deaths[deaths["dtype"] == dtype_val].dropna(subset=["beertax"]).copy()
 
-    model = smf.ols("mrate ~ legal + beertax + C(state) + C(year)", data=s)
-    # Cluster standard errors by state
-    r = model.fit(cov_type="cluster", cov_kwds={"groups": s["state"]})
+    r = pf.feols("mrate ~ legal + beertax | state + year", data=s, vcov={"CRV1": "state"})
 
     # Format results as "coefficient (standard error)"
-    legal_str = format(round(r.params["legal"], 2), ".2f") + " (" + format(round(r.bse["legal"], 2), ".2f") + ")"
-    tax_str = format(round(r.params["beertax"], 2), ".2f") + " (" + format(round(r.bse["beertax"], 2), ".2f") + ")"
+    legal_str = format(round(r.coef()["legal"], 2), ".2f") + " (" + format(round(r.se()["legal"], 2), ".2f") + ")"
+    tax_str = format(round(r.coef()["beertax"], 2), ".2f") + " (" + format(round(r.se()["beertax"], 2), ".2f") + ")"
 
     rows.append({
         "Cause": label,
@@ -651,7 +643,7 @@ Copy this code into a Python notebook to reproduce the key results from this cha
 # Chapter 5: Differences-in-Differences — Code Cheatsheet
 # ============================================================
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
@@ -673,21 +665,18 @@ allcause = deaths[deaths["dtype"] == "all"]
 print(f"\nDeath rate panel: {allcause.shape[0]} state-year observations")
 
 # --- Step 3: Regression DD with state and year fixed effects ---
-model = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause)
-result = model.fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
-print(f"\nDD estimate (all-cause deaths): {round(result.params['legal'], 2)}")
-print(f"  Standard error: {round(result.bse['legal'], 2)}")
+result = pf.feols("mrate ~ legal + C(state) + C(year)", data=allcause, vcov={"CRV1": "state"})
+print(f"\nDD estimate (all-cause deaths): {round(result.coef()['legal'], 2)}")
+print(f"  Standard error: {round(result.se()['legal'], 2)}")
 
 # --- Step 4: Population-weighted DD ---
-model = smf.wls("mrate ~ legal + C(state) + C(year)", data=allcause, weights=allcause["pop"])
-result = model.fit(cov_type="cluster", cov_kwds={"groups": allcause["state"]})
-print(f"\nWeighted DD estimate: {round(result.params['legal'], 2)}")
+result = pf.feols("mrate ~ legal + C(state) + C(year)", data=allcause, weights="pop", vcov={"CRV1": "state"})
+print(f"\nWeighted DD estimate: {round(result.coef()['legal'], 2)}")
 
 # --- Step 5: Placebo test (suicide should NOT respond to drinking age) ---
 suicide = deaths[deaths["dtype"] == "suicide"]
-model = smf.ols("mrate ~ legal + C(state) + C(year)", data=suicide)
-result = model.fit(cov_type="cluster", cov_kwds={"groups": suicide["state"]})
-print(f"\nPlacebo (suicide): {round(result.params['legal'], 2)}")
+result = pf.feols("mrate ~ legal + C(state) + C(year)", data=suicide, vcov={"CRV1": "state"})
+print(f"\nPlacebo (suicide): {round(result.coef()['legal'], 2)}")
 print("  (Expect: small and insignificant)")
 ```
 
@@ -929,7 +918,7 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 
 # --- Setup ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 
@@ -937,13 +926,12 @@ deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 rows = []
 for dtype_val, label in [("all", "All causes"), ("suicide", "Suicide")]:
     s = deaths[deaths["dtype"] == dtype_val].copy()  # filter to one cause of death
-    r = smf.ols("mrate ~ legal + C(state) + C(year)", data=s).fit(
-        cov_type="cluster", cov_kwds={"groups": s["state"]})  # cluster SEs by state
+    r = pf.feols("mrate ~ legal | state + year", data=s, vcov={"CRV1": "state"})
     rows.append({
         "Cause": label,
-        "Legal effect": round(r.params["legal"], 2),  # DD estimate of MLDA effect
-        "SE": round(r.bse["legal"], 2),
-        "t-stat": round(r.tvalues["legal"], 2),  # significance check
+        "Legal effect": round(r.coef()["legal"], 2),  # DD estimate of MLDA effect
+        "SE": round(r.se()["legal"], 2),
+        "t-stat": round(r.tstat()["legal"], 2),  # significance check
     })
 
 # --- Display Results ---
@@ -1044,7 +1032,7 @@ forvalues y = 1931/1934 {
 (3) **What it teaches:** This year-by-year DD reveals the *dynamics* of the treatment effect, something a single DD estimate would miss. The growing then stabilizing gap shows that the intervention had both an immediate rescue effect (1931) and a durable protective effect (1932--1934). This pattern supports a causal interpretation: the Fed's policy permanently changed the trajectory of bank survival in its district.
 :::
 
-3. **Population-weighted DD**: Using `deaths_clean.csv`, run the all-cause DD regression with population weights (`smf.wls` with `weights=pop`). Compare the coefficient with the unweighted result. Why might weighting by population change the estimate?
+3. **Population-weighted DD**: Using `deaths_clean.csv`, run the all-cause DD regression with population weights (`pf.feols` with `weights="pop"`). Compare the coefficient with the unweighted result. Why might weighting by population change the estimate?
 
 ::: {.callout-note collapse="true"}
 ### Show answer
@@ -1055,25 +1043,22 @@ forvalues y = 1931/1934 {
 
 # --- Setup ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 allcause = deaths[deaths["dtype"] == "all"]  # keep only all-cause deaths
 
 # --- Unweighted OLS ---
-r_uw = smf.ols("mrate ~ legal + C(state) + C(year)", data=allcause).fit(
-    cov_type="cluster", cov_kwds={"groups": allcause["state"]})  # cluster SEs by state
+r_uw = pf.feols("mrate ~ legal | state + year", data=allcause, vcov={"CRV1": "state"})
 
 # --- Population-Weighted WLS ---
-r_wt = smf.wls("mrate ~ legal + C(state) + C(year)", data=allcause,
-    weights=allcause["pop"]).fit(  # weight by state population
-    cov_type="cluster", cov_kwds={"groups": allcause["state"]})
+r_wt = pf.feols("mrate ~ legal | state + year", data=allcause, weights="pop", vcov={"CRV1": "state"})
 
 # --- Display Comparison ---
 pd.DataFrame({
     "Specification": ["Unweighted OLS", "Population-weighted WLS"],
-    "Legal effect": [round(r_uw.params["legal"], 2), round(r_wt.params["legal"], 2)],
-    "SE": [round(r_uw.bse["legal"], 2), round(r_wt.bse["legal"], 2)],
+    "Legal effect": [round(r_uw.coef()["legal"], 2), round(r_wt.coef()["legal"], 2)],
+    "SE": [round(r_uw.se()["legal"], 2), round(r_wt.se()["legal"], 2)],
 })
 ```
 
@@ -1113,7 +1098,7 @@ reg mrate legal i.state_num i.year [aw=pop], cluster(state_num)
 
 # --- Setup ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 
@@ -1124,13 +1109,12 @@ for dtype_val, label in [("all", "All causes"), ("MVA", "Motor vehicle"),
                           ("internal", "Internal (placebo)")]:
     s = deaths[deaths["dtype"] == dtype_val].copy()
     if len(s) > 0:
-        r = smf.ols("mrate ~ legal + C(state) + C(year)", data=s).fit(
-            cov_type="cluster", cov_kwds={"groups": s["state"]})
+        r = pf.feols("mrate ~ legal | state + year", data=s, vcov={"CRV1": "state"})
         rows.append({
             "Cause": label,
-            "Legal effect": round(r.params["legal"], 2),
-            "SE": round(r.bse["legal"], 2),
-            "t-stat": round(r.tvalues["legal"], 2),
+            "Legal effect": round(r.coef()["legal"], 2),
+            "SE": round(r.se()["legal"], 2),
+            "t-stat": round(r.tstat()["legal"], 2),
         })
 
 pd.DataFrame(rows)
@@ -1176,20 +1160,18 @@ deaths = pd.read_csv(DATA + "ch5/deaths_clean.csv")
 mva = deaths[deaths["dtype"] == "MVA"].copy()
 
 # --- Baseline DD ---
-r_base = smf.ols("mrate ~ legal + C(state) + C(year)", data=mva).fit(
-    cov_type="cluster", cov_kwds={"groups": mva["state"]})
+r_base = pf.feols("mrate ~ legal | state + year", data=mva, vcov={"CRV1": "state"})
 
 # --- DD with State-Specific Linear Time Trends ---
 mva["year_num"] = mva["year"] - mva["year"].min()  # center year for numerical stability
-r_trend = smf.ols("mrate ~ legal + C(state) + C(year) + C(state):year_num", data=mva).fit(
-    cov_type="cluster", cov_kwds={"groups": mva["state"]})
+r_trend = pf.feols("mrate ~ legal + i(state, year_num) | state + year", data=mva, vcov={"CRV1": "state"})
 
 # --- Compare ---
 pd.DataFrame({
     "Specification": ["Baseline DD", "DD + state-specific trends"],
-    "Legal effect": [round(r_base.params["legal"], 2), round(r_trend.params["legal"], 2)],
-    "SE": [round(r_base.bse["legal"], 2), round(r_trend.bse["legal"], 2)],
-    "t-stat": [round(r_base.tvalues["legal"], 2), round(r_trend.tvalues["legal"], 2)],
+    "Legal effect": [round(r_base.coef()["legal"], 2), round(r_trend.coef()["legal"], 2)],
+    "SE": [round(r_base.se()["legal"], 2), round(r_trend.se()["legal"], 2)],
+    "t-stat": [round(r_base.tstat()["legal"], 2), round(r_trend.tstat()["legal"], 2)],
 })
 ```
 

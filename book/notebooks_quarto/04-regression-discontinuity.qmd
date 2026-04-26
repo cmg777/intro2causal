@@ -265,7 +265,7 @@ The **minimum legal drinking age (MLDA)** is 21 in the United States. Does reach
 ```{python}
 import pandas as pd
 import numpy as np
-import statsmodels.formula.api as smf
+import pyfixest as pf
 import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set_style("whitegrid")
@@ -340,7 +340,7 @@ $$M_a = \alpha + \rho \, D_a + \gamma \, a + e_a$$
 - **$\rho$** = the **jump at the cutoff** --- this is the causal effect we want
 - **$\gamma$** = the background age trend (mortality naturally changes with age)
 
-In Python, this is: `smf.ols("all ~ over21 + age", data=mlda)` --- where `all` is $M_a$, `over21` is $D_a$, and `age` is $a$.
+In Python, this is: `pf.feols("all ~ over21 + age", data=mlda, vcov="hetero")` --- where `all` is $M_a$, `over21` is $D_a$, and `age` is $a$.
 
 The key insight: because age varies smoothly, any **sudden jump** at the cutoff must be caused by the treatment.
 :::
@@ -350,16 +350,15 @@ The key insight: because age varies smoothly, any **sudden jump** at the cutoff 
 #| tbl-cap: "Sharp RD estimate of the MLDA effect on all-cause mortality. The over21 coefficient is the causal jump at the cutoff."
 
 # Simple linear RD regression
-model = smf.ols("all ~ over21 + age", data=mlda)
-result = model.fit(cov_type="HC1")
+result = pf.feols("all ~ over21 + age", data=mlda, vcov="hetero")
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": result.params.index,
-    "Coefficient": result.params.round(4).values,
-    "Std. Error": result.bse.round(4).values,
-    "t-statistic": result.tvalues.round(2).values,
-    "p-value": result.pvalues.round(3).values,
+    "Variable": result.coef().index,
+    "Coefficient": result.coef().round(4).values,
+    "Std. Error": result.se().round(4).values,
+    "t-statistic": result.tstat().round(2).values,
+    "p-value": result.pvalue().round(3).values,
 })
 ```
 
@@ -395,33 +394,29 @@ for var, label in outcomes.items():
     specs = []
 
     # Spec 1: Linear, full sample
-    model1 = smf.ols(f"{var} ~ over21 + age", data=mlda)
-    r1 = model1.fit(cov_type="HC1")
-    coef1 = round(r1.params["over21"], 2)
-    se1 = round(r1.bse["over21"], 2)
+    r1 = pf.feols(f"{var} ~ over21 + age", data=mlda, vcov="hetero")
+    coef1 = round(r1.coef()["over21"], 2)
+    se1 = round(r1.se()["over21"], 2)
     specs.append(format(coef1, ".2f") + " (" + format(se1, ".2f") + ")")
 
     # Spec 2: Quadratic, full sample
-    model2 = smf.ols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
-                      data=mlda)
-    r2 = model2.fit(cov_type="HC1")
-    coef2 = round(r2.params["over21"], 2)
-    se2 = round(r2.bse["over21"], 2)
+    r2 = pf.feols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
+                      data=mlda, vcov="hetero")
+    coef2 = round(r2.coef()["over21"], 2)
+    se2 = round(r2.se()["over21"], 2)
     specs.append(format(coef2, ".2f") + " (" + format(se2, ".2f") + ")")
 
     # Spec 3: Linear, narrow bandwidth
-    model3 = smf.ols(f"{var} ~ over21 + age", data=narrow)
-    r3 = model3.fit(cov_type="HC1")
-    coef3 = round(r3.params["over21"], 2)
-    se3 = round(r3.bse["over21"], 2)
+    r3 = pf.feols(f"{var} ~ over21 + age", data=narrow, vcov="hetero")
+    coef3 = round(r3.coef()["over21"], 2)
+    se3 = round(r3.se()["over21"], 2)
     specs.append(format(coef3, ".2f") + " (" + format(se3, ".2f") + ")")
 
     # Spec 4: Quadratic, narrow bandwidth
-    model4 = smf.ols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
-                      data=narrow)
-    r4 = model4.fit(cov_type="HC1")
-    coef4 = round(r4.params["over21"], 2)
-    se4 = round(r4.bse["over21"], 2)
+    r4 = pf.feols(f"{var} ~ over21 + age + age2 + over_age + over_age2",
+                      data=narrow, vcov="hetero")
+    coef4 = round(r4.coef()["over21"], 2)
+    se4 = round(r4.se()["over21"], 2)
     specs.append(format(coef4, ".2f") + " (" + format(se4, ".2f") + ")")
 
     rows.append({"Cause of death": label, "Linear (full)": specs[0],
@@ -454,14 +449,14 @@ below = mlda[mlda["age"] < 0]   # under 21
 above = mlda[mlda["age"] >= 0]  # 21 and over
 
 # Fit separate linear regressions on each side
-fit_below = smf.ols("all ~ age", data=below).fit()
-fit_above = smf.ols("all ~ age", data=above).fit()
+fit_below = pf.feols("all ~ age", data=below)
+fit_above = pf.feols("all ~ age", data=above)
 
 # Plot scatter + fitted lines
 fig, ax = plt.subplots(figsize=(9, 5))
 ax.scatter(mlda["agecell"], mlda["all"], color="gray", alpha=0.6, s=35)
-ax.plot(below["agecell"], fit_below.predict(below), "k-", linewidth=2)   # left line
-ax.plot(above["agecell"], fit_above.predict(above), "k-", linewidth=2)   # right line
+ax.plot(below["agecell"], fit_below.predict(newdata=below), "k-", linewidth=2)   # left line
+ax.plot(above["agecell"], fit_above.predict(newdata=above), "k-", linewidth=2)   # right line
 ax.axvline(x=21, color="red", linestyle="--", alpha=0.5)
 ax.set_xlabel("Age (years)")
 ax.set_ylabel("Deaths per 100,000")
@@ -487,9 +482,8 @@ ax.scatter(mlda["agecell"], mlda["internal"], color="darkorange", alpha=0.6, s=3
 # The outer loop picks the death cause; the inner loop picks below-21 vs. above-21.
 for var, color in [("mva", "steelblue"), ("internal", "darkorange")]:
     for subset in [below, above]:
-        model = smf.ols(f"{var} ~ age", data=subset)
-        fit = model.fit()
-        ax.plot(subset["agecell"], fit.predict(subset), color=color, linewidth=2)
+        fit = pf.feols(f"{var} ~ age", data=subset)
+        ax.plot(subset["agecell"], fit.predict(newdata=subset), color=color, linewidth=2)
 
 ax.axvline(x=21, color="red", linestyle="--", alpha=0.5)  # cutoff line
 ax.set_xlabel("Age (years)")
@@ -593,7 +587,7 @@ Copy this code into a Python notebook to reproduce the key results from this cha
 # ============================================================
 import pandas as pd
 import matplotlib.pyplot as plt
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
@@ -613,22 +607,19 @@ ax.legend()
 plt.show()
 
 # --- Step 3: Sharp RD regression (linear) ---
-model = smf.ols("all ~ over21 + age", data=mlda)
-result = model.fit(cov_type="HC1")
+result = pf.feols("all ~ over21 + age", data=mlda, vcov="hetero")
 print("\nSharp RD — linear specification:")
-print(result.summary().tables[1])
-print(f"  Jump at cutoff: {round(result.params['over21'], 2)} deaths per 100k")
+print(result.summary())
+print(f"  Jump at cutoff: {round(result.coef()['over21'], 2)} deaths per 100k")
 
 # --- Step 4: Quadratic RD for robustness ---
-model = smf.ols("all ~ over21 + age + age2 + over_age + over_age2", data=mlda)
-result = model.fit(cov_type="HC1")
+result = pf.feols("all ~ over21 + age + age2 + over_age + over_age2", data=mlda, vcov="hetero")
 print("\nSharp RD — quadratic specification:")
-print(f"  Jump at cutoff: {round(result.params['over21'], 2)} deaths per 100k")
+print(f"  Jump at cutoff: {round(result.coef()['over21'], 2)} deaths per 100k")
 
 # --- Step 5: Placebo test (internal causes should NOT jump) ---
-model = smf.ols("internal ~ over21 + age", data=mlda)
-result = model.fit(cov_type="HC1")
-print(f"\nPlacebo test (internal causes): {round(result.params['over21'], 2)}")
+result = pf.feols("internal ~ over21 + age", data=mlda, vcov="hetero")
+print(f"\nPlacebo test (internal causes): {round(result.coef()['over21'], 2)}")
 print("  (Expect: small and insignificant — diseases don't respond to MLDA)")
 ```
 
@@ -862,7 +853,7 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 
 # --- Setup ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
 
@@ -870,12 +861,12 @@ mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
 # Estimate the discontinuity at age 21 for two cause-of-death categories
 rows = []
 for var, label in [("alcohol", "Alcohol-related"), ("mva", "Motor vehicle")]:
-    r = smf.ols(f"{var} ~ over21 + age", data=mlda).fit(cov_type="HC1")  # linear RD with robust SEs
+    r = pf.feols(f"{var} ~ over21 + age", data=mlda, vcov="hetero")  # linear RD with robust SEs
     rows.append({
         "Cause": label,
-        "RD estimate (over21)": round(r.params["over21"], 2),  # jump at cutoff
-        "SE": round(r.bse["over21"], 2),
-        "t-stat": round(r.tvalues["over21"], 2),
+        "RD estimate (over21)": round(r.coef()["over21"], 2),  # jump at cutoff
+        "SE": round(r.se()["over21"], 2),
+        "t-stat": round(r.tstat()["over21"], 2),
     })
 
 # --- Display Results ---
@@ -919,14 +910,14 @@ below = mlda[mlda["age"] < 0]  # observations below age 21
 above = mlda[mlda["age"] >= 0]  # observations at or above age 21
 
 # --- Fit Separate Linear Trends ---
-fit_below = smf.ols("suicide ~ age", data=below).fit()  # trend before cutoff
-fit_above = smf.ols("suicide ~ age", data=above).fit()  # trend after cutoff
+fit_below = pf.feols("suicide ~ age", data=below)  # trend before cutoff
+fit_above = pf.feols("suicide ~ age", data=above)  # trend after cutoff
 
 # --- Create RD Plot ---
 fig, ax = plt.subplots(figsize=(9, 5))
 ax.scatter(mlda["agecell"], mlda["suicide"], color="gray", alpha=0.6, s=35)  # raw data points
-ax.plot(below["agecell"], fit_below.predict(below), "k-", linewidth=2)  # left-side fit
-ax.plot(above["agecell"], fit_above.predict(above), "k-", linewidth=2)  # right-side fit
+ax.plot(below["agecell"], fit_below.predict(newdata=below), "k-", linewidth=2)  # left-side fit
+ax.plot(above["agecell"], fit_above.predict(newdata=above), "k-", linewidth=2)  # right-side fit
 ax.axvline(x=21, color="red", linestyle="--", alpha=0.5)  # cutoff line
 ax.set_xlabel("Age (years)")
 ax.set_ylabel("Deaths per 100,000")
@@ -967,23 +958,23 @@ twoway (scatter suicide agecell, mcolor(gray) msymbol(circle)) ///
 
 # --- Setup ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
 
 # --- Linear RD Specification ---
 # Controls for a linear trend in age on both sides of the cutoff
-r_lin = smf.ols("all ~ over21 + age", data=mlda).fit(cov_type="HC1")
+r_lin = pf.feols("all ~ over21 + age", data=mlda, vcov="hetero")
 
 # --- Quadratic RD Specification ---
 # Allows curvature and different slopes/curvature on each side via interactions
-r_quad = smf.ols("all ~ over21 + age + age2 + over_age + over_age2", data=mlda).fit(cov_type="HC1")
+r_quad = pf.feols("all ~ over21 + age + age2 + over_age + over_age2", data=mlda, vcov="hetero")
 
 # --- Compare Estimates ---
 pd.DataFrame({
     "Specification": ["Linear", "Quadratic (interacted)"],
-    "RD estimate (over21)": [round(r_lin.params["over21"], 2), round(r_quad.params["over21"], 2)],
-    "SE": [round(r_lin.bse["over21"], 2), round(r_quad.bse["over21"], 2)],
+    "RD estimate (over21)": [round(r_lin.coef()["over21"], 2), round(r_quad.coef()["over21"], 2)],
+    "SE": [round(r_lin.se()["over21"], 2), round(r_quad.se()["over21"], 2)],
 })
 ```
 
@@ -1016,19 +1007,19 @@ reg all over21 age age2 over_age over_age2, robust
 
 # --- Setup ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 mlda = pd.read_csv(DATA + "ch4/mlda_clean.csv")
 
 # --- Compare RD Estimates Across Three Causes ---
 rows = []
 for var, label in [("mva", "Motor vehicle"), ("homicide", "Homicide"), ("internal", "Internal (placebo)")]:
-    r = smf.ols(f"{var} ~ over21 + age", data=mlda).fit(cov_type="HC1")
+    r = pf.feols(f"{var} ~ over21 + age", data=mlda, vcov="hetero")
     rows.append({
         "Cause": label,
-        "RD estimate": round(r.params["over21"], 2),
-        "SE": round(r.bse["over21"], 2),
-        "t-stat": round(r.tvalues["over21"], 2),
+        "RD estimate": round(r.coef()["over21"], 2),
+        "SE": round(r.se()["over21"], 2),
+        "t-stat": round(r.tstat()["over21"], 2),
     })
 
 pd.DataFrame(rows)
@@ -1085,13 +1076,13 @@ for label, lo, hi in bandwidths:
         subset = mlda[(mlda["agecell"] >= lo) & (mlda["agecell"] <= hi)]
 
     if len(subset) > 4:  # need enough observations for regression
-        r = smf.ols("all ~ over21 + age", data=subset).fit(cov_type="HC1")
+        r = pf.feols("all ~ over21 + age", data=subset, vcov="hetero")
         rows.append({
             "Bandwidth": label,
             "N": len(subset),
-            "RD estimate": round(r.params["over21"], 2),
-            "SE": round(r.bse["over21"], 2),
-            "t-stat": round(r.tvalues["over21"], 2),
+            "RD estimate": round(r.coef()["over21"], 2),
+            "SE": round(r.se()["over21"], 2),
+            "t-stat": round(r.tstat()["over21"], 2),
         })
 
 pd.DataFrame(rows)

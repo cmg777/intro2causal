@@ -279,7 +279,7 @@ The goal was to learn which response best prevented future violence. But police 
 
 ```{python}
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 # --- Data source ---
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
@@ -539,35 +539,36 @@ If you manually run two separate regressions and use fitted values from the firs
 
 ### 2SLS in Python
 
-In Python, the `linearmodels` library provides `IV2SLS`. The formula syntax uses **square brackets** to indicate the endogenous variable and its instrument:
+In Python, the `pyfixest` library provides `feols()` with IV support. The formula syntax uses a **pipe** (`|`) to separate the endogenous variable and its instrument:
 
 ```
-"outcome ~ exogenous_controls + [endogenous_variable ~ instrument]"
+"outcome ~ exogenous_controls | endogenous_variable ~ instrument"
 ```
 
 Here is how you would run 2SLS for the KIPP charter school example (using hypothetical data to illustrate the syntax):
 
 ```
 # Syntax demonstration (not run — KIPP data is not publicly available)
-from linearmodels.iv import IV2SLS
+import pyfixest as pf
 
-result = IV2SLS.from_formula(
-    "math_score ~ 1 + [attended_kipp ~ won_lottery]",
+result = pf.feols(
+    "math_score ~ 1 | attended_kipp ~ won_lottery",
     data=kipp_data,
-).fit(cov_type="robust")
+    vcov="hetero",
+)
 
 # The key parts:
 #   math_score           = outcome (Y)
-#   attended_kipp        = endogenous treatment (D) — inside [ ]
-#   won_lottery          = instrument (Z) — after the ~ inside [ ]
+#   attended_kipp        = endogenous treatment (D) — after the |
+#   won_lottery          = instrument (Z) — after the ~ following the |
 #   1                    = intercept (constant)
-#   cov_type="robust"    = heteroskedasticity-robust standard errors
+#   vcov="hetero"        = heteroskedasticity-robust standard errors
 ```
 
 ::: {.callout-note}
 ### Why no live IV code in this chapter?
 
-The KIPP and family size datasets used in this chapter's case studies are not publicly available. The syntax block above shows how you *would* run 2SLS in Python. Chapter 6 provides a full working IV analysis using quarter-of-birth data, where you will see `IV2SLS` in action with real data.
+The KIPP and family size datasets used in this chapter's case studies are not publicly available. The syntax block above shows how you *would* run 2SLS in Python. Chapter 6 provides a full working IV analysis using quarter-of-birth data, where you will see `pf.feols()` in action with real data.
 :::
 
 
@@ -666,7 +667,7 @@ Copy this code into a Python notebook to reproduce the key results from this cha
 # Chapter 3: Instrumental Variables — Code Cheatsheet
 # ============================================================
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
@@ -684,8 +685,8 @@ mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)   # instrument
 mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)   # treatment
 
 # --- Step 4: First stage (does assignment change actual treatment?) ---
-fs = smf.ols("d_coddle ~ z_coddle", data=mdve).fit(cov_type="HC1")
-first_stage = fs.params["z_coddle"]
+fs = pf.feols("d_coddle ~ z_coddle", data=mdve, vcov="hetero")
+first_stage = fs.coef()["z_coddle"]
 print(f"\nFirst stage: {first_stage:.3f}")
 print("  (Fraction who comply with coddle assignment)")
 

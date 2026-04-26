@@ -253,7 +253,7 @@ We simulate 1,000 students choosing between private and public colleges:
 ```{python}
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 # Set seed so everyone gets the same random numbers
 np.random.seed(42)
@@ -309,16 +309,15 @@ What happens if we regress earnings on `private` without controlling for ability
 #| tbl-cap: "Short regression: earnings on private school dummy only. The coefficient is biased upward because ability is omitted."
 
 # SHORT regression: omit the confounder (ability)
-short_model = smf.ols("earnings ~ private", data=students)
-short = short_model.fit()
+short = pf.feols("earnings ~ private", data=students)
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": short.params.index,
-    "Coefficient": short.params.round(2).values,
-    "Std. Error": short.bse.round(2).values,
-    "t-statistic": short.tvalues.round(2).values,
-    "p-value": short.pvalues.round(3).values,
+    "Variable": short.coef().index,
+    "Coefficient": short.coef().round(2).values,
+    "Std. Error": short.se().round(2).values,
+    "t-statistic": short.tstat().round(2).values,
+    "p-value": short.pvalue().round(3).values,
 })
 ```
 
@@ -334,16 +333,15 @@ Now add ability as a control:
 #| tbl-cap: "Long regression: earnings on private school dummy plus ability control. The coefficient is close to the true effect of $5,000."
 
 # LONG regression: include the confounder (ability)
-long_model = smf.ols("earnings ~ private + ability", data=students)
-long = long_model.fit()
+long = pf.feols("earnings ~ private + ability", data=students)
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": long.params.index,
-    "Coefficient": long.params.round(2).values,
-    "Std. Error": long.bse.round(2).values,
-    "t-statistic": long.tvalues.round(2).values,
-    "p-value": long.pvalues.round(3).values,
+    "Variable": long.coef().index,
+    "Coefficient": long.coef().round(2).values,
+    "Std. Error": long.se().round(2).values,
+    "t-statistic": long.tstat().round(2).values,
+    "p-value": long.pvalue().round(3).values,
 })
 ```
 
@@ -392,20 +390,19 @@ Let's check that the formula works with our simulated data:
 #| tbl-cap: "Verifying the OVB formula: the product of the two components exactly equals the difference between short and long regression coefficients."
 
 # --- Step 1: Get the short and long coefficients on "private" ---
-beta_short = short.params["private"]
-beta_long = long.params["private"]
+beta_short = short.coef()["private"]
+beta_long = long.coef()["private"]
 
 # --- Step 2: Compute OVB directly (short minus long) ---
 ovb_direct = beta_short - beta_long
 
 # --- Step 3: Compute the two components of the OVB formula ---
 # pi_1: regress the OMITTED variable (ability) on the TREATMENT (private)
-aux_model = smf.ols("ability ~ private", data=students)
-auxiliary = aux_model.fit()
-pi_1 = auxiliary.params["private"]  # how much ability differs by private status
+auxiliary = pf.feols("ability ~ private", data=students)
+pi_1 = auxiliary.coef()["private"]  # how much ability differs by private status
 
 # gamma: coefficient on ability in the LONG regression
-gamma = long.params["ability"]  # how much ability affects earnings
+gamma = long.coef()["ability"]  # how much ability affects earnings
 
 # --- Step 4: OVB from the formula (should match Step 2) ---
 ovb_formula = pi_1 * gamma
@@ -592,7 +589,7 @@ Copy this code into a Python notebook to reproduce the key results from this cha
 # ============================================================
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 # --- Step 1: Simulate data where we KNOW the true causal effect ---
 np.random.seed(42)
@@ -605,22 +602,22 @@ earnings = 30000 + true_effect * private + 800 * ability + np.random.normal(0, 5
 students = pd.DataFrame({"earnings": earnings, "private": private, "ability": ability})
 
 # --- Step 2: Short regression (omitting ability → biased) ---
-short = smf.ols("earnings ~ private", data=students).fit()
+short = pf.feols("earnings ~ private", data=students)
 print("SHORT regression (biased — omits ability):")
-print(f"  Private school coefficient: ${short.params['private']:,.0f}")
+print(f"  Private school coefficient: ${short.coef()['private']:,.0f}")
 print(f"  True effect is $5,000 — the estimate is too high!\n")
 
 # --- Step 3: Long regression (including ability → unbiased) ---
-long = smf.ols("earnings ~ private + ability", data=students).fit()
+long = pf.feols("earnings ~ private + ability", data=students)
 print("LONG regression (controls for ability):")
-print(f"  Private school coefficient: ${long.params['private']:,.0f}")
+print(f"  Private school coefficient: ${long.coef()['private']:,.0f}")
 print(f"  Close to the true effect of $5,000\n")
 
 # --- Step 4: Verify the OVB formula ---
-ovb_direct = short.params["private"] - long.params["private"]
-aux = smf.ols("ability ~ private", data=students).fit()
-pi_1 = aux.params["private"]       # relationship: omitted ↔ treatment
-gamma = long.params["ability"]      # effect of omitted in long regression
+ovb_direct = short.coef()["private"] - long.coef()["private"]
+aux = pf.feols("ability ~ private", data=students)
+pi_1 = aux.coef()["private"]       # relationship: omitted ↔ treatment
+gamma = long.coef()["ability"]      # effect of omitted in long regression
 ovb_formula = pi_1 * gamma
 print("OVB Formula Verification:")
 print(f"  Direct OVB (short - long):  ${ovb_direct:,.0f}")
@@ -870,12 +867,12 @@ earnings2 = 30000 + 0 * private2 + 800 * ability2 + np.random.normal(0, 5000, n)
 students2 = pd.DataFrame({"earnings": earnings2, "private": private2, "ability": ability2})
 
 # --- Run short vs long regressions ---
-short2 = smf.ols("earnings ~ private", data=students2).fit()             # omits ability (biased)
-long2 = smf.ols("earnings ~ private + ability", data=students2).fit()    # includes ability (correct)
+short2 = pf.feols("earnings ~ private", data=students2)             # omits ability (biased)
+long2 = pf.feols("earnings ~ private + ability", data=students2)    # includes ability (correct)
 
 pd.DataFrame({
     "Regression": ["Short (omit ability)", "Long (include ability)"],
-    "Private coefficient": [round(short2.params["private"]), round(long2.params["private"])],
+    "Private coefficient": [round(short2.coef()["private"]), round(long2.coef()["private"])],
     "True effect": [0, 0],
 })
 ```
@@ -927,18 +924,18 @@ earnings3 = 30000 + 5000 * private3 + 800 * ability3 + np.random.normal(0, 5000,
 students3 = pd.DataFrame({"earnings": earnings3, "private": private3, "ability": ability3})
 
 # --- Run short, long, and auxiliary regressions ---
-short3 = smf.ols("earnings ~ private", data=students3).fit()       # biased estimate
-long3 = smf.ols("earnings ~ private + ability", data=students3).fit()  # closer to true effect
-aux3 = smf.ols("ability ~ private", data=students3).fit()          # estimates pi_1
+short3 = pf.feols("earnings ~ private", data=students3)       # biased estimate
+long3 = pf.feols("earnings ~ private + ability", data=students3)  # closer to true effect
+aux3 = pf.feols("ability ~ private", data=students3)          # estimates pi_1
 
 # --- Verify OVB formula ---
-ovb3 = round(short3.params["private"] - long3.params["private"])   # direct: short minus long
-formula3 = round(aux3.params["private"] * long3.params["ability"]) # formula: pi_1 * gamma
+ovb3 = round(short3.coef()["private"] - long3.coef()["private"])   # direct: short minus long
+formula3 = round(aux3.coef()["private"] * long3.coef()["ability"]) # formula: pi_1 * gamma
 
 pd.DataFrame({
     "Metric": ["Short coef", "Long coef", "OVB (direct)", "pi_1", "gamma", "OVB (formula)"],
-    "Value": [round(short3.params["private"]), round(long3.params["private"]),
-              ovb3, round(aux3.params["private"], 2), round(long3.params["ability"]),
+    "Value": [round(short3.coef()["private"]), round(long3.coef()["private"]),
+              ovb3, round(aux3.coef()["private"], 2), round(long3.coef()["ability"]),
               formula3],
 })
 ```
@@ -1007,15 +1004,15 @@ students4 = pd.DataFrame({
 })
 
 # --- Run three regressions with progressively more controls ---
-r_short = smf.ols("earnings ~ private", data=students4).fit()                        # no controls
-r_medium = smf.ols("earnings ~ private + ability", data=students4).fit()             # one control
-r_long = smf.ols("earnings ~ private + ability + family_income", data=students4).fit()  # both controls
+r_short = pf.feols("earnings ~ private", data=students4)                        # no controls
+r_medium = pf.feols("earnings ~ private + ability", data=students4)             # one control
+r_long = pf.feols("earnings ~ private + ability + family_income", data=students4)  # both controls
 
 pd.DataFrame({
     "Regression": ["Short (no controls)", "Medium (ability only)", "Long (ability + income)"],
-    "Private coefficient": [round(r_short.params["private"]),
-                             round(r_medium.params["private"]),
-                             round(r_long.params["private"])],
+    "Private coefficient": [round(r_short.coef()["private"]),
+                             round(r_medium.coef()["private"]),
+                             round(r_long.coef()["private"])],
     "True effect": [5000, 5000, 5000],
 })
 ```
@@ -1068,18 +1065,18 @@ earnings_r = 30000 + 5000 * private_r + 800 * ability_r + np.random.normal(0, 50
 students_r = pd.DataFrame({"earnings": earnings_r, "private": private_r, "ability": ability_r})
 
 # --- Run short, long, and auxiliary regressions ---
-short_r = smf.ols("earnings ~ private", data=students_r).fit()
-long_r = smf.ols("earnings ~ private + ability", data=students_r).fit()
-aux_r = smf.ols("ability ~ private", data=students_r).fit()
+short_r = pf.feols("earnings ~ private", data=students_r)
+long_r = pf.feols("earnings ~ private + ability", data=students_r)
+aux_r = pf.feols("ability ~ private", data=students_r)
 
 # --- Verify OVB formula ---
-ovb_r = round(short_r.params["private"] - long_r.params["private"])
-formula_r = round(aux_r.params["private"] * long_r.params["ability"])
+ovb_r = round(short_r.coef()["private"] - long_r.coef()["private"])
+formula_r = round(aux_r.coef()["private"] * long_r.coef()["ability"])
 
 pd.DataFrame({
     "Metric": ["Short coef", "Long coef", "OVB (direct)", "pi_1", "gamma", "OVB (formula)"],
-    "Value": [round(short_r.params["private"]), round(long_r.params["private"]),
-              ovb_r, round(aux_r.params["private"], 2), round(long_r.params["ability"]),
+    "Value": [round(short_r.coef()["private"]), round(long_r.coef()["private"]),
+              ovb_r, round(aux_r.coef()["private"], 2), round(long_r.coef()["ability"]),
               formula_r],
 })
 ```
@@ -1162,10 +1159,10 @@ specs = [
 
 rows = []
 for label, formula in specs:
-    r = smf.ols(formula, data=df_s).fit()
+    r = pf.feols(formula, data=df_s)
     rows.append({
         "Specification": label,
-        "Private coefficient": round(r.params["private"]),
+        "Private coefficient": round(r.coef()["private"]),
         "True effect": 5000,
     })
 

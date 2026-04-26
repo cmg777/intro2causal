@@ -320,8 +320,8 @@ Because $\ln W$ is the outcome, the coefficient $\rho$ has a convenient interpre
 # Load clean quarter-of-birth data (Angrist & Krueger 1991, 329k men born 1930-1939)
 import pandas as pd
 import numpy as np
-import statsmodels.formula.api as smf
-from linearmodels.iv import IV2SLS
+import pyfixest as pf
+# (IV handled by pf.feols with pipe syntax)
 
 GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
@@ -334,15 +334,15 @@ qob.head(3)
 #| tbl-cap: "Simple bivariate regression of log weekly earnings on years of schooling. No controls — just the raw correlation."
 
 # Bivariate OLS: the simplest possible regression
-bivariate = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
+bivariate = pf.feols("lnw ~ s", data=qob, vcov="hetero")
 
 # Display results
 pd.DataFrame({
-    "Variable": bivariate.params.index,
-    "Coefficient": bivariate.params.round(4).values,
-    "Std. Error": bivariate.bse.round(4).values,
-    "t-statistic": bivariate.tvalues.round(2).values,
-    "p-value": bivariate.pvalues.round(3).values,
+    "Variable": bivariate.coef().index,
+    "Coefficient": bivariate.coef().round(4).values,
+    "Std. Error": bivariate.se().round(4).values,
+    "t-statistic": bivariate.tstat().round(2).values,
+    "p-value": bivariate.pvalue().round(3).values,
 })
 ```
 
@@ -410,15 +410,15 @@ twins.head(3)
 #| tbl-cap: "OLS return to schooling using the Twinsburg twins data. Controls include age, age-squared, gender, and race."
 
 # OLS: regress log wages on education with demographic controls
-ols = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins).fit(cov_type="HC1")
+ols = pf.feols("lwage ~ educ + age + age2 + female + white", data=twins, vcov="hetero")
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": ols.params.index,
-    "Coefficient": ols.params.round(4).values,
-    "Std. Error": ols.bse.round(4).values,
-    "t-statistic": ols.tvalues.round(2).values,
-    "p-value": ols.pvalues.round(3).values,
+    "Variable": ols.coef().index,
+    "Coefficient": ols.coef().round(4).values,
+    "Std. Error": ols.se().round(4).values,
+    "t-statistic": ols.tstat().round(2).values,
+    "p-value": ols.pvalue().round(3).values,
 })
 ```
 
@@ -455,17 +455,17 @@ This dataset was designed to illustrate the OVB concept. It contains 2,000 simul
 ovb = pd.read_csv(GITHUB_DATA_URL + "ch6/synthetic_ovb.csv")
 
 # Short regression: omit ability (like real life — we can't observe ability)
-short_reg = smf.ols("earnings ~ schooling", data=ovb).fit(cov_type="HC1")
+short_reg = pf.feols("earnings ~ schooling", data=ovb, vcov="hetero")
 
 # Long regression: include ability (the "oracle" regression we can't run with real data)
-long_reg = smf.ols("earnings ~ schooling + ability", data=ovb).fit(cov_type="HC1")
+long_reg = pf.feols("earnings ~ schooling + ability", data=ovb, vcov="hetero")
 
 # Compare coefficients
 pd.DataFrame({
     "Specification": ["Short (omit ability)", "Long (include ability)", "True causal return"],
     "Schooling coefficient": [
-        f"{short_reg.params['schooling']:.4f} ({short_reg.bse['schooling']:.4f})",
-        f"{long_reg.params['schooling']:.4f} ({long_reg.bse['schooling']:.4f})",
+        f"{short_reg.coef()['schooling']:.4f} ({short_reg.se()['schooling']:.4f})",
+        f"{long_reg.coef()['schooling']:.4f} ({long_reg.se()['schooling']:.4f})",
         "0.0900",
     ],
 })
@@ -486,13 +486,13 @@ Occupation is *caused by* education --- it is a "bad control" (a mediator or pos
 #| tbl-cap: "Adding occupation (a bad control) biases the schooling return downward by absorbing part of the causal pathway."
 
 # Bad control: add occupation (which is caused by schooling)
-bad_control = smf.ols("earnings ~ schooling + occupation", data=ovb).fit(cov_type="HC1")
+bad_control = pf.feols("earnings ~ schooling + occupation", data=ovb, vcov="hetero")
 
 pd.DataFrame({
     "Specification": ["Without occupation", "With occupation (bad control)", "True causal return"],
     "Schooling coefficient": [
-        f"{short_reg.params['schooling']:.4f} ({short_reg.bse['schooling']:.4f})",
-        f"{bad_control.params['schooling']:.4f} ({bad_control.bse['schooling']:.4f})",
+        f"{short_reg.coef()['schooling']:.4f} ({short_reg.se()['schooling']:.4f})",
+        f"{bad_control.coef()['schooling']:.4f} ({bad_control.se()['schooling']:.4f})",
         "0.0900",
     ],
 })
@@ -538,7 +538,7 @@ diff_school = means.loc[1, "schooling"] - means.loc[0, "schooling"]
 diff_earn = means.loc[1, "earnings"] - means.loc[0, "earnings"]
 
 # Regression of earnings on scholarship (= difference in means)
-rct_reg = smf.ols("earnings ~ scholarship", data=rct).fit(cov_type="HC1")
+rct_reg = pf.feols("earnings ~ scholarship", data=rct, vcov="hetero")
 
 # Wald estimate: earnings effect / schooling effect = per-year return
 wald_rct = diff_earn / diff_school
@@ -590,15 +590,15 @@ first = twins[twins["first"] == 1]
 # Regress wage difference on education difference
 # The "- 1" removes the intercept: when both twins have the same education,
 # we expect zero wage difference, so there's no constant term needed
-twin_fe = smf.ols("dlwage ~ deduc - 1", data=first).fit(cov_type="HC1")
+twin_fe = pf.feols("dlwage ~ deduc - 1", data=first, vcov="hetero")
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": twin_fe.params.index,
-    "Coefficient": twin_fe.params.round(4).values,
-    "Std. Error": twin_fe.bse.round(4).values,
-    "t-statistic": twin_fe.tvalues.round(2).values,
-    "p-value": twin_fe.pvalues.round(3).values,
+    "Variable": twin_fe.coef().index,
+    "Coefficient": twin_fe.coef().round(4).values,
+    "Std. Error": twin_fe.se().round(4).values,
+    "t-statistic": twin_fe.tstat().round(2).values,
+    "p-value": twin_fe.pvalue().round(3).values,
 })
 ```
 
@@ -629,13 +629,13 @@ The twin estimate may be biased *downward* by **measurement error** in self-repo
 The fix: use each twin's *report of the other's education* as an instrument. This report is correlated with true education but has independent measurement error, so it satisfies the IV requirements. (This assumes twins do not simply agree on inaccurate reports. If twins discuss their education and reach consensus, their measurement errors may be correlated, weakening the IV correction.)
 
 ::: {.callout-note}
-### Reading the IV2SLS formula syntax
+### Reading the pyfixest IV formula syntax
 
-In `linearmodels`, the IV formula uses **square brackets** to specify the endogenous variable and its instrument:
+In `pyfixest`, the IV formula uses a **pipe** (`|`) to specify the endogenous variable and its instrument:
 
-- `[educ ~ educt_t]` means: *educ* is the endogenous variable, instrumented by *educt_t*
-- `~ 0` or `~ 1` controls whether an intercept is included (0 = no intercept, 1 = with intercept)
-- `cov_type="robust"` gives heteroskedasticity-robust standard errors (equivalent to `"HC1"` in `statsmodels`)
+- `| educ ~ educt_t` means: *educ* is the endogenous variable, instrumented by *educt_t*
+- Controls go before the first `|`; fixed effects (if any) go between the first and second `|`
+- `vcov="hetero"` gives heteroskedasticity-robust standard errors (HC1)
 :::
 
 The twin IV corrects measurement error using two stages. In the within-pair (differenced) version:
@@ -655,25 +655,21 @@ where $\Delta S^{twin}_f$ is the difference in the twin's report of the other's 
 #| tbl-cap: "IV estimates using twin's report of education as instrument. Corrects for measurement error in self-reported schooling."
 
 # IV in levels: instrument own education (educ) with twin's report (educt_t)
-iv_levels = IV2SLS.from_formula(
-    "lwage ~ 1 + age + age2 + female + white + [educ ~ educt_t]", data=twins
-).fit(cov_type="robust")
+iv_levels = pf.feols("lwage ~ 1 + age + age2 + female + white | educ ~ educt_t", data=twins, vcov="hetero")
 
 # IV in differences: instrument own-reported difference (deduc) with twin's report diff (deduct)
 first_iv = first[["dlwage", "deduc", "deduct"]].dropna()
-iv_diff = IV2SLS.from_formula(
-    "dlwage ~ 0 + [deduc ~ deduct]", data=first_iv
-).fit(cov_type="robust")
+iv_diff = pf.feols("dlwage ~ 0 | deduc ~ deduct", data=first_iv, vcov="hetero")
 
 # Combine all four estimates into one table
-ols_coef = round(ols.params["educ"], 3)
-ols_se = round(ols.bse["educ"], 3)
-fe_coef = round(twin_fe.params["deduc"], 3)
-fe_se = round(twin_fe.bse["deduc"], 3)
-iv_lev_coef = round(iv_levels.params["educ"], 3)
-iv_lev_se = round(iv_levels.std_errors["educ"], 3)
-iv_dif_coef = round(iv_diff.params["deduc"], 3)
-iv_dif_se = round(iv_diff.std_errors["deduc"], 3)
+ols_coef = round(ols.coef()["educ"], 3)
+ols_se = round(ols.se()["educ"], 3)
+fe_coef = round(twin_fe.coef()["deduc"], 3)
+fe_se = round(twin_fe.se()["deduc"], 3)
+iv_lev_coef = round(iv_levels.coef()["educ"], 3)
+iv_lev_se = round(iv_levels.se()["educ"], 3)
+iv_dif_coef = round(iv_diff.coef()["deduc"], 3)
+iv_dif_se = round(iv_diff.se()["deduc"], 3)
 
 pd.DataFrame({
     "Method": ["OLS (levels)", "Twin FE (differences)", "IV (levels)", "IV (differences)"],
@@ -749,25 +745,25 @@ where $Q4_i$ = 1 if individual $i$ was born in the fourth quarter (`q4`), $S_i$ 
 #| tbl-cap: "The IV recipe (Wald estimate): reduced form divided by first stage gives the causal return to schooling."
 
 # Step 1: Reduced form — does Q4 birth predict higher earnings?
-rf = smf.ols("lnw ~ q4", data=qob).fit(cov_type="HC1")
+rf = pf.feols("lnw ~ q4", data=qob, vcov="hetero")
 
 # Step 2: First stage — does Q4 birth predict more schooling?
-fs = smf.ols("s ~ q4", data=qob).fit(cov_type="HC1")
+fs = pf.feols("s ~ q4", data=qob, vcov="hetero")
 
 # Step 3: Wald estimate = reduced form / first stage
-wald = rf.params["q4"] / fs.params["q4"]
+wald = rf.coef()["q4"] / fs.coef()["q4"]
 
 # Step 4: Verify with 2SLS
-iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+iv = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
 
 # Extract coefficients and standard errors
-rf_coef = round(rf.params["q4"], 4)
-rf_se = round(rf.bse["q4"], 4)
-fs_coef = round(fs.params["q4"], 4)
-fs_se = round(fs.bse["q4"], 4)
+rf_coef = round(rf.coef()["q4"], 4)
+rf_se = round(rf.se()["q4"], 4)
+fs_coef = round(fs.coef()["q4"], 4)
+fs_se = round(fs.se()["q4"], 4)
 wald_rounded = round(wald, 4)
-iv_coef = round(iv.params["s"], 4)
-iv_se = round(iv.std_errors["s"], 4)
+iv_coef = round(iv.coef()["s"], 4)
+iv_se = round(iv.se()["s"], 4)
 
 pd.DataFrame({
     "Step": ["Reduced form (Q4 → earnings)", "First stage (Q4 → schooling)",
@@ -869,21 +865,22 @@ cl.head(3)
 #| tbl-cap: "First stage: compulsory schooling laws jointly predict education. The F-statistic tests instrument relevance."
 
 # First stage: do child labor laws predict education?
-fs_cl = smf.wls(
-    "indEduc ~ cl7 + cl8 + cl9 + C(sob) + C(yob) + C(year)",
-    data=cl, weights=cl["weight"]
-).fit(cov_type="cluster", cov_kwds={"groups": cl["sob"]})
+fs_cl = pf.feols("indEduc ~ cl7 + cl8 + cl9 | sob + yob + year",
+                 data=cl, weights="weight", vcov={"CRV1": "sob"})
 
-# Joint F-test on instruments
-f_test = fs_cl.f_test("cl7 = 0, cl8 = 0, cl9 = 0")
-f_stat = float(np.atleast_1d(f_test.fvalue).flat[0])
+# Joint F-test on instruments (Wald test)
+import numpy as np
+coefs = np.array([fs_cl.coef()['cl7'], fs_cl.coef()['cl8'], fs_cl.coef()['cl9']])
+idx = [list(fs_cl.coef().index).index(v) for v in ['cl7', 'cl8', 'cl9']]
+V_sub = fs_cl._vcov[np.ix_(idx, idx)]
+f_stat = float(coefs @ np.linalg.inv(V_sub) @ coefs / 3)
 
 pd.DataFrame({
     "Instrument": ["cl7 (enter by age 7)", "cl8 (enter by age 8)", "cl9 (enter by age 9)", "Joint F-statistic"],
     "Coefficient": [
-        f"{fs_cl.params['cl7']:.4f} ({fs_cl.bse['cl7']:.4f})",
-        f"{fs_cl.params['cl8']:.4f} ({fs_cl.bse['cl8']:.4f})",
-        f"{fs_cl.params['cl9']:.4f} ({fs_cl.bse['cl9']:.4f})",
+        f"{fs_cl.coef()['cl7']:.4f} ({fs_cl.se()['cl7']:.4f})",
+        f"{fs_cl.coef()['cl8']:.4f} ({fs_cl.se()['cl8']:.4f})",
+        f"{fs_cl.coef()['cl9']:.4f} ({fs_cl.se()['cl9']:.4f})",
         f"{f_stat:.2f}",
     ],
 })
@@ -894,33 +891,18 @@ pd.DataFrame({
 #| tbl-cap: "OLS vs. IV estimates of the return to schooling using compulsory schooling laws as instruments."
 
 # OLS with fixed effects
-ols_cl = smf.wls(
-    "lnwkwage ~ indEduc + C(sob) + C(yob) + C(year)",
-    data=cl, weights=cl["weight"]
-).fit(cov_type="cluster", cov_kwds={"groups": cl["sob"]})
+ols_cl = pf.feols("lnwkwage ~ indEduc | sob + yob + year",
+                  data=cl, weights="weight", vcov={"CRV1": "sob"})
 
-# IV/2SLS: residualize out fixed effects first (Frisch-Waugh-Lovell approach)
-def residualize(data, y_col, fe_cols, weights):
-    """Partial out fixed effects using WLS (Frisch-Waugh-Lovell)."""
-    formula = f"{y_col} ~ " + " + ".join([f"C({c})" for c in fe_cols])
-    res = smf.wls(formula, data=data, weights=weights).fit()
-    return res.resid
-
-fe_vars = ["sob", "yob", "year"]
-iv_cl = cl.copy()
-for var in ["lnwkwage", "indEduc", "cl7", "cl8", "cl9"]:
-    iv_cl[f"{var}_r"] = residualize(iv_cl, var, fe_vars, iv_cl["weight"])
-
-iv_result = IV2SLS.from_formula(
-    "lnwkwage_r ~ 0 + [indEduc_r ~ cl7_r + cl8_r + cl9_r]",
-    data=iv_cl, weights=iv_cl["weight"]
-).fit(cov_type="clustered", clusters=iv_cl["sob"])
+# IV/2SLS with fixed effects and multiple instruments
+iv_result = pf.feols("lnwkwage ~ 1 | sob + yob + year | indEduc ~ cl7 + cl8 + cl9",
+                     data=cl, weights="weight", vcov={"CRV1": "sob"})
 
 pd.DataFrame({
     "Method": ["OLS (with state, YOB, year FE)", "IV/2SLS (child labor law instruments)"],
     "Return to schooling": [
-        f"{ols_cl.params['indEduc']:.4f} ({ols_cl.bse['indEduc']:.4f})",
-        f"{iv_result.params['indEduc_r']:.4f} ({iv_result.std_errors['indEduc_r']:.4f})",
+        f"{ols_cl.coef()['indEduc']:.4f} ({ols_cl.se()['indEduc']:.4f})",
+        f"{iv_result.coef()['indEduc']:.4f} ({iv_result.se()['indEduc']:.4f})",
     ],
 })
 ```
@@ -974,15 +956,13 @@ ax.scatter(sheep["minscore"], sheep["receivehsd"], color="black", s=20, alpha=0.
 left = sheep[sheep["minscore"] < 0]
 right = sheep[sheep["minscore"] >= 0]
 
-fit_l = smf.wls("receivehsd ~ pass_exam + left_1 + left_2 + left_3 + left_4",
-                 data=left, weights=left["n"]).fit()
-fit_r = smf.wls("receivehsd ~ pass_exam + right_1 + right_2 + right_3 + right_4",
-                 data=right, weights=right["n"]).fit()
+fit_l = pf.feols("receivehsd ~ pass_exam + left_1 + left_2 + left_3 + left_4", data=left, weights="n")
+fit_r = pf.feols("receivehsd ~ pass_exam + right_1 + right_2 + right_3 + right_4", data=right, weights="n")
 
 left_plot = sheep[sheep["minscore"] <= 0].copy()
-left_plot["fit"] = fit_l.predict(left_plot)
+left_plot["fit"] = fit_l.predict(newdata=left_plot)
 right_plot = sheep[sheep["minscore"] >= 0].copy()
-right_plot["fit"] = fit_r.predict(right_plot)
+right_plot["fit"] = fit_r.predict(newdata=right_plot)
 
 ax.plot(left_plot["minscore"], left_plot["fit"], "k-", linewidth=2)
 ax.plot(right_plot["minscore"], right_plot["fit"], "k-", linewidth=2)
@@ -997,15 +977,14 @@ ax.set_ylim(0, 1)
 ax = axes[1]
 ax.scatter(sheep["minscore"], sheep["avgearnings"], color="black", s=20, alpha=0.6)
 
-earn_l = smf.wls("avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4",
-                  data=left[left["minscore"] >= -30], weights=left[left["minscore"] >= -30]["person_years"]).fit()
-earn_r = smf.wls("avgearnings ~ pass_exam + right_1 + right_2 + right_3 + right_4",
-                  data=right, weights=right["person_years"]).fit()
+earn_l = pf.feols("avgearnings ~ pass_exam + left_1 + left_2 + left_3 + left_4",
+                  data=left[left["minscore"] >= -30], weights="person_years")
+earn_r = pf.feols("avgearnings ~ pass_exam + right_1 + right_2 + right_3 + right_4", data=right, weights="person_years")
 
 left_earn = sheep[sheep["minscore"] <= 0].copy()
-left_earn["fit"] = earn_l.predict(left_earn)
+left_earn["fit"] = earn_l.predict(newdata=left_earn)
 right_earn = sheep[sheep["minscore"] >= 0].copy()
-right_earn["fit"] = earn_r.predict(right_earn)
+right_earn["fit"] = earn_r.predict(newdata=right_earn)
 
 ax.plot(left_earn["minscore"], left_earn["fit"], "k-", linewidth=2)
 ax.plot(right_earn["minscore"], right_earn["fit"], "k-", linewidth=2)
@@ -1107,17 +1086,13 @@ plt.show()
 
 # DD regression for schooling (first stage)
 did["treat_post"] = did["treated"] * did["post"]
-dd_school = smf.ols("avg_schooling ~ treat_post + C(state) + C(year)", data=did).fit(
-    cov_type="cluster", cov_kwds={"groups": did["state"]}
-)
+dd_school = pf.feols("avg_schooling ~ treat_post | state + year", data=did, vcov={"CRV1": "state"})
 
 # DD regression for earnings (reduced form)
-dd_earn = smf.ols("avg_earnings ~ treat_post + C(state) + C(year)", data=did).fit(
-    cov_type="cluster", cov_kwds={"groups": did["state"]}
-)
+dd_earn = pf.feols("avg_earnings ~ treat_post | state + year", data=did, vcov={"CRV1": "state"})
 
 # Implied return: earnings effect / schooling effect
-dd_return = dd_earn.params["treat_post"] / dd_school.params["treat_post"]
+dd_return = dd_earn.coef()["treat_post"] / dd_school.coef()["treat_post"]
 
 pd.DataFrame({
     "Quantity": [
@@ -1126,8 +1101,8 @@ pd.DataFrame({
         "Implied return per year (RF / FS)",
     ],
     "Estimate": [
-        f"{dd_school.params['treat_post']:.4f} ({dd_school.bse['treat_post']:.4f})",
-        f"{dd_earn.params['treat_post']:.4f} ({dd_earn.bse['treat_post']:.4f})",
+        f"{dd_school.coef()['treat_post']:.4f} ({dd_school.se()['treat_post']:.4f})",
+        f"{dd_earn.coef()['treat_post']:.4f} ({dd_earn.se()['treat_post']:.4f})",
         f"{dd_return:.4f}",
     ],
 })
@@ -1274,55 +1249,51 @@ Copy this code into a Python notebook to reproduce the key results from this cha
 # ============================================================
 import pandas as pd
 import numpy as np
-import statsmodels.formula.api as smf
-from linearmodels.iv import IV2SLS
+import pyfixest as pf
+# (IV handled by pf.feols with pipe syntax)
 
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # --- Step 1: Simple bivariate OLS (no controls) ---
 qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
-bivariate = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
-print(f"Simple OLS return: {round(bivariate.params['s'], 3)} ({round(bivariate.bse['s'], 3)})")
+bivariate = pf.feols("lnw ~ s", data=qob, vcov="hetero")
+print(f"Simple OLS return: {round(bivariate.coef()['s'], 3)} ({round(bivariate.se()['s'], 3)})")
 print("  (~7% per year — raw correlation, likely biased by ability)\n")
 
 # --- Step 2: OLS with controls (twins data) ---
 twins = pd.read_csv(DATA + "ch6/twins_clean.csv")
-ols = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins)
-ols_result = ols.fit(cov_type="HC1")
-print(f"OLS with controls: {round(ols_result.params['educ'], 3)} ({round(ols_result.bse['educ'], 3)})")
+ols_result = pf.feols("lwage ~ educ + age + age2 + female + white", data=twins, vcov="hetero")
+print(f"OLS with controls: {round(ols_result.coef()['educ'], 3)} ({round(ols_result.se()['educ'], 3)})")
 print("  (~11% per year — controls barely change the estimate)\n")
 
 # --- Step 3: Twin fixed effects (within-pair differences) ---
 first = twins[twins["first"] == 1]
-fe = smf.ols("dlwage ~ deduc - 1", data=first).fit(cov_type="HC1")
-print(f"Twin FE return: {round(fe.params['deduc'], 3)} ({round(fe.bse['deduc'], 3)})")
+fe = pf.feols("dlwage ~ deduc - 1", data=first, vcov="hetero")
+print(f"Twin FE return: {round(fe.coef()['deduc'], 3)} ({round(fe.se()['deduc'], 3)})")
 print("  (~6% — lower because shared ability is removed, but measurement error amplified)\n")
 
 # --- Step 4: IV with twin's report (corrects measurement error) ---
-iv_lev = IV2SLS.from_formula(
-    "lwage ~ 1 + age + age2 + female + white + [educ ~ educt_t]", data=twins
-).fit(cov_type="robust")
-print(f"Twin IV (levels): {round(iv_lev.params['educ'], 3)} ({round(iv_lev.std_errors['educ'], 3)})")
+iv_lev = pf.feols("lwage ~ 1 + age + age2 + female + white | educ ~ educt_t", data=twins, vcov="hetero")
+print(f"Twin IV (levels): {round(iv_lev.coef()['educ'], 3)} ({round(iv_lev.se()['educ'], 3)})")
 print("  (~11% — measurement error corrected)\n")
 
 # --- Step 5: Quarter-of-birth IV (Angrist & Krueger) ---
-fs = smf.ols("s ~ q4", data=qob).fit(cov_type="HC1")
-rf = smf.ols("lnw ~ q4", data=qob).fit(cov_type="HC1")
-wald = rf.params["q4"] / fs.params["q4"]
+fs = pf.feols("s ~ q4", data=qob, vcov="hetero")
+rf = pf.feols("lnw ~ q4", data=qob, vcov="hetero")
+wald = rf.coef()["q4"] / fs.coef()["q4"]
 print(f"Wald IV estimate: {round(wald, 3)}")
-iv_qob = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
-print(f"2SLS estimate:    {round(iv_qob.params['s'], 3)} ({round(iv_qob.std_errors['s'], 3)})")
+iv_qob = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
+print(f"2SLS estimate:    {round(iv_qob.coef()['s'], 3)} ({round(iv_qob.se()['s'], 3)})")
 print("  (~7% per year via quarter-of-birth instrument)\n")
 
 # --- Step 6: Child labor law IV ---
 cl = pd.read_csv(DATA + "ch6/childlabor_clean.csv")
-ols_cl = smf.wls("lnwkwage ~ indEduc + C(sob) + C(yob) + C(year)",
-                  data=cl, weights=cl["weight"]).fit(
-    cov_type="cluster", cov_kwds={"groups": cl["sob"]})
-print(f"OLS (child labor data): {round(ols_cl.params['indEduc'], 4)}")
+ols_cl = pf.feols("lnwkwage ~ indEduc | sob + yob + year",
+                  data=cl, weights="weight", vcov={"CRV1": "sob"})
+print(f"OLS (child labor data): {round(ols_cl.coef()['indEduc'], 4)}")
 
 # --- Step 7: First-stage F-statistic ---
-f_stat = float(np.atleast_1d(fs.f_test("q4 = 0").fvalue).flat[0])
+f_stat = fs.tstat()['q4'] ** 2  # F = t² for a single restriction
 print(f"First-stage F-stat (QOB): {round(f_stat, 1)} (should be > 10)")
 ```
 
@@ -1432,8 +1403,8 @@ Below is a self-contained code summary that applies each of the Furious Five to 
 # ================================================================
 import pandas as pd
 import numpy as np
-import statsmodels.formula.api as smf
-from linearmodels.iv import IV2SLS
+import pyfixest as pf
+# (IV handled by pf.feols with pipe syntax)
 
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
@@ -1464,8 +1435,8 @@ print(f"1. RCT (Wald):  {wald_rct:.4f}")
 #           individuals may get more schooling AND earn more regardless.
 # ----------------------------------------------------------------
 qob = pd.read_csv(DATA + "ch6/qob_clean.csv")
-ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
-print(f"2. OLS:         {ols.params['s']:.4f}")
+ols = pf.feols("lnw ~ s", data=qob, vcov="hetero")
+print(f"2. OLS:         {ols.coef()['s']:.4f}")
 
 # ================================================================
 # METHOD 3: INSTRUMENTAL VARIABLES (IV / 2SLS)
@@ -1477,8 +1448,8 @@ print(f"2. OLS:         {ols.params['s']:.4f}")
 #           (students kept in school solely due to compulsory schooling laws).
 # Bias:     None, provided Z is relevant and the exclusion restriction holds.
 # ----------------------------------------------------------------
-iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
-print(f"3. IV (QOB):    {iv.params['s']:.4f}")
+iv = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
+print(f"3. IV (QOB):    {iv.coef()['s']:.4f}")
 
 # ================================================================
 # METHOD 4: REGRESSION DISCONTINUITY (RD)
@@ -1494,10 +1465,8 @@ sheep = pd.read_csv(DATA + "ch6/sheepskin_clean.csv")
 # Center the running variable if not already centered, and apply a bandwidth (e.g., +/- 30)
 bandwidth_data = sheep[abs(sheep["minscore"]) <= 30]
 # Use robust local linear regression allowing varying slopes on either side of cutoff
-rd = smf.wls("avgearnings ~ pass_exam * minscore",
-             data=bandwidth_data,
-             weights=bandwidth_data["person_years"]).fit(cov_type="HC1")
-print(f"4. RD:          ${rd.params['pass_exam']:.0f} (Credential effect)")
+rd = pf.feols("avgearnings ~ pass_exam * minscore", data=bandwidth_data, weights="person_years", vcov="hetero")
+print(f"4. RD:          ${rd.coef()['pass_exam']:.0f} (Credential effect)")
 
 # ================================================================
 # METHOD 5: DIFFERENCES-IN-DIFFERENCES (WALD-DiD)
@@ -1514,14 +1483,12 @@ did = pd.read_csv(DATA + "ch6/synthetic_did.csv")
 did["treat_post"] = did["treated"] * did["post"]
 
 # First stage: Effect of policy on schooling
-dd_s = smf.ols("avg_schooling ~ treat_post + C(state) + C(year)",
-               data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
+dd_s = pf.feols("avg_schooling ~ treat_post | state + year", data=did, vcov={"CRV1": "state"})
 
 # Reduced form: Effect of policy on earnings
-dd_e = smf.ols("avg_earnings ~ treat_post + C(state) + C(year)",
-               data=did).fit(cov_type="cluster", cov_kwds={"groups": did["state"]})
+dd_e = pf.feols("avg_earnings ~ treat_post | state + year", data=did, vcov={"CRV1": "state"})
 
-wald_did = dd_e.params['treat_post'] / dd_s.params['treat_post']
+wald_did = dd_e.coef()['treat_post'] / dd_s.coef()['treat_post']
 print(f"5. Wald-DiD:    {wald_did:.4f}")
 ```
 
@@ -1831,27 +1798,27 @@ Age is determined before schooling decisions --- it is a pre-treatment variable.
 #| tbl-cap: "Returns to schooling: full sample vs. men only"
 
 # --- Full Sample: OLS and Twin FE ---
-ols_all = smf.ols("lwage ~ educ + age + age2 + female + white", data=twins).fit(cov_type="HC1")
+ols_all = pf.feols("lwage ~ educ + age + age2 + female + white", data=twins, vcov="hetero")
 first_all = twins[twins["first"] == 1]
-fe_all = smf.ols("dlwage ~ deduc - 1", data=first_all).fit(cov_type="HC1")
+fe_all = pf.feols("dlwage ~ deduc - 1", data=first_all, vcov="hetero")
 
 # --- Men Only: OLS and Twin FE ---
 men = twins[twins["female"] == 0]
-ols_men = smf.ols("lwage ~ educ + age + age2 + white", data=men).fit(cov_type="HC1")
+ols_men = pf.feols("lwage ~ educ + age + age2 + white", data=men, vcov="hetero")
 first_men = men[men["first"] == 1]
-fe_men = smf.ols("dlwage ~ deduc - 1", data=first_men).fit(cov_type="HC1")
+fe_men = pf.feols("dlwage ~ deduc - 1", data=first_men, vcov="hetero")
 
 pd.DataFrame({
     "Method": ["OLS (full sample)", "OLS (men only)", "Twin FE (full sample)", "Twin FE (men only)"],
     "Coefficient": [
-        round(ols_all.params["educ"], 4), round(ols_men.params["educ"], 4),
-        round(fe_all.params["deduc"], 4), round(fe_men.params["deduc"], 4),
+        round(ols_all.coef()["educ"], 4), round(ols_men.coef()["educ"], 4),
+        round(fe_all.coef()["deduc"], 4), round(fe_men.coef()["deduc"], 4),
     ],
     "SE": [
-        round(ols_all.bse["educ"], 4), round(ols_men.bse["educ"], 4),
-        round(fe_all.bse["deduc"], 4), round(fe_men.bse["deduc"], 4),
+        round(ols_all.se()["educ"], 4), round(ols_men.se()["educ"], 4),
+        round(fe_all.se()["deduc"], 4), round(fe_men.se()["deduc"], 4),
     ],
-    "N": [int(ols_all.nobs), int(ols_men.nobs), int(fe_all.nobs), int(fe_men.nobs)],
+    "N": [int(ols_all._N), int(ols_men._N), int(fe_all._N), int(fe_men._N)],
 })
 ```
 
@@ -1880,25 +1847,22 @@ The key pattern --- OLS exceeding twin FE --- should persist in both samples.
 #| label: tbl-sol-multi-iv
 #| tbl-cap: "IV estimates with single vs. multiple quarter-of-birth instruments"
 
-iv_q4 = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
-fs_q4 = smf.ols("s ~ q4", data=qob).fit()
-f_q4 = float(np.atleast_1d(fs_q4.f_test("q4 = 0").fvalue).flat[0])
+iv_q4 = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
+fs_q4 = pf.feols("s ~ q4", data=qob)
+f_q4 = fs_q4.tstat()['q4'] ** 2  # F = t² for single restriction
 
-yob_dummies = pd.get_dummies(qob["yob"].astype(int), prefix="yob", drop_first=True, dtype=float)
-iv_data = pd.concat([qob[["lnw", "s", "q2", "q3", "q4"]], yob_dummies], axis=1)
-yob_str = " + ".join(yob_dummies.columns)
+iv_multi = pf.feols("lnw ~ 1 | yob | s ~ q2 + q3 + q4", data=qob, vcov="hetero")
 
-iv_multi = IV2SLS.from_formula(
-    f"lnw ~ 1 + {yob_str} + [s ~ q2 + q3 + q4]", data=iv_data
-).fit(cov_type="robust")
-
-fs_multi = smf.ols(f"s ~ q2 + q3 + q4 + {yob_str}", data=iv_data).fit()
-f_multi = float(np.atleast_1d(fs_multi.f_test("q2 = 0, q3 = 0, q4 = 0").fvalue).flat[0])
+fs_multi = pf.feols("s ~ q2 + q3 + q4 | yob", data=qob)
+t_q2 = fs_multi.tstat()["q2"]
+t_q3 = fs_multi.tstat()["q3"]
+t_q4_m = fs_multi.tstat()["q4"]
+f_multi = (t_q2**2 + t_q3**2 + t_q4_m**2) / 3  # approximate joint F
 
 pd.DataFrame({
     "Specification": ["IV (Q4 only, no controls)", "IV (Q2+Q3+Q4, with YOB FE)"],
-    "Return to schooling": [round(iv_q4.params["s"], 4), round(iv_multi.params["s"], 4)],
-    "SE": [round(iv_q4.std_errors["s"], 4), round(iv_multi.std_errors["s"], 4)],
+    "Return to schooling": [round(iv_q4.coef()["s"], 4), round(iv_multi.coef()["s"], 4)],
+    "SE": [round(iv_q4.se()["s"], 4), round(iv_multi.se()["s"], 4)],
     "First-stage F": [round(f_q4, 1), round(f_multi, 1)],
 })
 ```
@@ -1935,12 +1899,12 @@ rows = []
 for race, label in [(1, "White"), (0, "Non-white")]:
     subset = twins[twins["white"] == race]
     if len(subset) > 10:
-        r = smf.ols("lwage ~ educ + age + age2 + female", data=subset).fit(cov_type="HC1")
+        r = pf.feols("lwage ~ educ + age + age2 + female", data=subset, vcov="hetero")
         rows.append({
             "Group": label,
-            "OLS return": round(r.params["educ"], 4),
-            "SE": round(r.bse["educ"], 4),
-            "N": int(r.nobs),
+            "OLS return": round(r.coef()["educ"], 4),
+            "SE": round(r.se()["educ"], 4),
+            "N": int(r._N),
         })
 
 pd.DataFrame(rows)
@@ -1970,15 +1934,15 @@ Several factors could drive racial differences: labor market discrimination, sch
 #| tbl-cap: "OLS vs. IV estimates of the return to schooling"
 
 # --- OLS: naive regression ---
-ols = smf.ols("lnw ~ s", data=qob).fit(cov_type="HC1")
+ols = pf.feols("lnw ~ s", data=qob, vcov="hetero")
 
 # --- IV: 2SLS with Q4 as instrument ---
-iv = IV2SLS.from_formula("lnw ~ 1 + [s ~ q4]", data=qob).fit(cov_type="robust")
+iv = pf.feols("lnw ~ 1 | s ~ q4", data=qob, vcov="hetero")
 
 pd.DataFrame({
     "Method": ["OLS", "IV (2SLS, Q4 instrument)"],
-    "Return to schooling": [round(ols.params["s"], 4), round(iv.params["s"], 4)],
-    "SE": [round(ols.bse["s"], 4), round(iv.std_errors["s"], 4)],
+    "Return to schooling": [round(ols.coef()["s"], 4), round(iv.coef()["s"], 4)],
+    "SE": [round(ols.se()["s"], 4), round(iv.se()["s"], 4)],
 })
 ```
 
@@ -2010,12 +1974,16 @@ ivregress 2sls lnw (s = q4), robust
 #| tbl-cap: "First-stage F-statistics: single vs. multiple instruments"
 
 # --- Single Instrument: Q4 only ---
-fs_q4_solo = smf.ols("s ~ q4", data=qob).fit()
-f_q4_solo = float(np.atleast_1d(fs_q4_solo.f_test("q4 = 0").fvalue).flat[0])
+fs_q4_solo = pf.feols("s ~ q4", data=qob)
+f_q4_solo = fs_q4_solo.tstat()['q4'] ** 2  # F = t² for single restriction
 
 # --- Multiple Instruments: Q2 + Q3 + Q4 ---
-fs_multi_solo = smf.ols("s ~ q2 + q3 + q4", data=qob).fit()
-f_multi_solo = float(np.atleast_1d(fs_multi_solo.f_test("q2 = 0, q3 = 0, q4 = 0").fvalue).flat[0])
+fs_multi_solo = pf.feols("s ~ q2 + q3 + q4", data=qob)
+# Joint F-test for multiple instruments (Wald test)
+coefs_m = np.array([fs_multi_solo.coef()['q2'], fs_multi_solo.coef()['q3'], fs_multi_solo.coef()['q4']])
+idx_m = [list(fs_multi_solo.coef().index).index(v) for v in ['q2', 'q3', 'q4']]
+V_m = fs_multi_solo._vcov[np.ix_(idx_m, idx_m)]
+f_multi_solo = float(coefs_m @ np.linalg.inv(V_m) @ coefs_m / 3)
 
 pd.DataFrame({
     "First stage": ["s ~ q4 (single)", "s ~ q2 + q3 + q4 (multiple)"],
@@ -2060,15 +2028,13 @@ pre = did[did["year"] < 2005].copy()
 pre["placebo_post"] = (pre["year"] >= 2000).astype(int)
 pre["placebo_treat_post"] = pre["treated"] * pre["placebo_post"]
 
-placebo_dd = smf.ols(
-    "avg_earnings ~ placebo_treat_post + C(state) + C(year)", data=pre
-).fit(cov_type="cluster", cov_kwds={"groups": pre["state"]})
+placebo_dd = pf.feols("avg_earnings ~ placebo_treat_post | state + year", data=pre, vcov={"CRV1": "state"})
 
 pd.DataFrame({
     "Test": ["Placebo DD (pre-reform only, fake reform at 2000)"],
-    "Coefficient": [f"{placebo_dd.params['placebo_treat_post']:.4f}"],
-    "SE": [f"{placebo_dd.bse['placebo_treat_post']:.4f}"],
-    "p-value": [f"{placebo_dd.pvalues['placebo_treat_post']:.3f}"],
+    "Coefficient": [f"{placebo_dd.coef()['placebo_treat_post']:.4f}"],
+    "SE": [f"{placebo_dd.se()['placebo_treat_post']:.4f}"],
+    "p-value": [f"{placebo_dd.pvalue()['placebo_treat_post']:.3f}"],
 })
 ```
 

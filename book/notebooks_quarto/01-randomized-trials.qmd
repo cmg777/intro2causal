@@ -350,7 +350,7 @@ At first glance, the answer seems obvious. We can look at survey data and compar
 
 ```{python}
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 # Data URL — all datasets are hosted on GitHub
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
@@ -423,15 +423,14 @@ outcomes = ["health", "nonwhite", "age", "education",
 rows = []
 for var in outcomes:
     # Regress each variable on insurance dummy (with survey weights and robust SEs)
-    model = smf.wls(f"{var} ~ insurance", data=nhis, weights=nhis["weight"])
-    result = model.fit(cov_type="HC1")
+    result = pf.feols(f"{var} ~ insurance", data=nhis, weights="weight", vcov="hetero")
 
     # Intercept = uninsured mean; insurance coefficient = difference
     rows.append({
         "Variable": var,
-        "Uninsured mean": round(result.params["Intercept"], 2),
-        "Insured − Uninsured": round(result.params["insurance"], 2),
-        "Std. Error": round(result.bse["insurance"], 2),
+        "Uninsured mean": round(result.coef()["Intercept"], 2),
+        "Insured − Uninsured": round(result.coef()["insurance"], 2),
+        "Std. Error": round(result.se()["insurance"], 2),
     })
 
 pd.DataFrame(rows)
@@ -628,18 +627,15 @@ Before running the full table, let's see what a single balance check looks like.
 d = rand[["age", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
 # Regress age on plan-type dummies (catastrophic = omitted reference group)
-model = smf.ols("age ~ plan_free + plan_deductible + plan_coinsurance", data=d)
-
-# Cluster standard errors by family (family members share the same plan)
-result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+result = pf.feols("age ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
 # Extract key regression results into a clear table
 pd.DataFrame({
-    "Variable": result.params.index,
-    "Coefficient": result.params.round(4).values,
-    "Std. Error": result.bse.round(4).values,
-    "t-statistic": result.tvalues.round(2).values,
-    "p-value": result.pvalues.round(3).values,
+    "Variable": result.coef().index,
+    "Coefficient": result.coef().round(4).values,
+    "Std. Error": result.se().round(4).values,
+    "t-statistic": result.tstat().round(2).values,
+    "p-value": result.pvalue().round(3).values,
 })
 ```
 
@@ -668,22 +664,19 @@ for var in balance_vars:
     d = rand[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
     # Regress baseline variable on plan dummies
-    model = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d)
-
-    # Cluster standard errors by family (family members share the same plan)
-    r = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
     # Extract coefficients and standard errors for each plan comparison
-    coef_free = round(r.params["plan_free"], 2)
-    se_free = round(r.bse["plan_free"], 2)
-    coef_ded = round(r.params["plan_deductible"], 2)
-    se_ded = round(r.bse["plan_deductible"], 2)
-    coef_coin = round(r.params["plan_coinsurance"], 2)
-    se_coin = round(r.bse["plan_coinsurance"], 2)
+    coef_free = round(r.coef()["plan_free"], 2)
+    se_free = round(r.se()["plan_free"], 2)
+    coef_ded = round(r.coef()["plan_deductible"], 2)
+    se_ded = round(r.se()["plan_deductible"], 2)
+    coef_coin = round(r.coef()["plan_coinsurance"], 2)
+    se_coin = round(r.se()["plan_coinsurance"], 2)
 
     rows.append({
         "Variable": var,
-        "Catastrophic mean": round(r.params["Intercept"], 1),
+        "Catastrophic mean": round(r.coef()["Intercept"], 1),
         "Free − Catastrophic": format(coef_free, ".2f") + " (" + format(se_free, ".2f") + ")",
         "Deductible − Catastrophic": format(coef_ded, ".2f") + " (" + format(se_ded, ".2f") + ")",
         "Coinsurance − Catastrophic": format(coef_coin, ".2f") + " (" + format(se_coin, ".2f") + ")",
@@ -720,23 +713,20 @@ for var in use_vars:
     d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
     # Regress outcome on plan dummies — gives causal effects (because of randomization!)
-    model = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d)
-
-    # Cluster standard errors by family (family members share the same plan)
-    r = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
     # Intercept = control group (catastrophic plan) mean
     # Coefficients = causal effect of each plan relative to catastrophic
-    coef_free = int(round(r.params["plan_free"]))
-    se_free = int(round(r.bse["plan_free"]))
-    coef_ded = int(round(r.params["plan_deductible"]))
-    se_ded = int(round(r.bse["plan_deductible"]))
-    coef_coin = int(round(r.params["plan_coinsurance"]))
-    se_coin = int(round(r.bse["plan_coinsurance"]))
+    coef_free = int(round(r.coef()["plan_free"]))
+    se_free = int(round(r.se()["plan_free"]))
+    coef_ded = int(round(r.coef()["plan_deductible"]))
+    se_ded = int(round(r.se()["plan_deductible"]))
+    coef_coin = int(round(r.coef()["plan_coinsurance"]))
+    se_coin = int(round(r.se()["plan_coinsurance"]))
 
     rows.append({
         "Outcome": var,
-        "Catastrophic mean": int(round(r.params["Intercept"])),
+        "Catastrophic mean": int(round(r.coef()["Intercept"])),
         "Free effect": str(coef_free) + " (" + str(se_free) + ")",
         "Deductible effect": str(coef_ded) + " (" + str(se_ded) + ")",
         "Coinsurance effect": str(coef_coin) + " (" + str(se_coin) + ")",
@@ -782,22 +772,19 @@ for var in health_vars:
     d = health[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
 
     # Regress health outcome on plan dummies
-    model = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d)
-
-    # Cluster standard errors by family (family members share the same plan)
-    r = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
     # Extract coefficients and standard errors
-    coef_free = round(r.params["plan_free"], 2)
-    se_free = round(r.bse["plan_free"], 2)
-    coef_ded = round(r.params["plan_deductible"], 2)
-    se_ded = round(r.bse["plan_deductible"], 2)
-    coef_coin = round(r.params["plan_coinsurance"], 2)
-    se_coin = round(r.bse["plan_coinsurance"], 2)
+    coef_free = round(r.coef()["plan_free"], 2)
+    se_free = round(r.se()["plan_free"], 2)
+    coef_ded = round(r.coef()["plan_deductible"], 2)
+    se_ded = round(r.se()["plan_deductible"], 2)
+    coef_coin = round(r.coef()["plan_coinsurance"], 2)
+    se_coin = round(r.se()["plan_coinsurance"], 2)
 
     rows.append({
         "Health Measure": var,
-        "Catastrophic mean": round(r.params["Intercept"], 1),
+        "Catastrophic mean": round(r.coef()["Intercept"], 1),
         "Free effect": format(coef_free, ".2f") + " (" + format(se_free, ".2f") + ")",
         "Deductible effect": format(coef_ded, ".2f") + " (" + format(se_ded, ".2f") + ")",
         "Coinsurance effect": format(coef_coin, ".2f") + " (" + format(se_coin, ".2f") + ")",
@@ -1004,7 +991,7 @@ Copy this code into a Python notebook to reproduce the key results from this cha
 # Chapter 1: Randomized Trials — Code Cheatsheet
 # ============================================================
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
@@ -1014,34 +1001,30 @@ print("Average health by insurance status:")
 print(nhis.groupby("insurance")["health"].mean().round(2))
 
 # --- Step 2: Regression on a dummy (difference in means + standard error) ---
-model = smf.ols("health ~ insurance", data=nhis)
-result = model.fit(cov_type="HC1")
+result = pf.feols("health ~ insurance", data=nhis, vcov="hetero")
 print("\nHealth ~ Insurance:")
-print(result.summary().tables[1])
+print(result.summary())
 
 # --- Step 3: Balance check (RAND HIE — did randomization work?) ---
 rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
 d = rand[["age", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-model = smf.ols("age ~ plan_free + plan_deductible + plan_coinsurance", data=d)
-result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+result = pf.feols("age ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 print("\nBalance check — Age across plan groups:")
-print(result.summary().tables[1])
+print(result.summary())
 
 # --- Step 4: Causal effect of free insurance on spending ---
 hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 d = hie[["total_expenses", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-model = smf.ols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d)
-result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+result = pf.feols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 print("\nCausal effect on total spending:")
-print(result.summary().tables[1])
+print(result.summary())
 
 # --- Step 5: Causal effect on health (the RAND paradox: no effect!) ---
 health = pd.read_csv(DATA + "ch1/rand_health_outcomes.csv")
 d = health[["health_index", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-model = smf.ols("health_index ~ plan_free + plan_deductible + plan_coinsurance", data=d)
-result = model.fit(cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+result = pf.feols("health_index ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 print("\nCausal effect on health (expect: no significant effect):")
-print(result.summary().tables[1])
+print(result.summary())
 ```
 
 ::: {.callout-tip}
@@ -1274,7 +1257,7 @@ The correct conclusion connects both experiments from the chapter: more generous
 
 # --- Load data ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 rand = pd.read_csv(DATA + "ch1/rand_balance.csv")
 
@@ -1284,14 +1267,13 @@ rows = []
 for var in ["age", "education", "health_index"]:
     d = rand[[var, "any_insurance", "family_id"]].dropna()
     # OLS with clustered SEs at the family level
-    r = smf.ols(f"{var} ~ any_insurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    r = pf.feols(f"{var} ~ any_insurance", data=d, vcov={"CRV1": "family_id"})
     rows.append({
         "Variable": var,
-        "Catastrophic mean": round(r.params["Intercept"], 1),  # control group mean
-        "Any ins. difference": round(r.params["any_insurance"], 2),  # treatment-control gap
-        "SE": round(r.bse["any_insurance"], 2),
-        "t-stat": round(r.tvalues["any_insurance"], 2),  # difference / SE
+        "Catastrophic mean": round(r.coef()["Intercept"], 1),  # control group mean
+        "Any ins. difference": round(r.coef()["any_insurance"], 2),  # treatment-control gap
+        "SE": round(r.se()["any_insurance"], 2),
+        "t-stat": round(r.tstat()["any_insurance"], 2),  # difference / SE
     })
 
 pd.DataFrame(rows)
@@ -1335,11 +1317,10 @@ rows = []
 for var in ["visits", "outpatient_expenses", "admissions", "inpatient_expenses", "total_expenses"]:
     d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
     # OLS with plan dummies; clustered SEs at the family level
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+    r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
-    cat_mean = r.params["Intercept"]       # intercept = catastrophic plan mean (reference group)
-    free_effect = r.params["plan_free"]     # coefficient = absolute increase from free plan
+    cat_mean = r.coef()["Intercept"]       # intercept = catastrophic plan mean (reference group)
+    free_effect = r.coef()["plan_free"]     # coefficient = absolute increase from free plan
     pct_increase = (free_effect / cat_mean) * 100  # express as percentage of baseline
 
     rows.append({
@@ -1396,12 +1377,12 @@ for gender in ["husband", "wife"]:
     subset = nhis[nhis["gender"] == gender]  # split sample by gender
     for var in ["health", "education", "family_income"]:
         # WLS with survey weights; HC1 robust standard errors
-        r = smf.wls(f"{var} ~ insurance", data=subset, weights=subset["weight"]).fit(cov_type="HC1")
+        r = pf.feols(f"{var} ~ insurance", data=subset, weights="weight", vcov="hetero")
         rows.append({
             "Gender": gender,
             "Variable": var,
-            "Difference (Ins - Unins)": round(r.params["insurance"], 2),  # coefficient = gap
-            "SE": round(r.bse["insurance"], 2),
+            "Difference (Ins - Unins)": round(r.coef()["insurance"], 2),  # coefficient = gap
+            "SE": round(r.se()["insurance"], 2),
         })
 
 pd.DataFrame(rows)
@@ -1442,27 +1423,26 @@ foreach g in husband wife {
 
 # --- Load data ---
 import pandas as pd
-import statsmodels.formula.api as smf
+import pyfixest as pf
 
 hie = pd.read_csv(DATA + "ch1/rand_utilization.csv")
 
 # --- Regression with three plan dummies ---
 d = hie[["total_expenses", "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-r = smf.ols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-    cov_type="cluster", cov_kwds={"groups": d["family_id"]})
+r = pf.feols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
 
 # --- Extract and rank coefficients by plan generosity ---
 pd.DataFrame({
     "Plan": ["Free (most generous)", "Coinsurance (medium)", "Deductible (least generous)"],
-    "Effect vs. catastrophic": [round(r.params["plan_free"]),
-                                 round(r.params["plan_coinsurance"]),
-                                 round(r.params["plan_deductible"])],
-    "SE": [round(r.bse["plan_free"]),
-           round(r.bse["plan_coinsurance"]),
-           round(r.bse["plan_deductible"])],
-    "t-stat": [round(r.tvalues["plan_free"], 2),
-               round(r.tvalues["plan_coinsurance"], 2),
-               round(r.tvalues["plan_deductible"], 2)],
+    "Effect vs. catastrophic": [round(r.coef()["plan_free"]),
+                                 round(r.coef()["plan_coinsurance"]),
+                                 round(r.coef()["plan_deductible"])],
+    "SE": [round(r.se()["plan_free"]),
+           round(r.se()["plan_coinsurance"]),
+           round(r.se()["plan_deductible"])],
+    "t-stat": [round(r.tstat()["plan_free"], 2),
+               round(r.tstat()["plan_coinsurance"], 2),
+               round(r.tstat()["plan_deductible"], 2)],
 })
 ```
 
@@ -1508,10 +1488,9 @@ price_drop = 0.95
 rows = []
 for var, label in [("outpatient_expenses", "Outpatient"), ("inpatient_expenses", "Inpatient")]:
     d = hie[[var, "plan_free", "plan_deductible", "plan_coinsurance", "family_id"]].dropna()
-    r = smf.ols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d).fit(
-        cov_type="cluster", cov_kwds={"groups": d["family_id"]})
-    cat_mean = r.params["Intercept"]        # catastrophic group mean (baseline spending)
-    free_effect = r.params["plan_free"]      # absolute increase from free plan
+    r = pf.feols(f"{var} ~ plan_free + plan_deductible + plan_coinsurance", data=d, vcov={"CRV1": "family_id"})
+    cat_mean = r.coef()["Intercept"]        # catastrophic group mean (baseline spending)
+    free_effect = r.coef()["plan_free"]      # absolute increase from free plan
     pct_change_q = free_effect / cat_mean    # percentage change in quantity
     elasticity = pct_change_q / price_drop   # arc elasticity of demand
 
