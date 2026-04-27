@@ -1133,13 +1133,13 @@ This chapter has applied **all five methods** from the book to a single question
 
 : The equation behind each method {.striped}
 
-| Method | Chapter | Key Assumption | What It Estimates | Used Here? |
-|:---|:---:|:---|:---|:---:|
-| **RCT** | 1 | Random assignment | ATE | Synthetic demo |
-| **Regression** | 2 | Observable confounders only | Conditional average | Yes (OLS baseline) |
-| **IV / 2SLS** | 3 | Valid instrument | LATE (compliers) | Yes (twins, QOB, child labor) |
-| **RD** | 4 | Smooth running variable | Local effect at cutoff | Yes (sheepskin) |
-| **DD** | 5 | Parallel trends | ATT | Synthetic demo |
+| Method | Key Assumption | What It Estimates | Main Threat | Used Here? |
+|:---|:---|:---|:---|:---:|
+| **1. RCT** | Random assignment | ATE | Non-compliance | Synthetic demo |
+| **2. Regression** | Observable confounders only | Conditional average | OVB (ability bias) | Yes (OLS baseline) |
+| **3. IV / 2SLS** | Valid instrument | LATE (compliers) | Weak/invalid instrument | Yes (twins, QOB, child labor) |
+| **4. RD** | Smooth running variable | Local effect at cutoff | Limited generalizability | Yes (sheepskin) |
+| **5. DD** | Parallel trends | ATT | Pre-trend violation | Synthetic demo |
 
 : The Furious Five methods and their role in estimating returns to schooling {.striped}
 
@@ -1365,23 +1365,28 @@ Copy the code above into a `.do` file and run it in Stata 14 or later (which sup
 
 The **Furious Five** are the five core methods of causal inference covered in *Mastering 'Metrics*. Each method tackles the same fundamental problem --- separating cause from correlation --- but relies on a different source of identifying variation and a different key assumption.
 
-| # | Method | Chapter | Key Assumption | What It Estimates |
-|:---:|:---|:---:|:---|:---|
-| 1 | **Randomized Trial (RCT)** | 1 | Random assignment of treatment | ATE (Average Treatment Effect) |
-| 2 | **Regression (OLS)** | 2 | All confounders are observed and controlled | Conditional average effect |
-| 3 | **Instrumental Variables (IV)** | 3 | A valid instrument affects treatment but not outcome directly | LATE (effect for compliers) |
-| 4 | **Regression Discontinuity (RD)** | 4 | Individuals cannot manipulate the running variable | Local effect at the cutoff |
-| 5 | **Differences-in-Differences (DD)** | 5 | Treated and control groups follow parallel trends | ATT (effect on the treated) |
+| Method | Key Assumption | What It Estimates | Main Threat |
+|:---|:---|:---|:---|
+| **1. RCT** | Random assignment of treatment | ATE (Average Treatment Effect) | Non-compliance, spillovers |
+| **2. Regression (OLS)** | All confounders observed and controlled | Conditional average effect | Omitted variable bias |
+| **3. IV / 2SLS** | Valid instrument (relevance + exclusion) | LATE (effect for compliers) | Weak or invalid instrument |
+| **4. RD** | No manipulation of running variable | Local effect at the cutoff | Limited external validity |
+| **5. DD** | Parallel trends absent treatment | ATT (effect on the treated) | Pre-trend differences |
 
 : The Furious Five: one question, five strategies {.striped}
 
-**How to interpret each estimate:**
+::: {.callout-tip collapse="true"}
+### pyfixest syntax and intuitive analogies for each method
 
-- **RCT:** The gold standard. If treatment is randomly assigned, a simple comparison of means gives the causal effect. No controls needed.
-- **Regression:** Controls for observable differences, but any unobserved confounder (like ability) biases the estimate. Useful as a baseline, never as the final word.
-- **IV:** Uses an external source of variation (an instrument) that shifts treatment but is unrelated to the outcome. Recovers the causal effect for *compliers* --- the subpopulation whose treatment was actually changed by the instrument.
-- **RD:** Compares observations just above and just below a cutoff. Gives a credible causal estimate *at the cutoff*, but may not generalize to individuals far from the threshold.
-- **DD:** Compares changes over time between a treated and control group. Identifies the causal effect *if* both groups would have followed the same trend absent treatment (the parallel trends assumption).
+| Method | pyfixest Syntax | Intuitive Analogy |
+|:---|:---|:---|
+| **RCT** | `group_means = df.groupby("D")["Y"].mean()` | A coin flip decides who gets the medicine --- any difference in health *must* be caused by it |
+| **OLS** | `pf.feols("Y ~ D + X", data=df, vcov="hetero")` | Adjusting marathon times for weather and elevation --- helpful if you measure *everything*, but miss one factor and the comparison is off |
+| **IV** | `pf.feols("Y ~ 1 \| D ~ Z", data=df, vcov="hetero")` | Using rainfall to study how carrying an umbrella affects your mood --- rain shifts umbrella use but does not directly change mood |
+| **RD** | `pf.feols("Y ~ D * score", data=df, vcov="hetero")` | Comparing students who scored 59 vs. 61 on a pass/fail exam --- nearly identical except for the credential |
+| **DD** | `pf.feols("Y ~ treat_post \| group + time", data=df, vcov={"CRV1": "group"})` | Two cities track the same crime trend until one adopts a new policy --- the divergence is the causal effect |
+
+:::
 
 **When the Furious Five agree, we gain confidence.** No single method is bulletproof, but when multiple methods --- each with different data, assumptions, and potential biases --- all point to a similar answer, the finding becomes much more credible. This chapter showed exactly that: the true causal return to schooling is about **7--10% per year**, confirmed across all five methods.
 
