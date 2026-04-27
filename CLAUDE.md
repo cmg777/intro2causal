@@ -30,8 +30,7 @@ This is a **pedagogical causal inference project** built around *Mastering 'Metr
 
 - **Python 3.12+** with `uv` for package management
 - **Quarto** for rendering `.qmd` → `.html`
-- **statsmodels** (`smf.ols`, `smf.wls`) for OLS, WLS, clustered SEs
-- **linearmodels** (`IV2SLS.from_formula`) for instrumental variables / 2SLS
+- **pyfixest** (`pf.feols`) for all regression analysis — OLS, WLS, IV/2SLS, and panel data with fixed effects
 - **matplotlib** + **seaborn** for plots
 - **pandas** for data manipulation
 
@@ -64,7 +63,7 @@ for f in notebooks_quarto/*.qmd; do uv run quarto render "$f"; done
 - **Data loading**: Use GitHub raw URLs for self-contained notebooks: `GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"` then `pd.read_csv(GITHUB_DATA_URL + "chN/filename.csv")`. Followed by `df.head(3)`. No `code-fold`, no `#| label:`, no `#| tbl-cap:` on load blocks.
 - **Analysis code**: Always visible (never folded). Must have `#| label: tbl-*` or `fig-*` and `#| tbl-cap:` or `fig-cap:`. Must include `#` comments explaining each step.
 - **Equations**: Use standard math notation ($Y$, $D$, $\rho$) with an explicit bridge to the code variable names in surrounding text (e.g., "where $Y_{st}$ is the death rate (`mrate`)").
-- **Regression**: Use `smf.ols()` / `smf.wls()` for OLS. Use `IV2SLS.from_formula()` for IV. Always specify `cov_type` for robust or clustered SEs.
+- **Regression**: Use `pf.feols()` for all regressions (OLS, WLS, IV/2SLS, panel FE). Always specify `vcov=` for robust (`"hetero"`) or clustered (`{"CRV1": "var"}`) SEs. Use `| fe_var` for absorbed fixed effects. Use `| endogenous ~ instrument` for IV.
 - **Copyright**: All text must be original paraphrases — never copy from the book. Create new examples instead of using the book's character names.
 
 ### Mermaid Diagrams (critical rules)
