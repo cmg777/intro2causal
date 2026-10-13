@@ -1,0 +1,75 @@
+Use case: scientific-educational.
+Asset type: a standalone illustrated chapter mind map for the opening slide of Mastering Causal Metrics.
+Create one beautiful finished 16:9 landscape PNG image, ideally 3840 x 2160 pixels. English. Audience: first-year students new to econometrics. Concise overview, a few equations and real numerical findings. This is part of the same series as a Chapter 1 mind map: deep navy canvas, central hand-ink outlined circle, six organic colored branches, clean typeset labels, richly drawn small educational vignettes.
+
+Backdrop: flat deep navy #0f172a edge to edge.
+Palette: cyan #38bdf8, lavender #a78bfa, emerald #34d399; near-white #f1f5f9 body text and muted slate #94a3b8 secondary labels. No other dominant hues. No gradients or glow effects.
+Style: beautiful hand-drawn pen-and-ink illustrations with fine white and colored contours, light crosshatching and restrained translucent ink fills. Drawings have human character, detail, and explanatory value. Combine this with clear, professionally typeset Inter-like sans-serif typography. Text must be large, legible, and correctly spelled. Friendly but refined editorial design.
+Layout: a compact dominant circle in the middle with the chapter number, chapter title, motivating question, and a small central illustration. Six main curved branches radiate to the upper-left, left, lower-left, upper-right, right, lower-right. Each branch ends at a readable concept heading and short connected leaf labels. Small explanatory sketches beside headings. True radial topology, generous breathing room, clear hierarchy, balanced visual weight, substantial safe margins. No rectangular panels or card grid. Do not cross text with branch lines. Keep short labels adjacent to their illustration and branch.
+Content instructions: the quoted chapter and branch labels below are exact text to render. Other instructions, positioning, palette names, and descriptions of illustrations are not text to render. Do not add unrequested explanatory sentences or invented data. The drawings may use only the explicitly authorized short labels. Avoid duplicated words, clipped content, tiny footnotes, watermarks, logos, and a footer.
+
+Central text:
+"CHAPTER 4"
+"Regression Discontinuity"
+"Can a cutoff reveal"
+"a causal effect?"
+Central illustration: two similar young adults standing on either side of a threshold gate, with a small sign "21".
+
+Upper-left, cyan:
+"A rule creates a threshold"
+"Running variable: age or score"
+"Cutoff switches eligibility"
+"Compare people near the line"
+Drawing: a ruler crossing the legal drinking age at "21" and two near-identical people on either side; no bottles implying consumption is guaranteed.
+
+Left, lavender:
+"The continuity assumption"
+"Without treatment: a smooth trend"
+"No other change at the cutoff"
+"Check for sorting or manipulation"
+Drawing: a smooth curved ink line across a dotted cutoff, with a magnifying glass examining the region around it.
+
+Lower-left, cyan:
+"Estimate the jump"
+"Plot first; fit each side"
+"Effect = gap at the cutoff"
+"Local effect near the threshold"
+Drawing: an actual schematic RD plot with running variable on the horizontal axis, two fitted lines and scattered points on separate sides, a vertical dashed cutoff, and the vertical gap labeled "Effect". Do not draw a single continuous fit across the treatment jump. No fabricated numerical data labels.
+
+Upper-right, lavender:
+"Sharp versus fuzzy"
+"Sharp: treatment switches fully"
+"Fuzzy: treatment probability jumps"
+"Fuzzy RD = outcome jump ÷ treatment jump"
+Drawing: two mini step sketches: a complete eligibility step labeled "Sharp", and a partial uptake step labeled "Fuzzy". Show discontinuities at the same schematic cutoff. Do not label fuzzy outcome jump as the IV effect before scaling.
+
+Right, emerald:
+"Legal drinking at 21"
+"~7.7 extra deaths per 100,000"
+"Main channel: road accidents"
+"Internal causes: no clear jump"
+Drawing: a road and car near an age-21 sign, with a small mortality step chart. No graphic injury or bodies. Label "21" only if needed.
+
+Lower-right, emerald:
+"Stress-test the design"
+"Vary bandwidth and trends"
+"Use placebo outcomes"
+"Exam schools: peers improve"
+"No clear achievement jump"
+Drawing: a magnifying glass around a narrower versus wider cutoff window and a school entrance with an exam-score threshold. Two short auxiliary sketch labels allowed: "Peers" and "Achievement".
+Scientific constraints: the mortality finding concerns legal access at age 21, not simply self-reported drinking. Effects are local and depend on continuity. Smoothness is about untreated potential outcomes. Exam-school evidence distinguishes the jump in peer quality from absence of clear test-score gains. Placebo checks support but do not prove validity.
+
+REFINEMENT PROMPT USED FOR THE SELECTED OUTPUT:
+Edit only two small parts of the attached Chapter 4 mind map, preserving the entire composition, central circle, all six branches, typography, navy background, book colors and all main text exactly.
+1. In the car/road drawing in "Legal drinking at 21", replace the sign reading "SPEED LIMIT 21" with a sign reading "AGE 21". This is an age threshold, never a speed limit.
+2. In the schematic scatterplot beside "Estimate the jump", keep the axes and cutoff, but redraw the green right-side scatter and fitted line so its value immediately to the right of the cutoff is ABOVE the cyan fitted line's value immediately to the left. Show a positive vertical discontinuity. The "Effect" brace must span the two fitted values exactly at the same dashed cutoff. Both fits can slope gently upward, but must be separate; no connecting continuous line. Maintain plot size and leave labels readable.
+Everything else unchanged, including the positive mortality step sketch at right and all numeric findings. Do not add objects or extra text.
+
+FINAL CORRECTION PROMPT:
+Keep this Chapter 4 image unchanged except the small bottom-left "Estimate the jump" scatterplot. ERASE the existing plotted points, fitted lines and misplaced Effect brace, preserving axes, the dashed cutoff, the branch heading and the three bullet labels. Redraw this as the simplest correct POSITIVE RD discontinuity:
+- CYAN LEFT fitted segment must be HORIZONTAL at a LOW outcome level, ending at the dashed cutoff.
+- GREEN RIGHT fitted segment must be HORIZONTAL at a HIGHER outcome level, starting at the same cutoff and extending right.
+- There must be a LARGE clearly visible upward gap at the cutoff: the green segment is about 60 pixels ABOVE the cyan segment in the rendered drawing.
+- A vertical white double-headed arrow exactly on the cutoff spans the LOW cyan endpoint to the HIGH green endpoint, with "Effect" next to it.
+- A few cyan points scatter just above/below the LOW left segment, a few green points just above/below the HIGH right segment.
+No sloping fitted lines. Do not reuse the previous graph. No disconnected brace above the lines. All other text, diagrams, the AGE 21 sign, colors and page layout must remain unchanged. This is a schematic illustrating a positive treatment effect, with no numerical graph ticks or invented data.

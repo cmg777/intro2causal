@@ -1,0 +1,154 @@
+ECONOMETRIC AND VISUAL AUDIT — CHAPTER MIND MAPS
+Date: 13 October 2026
+Recommended set: mindmaps/images/ch01…ch06-*-v2.png
+Originals: v1 images and archive deleted at the user's request after this audit.
+Image revisions: built-in image generation. No code-based raster editing was used.
+
+OUTCOME
+All six maps were inspected, revised where necessary, and inspected again. The v2 set is suitable as a concise introductory overview, with the qualifications below. This is a review of equations, identification language, graphical logic and selected numerical claims; it is not proof that every empirical identifying assumption holds.
+
+Some v1 content was already correct. In particular, the final v1 main parallel-trend diagrams in Chapters 5 and 6 had parallel horizontal pre-trends. The audit preserved that logic, checked it again after edits, and corrected other problems. A schematic need not have parallel observed treatment and control trends AFTER treatment; parallel trends concerns their untreated potential outcomes.
+
+CHAPTER 1 — RANDOMIZED TRIALS
+Revisions:
+- Qualified the difference-in-means identity: it is the coefficient on binary treatment in a regression with an intercept and no additional controls.
+- Specified ATT in the selection-bias decomposition. The exact population identity is:
+  E[Y|D=1] - E[Y|D=0]
+  = E[Y(1)-Y(0)|D=1]
+  + E[Y(0)|D=1] - E[Y(0)|D=0].
+  This decomposition does not generally substitute ATE for ATT.
+- Retained the individual effect Y(1)-Y(0). These are two potential outcomes for the SAME person, not outcomes of two different people.
+- Labeled the confidence interval as a large-sample approximation: estimate ± 1.96 × SE. The v1 ±2×SE was an acceptable rule of thumb, rather than an algebra error. Finite-sample critical values and alternative inferential methods can differ.
+- The final interval is symmetric around its estimate within the drawing's stroke tolerance.
+- Replaced decorative spending/time traces with a labeled plan comparison rather than invented empirical series. Stated free care relative to catastrophic coverage.
+- Qualified the RAND average-health finding with benefits for some poor, sick participants.
+- Scoped Oregon's null physical-health finding to measured outcomes at two years, while preserving mental-health and financial benefits.
+Checked:
+- Random assignment balances baseline traits in expectation, not perfectly in every realized sample.
+- ITT compares lottery assignment groups, not groups chosen by treatment received.
+- Nonsignificance does not establish a zero effect.
+Sources: book/notebooks_quarto/01-randomized-trials.qmd; data/ch1/rand_utilization.csv.
+Primary empirical checks:
+https://www.rand.org/pubs/research_briefs/RB9174.html
+https://pubmed.ncbi.nlm.nih.gov/23635051/
+
+CHAPTER 2 — REGRESSION
+Substantive visual errors corrected:
+- The v1 OVB illustration incorrectly pointed College choice → Omitted trait → Earnings. A pre-treatment confounder should point to BOTH college choice and earnings. The v2 diagram has that fork plus the possible college-to-earnings treatment channel.
+- A continuous scatter on P was incompatible with P being a binary private-college indicator. Replaced it with two fitted conditional means at P=0 and P=1, holding X fixed. These are schematic fitted means, not an empirical scatterplot.
+Clarifications:
+- Used γ′X for a vector of controls in the main model.
+- Added overlap and suitable specification beside conditional independence. CIA alone does not guarantee that an arbitrary linear coefficient equals the desired causal effect.
+- Kept the single-omitted-variable identity βshort−βlong = π1×γ. With other included controls, π1 refers to the treatment coefficient in the auxiliary regression of the omitted variable on treatment AND those included controls. With multiple omitted variables, the corresponding expression is a sum/vector product.
+- γ is the omitted variable's coefficient in the long regression, not automatically its causal effect.
+- “Raw earnings gap need not be causal” avoids the false universal claim that the raw gap must numerically differ from a causal effect.
+- The College → Occupation → Earnings drawing correctly depicts a mediator. Adjusting for occupation changes or blocks the total-effect pathway; it is not a suitable automatic control for the total schooling effect.
+- Stable specifications are reassuring, not proof against remaining confounding.
+The ~14%, ~7%, near-zero private-premium labels were checked against the chapter summary, not independently re-estimated: the underlying College and Beyond microdata are not in this repository. These are study-specific average findings, not a universal zero benefit or a net tuition-return calculation.
+Sources: book/notebooks_quarto/02-regression.qmd; mindmaps/ch02-regression.md.
+Selected primary context:
+https://www.nber.org/papers/w7322
+
+CHAPTER 3 — INSTRUMENTAL VARIABLES
+Revisions:
+- Exclusion now says Y changes only through D. This excludes OTHER indirect pathways too, not merely a direct Z→Y arrow.
+- Added controls to BOTH 2SLS stages. Standard 2SLS uses the same exogenous controls and instrument-driven treatment projection; ordinary second-stage OLS standard errors from a hand-built fitted regressor are inadequate.
+- Explicitly scoped the simple Wald/LATE statement to binary Z and D. Under relevance, independence, exclusion, monotonicity and stable treatment/no interference, it identifies the complier effect. Continuous treatments can require an average causal-response interpretation instead.
+- Added stable treatments/no spillovers and retained monotonicity/no defiers.
+- Specified the KIPP effect's per-year/complier interpretation, as used in the chapter.
+Checked:
+- Compliers: D(0)=0, D(1)=1.
+- Always-takers: D(0)=D(1)=1.
+- Never-takers: D(0)=D(1)=0.
+- The first stage is a DIFFERENCE in treatment probabilities, not the enrollment share among winners.
+- 0.355 / 0.741 = 0.4790823, rounding to 0.48 SD.
+- The blocked bypass, sequential 2SLS direction and Minneapolis police-study illustration are consistent.
+KIPP figures were checked arithmetically and against chapter content; KIPP microdata are absent. No clear schooling harm from family-size IV is a study-specific finding, not proof that family size never matters.
+Sources: book/notebooks_quarto/03-instrumental-variables.qmd.
+Primary identification references:
+https://www.nber.org/papers/t0136
+https://www.nber.org/papers/t0127
+
+CHAPTER 4 — REGRESSION DISCONTINUITY
+Substantive visual error corrected:
+- v1 narrower/wider bandwidth indicators occupied different sides of the cutoff. v2 has two nested symmetric windows centered on the SAME threshold.
+Revisions and checks:
+- Sharp and fuzzy steps explicitly show Pr(D=1). Sharp switches 0→1; fuzzy makes a partial probability jump within [0,1].
+- The positive outcome jump is measured between left/right fitted limits at the SAME cutoff.
+- Continuity concerns potential outcomes and other outcome determinants, not a guarantee that every observed characteristic is identical.
+- Fuzzy RD is outcome jump divided by treatment-probability jump, subject to local RD/IV assumptions. Its treatment effect applies locally to compliers.
+- Replaced decorative peer/achievement bars with a peer-quality jump and a smooth achievement sketch.
+- The age-21 road sign indicates an AGE threshold, not speed.
+- Bandwidth and placebo checks support a design; they cannot prove its assumptions.
+Sources: book/notebooks_quarto/04-regression-discontinuity.qmd; data/ch4/mlda_clean.csv.
+Primary methodological reference:
+https://www.nber.org/papers/w14723
+
+CHAPTER 5 — DIFFERENCES-IN-DIFFERENCES
+Revisions:
+- Made the DD-effect arrow terminate on actual treated and its untreated counterfactual at a common post-treatment time.
+- Preserved equal horizontal pre-treatment slopes, different starting levels, and a counterfactual originating at the treated policy-date level. After policy, that untreated counterfactual stays parallel to control while actual treatment rises.
+- Specified the basic two-group/two-period model:
+  Ygt = αg + λt + δ(Treatedg × Postt) + egt.
+  The scalar equation has group/time effects; it is not a claim that all staggered-adoption TWFE specifications identify ATT.
+- Added no anticipation/spillovers, the limits of pre-trend evidence, and a staggered-adoption caution.
+- Clarified clustering at the assignment-group level.
+- Clarified that the mortality magnitude refers to moving the legal-access share from 0 to 1 for ages 18–20. A 1-percentage-point share increase is only 0.01 times that coefficient.
+Checked:
+- DD = (treated post−pre) − (control post−pre).
+- Equal baseline levels are unnecessary.
+- Group FE remove fixed differences; time FE remove common shocks. They do not remove arbitrary time-varying confounding.
+- Main diagram is a schematic, not a plot of the Mississippi bank data. Bank counts can decline in both districts while DD is positive.
+- Across the three local mortality specifications, coefficients range from 8.4666 to 12.4125. Not every specification is significant at 5%: the state-trend version has t≈1.73. The image does not claim universal significance.
+Sources: book/notebooks_quarto/05-differences-in-differences.qmd; data/ch5/banks_clean.csv; data/ch5/deaths_clean.csv.
+Primary methodological context:
+https://arxiv.org/abs/1803.09015
+https://www.nber.org/papers/w32117
+
+CHAPTER 6 — THE WAGES OF SCHOOLING
+Substantive correction:
+- The per-year DD return uses log earnings, not dollar earnings:
+  rho ≈ DD ln(earnings) / DD schooling.
+  A dollar-earnings ratio has units dollars/year, not a proportional return/year.
+- Added the exclusion requirement that the reform affects earnings only via schooling. Parallel trends alone is insufficient for interpreting the ratio as a schooling effect; a nonzero schooling first stage is also necessary. Under heterogeneous effects, the target may be a policy-specific causal response.
+Revisions:
+- Twins eliminate shared components, not all unshared differences. Co-twin IV requires reporting-error independence and the other IV exogeneity conditions. “IV correction” replaces the promise of a perfectly clear measurement.
+- Birth quarter and school rules/laws are joint inputs. A plus sign replaces the misleading birth-quarter→law arrow.
+- Kept the ~13% schooling-law estimate explicitly uncertain/weak-first-stage.
+- Named diploma RD as FUZZY and local to near-pass students. It targets a credential effect, not the return to an extra year.
+- The diploma probability sketch has a partial ~0.4 jump on a 0–1 axis, with a same-cutoff effect marker; illustrative levels are not claimed as actual empirical probabilities.
+- Correctly retained parallel DD pre-trends, a treated counterfactual above control and the log-earnings axis.
+- Marked the synthetic lottery as RCT + IV: randomized offers followed by noncompliance need IV to estimate a per-year return.
+- Marked the RD method box as diploma RD, preserving different estimands across methods.
+- Labeled percent returns as approximations from log coefficients. Exact percentage change under a log-linear model is 100×(exp(rho)−1), not exactly 100×rho.
+The chapter's ~7–10% synthesis is neither a pooled re-estimated parameter nor a guaranteed return for every individual. The diploma result does not establish that every credential has no value or that signaling is absent everywhere.
+Sources: book/notebooks_quarto/06-wages-of-schooling.qmd; data/ch6/*.csv.
+Primary diploma-study reference:
+https://www.journals.uchicago.edu/doi/abs/10.1086/675238
+
+NUMERICAL CHECKS RECOMPUTED FROM LOCAL DATA
+RAND: free-care spending coefficient 285.3162; catastrophic mean 635.7196; ratio 44.8808%.
+Age-21 all-cause RD: 7.6627 deaths per 100,000; robust SE 1.5142.
+Bank DD from 1930 baseline: 1931=19; 1932=23; 1933=21; 1934=23.
+Twin FE: 0.0617006 log points/year; robust SE 0.0197830.
+Twin IV, differences: 0.1075312; robust SE 0.0340519.
+Birth-quarter IV: first stage 0.0921209 years; reduced form 0.00681316 log points; ratio 0.0739589/year.
+School-law IV: 0.1288298 log points/year; state-of-birth clustered SE 0.0371497.
+MLDA DD: unweighted 10.8041; state trends 8.4666; population weighted 12.4125.
+Diploma probability RD: weighted separate-side quartic jump 0.4168649 (41.69 pp); robust SE 0.0113038.
+KIPP arithmetic: 0.355/0.741=0.4790823.
+Full numerical results: numerical-checks.json. Estimates use the local chapter specifications; the additional diploma calculation uses a weighted separate-side quartic on local cells. This is a selected replication, not a complete independent reproduction of every paper.
+
+FINAL GEOMETRY CHECKS
+Measured raster coordinates in the final PNGs, without changing image pixels:
+- Chapter 5 main DD pre-trends: treated sampled at y=545; control ~y=588; separation drift 0.5 px.
+- Chapter 6 main DD pre-trends: treated sampled at y=529; control ~y=577–577.5; separation drift 0.5 px.
+- Chapter 1 CI: endcap bounds x=39,252; midpoint x=145.5; dot center x=148.5. Offset 3 px on a ~213 px interval, within hand-ink/raster tolerance.
+- Additional manual checks: arrow directions, binary predictor locations, RD same-cutoff limits, nested bandwidths, probability bounds/step size, same-time DD effect markers and distinction between studies and schematics.
+Detailed measurements: geometry-checks.json.
+Geometric tolerances reflect hand-drawn strokes; they are not tolerances for mathematical identities.
+
+LIMITS AND USE
+These are conceptual teaching schematics, not empirical fitted plots. They summarize selected assumptions; they are not substitutes for the full designs, uncertainty estimates or diagnostic work. Visual parallel pre-trends do not prove parallel untreated trends after intervention. Exclusion and absence of spillovers remain substantive assumptions.
+The book/slide source files were not edited, and the v2 images were not automatically inserted. Use v2 for subsequent slide/book integration. The v1 images and archive were deleted at the user's request after this audit.
+

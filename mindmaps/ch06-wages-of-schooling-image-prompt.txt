@@ -1,0 +1,77 @@
+Use case: scientific-educational.
+Asset type: a standalone illustrated chapter mind map for the opening slide of Mastering Causal Metrics.
+Create one beautiful finished 16:9 landscape PNG image, ideally 3840 x 2160 pixels. English. Audience: first-year students new to econometrics. Concise overview, a few equations and real numerical findings. This is part of the same series as a Chapter 1 mind map: deep navy canvas, central hand-ink outlined circle, six organic colored branches, clean typeset labels, richly drawn small educational vignettes.
+
+Backdrop: flat deep navy #0f172a edge to edge.
+Palette: cyan #38bdf8, lavender #a78bfa, emerald #34d399; near-white #f1f5f9 body text and muted slate #94a3b8 secondary labels. No other dominant hues. No gradients or glow effects.
+Style: beautiful hand-drawn pen-and-ink illustrations with fine white and colored contours, light crosshatching and restrained translucent ink fills. Drawings have human character, detail, and explanatory value. Combine this with clear, professionally typeset Inter-like sans-serif typography. Text must be large, legible, and correctly spelled. Friendly but refined editorial design.
+Layout: a compact dominant circle in the middle with the chapter number, chapter title, motivating question, and a small central illustration. Six main curved branches radiate to the upper-left, left, lower-left, upper-right, right, lower-right. Each branch ends at a readable concept heading and short connected leaf labels. Small explanatory sketches beside headings. True radial topology, generous breathing room, clear hierarchy, balanced visual weight, substantial safe margins. No rectangular panels or card grid. Do not cross text with branch lines. Keep short labels adjacent to their illustration and branch.
+Content instructions: the quoted chapter and branch labels below are exact text to render. Other instructions, positioning, palette names, and descriptions of illustrations are not text to render. Do not add unrequested explanatory sentences or invented data. The drawings may use only the explicitly authorized short labels. Avoid duplicated words, clipped content, tiny footnotes, watermarks, logos, and a footer.
+
+Central text:
+"CHAPTER 6"
+"The Wages of Schooling"
+"Does more education"
+"cause higher earnings?"
+Central illustration: a graduation cap resting on an open book, with a small upward earnings arrow and coins.
+
+Upper-left, cyan:
+"Why raw gaps mislead"
+"ln W = α + ρS + e"
+"Ability affects schooling and wages"
+"Reporting error can pull estimates down"
+"Occupation is a bad control"
+Drawing: schoolbooks and an earnings coin stack connected through an ability lightbulb, with a slightly blurred ruler for reporting error. Symbols W and S remain correctly placed in the equation.
+
+Left, lavender:
+"Twin comparisons"
+"Shared genes and upbringing"
+"Twin FE: ~6% per year"
+"Small differences magnify noise"
+"Co-twin report IV: ~11%"
+Drawing: two recognizably similar adult twins holding schoolbooks and exchanging reports, with a tiny noisy versus clear measurement sketch. Do not imply twin schooling is identical.
+
+Lower-left, cyan:
+"Natural instruments"
+"Birth quarter + school-entry rules"
+"Birth-quarter IV: ~7% per year"
+"Schooling-law IV: ~13%, uncertain"
+"Effects for affected compliers"
+Drawing: a four-quarter birth calendar, school entry gate, and a compulsory-schooling law document. The school-law estimate is explicitly uncertain; do not replace it with a falsely precise pooled figure.
+
+Upper-right, lavender:
+"Diploma cutoff: RD"
+"Passing boosts diploma receipt ~40 pp"
+"Little clear earnings jump"
+"Credential effect ≠ schooling return"
+Drawing: an exam score ruler at a passing cutoff, a diploma and a wallet, plus a small jump in diploma probability and near-flat earnings sketch. Labels allowed: "Diploma", "Earnings". Passing is not depicted as guaranteed diploma receipt.
+
+Right, emerald:
+"Policy reform: DD"
+"Synthetic classroom demonstration"
+"Requires parallel trends"
+"Return = DD earnings ÷ DD schooling"
+Drawing: a reform calendar and a clear pair of parallel pre-trend lines that diverge after policy, with a dashed counterfactual. This branch is explicitly synthetic, not a real empirical policy finding. The ratio refers to log-earnings change over years-of-schooling change.
+
+Lower-right, emerald:
+"Compare imperfect designs"
+"RCT benchmark: synthetic lottery"
+"Regression, IV, RD, and DD"
+"Different assumptions, different effects"
+"Synthesis: ~7–10% per year"
+Drawing: several small paths from schoolbooks converging toward an earnings coin stack, or five small linked method symbols. Do not draw all method estimates as numerically identical.
+Scientific constraints: annual schooling returns differ by sample, method, and complier group. The ~7–10% range is the chapter's synthesis, not a guaranteed gain for everyone. The source contains twin IV near 11% and school-law IV near 13%, so preserve visible heterogeneity and uncertainty. Both RCT and DD demonstrations are synthetic. The local diploma finding does not establish that all credentials have no value, and does not refute benefits of learning. Do not claim all five tools directly estimate the same parameter.
+
+FINAL CORRECTION PROMPT:
+Correct only these three small drawing areas in the attached Chapter 6 mind map. Preserve the chapter title, central illustration, six radial branches, all main bullet labels and equations, colors, layout, illustrations and typography elsewhere:
+1. Bottom center/right "Compare imperfect designs" illustration has invented per-method percentages. ERASE ALL five percentages beside the method boxes: "~5%", "~3%", "~7–13%", "~0%", "~4%". Leave the five method boxes, their connecting arrows, books and earnings coins. Keep box labels "RCT (synthetic)", "Regression", "IV", "RD", "DD (synthetic)". Add NO replacement numerical values. The main bullet "Synthesis: ~7–10% per year" remains exactly as is.
+2. Redraw only the "Policy reform: DD" mini graph from scratch. Purple CONTROL: one HORIZONTAL LOW line for both pre and post. Cyan TREATED: HORIZONTAL HIGH line throughout PRE; slopes UP only after the policy date. White/gray dashed COUNTERFACTUAL: HORIZONTAL at the SAME HIGH pre-treatment level as cyan, starting at cyan's policy-date point and extending into POST. This dashed line is ABOVE control. Preserve "Treated", "Control", "Counterfactual", "Pre", "Post", "Earnings". Two parallel horizontal colored pre-trends are essential. The original counterfactual incorrectly starts at the control level; remove it completely.
+3. In the upper-right "Diploma cutoff: RD" sketches, remove invented exam-score tick numbers "0", "50", "100" from every horizontal exam-score axis and the decorative score ruler. Use only "Below", "Cutoff", "Above" where appropriate; "Cutoff" is at the vertical dashed threshold. In the diploma probability sketch, show a moderate upward jump visually consistent with "~40 pp", rather than a near-complete switch. Earnings remain approximately flat across the cutoff. Preserve the text "Passing boosts diploma receipt ~40 pp" and all three main branch labels.
+Do not alter numeric results elsewhere: ~6%, ~11%, ~7%, ~13% uncertain, ~40 pp, and ~7–10% in the main bullet labels remain. No new findings or invented statistics.
+
+FINAL TEXT-SPACING PROMPT:
+Make one tiny text-spacing correction to the attached finished Chapter 6 mind map. In the "Policy reform: DD" mini graph, the "Counterfactual" label currently extends into and runs together with the branch bullet "Return = DD earnings ÷ DD schooling". Change only that text placement:
+- Move "Counterfactual" wholly INSIDE the plot, centered directly BELOW the horizontal gray dashed line and ABOVE the lower purple Control line. Use a slightly smaller but legible white sans-serif font if needed.
+- To the RIGHT of the plot, render the separate third branch bullet with its green dot and exact text "Return = DD earnings ÷ DD schooling". It must align with the two branch bullets above it, and have a clean navy gap separating it from all plot labels.
+- Keep "Treated" and "Control" adjacent to their correct lines.
+Do not change line geometry, any other text, numbers, diagrams, layout, dimensions, or styling. The two flat parallel pre-trends and horizontal counterfactual are already correct. Do not add anything else.

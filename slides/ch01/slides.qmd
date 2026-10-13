@@ -6,8 +6,9 @@ deck-author-url: "https://carlos-mendez.org"
 institute: "Nagoya University (GSID)"
 date: today
 date-format: long
-visual-summary: "figures/visual_summary.svg"   # stand-in until the mind-map image exists;
+visual-summary: "figures/visual_summary.webp"   # mind-map image, synced from mindmaps/images;
                                                 # the Recap slide repeats this path
+visual-summary-bg: "#07172a"                     # its edge colour: letterbox on non-16:9 screens
 format:
   revealjs:
     output-file: index.html
@@ -694,7 +695,7 @@ every sense — it protects finances and mental health — but the physical-heal
 experiments was small.
 :::
 
-## {.recap background-image="figures/visual_summary.svg" background-size="contain" background-color="#0f172a"}
+## {.recap background-image="figures/visual_summary.webp" background-size="contain" background-color="#07172a"}
 
 ::: {.notes}
 Recap with the chapter's visual summary: the question (does insurance improve health?), the problem

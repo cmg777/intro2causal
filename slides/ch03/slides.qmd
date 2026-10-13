@@ -6,8 +6,9 @@ deck-author-url: "https://carlos-mendez.org"
 institute: "Nagoya University (GSID)"
 date: today
 date-format: long
-visual-summary: "figures/visual_summary.svg"   # stand-in until the mind-map image exists;
+visual-summary: "figures/visual_summary.webp"   # mind-map image, synced from mindmaps/images;
                                                 # the Recap slide repeats this path
+visual-summary-bg: "#091829"                     # its edge colour: letterbox on non-16:9 screens
 format:
   revealjs:
     output-file: index.html
@@ -741,7 +742,7 @@ MDVE: coddling raised repeat violence by 14.5 points for compliers, versus a nai
 +0.24 (SE 0.13) — the naive penalty was selection bias.
 :::
 
-## {.recap background-image="figures/visual_summary.svg" background-size="contain" background-color="#0f172a"}
+## {.recap background-image="figures/visual_summary.webp" background-size="contain" background-color="#091829"}
 
 ::: {.notes}
 Recap with the chapter's visual summary: the problem (non-compliance), the tool (instrument → first

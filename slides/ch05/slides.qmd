@@ -6,8 +6,9 @@ deck-author-url: "https://carlos-mendez.org"
 institute: "Nagoya University (GSID)"
 date: today
 date-format: long
-visual-summary: "figures/visual_summary.svg"   # stand-in until the mind-map image exists;
+visual-summary: "figures/visual_summary.webp"   # mind-map image, synced from mindmaps/images;
                                                 # the Recap slide repeats this path
+visual-summary-bg: "#061421"                     # its edge colour: letterbox on non-16:9 screens
 format:
   revealjs:
     output-file: index.html
@@ -769,7 +770,7 @@ Back to the opening question: yes — in Mississippi, the district whose Fed len
 effects, shows that lowering the drinking age cost young lives, mostly through car crashes.
 :::
 
-## {.recap background-image="figures/visual_summary.svg" background-size="contain" background-color="#0f172a"}
+## {.recap background-image="figures/visual_summary.webp" background-size="contain" background-color="#061421"}
 
 ::: {.notes}
 Recap with the chapter's visual summary: the question (did the Fed save banks?), the method (compare

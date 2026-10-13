@@ -59,14 +59,6 @@
     }
     .nav-link:hover { color: var(--blue); }
 
-    .chapter-row {
-      border-bottom: 1px solid var(--border);
-      transition: background-color 0.15s;
-    }
-    .chapter-row:hover {
-      background-color: rgba(56, 189, 248, 0.05);
-    }
-
     .btn-primary {
       background: linear-gradient(135deg, #2563eb, #7c3aed);
       color: white;
@@ -106,100 +98,83 @@
       font-size: 1.5rem;
     }
 
-    /* Audio Player */
-    .audio-player {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px 24px 20px;
-      max-width: 480px;
-      width: 95%;
+    /* Chapter cards */
+    .chapter-card {
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
     }
-    .audio-play-btn {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      border: none;
-      background: linear-gradient(135deg, var(--blue), var(--purple));
-      color: #fff;
-      font-size: 1.3rem;
+    .chapter-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .chapter-thumb {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: var(--bg);
+    }
+    .chapter-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+    .chapter-thumb img:hover { transform: scale(1.03); }
+    .chapter-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
+    .chapter-links a {
+      color: var(--blue);
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .chapter-links a:hover { text-decoration: underline; }
+    .chapter-audio { display: flex; align-items: center; gap: 0.5rem; }
+    .chapter-audio audio { flex: 1; min-width: 0; height: 36px; color-scheme: dark; }
+    .light .chapter-audio audio { color-scheme: light; }
+    .chapter-audio a { color: var(--green); }
+
+    /* AI notebooks video thumbnail */
+    .media-frame {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
       cursor: pointer;
+    }
+    .media-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .media-frame .play-overlay {
+      position: absolute;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.15s, box-shadow 0.15s;
-      flex-shrink: 0;
+      background: rgba(0,0,0,0.3);
+      transition: background 0.2s;
     }
-    .audio-play-btn:hover { transform: scale(1.08); box-shadow: 0 4px 20px rgba(167,139,250,0.4); }
-    .audio-time {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      min-width: 40px;
-    }
-    .audio-ctrl-btn {
-      background: none; border: none; cursor: pointer;
-      color: var(--text-muted); font-size: 1.1rem;
-      padding: 4px 6px; border-radius: 6px;
-      transition: color 0.15s, background 0.15s;
-    }
-    .audio-ctrl-btn:hover { color: var(--text); background: var(--border); }
-
-    /* Range inputs (progress & volume) */
-    input.audio-range {
-      -webkit-appearance: none;
-      appearance: none;
-      height: 6px;
-      border-radius: 3px;
-      outline: none;
-      cursor: pointer;
-      background: rgba(255,255,255,0.1);
-    }
-    .light input.audio-range { background: #e2e8f0; }
-    input.audio-range::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 14px; height: 14px;
+    .media-frame:hover .play-overlay { background: rgba(0,0,0,0.4); }
+    .media-frame .play-btn {
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
-      background: var(--purple);
-      border: 2px solid #fff;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-      margin-top: -4px;
+      background: rgba(255,255,255,0.92);
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      padding-left: 6px;
+      transition: transform 0.2s;
     }
-    input.audio-range::-moz-range-thumb {
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      background: var(--purple);
-      border: 2px solid #fff;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-    }
-    input.audio-range::-webkit-slider-runnable-track {
-      height: 6px; border-radius: 3px;
-      background: linear-gradient(to right, var(--purple) 0%, var(--purple) var(--progress, 0%), rgba(255,255,255,0.1) var(--progress, 0%), rgba(255,255,255,0.1) 100%);
-    }
-    .light input.audio-range::-webkit-slider-runnable-track {
-      background: linear-gradient(to right, var(--purple) 0%, var(--purple) var(--progress, 0%), #e2e8f0 var(--progress, 0%), #e2e8f0 100%);
-    }
-    input.audio-range::-moz-range-track {
-      height: 6px; border-radius: 3px;
-      background: rgba(255,255,255,0.1);
-    }
-    .light input.audio-range::-moz-range-track { background: #e2e8f0; }
-    input.audio-range::-moz-range-progress {
-      height: 6px; border-radius: 3px;
-      background: var(--purple);
-    }
-    input.audio-volume { width: 80px; }
-    .audio-speed {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 3px 6px;
-      font-size: 0.75rem;
-      font-family: 'JetBrains Mono', monospace;
-      cursor: pointer;
-      outline: none;
-    }
-    .audio-speed option { background: var(--bg-card); color: var(--text); }
+    .media-frame:hover .play-btn { transform: scale(1.1); }
 
     /* Blinking cursor */
     .blink-cursor {
@@ -233,21 +208,6 @@
     .cover-hover:hover {
       transform: scale(1.02);
       box-shadow: 0 12px 40px rgba(37,99,235,0.25), 0 0 60px rgba(124,58,237,0.15);
-    }
-
-    /* Chapter number pill */
-    .ch-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue), var(--purple));
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 600;
-      flex-shrink: 0;
     }
 
     /* Back to top button */
@@ -313,9 +273,6 @@
       background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.15) 0%, rgba(124,58,237,0.1) 40%, transparent 70%);
     }
 
-    /* Badge wrapping on narrow screens */
-    .badge-row { flex-wrap: wrap; gap: 4px; }
-
     /* Scroll-triggered fade-in */
     .fade-in-up {
       opacity: 0;
@@ -360,15 +317,6 @@
       max-height: 300px;
       padding-top: 0;
       padding-bottom: 1rem;
-    }
-
-    /* Chapter row hover accent */
-    .chapter-row {
-      border-left: 3px solid transparent;
-      transition: background-color 0.15s, border-left-color 0.2s;
-    }
-    .chapter-row:hover {
-      border-left-color: var(--blue);
     }
 
     /* Navbar shrink on scroll */
@@ -556,6 +504,7 @@
       <a href="index.html" class="text-lg font-bold" style="color: var(--blue);">Mastering Causal Metrics</a>
       <div class="hidden md:flex items-center gap-6">
         <a href="book/_book/index.html" class="nav-link text-sm">Study Guide</a>
+        <a href="#ai-notebooks" class="nav-link text-sm">AI Notebooks</a>
         <a href="tutors.html" class="nav-link text-sm">AI Tutors</a>
         <a href="cheatsheet.html" class="nav-link text-sm">Code Cheatsheet</a>
         <a href="#resources" class="nav-link text-sm">Other Resources</a>
@@ -569,6 +518,7 @@
     <!-- Mobile menu -->
     <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
       <a href="book/_book/index.html" class="block py-2 nav-link text-sm">Study Guide</a>
+      <a href="#ai-notebooks" class="block py-2 nav-link text-sm">AI Notebooks</a>
       <a href="tutors.html" class="block py-2 nav-link text-sm">AI Tutors</a>
       <a href="cheatsheet.html" class="block py-2 nav-link text-sm">Code Cheatsheet</a>
       <a href="#resources" class="block py-2 nav-link text-sm">Other Resources</a>
@@ -618,93 +568,188 @@
   </section>
 
 
+  <!-- Interactive AI-Powered Notebooks -->
+  <section id="ai-notebooks" class="py-16 px-4 fade-in-up" style="scroll-margin-top: 80px;">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold mb-3">Interactive AI-Powered Notebooks</h2>
+        <p class="text-muted max-w-3xl mx-auto">Every chapter comes with a <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank" style="color: var(--blue);">Google Colab notebook</a> that replicates the book's causal estimates in Python with <code>pyfixest</code>. Colab's built-in AI tools generate code, explain errors, and guide you through each regression, so you can focus on the identification strategy behind every result.</p>
+      </div>
+      <div class="media-frame" role="button" tabindex="0" aria-label="Play AI-powered notebooks video"
+           onclick="openVideo('V7RXyqFUR98','Programming in Colab with AI-Powered Tools','google')"
+           onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+        <img src="images/ai-powered-colab.jpg" alt="Programming in Colab with AI-Powered Tools" loading="lazy">
+        <div class="play-overlay"><div class="play-btn">&#9654;</div></div>
+      </div>
+      <p class="text-center text-sm text-muted mt-4">
+        Video source: Julianne DeMars-Smith and Key Jung Lee from <a href="https://research.google/" target="_blank" style="color: var(--blue);">Google Research</a>
+      </p>
+    </div>
+  </section>
+
   <!-- Curriculum -->
-  <section id="curriculum" class="py-16 px-4 fade-in-up">
-    <div class="max-w-5xl mx-auto">
+  <section id="curriculum" class="py-16 px-4 fade-in-up" style="scroll-margin-top: 80px;">
+    <div class="max-w-6xl mx-auto">
       <h2 class="text-2xl font-bold mb-2 text-center">Curriculum</h2>
-      <p class="text-center text-muted mb-10">6 chapters organized around the five tools of causal inference</p>
+      <p class="text-center text-muted mb-10 max-w-3xl mx-auto">Six chapters on the five tools of causal inference. Click a badge to open the study guide or launch the notebook in your browser. Each card also links to the lecture slides and videos, with an AI podcast overview of the chapter.</p>
 
-      <!-- Part I -->
-      <div class="mb-8">
-        <h3 class="text-xs font-semibold tracking-widest uppercase mb-3" style="color: var(--purple);">Part I &mdash; The Framework</h3>
-        <div class="card rounded-lg overflow-hidden">
-          <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3 badge-row">
-              <span class="ch-num">01</span>
-              <a href="book/_book/notebooks_quarto/01-randomized-trials.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Randomized Trials</a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
-              <a href="#" onclick="openVideo('eGRd8jBdNYg','Randomized Trials: The Ideal Weapon');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-              <a href="#" onclick="openAudio('https://files.catbox.moe/pb7n2l.m4a','Randomized Trials: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <!-- Chapter 1 -->
+          <div class="card chapter-card">
+            <div>
+              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 1: Randomized Trials</h4>
+              <p class="text-xs text-muted mt-1">Selection Bias &middot; Potential Outcomes &middot; RAND HIE</p>
             </div>
-            <span class="text-xs text-muted hidden sm:inline">Selection Bias &middot; Potential Outcomes &middot; RAND HIE</span>
+            <div class="chapter-thumb">
+              <img src="book/images/ch01_visual_summary.webp" alt="Chapter 1 mind map: Randomized Trials" loading="lazy" onclick="openImage(this.src, this.alt)">
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="book/_book/notebooks_quarto/01-randomized-trials.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
+              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
+            </div>
+            <div class="chapter-links">
+              <a href="slides/ch01/index.html" target="_blank">&#128202; Slides</a>
+              <a href="#" onclick="openVideo('eGRd8jBdNYg','Randomized Trials: The Ideal Weapon');return false;">&#9654; Video</a>
+            </div>
+            <div class="chapter-audio">
+              <span title="AI Podcast">&#127911;</span>
+              <audio controls preload="none" aria-label="Chapter 1 AI podcast">
+                <source src="https://files.catbox.moe/pb7n2l.m4a" type="audio/mp4">
+              </audio>
+              <a href="https://files.catbox.moe/pb7n2l.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
+            </div>
           </div>
-        </div>
+          <!-- Chapter 2 -->
+          <div class="card chapter-card">
+            <div>
+              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 2: Regression</h4>
+              <p class="text-xs text-muted mt-1">OLS &middot; Omitted Variable Bias &middot; Bad Controls</p>
+            </div>
+            <div class="chapter-thumb">
+              <img src="book/images/ch02_visual_summary.webp" alt="Chapter 2 mind map: Regression" loading="lazy" onclick="openImage(this.src, this.alt)">
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="book/_book/notebooks_quarto/02-regression.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
+              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
+            </div>
+            <div class="chapter-links">
+              <a href="slides/ch02/index.html" target="_blank">&#128202; Slides</a>
+              <a href="#" onclick="openVideo('iPBV3BlV7jk','Ceteris Paribus: Public vs. Private University');return false;">&#9654; Video</a>
+            </div>
+            <div class="chapter-audio">
+              <span title="AI Podcast">&#127911;</span>
+              <audio controls preload="none" aria-label="Chapter 2 AI podcast">
+                <source src="https://files.catbox.moe/i2l7wy.m4a" type="audio/mp4">
+              </audio>
+              <a href="https://files.catbox.moe/i2l7wy.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
+            </div>
+          </div>
+          <!-- Chapter 3 -->
+          <div class="card chapter-card">
+            <div>
+              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 3: Instrumental Variables</h4>
+              <p class="text-xs text-muted mt-1">LATE &middot; Compliers &middot; Minneapolis DV Experiment</p>
+            </div>
+            <div class="chapter-thumb">
+              <img src="book/images/ch03_visual_summary.webp" alt="Chapter 3 mind map: Instrumental Variables" loading="lazy" onclick="openImage(this.src, this.alt)">
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="book/_book/notebooks_quarto/03-instrumental-variables.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
+              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
+            </div>
+            <div class="chapter-links">
+              <a href="slides/ch03/index.html" target="_blank">&#128202; Slides</a>
+              <a href="#" onclick="openVideo('eoJUPd6104Q','Introduction to Instrumental Variables');return false;">&#9654; Video</a>
+              <a href="#" onclick="openVideo('3rVPqTZGOis','Instrumental Variables: AI Video','notebooklm');return false;">&#9654; Video 2</a>
+            </div>
+            <div class="chapter-audio">
+              <span title="AI Podcast">&#127911;</span>
+              <audio controls preload="none" aria-label="Chapter 3 AI podcast">
+                <source src="https://files.catbox.moe/h1rfzi.m4a" type="audio/mp4">
+              </audio>
+              <a href="https://files.catbox.moe/h1rfzi.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
+            </div>
+          </div>
+          <!-- Chapter 4 -->
+          <div class="card chapter-card">
+            <div>
+              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 4: Regression Discontinuity</h4>
+              <p class="text-xs text-muted mt-1">Sharp RD &middot; Bandwidth &middot; MLDA and Mortality</p>
+            </div>
+            <div class="chapter-thumb">
+              <img src="book/images/ch04_visual_summary.webp" alt="Chapter 4 mind map: Regression Discontinuity" loading="lazy" onclick="openImage(this.src, this.alt)">
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="book/_book/notebooks_quarto/04-regression-discontinuity.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
+              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
+            </div>
+            <div class="chapter-links">
+              <a href="slides/ch04/index.html" target="_blank">&#128202; Slides</a>
+              <a href="#" onclick="openVideo('d4S2STNOHBk','Regression Discontinuity: AI Video','notebooklm');return false;">&#9654; Video</a>
+            </div>
+            <div class="chapter-audio">
+              <span title="AI Podcast">&#127911;</span>
+              <audio controls preload="none" aria-label="Chapter 4 AI podcast">
+                <source src="https://files.catbox.moe/o4hyxn.m4a" type="audio/mp4">
+              </audio>
+              <a href="https://files.catbox.moe/o4hyxn.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
+            </div>
+          </div>
+          <!-- Chapter 5 -->
+          <div class="card chapter-card">
+            <div>
+              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 5: Differences-in-Differences</h4>
+              <p class="text-xs text-muted mt-1">Parallel Trends &middot; Two-Way FE &middot; Great Depression Banking</p>
+            </div>
+            <div class="chapter-thumb">
+              <img src="book/images/ch05_visual_summary.webp" alt="Chapter 5 mind map: Differences-in-Differences" loading="lazy" onclick="openImage(this.src, this.alt)">
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="book/_book/notebooks_quarto/05-differences-in-differences.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
+              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
+            </div>
+            <div class="chapter-links">
+              <a href="slides/ch05/index.html" target="_blank">&#128202; Slides</a>
+              <a href="#" onclick="openVideo('eiffOVbYvNc','Introduction to Differences-in-Differences');return false;">&#9654; Video</a>
+            </div>
+            <div class="chapter-audio">
+              <span title="AI Podcast">&#127911;</span>
+              <audio controls preload="none" aria-label="Chapter 5 AI podcast">
+                <source src="https://files.catbox.moe/j9jeap.m4a" type="audio/mp4">
+              </audio>
+              <a href="https://files.catbox.moe/j9jeap.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
+            </div>
+          </div>
+          <!-- Chapter 6 -->
+          <div class="card chapter-card">
+            <div>
+              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 6: The Wages of Schooling</h4>
+              <p class="text-xs text-muted mt-1">Twins &middot; Quarter of Birth &middot; Sheepskin Effects</p>
+            </div>
+            <div class="chapter-thumb">
+              <img src="book/images/ch06_visual_summary.webp" alt="Chapter 6 mind map: The Wages of Schooling" loading="lazy" onclick="openImage(this.src, this.alt)">
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="book/_book/notebooks_quarto/06-wages-of-schooling.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
+              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
+            </div>
+            <div class="chapter-links">
+              <a href="slides/ch06/index.html" target="_blank">&#128202; Slides</a>
+              <a href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;">&#9654; Video</a>
+            </div>
+            <div class="chapter-audio">
+              <span title="AI Podcast">&#127911;</span>
+              <audio controls preload="none" aria-label="Chapter 6 AI podcast">
+                <source src="https://files.catbox.moe/dyyvur.m4a" type="audio/mp4">
+              </audio>
+              <a href="https://files.catbox.moe/dyyvur.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
+            </div>
+          </div>
       </div>
 
-      <!-- Part II -->
-      <div class="mb-8">
-        <h3 class="text-xs font-semibold tracking-widest uppercase mb-3" style="color: var(--purple);">Part II &mdash; Quasi-Experiments</h3>
-        <div class="card rounded-lg overflow-hidden">
-          <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3 badge-row">
-              <span class="ch-num">02</span>
-              <a href="book/_book/notebooks_quarto/02-regression.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Regression</a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
-              <a href="#" onclick="openVideo('iPBV3BlV7jk','Ceteris Paribus: Public vs. Private University');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-              <a href="#" onclick="openAudio('https://files.catbox.moe/i2l7wy.m4a','Regression: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-            </div>
-            <span class="text-xs text-muted hidden sm:inline">OLS &middot; Omitted Variable Bias &middot; Bad Controls</span>
-          </div>
-          <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3 badge-row">
-              <span class="ch-num">03</span>
-              <a href="book/_book/notebooks_quarto/03-instrumental-variables.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Instrumental Variables</a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
-              <a href="#" onclick="openVideo('eoJUPd6104Q','Introduction to Instrumental Variables');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-              <a href="#" onclick="openVideo('3rVPqTZGOis','Instrumental Variables: AI Video','notebooklm');return false;"><img src="https://img.shields.io/badge/YouTube-Video_2-red?logo=youtube" alt="Watch Video 2" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-              <a href="#" onclick="openAudio('https://files.catbox.moe/h1rfzi.m4a','Instrumental Variables: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-            </div>
-            <span class="text-xs text-muted hidden sm:inline">LATE &middot; Compliers &middot; Minneapolis DV Experiment</span>
-          </div>
-          <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3 badge-row">
-              <span class="ch-num">04</span>
-              <a href="book/_book/notebooks_quarto/04-regression-discontinuity.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Regression Discontinuity</a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
-              <a href="#" onclick="openVideo('d4S2STNOHBk','Regression Discontinuity: AI Video','notebooklm');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-              <a href="#" onclick="openAudio('https://files.catbox.moe/o4hyxn.m4a','Regression Discontinuity: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-            </div>
-            <span class="text-xs text-muted hidden sm:inline">Sharp RD &middot; Bandwidth &middot; MLDA and Mortality</span>
-          </div>
-          <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3 badge-row">
-              <span class="ch-num">05</span>
-              <a href="book/_book/notebooks_quarto/05-differences-in-differences.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">Differences-in-Differences</a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
-              <a href="#" onclick="openVideo('eiffOVbYvNc','Introduction to Differences-in-Differences');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-              <a href="#" onclick="openAudio('https://files.catbox.moe/j9jeap.m4a','Differences-in-Differences: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-            </div>
-            <span class="text-xs text-muted hidden sm:inline">Parallel Trends &middot; Two-Way FE &middot; Great Depression Banking</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Part III -->
-      <div class="mb-8">
-        <h3 class="text-xs font-semibold tracking-widest uppercase mb-3" style="color: var(--purple);">Part III &mdash; Synthesis</h3>
-        <div class="card rounded-lg overflow-hidden">
-          <div class="chapter-row flex items-center justify-between px-4 py-3">
-            <div class="flex items-center gap-3 badge-row">
-              <span class="ch-num">06</span>
-              <a href="book/_book/notebooks_quarto/06-wages-of-schooling.html" class="font-medium text-sm hover:underline" style="color: var(--blue);">The Wages of Schooling</a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:20px;vertical-align:middle;margin-left:6px;"></a>
-              <a href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;"><img src="https://img.shields.io/badge/YouTube-Video-red?logo=youtube" alt="Watch Video" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-              <a href="#" onclick="openAudio('https://files.catbox.moe/dyyvur.m4a','The Wages of Schooling: AI Podcast');return false;"><img src="https://img.shields.io/badge/AI-Podcast-a78bfa?logo=headphones&logoColor=white" alt="Listen to Podcast" style="height:20px;vertical-align:middle;margin-left:6px;cursor:pointer;"></a>
-            </div>
-            <span class="text-xs text-muted hidden sm:inline">Twins &middot; Quarter of Birth &middot; Sheepskin Effects</span>
-          </div>
-        </div>
-      </div>
+      <p class="text-center text-xs text-muted mt-8">
+        Podcasts and AI videos generated with <a href="https://notebooklm.google/" target="_blank" style="color: var(--blue);">NotebookLM</a> &middot; Lecture videos by <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color: var(--blue);">Marginal Revolution University</a>
+      </p>
     </div>
   </section>
 
@@ -831,7 +876,9 @@
       document.getElementById('video-title').textContent = title;
       document.getElementById('video-iframe').src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
       var credit = document.getElementById('video-credit');
-      if (source === 'notebooklm') {
+      if (source === 'google') {
+        credit.innerHTML = 'Video by Julianne DeMars-Smith and Key Jung Lee from <a href="https://research.google/" target="_blank" style="color:#38bdf8;">Google Research</a> &middot; Press Esc or click outside to close';
+      } else if (source === 'notebooklm') {
         credit.innerHTML = 'Generated with <a href="https://notebooklm.google/" target="_blank" style="color:#38bdf8;">NotebookLM</a> based on a summary of the chapter &middot; Press Esc or click outside to close';
       } else {
         credit.innerHTML = 'Video by <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color:#38bdf8;">Marginal Revolution University</a> &middot; Press Esc or click outside to close';
@@ -850,86 +897,28 @@
       document.body.style.overflow = '';
     }
 
-    // Audio player
-    var audioEl = null;
-    var audioProgress = null;
-
-    function openAudio(url, title) {
-      document.getElementById('audio-title').textContent = title;
-      document.getElementById('audio-download-link').href = url;
-      audioEl = document.getElementById('audio-element');
-      audioProgress = document.getElementById('audio-progress');
-      audioEl.src = url;
-      audioProgress.value = 0;
-      audioProgress.style.setProperty('--progress', '0%');
-      document.getElementById('audio-current-time').textContent = '0:00';
-      document.getElementById('audio-duration').textContent = '0:00';
-      updatePlayPauseBtn(false);
-      document.getElementById('audio-speed').value = '1';
-      audioEl.playbackRate = 1;
-      var modal = document.getElementById('audio-modal');
+    // Image lightbox
+    function openImage(src, alt) {
+      var img = document.getElementById('image-modal-img');
+      img.src = src;
+      img.alt = alt;
+      document.getElementById('image-modal-title').textContent = alt;
+      var modal = document.getElementById('image-modal');
       modal.classList.remove('hidden');
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
 
-    function closeAudio() {
-      if (audioEl) { audioEl.pause(); audioEl.src = ''; }
-      var modal = document.getElementById('audio-modal');
+    function closeImage() {
+      var modal = document.getElementById('image-modal');
       modal.classList.add('hidden');
       modal.style.display = 'none';
       document.body.style.overflow = '';
     }
 
-    function toggleAudioPlay() {
-      if (!audioEl) return;
-      if (audioEl.paused) { audioEl.play(); } else { audioEl.pause(); }
-    }
-
-    function updatePlayPauseBtn(isPlaying) {
-      document.getElementById('audio-play-icon').textContent = isPlaying ? '\u275A\u275A' : '\u25B6';
-    }
-
-    function formatTime(s) {
-      if (!s || isNaN(s)) return '0:00';
-      var m = Math.floor(s / 60);
-      var sec = Math.floor(s % 60);
-      return m + ':' + (sec < 10 ? '0' : '') + sec;
-    }
-
-    // Audio event listeners (deferred until elements exist)
-    document.addEventListener('DOMContentLoaded', function() {
-      audioEl = document.getElementById('audio-element');
-      audioProgress = document.getElementById('audio-progress');
-
-      audioEl.addEventListener('loadedmetadata', function() {
-        audioProgress.max = audioEl.duration;
-        document.getElementById('audio-duration').textContent = formatTime(audioEl.duration);
-      });
-      audioEl.addEventListener('timeupdate', function() {
-        audioProgress.value = audioEl.currentTime;
-        var pct = audioEl.duration ? (audioEl.currentTime / audioEl.duration * 100) : 0;
-        audioProgress.style.setProperty('--progress', pct + '%');
-        document.getElementById('audio-current-time').textContent = formatTime(audioEl.currentTime);
-      });
-      audioEl.addEventListener('play', function() { updatePlayPauseBtn(true); });
-      audioEl.addEventListener('pause', function() { updatePlayPauseBtn(false); });
-      audioEl.addEventListener('ended', function() { updatePlayPauseBtn(false); });
-
-      audioProgress.addEventListener('input', function() {
-        audioEl.currentTime = this.value;
-      });
-      document.getElementById('audio-volume').addEventListener('input', function() {
-        audioEl.volume = this.value;
-      });
-      document.getElementById('audio-speed').addEventListener('change', function() {
-        audioEl.playbackRate = parseFloat(this.value);
-      });
-    });
-
     // Close modals on Escape key
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') { closeVideo(); closeAudio(); }
+      if (e.key === 'Escape') { closeVideo(); closeImage(); }
     });
 
     // Typewriter effect
@@ -1253,56 +1242,15 @@
     </div>
   </div>
 
-  <!-- Audio Modal -->
-  <div id="audio-modal" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;" onclick="if(event.target===this)closeAudio();">
-    <div class="audio-player">
-      <!-- Title & Close -->
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-        <p id="audio-title" style="color:var(--text);font-size:1rem;font-weight:600;margin:0;"></p>
-        <button onclick="closeAudio()" style="color:var(--text-muted);font-size:1.5rem;background:none;border:none;cursor:pointer;line-height:1;" aria-label="Close">&times;</button>
+  <!-- Image Modal -->
+  <div id="image-modal" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.9);align-items:center;justify-content:center;" onclick="if(event.target===this)closeImage();">
+    <div style="width:95%;max-width:1600px;position:relative;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <p id="image-modal-title" style="color:#e2e8f0;font-size:1rem;font-weight:600;margin:0;"></p>
+        <button onclick="closeImage()" style="color:#94a3b8;font-size:1.5rem;background:none;border:none;cursor:pointer;line-height:1;" aria-label="Close">&times;</button>
       </div>
-
-      <!-- Hidden audio element -->
-      <audio id="audio-element" preload="metadata"></audio>
-
-      <!-- Progress bar -->
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
-        <span id="audio-current-time" class="audio-time">0:00</span>
-        <input id="audio-progress" type="range" class="audio-range" min="0" max="100" value="0" step="0.1" style="flex:1;">
-        <span id="audio-duration" class="audio-time" style="text-align:right;">0:00</span>
-      </div>
-
-      <!-- Controls -->
-      <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
-        <!-- Play/Pause -->
-        <button class="audio-play-btn" onclick="toggleAudioPlay()" aria-label="Play/Pause">
-          <span id="audio-play-icon">&#9654;</span>
-        </button>
-
-        <!-- Volume -->
-        <div style="display:flex;align-items:center;gap:6px;">
-          <span class="audio-ctrl-btn" style="cursor:default;padding:0;">&#128266;</span>
-          <input id="audio-volume" type="range" class="audio-range audio-volume" min="0" max="1" value="1" step="0.05">
-        </div>
-
-        <!-- Speed -->
-        <select id="audio-speed" class="audio-speed" aria-label="Playback speed">
-          <option value="0.5">0.5x</option>
-          <option value="0.75">0.75x</option>
-          <option value="1" selected>1x</option>
-          <option value="1.25">1.25x</option>
-          <option value="1.5">1.5x</option>
-          <option value="2">2x</option>
-        </select>
-
-        <!-- Download -->
-        <a id="audio-download-link" href="#" target="_blank" download class="audio-ctrl-btn" title="Download" style="text-decoration:none;color:var(--green);font-size:1.2rem;">&#11015;</a>
-      </div>
-
-      <!-- Attribution -->
-      <p style="color:var(--text-muted);font-size:0.7rem;margin-top:16px;text-align:center;">
-        Podcast generated with <a href="https://notebooklm.google.com/" target="_blank" style="color:var(--blue);">NotebookLM</a> &middot; Press Esc or click outside to close
-      </p>
+      <img id="image-modal-img" src="" alt="" style="width:100%;max-height:85vh;object-fit:contain;border-radius:12px;">
+      <p style="color:#64748b;font-size:0.75rem;margin-top:8px;text-align:center;">Press Esc or click outside to close</p>
     </div>
   </div>
 </body>

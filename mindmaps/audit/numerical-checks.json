@@ -1,0 +1,81 @@
+{
+  "rand_spending": {
+    "free_vs_catastrophic": 285.3162025668452,
+    "catastrophic_mean": 635.7195713333749,
+    "percent_change": 44.880827244065415
+  },
+  "mlda_rd": {
+    "jump": 7.662710563502043,
+    "se": 1.51423342748314
+  },
+  "bank_dd": {
+    "1931": 19.0,
+    "1932": 23.0,
+    "1933": 21.0,
+    "1934": 23.0
+  },
+  "twin_fe": {
+    "log_return": 0.061700567229819044,
+    "se": 0.019782981446598454
+  },
+  "twin_iv": {
+    "log_return": 0.10753123663261545,
+    "se": 0.03405190968270615
+  },
+  "qob_iv": {
+    "first_stage": 0.09212085888801785,
+    "reduced_form": 0.006813160039016142,
+    "wald": 0.07395892875139409
+  },
+  "school_law_iv": {
+    "log_return": 0.12882982759318992,
+    "se": 0.037149680768536544
+  },
+  "kipp_arithmetic": {
+    "reduced_form": 0.355,
+    "first_stage": 0.741,
+    "ratio": 0.4790823211875843,
+    "rounded_to_2_decimals": 0.48
+  },
+  "log_vs_percent": {
+    "0.06": {
+      "approx_percent": 6.0,
+      "exact_percent": 6.183654654535962
+    },
+    "0.07": {
+      "approx_percent": 7.000000000000001,
+      "exact_percent": 7.250818125421649
+    },
+    "0.1": {
+      "approx_percent": 10.0,
+      "exact_percent": 10.517091807564762
+    },
+    "0.11": {
+      "approx_percent": 11.0,
+      "exact_percent": 11.627807045887128
+    },
+    "0.13": {
+      "approx_percent": 13.0,
+      "exact_percent": 13.882838332462184
+    }
+  },
+  "mlda_dd": {
+    "unweighted": {
+      "effect_for_unit_legal_share": 10.804140724204075,
+      "se": 4.4249155661258435
+    },
+    "state_trends": {
+      "effect_for_unit_legal_share": 8.466623813748935,
+      "se": 4.897504478400994
+    },
+    "population_weighted": {
+      "effect_for_unit_legal_share": 12.412505657473327,
+      "se": 4.431796346790747
+    }
+  },
+  "diploma_rd_first_stage_quartic": {
+    "jump": 0.41686489330365273,
+    "se": 0.011303830484340001,
+    "note": "Weighted separate-side quartic check; source plotting specifications may differ."
+  }
+}

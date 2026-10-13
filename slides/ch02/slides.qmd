@@ -6,8 +6,9 @@ deck-author-url: "https://carlos-mendez.org"
 institute: "Nagoya University (GSID)"
 date: today
 date-format: long
-visual-summary: "figures/visual_summary.svg"   # stand-in until the mind-map image exists;
+visual-summary: "figures/visual_summary.webp"   # mind-map image, synced from mindmaps/images;
                                                 # the Recap slide repeats this path
+visual-summary-bg: "#0c192d"                     # its edge colour: letterbox on non-16:9 screens
 format:
   revealjs:
     output-file: index.html
@@ -720,7 +721,7 @@ admitted to both kinds of school, the earnings evidence says the premium is most
 where you go.
 :::
 
-## {.recap background-image="figures/visual_summary.svg" background-size="contain" background-color="#0f172a"}
+## {.recap background-image="figures/visual_summary.webp" background-size="contain" background-color="#0c192d"}
 
 ::: {.notes}
 Recap with the chapter's visual summary: the question (is private college worth it?), the tool

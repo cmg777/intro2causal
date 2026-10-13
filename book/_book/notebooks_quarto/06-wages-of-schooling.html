@@ -499,7 +499,7 @@ function googleTranslateElementInit() {
 </header>
 
 
-<p><img src="../images/ch06_visual_summary.svg" class="img-fluid"></p>
+<p><img src="../images/ch06_visual_summary.webp" class="img-fluid"></p>
 <p><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Colab"></a> <a href="https://cmg777.github.io/intro2causal/slides/ch06/"><img src="https://img.shields.io/badge/View-Lecture_Slides-8e44ad?logo=revealdotjs&amp;logoColor=white.png" class="img-fluid" alt="View Slides"></a> <a href="https://cmg777.github.io/intro2causal/"><img src="https://img.shields.io/badge/Return_to-Book_Website-38bdf8?logo=google-chrome&amp;logoColor=white.png" class="img-fluid" alt="Return to Book Website"></a></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1186,7 +1186,7 @@ Figure&nbsp;6.1: Roadmap: The Methods Ladder for Chapter 6
 <li><span class="math inline">\(e_i\)</span> = residual (includes ability, motivation, family background, and everything else we cannot observe)</li>
 </ul>
 <p>Because <span class="math inline">\(\ln W\)</span> is the outcome, the coefficient <span class="math inline">\(\rho\)</span> has a convenient interpretation: a value of 0.07 means each year of schooling is associated with approximately <strong>7% higher earnings</strong>.</p>
-<div id="f9997b14" class="cell" data-execution_count="1">
+<div id="45248e9a" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean quarter-of-birth data (Angrist &amp; Krueger 1991, 329k men born 1930-1939)</span></span>
@@ -1373,7 +1373,7 @@ Figure&nbsp;6.2: Average log weekly earnings by years of schooling. The positive
 <p>Chapter 2 taught us that adding control variables can reduce omitted variables bias — as long as the controls are not “bad controls” (caused by the treatment). The long regression adds observable controls to the bivariate equation:</p>
 <p><span class="math display">\[\ln W_i = \alpha + \rho \, S_i + \gamma_1 \, \text{Age}_i + \gamma_2 \, \text{Age}_i^2 + \gamma_3 \, \text{Female}_i + \gamma_4 \, \text{White}_i + e_i\]</span></p>
 <p>where <span class="math inline">\(S_i\)</span> is years of education (<code>educ</code>), and the <span class="math inline">\(\gamma\)</span> coefficients capture the effects of age (<code>age</code>, <code>age2</code>), gender (<code>female</code>), and race (<code>white</code>). If ability remains in <span class="math inline">\(e_i\)</span>, then <span class="math inline">\(\hat{\rho}\)</span> is still biased — adding observable controls only helps if they capture the omitted confounders. Let’s see this using the Twinsburg twins data.</p>
-<div id="21eb75a7" class="cell" data-execution_count="4">
+<div id="6fe0c241" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean twins data (340 twin pairs from Twinsburg, Ohio)</span></span>
@@ -2287,7 +2287,7 @@ Figure&nbsp;6.3: First stage (left) and reduced form (right). Q4 births get slig
 <li><span class="math inline">\(\hat{S}_{scy}\)</span> = the fitted value of schooling from the first stage</li>
 <li><span class="math inline">\(\rho_{IV}\)</span> = the causal return to schooling, identified by the three instruments jointly</li>
 </ul>
-<div id="6e8a7b30" class="cell" data-execution_count="13">
+<div id="16770348" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load child labor law data (collapsed cell means, ~2400 observations)</span></span>
@@ -2519,7 +2519,7 @@ Table&nbsp;6.10: OLS vs.&nbsp;IV estimates of the return to schooling using comp
 <li><span class="math inline">\(\rho\)</span> = the <strong>sheepskin effect</strong> — the jump in the outcome at the passing threshold</li>
 </ul>
 <p>If <span class="math inline">\(\rho\)</span> is large for earnings, the diploma itself has value (signaling). If <span class="math inline">\(\rho \approx 0\)</span>, the diploma credential adds little beyond the skills already reflected in the score.</p>
-<div id="ab24260b" class="cell" data-execution_count="16">
+<div id="f21fb0bb" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load clean sheepskin RD data (Texas last-chance exam)</span></span>
@@ -2722,7 +2722,7 @@ Figure&nbsp;6.4: RD at the Texas exam cutoff. Left: diploma receipt jumps sharpl
 <li><span class="math inline">\(\delta\)</span> = the DD estimate of the reform’s causal effect</li>
 </ul>
 <p>The <strong>parallel trends assumption</strong> requires that treated and control states would have followed the same trajectory absent the reform: <span class="math inline">\(E[Y_{st}(0) \mid \text{Treated}=1] - E[Y_{st}(0) \mid \text{Treated}=0]\)</span> is constant over time.</p>
-<div id="86537a48" class="cell" data-execution_count="18">
+<div id="e6c2d08b" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load synthetic DiD data (20 states × 20 years)</span></span>
@@ -5095,7 +5095,7 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="al">![](../images/ch06_visual_summary.svg)</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="al">![](../images/ch06_visual_summary.webp)</span></span>
 <span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb)</span></span>
 <span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![View Slides](https://img.shields.io/badge/View-Lecture_Slides-8e44ad?logo=revealdotjs&amp;logoColor=white)</span><span class="co">](https://cmg777.github.io/intro2causal/slides/ch06/)</span></span>

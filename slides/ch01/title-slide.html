@@ -1,10 +1,11 @@
 $if(visual-summary)$
-<!-- Title slide = the chapter visual summary, full-bleed, nothing else. The image is
-     painted as the slide background (data-background-image) so it fills the entire slide;
-     `size=contain` shows the WHOLE summary with no cropping; any aspect-ratio difference from
-     the 1280×720 canvas (e.g. the 2:1 concept-card SVGs) is letterboxed in the DeepSlate canvas
-     colour, which the SVGs share. No title/subtitle/byline text is rendered. -->
-<section id="$idprefix$title-slide" class="quarto-title-block title-visual-summary" data-background-image="$visual-summary$" data-background-size="contain" data-background-color="#0f172a"$for(title-slide-attributes/pairs)$ $it.key$="$it.value$"$endfor$>
+<!-- Title slide = the chapter visual summary (the mind-map image), full-bleed, nothing else.
+     The image is painted as the slide background (data-background-image) so it spans the full
+     width and fills the entire slide; `size=contain` always shows the WHOLE image, never cropped.
+     The 16:9 mind maps match the 1280×720 canvas exactly; on a non-16:9 screen the bars take
+     `visual-summary-bg` (the image's own edge colour, written by sync_mindmap_images.py),
+     falling back to DeepSlate #0f172a. No title/subtitle/byline text is rendered. -->
+<section id="$idprefix$title-slide" class="quarto-title-block title-visual-summary" data-background-image="$visual-summary$" data-background-size="contain" data-background-color="$if(visual-summary-bg)$$visual-summary-bg$$else$#0f172a$endif$"$for(title-slide-attributes/pairs)$ $it.key$="$it.value$"$endfor$>
 </section>
 $else$
 <section id="$idprefix$title-slide" class="quarto-title-block"$for(title-slide-attributes/pairs)$ $it.key$="$it.value$"$endfor$>

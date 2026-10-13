@@ -1,0 +1,9 @@
+Edit ONLY the graph underneath "Parallel trends". The model has reintroduced unequal slopes and two Effect arrows; erase that entire mini plot's colored lines, dots, dashed counterfactual and BOTH old effect arrows, then redraw a fresh simple diagram. Preserve the axes and Policy cutoff. In the 1672×941 image, use this geometry approximately inside the same graph box:
+- Cyan BEFORE line: x=85 to x=250, CONSTANT y=545.
+- Purple CONTROL: x=85 to x=420, CONSTANT y=590, both before and after.
+- Cyan actual AFTER line: straight from (250,545) to (420,500).
+- White dashed treated COUNTERFACTUAL: from (250,545) to (420,545), CONSTANT y=545.
+- ONE and ONLY ONE white vertical double-headed DD-effect arrow, x=420, from y=500 to y=545. Its two endpoints touch the actual and counterfactual endpoints at the SAME post time. No second floating arrow anywhere.
+These coordinates describe the schematic geometry, not data to label. Do not print coordinates. All PRE colored segments are EXACTLY HORIZONTAL. The white counterfactual is exactly horizontal too, parallel to purple.
+No plotted dots are needed. Label cyan "Treated", purple "Control", white dashed "Counterfactual". Place "DD effect" near the one vertical arrow without overlapping lines. Policy date is x≈250. Keep Before/After, Outcome/Time. Use line weight matching the rest of the illustration.
+Do not preserve old trend lines. No tilted pre-period line. No extra arrows. Every other part of the page, text, formulas, numerical findings, map, drawings and style must remain unchanged.

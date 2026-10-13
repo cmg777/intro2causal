@@ -1,0 +1,99 @@
+{
+  "chapter_5_parallel_pretrends": {
+    "treated": {
+      "x_pixels": [
+        105,
+        130,
+        155,
+        180,
+        205,
+        230
+      ],
+      "y_pixels": [
+        545.0,
+        545.0,
+        545.0,
+        545.0,
+        545.0,
+        545.0
+      ],
+      "slope_pixels_per_pixel": -8.055111856460578e-16
+    },
+    "control": {
+      "x_pixels": [
+        105,
+        130,
+        155,
+        180,
+        205,
+        230
+      ],
+      "y_pixels": [
+        588.0,
+        588.0,
+        588.0,
+        588.0,
+        588.0,
+        588.5
+      ],
+      "slope_pixels_per_pixel": 0.0028571428571405816
+    },
+    "vertical_separation_range_pixels": 0.5,
+    "passed": true,
+    "note": "Raster/hand-ink tolerance: slope difference <0.02 and separation drift <=3 px. Schematics, not fitted empirical data."
+  },
+  "chapter_6_parallel_pretrends": {
+    "treated": {
+      "x_pixels": [
+        1105,
+        1119,
+        1133,
+        1147,
+        1161,
+        1175
+      ],
+      "y_pixels": [
+        529.0,
+        529.0,
+        529.0,
+        529.0,
+        529.0,
+        529.0
+      ],
+      "slope_pixels_per_pixel": 1.1804081797528867e-15
+    },
+    "control": {
+      "x_pixels": [
+        1105,
+        1119,
+        1133,
+        1147,
+        1161,
+        1175
+      ],
+      "y_pixels": [
+        577.5,
+        577.0,
+        577.5,
+        577.0,
+        577.0,
+        577.0
+      ],
+      "slope_pixels_per_pixel": -0.006122448979592478
+    },
+    "vertical_separation_range_pixels": 0.5,
+    "passed": true,
+    "note": "Raster/hand-ink tolerance: slope difference <0.02 and separation drift <=3 px. Schematics, not fitted empirical data."
+  },
+  "chapter_1_symmetric_ci": {
+    "endcap_x_bounds_pixels": [
+      39,
+      252
+    ],
+    "midpoint_x_pixels": 145.5,
+    "estimate_dot_x_pixels": 148.5,
+    "centering_error_pixels": 3.0,
+    "passed": true,
+    "note": "<=5 px hand-ink tolerance; interval width approximately 210 px."
+  }
+}

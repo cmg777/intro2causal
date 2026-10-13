@@ -1,0 +1,7 @@
+Edit ONLY the upper-right mini plot of diploma probability, labeled Pr(diploma). Keep the full Chapter 6 mind map and EVERY other element unchanged. Its labeled ~40 pp step needs a clearer calibrated drawing. Redraw ONLY the blue plotted lines and dots, retaining the axes with 0 at bottom and 1 at top:
+- One perfectly HORIZONTAL left segment at probability 0.30, to the LEFT of the cutoff.
+- One perfectly HORIZONTAL right segment at probability 0.70, to the RIGHT of the cutoff.
+- Their difference is exactly 0.40 of the vertical distance between the 0 and 1 axis ticks.
+- A vertical "~40 pp" double-headed arrow at the cutoff starts EXACTLY at the left 0.30 level and ends EXACTLY at the right 0.70 level.
+- No sloping segments or varying dots. You may omit dots entirely to keep a clean schematic. Do not connect the jump with a continuous smooth trend.
+These 0.30 and 0.70 levels are illustrative, not actual empirical estimates; do not add them as numeric annotations. Keep the existing ~40 pp text, Below/Cutoff/Above, and flat earnings plot. Do not touch the plus sign between calendar and law, the correct parallel DD pre-trends or any other mathematics.

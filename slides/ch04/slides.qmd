@@ -6,8 +6,9 @@ deck-author-url: "https://carlos-mendez.org"
 institute: "Nagoya University (GSID)"
 date: today
 date-format: long
-visual-summary: "figures/visual_summary.svg"   # stand-in until the mind-map image exists;
+visual-summary: "figures/visual_summary.webp"   # mind-map image, synced from mindmaps/images;
                                                 # the Recap slide repeats this path
+visual-summary-bg: "#091627"                     # its edge colour: letterbox on non-16:9 screens
 format:
   revealjs:
     output-file: index.html
@@ -641,7 +642,7 @@ MLDA: about 7.7 extra deaths per 100,000 at 21 (7–10 across specifications), m
 accidents, with no jump in disease deaths. Boston exam schools: peers improved, achievement did not.
 :::
 
-## {.recap background-image="figures/visual_summary.svg" background-size="contain" background-color="#0f172a"}
+## {.recap background-image="figures/visual_summary.webp" background-size="contain" background-color="#091627"}
 
 ::: {.notes}
 Recap with the chapter's visual summary: the question (does legal drinking raise deaths?), the

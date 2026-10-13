@@ -506,7 +506,7 @@ function googleTranslateElementInit() {
 </header>
 
 
-<p><img src="../images/ch01_visual_summary.svg" class="img-fluid"></p>
+<p><img src="../images/ch01_visual_summary.webp" class="img-fluid"></p>
 <p><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Colab"></a> <a href="https://cmg777.github.io/intro2causal/slides/ch01/"><img src="https://img.shields.io/badge/View-Lecture_Slides-8e44ad?logo=revealdotjs&amp;logoColor=white.png" class="img-fluid" alt="View Slides"></a> <a href="https://cmg777.github.io/intro2causal/"><img src="https://img.shields.io/badge/Return_to-Book_Website-38bdf8?logo=google-chrome&amp;logoColor=white.png" class="img-fluid" alt="Return to Book Website"></a></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1303,7 +1303,7 @@ Figure&nbsp;1.1: Roadmap for Chapter 1
 </div>
 </div>
 <p>At first glance, the answer seems obvious. We can look at survey data and compare the health of insured and uninsured people. Let’s do exactly that using the <strong>National Health Interview Survey (NHIS)</strong>, an annual survey of the U.S. population.</p>
-<div id="c4e0cc7d" class="cell" data-execution_count="1">
+<div id="bdac4323" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1859,7 +1859,7 @@ Figure&nbsp;1.4: In an RCT, random assignment ensures the two groups are compara
 <section id="step-1-verify-randomization-balance-check" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-verify-randomization-balance-check">Step 1: Verify Randomization (Balance Check)</h3>
 <p>First, we check whether randomization created comparable groups. We regress each baseline characteristic on plan-type dummies. The <strong>catastrophic plan is the omitted reference group</strong>, so each coefficient represents the difference between that plan group and the catastrophic group.</p>
-<div id="cf45479e" class="cell" data-execution_count="4">
+<div id="ddf20a5b" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-cleaned RAND HIE baseline data</span></span>
@@ -2194,7 +2194,7 @@ Table&nbsp;1.4: Baseline balance across RAND HIE plan groups. Each row is a sepa
 <section id="step-2-estimate-causal-effects-on-health-care-use" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-estimate-causal-effects-on-health-care-use">Step 2: Estimate Causal Effects on Health-Care Use</h3>
 <p>Now we turn to outcomes. Because treatment was randomly assigned, the same regression approach that checked balance now gives us <strong>causal effects</strong>. The coefficient on each plan dummy tells us how much that plan changed health-care use <em>relative to having no insurance</em>.</p>
-<div id="e82bf658" class="cell" data-execution_count="7">
+<div id="35709f4c" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-cleaned RAND HIE utilization data (person-year panel)</span></span>
@@ -2400,7 +2400,7 @@ Table&nbsp;1.5: Causal effects of insurance on health-care use (RAND HIE). Spend
 <section id="step-3-estimate-causal-effects-on-health" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-estimate-causal-effects-on-health">Step 3: Estimate Causal Effects on Health</h3>
 <p>Here is the crucial test. All that extra spending bought more health care — but did it buy better <strong>health</strong>? These outcomes were measured 3–5 years after random assignment.</p>
-<div id="14ac5777" class="cell" data-execution_count="9">
+<div id="9f1444ab" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-cleaned RAND HIE exit health measures</span></span>
@@ -4475,7 +4475,7 @@ Table&nbsp;1.13: Implied price elasticity of demand: inpatient vs.&nbsp;outpatie
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="al">![](../images/ch01_visual_summary.svg)</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="al">![](../images/ch01_visual_summary.webp)</span></span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb)</span></span>
 <span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![View Slides](https://img.shields.io/badge/View-Lecture_Slides-8e44ad?logo=revealdotjs&amp;logoColor=white)</span><span class="co">](https://cmg777.github.io/intro2causal/slides/ch01/)</span></span>

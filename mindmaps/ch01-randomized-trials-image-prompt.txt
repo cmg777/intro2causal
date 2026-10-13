@@ -1,0 +1,62 @@
+Use case: scientific-educational.
+Asset type: Chapter 1 opening-slide mind map for Mastering Causal Metrics, also suitable as a book chapter overview.
+Create one beautiful finished 16:9 landscape image, ideally 3840 x 2160 pixels. Audience: first-year students new to econometrics. A concise conceptual overview in English, with a few equations and numerical findings.
+
+Backdrop and palette: flat deep navy #0f172a edge to edge. Cyan #38bdf8, lavender #a78bfa, emerald #34d399 for branches and accents; near-white #f1f5f9 for readable body labels; muted slate #94a3b8 for secondary details. Use these book colors consistently. No other dominant hues.
+
+Visual style: refined editorial mind map with genuinely hand-drawn ink illustrations. Delicate human pen strokes, lightly hatched shading, occasional translucent colored ink fills. Small drawings must explain ideas, not merely decorate. Clean, highly legible Inter-like sans-serif text. Text should look professionally typeset, not handwritten. Balanced, enjoyable, elegant, generous breathing room. Large typography suitable for classroom projection.
+
+Composition: one central focal node, six organic curved main branches radiating into all directions, each with 2–3 short offshoots. Clear connected hierarchy, subtle line-weight variation, branch-color grouping. Six surrounding concept clusters arranged around the center. No rectangular infographic panels, no grid of cards, no linear flowchart. Small illustrations sit beside relevant branch headings. Branch lines must never cross text or each other. Keep all content comfortably inside a safe margin. Center is visually dominant, but compact enough to leave room for branches. Allow branches to extend up and down as well as left and right.
+
+Exact central text:
+"CHAPTER 1"
+"Randomized Trials"
+"Does health insurance"
+"make people healthier?"
+Small central drawing: an insurance shield with a heart and two small people.
+
+The six main branches and exact text to render (do not print the instructional location descriptions or illustration descriptions):
+1. Upper-left, cyan:
+"Potential outcomes"
+"Y₁: with insurance"
+"Y₀: without insurance"
+"Only one is observed"
+"Individual effect = Y₁ − Y₀"
+Illustration: a person at a fork in a road, one solid road and one ghosted counterfactual road.
+
+2. Left, lavender:
+"Selection bias"
+"Groups differ before treatment"
+"Observed gap = causal effect"
+"+ selection bias"
+Illustration: two unequal groups of people, with small income and education cues, highlighting pre-existing differences. The two lines of the decomposition must visibly form one equation, not two unrelated leaves.
+
+3. Lower-left, cyan:
+"Reading the evidence"
+"Regression coefficient = difference in means"
+"95% CI ≈ estimate ± 2 × SE"
+"Not significant ≠ no effect"
+Illustration: a horizontal confidence interval with a central estimate dot, end caps, and a faint vertical zero reference. Do not imply a specific empirical estimate.
+
+4. Upper-right, lavender:
+"Random assignment"
+"A coin flip assigns groups"
+"Balanced on average"
+"Check baseline balance"
+Illustration: a flipping coin above two similarly composed treatment and control groups. Small labels "Treatment" and "Control". Show similarity in expectation, not perfect guarantees.
+
+5. Right, emerald:
+"RAND experiment"
+"Free care: +45% spending"
+"No clear average health improvement"
+Illustration: a stethoscope and a small rising spending bar chart, with a restrained flat health trace. No invented plotted data. This refers to free care compared with catastrophic coverage. Do not label it uninsured versus insured.
+
+6. Lower-right, emerald:
+"Oregon lottery"
+"More care; better mental health"
+"Less medical debt"
+"No significant physical-health gain"
+"ITT: compare lottery winners vs. losers"
+Illustration: a lottery ticket, small calm face or heart, and a protected wallet. Make clear this is lottery assignment, not a guarantee that all winners receive insurance.
+
+Scientific constraints: preserve all wording, symbols, and numbers accurately. The RAND and Oregon health labels describe detected average study results, not proof of zero effects. Random assignment balances observed and unobserved traits in expectation. ITT concerns assignment. Keep the uncertainty caution conspicuous. Do not add claims, dates, invented data, citations, decorative captions, duplicated headings, watermarks, logos, gradients, glow effects, or a footer. Prioritize concise, correct text and spacious true radial topology.

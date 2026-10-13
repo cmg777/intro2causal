@@ -1,0 +1,5 @@
+Edit only three details of this audited Chapter 1 image; preserve everything else.
+1. Confidence interval: the Estimate dot must be EXACTLY CENTERED between the two endcaps because the formula is estimate ±1.96×SE. In this image the line's ends are approximately x=40 and x=246, so put the estimate dot at x=143, not x=178. Leave the dashed zero reference at x≈109 and its 0 label. Move "Estimate" under the centered dot. Equal-length left and right CI arms are mandatory. Do not change the full "95% CI" bracket or any main text.
+2. Replace the label "Binary-treatment regression = mean gap" with "Binary-treatment coefficient = mean gap"; leave "(intercept; no other controls)".
+3. RAND: delete the two quantitative bars, whose heights incorrectly suggest an ~80% increase. Replace them with two small insurance-plan icons labeled "Catastrophic" and "Free care", linked by an arrow annotated "~45% more spending". No bars, no numeric chart geometry, no fictitious time series. The main branch's ~45% figure is already correct. Keep the stethoscope and all three main findings.
+All other elements unchanged.

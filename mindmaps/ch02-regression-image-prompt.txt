@@ -1,0 +1,61 @@
+Use case: scientific-educational.
+Asset type: a standalone illustrated chapter mind map for the opening slide of Mastering Causal Metrics.
+Create one beautiful finished 16:9 landscape PNG image, ideally 3840 x 2160 pixels. English. Audience: first-year students new to econometrics. Concise overview, a few equations and real numerical findings. This is part of the same series as a Chapter 1 mind map: deep navy canvas, central hand-ink outlined circle, six organic colored branches, clean typeset labels, richly drawn small educational vignettes.
+
+Backdrop: flat deep navy #0f172a edge to edge.
+Palette: cyan #38bdf8, lavender #a78bfa, emerald #34d399; near-white #f1f5f9 body text and muted slate #94a3b8 secondary labels. No other dominant hues. No gradients or glow effects.
+Style: beautiful hand-drawn pen-and-ink illustrations with fine white and colored contours, light crosshatching and restrained translucent ink fills. Drawings have human character, detail, and explanatory value. Combine this with clear, professionally typeset Inter-like sans-serif typography. Text must be large, legible, and correctly spelled. Friendly but refined editorial design.
+Layout: a compact dominant circle in the middle with the chapter number, chapter title, motivating question, and a small central illustration. Six main curved branches radiate to the upper-left, left, lower-left, upper-right, right, lower-right. Each branch ends at a readable concept heading and short connected leaf labels. Small explanatory sketches beside headings. True radial topology, generous breathing room, clear hierarchy, balanced visual weight, substantial safe margins. No rectangular panels or card grid. Do not cross text with branch lines. Keep short labels adjacent to their illustration and branch.
+Content instructions: the quoted chapter and branch labels below are exact text to render. Other instructions, positioning, palette names, and descriptions of illustrations are not text to render. Do not add unrequested explanatory sentences or invented data. The drawings may use only the explicitly authorized short labels. Avoid duplicated words, clipped content, tiny footnotes, watermarks, logos, and a footer.
+
+Central text:
+"CHAPTER 2"
+"Regression"
+"Is an elite private college"
+"worth the extra tuition?"
+Central illustration: a graduation cap, a college building, and a small earnings coin stack.
+
+Upper-left, cyan:
+"Selection without a lottery"
+"Students differ before college"
+"Ability, ambition, family background"
+"Raw earnings gap ≠ causal effect"
+Drawing: two students with different backgrounds facing college choices; ability and family cues, no stereotypes.
+
+Left, lavender:
+"Compare like with like"
+"Y = α + βP + γX + e"
+"P: private college; X: controls"
+"β: other things equal"
+"OLS minimizes squared residuals"
+Drawing: two matched students, a scatterplot with a fitted straight line and two small vertical residuals. No invented plot statistics.
+
+Lower-left, cyan:
+"Omitted variables bias"
+"OVB = βshort − βlong = π₁ × γ"
+"π₁: omitted trait linked to treatment"
+"γ: omitted trait affects outcome"
+"Either factor zero → no OVB"
+Drawing: a missing puzzle piece connecting a college choice and an earnings coin stack. The formula must be shown accurately as one connected label.
+
+Upper-right, lavender:
+"The causal assumption"
+"Conditional independence"
+"As good as random given X"
+"Unobserved confounders remain a risk"
+Drawing: an equalizing balance scale with matching student profiles and a small question mark over an unseen confounder. Do not imply controls guarantee causality.
+
+Right, emerald:
+"Dale–Krueger study"
+"Raw private premium: ~14%"
+"Selectivity controls: ~7%"
+"Application-set controls: near zero"
+Drawing: two students holding similar college application folders, choosing different campuses; a compact descending three-step sketch labeled "14%", "7%", "~0". These are different regression specifications, not time periods.
+
+Lower-right, emerald:
+"Choose controls carefully"
+"Use pre-treatment confounders"
+"Occupation is a bad control"
+"Stable estimates build confidence"
+Drawing: small causal chain labeled "College", "Occupation", "Earnings", with occupation gently circled as a caution. Do not cross out the whole causal pathway as if it does not exist.
+Scientific constraints: β is causal only under identifying assumptions. The private premium finding is the average result in this study, not proof that every elite school has no value. π₁ and γ label the two OVB components, not multiplication of unrelated quantities. Retain short versus long notation.

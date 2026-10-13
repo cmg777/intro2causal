@@ -1,0 +1,68 @@
+Use case: scientific-educational.
+Asset type: a standalone illustrated chapter mind map for the opening slide of Mastering Causal Metrics.
+Create one beautiful finished 16:9 landscape PNG image, ideally 3840 x 2160 pixels. English. Audience: first-year students new to econometrics. Concise overview, a few equations and real numerical findings. This is part of the same series as a Chapter 1 mind map: deep navy canvas, central hand-ink outlined circle, six organic colored branches, clean typeset labels, richly drawn small educational vignettes.
+
+Backdrop: flat deep navy #0f172a edge to edge.
+Palette: cyan #38bdf8, lavender #a78bfa, emerald #34d399; near-white #f1f5f9 body text and muted slate #94a3b8 secondary labels. No other dominant hues. No gradients or glow effects.
+Style: beautiful hand-drawn pen-and-ink illustrations with fine white and colored contours, light crosshatching and restrained translucent ink fills. Drawings have human character, detail, and explanatory value. Combine this with clear, professionally typeset Inter-like sans-serif typography. Text must be large, legible, and correctly spelled. Friendly but refined editorial design.
+Layout: a compact dominant circle in the middle with the chapter number, chapter title, motivating question, and a small central illustration. Six main curved branches radiate to the upper-left, left, lower-left, upper-right, right, lower-right. Each branch ends at a readable concept heading and short connected leaf labels. Small explanatory sketches beside headings. True radial topology, generous breathing room, clear hierarchy, balanced visual weight, substantial safe margins. No rectangular panels or card grid. Do not cross text with branch lines. Keep short labels adjacent to their illustration and branch.
+Content instructions: the quoted chapter and branch labels below are exact text to render. Other instructions, positioning, palette names, and descriptions of illustrations are not text to render. Do not add unrequested explanatory sentences or invented data. The drawings may use only the explicitly authorized short labels. Avoid duplicated words, clipped content, tiny footnotes, watermarks, logos, and a footer.
+
+Central text:
+"CHAPTER 3"
+"Instrumental Variables"
+"What if people ignore"
+"their assigned treatment?"
+Central illustration: three hand-drawn dominoes linked by arrows, labeled "Z", "D", "Y".
+
+Upper-left, cyan:
+"Non-compliance"
+"Assigned ≠ received treatment"
+"Choosing treatment revives bias"
+"Use the random nudge instead"
+Drawing: a treatment assignment slip with two people following different paths, one taking treatment and one not.
+
+Left, lavender:
+"The IV chain"
+"Z → D → Y"
+"First stage: Z changes D"
+"Reduced form: Z changes Y"
+"LATE = reduced form ÷ first stage"
+Drawing: a lever moving a treatment domino then an outcome domino. Preserve causal direction and exact symbols.
+
+Lower-left, cyan:
+"Estimate with 2SLS"
+"Stage 1: predict D using Z"
+"Stage 2: Y on predicted D"
+"Use IV software for valid SEs"
+"Weak first stage → fragile estimates"
+Drawing: a two-stage filtering apparatus separating the instrument-driven part of treatment from confounded variation. Label the two stages "1" and "2", no programming logos.
+
+Upper-right, lavender:
+"Instrument requirements"
+"Relevance: moves treatment"
+"Independence: as good as random"
+"Exclusion: no direct path to Y"
+Drawing: a key that turns a lock, plus a blocked bypass from "Z" directly to "Y". The permitted route Z to D to Y remains open.
+
+Right, emerald:
+"Who does LATE describe?"
+"Compliers: moved by the instrument"
+"Always-takers and never-takers"
+"Monotonicity: no defiers"
+"Local effect, not everyone's effect"
+Drawing: three small person groups with labels "Compliers", "Always", "Never". Highlight compliers and show how their treatment choice changes with the nudge. Do not show always-takers changing status.
+
+Lower-right, emerald:
+"Evidence from IV"
+"KIPP math: 0.355 ÷ 0.741 ≈ 0.48 SD"
+"Minneapolis: assignment vs. action"
+"Family-size IV: no clear schooling harm"
+Drawing: lottery ticket, small school chalkboard marked "+0.48 SD", and a family beside schoolbooks. Keep all three case-study labels clearly attached to this branch.
+Scientific constraints: Wald LATE requires relevance, independence, exclusion, and monotonicity in the standard binary framework. The KIPP estimate is for lottery compliers. First stage is a difference in treatment probability, not simply a winner enrollment rate. Do not claim IV estimates the effect for everyone or that a diagnostic proves exclusion. The family-size finding is not a universal zero effect.
+
+REFINEMENT PROMPT USED FOR THE SELECTED OUTPUT:
+Refine the attached Chapter 3 mind map. Keep the entire navy canvas, 16:9 framing, central circle, typography, all six branches, all existing main text, correct numerical values and palette unchanged. Change only two small illustrations:
+1. Under "Estimate with 2SLS", replace the misleading two parallel funnels with a simple sequential two-stage drawing. Sketch two small blackboards or neat stage nodes side by side, linked left to right. First node labeled "1" with "Z → D̂", representing instrument-predicted treatment. Second node labeled "2" with "D̂ → Y", representing regressing Y on predicted treatment. A single arrow carries predicted treatment from first to second. No funnel of "remaining variation" feeding stage 2. It should show the instrument-driven component of treatment being used to explain outcome. Fit wholly within the same area and keep the branch's four labels exactly as before.
+2. Under the "Minneapolis: assignment vs. action" leaf in "Evidence from IV", replace the school, campus, and ASSIGNED/ENROLLED sign drawing with a small policing-study vignette: a police badge, an assignment clipboard and a radio, linked by a simple arrow. Two short sketch labels may read "Assignment" and "Action". This is a randomized police-response study, not school enrollment. Keep the KIPP school lottery sketch and family-size sketch unchanged.
+Preserve all other illustrations and all other text. No additional decorative elements.

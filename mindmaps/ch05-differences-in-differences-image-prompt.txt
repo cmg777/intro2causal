@@ -1,0 +1,79 @@
+Use case: scientific-educational.
+Asset type: a standalone illustrated chapter mind map for the opening slide of Mastering Causal Metrics.
+Create one beautiful finished 16:9 landscape PNG image, ideally 3840 x 2160 pixels. English. Audience: first-year students new to econometrics. Concise overview, a few equations and real numerical findings. This is part of the same series as a Chapter 1 mind map: deep navy canvas, central hand-ink outlined circle, six organic colored branches, clean typeset labels, richly drawn small educational vignettes.
+
+Backdrop: flat deep navy #0f172a edge to edge.
+Palette: cyan #38bdf8, lavender #a78bfa, emerald #34d399; near-white #f1f5f9 body text and muted slate #94a3b8 secondary labels. No other dominant hues. No gradients or glow effects.
+Style: beautiful hand-drawn pen-and-ink illustrations with fine white and colored contours, light crosshatching and restrained translucent ink fills. Drawings have human character, detail, and explanatory value. Combine this with clear, professionally typeset Inter-like sans-serif typography. Text must be large, legible, and correctly spelled. Friendly but refined editorial design.
+Layout: a compact dominant circle in the middle with the chapter number, chapter title, motivating question, and a small central illustration. Six main curved branches radiate to the upper-left, left, lower-left, upper-right, right, lower-right. Each branch ends at a readable concept heading and short connected leaf labels. Small explanatory sketches beside headings. True radial topology, generous breathing room, clear hierarchy, balanced visual weight, substantial safe margins. No rectangular panels or card grid. Do not cross text with branch lines. Keep short labels adjacent to their illustration and branch.
+Content instructions: the quoted chapter and branch labels below are exact text to render. Other instructions, positioning, palette names, and descriptions of illustrations are not text to render. Do not add unrequested explanatory sentences or invented data. The drawings may use only the explicitly authorized short labels. Avoid duplicated words, clipped content, tiny footnotes, watermarks, logos, and a footer.
+
+Central text:
+"CHAPTER 5"
+"Differences-in-Differences"
+"Can policy changes reveal"
+"what would have happened?"
+Central illustration: two neighboring bank buildings and a small before/after timeline, one building protected by a credit lifeline.
+
+Upper-left, cyan:
+"Difference twice"
+"DD = treated change − control change"
+"Remove fixed gaps and common shocks"
+"Before–after alone can mislead"
+Drawing: a simple two-group before/after sketch with one arrow for each group's change, and a bracket comparing the two changes. Sketch labels allowed: "Treated", "Control", "Before", "After".
+
+Left, lavender:
+"Parallel trends"
+"Without policy, changes would match"
+"Equal starting levels are not needed"
+"Control trend supplies the counterfactual"
+Drawing: a clear schematic DD plot: two parallel trends before a dashed policy date, treatment deviating after, control continuing, and the treated counterfactual continuing as a dashed line parallel to control. Actual treated and counterfactual must start from the same treated level at the policy date. Add a small vertical effect bracket after treatment. Labels allowed: "Policy", "Counterfactual".
+
+Lower-left, cyan:
+"Regression toolkit"
+"Y = α + δ(Treated × Post) + group FE + time FE + e"
+"Group FE: permanent differences"
+"Time FE: shared shocks"
+"Cluster SEs by group"
+Drawing: a panel-data ledger with rows for places and columns for dates, and two little gears for group and time fixed effects. Use no fabricated estimates.
+
+Upper-right, lavender:
+"Check the assumptions"
+"Inspect pre-trends"
+"Vary trends, weights, and controls"
+"Use placebo outcomes"
+"Time-varying confounders remain a risk"
+Drawing: magnifying glass over parallel pre-period traces, with a small checklist.
+
+Right, emerald:
+"Mississippi banks"
+"Atlanta: liquidity support"
+"St. Louis: restrictive credit"
+"~19–23 banks saved"
+Drawing: a simplified Mississippi outline split by a Federal Reserve district border, two bank buildings, and a credit lifeline on the Atlanta side. No elaborate fabricated geographic detail. Sketch labels allowed: "Atlanta", "St. Louis".
+
+Lower-right, emerald:
+"Legal drinking policy"
+"State policy changes over time"
+"~8–12 extra deaths per 100,000"
+"Most of the increase: road accidents"
+"Internal causes: placebo"
+Drawing: a small state-policy calendar and a road with a car; no graphic harm.
+Scientific constraints: DD relies on parallel untreated trends, not equal outcome levels. Pre-trends and placebos cannot prove it. Fixed effects do not remove every confounder. The bank estimate concerns the Atlanta policy relative to St. Louis, even though both groups experienced bank losses. The drinking estimate is the chapter's historical policy comparison; do not generalize it to every policy timing design. Keep the full regression equation readable, wrapping only at meaningful mathematical boundaries.
+
+REFINEMENT PROMPT USED FOR THE SELECTED OUTPUT:
+Edit only three small illustrations of the attached Chapter 5 mind map. Preserve every main label, number, equation, chapter title, all six radial branches, the layout and all other illustrations; preserve the navy canvas and typography.
+1. Redraw the mini graph beneath "Parallel trends" to make its geometry scientifically correct. BEFORE the dashed Policy date, the cyan Treated and purple Control lines must have EXACTLY THE SAME upward slope, with different starting levels and a constant vertical gap. At the policy date, a white dashed treated Counterfactual must originate at EXACTLY the cyan treated point. AFTER policy, the white dashed Counterfactual and purple Control must have EXACTLY THE SAME slope, preserving their pre-policy vertical separation. Actual cyan Treated may rise more steeply only AFTER policy. The vertical Effect arrow/bracket at the right must compare actual treated and its white dashed counterfactual at the SAME time. Keep "Treated", "Control", "Counterfactual", "Policy", "Before", "After", "Outcome", "Time", "Effect" labels readable and unchanged.
+2. In the little Mississippi geography vignette on the right, remove the misleading vertical geographic dividing line. Prefer a simple Mississippi outline with two nearby labeled bank icons ("Atlanta" and "St. Louis") and a credit lifeline, without drawing any Federal Reserve district boundary or claiming detailed bank locations. The central bank illustration stays unchanged. This prevents an invented geographic boundary.
+3. In the panel-data table under "Regression toolkit", replace fabricated calendar-year headers with generic labels "t₁", "t₂", "t₃", "t₄"; replace row names with "Group A", "Group B", "Group C". Preserve its panel-data structure and the two FE gears. No invented bank-study years.
+No other changes. Keep all findings: ~19–23 banks saved; ~8–12 extra deaths per 100,000; the full DD regression formula and causal cautions.
+
+FINAL CORRECTION PROMPT:
+Keep the entire Chapter 5 mind map unchanged except the small graph directly below "Parallel trends". ERASE all the existing colored and dashed trend lines and plotted dots in that one graph. Preserve its axes, Policy date, and labels. Draw a fresh, SIMPLE, correct DD schematic:
+- Purple CONTROL is ONE HORIZONTAL LINE at a LOW outcome level across the ENTIRE before and after period. Small purple dots lie on this horizontal line.
+- Cyan TREATED is HORIZONTAL at a HIGHER level throughout the entire BEFORE period, then slopes UP only AFTER the dashed Policy date. Cyan dots follow this horizontal-then-rising line.
+- White dashed COUNTERFACTUAL is HORIZONTAL at exactly the SAME level as the cyan BEFORE line, beginning at the cyan point at the Policy date and extending right. It must be clearly ABOVE the purple Control line throughout.
+- Thus before policy the two colored lines are parallel horizontal lines with a constant vertical gap.
+- Vertical Effect arrow at the right spans actual cyan treated to its WHITE dashed counterfactual at the same time.
+Keep the line labels adjacent to their correct lines: cyan "Treated", white "Counterfactual", purple "Control".
+Do not reuse any previous rising pre-policy segments. No rising Control line. No rising dashed Counterfactual line. No dots off the lines. This simple horizontal untreated-trend case is mathematically valid and avoids misleading slope geometry. Leave every other image element and all numerical findings unchanged.
