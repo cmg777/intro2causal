@@ -94,6 +94,8 @@ Rule of thumb for the essentials deck:
   `pd.read_csv(GITHUB_DATA_URL + "chN/<file>.csv")` + the tool call), **every line commented**, with
   the `↗ Try it in Colab` pill — see `slide-archetypes.md` archetype 7. **Test each block** locally
   before rendering (`uv run python` with the `!pip` line removed) — a code slide that errors is a bug.
+- **Chapters without a CSV** (ch02 simulates its data with `numpy`): the block builds the same
+  simulated data inline (same seed as the chapter) instead of `pd.read_csv`; say so in the notes.
 - **Python only** (pyfixest `pf.feols` for every regression, with explicit `vcov=`); no Stata.
 - If two tools are tiny and naturally paired, one slide may show both; never cram more than one
   *concept* onto a code slide, and keep each block ≤ ~10 lines (push extra to the notes).

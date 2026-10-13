@@ -1,0 +1,752 @@
+---
+title: "3. Instrumental Variables"
+subtitle: "When people ignore their assignment, a random nudge still reveals the causal effect"
+deck-author: "Carlos Mendez"
+deck-author-url: "https://carlos-mendez.org"
+institute: "Nagoya University (GSID)"
+date: today
+date-format: long
+visual-summary: "figures/visual_summary.svg"   # stand-in until the mind-map image exists;
+                                                # the Recap slide repeats this path
+format:
+  revealjs:
+    output-file: index.html
+    theme: [default, site-brand.scss]
+    template-partials:
+      - title-slide.html
+    include-after-body: figure-zoom.html
+    center: true
+    slide-number: c/t
+    menu: true
+    chalkboard: true
+    preview-links: auto
+    overview: true
+    progress: true
+    history: true
+    transition: fade
+    width: 1280
+    height: 720
+    fig-align: center
+    auto-stretch: true
+    highlight-style: github-dark
+    mermaid-format: svg       # pre-render diagrams at build time (live mermaid mis-measures labels inside reveal's scaled slides)
+    mermaid:
+      theme: dark
+    link-external-icon: false
+---
+
+# The Question {.divider background-color="#3498db"}
+
+[Act I]{.act}
+
+## What if people ignore the treatment they were assigned?
+
+A lottery or a coin flip decides who *should* be treated — that is the clean experiment of Chapter 1.
+
+. . .
+
+But police officers override their orders, patients skip their pills, and lottery winners never
+enroll. **What is left of the experiment?**
+
+::: {.notes}
+Open with the gap between the plan and reality. In Chapter 1 we assumed everyone did what the
+lottery said. Real experiments rarely go to plan: officers use discretion, patients stop taking
+medication, families who win a school seat decide not to take it. Ask the room: if half the
+treatment group never got treated, can we still learn the effect of the treatment?
+:::
+
+## Comparing people by the treatment they *received* brings selection bias back
+
+```{mermaid}
+graph LR
+    S["Dangerous incident"] -->|"prompts"| A["Officer arrests"]
+    S -->|"raises"| R["Repeat violence"]
+    A -.->|"causal effect?"| R
+    style S fill:#e67e22,color:#fff
+    style A fill:#3498db,color:#fff
+    style R fill:#2d8659,color:#fff
+```
+
+[Whoever decides to deviate from the plan does so for a reason — and that reason may also drive the outcome.]{.takeaway .fragment}
+
+::: {.notes}
+If officers arrest the most aggressive suspects regardless of what the random form said, then the
+"arrested" group is loaded with high-risk cases. Comparing outcomes by delivered treatment mixes
+the effect of arrest with the danger of the incident — the same selection-bias problem from
+Chapter 1, now sneaking in through non-compliance.
+:::
+
+## Our route through the chapter
+
+::: {.incremental}
+- **The question** — why non-compliance breaks a simple comparison of treated and untreated
+- **The investigation** — the IV chain reaction, the three conditions for a valid instrument, who
+  LATE speaks for, and three case studies: police responses, a charter-school lottery, family size
+- **The resolution** — 2SLS in practice, weak instruments, and the traps to avoid
+:::
+
+::: {.notes}
+Learning objectives: explain why non-compliance creates a gap between assigned and received
+treatment; define LATE and the formula LATE = reduced form / first stage; classify compliers,
+always-takers, never-takers and defiers; state the three requirements for a valid instrument;
+explain how 2SLS implements IV; recognize weak instruments.
+:::
+
+## Every IV analysis has three variables
+
+:::: {.columns}
+::: {.column width="33%"}
+### Instrument $Z$
+The random nudge — a lottery win, an assignment form.
+:::
+::: {.column width="33%"}
+### Treatment $D$
+What people actually *received* — the action taken, the school attended.
+:::
+::: {.column width="34%"}
+### Outcome $Y$
+What we care about — repeat violence, test scores, years of schooling.
+:::
+::::
+
+[IV uses the randomness in $Z$ to learn how $D$ affects $Y$.]{.takeaway .fragment}
+
+::: {.notes}
+Remote-control analogy: the remote (instrument) does not entertain you; it only changes the
+channel (treatment), which determines what you watch (outcome). Throughout the chapter, Z is
+assignment, D is the treatment received, Y is the outcome.
+:::
+
+## Three measurements and four kinds of people carry the chapter
+
+:::: {.columns}
+::: {.column width="50%"}
+### The measurements
+- **First stage** — how much $Z$ moves $D$
+- **Reduced form** — how much $Z$ moves $Y$
+- **LATE** — the effect of $D$ on $Y$ for those $Z$ moves
+:::
+::: {.column width="50%"}
+### The people
+- **Compliers** — follow the nudge
+- **Always-takers** — treated no matter what
+- **Never-takers** — untreated no matter what
+- **Defiers** — do the opposite
+:::
+::::
+
+[The method is built from the left column; its interpretation depends on the right.]{.takeaway .fragment}
+
+::: {.notes}
+Other vocabulary we will meet: non-compliance, relevance, independence, exclusion restriction,
+monotonicity, two-stage least squares (2SLS), weak instruments. Define them as they come up.
+:::
+
+# The Investigation {.divider background-color="#8e44ad"}
+
+[Act II]{.act}
+
+## Assigned treatment and received treatment are two different variables
+
+:::: {.columns}
+::: {.column width="50%"}
+### Assigned ($Z$)
+- Decided by the researcher's lottery
+- Random by design
+- Like a doctor's **prescription**
+:::
+::: {.column width="50%"}
+### Received ($D$)
+- Decided by people on the ground
+- Can depend on anything — including risk
+- Like the **pill** actually swallowed
+:::
+::::
+
+[Non-compliance is the gap between the two columns — and only the left one is guaranteed random.]{.takeaway .fragment}
+
+::: {.notes}
+Some patients never fill the prescription; others get the pill from a friend. The prescription and
+the pill are different things. Randomization protects the prescription, not the pill.
+:::
+
+## Minneapolis police were randomly told to arrest, advise, or separate
+
+| Assigned response | What the officer should do | Cases |
+|:---|:---|---:|
+| Arrest | Take the suspect into custody | 92 |
+| Advise | Counsel or mediate the couple | 108 |
+| Separate | Send the suspect away for 8 hours | 114 |
+
+[The goal: learn which response best prevents future domestic violence.]{.takeaway .fragment}
+
+::: {.notes}
+The Minneapolis Domestic Violence Experiment (MDVE), early 1980s. Officers responding to
+misdemeanor domestic-violence calls followed a randomly ordered set of instructions. 314 cases in
+the clean data file (`mdve_clean.csv`), with two columns: `assigned` and `delivered`.
+:::
+
+## Officers obeyed arrest orders almost always, and the others far less
+
+| Form said | Arrest | Advise | Separate | Obeyed |
+|:---|---:|---:|---:|---:|
+| Arrest | 91 | 0 | 1 | [98.9%]{.key} |
+| Advise | 19 | 84 | 5 | [77.8%]{.key} |
+| Separate | 26 | 5 | 83 | [72.8%]{.key} |
+
+[Rows: the randomly assigned response · columns: what the officer actually did.]{.comment}
+
+[When officers deviated, they almost always deviated *toward* arrest.]{.takeaway .fragment}
+
+::: {.notes}
+Read the diagonal: 91 of 92 arrest assignments were carried out, versus 84 of 108 advise and 83 of
+114 separate. The off-diagonal mass sits in the Arrest column: 19 + 26 = 45 coddle assignments
+ended in arrest. The "arrested" group therefore contains the randomly assigned arrests plus the
+cases officers judged most dangerous — a recipe for selection bias.
+:::
+
+## `pd.crosstab` shows who followed the form
+
+``` {.python code-line-numbers="1|3-5|7-8"}
+import pandas as pd                              # pandas → load and tabulate
+
+# every course dataset lives in the repo's data/ folder on GitHub
+GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+mdve = pd.read_csv(GITHUB_DATA_URL + "ch3/mdve_clean.csv")   # 314 MDVE cases
+
+# rows = what the form said, columns = what officers did; shares within each row
+pd.crosstab(mdve["assigned"], mdve["delivered"], normalize="index").round(3)
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+`normalize="index"` turns counts into row shares, so the diagonal is each group's compliance rate:
+0.989 for arrest, 0.778 for advise, 0.728 for separate. Drop `normalize=...` and add
+`margins=True` to get the raw counts with totals.
+:::
+
+## IV works like a chain of dominoes
+
+```{mermaid}
+graph LR
+    Z["Instrument Z: random form"] -->|"first stage"| D["Treatment D: police action"]
+    D -->|"causal effect"| Y["Outcome Y: repeat violence"]
+    Z -.->|"reduced form"| Y
+    style Z fill:#8e44ad,color:#fff
+    style D fill:#3498db,color:#fff
+    style Y fill:#2d8659,color:#fff
+```
+
+[We see the first domino fall and the last one fall; IV infers the push in between.]{.takeaway .fragment}
+
+::: {.notes}
+Domino 1: the random form nudges the officer's action (first stage). Domino 2: the action affects
+future violence (the causal effect we want). What we can measure directly is the form's effect on
+violence (reduced form) = domino 1 × domino 2. The IV trick divides out domino 1.
+:::
+
+## First stage and reduced form are two simple comparisons by $Z$
+
+$$\phi = E[D_i \mid Z_i = 1] - E[D_i \mid Z_i = 0]$$
+
+. . .
+
+$$\rho = E[Y_i \mid Z_i = 1] - E[Y_i \mid Z_i = 0]$$
+
+[$\phi$: how far the nudge moves treatment. $\rho$: how far it moves the outcome. Both are clean, because $Z$ is random.]{.comment}
+
+[Both comparisons inherit the experiment's randomization — neither uses the treatment people chose.]{.takeaway .fragment}
+
+::: {.notes}
+φ (phi) is the first stage; ρ (rho) is the reduced form, also called the intent-to-treat (ITT)
+effect. Each is just a difference in averages between the Z = 1 and Z = 0 groups, exactly like the
+Chapter 1 comparisons.
+:::
+
+## Dividing the reduced form by the first stage isolates the treatment effect
+
+$$\lambda_{LATE} = \frac{\rho}{\phi} = \frac{\text{effect of } Z \text{ on } Y}{\text{effect of } Z \text{ on } D}$$
+
+[If the nudge moves only part of the group, its effect on $Y$ is diluted by the same fraction — so we scale it back up.]{.comment}
+
+[LATE = reduced form ÷ first stage: the Wald ratio.]{.takeaway .fragment}
+
+::: {.notes}
+Intuition: if winning a lottery raises scores by 0.3 but only 60% of winners actually attend, the
+effect of attending must be about 0.3 / 0.6 = 0.5 for those who attend because they won. This
+ratio is the Wald estimator, named after statistician Abraham Wald.
+:::
+
+## The idea dates back to 1928, to untangle supply from demand
+
+- **Philip G. Wright**, in an appendix to a book on tariffs, used outside factors that shift one
+  curve but not the other
+- His son **Sewall Wright**, a geneticist, supplied the path-diagram mathematics
+- The idea then lay largely dormant for decades
+
+[Instruments are "external factors" that move one part of a system while leaving the rest alone.]{.takeaway .fragment}
+
+::: {.notes}
+Price and quantity are set jointly by supply and demand, so a regression of quantity on price
+estimates neither curve. Wright's insight: a factor that shifts supply (e.g., weather affecting
+harvests) but not demand traces out the demand curve. Modern IV is the same idea applied to
+experiments with non-compliance and to natural experiments.
+:::
+
+## Relevance and independence can be checked in the data
+
+:::: {.columns}
+::: {.column width="50%"}
+### Relevance
+- $Z$ must actually move $D$
+- Check: a strong **first stage**
+- MDVE: the form moved actual coddling a lot
+:::
+::: {.column width="50%"}
+### Independence
+- $Z$ must be as good as randomly assigned
+- Check: **balance** across $Z$ groups
+- MDVE, KIPP: a lottery guarantees it by design
+:::
+::::
+
+[Two of the three conditions leave fingerprints we can inspect.]{.takeaway .fragment}
+
+::: {.notes}
+Key analogy: an instrument that does not move treatment is a key that does not turn the lock.
+Independence means the instrument is unrelated to unobserved confounders — a coin flip does not
+know which player is better. With natural experiments (not lotteries), independence needs a careful
+argument plus balance checks.
+:::
+
+## Exclusion: the instrument may reach the outcome only through the treatment
+
+```{mermaid}
+graph LR
+    Z["Wins KIPP lottery (Z)"] --> D["Attends KIPP (D)"]
+    D --> Y["Math score (Y)"]
+    Z -.->|"forbidden"| M["Parents feel motivated"]
+    M -.->|"forbidden"| Y
+    style Z fill:#8e44ad,color:#fff
+    style D fill:#3498db,color:#fff
+    style Y fill:#2d8659,color:#fff
+    style M fill:#c0392b,color:#fff
+```
+
+[No data test can rule out a side channel — exclusion must be argued, not proven.]{.takeaway .fragment}
+
+::: {.notes}
+If simply winning the lottery energized parents, who then helped with homework, the lottery would
+affect scores directly and the IV estimate would be contaminated. Placebo analogy: if you feel
+better from the ritual of swallowing a pill, the pill's chemistry is not the only channel. This is
+the hardest condition to defend in any IV study.
+:::
+
+## An instrument sorts people into four types
+
+| Type | If $Z = 0$ | If $Z = 1$ | What IV learns about them |
+|:---|:---:|:---:|:---|
+| [Complier]{.key} | untreated | treated | **Their effect = LATE** |
+| Always-taker | treated | treated | Nothing (unmoved) |
+| Never-taker | untreated | untreated | Nothing (unmoved) |
+| Defier | treated | untreated | Ruled out by assumption |
+
+[Only people whose treatment responds to the instrument contribute to the IV estimate.]{.takeaway .fragment}
+
+::: {.notes}
+Restaurant analogy: a complier orders the daily special, so changing the special changes their meal;
+an always-taker orders pizza whatever the menu says. We can never label an individual — we only see
+one value of Z per person — but we can estimate the share of each type from the data.
+:::
+
+## Monotonicity rules out defiers, and MDVE crossovers run one way
+
+| Crossover direction | Cases | Rate |
+|:---|---:|---:|
+| Told to coddle → arrested | 45 of 222 | [20.3%]{.key} |
+| Told to arrest → coddled | 1 of 92 | 1.1% |
+
+[Officers bent the rules toward arrest, almost never away from it — consistent with no defiers.]{.takeaway .fragment}
+
+::: {.notes}
+Monotonicity: the instrument pushes everyone in the same direction or not at all. A defier would be
+an officer who coddles when told to arrest *and* arrests when told to coddle. Monotonicity is about
+counterfactual behavior, so it cannot be formally tested, but this lopsided pattern makes it
+plausible. Without it, complier and defier effects could cancel in the first stage.
+:::
+
+## LATE speaks for the compliers and stays silent about everyone else
+
+- The "L" in LATE means **local** — local to the people the instrument moves
+- Always-takers and never-takers may have very different effects
+- A different instrument moves a different group, so it can give a different LATE
+
+[Before generalizing an IV estimate, ask: *who* are the compliers here?]{.takeaway .fragment}
+
+::: {.notes}
+In the MDVE, compliers are cases where the officer did what the form said. Always-takers here are
+officers who arrest no matter what — possibly more experienced, and arrest may work differently in
+their cases. A KIPP lottery identifies effects for lottery-applicant families; twin births identify
+effects for families on the margin of another child.
+:::
+
+## MDVE: recode three arms as "coddle" versus "arrest"
+
+| Variable | Code name | Equals 1 when… |
+|:---|:---|:---|
+| Instrument $Z$ | `z_coddle` | form said **advise/separate** |
+| Treatment $D$ | `d_coddle` | officer **advised/separated** |
+| Outcome $Y$ | (published) | **repeat violence** occurred |
+
+[One binary instrument and one binary treatment fit the standard IV formula.]{.takeaway .fragment}
+
+::: {.notes}
+"Coddle" is the shorthand for the two non-arrest responses. Collapsing three arms into two maps the
+experiment onto the Wald ratio. The clean data file has assignment and delivery only; the
+repeat-violence rates come from the published study.
+:::
+
+## Assignment to coddle raised actual coddling by 79 points
+
+| | Share actually coddled |
+|:---|---:|
+| Form said coddle ($Z = 1$) | 0.797 |
+| Form said arrest ($Z = 0$) | 0.011 |
+| **First stage** $\phi$ (difference) | [0.786]{.key} |
+
+[A first stage this large means the random form had real power over what officers did.]{.takeaway .fragment}
+
+::: {.notes}
+Read: 79.7% of coddle-assigned cases were coddled; 1.1% of arrest-assigned cases were coddled.
+The difference, 0.786, is also the share of compliers. Robust SE from the regression on the next
+slide: 0.029.
+:::
+
+## One `pf.feols` call estimates the first stage and its strength
+
+``` {.python code-line-numbers="1-3|5-6|8-9|11-12"}
+!pip install -q pyfixest                         # pyfixest is not preinstalled in Colab
+import pandas as pd                              # pandas → load tables
+import pyfixest as pf                            # pyfixest → regressions with robust SEs
+
+GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+mdve = pd.read_csv(GITHUB_DATA_URL + "ch3/mdve_clean.csv")   # 314 MDVE cases
+
+mdve["z_coddle"] = (mdve["assigned"] != "Arrest").astype(int)    # Z: form said coddle
+mdve["d_coddle"] = (mdve["delivered"] != "Arrest").astype(int)   # D: officer coddled
+
+fs = pf.feols("d_coddle ~ z_coddle", data=mdve, vcov="hetero")   # first stage, robust SEs
+fs.summary()                  # z_coddle 0.786 (SE 0.029), t ≈ 27 → F = t² ≈ 727
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+`vcov="hetero"` gives heteroskedasticity-robust standard errors. With a single instrument, the
+first-stage F-statistic equals the squared t-statistic: 26.97² ≈ 727, far above the rule-of-thumb
+threshold of 10. The intercept, 0.011, is the coddling rate among arrest-assigned cases.
+:::
+
+## Coddling raises repeat violence by 14.5 points for compliers
+
+| Step | Value |
+|:---|---:|
+| First stage $\phi$ (from the data) | 0.786 |
+| Reduced form $\rho$ (published rates: 0.211 − 0.097) | 0.114 |
+| **LATE** $= \rho / \phi$ | [0.145]{.key} |
+| Naive gap by treatment *received* | 0.087 |
+
+[IV finds a bigger harm from coddling than the naive 8.7-point gap — selection bias was hiding it.]{.takeaway .fragment}
+
+::: {.notes}
+Being assigned to coddle raised the repeat-violence rate from 9.7% to 21.1% (ITT = 11.4 points).
+Only 78.6% of cases were moved by the form, so the effect of actually coddling compliers is
+0.114 / 0.786 ≈ 0.145. The naive comparison of delivered treatments (8.7 points) is pulled toward
+zero because officers arrested the most dangerous suspects, making arrest look less effective.
+:::
+
+## The Wald ratio is a single division
+
+``` {.python code-line-numbers="1-4|6-7|9-11"}
+import pandas as pd                              # pandas → load tables
+# every course dataset lives in the repo's data/ folder on GitHub
+GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+mdve = pd.read_csv(GITHUB_DATA_URL + "ch3/mdve_clean.csv")   # 314 MDVE cases
+
+z = mdve["assigned"] != "Arrest"                 # Z: form said coddle (True/False)
+d = mdve["delivered"] != "Arrest"                # D: officer actually coddled
+
+phi = d[z].mean() - d[~z].mean()                 # first stage: 0.797 − 0.011 = 0.786
+rho = 0.211 - 0.097                              # reduced form: published repeat-violence rates
+print(rho / phi)                                 # LATE ≈ 0.145 → +14.5 points for compliers
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+`d[z]` keeps the coddle-assigned cases; `d[~z]` keeps the arrest-assigned ones; `.mean()` of a
+True/False column is a share. The recidivism outcome is not in the clean file, so the reduced form
+uses the published rates — the code still shows every step of the Wald ratio.
+:::
+
+## KIPP Lynn's oversubscribed lottery created a ready-made instrument
+
+- **KIPP:** charter schools with long days and a "no excuses" culture
+- **KIPP Lynn** (Massachusetts) had more applicants than seats after **2005** → seats by lottery
+- $Z$ = won the lottery · $D$ = attended KIPP · $Y$ = math test score
+
+. . .
+
+**Validity check:** lottery winners and losers looked alike at baseline — the balance check passes.
+
+[A school lottery is an experiment with built-in non-compliance: some winners decline, some losers get in later.]{.takeaway .fragment}
+
+::: {.notes}
+Independence comes from the lottery. Relevance will show up as a strong first stage. Exclusion
+requires that winning affects scores only through attending — the "motivated parents" side channel
+is the worry. The KIPP data are not public, so these numbers come from the published study.
+:::
+
+## Winning the lottery raised math scores by 0.355 standard deviations
+
+| IV component | Estimate |
+|:---|---:|
+| First stage: lottery win → attended KIPP | 0.741 |
+| Reduced form: lottery win → math score | +0.355 SD |
+| **LATE**: attending KIPP → math score | [+0.48 SD]{.key} |
+
+[Dividing 0.355 by 0.741 converts the effect of *winning* into the effect of *attending*.]{.takeaway .fragment}
+
+::: {.notes}
+74.1% of winners attended (first stage). The ITT of winning is +0.355 SD. LATE = 0.355 / 0.741
+≈ 0.48 SD. This applies to lottery compliers — families who attend if they win and do not if they
+lose.
+:::
+
+## One year at KIPP, for lottery compliers {background-color="#8e44ad"}
+
+[+0.48 SD]{.bignum}
+
+[in math — about half a standard deviation in a single year]{.bignum-label}
+
+::: {.notes}
+A half-standard-deviation gain in one year is very large by education-research standards. Supporters
+cite it as evidence that structured programs can close achievement gaps; critics note it applies to
+motivated families who applied — the compliers — and may not generalize to all students.
+:::
+
+## Children from bigger families get less schooling, but is that causal?
+
+- **Quantity–quality story:** more children → less parental investment per child
+- **OLS:** each extra sibling goes with **−0.15 years** of schooling
+
+. . .
+
+- **Confounder:** less-educated parents tend to have *more* children **and** less-educated children
+
+[The naive slope may just be telling us about the parents, not about family size.]{.takeaway .fragment}
+
+::: {.notes}
+Policy stakes: smaller-family policies (China's one-child policy, forced sterilization programs in
+India) were partly justified by the quantity–quality trade-off. We need variation in family size
+that is unrelated to parents' background.
+:::
+
+## Two accidents of birth shift family size almost at random
+
+:::: {.columns}
+::: {.column width="50%"}
+### Twins at the second birth
+- An unplanned extra child
+- First stage: [+0.32 children]{.key}
+:::
+::: {.column width="50%"}
+### Same-sex first two children
+- Parents try again for a mix of boys and girls
+- First stage: [+0.08 children]{.key}
+:::
+::::
+
+[Both instruments move family size for reasons unrelated to how educated the parents are.]{.takeaway .fragment}
+
+::: {.notes}
+Twins add a child essentially by chance. Sex composition works through a preference for having
+both a son and a daughter. Both first stages are positive; the twins instrument is much stronger.
+:::
+
+## The reduced forms are near zero, and 2SLS flips the sign
+
+| Estimate | Effect of one more sibling on schooling |
+|:---|---:|
+| OLS (naive) | −0.15 years |
+| Reduced form, each instrument | about zero |
+| **2SLS**, both instruments | [+0.24 (SE 0.13)]{.key} |
+
+[Once family size changes by chance, the education penalty disappears — the OLS slope was selection bias.]{.takeaway .fragment}
+
+::: {.notes}
+If twins or same-sex siblings barely change children's schooling (reduced form ≈ 0), then family
+size cannot have a big causal effect, whatever the first stage. The 2SLS estimate combining both
+instruments is +0.24 with standard error 0.13 — positive, not negative. Less-educated parents have
+more children and less-educated children, but one does not cause the other.
+:::
+
+## 2SLS does the IV job in two regressions
+
+**Stage 1** — predict treatment from the instrument:
+
+$$D_i = \alpha_1 + \phi Z_i + \gamma_1 X_i + e_{1i}$$
+
+. . .
+
+**Stage 2** — regress the outcome on the *predicted* treatment:
+
+$$Y_i = \alpha_2 + \lambda_{2SLS} \hat{D}_i + \gamma_2 X_i + e_{2i}$$
+
+[$\hat{D}_i$ keeps only the part of treatment driven by the instrument; $X_i$ are optional controls.]{.comment}
+
+[With one binary instrument and no controls, 2SLS reproduces the Wald ratio exactly.]{.takeaway .fragment}
+
+::: {.notes}
+2SLS generalizes ρ/φ to several instruments (twins and same-sex together), controls, and
+non-binary treatments. Weather-forecast analogy: stage 1 builds the forecast; stage 2 plans around
+the forecast, filtering out the noise from people's own choices.
+:::
+
+## Hand-rolled 2SLS gets the coefficient right but the standard errors wrong
+
+- Running two separate `feols` calls by hand: **right** $\hat\lambda$, **wrong** SE
+- The second stage treats $\hat{D}_i$ as data, ignoring that it was estimated
+- Dedicated IV software corrects this automatically
+
+[Always run 2SLS as one IV call: `pf.feols("y ~ 1 | d ~ z")`.]{.takeaway .fragment}
+
+::: {.notes}
+pyfixest's formula has three parts: outcome ~ exogenous controls | endogenous treatment ~
+instrument(s). The `1` means "intercept only, no controls". Add controls before the pipe and extra
+instruments after the second tilde (e.g. `d ~ twins + samesex`).
+:::
+
+## `pf.feols` runs 2SLS in one formula and beats OLS on confounded data
+
+``` {.python code-line-numbers="1-2|4-8|10-11"}
+!pip install -q pyfixest                             # pyfixest is not preinstalled in Colab
+import numpy as np, pandas as pd, pyfixest as pf     # simulate · tabulate · regress
+
+rng, n = np.random.default_rng(42), 10_000           # fixed seed → same numbers every run
+df = pd.DataFrame({"u": rng.normal(size=n),          # u: hidden confounder (motivation)
+                   "z": rng.integers(0, 2, size=n)}) # z: coin-flip instrument (a lottery)
+df["d"] = (1.5*df.z + df.u + rng.normal(size=n) > 0.75).astype(int)  # d: nudged by z, chosen on u
+df["y"] = 0.5*df.d + df.u + rng.normal(size=n)       # y: the TRUE effect of d is 0.5
+
+print(pf.feols("y ~ d", data=df, vcov="hetero").coef()["d"])          # OLS ≈ 1.48: biased by u
+print(pf.feols("y ~ 1 | d ~ z", data=df, vcov="hetero").coef()["d"])  # 2SLS ≈ 0.48: near the truth
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+The chapter's KIPP and family-size data are not public, so this block simulates a dataset where we
+know the truth (0.5). People with high u both take the treatment more and score higher, so OLS
+(≈ 1.48) badly overstates the effect. 2SLS uses only the lottery-driven variation and lands at
+≈ 0.48 (robust SE ≈ 0.07). Chapter 6 runs the same syntax on real quarter-of-birth data.
+:::
+
+## A weak first stage makes IV unreliable: check that $F > 10$
+
+- **Weak instrument:** $Z$ barely moves $D$, so we divide by a number near zero
+- Consequences: estimates **biased toward OLS**, misleading confidence intervals
+- **Rule of thumb:** first-stage $F$-statistic above 10
+
+. . .
+
+MDVE first stage: $t \approx 27$, so $F = t^2 \approx 727$ — nowhere near weak.
+
+[Check the first stage before trusting any IV estimate.]{.takeaway .fragment}
+
+::: {.notes}
+Ship-and-rudder analogy: no matter how big the ship (sample), a tiny rudder (instrument) cannot
+reliably steer it. Also look at the reduced form: if the instrument's effect on the outcome is
+invisible, the IV estimate is unlikely to be informative.
+:::
+
+## Pick the design that matches the variation you have
+
+::: {.small-table}
+| | RCT (Chapter 1) | OLS with controls | IV / 2SLS |
+|:---|:---|:---|:---|
+| **Needs** | Random assignment of treatment | Confounders all observed | A valid instrument |
+| **Handles** | All confounders | Only observed confounders | Unobserved confounders |
+| **Estimates** | ATE (everyone) | Conditional association | [LATE (compliers)]{.key} |
+| **Weakness** | Costly, often impractical | Fails with hidden confounders | Needs a strong, valid instrument |
+:::
+
+[IV trades breadth for credibility: a clean answer, but only for the compliers.]{.takeaway .fragment}
+
+::: {.notes}
+Connections: an RCT with non-compliance is an IV problem — the ITT is the reduced form, and dividing
+by the compliance rate gives LATE (recall Oregon in Chapter 1). A fuzzy regression discontinuity
+(Chapter 4) is also IV, with the cutoff as the instrument.
+:::
+
+# The Resolution {.divider background-color="#2d8659"}
+
+[Act III]{.act}
+
+## The tempting mistake: "IV recovers the effect for everyone"
+
+[Objection.]{.objection} The lottery is random, so the IV estimate is the average effect of
+treatment in the whole population.
+
+. . .
+
+[Response.]{.rebuttal} IV only sees people whose treatment the instrument changed. KIPP's +0.48 SD
+is the effect for lottery compliers; always-takers and never-takers may respond quite differently.
+
+::: {.notes}
+Different instruments identify effects for different groups: the twins instrument speaks for
+families nudged into a third child by chance, the same-sex instrument for families who wanted a
+mix of sons and daughters. Ask "who are the compliers?" before extrapolating.
+:::
+
+## The tempting mistake: "A huge sample cures a weak instrument"
+
+[Objection.]{.objection} The first stage is small, but we have millions of observations — precision
+will take care of it.
+
+. . .
+
+[Response.]{.rebuttal} Weak-instrument bias does not shrink as the sample grows. With a first-stage
+$F$ below 10, 2SLS can sit close to the biased OLS answer. The cure is a stronger instrument.
+
+::: {.notes}
+Example from the chapter's glossary: if quarter of birth barely predicts schooling (F = 3), the IV
+estimate can be far off even with 300,000 observations.
+:::
+
+## Key takeaways
+
+::: {.incremental}
+- Comparing by treatment **received** brings back selection bias
+- **LATE = reduced form ÷ first stage**, for compliers only
+- A valid instrument is **relevant**, **as good as random**, and works through **one channel**
+- Run 2SLS with **IV software** (`pf.feols`) and check the **first-stage F**
+- **KIPP:** large math gains · **family size:** no harm to schooling
+:::
+
+::: {.notes}
+MDVE: coddling raised repeat violence by 14.5 points for compliers, versus a naive 8.7. KIPP:
++0.48 SD in math per year for lottery compliers. Family size: OLS −0.15 years per sibling, but 2SLS
++0.24 (SE 0.13) — the naive penalty was selection bias.
+:::
+
+## {.recap background-image="figures/visual_summary.svg" background-size="contain" background-color="#0f172a"}
+
+::: {.notes}
+Recap with the chapter's visual summary: the problem (non-compliance), the tool (instrument → first
+stage and reduced form → LATE), the conditions (relevance, independence, exclusion), and the
+evidence (MDVE, KIPP, family size).
+:::
+
+# A random nudge, scaled by how far it moves treatment, reveals the causal effect for those it moves. {.divider background-color="#2d8659"}

@@ -1,0 +1,731 @@
+---
+title: "2. Regression"
+subtitle: "When controls can stand in for a coin flip — and when they cannot"
+deck-author: "Carlos Mendez"
+deck-author-url: "https://carlos-mendez.org"
+institute: "Nagoya University (GSID)"
+date: today
+date-format: long
+visual-summary: "figures/visual_summary.svg"   # stand-in until the mind-map image exists;
+                                                # the Recap slide repeats this path
+format:
+  revealjs:
+    output-file: index.html
+    theme: [default, site-brand.scss]
+    template-partials:
+      - title-slide.html
+    include-after-body: figure-zoom.html
+    center: true
+    slide-number: c/t
+    menu: true
+    chalkboard: true
+    preview-links: auto
+    overview: true
+    progress: true
+    history: true
+    transition: fade
+    width: 1280
+    height: 720
+    fig-align: center
+    auto-stretch: true
+    highlight-style: github-dark
+    mermaid-format: svg       # pre-render diagrams at build time (live mermaid mis-measures labels inside reveal's scaled slides)
+    mermaid:
+      theme: dark
+    link-external-icon: false
+---
+
+# The Question {.divider background-color="#3498db"}
+
+[Act I]{.act}
+
+## Is an elite private college worth roughly \$20,000 a year more?
+
+Elite private universities charge about **\$20,000 more per year** in tuition than public ones — and
+their graduates go on to earn substantially more.
+
+. . .
+
+Does the **school** raise earnings, or do its **students** bring the earning power with them?
+
+::: {.notes}
+Open with the stakes: families borrow heavily for elite tuition on the belief that it pays off.
+Ask the room: would you pay the premium? Keep the answers in mind — by the end we will see what a
+careful comparison says.
+:::
+
+## The raw earnings gap mixes school quality with student quality
+
+```{mermaid}
+graph LR
+    A["Ability and ambition"] -->|"raises odds"| P["Private college"]
+    A -->|"raises"| E["Earnings"]
+    P -.->|"causal effect?"| E
+    style A fill:#e67e22,color:#fff
+    style P fill:#3498db,color:#fff
+    style E fill:#2d8659,color:#fff
+```
+
+No admissions office flips a coin, so there is **no experiment** to lean on.
+
+[Private-college students are smarter, more driven and better connected — they might out-earn others wherever they enrolled.]{.takeaway .fragment}
+
+::: {.notes}
+This is the naive evidence: graduates of top private schools earn more. But the students who get in
+and enroll differ from public-school students before they ever set foot on campus. The dashed arrow
+is what we want; the solid arrows through ability and ambition contaminate the raw comparison.
+:::
+
+## Our route through the chapter
+
+::: {.incremental}
+- **The question** — why the raw private-college premium is not a causal effect
+- **The investigation** — regression with controls; omitted variables bias in a simulation lab; the
+  Dale–Krueger private-college study; sensitivity checks; bad controls
+- **The resolution** — when regression earns a causal reading, and the traps that remain
+:::
+
+::: {.notes}
+Learning objectives: explain how regression controls approximate experimental comparisons; write and
+interpret a regression with treatment and control variables; state the OVB formula and use it to
+predict the direction of bias; distinguish short and long regressions; recognise bad controls; use
+sensitivity analysis to judge robustness.
+:::
+
+## Five terms carry the whole chapter
+
+::: {.small-table}
+| Term | Plain meaning |
+|:---|:---|
+| **Control variable** | A pre-treatment trait held fixed in the regression |
+| **Ceteris paribus** | "Other things equal" — compare people with the same controls |
+| **Short vs long regression** | Fewer vs more controls; the gap between them reveals bias |
+| **Omitted variables bias (OVB)** | The distortion from leaving a confounder out |
+| **Conditional independence (CIA)** | Given the controls, treatment is as good as random |
+:::
+
+[Every slide that follows uses these five ideas.]{.takeaway .fragment}
+
+::: {.notes}
+Other vocabulary we will meet: OLS (ordinary least squares), auxiliary regression, sensitivity
+analysis, bad control, regression to the mean. Define them as they arrive rather than all at once.
+:::
+
+# The Investigation {.divider background-color="#8e44ad"}
+
+[Act II]{.act}
+
+## Choosing a college is Chapter 1's selection problem — without the lottery
+
+$$\text{Observed gap} \;=\; \text{Causal effect} \;+\; \text{Selection bias}$$
+
+. . .
+
+In Chapter 1 random assignment set the selection-bias term to zero. Here, **students pick their own
+schools**, so the bias term stays.
+
+[We need another way to make the comparison fair: compare students who are alike in the ways that matter.]{.takeaway .fragment}
+
+::: {.notes}
+Same decomposition as Chapter 1. Selection bias = the earnings gap that would exist between private
+and public students even if the private students had gone public. Ability and ambition make it
+positive.
+:::
+
+## Regression works like an automated matchmaker
+
+:::: {.columns}
+::: {.column width="50%"}
+### Alike on paper
+- Same test scores
+- Same family income
+- Same schools applied to
+:::
+::: {.column width="50%"}
+### Different choice
+- One enrolled **private**
+- One enrolled **public**
+- Compare their earnings
+:::
+::::
+
+[Regression averages the earnings gap across many such matched pairs.]{.takeaway .fragment}
+
+::: {.notes}
+When the matching uses all the right variables, regression approximates what an experiment would
+show. When an important variable is missing, the match is imperfect and bias creeps back in.
+:::
+
+## A regression with controls compares students who share the same $X$
+
+$$Y_i = \alpha + \beta P_i + \gamma X_i + e_i$$
+
+:::: {.columns}
+::: {.column width="50%"}
+- $Y_i$ — earnings (`earnings`)
+- $P_i$ — 1 if private, 0 if public (`private`)
+- $X_i$ — a control, e.g. ability (`ability`)
+:::
+::: {.column width="50%"}
+- $\beta$ — private effect, holding $X_i$ fixed
+- $\gamma$ — effect of the control
+- $e_i$ — residual: everything else
+:::
+::::
+
+[$\beta$ is the private–public gap among students with the same value of the control.]{.takeaway .fragment}
+
+::: {.notes}
+α is the average outcome when P = 0 and X = 0. β is how much Y changes when P switches from 0 to 1
+with X held constant — the ceteris paribus effect we are after.
+:::
+
+## OLS chooses the coefficients that make squared prediction errors smallest
+
+$$\min_{\alpha,\,\beta,\,\gamma}\ \sum_{i=1}^{n} \big(Y_i - \alpha - \beta P_i - \gamma X_i\big)^2$$
+
+[Each term in the sum is a squared residual $e_i^2$: the gap between actual and predicted earnings.]{.comment}
+
+[Like a tailor fitting a suit: no single measurement is perfect, but the total mismatch is as small as possible.]{.takeaway .fragment}
+
+::: {.notes}
+OLS = ordinary least squares. Squaring makes large misses count heavily and lets positive and
+negative errors not cancel. pyfixest's `pf.feols` does this minimisation for us.
+:::
+
+## Controls turn a difference in means into an "other things equal" comparison
+
+:::: {.columns}
+::: {.column width="50%"}
+### Chapter 1
+$$Y_i = \alpha + \beta D_i + e_i$$
+$\beta$ = treated mean − control mean. Fair because $D_i$ was **randomized**.
+:::
+::: {.column width="50%"}
+### Chapter 2
+$$Y_i = \alpha + \beta P_i + \gamma X_i + e_i$$
+$\beta$ = gap **within** groups that share $X_i$. Needed because $P_i$ is **chosen**.
+:::
+::::
+
+[Controls do for observational data what the lottery did for experiments — if they are the right controls.]{.takeaway .fragment}
+
+::: {.notes}
+Adding controls is the key innovation of the chapter. The regression on a dummy from Chapter 1 is the
+special case with no X.
+:::
+
+## Regression is causal only if, given the controls, school choice is as good as random
+
+**Conditional independence assumption (CIA):** among students with the same controls, who goes
+private is unrelated to what they would have earned.
+
+$$E[Y_{0i} \mid P_i, X_i] = E[Y_{0i} \mid X_i]$$
+
+[Within a cell of identical $X_i$, private and public students would have earned the same on average without the private school.]{.comment}
+
+[The CIA cannot be tested directly — the choice of controls has to be argued for.]{.takeaway .fragment}
+
+::: {.notes}
+Y₀ᵢ is the earnings student i would have had at a public school. If the CIA holds, selection bias
+disappears within groups that share X, and β is causal. Twin analogy: if the match is perfect, any
+earnings difference is due to the school.
+:::
+
+## A simulation plants a true effect of \$5,000 — so we can check who finds it
+
+```{mermaid}
+graph LR
+    A["Ability"] -->|"raises odds"| P["Private college"]
+    A -->|"+$800 per point"| E["Earnings"]
+    P -->|"true effect +$5,000"| E
+    style A fill:#e67e22,color:#fff
+    style P fill:#3498db,color:#fff
+    style E fill:#2d8659,color:#fff
+```
+
+[1,000 simulated students · ability has mean 50, sd 10 · abler students are likelier to go private]{.comment}
+
+[Because we wrote the rules, we know the right answer: \$5,000.]{.takeaway .fragment}
+
+::: {.notes}
+This is a lab with a known truth. In real data the true effect is never known; here we design it so
+we can see exactly when regression gets it right and when it goes wrong. Ability drives both the
+school choice and earnings — the textbook confounder.
+:::
+
+## Ten lines build the simulated students and show the raw gap
+
+``` {.python code-line-numbers="1-2|4-7|8-10|12"}
+import numpy as np                        # numpy → random numbers
+import pandas as pd                       # pandas → tables and group means
+
+np.random.seed(42)                        # fix the seed so everyone gets the same draws
+n = 1000                                  # 1,000 simulated students
+ability = np.random.normal(50, 10, n)     # ability (mean 50, sd 10): the confounder
+p_private = 1 / (1 + np.exp(-(ability - 50) / 5))   # abler students lean private
+private = np.random.binomial(1, p_private)          # 1 = private, 0 = public
+# truth: private adds $5,000; each ability point adds $800; plus noise
+earnings = 30000 + 5000 * private + 800 * ability + np.random.normal(0, 5000, n)
+students = pd.DataFrame({"earnings": earnings, "private": private, "ability": ability})
+
+students.groupby("private")[["earnings", "ability"]].mean()   # raw gaps by school type
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+This chapter uses simulated data, so there is no file to download — the block builds the dataset
+itself. Output: public students average $65,387 in earnings and 44.4 ability points; private
+students average $80,146 and 56.1 points. The logistic function turns ability into a probability of
+going private; `binomial(1, p)` flips each student's personal coin.
+:::
+
+## The short regression reproduces the raw gap — nearly three times the truth
+
+| | Public mean | Private mean | Gap |
+|:---|---:|---:|---:|
+| Earnings (\$) | 65,387 | 80,146 | [14,760]{.key} |
+| Ability (points) | 44.4 | 56.1 | 11.7 |
+
+[Short regression `earnings ~ private`: coefficient 14,760 (robust SE 512) · true effect 5,000]{.comment}
+
+[Private students earn more largely because they score 11.7 points higher on ability.]{.takeaway .fragment}
+
+::: {.notes}
+504 simulated students are public, 496 private. A regression of earnings on the private dummy alone
+— the short regression — returns exactly the difference in means, $14,760, far above the $5,000 we
+planted. The excess is omitted variables bias: the dummy absorbs ability's effect.
+:::
+
+## Holding ability fixed brings the estimate back to about \$5,000
+
+| Regression | Controls | Private coefficient (robust SE) |
+|:---|:---|---:|
+| Short | none | 14,760 (512) |
+| Long | ability | [5,079 (391)]{.key} |
+| *Truth* | — | *5,000* |
+
+[In the long regression each ability point adds \$826 (SE 19) — close to the \$800 we planted.]{.comment}
+
+[Control for the confounder and regression recovers the causal effect.]{.takeaway .fragment}
+
+::: {.notes}
+The long regression includes ability. The private coefficient falls from $14,760 to $5,079, within
+about one standard error of the truth. (The chapter's default non-robust SEs are 512 and 382; robust
+SEs are shown here to match the code.)
+:::
+
+## Two `pf.feols` calls contrast the short and the long regression
+
+``` {.python code-line-numbers="1-3|5-9|11-13"}
+!pip install -q pyfixest                  # pyfixest is not preinstalled in Colab
+import numpy as np, pandas as pd          # numbers + tables
+import pyfixest as pf                     # pyfixest → regressions with robust SEs
+
+np.random.seed(42); n = 1000              # rebuild the same 1,000 students
+ability = np.random.normal(50, 10, n)     # the confounder
+private = np.random.binomial(1, 1 / (1 + np.exp(-(ability - 50) / 5)))   # abler → private
+earnings = 30000 + 5000 * private + 800 * ability + np.random.normal(0, 5000, n)  # truth +5,000
+df = pd.DataFrame({"earnings": earnings, "private": private, "ability": ability})  # one table
+
+short = pf.feols("earnings ~ private", data=df, vcov="hetero")            # ability left out
+long = pf.feols("earnings ~ private + ability", data=df, vcov="hetero")   # ability held fixed
+pf.etable([short, long])                  # private: 14,760 (short) vs 5,079 (long)
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+`vcov="hetero"` asks for heteroskedasticity-robust standard errors. `pf.etable` lines the two models
+up side by side: private 14,759.83 (512.185) in the short model; 5,078.71 (390.848) and ability
+826.28 (19.121) in the long one. Adding a control is just adding `+ ability` to the formula.
+:::
+
+## The gap between short and long is the omitted variable's footprint
+
+$$\text{OVB} \;=\; \beta^s - \beta^l \;=\; \pi_1 \times \gamma$$
+
+:::: {.columns}
+::: {.column width="50%"}
+- $\beta^s$, $\beta^l$ — private coefficient in the **short** and **long** regressions
+:::
+::: {.column width="50%"}
+- $\pi_1$ — how the omitted variable differs with treatment
+- $\gamma$ — its effect on the outcome (long regression)
+:::
+::::
+
+[If either factor is zero — unrelated to treatment, or irrelevant to the outcome — there is no bias.]{.takeaway .fragment}
+
+::: {.notes}
+Baking analogy: forget the sugar (omitted variable). π₁ asks how tightly sugar travels with the
+ingredients you did include; γ asks how much sugar matters for taste. The distortion is their product.
+:::
+
+## An auxiliary regression measures how the omitted variable travels with treatment
+
+$$A_i = \pi_0 + \pi_1 P_i + u_i$$
+
+[$A_i$ is ability (`ability`), regressed on the private dummy $P_i$.]{.comment}
+
+. . .
+
+In the simulation, $\pi_1 = 11.72$: private students score **11.72 ability points higher** than
+public students.
+
+[$\pi_1 > 0$: the omitted trait rides along with private enrollment.]{.takeaway .fragment}
+
+::: {.notes}
+The auxiliary regression is "auxiliary" because we do not care about it for its own sake — it only
+supplies the π₁ in the OVB formula. With a dummy regressor, π₁ is just the difference in mean ability
+between private and public students.
+:::
+
+## In the simulation the formula matches short minus long exactly
+
+| Piece | Value |
+|:---|---:|
+| Short coefficient $\beta^s$ | 14,760 |
+| Long coefficient $\beta^l$ | 5,079 |
+| OVB, direct: $\beta^s - \beta^l$ | [9,681]{.key} |
+| $\pi_1$ (ability on private) | 11.72 |
+| $\gamma$ (ability in long regression) | 826 |
+| OVB, formula: $\pi_1 \times \gamma$ | [9,681]{.key} |
+
+[Positive × positive = upward bias: omitting ability made private college look too good.]{.takeaway .fragment}
+
+::: {.notes}
+11.72 × 826.28 ≈ 9,681 — the same number as 14,760 − 5,079. The formula is an algebraic identity
+for OLS, not an approximation.
+:::
+
+## Three regressions verify the OVB formula in code
+
+``` {.python code-line-numbers="1-3|5-9|11-13|14-15"}
+!pip install -q pyfixest                  # pyfixest is not preinstalled in Colab
+import numpy as np, pandas as pd          # numbers + tables
+import pyfixest as pf                     # pyfixest → regressions with robust SEs
+
+np.random.seed(42); n = 1000              # rebuild the same 1,000 students
+ability = np.random.normal(50, 10, n)     # the confounder
+private = np.random.binomial(1, 1 / (1 + np.exp(-(ability - 50) / 5)))   # abler → private
+earnings = 30000 + 5000 * private + 800 * ability + np.random.normal(0, 5000, n)  # truth +5,000
+df = pd.DataFrame({"earnings": earnings, "private": private, "ability": ability})  # one table
+
+short = pf.feols("earnings ~ private", data=df, vcov="hetero")            # short regression
+long = pf.feols("earnings ~ private + ability", data=df, vcov="hetero")   # long regression
+aux = pf.feols("ability ~ private", data=df, vcov="hetero")               # auxiliary regression
+pi_1, gamma = aux.coef()["private"], long.coef()["ability"]               # 11.72 and 826
+print(short.coef()["private"] - long.coef()["private"], pi_1 * gamma)     # both ≈ 9,681
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+`.coef()` returns the estimated coefficients as a pandas Series, indexed by variable name. Both
+printed numbers are 9,681.12 — identical up to rounding error. The vcov choice does not affect the
+coefficients, only the standard errors.
+:::
+
+## Signs alone predict the direction of the bias
+
+| $\pi_1$ (omitted ↔ treatment) | $\gamma$ (omitted → outcome) | OVB direction |
+|:---:|:---:|:---:|
+| Positive | Positive | **Upward** |
+| Positive | Negative | **Downward** |
+| Negative | Positive | **Downward** |
+| Negative | Negative | **Upward** |
+
+[You can reason about bias from a confounder you never observe — just argue the two signs.]{.takeaway .fragment}
+
+::: {.notes}
+Example: a job-training study that omits prior experience. Experienced workers are likelier to be
+trained (π₁ > 0) and earn more (γ > 0), so the training effect is biased upward. If instead weaker
+students were steered into a program, π₁ < 0 and the bias would be downward.
+:::
+
+## Dale and Krueger let application choices reveal ambition
+
+- **Data:** the College and Beyond survey — more than **14,000** college students followed into
+  the labor market
+- **Insight:** the schools a student **applies to** reveal ambition and ability
+- The data are not public, so we discuss their findings; the simulation showed the same mechanics
+
+[Applications are a pre-treatment signal of exactly the traits that bias the raw comparison.]{.takeaway .fragment}
+
+::: {.notes}
+Stacy Dale and Alan Krueger studied the earnings of former students using the College and Beyond
+(C&B) dataset. Their idea: what you aim for says a lot about you — and it is determined before you
+enroll, so it is a legitimate control.
+:::
+
+## The self-revelation design: same admissions, different enrollment choice
+
+```{mermaid}
+graph LR
+    S["Admitted to same schools"] --> A["Enrolled private"]
+    S --> B["Enrolled public"]
+    A --> C["Compare earnings"]
+    B --> C
+    style S fill:#3498db,color:#fff
+    style A fill:#8e44ad,color:#fff
+    style B fill:#2c3e50,color:#fff
+    style C fill:#2d8659,color:#fff
+```
+
+[Two students admitted to both an elite private college and a flagship public university, who chose differently.]{.comment}
+
+[Equally qualified on paper — the only difference left is where they enrolled.]{.takeaway .fragment}
+
+::: {.notes}
+Both students passed the same admissions screens, so admissions officers judged them alike. The
+regression controls for the set of schools applied to and admitted by; within each set, the
+private–public comparison is close to a matched comparison.
+:::
+
+## The private premium shrinks from 14% to about zero as the controls sharpen
+
+| Comparison | Controls | Private premium |
+|:-----------|:---------------|---------:|
+| Raw | none | about 14% |
+| Selectivity groups | Barron's selectivity category | about 7% |
+| Self-revelation | schools applied to and admitted by | [close to zero]{.key} |
+
+[Each better control strips away more selection bias — OVB at work on real data.]{.takeaway .fragment}
+
+::: {.notes}
+Barron's ranks colleges by selectivity; controlling for those groups halves the premium. Controlling
+for the specific schools students applied to — the self-revelation model — removes almost all of it.
+Exactly the pattern from the simulation: the right control makes the treatment effect collapse.
+:::
+
+## Most of the elite-college premium is who enrolls, not what the school adds {background-color="#8e44ad"}
+
+[≈ 0]{.bignum}
+
+[private-college earnings premium once applications are held fixed (raw gap: about 14%)]{.bignum-label}
+
+::: {.notes}
+Students who aim high do well wherever they end up. The raw earnings advantage of elite private
+colleges mostly reflects the students they attract, not the education they provide.
+:::
+
+## Adding SAT scores, parental income and demographics barely moves the estimate
+
+Once the application-set controls are in, piling on further traits leaves the private coefficient
+**nearly unchanged**.
+
+. . .
+
+Like stress-testing a bridge: if it holds under different loads, we trust it is sturdy.
+
+[Stable estimates across specifications build confidence in a causal reading.]{.takeaway .fragment}
+
+::: {.notes}
+This is regression sensitivity analysis. If each added control moved the estimate a lot, we would
+worry that further unmeasured controls might move it too. Dale and Krueger's estimate survives.
+:::
+
+## Given application behavior, the extra traits no longer travel with private enrollment
+
+$$\text{OVB from SAT, income, …} \;=\; \pi_1 \times \gamma \;\approx\; 0 \times \gamma \;=\; 0$$
+
+[Among students with the same applications, SAT scores and parental income barely differ between private and public enrollees.]{.comment}
+
+[The OVB formula explains the stability: when $\pi_1 \approx 0$, omitting a trait costs almost no bias.]{.takeaway .fragment}
+
+::: {.notes}
+SAT and income still matter for earnings (γ ≠ 0), but conditional on the application set they are
+nearly unrelated to the private/public choice, so their product with γ is close to zero.
+:::
+
+## When each new control moves the estimate a lot, more confounders may lurk
+
+| Controls in the regression | Private coefficient |
+|:---|---:|
+| None | 18,506 |
+| + ability | 12,429 |
+| + ability + family income | 8,428 |
+| + ability + family income + motivation | [4,720]{.key} |
+
+[A simulation with three confounders and a true effect of \$5,000.]{.comment}
+
+[Big jumps are a warning sign; only the full set of confounders lands near the truth.]{.takeaway .fragment}
+
+::: {.notes}
+The mirror image of Dale and Krueger. Here every confounder pushes students toward private college and
+also raises earnings, so each omitted one adds its own OVB term. In real data we never know whether
+the list is complete — which is why instability is a red flag.
+:::
+
+## A three-line loop runs the sensitivity analysis
+
+``` {.python code-line-numbers="1-3|5-14|16-18"}
+!pip install -q pyfixest                  # pyfixest is not preinstalled in Colab
+import numpy as np, pandas as pd          # numbers + tables
+import pyfixest as pf                     # pyfixest → regressions with robust SEs
+
+np.random.seed(42); n = 1000              # 1,000 students, now with THREE confounders
+ability = np.random.normal(50, 10, n)     # confounder 1
+income = np.random.normal(60000, 20000, n)   # confounder 2: family income
+motivation = np.random.normal(5, 2, n)    # confounder 3
+index = (ability - 50) / 5 + (income - 60000) / 20000 + (motivation - 5) / 2   # all push to private
+private = np.random.binomial(1, 1 / (1 + np.exp(-index)))                       # 1 = private
+earnings = (10000 + 5000 * private + 800 * ability + 0.3 * income        # truth: +5,000 ...
+            + 2000 * motivation + np.random.normal(0, 5000, n))          # ... plus confounders
+df = pd.DataFrame(dict(earnings=earnings, private=private, ability=ability,
+                       income=income, motivation=motivation))            # one table
+
+for x in ["", " + ability", " + ability + income", " + ability + income + motivation"]:
+    m = pf.feols("earnings ~ private" + x, data=df, vcov="hetero")  # add controls one by one
+    print(x or "none", round(m.coef()["private"]))                  # 18,506 → ... → 4,720
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+The data-building part is longer, but the analysis is the last three lines: build each formula by
+string concatenation, fit it, print the private coefficient. Output: none 18,506; + ability 12,429;
++ ability + income 8,428; + all three 4,720.
+:::
+
+## Controlling for occupation blocks one of the paths a college works through
+
+```{mermaid}
+graph LR
+    P["Private college"] -->|"direct"| E["Earnings"]
+    P -->|"opens doors"| O["Occupation"]
+    O -->|"pays more"| E
+    style P fill:#3498db,color:#fff
+    style O fill:#c0392b,color:#fff
+    style E fill:#2d8659,color:#fff
+```
+
+Holding occupation fixed asks: *among people in the same job*, do private graduates earn more?
+
+[A bad control removes part of the very effect we want to measure — here, biasing it downward.]{.takeaway .fragment}
+
+::: {.notes}
+If private college helps people into better-paid occupations, occupation is an outcome of the
+treatment, not a confounder. Conditioning on it throws away one of the main channels and distorts
+the estimate.
+:::
+
+## Control only for traits fixed before the treatment
+
+:::: {.columns}
+::: {.column width="50%"}
+### Good controls — pre-treatment
+- Ability, test scores
+- Parental income
+- Schools applied to
+:::
+::: {.column width="50%"}
+### Bad controls — post-treatment
+- Occupation
+- Graduate degree
+- Industry
+:::
+::::
+
+[Outcomes of the treatment are not confounders. Chapter 6 returns to this trap.]{.takeaway .fragment}
+
+::: {.notes}
+Rule of thumb: only control for variables determined before treatment was assigned. Variables
+determined afterwards are potential outcomes themselves. Chapter 6 revisits bad controls in the
+returns-to-schooling setting (controlling for occupation when estimating the effect of education).
+:::
+
+## Every later method in the course is built on regression
+
+::: {.small-table}
+| Chapter | How regression appears |
+|:---|:---|
+| 1 · Randomized trials | A difference in means *is* a regression on a treatment dummy |
+| 3 · Instrumental variables | First stage and reduced form are regressions; 2SLS uses fitted values |
+| 4 · Regression discontinuity | Regression with a polynomial in the running variable |
+| 5 · Differences-in-differences | Regression with group and time fixed effects |
+| 6 · Wages of schooling | OLS as the baseline; twins fixed effects as a differenced regression |
+:::
+
+[Master `pf.feols` once and you can run every design in the course.]{.takeaway .fragment}
+
+::: {.notes}
+The formulas change — fixed effects after a `|`, instruments after another `|` — but the engine is
+the same least-squares regression we met today.
+:::
+
+## Regression began as a tool for description, not causation
+
+| When | Who | Contribution |
+|:--|:--------|:---------------------|
+| 1886 | Francis Galton | Tall parents have tall but *less extreme* children — "regression to the mean" |
+| 1899 | George Udny Yule | Used several controls at once to study changes in English pauperism |
+
+[The causal reading of $\beta$ is modern — it rests on the assumptions of this lecture.]{.takeaway .fragment}
+
+::: {.notes}
+Galton gave the method its name while studying heights across generations — a statistical regularity,
+not a causal effect. Yule pioneered multiple controls in social policy questions. Neither framed the
+question "is β causal?" — that depends on the right controls and no omitted confounders.
+:::
+
+# The Resolution {.divider background-color="#2d8659"}
+
+[Act III]{.act}
+
+## The tempting mistake: "Elite graduates earn more, so an elite college pays off"
+
+[Objection.]{.objection} Graduates of top private colleges out-earn everyone else, so the tuition must
+be worth it.
+
+. . .
+
+[Response.]{.rebuttal} The raw gap is mostly selection. Compare students with the same applications and
+the premium falls from about 14% to close to zero.
+
+::: {.notes}
+The same correlation-versus-causation trap as Chapter 1's insurance example. Here OVB from ambition
+and ability inflates the naive premium.
+:::
+
+## The tempting mistake: "When in doubt, just add more controls"
+
+[Objection.]{.objection} More controls can only make the estimate cleaner.
+
+. . .
+
+[Response.]{.rebuttal} Only pre-treatment confounders reduce bias. Irrelevant controls waste
+precision, and bad controls — outcomes of the treatment — create new bias.
+
+::: {.notes}
+Occupation is the canonical bad control in this chapter. The question to ask of every control: was
+it determined before the treatment, and could it drive both treatment and outcome?
+:::
+
+## Key takeaways
+
+::: {.incremental}
+- Regression compares treated and untreated units **with the same controls**
+- $\text{OVB} = \pi_1 \times \gamma$ — and the **signs** predict the direction of bias
+- **Stable** estimates across specifications build confidence
+- **Never** control for outcomes of the treatment
+- The **private-college premium** largely vanishes with the right controls
+:::
+
+::: {.notes}
+Back to the opening question: is the elite premium worth $20,000 a year? For students who would be
+admitted to both kinds of school, the earnings evidence says the premium is mostly who you are, not
+where you go.
+:::
+
+## {.recap background-image="figures/visual_summary.svg" background-size="contain" background-color="#0f172a"}
+
+::: {.notes}
+Recap with the chapter's visual summary: the question (is private college worth it?), the tool
+(regression holds controls fixed), the risk (omitted variables bias), and the test (sensitivity
+analysis) — plus the warning about bad controls.
+:::
+
+# Regression delivers causal effects only when the right pre-treatment controls make treatment as good as random. {.divider background-color="#2d8659"}

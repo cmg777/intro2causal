@@ -226,6 +226,9 @@ Run [`references/verification-checklist.md`](references/verification-checklist.m
 - **Layer C** — `node .claude/skills/write-slides/references/templates/math-check.cjs "$PWD/slides/<chNN>/index.html"`
   (Playwright; **mandatory when the deck has math**). If Playwright is unavailable, open the deck in
   Chrome and check every math slide and every mermaid slide by eye.
+- **Overflow pass** — screenshot every slide at 1280×720 (fragments shown) and look at each; fix
+  overflow, truncated mermaid labels, and diagrams too small to read (a table often beats a 6+-node
+  diagram). Keep scratch files in a per-chapter folder (`<scratchpad>/chNN_work/`).
 - **Content checks** — every Act II mind-map leaf has a slide (or is logged as folded); every table
   number matches Phase 1.5; every code block ran.
 

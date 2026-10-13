@@ -30,7 +30,7 @@ No server. Assert on disk, from the deck dir:
 |---|---|
 | `index.html` exists and is > 30 KB | `[ $(wc -c < index.html) -gt 30000 ]` |
 | `slides_files/` assets dir exists | `[ -d slides_files ]` |
-| the title visual summary resolves | `[ -f figures/visual_summary.png ]` |
+| the title visual summary resolves | `ls figures/visual_summary.*` (`.svg` stand-in or `.png` mind map) |
 | every `figures/*.png` referenced in `slides.qmd` exists | for each `![](figures/x.png)` → `[ -f figures/x.png ]` |
 | no leaked `{{…}}` template markers | `! grep -q '{{[A-Z_]*}}' index.html` |
 
@@ -52,6 +52,13 @@ menu wired in; speaker notes; **(if the deck has math) MathJax is referenced and
 use `\(…\)` delimiters** — a static guard that catches the `html-math-method: katex` misconfig;
 ≥1 brand divider (`data-background-color`); 6 ≤ `<section>` ≤ 60; every `figures/*.png` referenced
 exists on disk; no leaked `{{…}}` markers.
+
+**Overflow pass (visual).** Screenshot every slide at 1280×720 with fragments shown (Playwright)
+and look at each one. An automated bounding-box check over-reports on code slides: the highlighted
+line-number spans sit ~2–22 px outside the slide box on every code slide (ch01 too) without
+clipping anything — skip elements inside `pre` and test the `pre`'s own scroll size instead. Write
+scratch files (screenshots, scripts) to a **per-chapter** folder, e.g. `<scratchpad>/chNN_work/`,
+so parallel runs never overwrite each other.
 
 **Layer B's math guard is static** — it catches the **katex-misconfiguration** (wrong delimiters in
 the emitted HTML), but it canNOT confirm math actually **renders at runtime** (e.g. a MathJax CDN

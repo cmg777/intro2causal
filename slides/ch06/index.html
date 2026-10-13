@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="slides_files/libs/clipboard/clipboard.min.js"></script>
+<script src="slides_files/libs/quarto-html/tabby.min.js"></script>
+<script src="slides_files/libs/quarto-html/popper.min.js"></script>
+<script src="slides_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting-dark-f1aadacce99040138bbb613f9330654f.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.27">
+
+  <meta name="dcterms.date" content="2026-10-13">
+  <title>6. The Wages of Schooling</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #e1e4e8; background-color: #24292e; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #e1e4e8; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #f97583; } /* Attribute */
+    code span.bn { color: #79b8ff; } /* BaseN */
+    code span.bu { color: #f97583; } /* BuiltIn */
+    code span.cf { color: #f97583; } /* ControlFlow */
+    code span.ch { color: #9ecbff; } /* Char */
+    code span.cn { color: #79b8ff; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #f97583; } /* DataType */
+    code span.dv { color: #79b8ff; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #f97583; font-weight: bold; } /* Extension */
+    code span.fl { color: #79b8ff; } /* Float */
+    code span.fu { color: #b392f0; } /* Function */
+    code span.im { color: #9ecbff; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #f97583; } /* Keyword */
+    code span.op { color: #e1e4e8; } /* Operator */
+    code span.ot { color: #b392f0; } /* Other */
+    code span.pp { color: #f97583; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #79b8ff; } /* SpecialChar */
+    code span.ss { color: #9ecbff; } /* SpecialString */
+    code span.st { color: #9ecbff; } /* String */
+    code span.va { color: #ffab70; } /* Variable */
+    code span.vs { color: #9ecbff; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-3e01c62b8b005e31893da9e749545af8.css">
+  <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="slides_files/libs/quarto-diagram/mermaid-postprocess-shim.js"></script>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<!-- Title slide = the chapter visual summary, full-bleed, nothing else. The image is
+     painted as the slide background (data-background-image) so it fills the entire slide;
+     `size=contain` shows the WHOLE summary with no cropping; any aspect-ratio difference from
+     the 1280×720 canvas (e.g. the 2:1 concept-card SVGs) is letterboxed in the DeepSlate canvas
+     colour, which the SVGs share. No title/subtitle/byline text is rendered. -->
+<section id="title-slide" class="quarto-title-block title-visual-summary center" data-background-image="figures/visual_summary.svg" data-background-size="contain" data-background-color="#0f172a">
+</section>
+
+<section>
+<section id="the-question" class="title-slide slide level1 divider center" data-background-color="#3498db">
+<h1>The Question</h1>
+<p><span class="act">Act I</span></p>
+</section>
+<section id="does-staying-in-school-longer-actually-make-you-earn-more" class="slide level2 center">
+<h2>Does staying in school longer actually make you earn more?</h2>
+<p>College graduates earn roughly <strong>twice</strong> as much as high school graduates.</p>
+<div class="fragment">
+<p>How much of that gap does school <strong>cause</strong> — and how much is about <strong>who</strong> chooses to stay in school?</p>
+<aside class="notes">
+<p>Open with the stakes: families, students and governments spend enormous sums on education on the premise that it pays. Ask the room: if you could pay for one extra year of school for a random person, how much more would they earn? Keep the guesses on the board — we will test them with five different research designs.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</div>
+</section>
+<section id="in-the-1980-census-each-extra-year-of-school-goes-with-higher-pay" class="slide level2 center">
+<h2>In the 1980 Census, each extra year of school goes with higher pay</h2>
+
+<img data-src="figures/fig_01.png" class="r-stretch quarto-figure-center"><p class="caption">Average log weekly earnings by years of schooling — men born 1930–1939.</p><p><span class="takeaway fragment">The gradient is steep and smooth. Is it a causal staircase, or a sorting of people by talent?</span></p>
+<aside class="notes">
+<p>Each dot is the mean log weekly wage for one schooling level. Because the outcome is in logs, the slope reads as a percentage gain per year. The picture is striking, but it is only a correlation: people who stay in school longer may differ in ability, motivation and family background.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="one-regression-puts-a-number-on-the-gradient-about-7-per-year" class="slide level2 center">
+<h2>One regression puts a number on the gradient: about 7% per year</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-code-line-numbers="1|3-5|7-8|9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="op">!</span>pip install <span class="op">-</span>q pyfixest                  <span class="co"># pyfixest is not preinstalled in Colab</span></span>
+<span id="cb1-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd                       <span class="co"># pandas → load tables</span></span>
+<span id="cb1-3"><a href=""></a><span class="im">import</span> pyfixest <span class="im">as</span> pf                     <span class="co"># pyfixest → regressions with robust SEs</span></span>
+<span id="cb1-4"><a href=""></a></span>
+<span id="cb1-5"><a href=""></a>GITHUB_DATA_URL <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
+<span id="cb1-6"><a href=""></a>qob <span class="op">=</span> pd.read_csv(GITHUB_DATA_URL <span class="op">+</span> <span class="st">"ch6/qob_clean.csv"</span>)   <span class="co"># 1980 Census, men born 1930–39</span></span>
+<span id="cb1-7"><a href=""></a></span>
+<span id="cb1-8"><a href=""></a><span class="co"># log weekly earnings on years of schooling, robust (hetero) SEs</span></span>
+<span id="cb1-9"><a href=""></a>m <span class="op">=</span> pf.feols(<span class="st">"lnw ~ s"</span>, data<span class="op">=</span>qob, vcov<span class="op">=</span><span class="st">"hetero"</span>)</span>
+<span id="cb1-10"><a href=""></a>m.summary()                               <span class="co"># s: 0.0709 (0.0004) → ~7% per year</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="https://colab.research.google.com/notebooks/empty.ipynb" class="colab-link" target="_blank" data-preview-link="false">↗ Try it in Colab</a></p>
+<aside class="notes">
+<p>329,509 men, so the estimate is extremely precise: 0.0709 with a standard error of 0.0004 (t ≈ 186). Precision is not the issue. The question is what the coefficient measures. If more able people both study longer and earn more, part of the 7% is ability, not school.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="our-route-through-the-chapter" class="slide level2 center">
+<h2>Our route through the chapter</h2>
+<ul>
+<li class="fragment"><strong>The question</strong> — why a precise 7% correlation is not yet a causal return</li>
+<li class="fragment"><strong>The investigation</strong> — ability bias, then five designs: twins, birth-quarter IV, child-labor-law IV, a diploma RD, and a policy DD</li>
+<li class="fragment"><strong>The resolution</strong> — which estimates to trust, and why their agreement matters more than any one</li>
+</ul>
+<aside class="notes">
+<p>Learning objectives: estimate the simple OLS return and explain why it may overstate the causal effect; apply the OVB formula to ability; explain why an RCT is infeasible; use twin fixed effects; understand attenuation from measurement error; apply IV (twin reports, quarter of birth, compulsory schooling laws); use RD to test sheepskin effects; read a DD with a policy change; compare all estimates.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="one-question-five-tools-each-rung-fixes-a-weakness-of-the-one-below" class="slide level2 center">
+<h2>One question, five tools: each rung fixes a weakness of the one below</h2>
+<div class="small-table">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Rung</th>
+<th style="text-align: left;">What it fixes</th>
+<th style="text-align: left;">Its own weak spot</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">OLS</td>
+<td style="text-align: left;">— (the starting point)</td>
+<td style="text-align: left;">Ability bias</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Twin comparisons</td>
+<td style="text-align: left;">Shared genes and upbringing</td>
+<td style="text-align: left;">Noisy schooling reports</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Birth-quarter IV</td>
+<td style="text-align: left;">Ability <strong>and</strong> noise</td>
+<td style="text-align: left;">Applies to would-be dropouts</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Child-labor-law IV</td>
+<td style="text-align: left;">A second, policy-driven source of variation</td>
+<td style="text-align: left;">Weak instruments</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Diploma RD</td>
+<td style="text-align: left;">Asks: skills or the piece of paper?</td>
+<td style="text-align: left;">Only local to the pass mark</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Reform DD</td>
+<td style="text-align: left;">Before-vs-after policy comparison</td>
+<td style="text-align: left;">Needs parallel trends</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><span class="takeaway fragment">This chapter is a capstone: every method in the course, aimed at a single parameter.</span></p>
+<aside class="notes">
+<p>OLS is the starting point, and we suspect it is biased. Twins remove shared ability but bring a measurement-error problem; instruments fix that; the RD asks a sharper question (diploma vs skills); the DD shows how a policy change can be used the same way. Plus a synthetic scholarship “RCT” as the benchmark we cannot run in real life.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="three-ideas-carry-the-whole-chapter" class="slide level2 center">
+<h2>Three ideas carry the whole chapter</h2>
+<div class="columns">
+<div class="column" style="width:33%;">
+<h3 id="return-to-schooling">Return to schooling</h3>
+<p><span class="math inline">\(\rho\)</span> — the percentage gain in earnings caused by <strong>one more year</strong> of school.</p>
+</div><div class="column" style="width:33%;">
+<h3 id="ability-bias">Ability bias</h3>
+<p>Able people study longer <strong>and</strong> earn more, so OLS credits school for talent.</p>
+</div><div class="column" style="width:34%;">
+<h3 id="measurement-error">Measurement error</h3>
+<p>Misreported schooling dilutes the signal and drags estimates <strong>toward zero</strong>.</p>
+</div></div>
+<p><span class="takeaway fragment">Ability pushes estimates up; noise pushes them down. The chapter is a tug-of-war between the two.</span></p>
+<aside class="notes">
+<p>Other vocabulary as we go: omitted variables bias, bad control, twin fixed effects, reliability ratio, instrument, first stage, reduced form, Wald estimator, LATE and compliers, weak instruments, fuzzy RD, sheepskin effect, human capital vs signaling, parallel trends, convergence of evidence.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="the-investigation" class="title-slide slide level1 divider center" data-background-color="#8e44ad">
+<h1>The Investigation</h1>
+<p><span class="act">Act II</span></p>
+</section>
+<section id="the-simple-model-hides-ability-inside-the-error-term" class="slide level2 center">
+<h2>The simple model hides ability inside the error term</h2>
+<p><span class="math display">\[\ln W_i = \alpha + \rho\, S_i + e_i\]</span></p>
+<p><span class="comment"><span class="math inline">\(\ln W_i\)</span> is log weekly earnings (<code>lnw</code>), <span class="math inline">\(S_i\)</span> years of schooling (<code>s</code>); ability, motivation and family background all sit in <span class="math inline">\(e_i\)</span>.</span></p>
+<div class="fragment">
+<p><span class="math display">\[\hat\rho_{OLS} = \rho + \text{ability bias}\]</span></p>
+<p><span class="takeaway fragment">If <span class="math inline">\(S_i\)</span> is correlated with what sits in <span class="math inline">\(e_i\)</span>, OLS measures the return <em>plus</em> a bias.</span></p>
+<aside class="notes">
+<p>Because the outcome is in logs, ρ = 0.07 means each year raises earnings by about 7%. The key question is whether schooling is “as good as randomly assigned” with respect to everything in the error. It almost certainly is not.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</div>
+</section>
+<section id="ability-raises-both-schooling-and-earnings-so-ols-likely-runs-high" class="slide level2 center">
+<h2>Ability raises both schooling and earnings, so OLS likely runs high</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 0 253.65625 326" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="960" id="mermaid-figure-1" height="480">
+<style>#mermaid-figure-1{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#ccc;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-figure-1 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-figure-1 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-figure-1 .error-icon{fill:#a44141;}#mermaid-figure-1 .error-text{fill:#ddd;stroke:#ddd;}#mermaid-figure-1 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-1 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-1 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-1 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-1 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-1 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-1 .marker{fill:lightgrey;stroke:lightgrey;}#mermaid-figure-1 .marker.cross{stroke:lightgrey;}#mermaid-figure-1 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-1 p{margin:0;}#mermaid-figure-1 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#ccc;}#mermaid-figure-1 .cluster-label text{fill:#F9FFFE;}#mermaid-figure-1 .cluster-label span{color:#F9FFFE;}#mermaid-figure-1 .cluster-label span p{background-color:transparent;}#mermaid-figure-1 .label text,#mermaid-figure-1 span{fill:#ccc;color:#ccc;}#mermaid-figure-1 .node rect,#mermaid-figure-1 .node circle,#mermaid-figure-1 .node ellipse,#mermaid-figure-1 .node polygon,#mermaid-figure-1 .node path{fill:#1f2020;stroke:#ccc;stroke-width:1px;}#mermaid-figure-1 .rough-node .label text,#mermaid-figure-1 .node .label text,#mermaid-figure-1 .image-shape .label,#mermaid-figure-1 .icon-shape .label{text-anchor:middle;}#mermaid-figure-1 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-1 .rough-node .label,#mermaid-figure-1 .node .label,#mermaid-figure-1 .image-shape .label,#mermaid-figure-1 .icon-shape .label{text-align:center;}#mermaid-figure-1 .node.clickable{cursor:pointer;}#mermaid-figure-1 .root .anchor path{fill:lightgrey!important;stroke-width:0;stroke:lightgrey;}#mermaid-figure-1 .arrowheadPath{fill:lightgrey;}#mermaid-figure-1 .edgePath .path{stroke:lightgrey;stroke-width:2.0px;}#mermaid-figure-1 .flowchart-link{stroke:lightgrey;fill:none;}#mermaid-figure-1 .edgeLabel{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-figure-1 .edgeLabel p{background-color:hsl(0, 0%, 34.4117647059%);}#mermaid-figure-1 .edgeLabel rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-figure-1 .labelBkg{background-color:rgba(87.75, 87.75, 87.75, 0.5);}#mermaid-figure-1 .cluster rect{fill:hsl(180, 1.5873015873%, 28.3529411765%);stroke:rgba(255, 255, 255, 0.25);stroke-width:1px;}#mermaid-figure-1 .cluster text{fill:#F9FFFE;}#mermaid-figure-1 .cluster span{color:#F9FFFE;}#mermaid-figure-1 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(20, 1.5873015873%, 12.3529411765%);border:1px solid rgba(255, 255, 255, 0.25);border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-1 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#ccc;}#mermaid-figure-1 rect.text{fill:none;stroke-width:0;}#mermaid-figure-1 .icon-shape,#mermaid-figure-1 .image-shape{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-figure-1 .icon-shape p,#mermaid-figure-1 .image-shape p{background-color:hsl(0, 0%, 34.4117647059%);padding:2px;}#mermaid-figure-1 .icon-shape rect,#mermaid-figure-1 .image-shape rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-figure-1 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851517927_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851517927_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851517927_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851517927_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1791851517927_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1791851517927_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#mermaid-1791851517927_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_S_0" d="M142.452,62L149.02,68.167C155.588,74.333,168.724,86.667,175.291,98.333C181.859,110,181.859,121,181.859,126.5L181.859,132"></path><path marker-end="url(#mermaid-1791851517927_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_W_0" d="M84.939,62L78.371,68.167C71.803,74.333,58.667,86.667,52.099,103.5C45.531,120.333,45.531,141.667,45.531,163C45.531,184.333,45.531,205.667,51.613,222.044C57.695,238.421,69.859,249.841,75.941,255.552L82.023,261.262"></path><path marker-end="url(#mermaid-1791851517927_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" id="L_S_W_0" d="M181.859,190L181.859,196.167C181.859,202.333,181.859,214.667,175.777,226.544C169.696,238.421,157.532,249.841,151.45,255.552L145.368,261.262"></path></g><g class="edgeLabels"><g transform="translate(181.859375, 99)" class="edgeLabel"><g transform="translate(-43.3359375, -12)" class="label"><foreignobject height="24" width="86.671875">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel">
+<p>
+more school
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(45.53125, 163)" class="edgeLabel"><g transform="translate(-37.53125, -12)" class="label"><foreignobject height="24" width="75.0625">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel">
+<p>
+higher pay
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(181.859375, 227)" class="edgeLabel"><g transform="translate(-50.1796875, -12)" class="label"><foreignobject height="24" width="100.359375">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel">
+<p>
+causal return?
+</p>
+</span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(113.6953125, 35)" id="flowchart-A-0" class="node default"><rect height="54" width="106.4375" y="-27" x="-53.21875" style="fill:#e67e22 !important" class="basic label-container"></rect><g transform="translate(-23.21875, -12)" style="color:#fff !important" class="label"><rect></rect><foreignobject height="24" width="46.4375">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel" style="color:#fff !important">
+<p>
+Ability
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(181.859375, 163)" id="flowchart-S-1" class="node default"><rect height="54" width="127.59375" y="-27" x="-63.796875" style="fill:#3498db !important" class="basic label-container"></rect><g transform="translate(-33.796875, -12)" style="color:#fff !important" class="label"><rect></rect><foreignobject height="24" width="67.59375">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel" style="color:#fff !important">
+<p>
+Schooling
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(113.6953125, 291)" id="flowchart-W-3" class="node default"><rect height="54" width="119.75" y="-27" x="-59.875" style="fill:#2d8659 !important" class="basic label-container"></rect><g transform="translate(-29.875, -12)" style="color:#fff !important" class="label"><rect></rect><foreignobject height="24" width="59.75">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel" style="color:#fff !important">
+<p>
+Earnings
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<p><span class="math display">\[\text{OVB} = \gamma \times \pi_1 &gt; 0\]</span></p>
+<ul>
+<li><span class="math inline">\(\gamma\)</span>: ability’s effect on earnings</li>
+<li><span class="math inline">\(\pi_1\)</span>: how ability tracks schooling</li>
+</ul>
+</div></div>
+<p><span class="takeaway fragment">Twist: if star talents drop out early to chase big opportunities, the bias could even turn negative.</span></p>
+<aside class="notes">
+<p>The OVB formula from Chapter 2: the bias equals the effect of the omitted variable on the outcome (γ) times its relationship with the regressor (π₁). Both are plausibly positive, so OLS overstates ρ. The contrarian case: famous college dropouts who founded tech giants. They are rare, so the standard upward-bias view probably holds for most people — but the sign is an empirical question.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="adding-demographic-controls-barely-moves-the-estimate" class="slide level2 center">
+<h2>Adding demographic controls barely moves the estimate</h2>
+<div class="small-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Twinsburg twins, OLS with controls</th>
+<th style="text-align: right;">Coefficient (SE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Years of education</td>
+<td style="text-align: right;"><span class="key">0.110 (0.010)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age</td>
+<td style="text-align: right;">0.104 (0.012)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Age squared (÷100)</td>
+<td style="text-align: right;">−0.106 (0.015)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Female</td>
+<td style="text-align: right;">−0.318 (0.040)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">−0.100 (0.068)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><span class="takeaway fragment">Age, gender and race are not ability — so ~11% per year still carries any ability bias.</span></p>
+<aside class="notes">
+<p>This uses a different dataset — 680 twins from the Twinsburg festival in Ohio — so the 11% is not directly comparable to the Census 7%. Code: pf.feols(“lwage ~ educ + age + age2 + female + white”, vcov=“hetero”). Observable controls only help if they capture the confounder; these don’t.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="when-we-can-see-ability-omitting-it-inflates-the-return-by-40" class="slide level2 center">
+<h2>When we can see ability, omitting it inflates the return by ~40%</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Synthetic data (true return 0.09)</th>
+<th style="text-align: right;">Schooling coefficient (SE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Short regression: omit ability</td>
+<td style="text-align: right;"><span class="key">0.1229 (0.0024)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Long regression: include ability</td>
+<td style="text-align: right;">0.0853 (0.0036)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">True causal return</td>
+<td style="text-align: right;">0.0900</td>
+</tr>
+</tbody>
+</table>
+<p><span class="takeaway fragment">In real data ability is invisible, so the long regression is a luxury we never get.</span></p>
+<aside class="notes">
+<p>2,000 simulated people whose data-generating process we wrote, so we know the truth (~0.09, combining a direct effect and a channel through occupation). The short regression overshoots by roughly 40%; adding ability recovers the truth. The lesson: we need a design that removes ability by construction.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="controlling-for-occupation-blocks-a-real-channel-of-the-return" class="slide level2 center">
+<h2>Controlling for occupation blocks a real channel of the return</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 0 504.265625 105" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="960" id="mermaid-figure-3" height="480">
+<style>#mermaid-figure-3{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#ccc;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-figure-3 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-figure-3 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-figure-3 .error-icon{fill:#a44141;}#mermaid-figure-3 .error-text{fill:#ddd;stroke:#ddd;}#mermaid-figure-3 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-3 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-3 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-3 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-3 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-3 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-3 .marker{fill:lightgrey;stroke:lightgrey;}#mermaid-figure-3 .marker.cross{stroke:lightgrey;}#mermaid-figure-3 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-3 p{margin:0;}#mermaid-figure-3 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#ccc;}#mermaid-figure-3 .cluster-label text{fill:#F9FFFE;}#mermaid-figure-3 .cluster-label span{color:#F9FFFE;}#mermaid-figure-3 .cluster-label span p{background-color:transparent;}#mermaid-figure-3 .label text,#mermaid-figure-3 span{fill:#ccc;color:#ccc;}#mermaid-figure-3 .node rect,#mermaid-figure-3 .node circle,#mermaid-figure-3 .node ellipse,#mermaid-figure-3 .node polygon,#mermaid-figure-3 .node path{fill:#1f2020;stroke:#ccc;stroke-width:1px;}#mermaid-figure-3 .rough-node .label text,#mermaid-figure-3 .node .label text,#mermaid-figure-3 .image-shape .label,#mermaid-figure-3 .icon-shape .label{text-anchor:middle;}#mermaid-figure-3 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-3 .rough-node .label,#mermaid-figure-3 .node .label,#mermaid-figure-3 .image-shape .label,#mermaid-figure-3 .icon-shape .label{text-align:center;}#mermaid-figure-3 .node.clickable{cursor:pointer;}#mermaid-figure-3 .root .anchor path{fill:lightgrey!important;stroke-width:0;stroke:lightgrey;}#mermaid-figure-3 .arrowheadPath{fill:lightgrey;}#mermaid-figure-3 .edgePath .path{stroke:lightgrey;stroke-width:2.0px;}#mermaid-figure-3 .flowchart-link{stroke:lightgrey;fill:none;}#mermaid-figure-3 .edgeLabel{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-figure-3 .edgeLabel p{background-color:hsl(0, 0%, 34.4117647059%);}#mermaid-figure-3 .edgeLabel rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-figure-3 .labelBkg{background-color:rgba(87.75, 87.75, 87.75, 0.5);}#mermaid-figure-3 .cluster rect{fill:hsl(180, 1.5873015873%, 28.3529411765%);stroke:rgba(255, 255, 255, 0.25);stroke-width:1px;}#mermaid-figure-3 .cluster text{fill:#F9FFFE;}#mermaid-figure-3 .cluster span{color:#F9FFFE;}#mermaid-figure-3 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(20, 1.5873015873%, 12.3529411765%);border:1px solid rgba(255, 255, 255, 0.25);border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-3 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#ccc;}#mermaid-figure-3 rect.text{fill:none;stroke-width:0;}#mermaid-figure-3 .icon-shape,#mermaid-figure-3 .image-shape{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-figure-3 .icon-shape p,#mermaid-figure-3 .image-shape p{background-color:hsl(0, 0%, 34.4117647059%);padding:2px;}#mermaid-figure-3 .icon-shape rect,#mermaid-figure-3 .image-shape rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-figure-3 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851518455_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851518455_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851518455_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851518455_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1791851518455_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1791851518455_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#mermaid-1791851518455_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_S_O_0" d="M135.594,43.728L139.76,42.273C143.927,40.819,152.26,37.909,159.927,36.455C167.594,35,174.594,35,178.094,35L181.594,35"></path><path marker-end="url(#mermaid-1791851518455_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_O_W_0" d="M326.516,35L330.682,35C334.849,35,343.182,35,350.889,36.293C358.597,37.586,365.677,40.173,369.218,41.466L372.758,42.759"></path><path marker-end="url(#mermaid-1791851518455_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_S_W_0" d="M135.594,88.272L139.76,89.727C143.927,91.181,152.26,94.091,172.337,95.545C192.414,97,224.234,97,256.055,97C287.875,97,319.695,97,339.146,95.707C358.597,94.414,365.677,91.827,369.218,90.534L372.758,89.241"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(71.796875, 66)" id="flowchart-S-0" class="node default"><rect height="54" width="127.59375" y="-27" x="-63.796875" style="fill:#3498db !important" class="basic label-container"></rect><g transform="translate(-33.796875, -12)" style="color:#fff !important" class="label"><rect></rect><foreignobject height="24" width="67.59375">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel" style="color:#fff !important">
+<p>
+Schooling
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(256.0546875, 35)" id="flowchart-O-1" class="node default"><rect height="54" width="140.921875" y="-27" x="-70.4609375" style="fill:#c0392b !important" class="basic label-container"></rect><g transform="translate(-40.4609375, -12)" style="color:#fff !important" class="label"><rect></rect><foreignobject height="24" width="80.921875">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel" style="color:#fff !important">
+<p>
+Occupation
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(436.390625, 66)" id="flowchart-W-3" class="node default"><rect height="54" width="119.75" y="-27" x="-59.875" style="fill:#2d8659 !important" class="basic label-container"></rect><g transform="translate(-29.875, -12)" style="color:#fff !important" class="label"><rect></rect><foreignobject height="24" width="59.75">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel" style="color:#fff !important">
+<p>
+Earnings
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Adding occupation shrinks the coefficient from <strong>0.123</strong> to <strong>0.100</strong> — not less bias, but a lost pathway.</p>
+<p><span class="takeaway fragment">Never control for an outcome of the treatment: it is a bad control.</span></p>
+<aside class="notes">
+<p>Occupation is caused by schooling: education opens doors to better-paying jobs. Holding occupation fixed asks “what is the return among people in the same job?” — which removes one route through which school raises pay. Same synthetic data as the previous slide.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-ideal-experiment-randomizing-schooling-is-off-the-table" class="slide level2 center">
+<h2>The ideal experiment — randomizing schooling — is off the table</h2>
+<ul>
+<li>Forcing some children to drop out is <strong>unethical</strong></li>
+<li>Assigning years of school by lottery for decades is <strong>impractical</strong></li>
+</ul>
+<div class="fragment">
+<p>But a lottery for a <strong>scholarship</strong> that nudges schooling is imaginable — and shows what we are aiming for.</p>
+<p><span class="takeaway fragment">We need designs that mimic random assignment without forcing anyone’s education.</span></p>
+<aside class="notes">
+<p>Random assignment would break the link between ability and schooling, making the simple comparison causal — exactly as in Chapter 1. The scholarship idea previews the IV logic of the rest of the chapter: a random push to schooling.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</div>
+</section>
+<section id="a-scholarship-lottery-recovers-the-true-return-with-a-wald-ratio" class="slide level2 center">
+<h2>A scholarship lottery recovers the true return with a Wald ratio</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Synthetic scholarship lottery (true return 0.08)</th>
+<th style="text-align: right;">Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Scholarship → schooling (first stage)</td>
+<td style="text-align: right;">1.958 years</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Scholarship → earnings (reduced form)</td>
+<td style="text-align: right;">0.1605 log points</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Per-year return (reduced form ÷ first stage)</td>
+<td style="text-align: right;"><span class="key">0.0820</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[\hat\rho = \frac{\text{reduced form}}{\text{first stage}}\]</span></p>
+<p><span class="takeaway fragment">A random push to schooling, scaled by how much schooling moved, isolates the return per year.</span></p>
+<aside class="notes">
+<p>2,000 simulated people; half randomly offered a scholarship that adds about 2 years of school. The offer is independent of ability and affects earnings only through schooling, so the ratio 0.1605 / 1.958 = 0.082 is close to the true 0.08. This is the Wald estimator of Chapter 3 — the template every quasi-experiment below tries to imitate.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="comparing-identical-twins-cancels-shared-genes-and-upbringing" class="slide level2 center">
+<h2>Comparing identical twins cancels shared genes and upbringing</h2>
+<p><span class="math display">\[\Delta Y_f = \rho\, \Delta S_f + \Delta e_f\]</span></p>
+<p><span class="comment"><span class="math inline">\(\Delta Y_f\)</span> is the wage gap within twin pair <span class="math inline">\(f\)</span> (<code>dlwage</code>); <span class="math inline">\(\Delta S_f\)</span> the schooling gap (<code>deduc</code>). Anything both twins share drops out of the difference.</span></p>
+<p><span class="takeaway fragment">If ability is shared within a pair, differencing removes ability bias by construction.</span></p>
+<aside class="notes">
+<p>Twinsburg data: 340 pairs of identical twins interviewed at the annual twins festival in Ohio. If one twin studied two more years than the other, their wage gap reflects schooling, not shared family or genes. No intercept: twins with the same schooling should have no systematic wage gap.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="within-twin-pairs-the-return-falls-to-about-6" class="slide level2 center">
+<h2>Within twin pairs, the return falls to about 6%</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method (Twinsburg twins)</th>
+<th style="text-align: right;">Return to schooling (SE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">OLS with controls (levels)</td>
+<td style="text-align: right;">0.110 (0.010)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Twin fixed effects (differences)</td>
+<td style="text-align: right;"><span class="key">0.062 (0.020)</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="takeaway fragment">Removing shared ability nearly halves the estimate — but is lower really closer to the truth?</span></p>
+<aside class="notes">
+<p>The natural reading is “ability bias was inflating OLS”. Hold that thought: differencing also changes how much noise is in the schooling measure. The next slides show why the twin estimate can be too low.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="twin-fixed-effects-is-one-regression-on-within-pair-differences" class="slide level2 center">
+<h2>Twin fixed effects is one regression on within-pair differences</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-code-line-numbers="1-3|5-6|8|9-11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="op">!</span>pip install <span class="op">-</span>q pyfixest                  <span class="co"># pyfixest is not preinstalled in Colab</span></span>
+<span id="cb2-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd                       <span class="co"># pandas → load tables</span></span>
+<span id="cb2-3"><a href=""></a><span class="im">import</span> pyfixest <span class="im">as</span> pf                     <span class="co"># pyfixest → regressions with robust SEs</span></span>
+<span id="cb2-4"><a href=""></a></span>
+<span id="cb2-5"><a href=""></a>GITHUB_DATA_URL <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
+<span id="cb2-6"><a href=""></a>twins <span class="op">=</span> pd.read_csv(GITHUB_DATA_URL <span class="op">+</span> <span class="st">"ch6/twins_clean.csv"</span>)   <span class="co"># Twinsburg twins</span></span>
+<span id="cb2-7"><a href=""></a></span>
+<span id="cb2-8"><a href=""></a>first <span class="op">=</span> twins[twins[<span class="st">"first"</span>] <span class="op">==</span> <span class="dv">1</span>]        <span class="co"># keep one row per pair (no double counting)</span></span>
+<span id="cb2-9"><a href=""></a><span class="co"># wage gap on schooling gap; "- 1" drops the intercept (equal school → no gap)</span></span>
+<span id="cb2-10"><a href=""></a>fe <span class="op">=</span> pf.feols(<span class="st">"dlwage ~ deduc - 1"</span>, data<span class="op">=</span>first, vcov<span class="op">=</span><span class="st">"hetero"</span>)</span>
+<span id="cb2-11"><a href=""></a>fe.summary()                              <span class="co"># deduc: 0.0617 (0.0198) → ~6%</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="https://colab.research.google.com/notebooks/empty.ipynb" class="colab-link" target="_blank" data-preview-link="false">↗ Try it in Colab</a></p>
+<aside class="notes">
+<p>Each pair appears twice in the file (once from each twin’s perspective), so <code>first == 1</code> keeps one row per pair: 340 observations. The differences are pre-computed (<code>dlwage</code>, <code>deduc</code>). The measurement-error fix on the next slides is one line away: pf.feols(“dlwage ~ 0 | deduc ~ deduct”, data=first[[“dlwage”,“deduc”,“deduct”]].dropna(), vcov=“hetero”).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="differencing-shrinks-the-signal-but-not-the-noise" class="slide level2 center">
+<h2>Differencing shrinks the signal but not the noise</h2>
+<p><span class="math display">\[\hat\rho_{FE} \approx \rho \times \underbrace{\frac{\text{Var}(\Delta S^*_f)}{\text{Var}(\Delta S^*_f) + \text{Var}(\Delta m_f)}}_{\text{reliability ratio}}\]</span></p>
+<p><span class="comment"><span class="math inline">\(\Delta S^*_f\)</span>: true schooling gap within a pair · <span class="math inline">\(\Delta m_f\)</span>: gap in reporting errors.</span></p>
+<p><span class="takeaway fragment">Twins have similar schooling, so errors dominate — a reliability ratio of 0.5 would halve the estimate.</span></p>
+<aside class="notes">
+<p>Bathroom-scale analogy: a scale that is off by a few pounds either way is fine for your weight, but useless for measuring the half-pound you gained today — the difference between two readings is mostly error. Same here: true schooling gaps within pairs are small, while misreports of a year or so stay the same size. Attenuation bias pushes twin FE toward zero.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="using-the-co-twins-report-as-an-instrument-restores-11" class="slide level2 center">
+<h2>Using the co-twin’s report as an instrument restores ~11%</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method (Twinsburg twins)</th>
+<th style="text-align: right;">Return to schooling (SE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">OLS (levels)</td>
+<td style="text-align: right;">0.110 (0.010)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Twin FE (differences)</td>
+<td style="text-align: right;">0.062 (0.020)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">IV with co-twin’s report (levels)</td>
+<td style="text-align: right;"><span class="key">0.116 (0.011)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IV with co-twin’s report (differences)</td>
+<td style="text-align: right;"><span class="key">0.108 (0.034)</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="takeaway fragment">An independent second measurement filters out the noise — and the return climbs back to ~11%.</span></p>
+<aside class="notes">
+<p>Each twin also reported the other’s schooling. That report tracks true schooling but has its own, independent error, so it is a valid instrument for own-reported schooling. pyfixest syntax: <code>| educ ~ educt_t</code> (levels) or <code>| deduc ~ deduct</code> (differences). Once noise is corrected, the within-pair return is close to OLS — suggesting ability bias in OLS is modest here.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="twins-solve-one-problem-but-leave-two-caveats" class="slide level2 center">
+<h2>Twins solve one problem but leave two caveats</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="who-is-in-the-sample">Who is in the sample?</h3>
+<p>Twins who attend a <strong>festival</strong> in Ohio are self-selected — they may not represent all workers.</p>
+</div><div class="column" style="width:50%;">
+<h3 id="are-the-errors-independent">Are the errors independent?</h3>
+<p>If twins <strong>agree</strong> on a wrong answer, their reports share errors and the IV fix weakens.</p>
+</div></div>
+<p><span class="takeaway fragment">Twin designs are clever but fragile; we need variation in schooling that is precisely measured.</span></p>
+<aside class="notes">
+<p>External validity and the independence of measurement errors are both untestable here. The next strategy uses Census data where schooling is recorded for hundreds of thousands of men and the source of variation has nothing to do with ability: the calendar.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="birth-timing-plus-dropout-laws-keeps-q4-babies-in-school-longer" class="slide level2 center">
+<h2>Birth timing plus dropout laws keeps Q4 babies in school longer</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 0 903.28125 70" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="960" id="mermaid-figure-2" height="480">
+<style>#mermaid-figure-2{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#ccc;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-figure-2 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-figure-2 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-figure-2 .error-icon{fill:#a44141;}#mermaid-figure-2 .error-text{fill:#ddd;stroke:#ddd;}#mermaid-figure-2 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-2 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-2 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-2 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-2 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-2 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-2 .marker{fill:lightgrey;stroke:lightgrey;}#mermaid-figure-2 .marker.cross{stroke:lightgrey;}#mermaid-figure-2 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-2 p{margin:0;}#mermaid-figure-2 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#ccc;}#mermaid-figure-2 .cluster-label text{fill:#F9FFFE;}#mermaid-figure-2 .cluster-label span{color:#F9FFFE;}#mermaid-figure-2 .cluster-label span p{background-color:transparent;}#mermaid-figure-2 .label text,#mermaid-figure-2 span{fill:#ccc;color:#ccc;}#mermaid-figure-2 .node rect,#mermaid-figure-2 .node circle,#mermaid-figure-2 .node ellipse,#mermaid-figure-2 .node polygon,#mermaid-figure-2 .node path{fill:#1f2020;stroke:#ccc;stroke-width:1px;}#mermaid-figure-2 .rough-node .label text,#mermaid-figure-2 .node .label text,#mermaid-figure-2 .image-shape .label,#mermaid-figure-2 .icon-shape .label{text-anchor:middle;}#mermaid-figure-2 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-2 .rough-node .label,#mermaid-figure-2 .node .label,#mermaid-figure-2 .image-shape .label,#mermaid-figure-2 .icon-shape .label{text-align:center;}#mermaid-figure-2 .node.clickable{cursor:pointer;}#mermaid-figure-2 .root .anchor path{fill:lightgrey!important;stroke-width:0;stroke:lightgrey;}#mermaid-figure-2 .arrowheadPath{fill:lightgrey;}#mermaid-figure-2 .edgePath .path{stroke:lightgrey;stroke-width:2.0px;}#mermaid-figure-2 .flowchart-link{stroke:lightgrey;fill:none;}#mermaid-figure-2 .edgeLabel{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-figure-2 .edgeLabel p{background-color:hsl(0, 0%, 34.4117647059%);}#mermaid-figure-2 .edgeLabel rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-figure-2 .labelBkg{background-color:rgba(87.75, 87.75, 87.75, 0.5);}#mermaid-figure-2 .cluster rect{fill:hsl(180, 1.5873015873%, 28.3529411765%);stroke:rgba(255, 255, 255, 0.25);stroke-width:1px;}#mermaid-figure-2 .cluster text{fill:#F9FFFE;}#mermaid-figure-2 .cluster span{color:#F9FFFE;}#mermaid-figure-2 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(20, 1.5873015873%, 12.3529411765%);border:1px solid rgba(255, 255, 255, 0.25);border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-2 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#ccc;}#mermaid-figure-2 rect.text{fill:none;stroke-width:0;}#mermaid-figure-2 .icon-shape,#mermaid-figure-2 .image-shape{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-figure-2 .icon-shape p,#mermaid-figure-2 .image-shape p{background-color:hsl(0, 0%, 34.4117647059%);padding:2px;}#mermaid-figure-2 .icon-shape rect,#mermaid-figure-2 .image-shape rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-figure-2 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851518174_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851518174_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851518174_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1791851518174_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1791851518174_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1791851518174_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#mermaid-1791851518174_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_Q_Y_0" d="M142.75,35L146.917,35C151.083,35,159.417,35,167.083,35C174.75,35,181.75,35,185.25,35L188.75,35"></path><path marker-end="url(#mermaid-1791851518174_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_Y_S_0" d="M405.844,35L410.01,35C414.177,35,422.51,35,430.177,35C437.844,35,444.844,35,448.344,35L451.844,35"></path><path marker-end="url(#mermaid-1791851518174_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_S_W_0" d="M673.797,35L677.964,35C682.13,35,690.464,35,698.13,35C705.797,35,712.797,35,716.297,35L719.797,35"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(75.375, 35)" id="flowchart-Q-0" class="node default"><rect height="54" width="134.75" y="-27" x="-67.375" style="fill:#8e44ad !important" class="basic label-container"></rect><g transform="translate(-37.375, -12)" style="color:#fff !important" class="label"><rect></rect><foreignobject height="24" width="74.75">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel" style="color:#fff !important">
+<p>
+Born in Q4
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(299.296875, 35)" id="flowchart-Y-1" class="node default"><rect height="54" width="213.09375" y="-27" x="-106.546875" style="fill:#2c3e50 !important" class="basic label-container"></rect><g transform="translate(-76.546875, -12)" style="color:#fff !important" class="label"><rect></rect><foreignobject height="24" width="153.09375">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel" style="color:#fff !important">
+<p>
+Starts school younger
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(564.8203125, 35)" id="flowchart-S-3" class="node default"><rect height="54" width="217.953125" y="-27" x="-108.9765625" style="fill:#3498db !important" class="basic label-container"></rect><g transform="translate(-78.9765625, -12)" style="color:#fff !important" class="label"><rect></rect><foreignobject height="24" width="157.953125">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel" style="color:#fff !important">
+<p>
+More school by age 16
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(809.5390625, 35)" id="flowchart-W-5" class="node default"><rect height="54" width="171.484375" y="-27" x="-85.7421875" style="fill:#2d8659 !important" class="basic label-container"></rect><g transform="translate(-55.7421875, -12)" style="color:#fff !important" class="label"><rect></rect><foreignobject height="24" width="111.484375">
+<div data-xmlns="http://www.w3.org/1999/xhtml" style="color: rgb(255, 255, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;">
+<span class="nodeLabel" style="color:#fff !important">
+<p>
+Higher earnings
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><span class="comment">1980 Census: 329,509 men born 1930–1939 (Angrist and Krueger, 1991). Instrument: born in the fourth quarter (<code>q4</code>).</span></p>
+<p><span class="takeaway fragment">Birth quarter is unrelated to ability, but it shifts how much school a would-be dropout completes.</span></p>
+<aside class="notes">
+<p>School-entry rules use a birthday cutoff, so children born late in the year start school slightly younger. Compulsory attendance lets students leave at 16 — and a Q4 child reaches 16 having completed a bit more school. Exclusion restriction: birth quarter affects earnings only through schooling.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="q4-births-get-slightly-more-school-and-slightly-higher-pay" class="slide level2 center">
+<h2>Q4 births get slightly more school — and slightly higher pay</h2>
+
+<img data-src="figures/fig_02.png" class="r-stretch quarto-figure-center"><p class="caption">Filled dots = Q4 births, hollow = Q1 births. Left: years of education; right: log weekly earnings.</p><p><span class="takeaway fragment">The same saw-tooth appears in both panels: the first stage and the reduced form line up.</span></p>
+<aside class="notes">
+<p>Within each birth year, the filled Q4 dots tend to sit above the hollow Q1 dots — in schooling (first stage) and, more noisily, in earnings (reduced form). The upward trend in schooling across cohorts is absorbed by comparing quarters within a year.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="dividing-the-reduced-form-by-the-first-stage-gives-about-7" class="slide level2 center">
+<h2>Dividing the reduced form by the first stage gives about 7%</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Step</th>
+<th style="text-align: right;">Estimate (SE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Reduced form: Q4 → log earnings</td>
+<td style="text-align: right;">0.0068 (0.0027)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">First stage: Q4 → years of school</td>
+<td style="text-align: right;">0.0921 (0.0132)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Wald ratio (reduced form ÷ first stage)</td>
+<td style="text-align: right;"><span class="key">0.0740</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2SLS</td>
+<td style="text-align: right;">0.0740 (0.0280)</td>
+</tr>
+</tbody>
+</table>
+<p><span class="takeaway fragment">A tenth of a year of extra school, worth 0.7% more pay, implies a return of about 7% per year.</span></p>
+<aside class="notes">
+<p>The instrument is strong: first-stage F ≈ 48, far above the rule-of-thumb 10. The IV estimate (7.4%) is close to OLS (7.1%) but far less precise (SE 0.028 vs 0.0004) — the price of using only the variation the instrument creates.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="three-regressions-and-a-ratio-reproduce-the-birth-quarter-iv" class="slide level2 center">
+<h2>Three regressions and a ratio reproduce the birth-quarter IV</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-code-line-numbers="1-3|5-6|8-10|11-12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="op">!</span>pip install <span class="op">-</span>q pyfixest                  <span class="co"># pyfixest is not preinstalled in Colab</span></span>
+<span id="cb3-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd                       <span class="co"># pandas → load tables</span></span>
+<span id="cb3-3"><a href=""></a><span class="im">import</span> pyfixest <span class="im">as</span> pf                     <span class="co"># pyfixest → OLS and IV/2SLS</span></span>
+<span id="cb3-4"><a href=""></a></span>
+<span id="cb3-5"><a href=""></a>GITHUB_DATA_URL <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
+<span id="cb3-6"><a href=""></a>qob <span class="op">=</span> pd.read_csv(GITHUB_DATA_URL <span class="op">+</span> <span class="st">"ch6/qob_clean.csv"</span>)   <span class="co"># 1980 Census, men born 1930–39</span></span>
+<span id="cb3-7"><a href=""></a></span>
+<span id="cb3-8"><a href=""></a>fs <span class="op">=</span> pf.feols(<span class="st">"s ~ q4"</span>, data<span class="op">=</span>qob, vcov<span class="op">=</span><span class="st">"hetero"</span>)     <span class="co"># first stage: Q4 → schooling (0.092)</span></span>
+<span id="cb3-9"><a href=""></a>rf <span class="op">=</span> pf.feols(<span class="st">"lnw ~ q4"</span>, data<span class="op">=</span>qob, vcov<span class="op">=</span><span class="st">"hetero"</span>)   <span class="co"># reduced form: Q4 → earnings (0.0068)</span></span>
+<span id="cb3-10"><a href=""></a><span class="bu">print</span>(rf.coef()[<span class="st">"q4"</span>] <span class="op">/</span> fs.coef()[<span class="st">"q4"</span>])             <span class="co"># Wald ratio = 0.074</span></span>
+<span id="cb3-11"><a href=""></a>iv <span class="op">=</span> pf.feols(<span class="st">"lnw ~ 1 | s ~ q4"</span>, data<span class="op">=</span>qob, vcov<span class="op">=</span><span class="st">"hetero"</span>)   <span class="co"># 2SLS: s instrumented by q4</span></span>
+<span id="cb3-12"><a href=""></a>iv.summary()                              <span class="co"># s: 0.0740 (0.0280) — same as the Wald ratio</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="https://colab.research.google.com/notebooks/empty.ipynb" class="colab-link" target="_blank" data-preview-link="false">↗ Try it in Colab</a></p>
+<aside class="notes">
+<p>The IV formula reads: outcome ~ exogenous controls | endogenous ~ instrument. With one binary instrument and no controls, 2SLS equals the Wald ratio exactly; 2SLS also gives the correct standard error. First-stage F for a single instrument = t² of q4 in the first stage ≈ 48.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-iv-return-applies-to-students-at-the-dropout-margin" class="slide level2 center">
+<h2>The IV return applies to students at the dropout margin</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="compliers">Compliers</h3>
+<p>Would-be dropouts whose schooling <strong>was</strong> changed by their birth quarter — the LATE is <em>their</em> return.</p>
+</div><div class="column" style="width:50%;">
+<h3 id="not-compliers">Not compliers</h3>
+<p>College-bound students and very early leavers: their schooling <strong>does not</strong> depend on birth quarter.</p>
+</div></div>
+<p><span class="takeaway fragment">7% is the return for students on the edge of leaving school — not necessarily for future graduates.</span></p>
+<aside class="notes">
+<p>Local average treatment effect (Chapter 3). Always-takers (would stay regardless) and never-takers (leave regardless of the rules) contribute nothing to the estimate. The return for other groups could be higher or lower — heterogeneous effects.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="state-laws-on-school-entry-age-provide-a-second-set-of-instruments" class="slide level2 center">
+<h2>State laws on school-entry age provide a second set of instruments</h2>
+<p><span class="math display">\[S_{scy} = \phi_1 CL7_{sc} + \phi_2 CL8_{sc} + \phi_3 CL9_{sc} + \beta_s + \gamma_c + \delta_y + v_{scy}\]</span></p>
+<p><span class="comment"><span class="math inline">\(CL7, CL8, CL9\)</span>: state required school entry by age 7, 8 or 9 (<code>cl7</code>, <code>cl8</code>, <code>cl9</code>) · <span class="math inline">\(\beta_s\)</span> state of birth · <span class="math inline">\(\gamma_c\)</span> birth cohort · <span class="math inline">\(\delta_y\)</span> census year — all absorbed as fixed effects.</span></p>
+<p><span class="takeaway fragment">Laws differ across states and cohorts, so a child’s required schooling depends on where and when they were born.</span></p>
+<aside class="notes">
+<p>Acemoglu and Angrist: data collapsed to state-of-birth × year-of-birth × census-year cells (about 2,400 cells), weighted by cell size, with standard errors clustered by state. The second stage regresses log weekly wages on predicted schooling with the same fixed effects.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-child-labor-law-iv-doubles-the-return-13-vs-7" class="slide level2 center">
+<h2>The child-labor-law IV doubles the return: 13% vs 7%</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method (state, cohort, census-year FE)</th>
+<th style="text-align: right;">Return to schooling (SE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">OLS</td>
+<td style="text-align: right;">0.0698 (0.0066)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IV / 2SLS (entry-age laws as instruments)</td>
+<td style="text-align: right;"><span class="key">0.1288 (0.0371)</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="takeaway fragment">The instrumented return is larger than OLS — the opposite of what pure ability bias predicts.</span></p>
+<aside class="notes">
+<p>One reading: the compliers here (children pushed into school by the laws) may have unusually high returns. Another: measurement error was biasing OLS down. But the standard error is large — the 95% interval runs from roughly 5% to 20% — and the next slide explains why we should be cautious.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-first-stage-f-of-6-signals-weak-instruments" class="slide level2 center">
+<h2>A first-stage F of 6 signals weak instruments</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">First stage: instrument → years of school</th>
+<th style="text-align: right;">Coefficient (SE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Entry required by age 7</td>
+<td style="text-align: right;">0.1690 (0.0674)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Entry required by age 8</td>
+<td style="text-align: right;">0.1872 (0.0621)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Entry required by age 9</td>
+<td style="text-align: right;">0.3973 (0.0984)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Joint F-statistic</td>
+<td style="text-align: right;"><span class="key">6.06</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="takeaway fragment">Below the rule-of-thumb of 10, IV estimates are imprecise and can be biased — read 13% with caution.</span></p>
+<aside class="notes">
+<p>Each instrument is individually significant, but together they explain too little of the schooling variation once all the fixed effects are absorbed. Compare the birth-quarter first stage, F ≈ 48. Weak instruments widen confidence intervals and make the estimate sensitive to small violations.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="fixed-effects-weights-and-clusters-fit-in-one-iv-formula" class="slide level2 center">
+<h2>Fixed effects, weights and clusters fit in one IV formula</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-code-line-numbers="1-3|5-6|8-10|11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="op">!</span>pip install <span class="op">-</span>q pyfixest                  <span class="co"># pyfixest is not preinstalled in Colab</span></span>
+<span id="cb4-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd                       <span class="co"># pandas → load tables</span></span>
+<span id="cb4-3"><a href=""></a><span class="im">import</span> pyfixest <span class="im">as</span> pf                     <span class="co"># pyfixest → IV with absorbed fixed effects</span></span>
+<span id="cb4-4"><a href=""></a></span>
+<span id="cb4-5"><a href=""></a>GITHUB_DATA_URL <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
+<span id="cb4-6"><a href=""></a>cl <span class="op">=</span> pd.read_csv(GITHUB_DATA_URL <span class="op">+</span> <span class="st">"ch6/childlabor_clean.csv"</span>)  <span class="co"># state × cohort × census cells</span></span>
+<span id="cb4-7"><a href=""></a></span>
+<span id="cb4-8"><a href=""></a><span class="co"># controls | fixed effects | endogenous ~ instruments; cell-size weights; cluster by state</span></span>
+<span id="cb4-9"><a href=""></a>iv <span class="op">=</span> pf.feols(<span class="st">"lnwkwage ~ 1 | sob + yob + year | indEduc ~ cl7 + cl8 + cl9"</span>,</span>
+<span id="cb4-10"><a href=""></a>              data<span class="op">=</span>cl, weights<span class="op">=</span><span class="st">"weight"</span>, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>: <span class="st">"sob"</span>})</span>
+<span id="cb4-11"><a href=""></a>iv.summary()                              <span class="co"># indEduc: 0.1288 (0.0371) vs OLS 0.0698</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="https://colab.research.google.com/notebooks/empty.ipynb" class="colab-link" target="_blank" data-preview-link="false">↗ Try it in Colab</a></p>
+<aside class="notes">
+<p>Three parts separated by pipes: exogenous controls (just an intercept), absorbed fixed effects (state of birth, year of birth, census year), and the IV part. The OLS comparison drops the IV part: pf.feols(“lnwkwage ~ indEduc | sob + yob + year”, data=cl, weights=“weight”, vcov={“CRV1”: “sob”}). The first stage is the same call with indEduc on the left and cl7 + cl8 + cl9 on the right.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="skills-or-the-piece-of-paper-two-theories-predict-different-jumps" class="slide level2 center">
+<h2>Skills or the piece of paper? Two theories predict different jumps</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="human-capital">Human capital</h3>
+<p>School builds <strong>skills</strong>. Students just above and below a pass mark have the same skills → <strong>no</strong> earnings jump.</p>
+</div><div class="column" style="width:50%;">
+<h3 id="signaling">Signaling</h3>
+<p>The diploma <strong>signals</strong> ability to employers. Holding it should pay → an earnings <strong>jump</strong> at the pass mark.</p>
+</div></div>
+<p><span class="comment">Texas last-chance exit exam (Clark and Martorell, 2014): 46 score bins around the passing line.</span></p>
+<p><span class="takeaway fragment">An RD at the exam cutoff tests the value of the credential itself — the sheepskin effect.</span></p>
+<aside class="notes">
+<p>“Sheepskin” because diplomas were once printed on it. The running variable is the score relative to the pass mark (<code>minscore</code>, 0 = cutoff). Students one point either side are near-identical in skills but very different in their chance of getting a diploma. RD model: Y = α + ρD + f(score) + e, with a separate quartic in the score on each side of the cutoff.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="passing-raises-diploma-receipt-sharply-earnings-barely-notice" class="slide level2 center">
+<h2>Passing raises diploma receipt sharply; earnings barely notice</h2>
+
+<img data-src="figures/fig_03.png" class="r-stretch quarto-figure-center"><p class="caption">Left: share receiving a diploma. Right: average annual earnings. Dashed line = passing score.</p><p><span class="takeaway fragment">A big jump on the left, almost none on the right: the credential changes hands, the paycheck doesn’t.</span></p>
+<aside class="notes">
+<p>Diploma receipt jumps from about half to over 90% at the cutoff. Earnings rise smoothly with the score — higher-scoring students earn more because they have more skills — with no visible break at the line.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-diploma-jumps-42-points-but-earnings-move-only-60" class="slide level2 center">
+<h2>The diploma jumps ~42 points, but earnings move only ~$60</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Jump at the passing score (quartic on each side)</th>
+<th style="text-align: right;">Estimate (SE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Diploma receipt (share)</td>
+<td style="text-align: right;">0.417 (0.011)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Annual earnings ($)</td>
+<td style="text-align: right;"><span class="key">62 (284)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Earnings level just below the cutoff ($)</td>
+<td style="text-align: right;">~14,000</td>
+</tr>
+</tbody>
+</table>
+<p><span class="takeaway fragment">The credential alone adds almost nothing — the premium comes from what students learn.</span></p>
+<aside class="notes">
+<p>Re-run of the chapter’s RD fits: separate quartic polynomials in the score on each side, weighted by cell size (diploma) or person-years (earnings), robust SEs. Because passing raises diploma receipt by ~42 points rather than 100, this is a fuzzy RD; scaling the earnings jump by the diploma jump (62 / 0.417 ≈ $150) still gives a negligible, statistically insignificant credential effect. Code: pf.feols(“avgearnings ~ pass_exam + left_1 + … + right_4”, data=sheep, weights=“person_years”, vcov=“hetero”).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-schooling-reform-in-half-the-states-shows-parallel-pre-trends" class="slide level2 center">
+<h2>A schooling reform in half the states shows parallel pre-trends</h2>
+
+<img data-src="figures/fig_04.png" class="r-stretch quarto-figure-center"><p class="caption">Synthetic data: 10 reform states (solid) vs 10 comparison states (dashed); reform in 2005.</p><p><span class="takeaway fragment">Before 2005 the two groups move in parallel; after, reform states jump in schooling and their earnings catch up.</span></p>
+<aside class="notes">
+<p>Synthetic dataset designed to illustrate DD: 20 states × 20 years (1995–2014). Parallel trends in the pre-period make the comparison states a credible counterfactual for what reform states would have done without the law. A placebo DD with a fake reform in 2000 gives 0.0089 (SE 0.0111) — no spurious effect.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="dd-on-earnings-dd-on-schooling-gives-a-return-of-about-8" class="slide level2 center">
+<h2>DD on earnings ÷ DD on schooling gives a return of about 8%</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Two-way fixed-effects DD (state + year FE)</th>
+<th style="text-align: right;">Estimate (SE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Reform → years of school (“first stage”)</td>
+<td style="text-align: right;">0.5039 (0.0165)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Reform → log earnings (“reduced form”)</td>
+<td style="text-align: right;">0.0393 (0.0055)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Implied return per year (ratio)</td>
+<td style="text-align: right;"><span class="key">0.0779</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="takeaway fragment">It is the same policy variation the child-labor-law IV uses — now read as before-vs-after.</span></p>
+<aside class="notes">
+<p>DD model: Y_st = α + δ(Treated_s × Post_t) + β_s + γ_t + e_st, run twice — once for schooling and once for earnings. The ratio is a Wald estimator built from two DDs, valid if the reform affects earnings only through schooling. Synthetic data, so treat the 7.8% as an illustration, not a finding.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="two-way-fixed-effects-and-a-ratio-give-the-dd-return" class="slide level2 center">
+<h2>Two-way fixed effects and a ratio give the DD return</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-code-line-numbers="1-3|5-6|8|9-12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="op">!</span>pip install <span class="op">-</span>q pyfixest                  <span class="co"># pyfixest is not preinstalled in Colab</span></span>
+<span id="cb5-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd                       <span class="co"># pandas → load tables</span></span>
+<span id="cb5-3"><a href=""></a><span class="im">import</span> pyfixest <span class="im">as</span> pf                     <span class="co"># pyfixest → two-way fixed-effects DD</span></span>
+<span id="cb5-4"><a href=""></a></span>
+<span id="cb5-5"><a href=""></a>GITHUB_DATA_URL <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"</span></span>
+<span id="cb5-6"><a href=""></a>did <span class="op">=</span> pd.read_csv(GITHUB_DATA_URL <span class="op">+</span> <span class="st">"ch6/synthetic_did.csv"</span>)   <span class="co"># 20 states × 20 years</span></span>
+<span id="cb5-7"><a href=""></a></span>
+<span id="cb5-8"><a href=""></a>did[<span class="st">"treat_post"</span>] <span class="op">=</span> did[<span class="st">"treated"</span>] <span class="op">*</span> did[<span class="st">"post"</span>]   <span class="co"># 1 = reform state after 2005</span></span>
+<span id="cb5-9"><a href=""></a><span class="co"># DD with state and year fixed effects; cluster SEs by state</span></span>
+<span id="cb5-10"><a href=""></a>s <span class="op">=</span> pf.feols(<span class="st">"avg_schooling ~ treat_post | state + year"</span>, data<span class="op">=</span>did, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>: <span class="st">"state"</span>})</span>
+<span id="cb5-11"><a href=""></a>e <span class="op">=</span> pf.feols(<span class="st">"avg_earnings ~ treat_post | state + year"</span>, data<span class="op">=</span>did, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>: <span class="st">"state"</span>})</span>
+<span id="cb5-12"><a href=""></a><span class="bu">print</span>(e.coef()[<span class="st">"treat_post"</span>] <span class="op">/</span> s.coef()[<span class="st">"treat_post"</span>])   <span class="co"># implied return: 0.078</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="https://colab.research.google.com/notebooks/empty.ipynb" class="colab-link" target="_blank" data-preview-link="false">↗ Try it in Colab</a></p>
+<aside class="notes">
+<p><code>| state + year</code> absorbs state and year fixed effects, so treat_post’s coefficient is the DD. Clustering by state allows each state’s errors to be correlated over time. s.coef() ≈ 0.504 years, e.coef() ≈ 0.039 log points.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="side-by-side-the-designs-bracket-the-return-to-schooling" class="slide level2 center">
+<h2>Side by side, the designs bracket the return to schooling</h2>
+<div class="small-table">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Design</th>
+<th style="text-align: left;">Data</th>
+<th style="text-align: right;">Return per year</th>
+<th style="text-align: left;">Main weak spot</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Simple OLS</td>
+<td style="text-align: left;">1980 Census</td>
+<td style="text-align: right;">0.071</td>
+<td style="text-align: left;">Ability bias (up)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OLS + controls</td>
+<td style="text-align: left;">Twins</td>
+<td style="text-align: right;">0.110</td>
+<td style="text-align: left;">Ability bias (up)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Twin fixed effects</td>
+<td style="text-align: left;">Twins</td>
+<td style="text-align: right;"><span class="key">0.062</span></td>
+<td style="text-align: left;">Noisy reports (down)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Twin IV (levels / diffs)</td>
+<td style="text-align: left;">Twins</td>
+<td style="text-align: right;">0.116 / 0.108</td>
+<td style="text-align: left;">Shared misreports</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Birth-quarter IV</td>
+<td style="text-align: left;">1980 Census</td>
+<td style="text-align: right;"><span class="key">0.074</span></td>
+<td style="text-align: left;">LATE for dropouts only</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Child-labor-law IV</td>
+<td style="text-align: left;">Census cells</td>
+<td style="text-align: right;">0.129</td>
+<td style="text-align: left;">Weak IV (<span class="math inline">\(F = 6\)</span>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reform DD</td>
+<td style="text-align: left;">Synthetic</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: left;">Parallel trends</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Diploma RD</td>
+<td style="text-align: left;">Texas</td>
+<td style="text-align: right;">≈ 0 (credential)</td>
+<td style="text-align: left;">Diploma only, not years</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><span class="takeaway fragment">Each design fails differently, yet all point to a sizable return — roughly 7–10% per year.</span></p>
+<aside class="notes">
+<p>Twin FE sits lowest (noise drags it down); the noise-corrected twin IV and the weak child-labor IV sit highest; the precise Census designs (OLS and birth-quarter IV) cluster near 7%. The RD answers a different question: the diploma itself is worth almost nothing, so the return is about learning. The chapter’s best read is a causal return of roughly 7–10% per year.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="the-resolution" class="title-slide slide level1 divider center" data-background-color="#2d8659">
+<h1>The Resolution</h1>
+<p><span class="act">Act III</span></p>
+</section>
+<section id="the-tempting-mistake-twin-fe-is-lowest-so-it-must-be-closest-to-the-truth" class="slide level2 center">
+<h2>The tempting mistake: “Twin FE is lowest, so it must be closest to the truth”</h2>
+<p><span class="objection">Objection.</span> Differencing removes ability, so the smallest estimate (6%) is the cleanest.</p>
+<div class="fragment">
+<p><span class="rebuttal">Response.</span> Differencing also magnifies reporting errors. Once the co-twin’s report corrects the noise, the within-pair return climbs back to about 11%. Lower is not the same as less biased.</p>
+<aside class="notes">
+<p>Two biases pull in opposite directions: ability pushes OLS up, measurement error pushes twin FE down. A good empiricist asks which biases each design suffers from — not which number is smallest.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</div>
+</section>
+<section id="the-tempting-mistake-no-diploma-jump-means-school-does-not-pay" class="slide level2 center">
+<h2>The tempting mistake: “No diploma jump means school does not pay”</h2>
+<p><span class="objection">Objection.</span> At the Texas cutoff the diploma barely changes earnings, so education is worthless.</p>
+<div class="fragment">
+<p><span class="rebuttal">Response.</span> The RD prices the <strong>paper</strong>, not the years. Earnings still rise steadily with skills, and the IV designs find 7%+ per year — school pays through learning, not the credential.</p>
+<aside class="notes">
+<p>The sheepskin RD is evidence for human capital over signaling — not evidence against a return to schooling. Different designs answer different questions; read each one for what it identifies.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</div>
+</section>
+<section id="key-takeaways" class="slide level2 center">
+<h2>Key takeaways</h2>
+<ul>
+<li class="fragment">Raw OLS (~7%) mixes the causal return with <strong>ability bias</strong></li>
+<li class="fragment"><strong>Twins</strong> remove shared ability but magnify <strong>reporting errors</strong> (6%)</li>
+<li class="fragment"><strong>Instruments</strong> correct the noise and point to roughly <strong>7–10%</strong></li>
+<li class="fragment">The <strong>diploma itself</strong> is worth little; learning drives the premium</li>
+<li class="fragment">Trust <strong>convergence</strong> across designs with different weak spots</li>
+</ul>
+<aside class="notes">
+<p>Tie back to the opening guesses. The causal return to a year of school is real and large — roughly 7–10% per year — and we believe it not because any one design is flawless, but because designs with different assumptions and different flaws land in the same neighbourhood.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section" class="slide level2 recap center" data-background-image="figures/visual_summary.svg" data-background-size="contain" data-background-color="#0f172a">
+<h2></h2>
+<aside class="notes">
+<p>Recap with the chapter’s visual summary: the question (does school cause higher pay?), the problem (ability bias, then measurement error), the five designs (twins, birth-quarter IV, child-labor-law IV, diploma RD, reform DD), and the synthesis (a convergent 7–10%).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section id="when-five-imperfect-designs-agree-a-year-of-school-raises-earnings-by-roughly-710." class="title-slide slide level1 divider center" data-background-color="#2d8659">
+<h1>When five imperfect designs agree, a year of school raises earnings by roughly 7–10%.</h1>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="slides_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="slides_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': true,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <!-- figure-zoom.html — click-to-zoom lightbox for deck figures (self-contained, no CDN).
+         Injected via the slides.qmd front matter `include-after-body: figure-zoom.html`.
+         Clicking any figure <img> on a slide opens a full-screen overlay with zoom controls
+         (+ / − / reset / fullscreen), scroll-to-zoom-at-cursor, drag-to-pan, and Esc to close.
+         Copied verbatim into each deck by the write-slides skill. -->
+    <style>
+      .reveal .slides img.fig-zoomable { cursor: zoom-in; }
+      #figZoomOverlay {
+        position: fixed; inset: 0; z-index: 10000;
+        background: rgba(15, 23, 42, 0.96);
+        display: none; align-items: center; justify-content: center; overflow: hidden;
+      }
+      #figZoomOverlay.open { display: flex; }
+      #figZoomImg {
+        max-width: 94vw; max-height: 92vh;
+        transform-origin: center center;
+        transition: transform 0.08s ease-out;
+        user-select: none; -webkit-user-drag: none;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); border-radius: 4px;
+      }
+      #figZoomImg.dragging { transition: none; }
+      #figZoomHint {
+        position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+        color: #94a3b8; font: 500 13px/1 -apple-system, "Segoe UI", sans-serif;
+        letter-spacing: 0.02em; z-index: 10001; pointer-events: none;
+      }
+      #figZoomControls {
+        position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+        display: flex; gap: 8px; z-index: 10001;
+      }
+      #figZoomOverlay button {
+        font: 600 18px/1 -apple-system, "Segoe UI", sans-serif;
+        color: #e2e8f0; background: rgba(56, 189, 248, 0.20);
+        border: 1px solid rgba(56, 189, 248, 0.65); border-radius: 8px;
+        width: 46px; height: 42px; cursor: pointer; transition: background 0.15s ease;
+      }
+      #figZoomOverlay button:hover { background: rgba(56, 189, 248, 0.40); color: #fff; }
+      #figZoomClose { position: fixed; top: 18px; right: 22px; width: 46px; height: 46px; z-index: 10001; }
+    </style>
+    <script>
+    (function () {
+      function init() {
+        if (document.getElementById("figZoomOverlay")) return;
+        var overlay = document.createElement("div");
+        overlay.id = "figZoomOverlay";
+        overlay.innerHTML =
+          '<img id="figZoomImg" alt="zoomed figure">' +
+          '<div id="figZoomHint">scroll or + / − to zoom · drag to pan · Esc to close</div>' +
+          '<button id="figZoomClose" title="Close (Esc)" aria-label="Close">×</button>' +
+          '<div id="figZoomControls">' +
+            '<button data-act="out" title="Zoom out (−)" aria-label="Zoom out">−</button>' +
+            '<button data-act="reset" title="Reset (0)" aria-label="Reset">↺</button>' +
+            '<button data-act="in" title="Zoom in (+)" aria-label="Zoom in">+</button>' +
+            '<button data-act="full" title="Full screen" aria-label="Full screen">⛶</button>' +
+          '</div>';
+        document.body.appendChild(overlay);
+
+        var img = overlay.querySelector("#figZoomImg");
+        var scale = 1, tx = 0, ty = 0, drag = false, sx = 0, sy = 0;
+
+        function apply() {
+          img.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + scale + ")";
+          img.style.cursor = scale > 1 ? "grab" : "default";
+        }
+        function reset() { scale = 1; tx = 0; ty = 0; apply(); }
+        function open(src) { img.src = src; reset(); overlay.classList.add("open"); }
+        function close() {
+          overlay.classList.remove("open");
+          if (document.fullscreenElement) { document.exitFullscreen().catch(function () {}); }
+        }
+        function zoom(f) {
+          scale = Math.min(8, Math.max(1, scale * f));
+          if (scale === 1) { tx = 0; ty = 0; }
+          apply();
+        }
+
+        // Body figures are <img> elements on slides.
+        document.querySelectorAll(".reveal .slides img").forEach(function (el) {
+          if (el.closest("#figZoomOverlay")) return;
+          el.classList.add("fig-zoomable");
+          el.addEventListener("click", function (e) {
+            e.preventDefault(); e.stopPropagation();
+            open(el.currentSrc || el.src);
+          });
+        });
+
+        // The TITLE slide's visual summary is a full-bleed slide BACKGROUND (data-background-image),
+        // not an <img> and painted in a separate layer behind an (empty) section. Rather than hunt for
+        // the right element, capture clicks on the whole deck: if the CURRENT slide has a background
+        // image, a click anywhere on it (except controls/links) zooms that image.
+        var revealEl = document.querySelector(".reveal");
+        if (revealEl) {
+          revealEl.style.cursor = revealEl.style.cursor; // no-op; cursor set per-slide below
+          revealEl.addEventListener("click", function (e) {
+            if (overlay.classList.contains("open")) return;
+            if (e.target.closest("#figZoomOverlay")) return;
+            if (e.target.closest("a, button, .controls, .slide-menu, .slide-menu-button, .progress")) return;
+            var cur = (window.Reveal && Reveal.getCurrentSlide) ? Reveal.getCurrentSlide() : null;
+            var url = cur && cur.getAttribute("data-background-image");
+            if (!url) return;
+            e.preventDefault(); e.stopPropagation(); open(url);
+          }, true);
+          // zoom-in cursor while on a background-image slide
+          function setBgCursor() {
+            var cur = (window.Reveal && Reveal.getCurrentSlide) ? Reveal.getCurrentSlide() : null;
+            revealEl.style.cursor = (cur && cur.getAttribute("data-background-image")) ? "zoom-in" : "";
+          }
+          if (window.Reveal && Reveal.on) { Reveal.on("ready", setBgCursor); Reveal.on("slidechanged", setBgCursor); }
+          window.addEventListener("load", function () { setTimeout(setBgCursor, 300); });
+          setTimeout(setBgCursor, 900);
+        }
+
+        overlay.addEventListener("click", function (e) { if (e.target === overlay) close(); });
+        overlay.querySelector("#figZoomClose").addEventListener("click", close);
+        overlay.querySelector("#figZoomControls").addEventListener("click", function (e) {
+          var b = e.target.closest("button"); if (!b) return; e.stopPropagation();
+          var a = b.getAttribute("data-act");
+          if (a === "in") zoom(1.3);
+          else if (a === "out") zoom(1 / 1.3);
+          else if (a === "reset") reset();
+          else if (a === "full") {
+            if (!document.fullscreenElement) { if (overlay.requestFullscreen) overlay.requestFullscreen().catch(function () {}); }
+            else if (document.exitFullscreen) document.exitFullscreen();
+          }
+        });
+
+        overlay.addEventListener("wheel", function (e) {
+          if (!overlay.classList.contains("open")) return;
+          e.preventDefault();
+          var rect = img.getBoundingClientRect();
+          var cx = e.clientX - (rect.left + rect.width / 2);
+          var cy = e.clientY - (rect.top + rect.height / 2);
+          var f = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+          var ns = Math.min(8, Math.max(1, scale * f));
+          var k = ns / scale;
+          tx = (tx - cx) * k + cx; ty = (ty - cy) * k + cy; scale = ns;
+          if (scale === 1) { tx = 0; ty = 0; }
+          apply();
+        }, { passive: false });
+
+        img.addEventListener("mousedown", function (e) {
+          if (scale <= 1) return;
+          drag = true; img.classList.add("dragging"); sx = e.clientX - tx; sy = e.clientY - ty; e.preventDefault();
+        });
+        window.addEventListener("mousemove", function (e) { if (!drag) return; tx = e.clientX - sx; ty = e.clientY - sy; apply(); });
+        window.addEventListener("mouseup", function () { drag = false; img.classList.remove("dragging"); });
+
+        // Capture keys while open so reveal.js doesn't navigate underneath.
+        document.addEventListener("keydown", function (e) {
+          if (!overlay.classList.contains("open")) return;
+          if (e.key === "Escape") close();
+          else if (e.key === "+" || e.key === "=") zoom(1.3);
+          else if (e.key === "-" || e.key === "_") zoom(1 / 1.3);
+          else if (e.key === "0") reset();
+          else if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " "].indexOf(e.key) === -1) return;
+          e.preventDefault(); e.stopPropagation();
+        }, true);
+      }
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+      else init();
+    })();
+    </script>
+    <script>
+    /* Mermaid sizing fix. With `mermaid-format: svg`, Quarto inlines each diagram with a fixed
+       width/height box (e.g. 960×480) whatever the diagram's real shape, which leaves tall empty
+       bands around wide diagrams and pushes the slide past 720px. Re-derive the height from the
+       viewBox so the box hugs the drawing (capped at 440px tall). */
+    (function () {
+      function fit() {
+        document.querySelectorAll('.reveal svg[id^="mermaid-figure"]').forEach(function (svg) {
+          var vb = svg.viewBox && svg.viewBox.baseVal;
+          if (!vb || !vb.width || !vb.height) return;
+          var w = Math.min(parseFloat(svg.getAttribute("width")) || vb.width, 1100);
+          var h = w * vb.height / vb.width;
+          if (h > 440) { w = w * 440 / h; h = 440; }
+          svg.setAttribute("width", w);
+          svg.setAttribute("height", h);
+        });
+        if (window.Reveal && Reveal.layout) Reveal.layout();
+      }
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fit);
+      else fit();
+    })();
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
