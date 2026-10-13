@@ -27,3 +27,7 @@ data/ch1/*.xlsx
 .claude/plans/
 .claude/tasks/
 .claude/image-cache/
+
+# Slide decks: keep source + rendered output; ignore staging + Quarto caches
+slides/*/_figcache/
+slides/*/.quarto/

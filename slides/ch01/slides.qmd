@@ -1,0 +1,704 @@
+---
+title: "1. Randomized Trials"
+subtitle: "Why comparing groups misleads — and how a coin flip fixes it"
+deck-author: "Carlos Mendez"
+deck-author-url: "https://carlos-mendez.org"
+institute: "Nagoya University (GSID)"
+date: today
+date-format: long
+visual-summary: "figures/visual_summary.svg"   # stand-in until the mind-map image exists;
+                                                # the Recap slide repeats this path
+format:
+  revealjs:
+    output-file: index.html
+    theme: [default, site-brand.scss]
+    template-partials:
+      - title-slide.html
+    include-after-body: figure-zoom.html
+    center: true
+    slide-number: c/t
+    menu: true
+    chalkboard: true
+    preview-links: auto
+    overview: true
+    progress: true
+    history: true
+    transition: fade
+    width: 1280
+    height: 720
+    fig-align: center
+    auto-stretch: true
+    highlight-style: github-dark
+    mermaid-format: svg       # pre-render diagrams at build time (live mermaid mis-measures labels inside reveal's scaled slides)
+    mermaid:
+      theme: dark
+    link-external-icon: false
+---
+
+# The Question {.divider background-color="#3498db"}
+
+[Act I]{.act}
+
+## Does health insurance actually make people healthier?
+
+The U.S. spends more on health care than any other rich country — yet millions of adults have no
+insurance.
+
+. . .
+
+If we gave them coverage, would their **health** improve, or only their **health-care bills**?
+
+::: {.notes}
+Open with the policy stakes. Insurance debates (e.g., the Affordable Care Act) turn on this exact
+question. Ask the room for a show of hands: who thinks insurance improves health? Keep their answers
+in mind — we will test the intuition against two real experiments.
+:::
+
+## In survey data, insured adults report better health
+
+| Group | Average health (1 = poor, 5 = excellent) |
+|:---|---:|
+| Uninsured | 3.66 |
+| Insured | [3.98]{.key} |
+
+[National Health Interview Survey (NHIS) 2009 — married adults aged 26–59, $n = 18{,}790$.]{.comment}
+
+[The insured look healthier. The question is whether insurance *caused* the gap.]{.takeaway .fragment}
+
+::: {.notes}
+This is the first, most natural piece of evidence anyone would look at. A gap of about 0.3 points on
+a 5-point scale is sizeable. Before celebrating, ask: who chooses to have insurance? That question
+drives the rest of the lecture.
+:::
+
+## Three lines of pandas reproduce the naive comparison
+
+``` {.python code-line-numbers="1|3-5|7"}
+import pandas as pd                       # pandas → load and summarize tables
+
+# every course dataset lives in the repo's data/ folder on GitHub
+GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+nhis = pd.read_csv(GITHUB_DATA_URL + "ch1/nhis_clean.csv")   # NHIS 2009 extract
+
+nhis.groupby("insurance")["health"].mean()   # mean health: 0 = uninsured, 1 = insured
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+`groupby("insurance")` splits the sample into insured and uninsured; `["health"].mean()` averages
+the 1–5 health index in each group. Output: 3.66 for the uninsured, 3.98 for the insured.
+The data file is already cleaned — see code/python/ch1/prepare_data.py for how.
+:::
+
+## Our route through the chapter
+
+::: {.incremental}
+- **The question** — why a simple comparison cannot settle cause and effect
+- **The investigation** — potential outcomes, selection bias, and regression on a dummy; why random
+  assignment removes the bias; two landmark insurance experiments (RAND and Oregon)
+- **The resolution** — what the experiments teach, how to read standard errors, and the traps to avoid
+:::
+
+::: {.notes}
+Learning objectives: explain why naive comparisons fail; define potential outcomes, selection bias,
+average treatment effects; describe how random assignment eliminates selection bias; use regression
+on a dummy to compare means; interpret the RAND and Oregon experiments; understand standard errors
+and statistical significance.
+:::
+
+## Three ideas carry the whole chapter
+
+:::: {.columns}
+::: {.column width="33%"}
+### Potential outcomes
+Each person has a health level **with** insurance ($Y_{1i}$) and **without** it ($Y_{0i}$).
+:::
+::: {.column width="33%"}
+### Selection bias
+People who choose treatment differ from those who don't — *before* any treatment.
+:::
+::: {.column width="34%"}
+### Random assignment
+A lottery decides who is treated, so the groups are alike on average.
+:::
+::::
+
+[The chapter is the story of how the third idea solves the problem the first two reveal.]{.takeaway .fragment}
+
+::: {.notes}
+Other vocabulary we will meet along the way: causal effect, confounder, balance check, standard
+error, t-statistic, statistical significance, moral hazard, intent-to-treat, clustered standard
+errors. Define them as they come up rather than all at once.
+:::
+
+# The Investigation {.divider background-color="#8e44ad"}
+
+[Act II]{.act}
+
+## Every person has two potential outcomes, but we only ever see one
+
+:::: {.columns}
+::: {.column width="50%"}
+### The two roads
+- $Y_{1i}$ — person $i$'s health **with** insurance
+- $Y_{0i}$ — the same person's health **without** it
+:::
+::: {.column width="50%"}
+### The causal effect
+$$Y_{1i} - Y_{0i}$$
+Only one road is ever travelled, so one term is always missing.
+:::
+::::
+
+[A causal effect compares a person with *themselves* in another world — not with someone else.]{.takeaway .fragment}
+
+::: {.notes}
+Fork-in-the-road picture: you take one path and never learn where the other would have led. The
+unobserved outcome is called the counterfactual.
+:::
+
+## A naive comparison can even get the sign wrong
+
+| | Anika | Ben |
+|:---|:---:|:---:|
+| Health without insurance ($Y_{0i}$) | 3 | 5 |
+| Health with insurance ($Y_{1i}$) | 4 | 5 |
+| Buys insurance? ($D_i$) | Yes | No |
+| **Observed health** | 4 | 5 |
+| True effect | [+1]{.key} | 0 |
+
+[Insured Anika (4) looks *worse* than uninsured Ben (5), yet insurance helped her by +1.]{.takeaway .fragment}
+
+::: {.notes}
+Two hypothetical students. Anika is prone to illness and buys insurance; Ben is naturally robust and
+skips it. Naive comparison: 4 − 5 = −1, suggesting insurance harms health. The truth for Anika is +1.
+The comparison is polluted by the fact that Ben started out healthier.
+:::
+
+## Any observed gap = causal effect + selection bias
+
+$$\text{Observed difference} \;=\; \kappa \;+\; \text{Selection bias}$$
+
+. . .
+
+$$\text{Selection bias} \;=\; \text{Avg}[Y_{0i} \mid D_i=1] \;-\; \text{Avg}[Y_{0i} \mid D_i=0]$$
+
+[The health gap that would exist between the two groups *even if nobody had insurance*.]{.comment}
+
+[Unless the bias term is zero, the observed gap does not equal the causal effect $\kappa$.]{.takeaway .fragment}
+
+::: {.notes}
+κ (kappa) is the causal effect of insurance, assumed the same for everyone for simplicity. The
+selection-bias term compares the no-insurance health of people who did buy insurance with the
+no-insurance health of people who did not. In the NHIS, healthier, richer, better-educated people
+are more likely to be insured, so this term is likely positive.
+:::
+
+## Confounders open a back-door path from insurance to health
+
+```{mermaid}
+graph LR
+    C["Confounders: education, income"] -->|"affects"| I["Insurance status"]
+    C -->|"affects"| H["Health"]
+    I -.->|"causal effect?"| H
+    style C fill:#e67e22,color:#fff
+    style I fill:#3498db,color:#fff
+    style H fill:#2d8659,color:#fff
+```
+
+[Because the same traits drive both insurance and health, the raw gap mixes their influence with any true effect.]{.takeaway .fragment}
+
+::: {.notes}
+A confounder is a variable that influences both treatment and outcome. The dashed arrow is what we
+want to measure; the solid arrows through the confounders are what contaminate the comparison.
+:::
+
+## We can never observe both roads for the same person
+
+The individual effect $Y_{1i} - Y_{0i}$ is **unobservable** — this is the *fundamental problem of
+causal inference*.
+
+. . .
+
+We cannot fix it with more data on the same people. We need a **research design** that makes the
+selection-bias term disappear.
+
+[Causal inference is the art of building a believable stand-in for the road not taken.]{.takeaway .fragment}
+
+::: {.notes}
+Every method in this course — randomized trials, regression, IV, RD, differences-in-differences — is
+a different strategy for constructing a credible counterfactual.
+:::
+
+## Regressing an outcome on a dummy reproduces the difference in means
+
+$$Y_i = \alpha + \beta D_i + e_i$$
+
+:::: {.columns}
+::: {.column width="50%"}
+- $\alpha$ (intercept) = average $Y$ when $D_i = 0$
+- $\beta$ (slope) = treated mean − control mean
+:::
+::: {.column width="50%"}
+- $D_i$ is a **dummy**: 1 = insured, 0 = uninsured
+- In code: `health ~ insurance`
+:::
+::::
+
+[Regression on a dummy is just a comparison of means — plus a standard error for free.]{.takeaway .fragment}
+
+::: {.notes}
+Here Y is the health index (`health`) and D is the insurance dummy (`insurance`). The coefficient on
+the dummy is exactly the gap between group averages; regression adds a measure of precision.
+:::
+
+## A standard error tells us whether a gap is bigger than noise
+
+- **Standard error (SE):** how much an estimate would wobble across different samples
+- **t-statistic** = coefficient ÷ SE
+- **Rule of thumb:** $|t| > 2$ → statistically significant at the 5% level
+
+. . .
+
+| Purpose of the regression | What we hope to see |
+|:---|:---|
+| Balance check | **small** $t$ — groups look alike |
+| Treatment effect | **large** $t$ — evidence of an effect |
+
+[Read every coefficient together with its standard error.]{.takeaway .fragment}
+
+::: {.notes}
+Bathroom-scale analogy: a good scale gives consistent readings (small SE), a cheap one jumps around
+(large SE). Throughout the chapter, standard errors appear in parentheses next to coefficients.
+:::
+
+## One `pf.feols` call gives the gap and its standard error
+
+``` {.python code-line-numbers="1|3-4|6-7|9-11"}
+!pip install -q pyfixest                  # pyfixest is not preinstalled in Colab
+
+import pandas as pd                       # pandas → load tables
+import pyfixest as pf                     # pyfixest → regressions with robust SEs
+
+GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+nhis = pd.read_csv(GITHUB_DATA_URL + "ch1/nhis_clean.csv")   # NHIS 2009 extract
+
+# health on the insurance dummy, with survey weights and robust (hetero) SEs
+m = pf.feols("health ~ insurance", data=nhis, weights="weight", vcov="hetero")
+m.summary()                               # Intercept 3.66 = uninsured; insurance 0.35 (0.02)
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+`weights="weight"` applies the survey weights so the sample represents the population.
+`vcov="hetero"` asks for heteroskedasticity-robust standard errors. Swap `health` for `education`
+or `family_income` to reproduce each row of the next table.
+:::
+
+## The insured differ from the uninsured on almost everything
+
+::: {.small-table}
+| Characteristic | Uninsured mean | Insured − uninsured (SE) |
+|:---|---:|---:|
+| Health index (1–5) | 3.66 | 0.35 (0.02) |
+| Nonwhite (share) | 0.17 | −0.02 (0.01) |
+| Age (years) | 40.51 | 2.61 (0.21) |
+| Education (years) | 11.67 | [2.70 (0.07)]{.key} |
+| Family size | 3.95 | −0.45 (0.04) |
+| Employed (share) | 0.72 | 0.13 (0.01) |
+| Family income (\$) | 45,989 | [60,352 (976)]{.key} |
+:::
+
+[Insured adults are older, ~3 years more educated, and \$60,000 richer — red flags for selection bias.]{.takeaway .fragment}
+
+::: {.notes}
+Each row is a separate weighted regression of the characteristic on the insurance dummy, with robust
+standard errors. Nearly every gap is many standard errors from zero. The health gap is almost
+certainly driven, at least in part, by these pre-existing advantages.
+:::
+
+## A coin flip breaks the link between treatment and personal traits
+
+```{mermaid}
+graph LR
+    P["Target population"] --> R["Random assignment"]
+    R -->|"heads"| T["Treated: insured"]
+    R -->|"tails"| C["Control: uninsured"]
+    T --> D["Gap in means = causal effect"]
+    C --> D
+    style P fill:#3498db,color:#fff
+    style R fill:#8e44ad,color:#fff
+    style T fill:#2d8659,color:#fff
+    style C fill:#c0392b,color:#fff
+    style D fill:#2d8659,color:#fff
+```
+
+[When a lottery — not the person — decides who is treated, choice can no longer bias the comparison.]{.takeaway .fragment}
+
+::: {.notes}
+A randomized controlled trial (RCT) draws both groups from the same population. Education, income,
+health habits — and traits we cannot even measure — have no say in who gets treated.
+:::
+
+## With enough people, randomization balances even what we cannot measure
+
+- Roll a die 10 times: the average may be far from 3.5
+- Roll it 10,000 times: the average is almost exactly 3.5
+
+. . .
+
+The **law of large numbers** does the same for randomized groups: their averages converge to the
+population average — for age, income, motivation, genes, *everything*.
+
+[Large randomized groups are alike on observed **and** unobserved traits.]{.takeaway .fragment}
+
+::: {.notes}
+Casino analogy: any single bet is a toss-up, but over thousands of plays the house edge always wins.
+The same averaging makes treatment and control groups comparable. With small samples, chance
+imbalances remain possible — another reason to check balance.
+:::
+
+## Under random assignment the selection-bias term vanishes
+
+$$E[Y_{0i} \mid D_i = 1] = E[Y_{0i} \mid D_i = 0]$$
+
+. . .
+
+$$\Rightarrow\quad E[Y_i \mid D_i = 1] - E[Y_i \mid D_i = 0] = \kappa$$
+
+[Randomization makes the simple difference in means an unbiased estimate of the causal effect.]{.takeaway .fragment}
+
+::: {.notes}
+First line: with random assignment, the treated and control groups would have had the same average
+health without treatment. Plug that into the decomposition: the selection-bias term is zero, so the
+observed difference equals κ.
+:::
+
+## Controlled comparisons have a long history
+
+::: {.small-table}
+| When | Who | Contribution |
+|:---|:---|:---|
+| 1747 | James Lind | Compared scurvy remedies on sailors — citrus worked |
+| 1885 | Peirce & Jastrow | First deliberate **random** assignment |
+| 1925 | R. A. Fisher | Formalized randomized experimental design |
+| 1974 | RAND | The largest social experiment of its era |
+:::
+
+[Randomization went from a statistician's idea to the gold standard for policy evaluation.]{.takeaway .fragment}
+
+::: {.notes}
+Lind's theory (acids cure scurvy) was wrong, but his data were right — a lesson in letting evidence
+speak. An even older story describes a ten-day diet trial with a comparison group around 600 BCE.
+:::
+
+## RAND randomized ~4,000 people across insurance plans of different generosity
+
+| Plan | Participants pay | Role |
+|:---|:---|:---|
+| Catastrophic | ~95% of costs (capped) | **Control** (≈ no insurance) |
+| Deductible | 95% of outpatient costs | Moderate treatment |
+| Coinsurance | 25–50% of costs | Moderate treatment |
+| Free | Nothing | [Most generous treatment]{.key} |
+
+[Two questions: does cheaper care raise use — and does more care improve health?]{.takeaway .fragment}
+
+::: {.notes}
+The RAND Health Insurance Experiment ran from 1974 to 1982 at six U.S. sites. Families, not
+individuals, were randomized to plans. The catastrophic plan is the omitted reference group in every
+regression that follows.
+:::
+
+## Before the experiment, plan groups looked alike
+
+::: {.small-table}
+| Baseline trait | Catastrophic mean | Free − Cat. | Deductible − Cat. | Coinsurance − Cat. |
+|:---|---:|---:|---:|---:|
+| Female (share) | 0.56 | −0.04 (0.01) | −0.02 (0.02) | −0.02 (0.02) |
+| Age (years) | 32.4 | 0.43 (0.61) | 0.56 (0.68) | 0.97 (0.65) |
+| Education (years) | 12.1 | −0.26 (0.18) | −0.16 (0.19) | −0.06 (0.19) |
+| Family income (\$) | 31,603 | −976 (1,345) | −2,104 (1,384) | 970 (1,389) |
+| Health index | 70.9 | −1.31 (0.87) | −1.44 (0.95) | 0.21 (0.92) |
+| Mental health | 73.9 | 0.89 (0.77) | −0.12 (0.82) | 1.19 (0.81) |
+:::
+
+[Gaps are small, point in both directions, and are mostly insignificant — randomization worked.]{.takeaway .fragment}
+
+::: {.notes}
+Each row regresses a baseline trait on the three plan dummies, clustering standard errors by family
+because whole families shared a plan. Contrast with the NHIS table, where every gap was huge.
+Not shown: nonwhite, cholesterol, and blood pressure — also balanced. With many comparisons, one or
+two "significant" gaps (like female) are expected by chance.
+:::
+
+## A balance check is the same regression, run on a baseline trait
+
+``` {.python code-line-numbers="1-3|5-6|8-10|11"}
+!pip install -q pyfixest                  # pyfixest is not preinstalled in Colab
+import pandas as pd                       # pandas → load tables
+import pyfixest as pf                     # pyfixest → regressions with clustered SEs
+
+GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+rand = pd.read_csv(GITHUB_DATA_URL + "ch1/rand_balance.csv")   # RAND baseline traits
+
+# age on plan dummies; the catastrophic plan is the omitted control group
+m = pf.feols("age ~ plan_free + plan_deductible + plan_coinsurance",
+             data=rand, vcov={"CRV1": "family_id"})   # cluster SEs by family
+m.summary()                               # Intercept 32.4; plan gaps 0.4–1.0, all |t| < 2
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+`vcov={"CRV1": "family_id"}` clusters standard errors by family: family members share a plan, so
+their outcomes are not independent, and ignoring that would overstate precision. pyfixest drops rows
+with missing values in the model variables automatically. Swap `age` for any baseline trait.
+:::
+
+## Free care raised doctor visits and spending sharply
+
+::: {.small-table}
+| Use per person-year | Catastrophic mean | Free effect (SE) | Deductible effect | Coinsurance effect |
+|:---|---:|---:|---:|---:|
+| Doctor visits | 2.78 | [+1.66 (0.25)]{.key} | +0.19 (0.25) | +0.48 (0.24) |
+| Outpatient spending (\$) | 248 | +169 (20) | +42 (21) | +60 (21) |
+| Hospital admissions | 0.10 | +0.03 (0.01) | +0.02 (0.01) | +0.00 (0.01) |
+| Total spending (\$) | 636 | [+285 (72)]{.key} | +114 (79) | +152 (84) |
+:::
+
+[When care became free, people used much more of it — the demand curve at work.]{.takeaway .fragment}
+
+::: {.notes}
+Because plans were randomly assigned, these coefficients are causal effects relative to the
+catastrophic plan. Outpatient spending rose 68% (169 / 248). Inpatient spending (not shown): +116
+(60) on the free plan. Spending is in inflation-adjusted dollars.
+:::
+
+## Total spending: free plan vs catastrophic plan {background-color="#8e44ad"}
+
+[+45%]{.bignum}
+
+[more health spending when care was free (+\$285 on a \$636 base)]{.bignum-label}
+
+::: {.notes}
+285 / 636 ≈ 45%. Economists call this response moral hazard — not a moral judgment, just the
+observation that people consume more of something when its price at the point of use falls to zero.
+:::
+
+## Estimating a causal effect uses exactly the same call
+
+``` {.python code-line-numbers="1-3|5-6|8-10|11"}
+!pip install -q pyfixest                  # pyfixest is not preinstalled in Colab
+import pandas as pd                       # pandas → load tables
+import pyfixest as pf                     # pyfixest → regressions with clustered SEs
+
+GITHUB_DATA_URL = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
+hie = pd.read_csv(GITHUB_DATA_URL + "ch1/rand_utilization.csv")   # person-year use data
+
+# total spending on plan dummies — causal, because plans were randomized
+m = pf.feols("total_expenses ~ plan_free + plan_deductible + plan_coinsurance",
+             data=hie, vcov={"CRV1": "family_id"})    # cluster SEs by family
+m.summary()                               # Intercept 636; plan_free +285 (SE 72)
+```
+
+[↗ Try it in Colab](https://colab.research.google.com/notebooks/empty.ipynb){.colab-link target="_blank" data-preview-link="false"}
+
+::: {.notes}
+Same formula as the balance check, different left-hand variable. Before randomization we *hope* for
+small coefficients (balance); after, large coefficients are evidence of causal effects. Try `visits`
+or `outpatient_expenses` in place of `total_expenses`.
+:::
+
+## Yet health at the end was no better on the free plan
+
+::: {.small-table}
+| Exit health measure | Catastrophic mean | Free effect (SE) | Deductible effect | Coinsurance effect |
+|:---|---:|---:|---:|---:|
+| General health index | 68.5 | −0.78 (0.87) | −0.87 (0.96) | 0.61 (0.90) |
+| Cholesterol | 203.2 | −1.83 (2.39) | 0.69 (2.57) | −2.31 (2.47) |
+| Blood pressure | 121.9 | −0.52 (0.93) | 1.17 (1.06) | −1.39 (0.98) |
+| Mental health index | 75.5 | 0.43 (0.82) | 0.45 (0.91) | 1.07 (0.87) |
+:::
+
+[45% more care bought no measurable improvement in health.]{.takeaway .fragment}
+
+::: {.notes}
+These outcomes were measured 3–5 years after random assignment. Every effect is small relative to
+the control mean and statistically insignificant. This is the RAND paradox: more care, not more
+health.
+:::
+
+## The null is precise: the data rule out large health gains
+
+Free-plan effect on the general health index: $-0.78$ with SE $0.87$
+
+. . .
+
+95% confidence interval $\approx -0.78 \pm 2 \times 0.87 = [-2.5,\ 1.0]$ — on a control mean of 68.5
+
+[The experiment was big enough to find a meaningful effect; the effect simply wasn't there.]{.takeaway .fragment}
+
+::: {.notes}
+A "precisely estimated null" differs from an underpowered study. Even the most optimistic end of the
+interval (+1.0 point on a ~68-point scale) is a tiny health gain. Lessons from RAND: people respond
+to prices; more care does not automatically mean better health; randomization exposed the NHIS gap
+as mostly selection bias.
+:::
+
+## Oregon's 2008 lottery tested insurance for low-income adults
+
+- RAND studied **middle-class families** who all had at least catastrophic coverage
+- Oregon: about **75,000** low-income, uninsured adults applied to expanded Medicaid
+- About **30,000** were drawn by lottery to apply for coverage
+
+[A lottery for a public program created a new randomized experiment — for the people today's debates are about.]{.takeaway .fragment}
+
+::: {.notes}
+Studied by Amy Finkelstein, Katherine Baicker and colleagues (2012, 2013). Today's uninsured are
+younger, poorer and less educated than the RAND participants — would insurance help them more?
+:::
+
+## Only a quarter of winners enrolled, so we first measure intent-to-treat
+
+- **Intent-to-treat (ITT):** the effect of *winning the lottery*, whether or not the winner enrolled
+- Winning raised Medicaid enrollment by about **25.6 percentage points**
+
+. . .
+
+$$\text{effect of insurance on enrollees} \approx \frac{\text{ITT}}{\text{effect of winning on enrollment}}$$
+
+[Scaling the ITT by the enrollment jump previews instrumental variables (Chapter 3).]{.takeaway .fragment}
+
+::: {.notes}
+Many winners failed to complete paperwork or turned out to be ineligible. Comparing winners with
+losers is still a clean randomized comparison — it just measures the effect of the *offer*. Dividing
+by the change in enrollment converts it into the effect of insurance itself.
+:::
+
+## Winning improved finances and mental health, not physical health
+
+::: {.small-table}
+| Outcome | Effect of winning the lottery |
+|:---|:---|
+| Medicaid enrollment | +25.6 percentage points |
+| Emergency-department visits | +10% (a *decrease* was expected) |
+| Self-reported health | Modest improvement (+3.9 pp) |
+| Physical health (cholesterol, blood pressure) | [No significant change]{.key} |
+| Mental health | Improved |
+| Catastrophic expenses and medical debt | Decreased |
+:::
+
+[Insurance protected wallets and moods; it did not move clinical measures.]{.takeaway .fragment}
+
+::: {.notes}
+Results from Finkelstein et al. (2012) and Baicker et al. (2013). Note the surprise on emergency
+visits: some policymakers expected coverage to shift care away from the ER; instead ER use rose.
+:::
+
+## Two experiments, decades apart, agree on physical health
+
+| | RAND (1974–1982) | Oregon (2008) |
+|:---|:---:|:---:|
+| Population | Middle-class families | Low-income adults |
+| More care used? | Yes | Yes |
+| Better physical health? | [No]{.key} | [No]{.key} |
+| Better mental health? | Not measured | Yes |
+| Less financial hardship? | Not measured | Yes |
+
+[Insurance's clearest benefits may be financial protection and peace of mind.]{.takeaway .fragment}
+
+::: {.notes}
+Two very different populations, two different eras, the same physical-health finding. Oregon added
+the financial-protection and mental-health results.
+:::
+
+## Standard errors and confidence intervals measure sampling noise
+
+::: {.small-table}
+| Tool | Symbol | Plain meaning |
+|:---|:---:|:---|
+| Sample mean | $\bar{Y}$ | The average in our data |
+| Standard error | $SE(\bar{Y})$ | How much $\bar{Y}$ would vary across samples |
+| t-statistic | coef / SE | How many SEs the estimate is from zero |
+| 95% confidence interval | estimate $\pm 2 \times SE$ | Values consistent with the data |
+:::
+
+[Any estimate from a sample would change with a new sample — inference quantifies by how much.]{.takeaway .fragment}
+
+::: {.notes}
+This is the toolkit we used implicitly all chapter: SEs in parentheses, |t| > 2 for significance,
+and the ±2 SE interval we used to show RAND's null was precise.
+:::
+
+## Significance measures precision, not importance
+
+- A huge sample can make a **tiny** effect "significant"
+- A small sample can leave a **large** effect "insignificant"
+- **Not significant ≠ no effect** — it may just mean too little data
+
+[Always report the size of a coefficient *and* its precision.]{.takeaway .fragment}
+
+::: {.notes}
+Fire-alarm analogy: significance tells you the alarm went off, not how big the fire is. Look at the
+magnitude relative to a meaningful benchmark (e.g., the control mean) as well as the t-statistic.
+:::
+
+# The Resolution {.divider background-color="#2d8659"}
+
+[Act III]{.act}
+
+## The tempting mistake: "The insured are healthier, so insurance works"
+
+[Objection.]{.objection} Insured adults report better health, so coverage must improve health.
+
+. . .
+
+[Response.]{.rebuttal} The gap bundles any causal effect with selection bias — the insured were
+already older, richer and better educated. When RAND randomized coverage, the health advantage
+disappeared.
+
+::: {.notes}
+This is correlation-versus-causation in its most policy-relevant form. Recall the Anika/Ben example:
+the naive gap can even have the wrong sign.
+:::
+
+## The tempting mistake: "Not significant means no effect"
+
+[Objection.]{.objection} RAND's health effects are insignificant, so maybe the study was just too small.
+
+. . .
+
+[Response.]{.rebuttal} Only if the estimate is imprecise. RAND's confidence intervals are narrow and
+exclude large gains — a *precisely estimated* null, not a failure to look.
+
+::: {.notes}
+The distinction between "we found no effect" and "we found evidence of no large effect" is one of the
+most important habits in empirical work.
+:::
+
+## Key takeaways
+
+::: {.incremental}
+- Any comparison of groups = **causal effect + selection bias**
+- **Random assignment** sets selection bias to zero — then **check balance**
+- **Regression on a dummy** = difference in means + a standard error
+- **RAND:** free care raised spending 45% but did not improve health
+- **Oregon:** insurance brought financial protection and better mental health
+:::
+
+::: {.notes}
+Tie back to the opening show of hands: the intuition that insurance improves health is not wrong in
+every sense — it protects finances and mental health — but the physical-health effect in these
+experiments was small.
+:::
+
+## {.recap background-image="figures/visual_summary.svg" background-size="contain" background-color="#0f172a"}
+
+::: {.notes}
+Recap with the chapter's visual summary: the question (does insurance improve health?), the problem
+(selection bias), the solution (random assignment), and the evidence (RAND and Oregon).
+:::
+
+# Random assignment turns a comparison of groups into a causal effect. {.divider background-color="#2d8659"}

@@ -20,11 +20,14 @@ This is a **pedagogical causal inference project** built around *Mastering 'Metr
 | `code/python/chN/prepare_data.py` | Data prep scripts: raw `.dta` → clean `.csv`. |
 | `code/python/chN/*.py` | Standalone Python replication scripts (one per table/figure). |
 | `code/stata/chN/*.do` | Original Stata do files from the book's website. |
-| `original-book/*.md` | Chapter text in markdown (reference material). |
+| `original-book/*.md` | Chapter text in markdown (reference material — **not currently in the repo**; use the study guides as the source). |
 | `index.html` | Project website landing page (GitHub Pages). |
 | `tutors.html` | AI tutors page. |
 | `tutors/*.md` | AI tutor system prompts for Google Gemini Gems. |
 | `.claude/skills/study-guide/` | Custom `/study-guide` skill for generating new chapters. |
+| `mindmaps/chNN-*.md` | **Chapter mind maps** — 3-act Markdown outlines (Question / Investigation / Resolution). Outline skeleton for each chapter's slide deck; the mind-map *images* will be drawn later in a separate app. Format: `mindmaps/README.md`. |
+| `slides/chNN/` | **Lecture slide decks** (Quarto reveal.js). `slides.qmd` source + rendered `index.html` + `slides_files/` — all committed; served at `cmg777.github.io/intro2causal/slides/chNN/`. |
+| `.claude/skills/write-slides/` | Custom `/write-slides` skill for generating a chapter's slide deck. |
 
 ## Tech Stack
 
@@ -105,6 +108,15 @@ Always use `color:#fff` (white text) with these fills.
 ### `/study-guide [chapter-number]`
 
 Generates a complete Quarto study guide for a chapter. Reads the original chapter text, existing Python scripts, and data files. Follows all the conventions above. See `.claude/skills/study-guide/SKILL.md` for the full specification.
+
+### `/write-slides chNN`
+
+Builds a ~30–45 slide Quarto reveal.js lecture deck in `slides/chNN/` from the chapter's mind map (`mindmaps/chNN-*.md`, the outline) and its study guide (the content). Dark book-palette theme; the chapter visual summary is the title and recap slide; case studies are core; Python (pyfixest) code slides with Colab links. Renders with `uv run quarto render slides.qmd`, verifies (smoke test + browser math check), adds a "View Slides" badge to the book chapter, and re-renders the book. See `.claude/skills/write-slides/SKILL.md`.
+
+```bash
+# Re-render a deck after editing it
+cd slides/ch01 && uv run quarto render slides.qmd
+```
 
 ## Data Flow
 
