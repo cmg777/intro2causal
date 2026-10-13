@@ -30,7 +30,7 @@ No server. Assert on disk, from the deck dir:
 |---|---|
 | `index.html` exists and is > 30 KB | `[ $(wc -c < index.html) -gt 30000 ]` |
 | `slides_files/` assets dir exists | `[ -d slides_files ]` |
-| the title visual summary resolves | `ls figures/visual_summary.*` (`.svg` stand-in or `.png` mind map) |
+| the title visual summary resolves | `ls figures/visual_summary.*` (`.webp` mind map, or a concept-card fallback) |
 | every `figures/*.png` referenced in `slides.qmd` exists | for each `![](figures/x.png)` → `[ -f figures/x.png ]` |
 | no leaked `{{…}}` template markers | `! grep -q '{{[A-Z_]*}}' index.html` |
 
@@ -107,7 +107,7 @@ Render (Layer 0)
 
 Local file checks (Layer A)
   [✓] index.html > 30 KB · slides_files/ present
-  [✓] figures resolve: <N>/<N> (incl. visual_summary.svg|png)
+  [✓] figures resolve: <N>/<N> (incl. visual_summary.webp)
   [✓] no leaked {{…}} markers
 
 Node smoke test (Layer B)

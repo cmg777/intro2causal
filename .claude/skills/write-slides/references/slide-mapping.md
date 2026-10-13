@@ -119,7 +119,7 @@ Walk every slide and every fragment; apply `rhetoric-of-decks.md` § MB/MC:
 - **Export** the chapter's figures in Phase 1 with
   `uv run python .claude/skills/write-slides/scripts/export_chapter_figures.py chNN`. This reuses the
   book-rendered PNGs (or renders fresh) and writes `slides/chNN/_figcache/figures_manifest.json` —
-  each entry `{cache_file, src, heading}` — plus `visual_summary.svg` (or `.png`). **A chapter may
+  each entry `{cache_file, src, heading}` — plus `visual_summary.webp` (or a concept-card fallback). **A chapter may
   have zero figures** (ch01: tables + mermaid only) — then the manifest's `figures` list is empty and
   the deck leans on Table (6) and Mermaid (13) slides. The book renders plots on a light page; if a
   PNG looks harsh on the dark canvas, keep it anyway (never re-style chapter plots from the skill).
@@ -143,16 +143,19 @@ show coefficient (SE) pairs exactly as the chapter rounds them. Use plain variab
 ## Title + Recap slides: the visual summary, full-bleed
 
 The title slide is **only** the chapter's visual-summary image, filling the whole slide — no title,
-subtitle, or byline text. Set the front-matter `visual-summary:` field to `figures/visual_summary.svg`
-(copied from `_figcache/` by the skill); the `title-slide.html` partial paints it as the slide
-**background** (`data-background-image`, `size=contain` → the entire summary, no crop). The **Recap**
-slide (archetype 14), just before the Closing, repeats the **same** image path.
+subtitle, or byline text. Set the front-matter `visual-summary:` field to `figures/visual_summary.webp`
+(copied from `_figcache/` by the skill) and `visual-summary-bg:` to the manifest's
+`visual_summary_bg` (the image's edge colour); the `title-slide.html` partial paints it as the slide
+**background** (`data-background-image`, `size=contain` → the entire image, full width, never
+cropped; the 16:9 mind maps fill the 1280×720 slide exactly, and non-16:9 screens letterbox in the
+edge colour). The **Recap** slide (archetype 14), just before the Closing, repeats the **same** image
+path and colour.
 
-The visual summary is meant to be the chapter's **mind-map image** (to be drawn in a separate app from
-`mindmaps/chNN-*.md`). Until it exists, the stand-in is the concept card
-`book/images/chNN_visual_summary.svg`. When the mind-map image lands (e.g. as
-`book/images/chNN_visual_summary.png`, which the exporter prefers when newer), re-run the exporter,
-point `visual-summary:` and the Recap `background-image` at the new file, and re-render.
+The visual summary is the chapter's **mind-map image**, drawn in a separate app from
+`mindmaps/chNN-*.md` and saved untouched as `mindmaps/images/chNN-<slug>-vN.png` (the highest `vN`
+wins). The exporter writes it as a compressed `visual_summary.webp`; if a chapter has no image yet it
+falls back to the old concept card `book/images/chNN_visual_summary.*`. To publish new or updated
+images to **existing** decks and the book in one step, run `uv run python .claude/skills/write-slides/scripts/sync_mindmap_images.py`.
 
 ---
 

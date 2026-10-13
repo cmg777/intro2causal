@@ -48,7 +48,7 @@ Rules:
 - **Slides:** `/write-slides chNN` turns Act I/II/III into the deck's three divider-led acts, and
   each Act II second-level bullet into (roughly) one assertion-titled slide. Edit the map first if
   you want a deck to change shape.
-- **Visual summaries:** the mind-map *images* will be drawn later in a dedicated app (these `.md`
-  files import directly into Markmap, XMind, MindNode, Whimsical, etc.). Until then, decks use the
-  existing concept card `book/images/chNN_visual_summary.svg` on the title and recap slides; swap
-  the deck's `visual-summary:` front-matter path when the new image exists.
+- **Visual summaries:** the mind-map *images* are drawn in a dedicated app and saved, untouched, as
+  `mindmaps/images/chNN-<slug>-vN.png` (16:9; bump `vN` for a new version — the highest wins). They
+  are the title + recap slides of each deck and the image at the top of each book chapter. Publish
+  them with `uv run python .claude/skills/write-slides/scripts/sync_mindmap_images.py` (WebP copies, old concept cards removed, decks + book re-rendered).

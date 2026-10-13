@@ -42,8 +42,9 @@ bad `lighten()` argument).
 `figures/`, or `title-slide.html` was edited incorrectly. The partial renders
 `$if(visual-summary)$<img class="title-visual-summary" src="$visual-summary$">$endif$`.
 
-**Fix.** Ensure the front matter has `visual-summary: "figures/visual_summary.png"` and that the
-file exists in the deck's `figures/` dir (the skill copies it from `_figcache/visual_summary.png`).
+**Fix.** Ensure the front matter has `visual-summary: "figures/visual_summary.webp"` and that the
+file exists in the deck's `figures/` dir (the skill copies it from `_figcache/visual_summary.webp`;
+`sync_mindmap_images.py` writes it directly).
 Keep `title-slide.html` verbatim from `templates/`. If the partial proves brittle, fall back: drop
 `template-partials` and place the image as a custom first `## {.center}` slide instead.
 
@@ -114,7 +115,7 @@ math-render check in `verification-checklist.md` + `templates/math-check.cjs`.
 root (`https://cmg777.github.io/intro2causal/slides/chNN/`) — nobody renders it downstream, so the
 rendered files must be in git. Commit the **whole** `slides/chNN/` dir —
 `slides.qmd` + `site-brand.scss` + `title-slide.html` + `figure-zoom.html` (source), `figures/` (the
-chosen PNGs + `visual_summary.svg|png`), **and** `index.html` + `slides_files/` (the served deck). Only the staging
+chosen PNGs + `visual_summary.webp`), **and** `index.html` + `slides_files/` (the served deck). Only the staging
 cache and Quarto's local cache are ignored (`slides/*/_figcache/`, `slides/*/.quarto/`). Never add
 a `.gitignore` rule that catches `slides_files/`.
 

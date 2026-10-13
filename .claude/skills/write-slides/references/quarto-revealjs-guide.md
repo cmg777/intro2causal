@@ -15,7 +15,7 @@ in `slides/chNN/`. Nothing serves or re-renders it downstream — the rendered `
 | `site-brand.scss` | The revealjs theme (book palette/fonts/archetype styling). **Dark mode:** the deck canvas is DeepSlate (`$body-bg: $canvas` / `#0f172a`, the book's dark background) with light text (`#e2e8f0`); fills use the CLAUDE.md mermaid palette (blue/purple/green/red/orange) and inline accents the book's dark-mode tokens (CausalBlue `#38bdf8`, MethodPurple `#a78bfa`, EvidenceGreen `#34d399`). | **Copied verbatim** from `templates/site-brand.scss`. |
 | `title-slide.html` | A Quarto title-slide **partial** that paints the chapter's visual-summary image as the full-bleed title slide (no overlaid text). | **Copied verbatim** from `templates/title-slide.html`. |
 | `figure-zoom.html` | A click-to-zoom lightbox (CSS + JS) injected via `include-after-body` — every figure **and the title visual summary** opens full-screen with zoom/pan controls. | **Copied verbatim** from `templates/figure-zoom.html`. |
-| `figures/` | The chosen chapter figures + `visual_summary.svg` (or `.png`), copied from `_figcache/`. | **Selected per chapter** from the export manifest. |
+| `figures/` | The chosen chapter figures + `visual_summary.webp` (the mind-map image), copied from `_figcache/`. | **Selected per chapter** from the export manifest. |
 
 Render (from the `slides/chNN/` dir):
 
@@ -46,7 +46,7 @@ The validated block lives in `templates/slides.qmd.tmpl`. Key options:
 - `output-file: index.html` — render to `index.html` (not `slides.html`).
 - `theme: [default, site-brand.scss]` — reveal base + the book's brand layer.
 - `template-partials: [title-slide.html]` — the custom title slide (visual-summary image).
-- `visual-summary:` (front-matter field) — path to the title slide's key visual, `figures/visual_summary.svg`
+- `visual-summary:` (front-matter field) — path to the title slide's key visual, `figures/visual_summary.webp` (plus `visual-summary-bg:`, its edge colour)
   (the Recap slide repeats the same path as its `background-image`).
 - `mermaid: theme: dark` — light edges/labels on the dark canvas for `{mermaid}` slides.
 - `center: true` — **vertical-centers every slide** → centred dividers + strategic white space.

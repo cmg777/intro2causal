@@ -6,10 +6,11 @@ deck-author-url: "{{AUTHOR_URL}}"   # the author's homepage, e.g. https://carlos
 institute: "{{INSTITUTE}}"          # the university line, e.g. Nagoya University (GSID)
 date: today                         # auto-stamps the render/update date ("created or updated")
 date-format: long                   # renders e.g. "October 13, 2026"
-visual-summary: "{{VISUAL_SUMMARY}}"  # the title slide's key visual — path to the chapter's
-                                      # visual summary, e.g. figures/visual_summary.svg. The
-                                      # closing Recap slide reuses the SAME path, so swapping in
-                                      # the mind-map image later is a two-line change.
+visual-summary: "{{VISUAL_SUMMARY}}"  # the title slide's key visual — the chapter's mind-map
+                                      # image, e.g. figures/visual_summary.webp. The closing Recap
+                                      # slide reuses the SAME path.
+visual-summary-bg: "{{VISUAL_SUMMARY_BG}}"  # the image's edge colour (manifest `visual_summary_bg`;
+                                      # #0f172a for a concept-card fallback) — letterbox bars
 format:
   revealjs:
     output-file: index.html

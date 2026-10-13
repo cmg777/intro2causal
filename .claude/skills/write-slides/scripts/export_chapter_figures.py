@@ -23,8 +23,11 @@ Figure source (`--source auto` default):
   2. Otherwise (or with `--source render`) re-render the chapter inside the book project:
      `uv run quarto render book/notebooks_quarto/<base>.qmd` (executes the chapter).
 
-Visual summary: the newest `book/images/chNN_visual_summary*.{png,svg,jpg,webp}` is
-copied to `<out>/visual_summary.<ext>` (the extension is preserved — SVG is fine).
+Visual summary: the chapter's mind-map image `mindmaps/images/chNN-*-vN.png` (highest
+version) is written as a compressed `<out>/visual_summary.webp`, and its edge colour is
+recorded in the manifest (`visual_summary_bg`) for the deck's `visual-summary-bg:`. If there
+is no mind-map image yet, the newest `book/images/chNN_visual_summary*.{png,svg,jpg,webp}`
+concept card is copied instead (extension preserved).
 
 Usage (from the repo root):
   uv run python .claude/skills/write-slides/scripts/export_chapter_figures.py ch01
@@ -34,7 +37,7 @@ Usage (from the repo root):
 Output:
   <out>/fig_<nn>.png                 one per chapter figure, document order
   <out>/visual_summary.<ext>         the chapter's visual-summary image (if found)
-  <out>/figures_manifest.json        {chapter, source_html, visual_summary, figures: [...]}
+  <out>/figures_manifest.json        {chapter, source_html, visual_summary, visual_summary_bg, figures: [...]}
 """
 
 import argparse
@@ -44,6 +47,8 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+
+from mindmap_image import latest_mindmap_image, write_webp
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]   # scripts → write-slides → skills → .claude → root
 BOOK = PROJECT_ROOT / "book"
@@ -123,18 +128,27 @@ def parse_figures(html: str):
 
 
 def copy_visual_summary(chid: str, out: Path):
+    """Stage the visual summary; return (file name, letterbox colour or None)."""
+    src, ver = latest_mindmap_image(chid)
+    if src is not None:
+        for old in out.glob("visual_summary.*"):
+            old.unlink()
+        bg = write_webp(src, out / "visual_summary.webp")
+        print(f"[export] Visual summary: mindmaps/images/{src.name} (v{ver}) → visual_summary.webp (bg {bg})")
+        return "visual_summary.webp", bg
+
     candidates = [p for p in (BOOK / "images").glob(f"{chid}_visual_summary*")
                   if p.suffix.lower() in SUMMARY_EXTS]
     if not candidates:
         print(f"[export] WARNING: no visual summary found (book/images/{chid}_visual_summary.*)")
-        return None
+        return None, None
     chosen = max(candidates, key=lambda p: p.stat().st_mtime)   # newest wins (e.g. a new mind-map PNG)
     for old in out.glob("visual_summary.*"):
         old.unlink()
     dest = out / f"visual_summary{chosen.suffix.lower()}"
     shutil.copy2(chosen, dest)
-    print(f"[export] Visual summary: book/images/{chosen.name} → {dest.name}")
-    return dest.name
+    print(f"[export] Visual summary: book/images/{chosen.name} → {dest.name} (stand-in concept card)")
+    return dest.name, None
 
 
 def main():
@@ -170,13 +184,14 @@ def main():
             "heading": fig["heading"],
         })
 
-    visual = copy_visual_summary(chid, out)
+    visual, visual_bg = copy_visual_summary(chid, out)
 
     manifest_path = out / "figures_manifest.json"
     manifest_path.write_text(json.dumps({
         "chapter": chid,
         "source_html": str(html_path.relative_to(PROJECT_ROOT)),
         "visual_summary": visual,
+        "visual_summary_bg": visual_bg,
         "figures": manifest,
     }, indent=2), encoding="utf-8")
 

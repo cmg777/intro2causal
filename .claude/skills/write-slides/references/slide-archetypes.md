@@ -30,9 +30,10 @@ Conventions:
 The title slide is the **chapter visual summary, full-bleed, and nothing else** — no title,
 subtitle, or byline text on it. The custom `title-slide.html` partial paints the visual summary as
 the slide's **background image** (`data-background-image`, `size=contain`), so the *whole* summary
-shows with no cropping (letterboxed on the DeepSlate canvas when its aspect ratio differs from
-1280×720). Until the chapter's mind-map image exists, the stand-in is the concept card
-`book/images/chNN_visual_summary.svg`. Fill the front matter:
+shows full width with no cropping. The 16:9 mind-map images fill the 1280×720 slide exactly; on a
+non-16:9 screen the bars take `visual-summary-bg` (the image's edge colour). The image is the
+chapter's mind map (`mindmaps/images/`, staged as `visual_summary.webp` by the exporter). Fill the
+front matter:
 
 ```yaml
 title: "1. Randomized Trials"                  # used for the browser tab / metadata, not shown on the title slide
@@ -42,11 +43,12 @@ deck-author-url: "https://carlos-mendez.org"
 institute: "Nagoya University (GSID)"
 date: today
 date-format: long
-visual-summary: "figures/visual_summary.svg"   # the chapter's visual summary — the ENTIRE title slide (and the Recap)
+visual-summary: "figures/visual_summary.webp"  # the chapter's mind-map image — the ENTIRE title slide (and the Recap)
+visual-summary-bg: "#07172a"                    # its edge colour (manifest `visual_summary_bg`) — letterbox bars
 ```
 
 **Use:** always. No `#`/`##` for it — it is the rendered title slide. (`deck-author` /
-`deck-author-url` / `visual-summary` are custom fields the partial reads.)
+`deck-author-url` / `visual-summary` / `visual-summary-bg` are custom fields the partial reads.)
 
 **Behaviour.** With `visual-summary:` set, the partial renders a single empty `<section>` whose
 background *is* the image — no overlaid text. Clicking it opens the same **click-to-zoom** overlay as
@@ -325,7 +327,7 @@ slides. Mermaid `timeline` diagrams also work but are tall; keep them to ≤ 4 s
 ## 14. Recap (the visual summary again)
 
 ```markdown
-## {.recap background-image="figures/visual_summary.svg" background-size="contain" background-color="#0f172a"}
+## {.recap background-image="figures/visual_summary.webp" background-size="contain" background-color="#07172a"}
 
 ::: {.notes}
 Walk the mind map one last time: Act I question → Act II investigation → Act III resolution.
@@ -334,8 +336,8 @@ Walk the mind map one last time: Act I question → Act II investigation → Act
 
 **Use:** always — the penultimate slide, just before the Closing. An **empty `##`** (no visible
 title) whose background is the same image as the title slide, so the deck opens and closes on the
-chapter's map. The `background-image` path **must equal the front-matter `visual-summary:`** (when
-the mind-map image replaces the stand-in, change both). The smoke test checks for it (`.recap` +
+chapter's map. The `background-image` path **must equal the front-matter `visual-summary:`** and
+`background-color` the `visual-summary-bg:` (`sync_mindmap_images.py` rewrites both). The smoke test checks for it (`.recap` +
 ≥ 2 visual-summary backgrounds).
 
 ---

@@ -35,8 +35,9 @@ in [`references/derivation-heuristics.md`](references/derivation-heuristics.md).
 - **Does not execute code in the deck.** Deck code blocks are illustrative (`{.python}`, not
   `{python}`), so `quarto render slides.qmd` is a pure Pandoc render — no kernel. (Code blocks *are*
   test-run locally once in Phase 3 so every slide's code works.)
-- **Does not draw the mind-map image.** The visual summary image is made later in a separate app from
-  `mindmaps/chNN-*.md`; until then the concept card `book/images/chNN_visual_summary.svg` stands in.
+- **Does not draw the mind-map image.** The image is drawn in a separate app from
+  `mindmaps/chNN-*.md` and saved as `mindmaps/images/chNN-<slug>-vN.png`; the skill only publishes a
+  compressed WebP copy (falling back to the old concept card if a chapter has no image yet).
 - **Does not design a theme per deck.** `site-brand.scss` is copied verbatim every run.
 - **Does not produce a single self-contained file.** Chalkboard is incompatible with
   `embed-resources`, so the deck ships `index.html` + `slides_files/`.
@@ -70,7 +71,7 @@ in [`references/derivation-heuristics.md`](references/derivation-heuristics.md).
 | `slides/chNN/site-brand.scss` | revealjs theme (copied verbatim from `references/templates/`) |
 | `slides/chNN/title-slide.html` | title-slide partial rendering the visual summary (copied verbatim) |
 | `slides/chNN/figure-zoom.html` | click-to-zoom lightbox for figures + the visual summary (copied verbatim) |
-| `slides/chNN/figures/` | `visual_summary.svg` (or `.png`) + any chosen chapter figures |
+| `slides/chNN/figures/` | `visual_summary.webp` (the mind-map image) + any chosen chapter figures |
 | `slides/chNN/index.html` | the rendered deck (`quarto render` output) |
 | `slides/chNN/slides_files/` | reveal.js + plugins + libs (`quarto render` output, ~8 MB) |
 | `book/notebooks_quarto/NN-<slug>.qmd` | + one "View Slides" badge line next to the Colab badge |
@@ -117,7 +118,8 @@ Reject unknown flags.
   Hard-fail if absent.
 - Mind map: `mindmaps/ch<NN>-*.md`. If absent, **write it first** following `mindmaps/README.md`
   (3 acts, ≤ 3 levels, numbers only from the study guide), then continue.
-- Visual summary: `book/images/ch<NN>_visual_summary.*` (staged by the exporter).
+- Visual summary: `mindmaps/images/ch<NN>-*-vN.png`, highest version (staged as WebP by the exporter;
+  falls back to `book/images/ch<NN>_visual_summary.*`).
 
 ### 1.3 Detect an existing deck
 If `slides/<chNN>/slides.qmd` exists, ask: **(a)** overwrite [default], **(b)** cancel. (The one
@@ -143,7 +145,7 @@ For every results table you will show, take the values from the rendered chapter
 uv run python .claude/skills/write-slides/scripts/export_chapter_figures.py <chNN>
 ```
 Writes `slides/<chNN>/_figcache/` with `figures_manifest.json` (each figure → `{cache_file, src,
-heading}`) + `visual_summary.svg|png`. A chapter with **zero figures** (ch01) is normal. Add
+heading}`) + `visual_summary.webp` + its edge colour (`visual_summary_bg`). A chapter with **zero figures** (ch01) is normal. Add
 `--source render` if the chapter's plots changed since the last book render. **Cap on-slide figures
 at 12**; log any dropped filenames.
 
@@ -183,7 +185,9 @@ Start from `references/templates/slides.qmd.tmpl`. Front matter:
 - `title` (the chapter title, e.g. "1. Randomized Trials") and a one-line `subtitle`.
 - `deck-author: "Carlos Mendez"`, `deck-author-url: "https://carlos-mendez.org"`,
   `institute: "Nagoya University (GSID)"`, `date: today`, `date-format: long`.
-- `visual-summary: "figures/visual_summary.svg"` (or `.png`).
+- `visual-summary: "figures/visual_summary.webp"` and `visual-summary-bg:` = the manifest's
+  `visual_summary_bg` (letterbox colour; `#0f172a` for a concept-card fallback). The title slide is
+  **only** this image, full width, filling the slide.
 
 Write the body from the outline using
 [`references/slide-archetypes.md`](references/slide-archetypes.md):
@@ -274,10 +278,11 @@ NEXT STEPS (copy + paste)
 3. Re-render after editing slides.qmd:
    cd slides/<chNN> && uv run quarto render slides.qmd
 
-4. Swap in the mind-map image when it exists:
-   save it as book/images/<chNN>_visual_summary.png (or .svg), re-run the exporter, copy
-   _figcache/visual_summary.* into slides/<chNN>/figures/, update `visual-summary:` and the Recap
-   `background-image` in slides.qmd, re-render.
+4. Publish a new or updated mind-map image:
+   save it as mindmaps/images/<chNN>-<slug>-vN.png (bump vN for a new version), then run
+   uv run python .claude/skills/write-slides/scripts/sync_mindmap_images.py
+   It publishes WebP copies to every deck + book chapter with an image, deletes the old concept
+   cards, re-renders the decks + the book, and runs the smoke test. Then commit.
 
 5. Commit (source + rendered deck + re-rendered book):
    git add slides/<chNN>/ book/notebooks_quarto/<NN>-*.qmd book/_book/
@@ -306,6 +311,8 @@ entry; offer a re-run.
   report template.
 - [`references/render-and-fix.md`](references/render-and-fix.md) — failure-mode catalog.
 - `scripts/export_chapter_figures.py` — stages a chapter's figures + visual summary into `_figcache/`.
+- `scripts/sync_mindmap_images.py` — publishes `mindmaps/images/` to existing decks + the book
+  (WebP, swap paths, delete old cards, re-render, smoke test). `scripts/mindmap_image.py` — shared helpers.
 - `references/templates/` — `slides.qmd.tmpl`, `site-brand.scss`, `title-slide.html`,
   `figure-zoom.html`, `smoke-test.js`, `math-check.cjs`.
 - `mindmaps/README.md` (repo root) — the mind-map format.
@@ -315,7 +322,7 @@ entry; offer a re-run.
 ## Acceptance tests (for the skill itself)
 
 1. **Reference deck — `ch01`.** Expect `slides/ch01/{slides.qmd, site-brand.scss, title-slide.html,
-   figure-zoom.html, figures/visual_summary.svg}`; `quarto render` → `index.html` + `slides_files/`;
+   figure-zoom.html, figures/visual_summary.webp}`; `quarto render` → `index.html` + `slides_files/`;
    title and recap show the visual summary; smoke test 100% `[✓]`; math renders.
 2. **Mind-map fidelity.** Three dividers named after the mind map's acts; every Act II leaf has a
    slide (or is logged as folded); the Closing is the Thesis leaf.
@@ -324,7 +331,7 @@ entry; offer a re-run.
 5. **Code coverage.** ≥ 1 Code slide per main tool; each block self-contained, commented, runs
    locally, and carries the `↗ Try it in Colab` pill. Python only.
 6. **Zero-figure chapter.** `export_chapter_figures.py ch01` writes an empty `figures` list and
-   stages `visual_summary.svg` without error.
+   stages `visual_summary.webp` (from `mindmaps/images`) without error.
 7. **Book link.** The chapter page has the "View Slides" badge → `…/slides/chNN/`; book re-rendered.
 8. **No embed-resources.** The deck ships `index.html` + `slides_files/` (chalkboard works).
 9. **Idempotent re-run.** A second run detects `slides/chNN/`, asks before overwriting, reproduces

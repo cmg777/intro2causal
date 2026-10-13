@@ -26,6 +26,7 @@ This is a **pedagogical causal inference project** built around *Mastering 'Metr
 | `tutors/*.md` | AI tutor system prompts for Google Gemini Gems. |
 | `.claude/skills/study-guide/` | Custom `/study-guide` skill for generating new chapters. |
 | `mindmaps/chNN-*.md` | **Chapter mind maps** — 3-act Markdown outlines (Question / Investigation / Resolution). Outline skeleton for each chapter's slide deck; the mind-map *images* will be drawn later in a separate app. Format: `mindmaps/README.md`. |
+| `mindmaps/images/chNN-*-vN.png` | **Mind-map images** (16:9, drawn in a separate app; originals never edited). Highest `vN` wins. Published as WebP to the decks' title + recap slides and the book chapters by `sync_mindmap_images.py`. |
 | `slides/chNN/` | **Lecture slide decks** (Quarto reveal.js). `slides.qmd` source + rendered `index.html` + `slides_files/` — all committed; served at `cmg777.github.io/intro2causal/slides/chNN/`. |
 | `.claude/skills/write-slides/` | Custom `/write-slides` skill for generating a chapter's slide deck. |
 
@@ -116,6 +117,10 @@ Builds a ~30–45 slide Quarto reveal.js lecture deck in `slides/chNN/` from the
 ```bash
 # Re-render a deck after editing it
 cd slides/ch01 && uv run quarto render slides.qmd
+
+# Publish new/updated mind-map images (mindmaps/images/) to every deck + book chapter:
+# WebP copies, old concept cards deleted, decks + book re-rendered, smoke test. Then commit.
+uv run python .claude/skills/write-slides/scripts/sync_mindmap_images.py   # --dry-run to preview
 ```
 
 ## Data Flow
@@ -137,7 +142,7 @@ The `book/` directory is a Quarto book project. Chapters in `book/notebooks_quar
 - **Dark/light theme toggle** (darkly/cosmo) with custom CSS
 - **`execute: freeze: auto`** so code does not re-run on every render
 - **Self-contained data loading** via GitHub raw URLs (no local path dependencies)
-- **Visual summaries** (SVG concept cards) and **resource buttons** per chapter
+- **Visual summaries** (mind-map images from `mindmaps/images/`, published as `book/images/chNN_visual_summary.webp`; older SVG concept cards until synced) and **resource buttons** per chapter
 - **Google Translate** widget and **mobile TOC** panel
 
 ## What Not To Do
