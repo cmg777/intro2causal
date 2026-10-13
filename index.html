@@ -125,16 +125,6 @@
       transition: transform 0.3s ease;
     }
     .chapter-thumb img:hover { transform: scale(1.03); }
-    .chapter-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
-    .chapter-links a {
-      color: var(--blue);
-      font-size: 0.875rem;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .chapter-links a:hover { text-decoration: underline; }
     .chapter-audio { display: flex; align-items: center; gap: 0.5rem; }
     .chapter-audio audio { flex: 1; min-width: 0; height: 36px; color-scheme: dark; }
     .light .chapter-audio audio { color-scheme: light; }
@@ -607,9 +597,9 @@
               <a href="book/_book/notebooks_quarto/01-randomized-trials.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
             </div>
-            <div class="chapter-links">
-              <a href="slides/ch01/index.html" target="_blank">&#128202; Slides</a>
-              <a href="#" onclick="openVideo('eGRd8jBdNYg','Randomized Trials: The Ideal Weapon');return false;">&#9654; Video</a>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="slides/ch01/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
+              <a href="#" onclick="openVideo('eGRd8jBdNYg','Randomized Trials: The Ideal Weapon');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
             <div class="chapter-audio">
               <span title="AI Podcast">&#127911;</span>
@@ -632,9 +622,9 @@
               <a href="book/_book/notebooks_quarto/02-regression.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
             </div>
-            <div class="chapter-links">
-              <a href="slides/ch02/index.html" target="_blank">&#128202; Slides</a>
-              <a href="#" onclick="openVideo('iPBV3BlV7jk','Ceteris Paribus: Public vs. Private University');return false;">&#9654; Video</a>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="slides/ch02/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
+              <a href="#" onclick="openVideo('iPBV3BlV7jk','Ceteris Paribus: Public vs. Private University');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
             <div class="chapter-audio">
               <span title="AI Podcast">&#127911;</span>
@@ -657,10 +647,10 @@
               <a href="book/_book/notebooks_quarto/03-instrumental-variables.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
             </div>
-            <div class="chapter-links">
-              <a href="slides/ch03/index.html" target="_blank">&#128202; Slides</a>
-              <a href="#" onclick="openVideo('eoJUPd6104Q','Introduction to Instrumental Variables');return false;">&#9654; Video</a>
-              <a href="#" onclick="openVideo('3rVPqTZGOis','Instrumental Variables: AI Video','notebooklm');return false;">&#9654; Video 2</a>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="slides/ch03/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
+              <a href="#" onclick="openVideo('eoJUPd6104Q','Introduction to Instrumental Variables');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
+              <a href="#" onclick="openVideo('3rVPqTZGOis','Instrumental Variables: AI Video','notebooklm');return false;"><img src="book/images/video2-badge.svg" alt="Watch Video 2" class="h-8"></a>
             </div>
             <div class="chapter-audio">
               <span title="AI Podcast">&#127911;</span>
@@ -683,9 +673,9 @@
               <a href="book/_book/notebooks_quarto/04-regression-discontinuity.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
             </div>
-            <div class="chapter-links">
-              <a href="slides/ch04/index.html" target="_blank">&#128202; Slides</a>
-              <a href="#" onclick="openVideo('d4S2STNOHBk','Regression Discontinuity: AI Video','notebooklm');return false;">&#9654; Video</a>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="slides/ch04/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
+              <a href="#" onclick="openVideo('d4S2STNOHBk','Regression Discontinuity: AI Video','notebooklm');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
             <div class="chapter-audio">
               <span title="AI Podcast">&#127911;</span>
@@ -708,9 +698,9 @@
               <a href="book/_book/notebooks_quarto/05-differences-in-differences.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
             </div>
-            <div class="chapter-links">
-              <a href="slides/ch05/index.html" target="_blank">&#128202; Slides</a>
-              <a href="#" onclick="openVideo('eiffOVbYvNc','Introduction to Differences-in-Differences');return false;">&#9654; Video</a>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="slides/ch05/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
+              <a href="#" onclick="openVideo('eiffOVbYvNc','Introduction to Differences-in-Differences');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
             <div class="chapter-audio">
               <span title="AI Podcast">&#127911;</span>
@@ -733,9 +723,9 @@
               <a href="book/_book/notebooks_quarto/06-wages-of-schooling.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
             </div>
-            <div class="chapter-links">
-              <a href="slides/ch06/index.html" target="_blank">&#128202; Slides</a>
-              <a href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;">&#9654; Video</a>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="slides/ch06/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
+              <a href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
             <div class="chapter-audio">
               <span title="AI Podcast">&#127911;</span>
