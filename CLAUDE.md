@@ -25,8 +25,9 @@ This is a **pedagogical causal inference project** built around *Mastering 'Metr
 | `tutors.html` | AI tutors page. |
 | `tutors/*.md` | AI tutor system prompts for Google Gemini Gems. |
 | `.claude/skills/study-guide/` | Custom `/study-guide` skill for generating new chapters. |
-| `mindmaps/chNN-*.md` | **Chapter mind maps** — 3-act Markdown outlines (Question / Investigation / Resolution). Outline skeleton for each chapter's slide deck; the mind-map *images* will be drawn later in a separate app. Format: `mindmaps/README.md`. |
-| `mindmaps/images/chNN-*-vN.png` | **Mind-map images** (16:9, drawn in a separate app; originals never edited). Highest `vN` wins. Published as WebP to the decks' title + recap slides and the book chapters by `sync_mindmap_images.py`. |
+| `mindmaps/chNN-*.md` | **Chapter mind maps** — 3-act Markdown outlines (Question / Investigation / Resolution). Outline skeleton for each chapter's slide deck and source for `/draw-mindmap`. Format: `mindmaps/README.md`. |
+| `mindmaps/images/chNN-*-vN.png` | **Accepted mind-map images** from `/draw-mindmap` or supplied assets. Highest numeric `vN` wins; unapproved drafts stay in the run directory. Published as WebP to decks and book chapters by `sync_mindmap_images.py` when integration is requested. |
+| `.claude/skills/draw-mindmap/` | Custom `/draw-mindmap` skill: interview, illustrated image generation, content/geometry audit, standalone PNG/WebP exports. Reusable across topics; selectable book-dark preset. |
 | `slides/chNN/` | **Lecture slide decks** (Quarto reveal.js). `slides.qmd` source + rendered `index.html` + `slides_files/` — all committed; served at `cmg777.github.io/intro2causal/slides/chNN/`. |
 | `.claude/skills/write-slides/` | Custom `/write-slides` skill for generating a chapter's slide deck. |
 
@@ -109,6 +110,21 @@ Always use `color:#fff` (white text) with these fills.
 ### `/study-guide [chapter-number]`
 
 Generates a complete Quarto study guide for a chapter. Reads the original chapter text, existing Python scripts, and data files. Follows all the conventions above. See `.claude/skills/study-guide/SKILL.md` for the full specification.
+
+### `/draw-mindmap [chapter-or-source] [--preset book-dark]`
+
+Creates an illustrated radial mind map from chapter identifiers or supplied sources. Always asks
+questions before planning, then uses an available image-generation tool and audits the actual
+image's content, mathematics and diagram geometry. Stops if image generation is unavailable.
+Produces PNG, lossless WebP, exact prompts and audit evidence; batches also receive a ZIP. Deletes
+superseded run drafts only after a replacement passes its audit and export verification. Book/slide
+integration is opt-in. See `.claude/skills/draw-mindmap/SKILL.md`.
+
+```text
+/draw-mindmap ch01 --preset book-dark
+/draw-mindmap ch02 ch03 --preset book-dark
+/draw-mindmap path/to/chapter.md
+```
 
 ### `/write-slides chNN`
 

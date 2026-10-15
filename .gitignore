@@ -31,3 +31,6 @@ data/ch1/*.xlsx
 # Slide decks: keep source + rendered output; ignore staging + Quarto caches
 slides/*/_figcache/
 slides/*/.quarto/
+
+# /draw-mindmap batch ZIP exports (images already live in mindmaps/images/)
+mindmaps/*.zip
