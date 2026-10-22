@@ -781,5 +781,19 @@
       "chunk": 16,
       "matched": 0.9728
     }
-  ]
+  ],
+  "audio_variants": {
+    "opus": {
+      "path": "mindmaps-podcast/audio/ch03-instrumental-variables.opus",
+      "codec": "opus",
+      "target_bitrate_kbps": 48,
+      "duration": 2122.456,
+      "bytes": 12669705,
+      "sha256": "bb4053d5c3aff62d05d866f50c873129317a3d0e065f75edb70c21e2c967b372"
+    },
+    "mp3": {
+      "path": "mindmaps-podcast/audio/ch03-instrumental-variables.mp3",
+      "sha256": "6d7cf0fd171658280241c5e1b6e0e5749b9fff785bd078baf3d05aa2cf08acc0"
+    }
+  }
 }

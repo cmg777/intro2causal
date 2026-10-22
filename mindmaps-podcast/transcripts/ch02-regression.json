@@ -761,5 +761,19 @@
       "chunk": 17,
       "matched": 0.9613
     }
-  ]
+  ],
+  "audio_variants": {
+    "opus": {
+      "path": "mindmaps-podcast/audio/ch02-regression.opus",
+      "codec": "opus",
+      "target_bitrate_kbps": 48,
+      "duration": 2371.407,
+      "bytes": 14180885,
+      "sha256": "867f474b51a685176455d0d8fac3fe9ee1f64950c3d3183eb0536e839fbc3ead"
+    },
+    "mp3": {
+      "path": "mindmaps-podcast/audio/ch02-regression.mp3",
+      "sha256": "38ad02315647c69b2e11731514644e43d74bcb99fe97ae443b2ef514d49ab8c4"
+    }
+  }
 }

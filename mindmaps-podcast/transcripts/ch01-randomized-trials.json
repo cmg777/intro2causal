@@ -767,5 +767,19 @@
       "chunk": 17,
       "matched": 0.9929
     }
-  ]
+  ],
+  "audio_variants": {
+    "opus": {
+      "path": "mindmaps-podcast/audio/ch01-randomized-trials.opus",
+      "codec": "opus",
+      "target_bitrate_kbps": 48,
+      "duration": 2336.126,
+      "bytes": 13964345,
+      "sha256": "d782baffb7d854234beeb22498f55f7b9634e3c9e121b164b05bdfba97e33a40"
+    },
+    "mp3": {
+      "path": "mindmaps-podcast/audio/ch01-randomized-trials.mp3",
+      "sha256": "3b9d630b14ce664b956d8db6de8bfec255c4eaca91a30b67e38c869abeadc7ed"
+    }
+  }
 }

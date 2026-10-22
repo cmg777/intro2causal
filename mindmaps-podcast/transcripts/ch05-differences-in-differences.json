@@ -731,5 +731,19 @@
       "chunk": 14,
       "matched": 0.9923
     }
-  ]
+  ],
+  "audio_variants": {
+    "opus": {
+      "path": "mindmaps-podcast/audio/ch05-differences-in-differences.opus",
+      "codec": "opus",
+      "target_bitrate_kbps": 48,
+      "duration": 1915.197,
+      "bytes": 11444310,
+      "sha256": "1428b25b9e134bae4a559425b9e23c66944c7f7c29b38b6c5e4e2285bae4a7b9"
+    },
+    "mp3": {
+      "path": "mindmaps-podcast/audio/ch05-differences-in-differences.mp3",
+      "sha256": "a86b0adb7b149e80826faedb7966e7f5f7d640f5499f6fe14a9166d6ed39e9fc"
+    }
+  }
 }

@@ -1,8 +1,8 @@
 # Read-along transcripts for Chapters 1–6
 
 The website uses each chapter's JSON file for passage highlighting and section
-markers in the shared podcast player. Students can download the plain-text (`.txt`) or timed WebVTT (`.vtt`)
-versions. Text comes from the existing HOST/ECONOMIST script. Paragraph timings
+markers in the shared podcast player. Students can download the plain-text (`.txt`)
+transcript only. Text comes from the existing HOST/ECONOMIST script. Paragraph timings
 are aligned to offline whisper.cpp recognition; they are approximate rather than
 word-level timestamps. Section boundaries come from the original audio chunk
 durations, including the assembler's inserted silences.
@@ -26,5 +26,24 @@ python3 scripts/build_podcast_transcript.py \
 ```
 
 Keep model files, raw recognition output, and PCM caches outside version control.
-All six completed MP3s have specific exceptions in `.gitignore` so GitHub Pages
-can serve them with their transcripts. Generation and verification caches stay local.
+All six completed recordings (Opus and MP3 fallbacks) have specific exceptions
+in `.gitignore` so GitHub Pages can serve them with their transcripts. Generation and verification caches stay local.
+
+## Web audio delivery
+
+Each player prefers 48 kbps variable-bitrate mono Opus, with the existing MP3 as a
+browser fallback. Opus is encoded directly from the local lossless `episode.wav`
+masters, avoiding a second lossy encode of the MP3. Both formats preserve episode
+timing. Transcript JSON records the Opus size, duration and hash alongside the
+original MP3 hash. Audio files load only when a listener interacts with playback.
+
+To regenerate the compressed recordings and their metadata after rebuilding transcripts:
+
+```sh
+python3 scripts/compress_podcast_audio.py
+```
+
+The website offers plain-text transcript downloads only. Audio and timed-transcript
+download links are removed,
+and native controls request `nodownload` where supported. Public browser playback
+still transfers audio and cannot prevent listeners from saving the underlying files.

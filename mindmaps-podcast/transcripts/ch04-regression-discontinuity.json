@@ -745,5 +745,19 @@
       "chunk": 16,
       "matched": 0.9827
     }
-  ]
+  ],
+  "audio_variants": {
+    "opus": {
+      "path": "mindmaps-podcast/audio/ch04-regression-discontinuity.opus",
+      "codec": "opus",
+      "target_bitrate_kbps": 48,
+      "duration": 2111.896,
+      "bytes": 12602782,
+      "sha256": "712dca5527b6deed3ec612d575ccc7579323d04b89072897c1b8587208ec3d87"
+    },
+    "mp3": {
+      "path": "mindmaps-podcast/audio/ch04-regression-discontinuity.mp3",
+      "sha256": "89e1b89beb6cd7abaf7399671a8c5c37deb6bc881de4403f1146f088751823d2"
+    }
+  }
 }

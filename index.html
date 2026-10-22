@@ -6,8 +6,8 @@
   <title>Mastering Causal Metrics</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="assets/podcast-player.css">
-  <script src="assets/podcast-player.js" defer></script>
+  <link rel="stylesheet" href="assets/podcast-player.css?v=2">
+  <script src="assets/podcast-player.js?v=2" defer></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
     html { scroll-behavior: smooth; }
@@ -606,7 +606,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><a href="mindmaps-podcast/audio/ch01-randomized-trials.mp3">Listen to the Chapter 1 podcast</a></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 1 podcast player, or <a href="mindmaps-podcast/transcripts/ch01-randomized-trials.txt" download>download the transcript</a>.</p></noscript>
             <section id="chapter-1-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch01-randomized-trials.json" aria-label="Chapter 1 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Randomized Trials mind map full screen" onclick="openImage('book/images/ch01_visual_summary.webp', 'Chapter 1 mind map: Randomized Trials')">
                 <img src="book/images/ch01_visual_summary.webp" alt="Randomized Trials mind map" loading="lazy">
@@ -621,9 +621,10 @@
                 <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
               </div>
               <div class="podcast-playback">
-                <audio controls preload="none" aria-label="Chapter 1 podcast">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Chapter 1 podcast">
+                  <source src="mindmaps-podcast/audio/ch01-randomized-trials.opus" type='audio/ogg; codecs="opus"'>
                   <source src="mindmaps-podcast/audio/ch01-randomized-trials.mp3" type="audio/mpeg">
-                  Your browser does not support audio playback. Download the recording below.
+                  Your browser does not support audio playback. You can read the transcript below.
                 </audio>
                 <div data-enhanced hidden>
                   <div class="podcast-timeline">
@@ -654,11 +655,7 @@
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
                 <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
               </div>
-              <div class="podcast-downloads">
-                <a href="mindmaps-podcast/audio/ch01-randomized-trials.mp3" download>Download audio</a>
-                <a href="mindmaps-podcast/transcripts/ch01-randomized-trials.vtt" download>Timed transcript</a>
-              </div>
-              <p class="podcast-status" role="status"></p>
+                <p class="podcast-status" role="status"></p>
             </section>
           </div>
           <!-- Chapter 2 -->
@@ -684,7 +681,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><a href="mindmaps-podcast/audio/ch02-regression.mp3">Listen to the Chapter 2 podcast</a></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 2 podcast player, or <a href="mindmaps-podcast/transcripts/ch02-regression.txt" download>download the transcript</a>.</p></noscript>
             <section id="chapter-2-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch02-regression.json" aria-label="Chapter 2 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Regression mind map full screen" onclick="openImage('book/images/ch02_visual_summary.webp', 'Chapter 2 mind map: Regression')">
                 <img src="book/images/ch02_visual_summary.webp" alt="Regression mind map" loading="lazy">
@@ -699,9 +696,10 @@
                 <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
               </div>
               <div class="podcast-playback">
-                <audio controls preload="none" aria-label="Chapter 2 podcast">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Chapter 2 podcast">
+                  <source src="mindmaps-podcast/audio/ch02-regression.opus" type='audio/ogg; codecs="opus"'>
                   <source src="mindmaps-podcast/audio/ch02-regression.mp3" type="audio/mpeg">
-                  Your browser does not support audio playback. Download the recording below.
+                  Your browser does not support audio playback. You can read the transcript below.
                 </audio>
                 <div data-enhanced hidden>
                   <div class="podcast-timeline">
@@ -732,11 +730,7 @@
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
                 <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
               </div>
-              <div class="podcast-downloads">
-                <a href="mindmaps-podcast/audio/ch02-regression.mp3" download>Download audio</a>
-                <a href="mindmaps-podcast/transcripts/ch02-regression.vtt" download>Timed transcript</a>
-              </div>
-              <p class="podcast-status" role="status"></p>
+                <p class="podcast-status" role="status"></p>
             </section>
           </div>
           <!-- Chapter 3 -->
@@ -763,7 +757,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><a href="mindmaps-podcast/audio/ch03-instrumental-variables.mp3">Listen to the Chapter 3 podcast</a></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 3 podcast player, or <a href="mindmaps-podcast/transcripts/ch03-instrumental-variables.txt" download>download the transcript</a>.</p></noscript>
             <section id="chapter-3-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch03-instrumental-variables.json" aria-label="Chapter 3 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Instrumental Variables mind map full screen" onclick="openImage('book/images/ch03_visual_summary.webp', 'Chapter 3 mind map: Instrumental Variables')">
                 <img src="book/images/ch03_visual_summary.webp" alt="Instrumental Variables mind map" loading="lazy">
@@ -778,9 +772,10 @@
                 <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
               </div>
               <div class="podcast-playback">
-                <audio controls preload="none" aria-label="Chapter 3 podcast">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Chapter 3 podcast">
+                  <source src="mindmaps-podcast/audio/ch03-instrumental-variables.opus" type='audio/ogg; codecs="opus"'>
                   <source src="mindmaps-podcast/audio/ch03-instrumental-variables.mp3" type="audio/mpeg">
-                  Your browser does not support audio playback. Download the recording below.
+                  Your browser does not support audio playback. You can read the transcript below.
                 </audio>
                 <div data-enhanced hidden>
                   <div class="podcast-timeline">
@@ -811,11 +806,7 @@
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
                 <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
               </div>
-              <div class="podcast-downloads">
-                <a href="mindmaps-podcast/audio/ch03-instrumental-variables.mp3" download>Download audio</a>
-                <a href="mindmaps-podcast/transcripts/ch03-instrumental-variables.vtt" download>Timed transcript</a>
-              </div>
-              <p class="podcast-status" role="status"></p>
+                <p class="podcast-status" role="status"></p>
             </section>
           </div>
           <!-- Chapter 4 -->
@@ -841,7 +832,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><a href="mindmaps-podcast/audio/ch04-regression-discontinuity.mp3">Listen to the Chapter 4 podcast</a></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 4 podcast player, or <a href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.txt" download>download the transcript</a>.</p></noscript>
             <section id="chapter-4-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch04-regression-discontinuity.json" aria-label="Chapter 4 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Regression Discontinuity mind map full screen" onclick="openImage('book/images/ch04_visual_summary.webp', 'Chapter 4 mind map: Regression Discontinuity')">
                 <img src="book/images/ch04_visual_summary.webp" alt="Regression Discontinuity mind map" loading="lazy">
@@ -856,9 +847,10 @@
                 <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
               </div>
               <div class="podcast-playback">
-                <audio controls preload="none" aria-label="Chapter 4 podcast">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Chapter 4 podcast">
+                  <source src="mindmaps-podcast/audio/ch04-regression-discontinuity.opus" type='audio/ogg; codecs="opus"'>
                   <source src="mindmaps-podcast/audio/ch04-regression-discontinuity.mp3" type="audio/mpeg">
-                  Your browser does not support audio playback. Download the recording below.
+                  Your browser does not support audio playback. You can read the transcript below.
                 </audio>
                 <div data-enhanced hidden>
                   <div class="podcast-timeline">
@@ -889,11 +881,7 @@
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
                 <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
               </div>
-              <div class="podcast-downloads">
-                <a href="mindmaps-podcast/audio/ch04-regression-discontinuity.mp3" download>Download audio</a>
-                <a href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.vtt" download>Timed transcript</a>
-              </div>
-              <p class="podcast-status" role="status"></p>
+                <p class="podcast-status" role="status"></p>
             </section>
           </div>
           <!-- Chapter 5 -->
@@ -919,7 +907,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><a href="mindmaps-podcast/audio/ch05-differences-in-differences.mp3">Listen to the Chapter 5 podcast</a></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 5 podcast player, or <a href="mindmaps-podcast/transcripts/ch05-differences-in-differences.txt" download>download the transcript</a>.</p></noscript>
             <section id="chapter-5-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch05-differences-in-differences.json" aria-label="Chapter 5 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Differences-in-Differences mind map full screen" onclick="openImage('book/images/ch05_visual_summary.webp', 'Chapter 5 mind map: Differences-in-Differences')">
                 <img src="book/images/ch05_visual_summary.webp" alt="Differences-in-Differences mind map" loading="lazy">
@@ -934,9 +922,10 @@
                 <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
               </div>
               <div class="podcast-playback">
-                <audio controls preload="none" aria-label="Chapter 5 podcast">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Chapter 5 podcast">
+                  <source src="mindmaps-podcast/audio/ch05-differences-in-differences.opus" type='audio/ogg; codecs="opus"'>
                   <source src="mindmaps-podcast/audio/ch05-differences-in-differences.mp3" type="audio/mpeg">
-                  Your browser does not support audio playback. Download the recording below.
+                  Your browser does not support audio playback. You can read the transcript below.
                 </audio>
                 <div data-enhanced hidden>
                   <div class="podcast-timeline">
@@ -967,11 +956,7 @@
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
                 <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
               </div>
-              <div class="podcast-downloads">
-                <a href="mindmaps-podcast/audio/ch05-differences-in-differences.mp3" download>Download audio</a>
-                <a href="mindmaps-podcast/transcripts/ch05-differences-in-differences.vtt" download>Timed transcript</a>
-              </div>
-              <p class="podcast-status" role="status"></p>
+                <p class="podcast-status" role="status"></p>
             </section>
           </div>
           <!-- Chapter 6 -->
@@ -997,7 +982,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><a href="mindmaps-podcast/audio/ch06-wages-of-schooling.mp3">Listen to the Chapter 6 podcast</a></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 6 podcast player, or <a href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.txt" download>download the transcript</a>.</p></noscript>
             <section id="chapter-6-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch06-wages-of-schooling.json" aria-label="Chapter 6 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open The Wages of Schooling mind map full screen" onclick="openImage('book/images/ch06_visual_summary.webp', 'Chapter 6 mind map: The Wages of Schooling')">
                 <img src="book/images/ch06_visual_summary.webp" alt="The Wages of Schooling mind map" loading="lazy">
@@ -1012,9 +997,10 @@
                 <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
               </div>
               <div class="podcast-playback">
-                <audio controls preload="none" aria-label="Chapter 6 podcast">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Chapter 6 podcast">
+                  <source src="mindmaps-podcast/audio/ch06-wages-of-schooling.opus" type='audio/ogg; codecs="opus"'>
                   <source src="mindmaps-podcast/audio/ch06-wages-of-schooling.mp3" type="audio/mpeg">
-                  Your browser does not support audio playback. Download the recording below.
+                  Your browser does not support audio playback. You can read the transcript below.
                 </audio>
                 <div data-enhanced hidden>
                   <div class="podcast-timeline">
@@ -1045,11 +1031,7 @@
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
                 <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
               </div>
-              <div class="podcast-downloads">
-                <a href="mindmaps-podcast/audio/ch06-wages-of-schooling.mp3" download>Download audio</a>
-                <a href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.vtt" download>Timed transcript</a>
-              </div>
-              <p class="podcast-status" role="status"></p>
+                <p class="podcast-status" role="status"></p>
             </section>
           </div>
       </div>

@@ -1121,5 +1121,19 @@
       "chunk": 20,
       "matched": 0.9711
     }
-  ]
+  ],
+  "audio_variants": {
+    "opus": {
+      "path": "mindmaps-podcast/audio/ch06-wages-of-schooling.opus",
+      "codec": "opus",
+      "target_bitrate_kbps": 48,
+      "duration": 2733.177,
+      "bytes": 16342715,
+      "sha256": "c0b6cc61fd2a44ae339a1799123ec8b4b2bbd33d3c731e43d83297b3670a438b"
+    },
+    "mp3": {
+      "path": "mindmaps-podcast/audio/ch06-wages-of-schooling.mp3",
+      "sha256": "0d7d92817c28d2169c89b0e74194cb86b3b912f50484d9733a18b5462a2bc69c"
+    }
+  }
 }

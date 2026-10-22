@@ -29,7 +29,7 @@
   --pod-track: #123b55;
   display: grid;
   grid-template-columns: 138px minmax(0,1fr);
-  grid-template-areas: "map heading" "playback playback" "chapters chapters" "actions actions" "transcript transcript" "downloads downloads" "status status";
+  grid-template-areas: "map heading" "playback playback" "chapters chapters" "actions actions" "transcript transcript" "status status";
   gap: .5rem 1rem;
   min-width: 0;
   padding: 1rem;
@@ -116,11 +116,10 @@
 .podcast-passages button[aria-current=true] { color: var(--pod-text); background: var(--pod-soft); border-left-color: var(--pod-accent); }
 .podcast-follow { display: flex; gap: .35rem; align-items: center; justify-content: flex-end; padding: .5rem .2rem 0; color: var(--pod-muted); font-size: .7rem; cursor: pointer; }
 .podcast-follow input { accent-color: var(--pod-accent); }
-.podcast-downloads { grid-area: downloads; display: flex; gap: 1rem; font-size: .65rem; margin-top: .25rem; }
 .podcast-status { grid-area: status; color: var(--pod-muted); font-size: .75rem; }
 .podcast-status:empty { display: none; }
 @container (min-width: 640px) {
-  .podcast-player { grid-template-columns: 210px minmax(0,1fr); grid-template-areas: "map heading" "map playback" "chapters chapters" "actions actions" "transcript transcript" "downloads downloads" "status status"; }
+  .podcast-player { grid-template-columns: 210px minmax(0,1fr); grid-template-areas: "map heading" "map playback" "chapters chapters" "actions actions" "transcript transcript" "status status"; }
 }
 @container (max-width: 350px) {
   .podcast-player { grid-template-columns: 95px minmax(0,1fr); gap: .5rem .65rem; padding: .75rem; }

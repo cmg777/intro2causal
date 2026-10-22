@@ -141,20 +141,22 @@
       play.addEventListener('click', async () => {
         if (!audio.paused) return audio.pause();
         try { await audio.play(); status.textContent = ''; }
-        catch { status.textContent = 'Audio could not play. Try again or download the recording below.'; }
+        catch { status.textContent = 'Audio could not play. Please try again. You can also read the transcript.'; }
       });
       function updatePlay() {
         const playing = !audio.paused;
         play.setAttribute('aria-label', playing ? 'Pause podcast' : 'Play podcast');
         play.setAttribute('aria-pressed', String(playing));
-        play.querySelector('[data-play-icon]').hidden = playing;
-        play.querySelector('[data-pause-icon]').hidden = !playing;
+        // SVG elements do not reliably reflect the HTML `hidden` property.
+        play.querySelector('[data-play-icon]').toggleAttribute('hidden', playing);
+        play.querySelector('[data-pause-icon]').toggleAttribute('hidden', !playing);
       }
       audio.addEventListener('play', () => {
         document.querySelectorAll('audio').forEach(other => { if (other !== audio) other.pause(); });
         updatePlay();
       });
       audio.addEventListener('pause', updatePlay);
+      audio.addEventListener('playing', updatePlay);
       audio.addEventListener('ended', updatePlay);
       audio.addEventListener('timeupdate', () => update());
       audio.addEventListener('progress', () => {
