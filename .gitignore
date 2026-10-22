@@ -27,7 +27,8 @@ data/ch1/*.xlsx
 .idea/
 .vscode/
 
-# Claude plans (ephemeral)
+# Local Claude skills and ephemeral files
+.claude/skills/
 .claude/plans/
 .claude/tasks/
 .claude/image-cache/
