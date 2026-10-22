@@ -1,7 +1,22 @@
 /* Offline-generated transcript; the player needs no third-party service. */
 (() => {
+  async function startPlayback(audio, status) {
+    document.querySelectorAll('audio').forEach(other => { if (other !== audio) other.pause(); });
+    try {
+      // Call play directly from the click, without waiting for transcript loading.
+      await audio.play();
+      status.textContent = '';
+    } catch (error) {
+      // Closing or switching players can cancel a pending playback request.
+      if (error.name !== 'AbortError') {
+        status.textContent = 'Audio could not play. Please try again. You can also read the transcript.';
+      }
+    }
+  }
   document.querySelectorAll('[data-podcast-toggle]').forEach(button => {
     const player = document.getElementById(button.getAttribute('aria-controls'));
+    const audio = player.querySelector('audio');
+    const status = player.querySelector('.podcast-status');
     const close = () => {
       button.setAttribute('aria-expanded', 'false');
       player.hidden = true;
@@ -11,7 +26,8 @@
       const opening = button.getAttribute('aria-expanded') !== 'true';
       button.setAttribute('aria-expanded', String(opening));
       player.hidden = !opening;
-      if (!opening) player.querySelector('audio').pause();
+      if (opening) startPlayback(audio, status);
+      else audio.pause();
     });
     player.querySelector('.podcast-close').addEventListener('click', () => {
       close();
@@ -138,10 +154,9 @@
         transcriptToggle.querySelector('span').textContent = opening ? 'Hide transcript' : 'Read along';
         if (opening) scrollToPassage();
       });
-      play.addEventListener('click', async () => {
+      play.addEventListener('click', () => {
         if (!audio.paused) return audio.pause();
-        try { await audio.play(); status.textContent = ''; }
-        catch { status.textContent = 'Audio could not play. Please try again. You can also read the transcript.'; }
+        startPlayback(audio, status);
       });
       function updatePlay() {
         const playing = !audio.paused;
@@ -179,6 +194,7 @@
       player.querySelectorAll('[data-enhanced]').forEach(element => { element.hidden = false; });
       player.classList.add('enhanced');
       status.textContent = '';
+      updatePlay();
       update();
     } catch (error) {
       status.textContent = 'Interactive transcript unavailable. You can still listen and download the transcript below.';
