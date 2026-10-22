@@ -1,0 +1,225 @@
+Differences-in-Differences
+
+Opening
+
+[00:00] Host: Welcome back. Today we are on differences-in-differences, a way to learn from policy changes. Imagine a bank that owns valuable loans but cannot meet today's withdrawals. If frightened customers arrive together, could emergency lending stop an otherwise avoidable failure?
+
+[00:17] Economist: That question became urgent during the Great Depression. Mississippi banks faced a common financial panic, but different regional central banks offered different responses. Some banks received a much stronger promise of emergency credit. The interesting comparison is what happened to bank survival under those different policies.
+
+[00:40] Host: Did the Fed save banks in the Great Depression? A rescue sounds helpful. But perhaps the supported banks were already stronger. Or perhaps officials supported the weakest banks. Either story could confuse a comparison between banks that received help and banks that did not.
+
+[00:56] Economist: By the end of this episode, you should be able to construct a missing policy outcome using changes in a comparison group. You should also explain parallel trends, and judge policy evidence using fixed effects and uncertainty checks. We will build those skills through the banking case, then drinking-age laws.
+
+[01:15] Host: So we need more than a good rescue story. We need a way to separate the policy from everything else happening around it. I also want to understand why a policy can help even when the outcome still gets worse.
+
+[01:30] Economist: Keep the mind map's three acts in mind: The Question, The Investigation, and The Resolution. The first establishes the problem. The second follows the comparisons and their assumptions. The last answers objections and draws conclusions. You can follow by listening alone; the reasoning will always come before the calculation.
+
+The Question
+
+[01:52] Host: The Question begins with the banking panic itself. Why could a healthy-looking bank fail? I might think a bank holding valuable assets should simply use those assets to pay its customers.
+
+[02:04] Economist: Start with the Caldwell collapse. In 1930, Caldwell and Company failed, shaking confidence across the American South. A bank normally lends much of its depositors' money. Those loans may be repaid later, while depositors can ask for cash today. That gap between payment dates creates vulnerability.
+
+[02:25] Host: I predict that a bank could then close even if many borrowers would eventually repay. Selling loans quickly might bring in too little cash. If I expect everyone else to withdraw, waiting patiently could leave me with nothing. Is that how the panic spreads?
+
+[02:41] Economist: Yes, your prediction captures a liquidity crisis. Liquidity means having money available when payment is due. Fear can turn ordinary withdrawals into a bank run. Emergency central-bank lending may buy time and prevent failure. But liquidity trouble differs from insolvency, when the bank's assets cannot cover its debts.
+
+[03:01] Host: Then rescuing every bank might be a mistake. Some banks need temporary cash, while others have made losses they cannot recover. And if managers expect rescue every time, they might become less careful.
+
+[03:16] Economist: That danger is called moral hazard: protection can encourage risk-taking. The immediate empirical question is narrower. Did easier credit keep banks operating during this panic? A positive survival effect would not show that every rescue is wise, or that lending can repair every bank's balance sheet.
+
+[03:38] Host: Where does the natural experiment enter? I would worry that places choosing generous lending were also different in their industries, politics, or exposure to the downturn.
+
+[03:49] Economist: The useful border ran through Mississippi. The Sixth Federal Reserve District answered to Atlanta, whose leaders favored lending to banks in trouble. The Eighth answered to St. Louis, whose leaders favored restrictive credit under the Real Bills Doctrine. Different policy authorities therefore operated within the same state.
+
+[04:09] Host: So treatment means the Atlanta policy of easier credit, and control means the St. Louis approach. The control group was still living through the Depression. It was not a group with no economic shock at all.
+
+[04:23] Economist: It makes a shared economic environment more plausible than comparing distant regions with entirely different circumstances. It does not make the districts identical or randomly assigned. The border gives us a promising comparison. We still need an assumption about how their outcomes would have changed under the same policy.
+
+[04:42] Host: Before we investigate that assumption, let us establish the vocabulary. Treatment and control describe the policy comparison. What do you mean by a counterfactual?
+
+[04:54] Economist: A counterfactual is the outcome the treated group would have experienced without the treatment. Here, it means bank survival in Atlanta's Mississippi district without its easier-credit response. We observe survival with that response. We cannot observe the alternative history for the same district during the same crisis.
+
+[05:13] Host: And parallel trends says that the control group's change can help construct that missing history. It does not say that both places start with the same number of banks. We are borrowing a change, rather than borrowing the control group's final bank count.
+
+[05:28] Economist: Exactly. Panel data follow the same units across time, such as states observed repeatedly. Fixed effects are adjustments for persistent differences between those units. Another term is the average treatment effect on the treated, or ATT. It asks how treatment changed outcomes for those who actually received it.
+
+[05:49] Host: Does learning these names give us identification? By identification, I mean a defensible way to connect the observed comparison with a causal effect.
+
+[05:58] Economist: That is our first recap: The Question separates the observed outcome from its missing alternative. The Mississippi border offers treatment and control groups, not a guarantee. Parallel trends will connect them. Panel data and fixed effects help implement the comparison; they cannot make its causal justification automatic.
+
+The Investigation
+
+[06:18] Host: The Investigation starts with comparisons that seem sensible but mislead. If fewer banks operate after emergency lending than before, I might call the lending a failure. Yet the Depression was pushing banks toward failure anyway. How can we tell whether the policy reduced the damage?
+
+[06:36] Economist: A before-and-after comparison mixes policy effects with the surrounding downturn. Comparing only the districts afterward creates another problem: they had different starting bank counts. We need a comparison that allows the treated group to face bad conditions and to begin at a different level.
+
+[06:55] Host: The companion materials use a hypothetical holiday diet. Someone gains 2 pounds while dieting, and a friend gains 7 without dieting. I predict the diet could still help. But that would depend on whether the friend provides a good guide to the dieter's untreated weight change.
+
+[07:12] Economist: The implied benefit is 5 pounds less weight gained, provided their untreated changes would have matched. That is a hypothetical explanation, not a diet study. Different exercise habits or illnesses could break the comparison. The useful lesson is that improvement relative to an alternative need not mean improvement relative to yesterday.
+
+[07:32] Host: Now give the method its full name.
+
+[07:35] Economist: Difference-in-differences compares the treated group's change with the control group's change. First find each group's outcome after treatment minus its outcome before treatment. Then subtract the control change from the treated change. We often shorten the method's name to DD. The result is a change relative to another change.
+
+[07:58] Host: The first difference removes a permanent starting gap within each group. The second removes the change they would have shared. But that second step seems to assume exactly what we are trying to establish: how the treated group would have changed without treatment.
+
+[08:13] Economist: That is the identifying assumption: parallel trends. Without treatment, the average changes would have matched over the period we compare. It is about the untreated alternative, not whether the observed paths remain parallel after an effective treatment. A successful treatment can make the observed paths diverge.
+
+[08:33] Host: The initial bank counts make that distinction concrete. Atlanta's Mississippi district started with 135 banks, and St. Louis's with 165. Those unequal levels do not automatically invalidate DD. Are we assuming equal losses measured in bank counts, or equal percentage losses?
+
+[08:52] Economist: Equal changes in bank counts, because bank counts are the outcome being compared. That is different from assuming equal percentage changes. The outcome's scale matters. A persistent difference in levels can cancel; a different underlying trend in counts cannot. Choosing a plausible scale belongs to the design.
+
+[09:13] Host: Can we inspect earlier years to assess the assumption? Similar past changes might still fail to predict the next crisis.
+
+[09:22] Economist: Earlier similarity provides supporting evidence, not proof. A new regional shock could affect only the treatment district when the policy begins. We also need to consider anticipation, when behavior changes before treatment, and spillovers, when treatment changes the control group's outcome. Either can spoil the intended comparison.
+
+[09:43] Host: Let us work through Mississippi's actual bank counts. Use the simple comparison first.
+
+[09:49] Economist: Our bank calculation uses July counts. In 1930, Atlanta's district had 135 banks. The following July, it had 121. The decline was 14 banks. Keep that loss in mind. It is the observed change under the easier-credit policy, not yet an estimate of its effect.
+
+[10:08] Host: St. Louis started with 165 banks and ended with 132. That means it lost 33 banks. So both districts worsened, but Atlanta's district lost fewer.
+
+[10:20] Economist: Subtracting a loss of 33 from a loss of 14 gives a positive difference of 19 banks. Under parallel untreated trends, that is the estimated rescue effect. The policy need not prevent every closure to help. It can leave more banks operating than would otherwise have survived.
+
+[10:39] Host: We can also build the missing outcome directly. Atlanta began with 135. If it had lost 33 banks, like St. Louis, it would have ended with 102. Instead, 121 remained. That gap is the same estimate, expressed as an alternative history.
+
+[10:57] Economist: That completes the calculation's meaning: observed survival exceeded the constructed counterfactual by 19 banks. The alternative history is estimated, not observed. We should always attach the assumption to the result. Another Atlanta-specific influence on bank survival could make part of that gap unrelated to credit policy.
+
+[11:20] Host: The map extends the banking case through 1934 and describes roughly 19 to 23 banks saved. Is that a statistical interval, or does it summarize different comparisons over time?
+
+[11:32] Economist: It summarizes year-by-year estimates using the same pre-crisis baseline, not a confidence interval. A confidence interval instead describes statistical uncertainty under stated assumptions. The longer record supports a lasting survival gap. It does not show that the estimated effect was exactly identical each year.
+
+[11:53] Host: Did St. Louis keep its restrictive approach throughout those later years? If policy changed again, calling Atlanta the treated district forever might hide an important part of the story. Why should earlier emergency help still matter after policies become more alike?
+
+[12:10] Economist: St. Louis began lending more freely in 1931. The earlier gap could persist because later credit cannot bring closed banks back into operation. The comparison tracks a lasting consequence of the initial crisis response. It does not require Atlanta alone to remain generous in every later period.
+
+[12:30] Host: Saving banks matters partly because people and businesses rely on them. Does the chapter examine real economic activity as well?
+
+[12:37] Economist: It examines wholesalers, businesses that depended on bank credit to finance inventories. Firm numbers and sales fell less in Atlanta's district than in St. Louis's. That pattern supports a broader economic benefit. Those comparisons use very sparse data, however, so the chapter treats them as weaker evidence than the banking analysis.
+
+[12:58] Host: Now we move from hand calculations to regression DD with fixed effects.
+
+[13:03] Economist: It adjusts for stable group differences and shared time changes while relating outcomes to policy exposure. Group fixed effects give each group its own baseline. Time fixed effects allow the common environment to change. With only a treated group, a control group, and before-and-after periods, regression reproduces our simple DD.
+
+[13:27] Host: Suppose rural states have persistently higher road death rates. A state adjustment would absorb that stable difference. Suppose safer vehicles lower death rates everywhere. A year adjustment would absorb that shared change.
+
+[13:41] Economist: One remaining threat is a state-specific change that occurs alongside the law and also affects deaths. Fixed effects do not remove every changing influence. The regression's causal interpretation still requires credible untreated trends after its adjustments. A new safety campaign in just the changing-policy states could remain a serious confounder.
+
+[14:04] Host: Before we trust regression results, what about uncertainty? If a state has dangerous roads this year, next year's roads may also be dangerous.
+
+[14:12] Economist: That persistence is serial correlation: nearby observations within a unit tend to move together. Standard errors measure uncertainty around estimates. Ignoring within-state dependence can make those errors too small. Clustered standard errors allow observations inside each state to be related while relying on enough independent clusters for inference.
+
+[14:36] Host: So clustering changes our uncertainty calculation, not the estimated effect itself. It also does not correct biased treatment comparisons. Does the banking case have enough clusters? We have several annual observations, but only a small number of policy districts.
+
+[14:54] Economist: That is an important limitation from the chapter appendix. Mississippi provides only two district clusters. Repeated years do not create many independent districts. The regression estimate is about 21 banks saved, but reliable inference is difficult if within-district errors persist. We should describe the banking result as suggestive, with substantial uncertainty.
+
+[15:18] Host: The next case studies the minimum legal drinking age, which we will call MLDA. States changed their laws at different dates.
+
+[15:27] Economist: The policy panel contains 51 jurisdictions, including the District of Columbia, observed over 14 years. The period runs from 1970 to 1983. States lowered or otherwise changed drinking-age rules at different times. State and year effects let researchers compare within-state mortality changes against changes elsewhere.
+
+[15:48] Host: Who exactly counts in the outcome? If the law affects young adults differently by age, a single legal-access indicator might be misleading. We also need to distinguish the right to buy alcohol from actually drinking it.
+
+[16:02] Economist: The outcomes are annual death rates for people aged 18 to 20. Treatment measures the share of that age group legally permitted to drink. It is policy access, not each person's alcohol consumption. A lower legal age can expose the entire group or only part of it.
+
+[16:17] Host: And a law can change partway through a year. So the exposure measure has to reflect both who becomes eligible and how long the law operates. What does a regression coefficient mean when the treatment is a share rather than a simple switch?
+
+[16:34] Economist: It describes the modeled change from no legal access to full access for the age group. Intermediate changes receive proportionate effects under that specification. This adds a modeling assumption about dose and response. We should not describe the coefficient as the effect of personally drinking a particular amount of alcohol.
+
+[16:55] Host: What do the estimated death rates say? Please give the overall scale first.
+
+[17:00] Economist: Across the chapter's main specifications, full legal access is associated with about 8 to 12 additional annual deaths per 100,000 young adults. The baseline estimate is near 11. With a credible design, these become estimated policy effects. They are changes in a death rate, not percentage-point changes in everyone's probability of dying.
+
+[17:25] Host: And road deaths account for much of that increase? That would fit a mechanism in which easier access increases dangerous driving. But identifying the cause of death still would not mean we observe every individual's drinking decision or every step linking policy to a crash.
+
+[17:43] Economist: Motor-vehicle accidents account for roughly 7 to 8 additional deaths per 100,000 under full legal access. That pattern supports the drinking-and-driving explanation. It does not mean every excess death has a personally observed alcohol history. The causal claim concerns the policy's effect on population death rates.
+
+[18:05] Host: What about internal causes, such as deaths from disease? The mind map describes no effect as a placebo result. I worry that saying no effect sounds stronger than saying the estimated effect is small relative to its uncertainty.
+
+[18:22] Economist: The careful statement is little clear evidence of a short-run effect on internal-cause deaths. A placebo outcome is one the policy is not expected to affect meaningfully over the relevant horizon. This result is reassuring, but cannot prove the design valid. Suicide is less clean as a placebo because alcohol could affect it.
+
+[18:44] Host: The robustness toolkit comes next. Robustness means checking whether the conclusion survives reasonable changes in the analysis. Start with state-specific trends. Why allow separate trends if parallel trends was supposed to be the method's central assumption?
+
+[18:59] Economist: A linear trend lets each state's untreated outcome drift along its own steady path. The policy effect then comes from departures around policy changes, beyond those predicted paths. We replace one assumption with another: the chosen trends must describe the untreated evolution well enough. We have not eliminated assumptions.
+
+[19:21] Host: If deaths were already rising faster in states that later loosened their laws, simple DD could mistake that drift for a law effect. Adding trends would help with a steady difference. Could a gradually growing policy effect create a different problem?
+
+[19:38] Economist: Yes. If the policy's effect itself grows gradually, a fitted trend might absorb some of that growing effect. We could then struggle to distinguish the treatment effect from ongoing drift. Trend models can also reduce precision. In this chapter, the main drinking-age estimates remain broadly similar after adding trends. That is supportive, while some estimates become less precise.
+
+[20:02] Host: Now population weighting. A small state and a large state each contribute a state-year record, but they contain very different numbers of young people. Does giving larger states more influence answer the same question more accurately?
+
+[20:17] Economist: Weighting changes whose outcomes influence the estimate most. Population weights emphasize larger young-adult populations; equal row weights emphasize state-year comparisons more evenly. Weighting may improve precision under suitable conditions, but not automatically. Similar conclusions under both choices are reassuring. Neither choice alone guarantees a simple average causal effect.
+
+[20:44] Host: The final robustness check adds beer taxes. State and year effects are already present, so I want to understand what extra concern a changing tax introduces.
+
+[20:54] Economist: A state might change drinking-age rules and alcohol taxes together. Price changes could affect drinking and deaths, confounding the legal-access effect. Controlling for beer taxes leaves the estimated drinking-age effect broadly similar here. The tax effects themselves are imprecise. That is not evidence that alcohol taxes never affect mortality.
+
+[21:18] Host: What should a policymaker take away from these checks? The road-death result survives several choices, yet the comparisons are observational.
+
+[21:27] Economist: A policy implication is that expanding legal access can carry meaningful mortality costs for young adults, particularly on the road. Trends, weighting, tax controls, and placebo outcomes strengthen the case when they agree. They do not remove every possible confounder or determine the whole social balance of a drinking-age law.
+
+[21:48] Host: Place DD in the wider causal toolkit. We have random assignment, instruments, and age cutoffs from earlier episodes.
+
+[22:04] Economist: A randomized controlled trial can estimate an average effect for its study population. Instrumental variables can identify a local average effect for people whose treatment changes with the instrument, under its assumptions. Regression discontinuity estimates a local effect near a cutoff. These are related questions, not automatically interchangeable answers.
+
+[22:28] Host: In a simple DD design, we often seek the average treatment effect on the treated. But our drinking-age analysis has many states, changing exposure, and different policy dates. Can we attach that same label to any fixed-effects coefficient without further thought?
+
+[22:45] Economist: No. In the simple design, parallel untreated trends and other comparison conditions can identify that treated-group effect. With staggered changes, fixed effects combine many comparisons. If effects differ across groups or evolve over time, interpretation needs extra care. The regression coefficient is not automatically the average effect for everyone treated.
+
+[23:12] Host: The drinking-age question also appeared in Chapter four using an age cutoff. Here in Chapter five, the variation is policy timing across states. Why is agreement useful if the samples, historical periods, and relevant effects need not match exactly?
+
+[23:28] Economist: The designs face different threats. An age-cutoff study compares people near the legal birthday, while the policy panel compares state outcomes around legal changes. Similar conclusions strengthen the broader argument because the identifying assumptions differ. We should expect broad consistency, not insist that all numerical estimates must be identical.
+
+[23:49] Host: Historical roots take us to John Snow and cholera. I know the famous story about removing a pump handle. Was that the main DD comparison, or is there another comparison that better demonstrates the method?
+
+[24:00] Economist: Snow's water-company comparison is the clearer example. Lambeth moved its water intake upstream in 1852. Southwark and Vauxhall continued using a contaminated stretch of the Thames. Snow compared changes between earlier cholera mortality and mortality in 1854, distinguishing areas by their water supply.
+
+[24:22] Host: The Lambeth-served areas improved while the other company's areas did not show the same improvement. That supports waterborne transmission rather than bad air. But neither company randomized its customers. Would we still need to ask what else changed differently across their areas?
+
+[24:41] Economist: Yes. The before-and-after contrast becomes stronger with a comparison group, but still needs a credible alternative history. The pump-handle episode makes a separate caution vivid: deaths were already declining before removal. Simply crediting everything afterward to the intervention would repeat the before-and-after mistake.
+
+[25:03] Host: My investigation recap is to compare changes, name the assumption, then test its weak points. Banking shows why a smaller decline can mean a benefit. Drinking-age laws show how many policy changes fit into a panel. Snow reminds us that timing alone cannot establish causation.
+
+[25:22] Economist: And uncertainty belongs inside that reasoning. Fixed effects remove persistent group gaps and shared time shocks. Clustered errors address related observations, not confounding. Robustness checks probe specific threats. The strongest explanation connects every reported effect to its population, policy exposure, counterfactual, and remaining limits.
+
+The Resolution
+
+[25:50] Host: The Resolution starts with a devil's advocate. I predict that groups starting at very different levels must be unsuitable for any causal comparison. If Atlanta begins with fewer banks, surely subtracting changes just hides the fact that the places are different.
+
+[26:08] Economist: The prediction confuses levels with changes. A stable starting gap can disappear when each group is compared with itself over time. The key issue is how outcomes would have changed without treatment. Different initial levels may prompt useful questions, but they do not by themselves refute parallel untreated trends.
+
+[26:28] Host: Let me try the opposite objection. If fixed effects control for permanent differences and national shocks, perhaps nothing important remains uncontrolled. Could we simply run the regression, cluster the errors, and regard the coefficient as causal?
+
+[26:44] Economist: That is the second tempting misconception. A new state-specific road-safety effort can change mortality exactly when the drinking law changes. State effects cannot remove that new event. Year effects cannot remove an event confined to some states. Clustering changes uncertainty, not the source of the comparison's bias.
+
+[27:04] Host: So a convincing analysis should explain why the control change represents the treatment group's missing change. It should examine earlier outcomes and simultaneous policies. It should also consider whether people react early or cross borders, changing which group really receives the policy exposure.
+
+[27:23] Economist: Those are design questions worth asking before interpreting any coefficient. Earlier outcomes can challenge a proposed trend assumption. A clean-looking earlier record cannot rule out every later problem. Checking the relevant threats is more informative than treating a long list of regressions as a certificate of causal truth.
+
+[27:44] Host: Give us the main takeaways without adding another table. What should remain in a listener's mind after the details of banks, water companies, and drinking-age laws have faded?
+
+[27:54] Economist: Begin with the treated change and subtract the comparison change. Explain why untreated trends should match, allowing for the model's adjustments. Use fixed effects to implement the comparison across groups and time. Account for dependent observations when assessing uncertainty. Report what the design actually identifies, with the limits that remain.
+
+[28:20] Host: For banks, the map summarizes about 19 to 23 more surviving institutions across the later comparisons. We must remember that this describes estimated gaps, with sparse evidence and difficult inference. For drinking-age laws, the main mortality cost appears on the road, and multiple checks support that pattern.
+
+[28:40] Economist: The policy lesson has boundaries. Temporary liquidity can help banks facing runs, but survival alone does not justify every bailout. Legal alcohol access can affect young-adult mortality, but that finding does not settle every policy tradeoff. Good causal work sharpens a decision's evidence without pretending to supply every value judgment.
+
+[29:04] Host: We are ready for the thesis. When a policy changes for only some groups, the unaffected group's change can supply a missing outcome. Yet the word can matters: the comparison has to fit the untreated trends and the policy setting.
+
+[29:20] Economist: Our thesis is conditional: when a policy shifts for some groups but not others, the untreated group's change supplies the treated group's missing counterfactual, if the identifying assumptions hold. That is the resolution recap. The design's power comes from a useful comparison over time; its credibility comes from defending that comparison.
+
+Wrap-up
+
+[29:45] Host: Return to our learning goals. We can now construct a counterfactual using a comparison group's change. We can explain parallel trends as a claim about untreated changes. And we can judge fixed-effects evidence using robustness checks and appropriate uncertainty. The arithmetic is short; defending its interpretation takes care.
+
+[30:06] Economist: Keep the central thesis with its condition: the comparison group's change stands in for the treated group's missing change only when the design makes that substitution credible. An observed decline does not prove failure. A stable starting gap does not defeat DD. A regression coefficient does not validate itself.
+
+[30:26] Host: Here is our closing think question. Suppose legal drinking access expands in a state just as that state begins a major road-safety campaign. Other states do neither. Would state effects, year effects, and clustered standard errors automatically separate the law's effect from the campaign's effect?
+
+[30:44] Economist: Pause the episode and think about what varies across states and over time. Ask whether the safety campaign is a permanent state characteristic, a shared yearly event, or a new influence specific to the treatment state.
+
+[31:01] Host: I would call it a new state-specific influence. It changes during the comparison period, and only in the state changing its law. I suspect our usual adjustments leave it entangled with legal access. Is that the right reason to hesitate?
+
+[31:18] Economist: The answer is that these adjustments do not automatically separate the effects. We would need a better comparison, additional credible variation, or defensible controls for the campaign. Clustering cannot repair that identification problem. The project Colab notebook and lecture slides let you revisit the bank arithmetic and compare drinking-age specifications.
+
+[31:41] Host: Next, Chapter six, The Wages of Schooling, asks whether more education causes higher earnings. We will connect the causal designs to that question and consider why different comparisons can yield different answers. Thank you for listening, and goodbye.

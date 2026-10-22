@@ -580,7 +580,7 @@
   <section id="curriculum" class="py-16 px-4 fade-in-up" style="scroll-margin-top: 80px;">
     <div class="max-w-6xl mx-auto">
       <h2 class="text-2xl font-bold mb-2 text-center">Curriculum</h2>
-      <p class="text-center text-muted mb-10 max-w-3xl mx-auto">Six chapters on the five tools of causal inference. Click a badge to open the study guide or launch the notebook in your browser. Each card also links to lecture slides and videos. Listen to the podcasts for Chapters 1–4: jump between sections and follow the transcript as you listen.</p>
+      <p class="text-center text-muted mb-10 max-w-3xl mx-auto">Six chapters on the five tools of causal inference. Click a badge to open the study guide or launch the notebook in your browser. Each card also links to lecture slides and videos. Listen to the podcasts for all six chapters: jump between sections and follow the transcript as you listen.</p>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <!-- Chapter 1 -->
@@ -913,7 +913,66 @@
               <a href="slides/ch05/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
               <a href="#" onclick="openVideo('eiffOVbYvNc','Introduction to Differences-in-Differences');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
-
+            <div class="podcast-launch-row">
+              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-5-podcast">
+                <span class="podcast-launch-icon" aria-hidden="true"><svg width="86.4" height="32" viewBox="0 0 54 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 12V9a7 7 0 0 1 14 0v3" stroke="white" stroke-width="1.3"/><rect x="10.5" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><rect x="22" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><text x="35" y="14" font-family="DejaVu Sans, Verdana, Geneva, sans-serif" font-size="11" fill="white">&#9654;</text></svg></span>
+                <span class="podcast-launch-label">Listen AI Podcast</span>
+              </button>
+            </div>
+            <noscript><a href="mindmaps-podcast/audio/ch05-differences-in-differences.mp3">Listen to the Chapter 5 podcast</a></noscript>
+            <section id="chapter-5-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch05-differences-in-differences.json" aria-label="Chapter 5 podcast study player" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Open the Differences-in-Differences mind map full screen" onclick="openImage('book/images/ch05_visual_summary.webp', 'Chapter 5 mind map: Differences-in-Differences')">
+                <img src="book/images/ch05_visual_summary.webp" alt="Differences-in-Differences mind map" loading="lazy">
+                <span>⊕ Mind map</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AI podcast · <span data-episode-minutes>32</span> min</p>
+                  <h5>Chapter 5 · Differences-in-Differences</h5>
+                  <p class="podcast-now" aria-live="polite">Now: Opening</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls preload="none" aria-label="Chapter 5 podcast">
+                  <source src="mindmaps-podcast/audio/ch05-differences-in-differences.mp3" type="audio/mpeg">
+                  Your browser does not support audio playback. Download the recording below.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Seek in podcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>31:55</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Back 15 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Play podcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Forward 30 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Playback speed: 1×. Click to change">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
+              <div class="podcast-transcript-actions" data-enhanced hidden>
+                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-5-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch05-differences-in-differences.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              </div>
+              <div id="chapter-5-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
+              </div>
+              <div class="podcast-downloads">
+                <a href="mindmaps-podcast/audio/ch05-differences-in-differences.mp3" download>Download audio</a>
+                <a href="mindmaps-podcast/transcripts/ch05-differences-in-differences.vtt" download>Timed transcript</a>
+              </div>
+              <p class="podcast-status" role="status"></p>
+            </section>
           </div>
           <!-- Chapter 6 -->
           <div class="card chapter-card">
@@ -927,17 +986,76 @@
             <div class="flex flex-wrap items-center gap-2">
               <a href="book/_book/notebooks_quarto/06-wages-of-schooling.html" target="_blank"><img src="book/images/book-badge.svg" alt="Open Book" class="h-8"></a>
               <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" target="_blank"><img src="book/images/colab-badge.svg" alt="Open In Colab" class="h-8"></a>
-            </div>
+          </div>
             <div class="flex flex-wrap items-center gap-2">
               <a href="slides/ch06/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
               <a href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
-
+            <div class="podcast-launch-row">
+              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-6-podcast">
+                <span class="podcast-launch-icon" aria-hidden="true"><svg width="86.4" height="32" viewBox="0 0 54 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 12V9a7 7 0 0 1 14 0v3" stroke="white" stroke-width="1.3"/><rect x="10.5" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><rect x="22" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><text x="35" y="14" font-family="DejaVu Sans, Verdana, Geneva, sans-serif" font-size="11" fill="white">&#9654;</text></svg></span>
+                <span class="podcast-launch-label">Listen AI Podcast</span>
+              </button>
+            </div>
+            <noscript><a href="mindmaps-podcast/audio/ch06-wages-of-schooling.mp3">Listen to the Chapter 6 podcast</a></noscript>
+            <section id="chapter-6-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch06-wages-of-schooling.json" aria-label="Chapter 6 podcast study player" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Open The Wages of Schooling mind map full screen" onclick="openImage('book/images/ch06_visual_summary.webp', 'Chapter 6 mind map: The Wages of Schooling')">
+                <img src="book/images/ch06_visual_summary.webp" alt="The Wages of Schooling mind map" loading="lazy">
+                <span>⊕ Mind map</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AI podcast · <span data-episode-minutes>46</span> min</p>
+                  <h5>Chapter 6 · The Wages of Schooling</h5>
+                  <p class="podcast-now" aria-live="polite">Now: Opening</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls preload="none" aria-label="Chapter 6 podcast">
+                  <source src="mindmaps-podcast/audio/ch06-wages-of-schooling.mp3" type="audio/mpeg">
+                  Your browser does not support audio playback. Download the recording below.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Seek in podcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>45:33</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Back 15 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Play podcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Forward 30 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Playback speed: 1×. Click to change">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
+              <div class="podcast-transcript-actions" data-enhanced hidden>
+                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-6-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              </div>
+              <div id="chapter-6-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
+              </div>
+              <div class="podcast-downloads">
+                <a href="mindmaps-podcast/audio/ch06-wages-of-schooling.mp3" download>Download audio</a>
+                <a href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.vtt" download>Timed transcript</a>
+              </div>
+              <p class="podcast-status" role="status"></p>
+            </section>
           </div>
       </div>
 
       <p class="text-center text-xs text-muted mt-8">
-        Podcasts and AI videos generated with <a href="https://notebooklm.google/" target="_blank" style="color: var(--blue);">NotebookLM</a> &middot; Lecture videos by <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color: var(--blue);">Marginal Revolution University</a>
+        Podcasts narrated with <a href="https://ai.google.dev/" target="_blank" style="color: var(--blue);">Gemini</a> &middot; AI videos generated with <a href="https://notebooklm.google/" target="_blank" style="color: var(--blue);">NotebookLM</a> &middot; Lecture videos by <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color: var(--blue);">Marginal Revolution University</a>
       </p>
     </div>
   </section>

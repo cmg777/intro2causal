@@ -1,0 +1,1125 @@
+{
+  "title": "The Wages of Schooling",
+  "duration": 2733.17,
+  "timing": "Script paragraphs aligned to local Whisper recognition; section boundaries from source audio chunks.",
+  "audio_sha256": "0d7d92817c28d2169c89b0e74194cb86b3b912f50484d9733a18b5462a2bc69c",
+  "sections": [
+    {
+      "title": "Opening",
+      "start": 0.0,
+      "segment": 0
+    },
+    {
+      "title": "The Question",
+      "start": 113.68,
+      "segment": 8
+    },
+    {
+      "title": "The Investigation",
+      "start": 449.46,
+      "segment": 30
+    },
+    {
+      "title": "The Resolution",
+      "start": 2242.8,
+      "segment": 140
+    },
+    {
+      "title": "Wrap-up",
+      "start": 2600.74,
+      "segment": 160
+    }
+  ],
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 11.44,
+      "speaker": "Host",
+      "text": "Welcome back. Today we are on education and earnings. Staying in school costs money and time. Can we tell whether the later pay increase really comes from school?"
+    },
+    {
+      "start": 11.44,
+      "end": 29.969,
+      "speaker": "Economist",
+      "text": "Think of two people with similar ambitions. One continues studying while the other starts earning immediately. Their later wages may differ for many reasons. School may build skills. Family resources may help both education and careers. Comparing their pay does not separate those explanations."
+    },
+    {
+      "start": 29.969,
+      "end": 42.24,
+      "speaker": "Host",
+      "text": "The broad comparison sounds persuasive, though. The mind map says college graduates earn roughly twice what high school graduates earn. If the gap is that large, surely education does something."
+    },
+    {
+      "start": 42.24,
+      "end": 58.48,
+      "speaker": "Economist",
+      "text": "That gap is a descriptive motivation, not an answer about causation. The people entering college may already have different earnings prospects. We need evidence about what changes when schooling itself changes. We also need to distinguish extra learning from receiving a diploma."
+    },
+    {
+      "start": 58.48,
+      "end": 60.667,
+      "speaker": "Host",
+      "text": "Does more education cause higher earnings?"
+    },
+    {
+      "start": 60.667,
+      "end": 84.72,
+      "speaker": "Economist",
+      "text": "By the end of this episode, you should be able to explain why ability and reporting mistakes can distort an earnings regression. You should also be able to assess the assumptions behind twins, birth timing, policy changes, and exam cutoffs. Finally, you should distinguish a return to more schooling from a return to a credential."
+    },
+    {
+      "start": 84.72,
+      "end": 90.624,
+      "speaker": "Host",
+      "text": "That sounds like a tour of the whole course. Will each method give us the same answer, or will they disagree?"
+    },
+    {
+      "start": 90.624,
+      "end": 112.48,
+      "speaker": "Economist",
+      "text": "Some results are close, and some ask different questions. Some designs also fail important checks. We will treat those failures as evidence about the method. Our mind map follows The Question, The Investigation, and The Resolution. Keep asking what comparison supplies the evidence, and whose causal effect it could reveal."
+    },
+    {
+      "start": 113.68,
+      "end": 124.12,
+      "speaker": "Host",
+      "text": "Let us begin The Question. If we cannot simply compare graduates with nongraduates, what should the comparison try to recover?"
+    },
+    {
+      "start": 124.12,
+      "end": 144.28,
+      "speaker": "Economist",
+      "text": "Start with the same person facing different educational paths. Imagine that person's earnings after more schooling, and after less schooling. The causal effect compares those possible outcomes. We observe only the path actually taken. A research design tries to construct a credible comparison for the missing path."
+    },
+    {
+      "start": 144.28,
+      "end": 153.88,
+      "speaker": "Host",
+      "text": "So the missing outcome is not the pay of just any person who left school earlier. It is what the more educated person would have earned with less education."
+    },
+    {
+      "start": 153.88,
+      "end": 174.08,
+      "speaker": "Economist",
+      "text": "Exactly. That distinction matters for a student deciding whether to continue and for a government funding education. Even a causal earnings increase is only part of that decision. Tuition and earnings given up during study are costs. Schooling may also have benefits beyond wages. Our evidence here focuses on earnings."
+    },
+    {
+      "start": 174.08,
+      "end": 179.24,
+      "speaker": "Host",
+      "text": "The naive Census comparison is our starting point. What does that actually measure?"
+    },
+    {
+      "start": 179.24,
+      "end": 204.08,
+      "speaker": "Economist",
+      "text": "In the 1980 Census sample used here, a simple regression associates an extra year of school with about 7 percent higher weekly earnings. A regression summarizes the pattern across many workers. Ordinary least squares, often shortened to OLS, chooses a line that fits that pattern. A precise line does not establish the cause of the pattern."
+    },
+    {
+      "start": 204.08,
+      "end": 212.84,
+      "speaker": "Host",
+      "text": "My prediction is that a huge sample should settle the question. If the relationship is measured very precisely, there cannot be much uncertainty left."
+    },
+    {
+      "start": 212.84,
+      "end": 237.52,
+      "speaker": "Economist",
+      "text": "Here is the first reveal: precision and causal validity answer different questions. A large sample can measure a biased comparison extremely well. We may know the education and wage association precisely while remaining uncertain about what extra education would cause. Ability, motivation, family networks, and accurate reporting still matter."
+    },
+    {
+      "start": 237.87,
+      "end": 245.37,
+      "speaker": "Host",
+      "text": "And the outcome is weekly earnings. That matters if we later compare it with hourly wages or annual earnings."
+    },
+    {
+      "start": 245.37,
+      "end": 263.77,
+      "speaker": "Economist",
+      "text": "Yes. Those outcomes need not move identically. Annual earnings include differences in time worked during the year. Hourly wages focus on pay per hour. We will announce sample and outcome changes rather than interpret every estimate as a correction to the same regression."
+    },
+    {
+      "start": 263.77,
+      "end": 272.27,
+      "speaker": "Host",
+      "text": "The map next promises one question and all five tools. Should I think of a ladder where every later method is automatically better?"
+    },
+    {
+      "start": 272.27,
+      "end": 297.07,
+      "speaker": "Economist",
+      "text": "Think of a collection of comparisons, each chosen for a particular problem. Random assignment supplies a benchmark. Regression adjusts for measured differences. Instrumental variables use an outside influence on schooling. Regression discontinuity compares people near a rule's cutoff. Differences in differences compares changes across groups. None automatically dominates the others."
+    },
+    {
+      "start": 297.07,
+      "end": 303.17,
+      "speaker": "Host",
+      "text": "We also compare twins. That sounds like matching people more closely before using regression."
+    },
+    {
+      "start": 303.17,
+      "end": 324.17,
+      "speaker": "Economist",
+      "text": "It uses family comparisons to remove characteristics shared within a twin pair. But the remaining differences may be noisy. An instrument can sometimes address that noise. The methods can work together. We must still ask whether their assumptions hold and whether they estimate the same effect."
+    },
+    {
+      "start": 324.17,
+      "end": 331.07,
+      "speaker": "Host",
+      "text": "Before the investigation, please unpack the vocabulary. What does a return to schooling mean here?"
+    },
+    {
+      "start": 331.07,
+      "end": 352.95,
+      "speaker": "Economist",
+      "text": "It means the earnings change caused by an additional year of education. The models often use the logarithm of earnings. A logarithm expresses earnings on a scale suited to proportional changes. For coefficients of this size, multiplying by a hundred gives an approximate percentage change. It is not an exact percentage conversion."
+    },
+    {
+      "start": 353.3,
+      "end": 361.3,
+      "speaker": "Host",
+      "text": "Is that return the same as an annual interest rate on tuition? That is what the word return makes me imagine."
+    },
+    {
+      "start": 361.3,
+      "end": 381.62,
+      "speaker": "Economist",
+      "text": "No. Here it is a wage increase per additional year of schooling. It is not a complete investment calculation. A financial comparison would need educational costs, forgone earnings, later earnings paths, and timing. Calling the wage coefficient a return does not make those costs disappear."
+    },
+    {
+      "start": 381.62,
+      "end": 392.34,
+      "speaker": "Host",
+      "text": "And ability bias means school receives credit for advantages students already had. Measurement error means we record their schooling incorrectly. What is the reliability ratio?"
+    },
+    {
+      "start": 392.34,
+      "end": 414.86,
+      "speaker": "Economist",
+      "text": "It is the share of observed schooling variation that reflects genuine schooling differences under a particular reporting-error model. The rest reflects noise. Human capital means productive skills developed through education. Signaling means education can communicate information about a worker to employers. A sheepskin effect is an extra payoff from the credential itself."
+    },
+    {
+      "start": 414.86,
+      "end": 428.14,
+      "speaker": "Host",
+      "text": "Those theories can coexist, then. Education might build skills and communicate something useful. Testing a diploma alone does not settle every question about either mechanism."
+    },
+    {
+      "start": 428.14,
+      "end": 448.26,
+      "speaker": "Economist",
+      "text": "That is our Question recap. A wage gap motivates the study but does not identify an effect. Precision does not remove selection bias. We need comparisons with defensible assumptions, and we must distinguish years of education from credentials. Now we can investigate what each comparison contributes."
+    },
+    {
+      "start": 449.46,
+      "end": 460.76,
+      "speaker": "Host",
+      "text": "The Investigation begins with ability bias. Suppose ability helps someone learn and also helps them earn. What happens when our regression leaves ability out?"
+    },
+    {
+      "start": 460.76,
+      "end": 483.46,
+      "speaker": "Economist",
+      "text": "The schooling coefficient may absorb both effects. The omitted-variable reasoning has two pieces. How strongly does ability predict earnings after accounting for schooling? And how does ability vary with schooling? When both relationships are positive, leaving ability out makes the schooling association larger than the more controlled comparison."
+    },
+    {
+      "start": 483.46,
+      "end": 490.76,
+      "speaker": "Host",
+      "text": "But someone talented might leave school because an unusually good career opportunity arrives. Does that reverse the argument?"
+    },
+    {
+      "start": 490.76,
+      "end": 513.36,
+      "speaker": "Economist",
+      "text": "It can reverse the relevant association. The book uses Mick Jagger's departure from the London School of Economics and Johan Harmenberg's departure from MIT. Their outside opportunities remind us that earnings potential has many forms. Such examples do not establish the average direction of bias. They show why its direction requires evidence."
+    },
+    {
+      "start": 513.36,
+      "end": 518.36,
+      "speaker": "Host",
+      "text": "Could we measure ability with an intelligence test and simply control for it?"
+    },
+    {
+      "start": 518.36,
+      "end": 539.36,
+      "speaker": "Economist",
+      "text": "The original chapter discusses that approach. Griliches found a lower schooling coefficient after adding an intelligence measure. But a test does not capture every trait affecting earnings. Worse, a test taken after substantial schooling may itself be affected by education. Holding it fixed could remove part of the benefit we seek."
+    },
+    {
+      "start": 539.36,
+      "end": 547.36,
+      "speaker": "Host",
+      "text": "So even a variable called ability needs a timing check. A label does not tell us whether the variable came before education."
+    },
+    {
+      "start": 547.36,
+      "end": 569.36,
+      "speaker": "Economist",
+      "text": "Right. There is another complication: reporting errors in schooling can make controlled estimates too small. Removing genuine schooling variation with additional controls can leave a larger share of noise. We will explain that mechanism carefully with twins. A falling coefficient after controls is not, by itself, proof that we removed ability bias."
+    },
+    {
+      "start": 569.36,
+      "end": 579.36,
+      "speaker": "Host",
+      "text": "The map reports about 11 percent after demographic controls among Twinsburg twins. Is that the Census estimate after adding a few extra variables?"
+    },
+    {
+      "start": 579.36,
+      "end": 600.36,
+      "speaker": "Economist",
+      "text": "It is a different sample. The twins regression controls for age and demographic characteristics. Its estimate remains about 11 percent, but that does not prove those controls captured ability. We must not compare it with the Census estimate as if only the controls changed. Both the people and the specification differ."
+    },
+    {
+      "start": 600.36,
+      "end": 607.34,
+      "speaker": "Host",
+      "text": "What about the companion's simulation? It lets us observe ability, which the real research cannot do fully."
+    },
+    {
+      "start": 607.69,
+      "end": 637.69,
+      "speaker": "Economist",
+      "text": "That is a classroom demonstration, not another empirical study in the book. The simulation sets a true total coefficient near 0.09. A regression omitting ability gives roughly 0.12. The companion describes the excess as about 40 percent using its less rounded estimates. That percentage is an approximate simulation comparison, not an estimate of real-world ability bias."
+    },
+    {
+      "start": 637.69,
+      "end": 647.29,
+      "speaker": "Host",
+      "text": "Using the rounded coefficients directly would not reproduce that exact percentage. I should treat the simulation as a controlled demonstration of a possible bias."
+    },
+    {
+      "start": 647.29,
+      "end": 665.45,
+      "speaker": "Economist",
+      "text": "Exactly. Its main value is that we know how the simulated data were constructed. In actual wage data, we do not know all the causes of schooling choices. A simulation demonstrates an argument; it does not verify that argument's assumptions in an actual population."
+    },
+    {
+      "start": 665.45,
+      "end": 672.81,
+      "speaker": "Host",
+      "text": "Could occupation be a useful control? People in different occupations earn different amounts and tend to have different education."
+    },
+    {
+      "start": 672.81,
+      "end": 697.05,
+      "speaker": "Economist",
+      "text": "Occupation is a bad control when we want schooling's total effect. Education may open access to a better-paying job. Holding occupation fixed removes that real pathway. It can also create a misleading comparison within an occupation. People reaching that occupation without college may differ from those who needed college to enter it."
+    },
+    {
+      "start": 697.05,
+      "end": 705.45,
+      "speaker": "Host",
+      "text": "Can that second problem happen even if education were randomly assigned? I thought random assignment protected every later comparison."
+    },
+    {
+      "start": 705.45,
+      "end": 732.17,
+      "speaker": "Economist",
+      "text": "It protects the original treatment and comparison groups on average. It does not protect groups formed afterward using an outcome of treatment. The book gives a hypothetical workforce where college helps some workers enter professional jobs. Among professional workers, nongraduates then come from a different mix of worker types than graduates. Conditioning on the later job destroys the original balance."
+    },
+    {
+      "start": 732.17,
+      "end": 741.13,
+      "speaker": "Host",
+      "text": "Then good controls are not simply variables that predict wages. We need to ask when they were determined and how education could affect them."
+    },
+    {
+      "start": 741.13,
+      "end": 772.33,
+      "speaker": "Economist",
+      "text": "Yes. The original chapter makes a related caution about potential work experience. It is commonly calculated from age and schooling, assuming people work after finishing school. Schooling itself changes that calculation. Early Mincer regressions used it to describe experience profiles, but its causal interpretation requires care. Using age instead targets an effect that includes differences in potential experience."
+    },
+    {
+      "start": 772.33,
+      "end": 782.57,
+      "speaker": "Host",
+      "text": "Next comes the experimental benchmark. Why not run a randomized controlled trial, assigning some people more education and others less?"
+    },
+    {
+      "start": 782.92,
+      "end": 807.92,
+      "speaker": "Economist",
+      "text": "Forcing children's entire educational paths would raise ethical and practical problems. That does not mean every education experiment is impossible. Researchers can sometimes randomize offers or access. But an offer and an extra year of schooling are different treatments. We must explain how an offer changes schooling before interpreting its earnings effect."
+    },
+    {
+      "start": 807.92,
+      "end": 814.92,
+      "speaker": "Host",
+      "text": "The scholarship lottery in the companion is synthetic, correct? We are imagining an experiment rather than reporting a book finding."
+    },
+    {
+      "start": 814.92,
+      "end": 834.92,
+      "speaker": "Economist",
+      "text": "Correct. In that simulation, a random scholarship offer adds roughly 2 years of schooling. Scaling the offer's earnings effect by its schooling effect recovers a coefficient near the imposed 0.08. This division is called the Wald ratio. Its logic will reappear in the real studies."
+    },
+    {
+      "start": 834.92,
+      "end": 842.92,
+      "speaker": "Host",
+      "text": "Random assignment tells us the effect of offering the scholarship. What extra condition lets us call the scaled effect a return to schooling?"
+    },
+    {
+      "start": 842.92,
+      "end": 868.92,
+      "speaker": "Economist",
+      "text": "The offer must influence earnings only through schooling, for this interpretation. That is the exclusion restriction. If the scholarship also supplies job contacts or directly changes later earnings through debt relief, the ratio could mix pathways. A meaningful schooling response is also essential. With varying effects, we need further assumptions about whose schooling changes."
+    },
+    {
+      "start": 868.92,
+      "end": 875.92,
+      "speaker": "Host",
+      "text": "Now we reach the twin comparisons. How does a festival in Ohio become a research design?"
+    },
+    {
+      "start": 875.92,
+      "end": 901.92,
+      "speaker": "Economist",
+      "text": "Researchers collected schooling and earnings information from identical twins at the Twinsburg festival. There were 340 pairs. Identical twins share genes, and often share childhood surroundings. Comparing their differences removes whatever is identical within each pair. We ask whether the twin with more schooling also earns more, rather than comparing unrelated families."
+    },
+    {
+      "start": 901.92,
+      "end": 910.92,
+      "speaker": "Host",
+      "text": "My prediction is that removing shared ability should lower the coefficient. If the estimate falls, have we finally isolated the education effect?"
+    },
+    {
+      "start": 910.92,
+      "end": 935.92,
+      "speaker": "Economist",
+      "text": "The reveal is that it does fall, to about 6 percent. But the fall alone does not tell us why. Shared background disappears, while personal experiences can still differ. A twin's health, motivation, or opportunities may affect both education and earnings. The causal interpretation needs those remaining differences to be harmless for the schooling comparison."
+    },
+    {
+      "start": 935.92,
+      "end": 947.92,
+      "speaker": "Host",
+      "text": "The image also warns that shared genes and upbringing do not imply identical unshared ability. So being twins helps without making education random."
+    },
+    {
+      "start": 947.92,
+      "end": 968.04,
+      "speaker": "Economist",
+      "text": "Exactly. A twin fixed effect is a way to remove pair-specific factors. With a pair, subtracting one twin's data from the other's achieves the same comparison. It does not erase causes that differ within the pair. And it creates a serious measurement problem when true schooling differences are small."
+    },
+    {
+      "start": 968.39,
+      "end": 977.39,
+      "speaker": "Host",
+      "text": "What does small reporting error do? If someone rounds their education up or down, should the mistakes not cancel across people?"
+    },
+    {
+      "start": 977.39,
+      "end": 1002.99,
+      "speaker": "Economist",
+      "text": "Average cancellation does not remove attenuation bias. Under the classical model, reporting mistakes average to zero and are unrelated to true schooling and unexplained earnings. They add variation to measured schooling without adding a corresponding earnings relationship. The fitted slope moves toward zero because some recorded differences contain no genuine educational information."
+    },
+    {
+      "start": 1002.99,
+      "end": 1009.99,
+      "speaker": "Host",
+      "text": "That conclusion depends on the reporting-error model. Deliberate exaggeration related to earnings might behave differently."
+    },
+    {
+      "start": 1009.99,
+      "end": 1036.49,
+      "speaker": "Economist",
+      "text": "Yes. The direction is not universal for every kind of error. The appendix analyzes a particular model with independent noise. Under that model, the observed slope equals the desired slope multiplied by a reliability ratio. If reliability is 0.5, the measured slope is half its error-free value. That is a hypothetical explanation, not a measured reliability for every dataset."
+    },
+    {
+      "start": 1036.49,
+      "end": 1045.99,
+      "speaker": "Host",
+      "text": "Why is the problem especially serious for differences between twins? We have not made their individual reports less accurate by subtracting them."
+    },
+    {
+      "start": 1045.99,
+      "end": 1073.99,
+      "speaker": "Economist",
+      "text": "We have removed much of the genuine between-family variation. Twins often have similar schooling, so the remaining true differences are small. Reporting mistakes need not shrink along with them. Noise therefore becomes larger relative to the remaining signal. In an extreme hypothetical case, all twins have identical true schooling. Then every recorded within-pair difference is just reporting error."
+    },
+    {
+      "start": 1073.99,
+      "end": 1081.99,
+      "speaker": "Host",
+      "text": "That connects to the appendix's warning about adding controls. Controls can remove meaningful variation while leaving the measurement noise behind."
+    },
+    {
+      "start": 1081.99,
+      "end": 1105.99,
+      "speaker": "Economist",
+      "text": "Exactly. Under its assumptions, controls related to true schooling reduce the signal left for estimation. If they are unrelated to reporting errors, they do not similarly remove the noise. This makes attenuation worse. Twin comparisons are an especially clear example. More detailed adjustment can improve selection problems while worsening measurement problems."
+    },
+    {
+      "start": 1105.99,
+      "end": 1112.99,
+      "speaker": "Host",
+      "text": "How did the researchers try to separate signal from noise without knowing each twin's true education?"
+    },
+    {
+      "start": 1112.99,
+      "end": 1132.99,
+      "speaker": "Economist",
+      "text": "Each twin reported both their own schooling and their sibling's schooling. A sibling's report can track genuine schooling while having different errors. That report becomes an instrument for the self-report. It must predict the self-report through true schooling and remain unrelated to the self-report's mistakes and unexplained earnings."
+    },
+    {
+      "start": 1132.99,
+      "end": 1140.91,
+      "speaker": "Host",
+      "text": "That sounds demanding. Twins might remember the same family story incorrectly. Their errors would then be connected."
+    },
+    {
+      "start": 1141.26,
+      "end": 1167.42,
+      "speaker": "Economist",
+      "text": "Shared mistakes would undermine the correction. Under the required independence assumptions, the instrument focuses on variation related to true schooling. Dividing its earnings relationship by its self-report relationship removes attenuation. With controls or twin differences, the same argument applies to the remaining variation, provided the instrument remains valid there."
+    },
+    {
+      "start": 1167.42,
+      "end": 1172.06,
+      "speaker": "Host",
+      "text": "What happens to the estimates after using the sibling reports?"
+    },
+    {
+      "start": 1172.06,
+      "end": 1198.06,
+      "speaker": "Economist",
+      "text": "Using individual twins before taking within-pair differences, the corrected estimate is about 12 percent. Using the differences within each pair, it is about 11 percent. Those estimates are much closer than the corresponding uncorrected estimates. That weakens a simple story in which ability bias explains the entire original fall. It does not prove ability bias is absent."
+    },
+    {
+      "start": 1198.06,
+      "end": 1207.74,
+      "speaker": "Host",
+      "text": "And the people attending a twins festival are self-selected. Even a valid within-sample comparison may not describe every worker elsewhere."
+    },
+    {
+      "start": 1207.74,
+      "end": 1232.38,
+      "speaker": "Economist",
+      "text": "Right. We should distinguish internal validity, whether the comparison identifies an effect for these people, from generalization to others. We also need uncertainty around the estimates. The corrected twin-difference estimate is less precise than the original estimate using individual twins. A point estimate alone cannot resolve all these issues."
+    },
+    {
+      "start": 1232.38,
+      "end": 1241.842,
+      "speaker": "Host",
+      "text": "Let us move to the quarter-of-birth instrument. How can a birthday change someone's schooling rather than merely their birthday celebration?"
+    },
+    {
+      "start": 1241.842,
+      "end": 1262.62,
+      "speaker": "Economist",
+      "text": "Angrist and Krueger used school-entry rules together with compulsory attendance laws. In the historical setting, children born later in the year could start school at younger ages. Laws often allowed leaving at 16. Someone starting younger could complete more school before reaching the legal leaving age."
+    },
+    {
+      "start": 1262.62,
+      "end": 1277.58,
+      "speaker": "Host",
+      "text": "The relevant study uses the 1980 Census and 329,509 men born from 1930 to 1939. So these are historical cohorts, not all students in today's education system."
+    },
+    {
+      "start": 1277.58,
+      "end": 1301.1,
+      "speaker": "Economist",
+      "text": "Correct. The book explains the mechanism through Jae and Dante, hypothetical students facing those rules. Both want to leave as soon as the law permits. The younger entrant gets further through school before becoming old enough to leave. Many college-bound students would stay regardless, so the average schooling difference is much smaller than the change for an affected dropout."
+    },
+    {
+      "start": 1301.1,
+      "end": 1309.5,
+      "speaker": "Host",
+      "text": "The map names the Angrist and Krueger study from 1991. What actual groups does the simple instrument comparison use?"
+    },
+    {
+      "start": 1309.5,
+      "end": 1330.42,
+      "speaker": "Economist",
+      "text": "It compares men born in the fourth quarter with men born in the earlier quarters. It does not compare only the fourth quarter with the first. The first stage is the instrument's schooling difference. The reduced form is its earnings difference. If the assumptions hold, their ratio estimates an earnings effect per additional year of schooling."
+    },
+    {
+      "start": 1330.77,
+      "end": 1335.97,
+      "speaker": "Host",
+      "text": "Let us work through that ratio slowly. Which numbers go into the calculation?"
+    },
+    {
+      "start": 1335.97,
+      "end": 1358.97,
+      "speaker": "Economist",
+      "text": "The first-stage schooling difference is 0.0921 years. The reduced-form difference is 0.0068 in log weekly earnings. The latter corresponds to approximately seven-tenths of a percent higher earnings. We divide the log-earnings difference by the schooling difference. That puts the effect on a per-year scale."
+    },
+    {
+      "start": 1358.97,
+      "end": 1374.57,
+      "speaker": "Host",
+      "text": "So I divide 0.0068 by 0.0921. The result is about 0.074. Multiplying that coefficient by a hundred gives approximately 7.4 percent per additional year of schooling."
+    },
+    {
+      "start": 1374.57,
+      "end": 1395.37,
+      "speaker": "Economist",
+      "text": "That is the worked result: about 7.4 percent. The small average education difference is not a reason to skip the scaling. It is the reason scaling matters. Two-stage least squares implements this instrumental-variable comparison and can also include controls. With this simple instrument and no extra controls, it gives the same ratio."
+    },
+    {
+      "start": 1395.37,
+      "end": 1402.37,
+      "speaker": "Host",
+      "text": "What must be true beyond having a nonzero first stage? A birthday cannot literally be a controlled experiment."
+    },
+    {
+      "start": 1402.37,
+      "end": 1425.17,
+      "speaker": "Economist",
+      "text": "We need birth quarter to be unrelated to other determinants of potential earnings, after the chosen controls. We also need birth quarter to affect earnings only through schooling. Seasonal differences in family background threaten independence. Effects of school-entry age on later earnings, separate from years completed, threaten exclusion."
+    },
+    {
+      "start": 1425.17,
+      "end": 1430.17,
+      "speaker": "Host",
+      "text": "Does the original chapter ignore those concerns because birthdays are hard to choose?"
+    },
+    {
+      "start": 1430.17,
+      "end": 1454.57,
+      "speaker": "Economist",
+      "text": "No. It discusses evidence on seasonal maternal characteristics. Their pattern does not match the pattern in schooling and wages in a way that explains away the result. Adding maternal characteristics moderately raises the estimates. It also discusses school-starting age. The checks support the design, but they cannot logically prove independence or exclusion."
+    },
+    {
+      "start": 1454.57,
+      "end": 1459.17,
+      "speaker": "Host",
+      "text": "Could adding more quarter indicators settle everything by improving precision?"
+    },
+    {
+      "start": 1459.17,
+      "end": 1482.37,
+      "speaker": "Economist",
+      "text": "More instruments can improve precision while also changing estimates. The original reports a larger estimate using several birth-quarter indicators. Each added instrument still needs a valid causal argument. Strong prediction helps with weak-instrument problems. It cannot establish that the instrument has no other path to earnings."
+    },
+    {
+      "start": 1482.37,
+      "end": 1491.17,
+      "speaker": "Host",
+      "text": "Whose return does this comparison describe? I doubt compulsory dropout laws tell us the value of a doctorate for someone determined to earn it."
+    },
+    {
+      "start": 1491.17,
+      "end": 1521.81,
+      "speaker": "Economist",
+      "text": "Under the relevant monotonicity assumption, the interpretation concerns schooling increases induced by the birth-quarter mechanism. Monotonicity rules out responses in the opposite direction to the proposed push. With years of schooling, effects may be weighted across affected schooling margins. The useful beginner's interpretation is local: it concerns would-be dropouts whose schooling changed, not a universal return for every student."
+    },
+    {
+      "start": 1522.16,
+      "end": 1530.8,
+      "speaker": "Host",
+      "text": "The next strategy uses child labor laws. The map calls them school-entry ages. Is that the right interpretation of its categories?"
+    },
+    {
+      "start": 1530.8,
+      "end": 1553.52,
+      "speaker": "Economist",
+      "text": "There is an important correction here. In the original study, 7, 8, and 9 refer to years of schooling required before work was allowed. They are not ages by which children had to start school. The laws connect educational completion to legal work eligibility. That distinction changes the mechanism we are trying to evaluate."
+    },
+    {
+      "start": 1553.52,
+      "end": 1560.24,
+      "speaker": "Host",
+      "text": "How do Acemoglu and Angrist keep regional wage differences from masquerading as effects of those laws?"
+    },
+    {
+      "start": 1560.24,
+      "end": 1585.52,
+      "speaker": "Economist",
+      "text": "They compare variation across states and birth cohorts, controlling for state of birth, birth cohort, and census year. State effects remove persistent state differences. Cohort effects remove common differences across generations. Census-year effects account for common differences across observation years. The design therefore combines policy instruments with differences-in-differences reasoning."
+    },
+    {
+      "start": 1585.52,
+      "end": 1596.4,
+      "speaker": "Host",
+      "text": "The companion reports an ordinary regression near 7 percent and an instrument estimate near 13 percent. Are those the original book's exact results?"
+    },
+    {
+      "start": 1596.4,
+      "end": 1617.68,
+      "speaker": "Economist",
+      "text": "They are companion estimates from its grouped-data specification. The original baseline instrument estimate is about 12 percent, with an ordinary regression near seven and a half percent. We should not silently replace one with the other. More importantly, neither baseline comparison is the end of the original investigation."
+    },
+    {
+      "start": 1617.68,
+      "end": 1624.72,
+      "speaker": "Host",
+      "text": "The map emphasizes a weak first stage, with a test statistic below 10. Is that its main warning?"
+    },
+    {
+      "start": 1624.72,
+      "end": 1644.88,
+      "speaker": "Economist",
+      "text": "The companion's instrument-strength diagnostic is below that familiar rule of thumb. Such a diagnostic concerns how much useful schooling variation the instruments supply. It does not test the exclusion restriction. The original chapter goes further by allowing states to have different underlying trends across birth cohorts."
+    },
+    {
+      "start": 1644.88,
+      "end": 1649.52,
+      "speaker": "Host",
+      "text": "Why would those trends matter if we already have state and cohort controls?"
+    },
+    {
+      "start": 1649.52,
+      "end": 1676.72,
+      "speaker": "Economist",
+      "text": "State controls remove fixed gaps. Cohort controls remove common changes. Neither automatically removes a state's distinct growth path. Southern states, for example, experienced large economic changes alongside changes in social legislation. Wage growth could reflect those other developments instead of the schooling laws. A state-specific trend tries to allow that additional pattern."
+    },
+    {
+      "start": 1676.72,
+      "end": 1684.72,
+      "speaker": "Host",
+      "text": "And what happens when the original analysis allows those trends? Is it simply less precise because the model became more complicated?"
+    },
+    {
+      "start": 1684.72,
+      "end": 1709.44,
+      "speaker": "Economist",
+      "text": "The schooling first stage becomes much smaller, with smaller standard errors. That is important: the loss of significance is not simply lost precision. The reduced-form wage relationships also become small. The resulting instrument estimate is unstable and very imprecise. The book treats this as a failed research design, not independent confirmation of the baseline schooling return."
+    },
+    {
+      "start": 1709.79,
+      "end": 1720.91,
+      "speaker": "Host",
+      "text": "That is a stronger lesson than just saying the larger return has wide error bars. The variation supplying the original causal argument does not survive the trend check."
+    },
+    {
+      "start": 1720.91,
+      "end": 1743.15,
+      "speaker": "Economist",
+      "text": "Exactly. The result does not prove compulsory education can never matter. It means this comparison does not establish the claimed effect robustly. For policy, that is a reason to improve the design before treating a baseline estimate as a reliable forecast. A favorable point estimate cannot repair an unsupported counterfactual."
+    },
+    {
+      "start": 1743.15,
+      "end": 1751.95,
+      "speaker": "Host",
+      "text": "Next comes the Texas diploma cutoff. Does this ask whether another year of education raises pay, or whether having the diploma itself matters?"
+    },
+    {
+      "start": 1751.95,
+      "end": 1772.39,
+      "speaker": "Economist",
+      "text": "Clark and Martorell's study asks about the credential. Students had completed required coursework but still needed to pass an exit exam. Researchers studied students taking a last-chance exam near the end of high school. Students just above and below its passing threshold had similar scores but different chances of receiving a diploma."
+    },
+    {
+      "start": 1772.39,
+      "end": 1782.337,
+      "speaker": "Host",
+      "text": "The map dates the study to 2014 and mentions 46 score bins in the companion data. What is a score bin?"
+    },
+    {
+      "start": 1782.337,
+      "end": 1805.15,
+      "speaker": "Economist",
+      "text": "It groups observations at a score value for the classroom display and analysis. It does not mean only 46 students were studied. The running variable is exam score relative to the pass mark. Regression discontinuity looks for a sudden outcome change at that threshold, allowing outcomes to vary smoothly with scores otherwise."
+    },
+    {
+      "start": 1805.15,
+      "end": 1813.39,
+      "speaker": "Host",
+      "text": "The map says passing raises diploma receipt by about 40 percentage points. Why does that make this a fuzzy regression discontinuity?"
+    },
+    {
+      "start": 1813.39,
+      "end": 1840.83,
+      "speaker": "Economist",
+      "text": "Because crossing the pass mark changes the chance of a diploma without perfectly determining diploma receipt. Some students who initially fail pass later. Some who pass still lack another requirement. The original describes an increase from around half receiving a diploma to over nine-tenths. The companion's fitted jump is around 40 percentage points. The precise jump depends on the reported specification."
+    },
+    {
+      "start": 1840.83,
+      "end": 1850.67,
+      "speaker": "Host",
+      "text": "That is an absolute probability change, not a 40 percent proportional increase. And the earnings jump from passing is different from the effect of actually receiving a diploma."
+    },
+    {
+      "start": 1850.67,
+      "end": 1870.83,
+      "speaker": "Economist",
+      "text": "Exactly. The passing indicator plays the role of an instrument. Its diploma jump is the first stage. Its earnings jump is the reduced form. Dividing the earnings jump by the diploma jump gives a local credential-effect estimate, if passing affects earnings only through the diploma and other conditions hold."
+    },
+    {
+      "start": 1871.18,
+      "end": 1879.26,
+      "speaker": "Host",
+      "text": "What conditions keep students just above and below the cutoff comparable? Test scores themselves are related to future earnings."
+    },
+    {
+      "start": 1879.26,
+      "end": 1903.26,
+      "speaker": "Economist",
+      "text": "The design does not require scores to be unrelated to earnings. It requires potential outcomes to change smoothly at the passing threshold without the credential change. Other treatments must not also jump there. Precise sorting around the pass mark would threaten comparability. The relevant comparison is close to the cutoff, not across all high and low scores."
+    },
+    {
+      "start": 1903.26,
+      "end": 1911.66,
+      "speaker": "Host",
+      "text": "If diploma holders continue to college, looking immediately after the exam could miss the later payoff. Does the study allow time for that?"
+    },
+    {
+      "start": 1911.66,
+      "end": 1935.26,
+      "speaker": "Economist",
+      "text": "Yes. The original follows earnings far enough after high school for that issue to matter less. Its highlighted outcome is average annual earnings, including zeros for nonworkers. This differs from the log weekly earnings in the Census comparisons. The book's estimated diploma effect is 52 dollars, with a standard error of about 630 dollars."
+    },
+    {
+      "start": 1935.26,
+      "end": 1945.58,
+      "speaker": "Host",
+      "text": "With average annual earnings around 13,000 dollars, that point estimate is small. But the standard error is much larger than the estimated effect."
+    },
+    {
+      "start": 1945.58,
+      "end": 1970.54,
+      "speaker": "Economist",
+      "text": "Precisely. The confidence interval also allows an earnings benefit approaching 10 percent. The study weighs against a large, precisely estimated credential premium in this setting. It does not prove the diploma has exactly no effect. The companion's small earnings jump at passing is a different quantity and fit, not the original's diploma-effect estimate."
+    },
+    {
+      "start": 1970.54,
+      "end": 1982.3,
+      "speaker": "Host",
+      "text": "Then I cannot conclude that signaling never matters, or that every benefit of school must come from skills. This concerns a particular credential among students near a particular threshold."
+    },
+    {
+      "start": 1982.3,
+      "end": 2001.74,
+      "speaker": "Economist",
+      "text": "Correct. Skills and signals can coexist. This comparison helps isolate a credential margin, but cannot partition the entire education premium into mechanisms. Nor does it measure the effect of eliminating a year of instruction. The treatment, population, and uncertainty all limit the conclusion."
+    },
+    {
+      "start": 2001.74,
+      "end": 2010.3,
+      "speaker": "Host",
+      "text": "Our final map strategy is differences in differences using a schooling reform. Are these historical state outcomes from the book?"
+    },
+    {
+      "start": 2010.3,
+      "end": 2029.94,
+      "speaker": "Economist",
+      "text": "This particular dataset is a synthetic classroom exercise. It imagines a reform in 10 of 20 states in 2005. The comparison states supply a model of what would have happened without reform. The simulation is designed to show the logic clearly. It is not another historical finding corroborating the book."
+    },
+    {
+      "start": 2030.29,
+      "end": 2036.45,
+      "speaker": "Host",
+      "text": "Explain the comparison without equations. I want to understand what changes we subtract."
+    },
+    {
+      "start": 2036.45,
+      "end": 2058.494,
+      "speaker": "Economist",
+      "text": "First compare schooling after reform with schooling before reform in the reform states. Then subtract the change in the comparison states. That gives a reform effect on schooling under parallel trends. Repeat the same operation for log earnings. Finally divide the earnings effect by the schooling effect to obtain a per-year ratio."
+    },
+    {
+      "start": 2058.494,
+      "end": 2066.21,
+      "speaker": "Host",
+      "text": "Parallel trends means the groups would have changed similarly without reform. It does not mean their levels must be identical before reform."
+    },
+    {
+      "start": 2066.21,
+      "end": 2088.21,
+      "speaker": "Economist",
+      "text": "Exactly. We need a credible counterfactual trend for each outcome. Similar observed trends before reform can support that argument but cannot prove it afterward. To interpret the ratio as an effect of schooling, the reform must influence earnings only through schooling. A reform tied to another economic policy could violate that restriction."
+    },
+    {
+      "start": 2088.21,
+      "end": 2098.05,
+      "speaker": "Host",
+      "text": "This sounds like the same kind of policy variation as the child labor strategy. Are we counting it twice as separate confirmation?"
+    },
+    {
+      "start": 2098.05,
+      "end": 2120.45,
+      "speaker": "Economist",
+      "text": "We should not. The methods have a close connection: differences in differences can supply an instrument's schooling and earnings comparisons. But the companion simulation is not the same dataset as the historical child labor study. Their mathematical connection explains a design. It does not provide an additional independent empirical vote for the return."
+    },
+    {
+      "start": 2120.45,
+      "end": 2132.13,
+      "speaker": "Host",
+      "text": "We have reached the synthesis of the methods. The map places returns around 7 to 10 percent. How can we keep that useful summary without hiding the disagreements?"
+    },
+    {
+      "start": 2132.13,
+      "end": 2157.004,
+      "speaker": "Economist",
+      "text": "Separate the questions first. Census and birth-quarter comparisons address schooling years. Twins offer related evidence with special selection and reporting assumptions. The child labor baseline fails an important trend check. The diploma cutoff addresses a credential. The simulated exercises teach mechanics. These are not five independent estimates of one identical treatment for one population."
+    },
+    {
+      "start": 2157.004,
+      "end": 2170.45,
+      "speaker": "Host",
+      "text": "So I should not average the diploma estimate with the birth-quarter percentage, or treat simulated agreement as new evidence. What remains of the original chapter's broad conclusion?"
+    },
+    {
+      "start": 2170.45,
+      "end": 2195.81,
+      "speaker": "Economist",
+      "text": "Its schooling evidence supports a meaningful causal earnings benefit, with roughly 7 to 10 percent per extra year as a useful chapter-level summary. That is not a universal constant or a common confidence interval. The corrected twin estimates are somewhat higher. Similarity between ordinary regression and instrumental variables can reflect offsetting biases, different affected groups, or uncertainty."
+    },
+    {
+      "start": 2196.16,
+      "end": 2223.96,
+      "speaker": "Host",
+      "text": "Let me recap The Investigation. Ability differences can distort regressions, and later outcomes can be bad controls. Twins remove shared factors but make reporting errors more important. Instruments need relevance and credible causal restrictions. The Texas cutoff concerns credentials. Policy comparisons need valid counterfactual trends, and the original child labor design fails its trend check."
+    },
+    {
+      "start": 2223.96,
+      "end": 2241.6,
+      "speaker": "Economist",
+      "text": "Good. Keep the final distinction too: simulations help us understand identification, but they do not supply independent real-world evidence. Our strongest conclusion combines substantive findings with their assumptions and limits. We are now ready for The Resolution."
+    },
+    {
+      "start": 2242.8,
+      "end": 2254.8,
+      "speaker": "Host",
+      "text": "The Resolution starts with the devil's advocate. I predict the lowest twin estimate is the safest. We removed shared ability, so surely the smallest result has the least bias."
+    },
+    {
+      "start": 2254.8,
+      "end": 2280.8,
+      "speaker": "Economist",
+      "text": "The final reveal is that lower can be further from the target. Measurement noise pushes the within-twin estimate toward zero under the classical assumptions. Removing shared differences also reduces genuine schooling variation. The observed decline therefore combines changes in selection bias with changes in attenuation. We cannot rank credibility by ranking coefficients."
+    },
+    {
+      "start": 2280.8,
+      "end": 2292.8,
+      "speaker": "Host",
+      "text": "The sibling-report instrument helps diagnose that explanation, because the corrected difference estimate rises. But shared reporting errors and nonshared personal differences still need attention."
+    },
+    {
+      "start": 2292.8,
+      "end": 2316.8,
+      "speaker": "Economist",
+      "text": "Exactly. The correction is conditional on assumptions, not a machine that certifies the true number. If both twins repeat the same wrong information, the second report may carry the same noise. If a private event changes a twin's schooling and earnings, family differencing does not remove it. We should state these possibilities before claiming the design settles everything."
+    },
+    {
+      "start": 2316.8,
+      "end": 2325.8,
+      "speaker": "Host",
+      "text": "The other objection says the Texas result makes education worthless. There is no clear earnings jump from the diploma, so why pay for school?"
+    },
+    {
+      "start": 2325.8,
+      "end": 2351.8,
+      "speaker": "Economist",
+      "text": "That confuses different treatments. A diploma effect near an exam cutoff is not an effect of more instruction. Students close to passing have already completed similar coursework. The research asks what changes when the credential becomes more likely. Its imprecision also leaves room for economically meaningful credential benefits. Neither a universal zero nor a complete skills explanation follows."
+    },
+    {
+      "start": 2351.8,
+      "end": 2358.8,
+      "speaker": "Host",
+      "text": "Then what should I say instead of the map's stronger claim that the diploma is worth little and learning drives everything?"
+    },
+    {
+      "start": 2358.8,
+      "end": 2381.2,
+      "speaker": "Economist",
+      "text": "Say the point estimate of this local diploma effect is small, but uncertain. It weighs against some strong credential stories without eliminating signaling generally. Other schooling designs support positive earnings effects for people whose schooling changes. Together these findings sharpen our questions about mechanisms. They do not fully decompose the education premium."
+    },
+    {
+      "start": 2381.55,
+      "end": 2393.79,
+      "speaker": "Host",
+      "text": "Let us organize the takeaways. We began near 7 percent in the Census. What should I remember when someone presents that precise association as a causal answer?"
+    },
+    {
+      "start": 2393.79,
+      "end": 2419.91,
+      "speaker": "Economist",
+      "text": "Ask why the compared workers differ in schooling. More able or better-connected workers may choose more education. At the same time, noisy schooling reports may pull a positive coefficient down. These forces can offset. A rough 7 to 10 percent summary cannot remove that concern. We cannot infer from a positive association that it is entirely causal, or from matching point estimates that both methods are unbiased."
+    },
+    {
+      "start": 2419.91,
+      "end": 2428.75,
+      "speaker": "Host",
+      "text": "For twins, the key question is what cancels and what remains. For instruments, it is what moves schooling and whether anything else moves earnings."
+    },
+    {
+      "start": 2428.75,
+      "end": 2451.03,
+      "speaker": "Economist",
+      "text": "Yes. In a birth-quarter design, investigate background seasonality and school-entry mechanisms. In a policy design, examine alternative state trends and related policies. In a cutoff design, ask whether other determinants change smoothly through the threshold. Each design earns credibility through its particular comparison and checks. Giving it a familiar name is not enough."
+    },
+    {
+      "start": 2451.03,
+      "end": 2462.23,
+      "speaker": "Host",
+      "text": "What about practical education policy? A historical return for would-be dropouts sounds valuable, but it cannot directly price every new university program."
+    },
+    {
+      "start": 2462.23,
+      "end": 2488.75,
+      "speaker": "Economist",
+      "text": "That is the policy implication. Evidence that extra schooling improved affected students' earnings supports taking educational access seriously. A policy decision still needs its own affected population, costs, educational quality, and opportunities. Wage benefits alone are not a complete social benefit calculation. The local gains from compulsory schooling do not automatically describe every degree or every expansion."
+    },
+    {
+      "start": 2488.75,
+      "end": 2499.11,
+      "speaker": "Host",
+      "text": "I also need uncertainty, not only the point estimate. The failed child labor check shows why a favorable number cannot substitute for a credible design."
+    },
+    {
+      "start": 2499.46,
+      "end": 2523.22,
+      "speaker": "Economist",
+      "text": "And the Texas result shows the other side. A small, statistically unclear estimate does not establish that an effect is absent. Statistical significance and practical importance are different. We should report what the evidence suggests and what it still permits. Careful uncertainty is part of the finding, rather than an optional sentence afterward."
+    },
+    {
+      "start": 2523.22,
+      "end": 2536.98,
+      "speaker": "Host",
+      "text": "We have arrived at the thesis leaf. The map says that when five imperfect designs agree, another year raises earnings by roughly 7 to 10 percent. How should we state it faithfully?"
+    },
+    {
+      "start": 2536.98,
+      "end": 2564.02,
+      "speaker": "Economist",
+      "text": "Keep the positive schooling conclusion and qualify the agreement. Roughly 7 to 10 percent is the original chapter's synthesis of the schooling evidence, especially birth-quarter results. It is not five successful independent experiments proving a universal effect. One historical policy design fails a major check. Simulations are demonstrations. The diploma study estimates a different margin."
+    },
+    {
+      "start": 2564.02,
+      "end": 2576.66,
+      "speaker": "Host",
+      "text": "My Resolution recap is to compare assumptions before comparing estimates. Lower estimates can reflect noise, a diploma null is not a schooling null, and local evidence needs local interpretation."
+    },
+    {
+      "start": 2576.66,
+      "end": 2599.54,
+      "speaker": "Economist",
+      "text": "Exactly. The chapter supports a substantial causal earnings payoff to schooling in the settings studied. Its deeper lesson is how to judge evidence without demanding that every result say the same thing. Designs can reinforce an argument, expose an error, or reveal a different treatment. We learn by distinguishing those roles."
+    },
+    {
+      "start": 2600.74,
+      "end": 2616.94,
+      "speaker": "Host",
+      "text": "Let us return to our goals. We can now explain how ability and reporting error distort an earnings regression. We can assess the assumptions behind the main comparisons. And we can distinguish more schooling from receiving a credential."
+    },
+    {
+      "start": 2616.94,
+      "end": 2639.54,
+      "speaker": "Economist",
+      "text": "Our closing thesis is a qualified positive conclusion. The original schooling evidence supports a meaningful earnings gain, summarized at roughly 7 to 10 percent per additional year. The estimate depends on the design, affected students, and assumptions. The different methods teach us how to evaluate that claim; they do not deliver an identical answer to an identical question."
+    },
+    {
+      "start": 2639.54,
+      "end": 2653.74,
+      "speaker": "Host",
+      "text": "Here is the think question. Suppose a new exam rule sharply increases diploma receipt, but the estimated earnings effect is small and uncertain. Can a policymaker conclude that another year of teaching has no value?"
+    },
+    {
+      "start": 2653.74,
+      "end": 2658.7,
+      "speaker": "Economist",
+      "text": "Pause the episode and think about the treatment, the comparison group, and the uncertainty."
+    },
+    {
+      "start": 2663.05,
+      "end": 2677.13,
+      "speaker": "Host",
+      "text": "My answer is no. The treatment changed the chance of a diploma around an exam threshold. It did not remove a year of instruction. And an uncertain earnings estimate might still permit a meaningful credential benefit."
+    },
+    {
+      "start": 2677.13,
+      "end": 2695.93,
+      "speaker": "Economist",
+      "text": "That answer separates the causal questions. To evaluate another year of teaching, we need variation in schooling and a credible comparison for those whose schooling changes. To evaluate the credential, the cutoff may be useful under its assumptions. Neither design supplies an automatic answer for every student."
+    },
+    {
+      "start": 2695.93,
+      "end": 2709.61,
+      "speaker": "Host",
+      "text": "The Colab notebook lets you inspect these comparisons and the labeled simulations. The lecture slides provide another route through the same ideas. Keep the original chapter's cautions in mind when reading stronger classroom summaries."
+    },
+    {
+      "start": 2709.61,
+      "end": 2733.17,
+      "speaker": "Economist",
+      "text": "Our final bridge connects the course's causal designs and their limits. Random assignment clarifies the benchmark. Regression asks about comparability after adjustment. Instruments, cutoffs, and changes over time offer other comparisons. Every approach requires a precise treatment, a defensible counterfactual, and an honest statement of whose outcome it explains. Thank you for listening. Goodbye."
+    }
+  ],
+  "alignment": [
+    {
+      "chunk": 1,
+      "matched": 0.9601
+    },
+    {
+      "chunk": 2,
+      "matched": 0.9862
+    },
+    {
+      "chunk": 3,
+      "matched": 0.981
+    },
+    {
+      "chunk": 4,
+      "matched": 0.9907
+    },
+    {
+      "chunk": 5,
+      "matched": 0.9787
+    },
+    {
+      "chunk": 6,
+      "matched": 0.9817
+    },
+    {
+      "chunk": 7,
+      "matched": 0.9737
+    },
+    {
+      "chunk": 8,
+      "matched": 0.9821
+    },
+    {
+      "chunk": 9,
+      "matched": 0.9435
+    },
+    {
+      "chunk": 10,
+      "matched": 0.9742
+    },
+    {
+      "chunk": 11,
+      "matched": 0.9509
+    },
+    {
+      "chunk": 12,
+      "matched": 0.9821
+    },
+    {
+      "chunk": 13,
+      "matched": 0.9814
+    },
+    {
+      "chunk": 14,
+      "matched": 0.9767
+    },
+    {
+      "chunk": 15,
+      "matched": 0.9892
+    },
+    {
+      "chunk": 16,
+      "matched": 0.9752
+    },
+    {
+      "chunk": 17,
+      "matched": 0.9821
+    },
+    {
+      "chunk": 18,
+      "matched": 0.973
+    },
+    {
+      "chunk": 19,
+      "matched": 1.0
+    },
+    {
+      "chunk": 20,
+      "matched": 0.9711
+    }
+  ]
+}

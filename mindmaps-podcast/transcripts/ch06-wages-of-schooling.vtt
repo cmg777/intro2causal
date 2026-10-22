@@ -1,0 +1,673 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:11.440
+<v Host>Welcome back. Today we are on education and earnings. Staying in school costs money and time. Can we tell whether the later pay increase really comes from school?
+
+2
+00:00:11.440 --> 00:00:29.969
+<v Economist>Think of two people with similar ambitions. One continues studying while the other starts earning immediately. Their later wages may differ for many reasons. School may build skills. Family resources may help both education and careers. Comparing their pay does not separate those explanations.
+
+3
+00:00:29.969 --> 00:00:42.240
+<v Host>The broad comparison sounds persuasive, though. The mind map says college graduates earn roughly twice what high school graduates earn. If the gap is that large, surely education does something.
+
+4
+00:00:42.240 --> 00:00:58.480
+<v Economist>That gap is a descriptive motivation, not an answer about causation. The people entering college may already have different earnings prospects. We need evidence about what changes when schooling itself changes. We also need to distinguish extra learning from receiving a diploma.
+
+5
+00:00:58.480 --> 00:01:00.667
+<v Host>Does more education cause higher earnings?
+
+6
+00:01:00.667 --> 00:01:24.720
+<v Economist>By the end of this episode, you should be able to explain why ability and reporting mistakes can distort an earnings regression. You should also be able to assess the assumptions behind twins, birth timing, policy changes, and exam cutoffs. Finally, you should distinguish a return to more schooling from a return to a credential.
+
+7
+00:01:24.720 --> 00:01:30.624
+<v Host>That sounds like a tour of the whole course. Will each method give us the same answer, or will they disagree?
+
+8
+00:01:30.624 --> 00:01:52.480
+<v Economist>Some results are close, and some ask different questions. Some designs also fail important checks. We will treat those failures as evidence about the method. Our mind map follows The Question, The Investigation, and The Resolution. Keep asking what comparison supplies the evidence, and whose causal effect it could reveal.
+
+9
+00:01:53.680 --> 00:02:04.120
+<v Host>Let us begin The Question. If we cannot simply compare graduates with nongraduates, what should the comparison try to recover?
+
+10
+00:02:04.120 --> 00:02:24.280
+<v Economist>Start with the same person facing different educational paths. Imagine that person's earnings after more schooling, and after less schooling. The causal effect compares those possible outcomes. We observe only the path actually taken. A research design tries to construct a credible comparison for the missing path.
+
+11
+00:02:24.280 --> 00:02:33.880
+<v Host>So the missing outcome is not the pay of just any person who left school earlier. It is what the more educated person would have earned with less education.
+
+12
+00:02:33.880 --> 00:02:54.080
+<v Economist>Exactly. That distinction matters for a student deciding whether to continue and for a government funding education. Even a causal earnings increase is only part of that decision. Tuition and earnings given up during study are costs. Schooling may also have benefits beyond wages. Our evidence here focuses on earnings.
+
+13
+00:02:54.080 --> 00:02:59.240
+<v Host>The naive Census comparison is our starting point. What does that actually measure?
+
+14
+00:02:59.240 --> 00:03:24.080
+<v Economist>In the 1980 Census sample used here, a simple regression associates an extra year of school with about 7 percent higher weekly earnings. A regression summarizes the pattern across many workers. Ordinary least squares, often shortened to OLS, chooses a line that fits that pattern. A precise line does not establish the cause of the pattern.
+
+15
+00:03:24.080 --> 00:03:32.840
+<v Host>My prediction is that a huge sample should settle the question. If the relationship is measured very precisely, there cannot be much uncertainty left.
+
+16
+00:03:32.840 --> 00:03:57.520
+<v Economist>Here is the first reveal: precision and causal validity answer different questions. A large sample can measure a biased comparison extremely well. We may know the education and wage association precisely while remaining uncertain about what extra education would cause. Ability, motivation, family networks, and accurate reporting still matter.
+
+17
+00:03:57.870 --> 00:04:05.370
+<v Host>And the outcome is weekly earnings. That matters if we later compare it with hourly wages or annual earnings.
+
+18
+00:04:05.370 --> 00:04:23.770
+<v Economist>Yes. Those outcomes need not move identically. Annual earnings include differences in time worked during the year. Hourly wages focus on pay per hour. We will announce sample and outcome changes rather than interpret every estimate as a correction to the same regression.
+
+19
+00:04:23.770 --> 00:04:32.270
+<v Host>The map next promises one question and all five tools. Should I think of a ladder where every later method is automatically better?
+
+20
+00:04:32.270 --> 00:04:57.070
+<v Economist>Think of a collection of comparisons, each chosen for a particular problem. Random assignment supplies a benchmark. Regression adjusts for measured differences. Instrumental variables use an outside influence on schooling. Regression discontinuity compares people near a rule's cutoff. Differences in differences compares changes across groups. None automatically dominates the others.
+
+21
+00:04:57.070 --> 00:05:03.170
+<v Host>We also compare twins. That sounds like matching people more closely before using regression.
+
+22
+00:05:03.170 --> 00:05:24.170
+<v Economist>It uses family comparisons to remove characteristics shared within a twin pair. But the remaining differences may be noisy. An instrument can sometimes address that noise. The methods can work together. We must still ask whether their assumptions hold and whether they estimate the same effect.
+
+23
+00:05:24.170 --> 00:05:31.070
+<v Host>Before the investigation, please unpack the vocabulary. What does a return to schooling mean here?
+
+24
+00:05:31.070 --> 00:05:52.950
+<v Economist>It means the earnings change caused by an additional year of education. The models often use the logarithm of earnings. A logarithm expresses earnings on a scale suited to proportional changes. For coefficients of this size, multiplying by a hundred gives an approximate percentage change. It is not an exact percentage conversion.
+
+25
+00:05:53.300 --> 00:06:01.300
+<v Host>Is that return the same as an annual interest rate on tuition? That is what the word return makes me imagine.
+
+26
+00:06:01.300 --> 00:06:21.620
+<v Economist>No. Here it is a wage increase per additional year of schooling. It is not a complete investment calculation. A financial comparison would need educational costs, forgone earnings, later earnings paths, and timing. Calling the wage coefficient a return does not make those costs disappear.
+
+27
+00:06:21.620 --> 00:06:32.340
+<v Host>And ability bias means school receives credit for advantages students already had. Measurement error means we record their schooling incorrectly. What is the reliability ratio?
+
+28
+00:06:32.340 --> 00:06:54.860
+<v Economist>It is the share of observed schooling variation that reflects genuine schooling differences under a particular reporting-error model. The rest reflects noise. Human capital means productive skills developed through education. Signaling means education can communicate information about a worker to employers. A sheepskin effect is an extra payoff from the credential itself.
+
+29
+00:06:54.860 --> 00:07:08.140
+<v Host>Those theories can coexist, then. Education might build skills and communicate something useful. Testing a diploma alone does not settle every question about either mechanism.
+
+30
+00:07:08.140 --> 00:07:28.260
+<v Economist>That is our Question recap. A wage gap motivates the study but does not identify an effect. Precision does not remove selection bias. We need comparisons with defensible assumptions, and we must distinguish years of education from credentials. Now we can investigate what each comparison contributes.
+
+31
+00:07:29.460 --> 00:07:40.760
+<v Host>The Investigation begins with ability bias. Suppose ability helps someone learn and also helps them earn. What happens when our regression leaves ability out?
+
+32
+00:07:40.760 --> 00:08:03.460
+<v Economist>The schooling coefficient may absorb both effects. The omitted-variable reasoning has two pieces. How strongly does ability predict earnings after accounting for schooling? And how does ability vary with schooling? When both relationships are positive, leaving ability out makes the schooling association larger than the more controlled comparison.
+
+33
+00:08:03.460 --> 00:08:10.760
+<v Host>But someone talented might leave school because an unusually good career opportunity arrives. Does that reverse the argument?
+
+34
+00:08:10.760 --> 00:08:33.360
+<v Economist>It can reverse the relevant association. The book uses Mick Jagger's departure from the London School of Economics and Johan Harmenberg's departure from MIT. Their outside opportunities remind us that earnings potential has many forms. Such examples do not establish the average direction of bias. They show why its direction requires evidence.
+
+35
+00:08:33.360 --> 00:08:38.360
+<v Host>Could we measure ability with an intelligence test and simply control for it?
+
+36
+00:08:38.360 --> 00:08:59.360
+<v Economist>The original chapter discusses that approach. Griliches found a lower schooling coefficient after adding an intelligence measure. But a test does not capture every trait affecting earnings. Worse, a test taken after substantial schooling may itself be affected by education. Holding it fixed could remove part of the benefit we seek.
+
+37
+00:08:59.360 --> 00:09:07.360
+<v Host>So even a variable called ability needs a timing check. A label does not tell us whether the variable came before education.
+
+38
+00:09:07.360 --> 00:09:29.360
+<v Economist>Right. There is another complication: reporting errors in schooling can make controlled estimates too small. Removing genuine schooling variation with additional controls can leave a larger share of noise. We will explain that mechanism carefully with twins. A falling coefficient after controls is not, by itself, proof that we removed ability bias.
+
+39
+00:09:29.360 --> 00:09:39.360
+<v Host>The map reports about 11 percent after demographic controls among Twinsburg twins. Is that the Census estimate after adding a few extra variables?
+
+40
+00:09:39.360 --> 00:10:00.360
+<v Economist>It is a different sample. The twins regression controls for age and demographic characteristics. Its estimate remains about 11 percent, but that does not prove those controls captured ability. We must not compare it with the Census estimate as if only the controls changed. Both the people and the specification differ.
+
+41
+00:10:00.360 --> 00:10:07.340
+<v Host>What about the companion's simulation? It lets us observe ability, which the real research cannot do fully.
+
+42
+00:10:07.690 --> 00:10:37.690
+<v Economist>That is a classroom demonstration, not another empirical study in the book. The simulation sets a true total coefficient near 0.09. A regression omitting ability gives roughly 0.12. The companion describes the excess as about 40 percent using its less rounded estimates. That percentage is an approximate simulation comparison, not an estimate of real-world ability bias.
+
+43
+00:10:37.690 --> 00:10:47.290
+<v Host>Using the rounded coefficients directly would not reproduce that exact percentage. I should treat the simulation as a controlled demonstration of a possible bias.
+
+44
+00:10:47.290 --> 00:11:05.450
+<v Economist>Exactly. Its main value is that we know how the simulated data were constructed. In actual wage data, we do not know all the causes of schooling choices. A simulation demonstrates an argument; it does not verify that argument's assumptions in an actual population.
+
+45
+00:11:05.450 --> 00:11:12.810
+<v Host>Could occupation be a useful control? People in different occupations earn different amounts and tend to have different education.
+
+46
+00:11:12.810 --> 00:11:37.050
+<v Economist>Occupation is a bad control when we want schooling's total effect. Education may open access to a better-paying job. Holding occupation fixed removes that real pathway. It can also create a misleading comparison within an occupation. People reaching that occupation without college may differ from those who needed college to enter it.
+
+47
+00:11:37.050 --> 00:11:45.450
+<v Host>Can that second problem happen even if education were randomly assigned? I thought random assignment protected every later comparison.
+
+48
+00:11:45.450 --> 00:12:12.170
+<v Economist>It protects the original treatment and comparison groups on average. It does not protect groups formed afterward using an outcome of treatment. The book gives a hypothetical workforce where college helps some workers enter professional jobs. Among professional workers, nongraduates then come from a different mix of worker types than graduates. Conditioning on the later job destroys the original balance.
+
+49
+00:12:12.170 --> 00:12:21.130
+<v Host>Then good controls are not simply variables that predict wages. We need to ask when they were determined and how education could affect them.
+
+50
+00:12:21.130 --> 00:12:52.330
+<v Economist>Yes. The original chapter makes a related caution about potential work experience. It is commonly calculated from age and schooling, assuming people work after finishing school. Schooling itself changes that calculation. Early Mincer regressions used it to describe experience profiles, but its causal interpretation requires care. Using age instead targets an effect that includes differences in potential experience.
+
+51
+00:12:52.330 --> 00:13:02.570
+<v Host>Next comes the experimental benchmark. Why not run a randomized controlled trial, assigning some people more education and others less?
+
+52
+00:13:02.920 --> 00:13:27.920
+<v Economist>Forcing children's entire educational paths would raise ethical and practical problems. That does not mean every education experiment is impossible. Researchers can sometimes randomize offers or access. But an offer and an extra year of schooling are different treatments. We must explain how an offer changes schooling before interpreting its earnings effect.
+
+53
+00:13:27.920 --> 00:13:34.920
+<v Host>The scholarship lottery in the companion is synthetic, correct? We are imagining an experiment rather than reporting a book finding.
+
+54
+00:13:34.920 --> 00:13:54.920
+<v Economist>Correct. In that simulation, a random scholarship offer adds roughly 2 years of schooling. Scaling the offer's earnings effect by its schooling effect recovers a coefficient near the imposed 0.08. This division is called the Wald ratio. Its logic will reappear in the real studies.
+
+55
+00:13:54.920 --> 00:14:02.920
+<v Host>Random assignment tells us the effect of offering the scholarship. What extra condition lets us call the scaled effect a return to schooling?
+
+56
+00:14:02.920 --> 00:14:28.920
+<v Economist>The offer must influence earnings only through schooling, for this interpretation. That is the exclusion restriction. If the scholarship also supplies job contacts or directly changes later earnings through debt relief, the ratio could mix pathways. A meaningful schooling response is also essential. With varying effects, we need further assumptions about whose schooling changes.
+
+57
+00:14:28.920 --> 00:14:35.920
+<v Host>Now we reach the twin comparisons. How does a festival in Ohio become a research design?
+
+58
+00:14:35.920 --> 00:15:01.920
+<v Economist>Researchers collected schooling and earnings information from identical twins at the Twinsburg festival. There were 340 pairs. Identical twins share genes, and often share childhood surroundings. Comparing their differences removes whatever is identical within each pair. We ask whether the twin with more schooling also earns more, rather than comparing unrelated families.
+
+59
+00:15:01.920 --> 00:15:10.920
+<v Host>My prediction is that removing shared ability should lower the coefficient. If the estimate falls, have we finally isolated the education effect?
+
+60
+00:15:10.920 --> 00:15:35.920
+<v Economist>The reveal is that it does fall, to about 6 percent. But the fall alone does not tell us why. Shared background disappears, while personal experiences can still differ. A twin's health, motivation, or opportunities may affect both education and earnings. The causal interpretation needs those remaining differences to be harmless for the schooling comparison.
+
+61
+00:15:35.920 --> 00:15:47.920
+<v Host>The image also warns that shared genes and upbringing do not imply identical unshared ability. So being twins helps without making education random.
+
+62
+00:15:47.920 --> 00:16:08.040
+<v Economist>Exactly. A twin fixed effect is a way to remove pair-specific factors. With a pair, subtracting one twin's data from the other's achieves the same comparison. It does not erase causes that differ within the pair. And it creates a serious measurement problem when true schooling differences are small.
+
+63
+00:16:08.390 --> 00:16:17.390
+<v Host>What does small reporting error do? If someone rounds their education up or down, should the mistakes not cancel across people?
+
+64
+00:16:17.390 --> 00:16:42.990
+<v Economist>Average cancellation does not remove attenuation bias. Under the classical model, reporting mistakes average to zero and are unrelated to true schooling and unexplained earnings. They add variation to measured schooling without adding a corresponding earnings relationship. The fitted slope moves toward zero because some recorded differences contain no genuine educational information.
+
+65
+00:16:42.990 --> 00:16:49.990
+<v Host>That conclusion depends on the reporting-error model. Deliberate exaggeration related to earnings might behave differently.
+
+66
+00:16:49.990 --> 00:17:16.490
+<v Economist>Yes. The direction is not universal for every kind of error. The appendix analyzes a particular model with independent noise. Under that model, the observed slope equals the desired slope multiplied by a reliability ratio. If reliability is 0.5, the measured slope is half its error-free value. That is a hypothetical explanation, not a measured reliability for every dataset.
+
+67
+00:17:16.490 --> 00:17:25.990
+<v Host>Why is the problem especially serious for differences between twins? We have not made their individual reports less accurate by subtracting them.
+
+68
+00:17:25.990 --> 00:17:53.990
+<v Economist>We have removed much of the genuine between-family variation. Twins often have similar schooling, so the remaining true differences are small. Reporting mistakes need not shrink along with them. Noise therefore becomes larger relative to the remaining signal. In an extreme hypothetical case, all twins have identical true schooling. Then every recorded within-pair difference is just reporting error.
+
+69
+00:17:53.990 --> 00:18:01.990
+<v Host>That connects to the appendix's warning about adding controls. Controls can remove meaningful variation while leaving the measurement noise behind.
+
+70
+00:18:01.990 --> 00:18:25.990
+<v Economist>Exactly. Under its assumptions, controls related to true schooling reduce the signal left for estimation. If they are unrelated to reporting errors, they do not similarly remove the noise. This makes attenuation worse. Twin comparisons are an especially clear example. More detailed adjustment can improve selection problems while worsening measurement problems.
+
+71
+00:18:25.990 --> 00:18:32.990
+<v Host>How did the researchers try to separate signal from noise without knowing each twin's true education?
+
+72
+00:18:32.990 --> 00:18:52.990
+<v Economist>Each twin reported both their own schooling and their sibling's schooling. A sibling's report can track genuine schooling while having different errors. That report becomes an instrument for the self-report. It must predict the self-report through true schooling and remain unrelated to the self-report's mistakes and unexplained earnings.
+
+73
+00:18:52.990 --> 00:19:00.910
+<v Host>That sounds demanding. Twins might remember the same family story incorrectly. Their errors would then be connected.
+
+74
+00:19:01.260 --> 00:19:27.420
+<v Economist>Shared mistakes would undermine the correction. Under the required independence assumptions, the instrument focuses on variation related to true schooling. Dividing its earnings relationship by its self-report relationship removes attenuation. With controls or twin differences, the same argument applies to the remaining variation, provided the instrument remains valid there.
+
+75
+00:19:27.420 --> 00:19:32.060
+<v Host>What happens to the estimates after using the sibling reports?
+
+76
+00:19:32.060 --> 00:19:58.060
+<v Economist>Using individual twins before taking within-pair differences, the corrected estimate is about 12 percent. Using the differences within each pair, it is about 11 percent. Those estimates are much closer than the corresponding uncorrected estimates. That weakens a simple story in which ability bias explains the entire original fall. It does not prove ability bias is absent.
+
+77
+00:19:58.060 --> 00:20:07.740
+<v Host>And the people attending a twins festival are self-selected. Even a valid within-sample comparison may not describe every worker elsewhere.
+
+78
+00:20:07.740 --> 00:20:32.380
+<v Economist>Right. We should distinguish internal validity, whether the comparison identifies an effect for these people, from generalization to others. We also need uncertainty around the estimates. The corrected twin-difference estimate is less precise than the original estimate using individual twins. A point estimate alone cannot resolve all these issues.
+
+79
+00:20:32.380 --> 00:20:41.842
+<v Host>Let us move to the quarter-of-birth instrument. How can a birthday change someone's schooling rather than merely their birthday celebration?
+
+80
+00:20:41.842 --> 00:21:02.620
+<v Economist>Angrist and Krueger used school-entry rules together with compulsory attendance laws. In the historical setting, children born later in the year could start school at younger ages. Laws often allowed leaving at 16. Someone starting younger could complete more school before reaching the legal leaving age.
+
+81
+00:21:02.620 --> 00:21:17.580
+<v Host>The relevant study uses the 1980 Census and 329,509 men born from 1930 to 1939. So these are historical cohorts, not all students in today's education system.
+
+82
+00:21:17.580 --> 00:21:41.100
+<v Economist>Correct. The book explains the mechanism through Jae and Dante, hypothetical students facing those rules. Both want to leave as soon as the law permits. The younger entrant gets further through school before becoming old enough to leave. Many college-bound students would stay regardless, so the average schooling difference is much smaller than the change for an affected dropout.
+
+83
+00:21:41.100 --> 00:21:49.500
+<v Host>The map names the Angrist and Krueger study from 1991. What actual groups does the simple instrument comparison use?
+
+84
+00:21:49.500 --> 00:22:10.420
+<v Economist>It compares men born in the fourth quarter with men born in the earlier quarters. It does not compare only the fourth quarter with the first. The first stage is the instrument's schooling difference. The reduced form is its earnings difference. If the assumptions hold, their ratio estimates an earnings effect per additional year of schooling.
+
+85
+00:22:10.770 --> 00:22:15.970
+<v Host>Let us work through that ratio slowly. Which numbers go into the calculation?
+
+86
+00:22:15.970 --> 00:22:38.970
+<v Economist>The first-stage schooling difference is 0.0921 years. The reduced-form difference is 0.0068 in log weekly earnings. The latter corresponds to approximately seven-tenths of a percent higher earnings. We divide the log-earnings difference by the schooling difference. That puts the effect on a per-year scale.
+
+87
+00:22:38.970 --> 00:22:54.570
+<v Host>So I divide 0.0068 by 0.0921. The result is about 0.074. Multiplying that coefficient by a hundred gives approximately 7.4 percent per additional year of schooling.
+
+88
+00:22:54.570 --> 00:23:15.370
+<v Economist>That is the worked result: about 7.4 percent. The small average education difference is not a reason to skip the scaling. It is the reason scaling matters. Two-stage least squares implements this instrumental-variable comparison and can also include controls. With this simple instrument and no extra controls, it gives the same ratio.
+
+89
+00:23:15.370 --> 00:23:22.370
+<v Host>What must be true beyond having a nonzero first stage? A birthday cannot literally be a controlled experiment.
+
+90
+00:23:22.370 --> 00:23:45.170
+<v Economist>We need birth quarter to be unrelated to other determinants of potential earnings, after the chosen controls. We also need birth quarter to affect earnings only through schooling. Seasonal differences in family background threaten independence. Effects of school-entry age on later earnings, separate from years completed, threaten exclusion.
+
+91
+00:23:45.170 --> 00:23:50.170
+<v Host>Does the original chapter ignore those concerns because birthdays are hard to choose?
+
+92
+00:23:50.170 --> 00:24:14.570
+<v Economist>No. It discusses evidence on seasonal maternal characteristics. Their pattern does not match the pattern in schooling and wages in a way that explains away the result. Adding maternal characteristics moderately raises the estimates. It also discusses school-starting age. The checks support the design, but they cannot logically prove independence or exclusion.
+
+93
+00:24:14.570 --> 00:24:19.170
+<v Host>Could adding more quarter indicators settle everything by improving precision?
+
+94
+00:24:19.170 --> 00:24:42.370
+<v Economist>More instruments can improve precision while also changing estimates. The original reports a larger estimate using several birth-quarter indicators. Each added instrument still needs a valid causal argument. Strong prediction helps with weak-instrument problems. It cannot establish that the instrument has no other path to earnings.
+
+95
+00:24:42.370 --> 00:24:51.170
+<v Host>Whose return does this comparison describe? I doubt compulsory dropout laws tell us the value of a doctorate for someone determined to earn it.
+
+96
+00:24:51.170 --> 00:25:21.810
+<v Economist>Under the relevant monotonicity assumption, the interpretation concerns schooling increases induced by the birth-quarter mechanism. Monotonicity rules out responses in the opposite direction to the proposed push. With years of schooling, effects may be weighted across affected schooling margins. The useful beginner's interpretation is local: it concerns would-be dropouts whose schooling changed, not a universal return for every student.
+
+97
+00:25:22.160 --> 00:25:30.800
+<v Host>The next strategy uses child labor laws. The map calls them school-entry ages. Is that the right interpretation of its categories?
+
+98
+00:25:30.800 --> 00:25:53.520
+<v Economist>There is an important correction here. In the original study, 7, 8, and 9 refer to years of schooling required before work was allowed. They are not ages by which children had to start school. The laws connect educational completion to legal work eligibility. That distinction changes the mechanism we are trying to evaluate.
+
+99
+00:25:53.520 --> 00:26:00.240
+<v Host>How do Acemoglu and Angrist keep regional wage differences from masquerading as effects of those laws?
+
+100
+00:26:00.240 --> 00:26:25.520
+<v Economist>They compare variation across states and birth cohorts, controlling for state of birth, birth cohort, and census year. State effects remove persistent state differences. Cohort effects remove common differences across generations. Census-year effects account for common differences across observation years. The design therefore combines policy instruments with differences-in-differences reasoning.
+
+101
+00:26:25.520 --> 00:26:36.400
+<v Host>The companion reports an ordinary regression near 7 percent and an instrument estimate near 13 percent. Are those the original book's exact results?
+
+102
+00:26:36.400 --> 00:26:57.680
+<v Economist>They are companion estimates from its grouped-data specification. The original baseline instrument estimate is about 12 percent, with an ordinary regression near seven and a half percent. We should not silently replace one with the other. More importantly, neither baseline comparison is the end of the original investigation.
+
+103
+00:26:57.680 --> 00:27:04.720
+<v Host>The map emphasizes a weak first stage, with a test statistic below 10. Is that its main warning?
+
+104
+00:27:04.720 --> 00:27:24.880
+<v Economist>The companion's instrument-strength diagnostic is below that familiar rule of thumb. Such a diagnostic concerns how much useful schooling variation the instruments supply. It does not test the exclusion restriction. The original chapter goes further by allowing states to have different underlying trends across birth cohorts.
+
+105
+00:27:24.880 --> 00:27:29.520
+<v Host>Why would those trends matter if we already have state and cohort controls?
+
+106
+00:27:29.520 --> 00:27:56.720
+<v Economist>State controls remove fixed gaps. Cohort controls remove common changes. Neither automatically removes a state's distinct growth path. Southern states, for example, experienced large economic changes alongside changes in social legislation. Wage growth could reflect those other developments instead of the schooling laws. A state-specific trend tries to allow that additional pattern.
+
+107
+00:27:56.720 --> 00:28:04.720
+<v Host>And what happens when the original analysis allows those trends? Is it simply less precise because the model became more complicated?
+
+108
+00:28:04.720 --> 00:28:29.440
+<v Economist>The schooling first stage becomes much smaller, with smaller standard errors. That is important: the loss of significance is not simply lost precision. The reduced-form wage relationships also become small. The resulting instrument estimate is unstable and very imprecise. The book treats this as a failed research design, not independent confirmation of the baseline schooling return.
+
+109
+00:28:29.790 --> 00:28:40.910
+<v Host>That is a stronger lesson than just saying the larger return has wide error bars. The variation supplying the original causal argument does not survive the trend check.
+
+110
+00:28:40.910 --> 00:29:03.150
+<v Economist>Exactly. The result does not prove compulsory education can never matter. It means this comparison does not establish the claimed effect robustly. For policy, that is a reason to improve the design before treating a baseline estimate as a reliable forecast. A favorable point estimate cannot repair an unsupported counterfactual.
+
+111
+00:29:03.150 --> 00:29:11.950
+<v Host>Next comes the Texas diploma cutoff. Does this ask whether another year of education raises pay, or whether having the diploma itself matters?
+
+112
+00:29:11.950 --> 00:29:32.390
+<v Economist>Clark and Martorell's study asks about the credential. Students had completed required coursework but still needed to pass an exit exam. Researchers studied students taking a last-chance exam near the end of high school. Students just above and below its passing threshold had similar scores but different chances of receiving a diploma.
+
+113
+00:29:32.390 --> 00:29:42.337
+<v Host>The map dates the study to 2014 and mentions 46 score bins in the companion data. What is a score bin?
+
+114
+00:29:42.337 --> 00:30:05.150
+<v Economist>It groups observations at a score value for the classroom display and analysis. It does not mean only 46 students were studied. The running variable is exam score relative to the pass mark. Regression discontinuity looks for a sudden outcome change at that threshold, allowing outcomes to vary smoothly with scores otherwise.
+
+115
+00:30:05.150 --> 00:30:13.390
+<v Host>The map says passing raises diploma receipt by about 40 percentage points. Why does that make this a fuzzy regression discontinuity?
+
+116
+00:30:13.390 --> 00:30:40.830
+<v Economist>Because crossing the pass mark changes the chance of a diploma without perfectly determining diploma receipt. Some students who initially fail pass later. Some who pass still lack another requirement. The original describes an increase from around half receiving a diploma to over nine-tenths. The companion's fitted jump is around 40 percentage points. The precise jump depends on the reported specification.
+
+117
+00:30:40.830 --> 00:30:50.670
+<v Host>That is an absolute probability change, not a 40 percent proportional increase. And the earnings jump from passing is different from the effect of actually receiving a diploma.
+
+118
+00:30:50.670 --> 00:31:10.830
+<v Economist>Exactly. The passing indicator plays the role of an instrument. Its diploma jump is the first stage. Its earnings jump is the reduced form. Dividing the earnings jump by the diploma jump gives a local credential-effect estimate, if passing affects earnings only through the diploma and other conditions hold.
+
+119
+00:31:11.180 --> 00:31:19.260
+<v Host>What conditions keep students just above and below the cutoff comparable? Test scores themselves are related to future earnings.
+
+120
+00:31:19.260 --> 00:31:43.260
+<v Economist>The design does not require scores to be unrelated to earnings. It requires potential outcomes to change smoothly at the passing threshold without the credential change. Other treatments must not also jump there. Precise sorting around the pass mark would threaten comparability. The relevant comparison is close to the cutoff, not across all high and low scores.
+
+121
+00:31:43.260 --> 00:31:51.660
+<v Host>If diploma holders continue to college, looking immediately after the exam could miss the later payoff. Does the study allow time for that?
+
+122
+00:31:51.660 --> 00:32:15.260
+<v Economist>Yes. The original follows earnings far enough after high school for that issue to matter less. Its highlighted outcome is average annual earnings, including zeros for nonworkers. This differs from the log weekly earnings in the Census comparisons. The book's estimated diploma effect is 52 dollars, with a standard error of about 630 dollars.
+
+123
+00:32:15.260 --> 00:32:25.580
+<v Host>With average annual earnings around 13,000 dollars, that point estimate is small. But the standard error is much larger than the estimated effect.
+
+124
+00:32:25.580 --> 00:32:50.540
+<v Economist>Precisely. The confidence interval also allows an earnings benefit approaching 10 percent. The study weighs against a large, precisely estimated credential premium in this setting. It does not prove the diploma has exactly no effect. The companion's small earnings jump at passing is a different quantity and fit, not the original's diploma-effect estimate.
+
+125
+00:32:50.540 --> 00:33:02.300
+<v Host>Then I cannot conclude that signaling never matters, or that every benefit of school must come from skills. This concerns a particular credential among students near a particular threshold.
+
+126
+00:33:02.300 --> 00:33:21.740
+<v Economist>Correct. Skills and signals can coexist. This comparison helps isolate a credential margin, but cannot partition the entire education premium into mechanisms. Nor does it measure the effect of eliminating a year of instruction. The treatment, population, and uncertainty all limit the conclusion.
+
+127
+00:33:21.740 --> 00:33:30.300
+<v Host>Our final map strategy is differences in differences using a schooling reform. Are these historical state outcomes from the book?
+
+128
+00:33:30.300 --> 00:33:49.940
+<v Economist>This particular dataset is a synthetic classroom exercise. It imagines a reform in 10 of 20 states in 2005. The comparison states supply a model of what would have happened without reform. The simulation is designed to show the logic clearly. It is not another historical finding corroborating the book.
+
+129
+00:33:50.290 --> 00:33:56.450
+<v Host>Explain the comparison without equations. I want to understand what changes we subtract.
+
+130
+00:33:56.450 --> 00:34:18.494
+<v Economist>First compare schooling after reform with schooling before reform in the reform states. Then subtract the change in the comparison states. That gives a reform effect on schooling under parallel trends. Repeat the same operation for log earnings. Finally divide the earnings effect by the schooling effect to obtain a per-year ratio.
+
+131
+00:34:18.494 --> 00:34:26.210
+<v Host>Parallel trends means the groups would have changed similarly without reform. It does not mean their levels must be identical before reform.
+
+132
+00:34:26.210 --> 00:34:48.210
+<v Economist>Exactly. We need a credible counterfactual trend for each outcome. Similar observed trends before reform can support that argument but cannot prove it afterward. To interpret the ratio as an effect of schooling, the reform must influence earnings only through schooling. A reform tied to another economic policy could violate that restriction.
+
+133
+00:34:48.210 --> 00:34:58.050
+<v Host>This sounds like the same kind of policy variation as the child labor strategy. Are we counting it twice as separate confirmation?
+
+134
+00:34:58.050 --> 00:35:20.450
+<v Economist>We should not. The methods have a close connection: differences in differences can supply an instrument's schooling and earnings comparisons. But the companion simulation is not the same dataset as the historical child labor study. Their mathematical connection explains a design. It does not provide an additional independent empirical vote for the return.
+
+135
+00:35:20.450 --> 00:35:32.130
+<v Host>We have reached the synthesis of the methods. The map places returns around 7 to 10 percent. How can we keep that useful summary without hiding the disagreements?
+
+136
+00:35:32.130 --> 00:35:57.004
+<v Economist>Separate the questions first. Census and birth-quarter comparisons address schooling years. Twins offer related evidence with special selection and reporting assumptions. The child labor baseline fails an important trend check. The diploma cutoff addresses a credential. The simulated exercises teach mechanics. These are not five independent estimates of one identical treatment for one population.
+
+137
+00:35:57.004 --> 00:36:10.450
+<v Host>So I should not average the diploma estimate with the birth-quarter percentage, or treat simulated agreement as new evidence. What remains of the original chapter's broad conclusion?
+
+138
+00:36:10.450 --> 00:36:35.810
+<v Economist>Its schooling evidence supports a meaningful causal earnings benefit, with roughly 7 to 10 percent per extra year as a useful chapter-level summary. That is not a universal constant or a common confidence interval. The corrected twin estimates are somewhat higher. Similarity between ordinary regression and instrumental variables can reflect offsetting biases, different affected groups, or uncertainty.
+
+139
+00:36:36.160 --> 00:37:03.960
+<v Host>Let me recap The Investigation. Ability differences can distort regressions, and later outcomes can be bad controls. Twins remove shared factors but make reporting errors more important. Instruments need relevance and credible causal restrictions. The Texas cutoff concerns credentials. Policy comparisons need valid counterfactual trends, and the original child labor design fails its trend check.
+
+140
+00:37:03.960 --> 00:37:21.600
+<v Economist>Good. Keep the final distinction too: simulations help us understand identification, but they do not supply independent real-world evidence. Our strongest conclusion combines substantive findings with their assumptions and limits. We are now ready for The Resolution.
+
+141
+00:37:22.800 --> 00:37:34.800
+<v Host>The Resolution starts with the devil's advocate. I predict the lowest twin estimate is the safest. We removed shared ability, so surely the smallest result has the least bias.
+
+142
+00:37:34.800 --> 00:38:00.800
+<v Economist>The final reveal is that lower can be further from the target. Measurement noise pushes the within-twin estimate toward zero under the classical assumptions. Removing shared differences also reduces genuine schooling variation. The observed decline therefore combines changes in selection bias with changes in attenuation. We cannot rank credibility by ranking coefficients.
+
+143
+00:38:00.800 --> 00:38:12.800
+<v Host>The sibling-report instrument helps diagnose that explanation, because the corrected difference estimate rises. But shared reporting errors and nonshared personal differences still need attention.
+
+144
+00:38:12.800 --> 00:38:36.800
+<v Economist>Exactly. The correction is conditional on assumptions, not a machine that certifies the true number. If both twins repeat the same wrong information, the second report may carry the same noise. If a private event changes a twin's schooling and earnings, family differencing does not remove it. We should state these possibilities before claiming the design settles everything.
+
+145
+00:38:36.800 --> 00:38:45.800
+<v Host>The other objection says the Texas result makes education worthless. There is no clear earnings jump from the diploma, so why pay for school?
+
+146
+00:38:45.800 --> 00:39:11.800
+<v Economist>That confuses different treatments. A diploma effect near an exam cutoff is not an effect of more instruction. Students close to passing have already completed similar coursework. The research asks what changes when the credential becomes more likely. Its imprecision also leaves room for economically meaningful credential benefits. Neither a universal zero nor a complete skills explanation follows.
+
+147
+00:39:11.800 --> 00:39:18.800
+<v Host>Then what should I say instead of the map's stronger claim that the diploma is worth little and learning drives everything?
+
+148
+00:39:18.800 --> 00:39:41.200
+<v Economist>Say the point estimate of this local diploma effect is small, but uncertain. It weighs against some strong credential stories without eliminating signaling generally. Other schooling designs support positive earnings effects for people whose schooling changes. Together these findings sharpen our questions about mechanisms. They do not fully decompose the education premium.
+
+149
+00:39:41.550 --> 00:39:53.790
+<v Host>Let us organize the takeaways. We began near 7 percent in the Census. What should I remember when someone presents that precise association as a causal answer?
+
+150
+00:39:53.790 --> 00:40:19.910
+<v Economist>Ask why the compared workers differ in schooling. More able or better-connected workers may choose more education. At the same time, noisy schooling reports may pull a positive coefficient down. These forces can offset. A rough 7 to 10 percent summary cannot remove that concern. We cannot infer from a positive association that it is entirely causal, or from matching point estimates that both methods are unbiased.
+
+151
+00:40:19.910 --> 00:40:28.750
+<v Host>For twins, the key question is what cancels and what remains. For instruments, it is what moves schooling and whether anything else moves earnings.
+
+152
+00:40:28.750 --> 00:40:51.030
+<v Economist>Yes. In a birth-quarter design, investigate background seasonality and school-entry mechanisms. In a policy design, examine alternative state trends and related policies. In a cutoff design, ask whether other determinants change smoothly through the threshold. Each design earns credibility through its particular comparison and checks. Giving it a familiar name is not enough.
+
+153
+00:40:51.030 --> 00:41:02.230
+<v Host>What about practical education policy? A historical return for would-be dropouts sounds valuable, but it cannot directly price every new university program.
+
+154
+00:41:02.230 --> 00:41:28.750
+<v Economist>That is the policy implication. Evidence that extra schooling improved affected students' earnings supports taking educational access seriously. A policy decision still needs its own affected population, costs, educational quality, and opportunities. Wage benefits alone are not a complete social benefit calculation. The local gains from compulsory schooling do not automatically describe every degree or every expansion.
+
+155
+00:41:28.750 --> 00:41:39.110
+<v Host>I also need uncertainty, not only the point estimate. The failed child labor check shows why a favorable number cannot substitute for a credible design.
+
+156
+00:41:39.460 --> 00:42:03.220
+<v Economist>And the Texas result shows the other side. A small, statistically unclear estimate does not establish that an effect is absent. Statistical significance and practical importance are different. We should report what the evidence suggests and what it still permits. Careful uncertainty is part of the finding, rather than an optional sentence afterward.
+
+157
+00:42:03.220 --> 00:42:16.980
+<v Host>We have arrived at the thesis leaf. The map says that when five imperfect designs agree, another year raises earnings by roughly 7 to 10 percent. How should we state it faithfully?
+
+158
+00:42:16.980 --> 00:42:44.020
+<v Economist>Keep the positive schooling conclusion and qualify the agreement. Roughly 7 to 10 percent is the original chapter's synthesis of the schooling evidence, especially birth-quarter results. It is not five successful independent experiments proving a universal effect. One historical policy design fails a major check. Simulations are demonstrations. The diploma study estimates a different margin.
+
+159
+00:42:44.020 --> 00:42:56.660
+<v Host>My Resolution recap is to compare assumptions before comparing estimates. Lower estimates can reflect noise, a diploma null is not a schooling null, and local evidence needs local interpretation.
+
+160
+00:42:56.660 --> 00:43:19.540
+<v Economist>Exactly. The chapter supports a substantial causal earnings payoff to schooling in the settings studied. Its deeper lesson is how to judge evidence without demanding that every result say the same thing. Designs can reinforce an argument, expose an error, or reveal a different treatment. We learn by distinguishing those roles.
+
+161
+00:43:20.740 --> 00:43:36.940
+<v Host>Let us return to our goals. We can now explain how ability and reporting error distort an earnings regression. We can assess the assumptions behind the main comparisons. And we can distinguish more schooling from receiving a credential.
+
+162
+00:43:36.940 --> 00:43:59.540
+<v Economist>Our closing thesis is a qualified positive conclusion. The original schooling evidence supports a meaningful earnings gain, summarized at roughly 7 to 10 percent per additional year. The estimate depends on the design, affected students, and assumptions. The different methods teach us how to evaluate that claim; they do not deliver an identical answer to an identical question.
+
+163
+00:43:59.540 --> 00:44:13.740
+<v Host>Here is the think question. Suppose a new exam rule sharply increases diploma receipt, but the estimated earnings effect is small and uncertain. Can a policymaker conclude that another year of teaching has no value?
+
+164
+00:44:13.740 --> 00:44:18.700
+<v Economist>Pause the episode and think about the treatment, the comparison group, and the uncertainty.
+
+165
+00:44:23.050 --> 00:44:37.130
+<v Host>My answer is no. The treatment changed the chance of a diploma around an exam threshold. It did not remove a year of instruction. And an uncertain earnings estimate might still permit a meaningful credential benefit.
+
+166
+00:44:37.130 --> 00:44:55.930
+<v Economist>That answer separates the causal questions. To evaluate another year of teaching, we need variation in schooling and a credible comparison for those whose schooling changes. To evaluate the credential, the cutoff may be useful under its assumptions. Neither design supplies an automatic answer for every student.
+
+167
+00:44:55.930 --> 00:45:09.610
+<v Host>The Colab notebook lets you inspect these comparisons and the labeled simulations. The lecture slides provide another route through the same ideas. Keep the original chapter's cautions in mind when reading stronger classroom summaries.
+
+168
+00:45:09.610 --> 00:45:33.170
+<v Economist>Our final bridge connects the course's causal designs and their limits. Random assignment clarifies the benchmark. Regression asks about comparability after adjustment. Instruments, cutoffs, and changes over time offer other comparisons. Every approach requires a precise treatment, a defensible counterfactual, and an honest statement of whose outcome it explains. Thank you for listening. Goodbye.

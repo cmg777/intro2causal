@@ -1,4 +1,4 @@
-# Read-along transcripts for Chapters 1–4
+# Read-along transcripts for Chapters 1–6
 
 The website uses each chapter's JSON file for passage highlighting and section
 markers in the shared podcast player. Students can download the plain-text (`.txt`) or timed WebVTT (`.vtt`)
@@ -26,6 +26,5 @@ python3 scripts/build_podcast_transcript.py \
 ```
 
 Keep model files, raw recognition output, and PCM caches outside version control.
-The completed Chapter 1–4 MP3s have specific exceptions in `.gitignore` so GitHub
-Pages can serve them with their transcripts. Chapters 5–6 remain unpublished
-while audio generation is incomplete. Their cached segments stay local.
+All six completed MP3s have specific exceptions in `.gitignore` so GitHub Pages
+can serve them with their transcripts. Generation and verification caches stay local.
