@@ -6,6 +6,8 @@
   <title>Mastering Causal Metrics</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/podcast-player.css">
+  <script src="assets/podcast-player.js" defer></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
     html { scroll-behavior: smooth; }
@@ -104,6 +106,7 @@
       padding: 1.25rem;
       display: flex;
       flex-direction: column;
+      align-self: start;
       gap: 0.75rem;
     }
     .chapter-card:hover {
@@ -125,10 +128,6 @@
       transition: transform 0.3s ease;
     }
     .chapter-thumb img:hover { transform: scale(1.03); }
-    .chapter-audio { display: flex; align-items: center; gap: 0.5rem; }
-    .chapter-audio audio { flex: 1; min-width: 0; height: 36px; color-scheme: dark; }
-    .light .chapter-audio audio { color-scheme: light; }
-    .chapter-audio a { color: var(--green); }
 
     /* AI notebooks video thumbnail */
     .media-frame {
@@ -581,7 +580,7 @@
   <section id="curriculum" class="py-16 px-4 fade-in-up" style="scroll-margin-top: 80px;">
     <div class="max-w-6xl mx-auto">
       <h2 class="text-2xl font-bold mb-2 text-center">Curriculum</h2>
-      <p class="text-center text-muted mb-10 max-w-3xl mx-auto">Six chapters on the five tools of causal inference. Click a badge to open the study guide or launch the notebook in your browser. Each card also links to the lecture slides and videos, with an AI podcast overview of the chapter.</p>
+      <p class="text-center text-muted mb-10 max-w-3xl mx-auto">Six chapters on the five tools of causal inference. Click a badge to open the study guide or launch the notebook in your browser. Each card also links to lecture slides and videos. Listen to the podcasts for Chapters 1–4: jump between sections and follow the transcript as you listen.</p>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <!-- Chapter 1 -->
@@ -601,13 +600,66 @@
               <a href="slides/ch01/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
               <a href="#" onclick="openVideo('eGRd8jBdNYg','Randomized Trials: The Ideal Weapon');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
-            <div class="chapter-audio">
-              <span title="AI Podcast">&#127911;</span>
-              <audio controls preload="none" aria-label="Chapter 1 AI podcast">
-                <source src="https://files.catbox.moe/pb7n2l.m4a" type="audio/mp4">
-              </audio>
-              <a href="https://files.catbox.moe/pb7n2l.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
+            <div class="podcast-launch-row">
+              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-1-podcast">
+                <span class="podcast-launch-icon" aria-hidden="true"><svg width="86.4" height="32" viewBox="0 0 54 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 12V9a7 7 0 0 1 14 0v3" stroke="white" stroke-width="1.3"/><rect x="10.5" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><rect x="22" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><text x="35" y="14" font-family="DejaVu Sans, Verdana, Geneva, sans-serif" font-size="11" fill="white">&#9654;</text></svg></span>
+                <span class="podcast-launch-label">Listen AI Podcast</span>
+              </button>
             </div>
+            <noscript><a href="mindmaps-podcast/audio/ch01-randomized-trials.mp3">Listen to the Chapter 1 podcast</a></noscript>
+            <section id="chapter-1-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch01-randomized-trials.json" aria-label="Chapter 1 podcast study player" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Open the Randomized Trials mind map full screen" onclick="openImage('book/images/ch01_visual_summary.webp', 'Chapter 1 mind map: Randomized Trials')">
+                <img src="book/images/ch01_visual_summary.webp" alt="Randomized Trials mind map" loading="lazy">
+                <span>⊕ Mind map</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AI podcast · <span data-episode-minutes>39</span> min</p>
+                  <h5>Chapter 1 · Randomized Trials</h5>
+                  <p class="podcast-now" aria-live="polite">Now: Opening</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls preload="none" aria-label="Chapter 1 podcast">
+                  <source src="mindmaps-podcast/audio/ch01-randomized-trials.mp3" type="audio/mpeg">
+                  Your browser does not support audio playback. Download the recording below.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Seek in podcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>38:56</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Back 15 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Play podcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Forward 30 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Playback speed: 1×. Click to change">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
+              <div class="podcast-transcript-actions" data-enhanced hidden>
+                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-1-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch01-randomized-trials.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              </div>
+              <div id="chapter-1-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
+              </div>
+              <div class="podcast-downloads">
+                <a href="mindmaps-podcast/audio/ch01-randomized-trials.mp3" download>Download audio</a>
+                <a href="mindmaps-podcast/transcripts/ch01-randomized-trials.vtt" download>Timed transcript</a>
+              </div>
+              <p class="podcast-status" role="status"></p>
+            </section>
           </div>
           <!-- Chapter 2 -->
           <div class="card chapter-card">
@@ -626,13 +678,66 @@
               <a href="slides/ch02/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
               <a href="#" onclick="openVideo('iPBV3BlV7jk','Ceteris Paribus: Public vs. Private University');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
-            <div class="chapter-audio">
-              <span title="AI Podcast">&#127911;</span>
-              <audio controls preload="none" aria-label="Chapter 2 AI podcast">
-                <source src="https://files.catbox.moe/i2l7wy.m4a" type="audio/mp4">
-              </audio>
-              <a href="https://files.catbox.moe/i2l7wy.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
+            <div class="podcast-launch-row">
+              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-2-podcast">
+                <span class="podcast-launch-icon" aria-hidden="true"><svg width="86.4" height="32" viewBox="0 0 54 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 12V9a7 7 0 0 1 14 0v3" stroke="white" stroke-width="1.3"/><rect x="10.5" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><rect x="22" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><text x="35" y="14" font-family="DejaVu Sans, Verdana, Geneva, sans-serif" font-size="11" fill="white">&#9654;</text></svg></span>
+                <span class="podcast-launch-label">Listen AI Podcast</span>
+              </button>
             </div>
+            <noscript><a href="mindmaps-podcast/audio/ch02-regression.mp3">Listen to the Chapter 2 podcast</a></noscript>
+            <section id="chapter-2-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch02-regression.json" aria-label="Chapter 2 podcast study player" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Open the Regression mind map full screen" onclick="openImage('book/images/ch02_visual_summary.webp', 'Chapter 2 mind map: Regression')">
+                <img src="book/images/ch02_visual_summary.webp" alt="Regression mind map" loading="lazy">
+                <span>⊕ Mind map</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AI podcast · <span data-episode-minutes>40</span> min</p>
+                  <h5>Chapter 2 · Regression</h5>
+                  <p class="podcast-now" aria-live="polite">Now: Opening</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls preload="none" aria-label="Chapter 2 podcast">
+                  <source src="mindmaps-podcast/audio/ch02-regression.mp3" type="audio/mpeg">
+                  Your browser does not support audio playback. Download the recording below.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Seek in podcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>39:31</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Back 15 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Play podcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Forward 30 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Playback speed: 1×. Click to change">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
+              <div class="podcast-transcript-actions" data-enhanced hidden>
+                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-2-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch02-regression.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              </div>
+              <div id="chapter-2-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
+              </div>
+              <div class="podcast-downloads">
+                <a href="mindmaps-podcast/audio/ch02-regression.mp3" download>Download audio</a>
+                <a href="mindmaps-podcast/transcripts/ch02-regression.vtt" download>Timed transcript</a>
+              </div>
+              <p class="podcast-status" role="status"></p>
+            </section>
           </div>
           <!-- Chapter 3 -->
           <div class="card chapter-card">
@@ -652,13 +757,66 @@
               <a href="#" onclick="openVideo('eoJUPd6104Q','Introduction to Instrumental Variables');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
               <a href="#" onclick="openVideo('3rVPqTZGOis','Instrumental Variables: AI Video','notebooklm');return false;"><img src="book/images/video2-badge.svg" alt="Watch Video 2" class="h-8"></a>
             </div>
-            <div class="chapter-audio">
-              <span title="AI Podcast">&#127911;</span>
-              <audio controls preload="none" aria-label="Chapter 3 AI podcast">
-                <source src="https://files.catbox.moe/h1rfzi.m4a" type="audio/mp4">
-              </audio>
-              <a href="https://files.catbox.moe/h1rfzi.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
+            <div class="podcast-launch-row">
+              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-3-podcast">
+                <span class="podcast-launch-icon" aria-hidden="true"><svg width="86.4" height="32" viewBox="0 0 54 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 12V9a7 7 0 0 1 14 0v3" stroke="white" stroke-width="1.3"/><rect x="10.5" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><rect x="22" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><text x="35" y="14" font-family="DejaVu Sans, Verdana, Geneva, sans-serif" font-size="11" fill="white">&#9654;</text></svg></span>
+                <span class="podcast-launch-label">Listen AI Podcast</span>
+              </button>
             </div>
+            <noscript><a href="mindmaps-podcast/audio/ch03-instrumental-variables.mp3">Listen to the Chapter 3 podcast</a></noscript>
+            <section id="chapter-3-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch03-instrumental-variables.json" aria-label="Chapter 3 podcast study player" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Open the Instrumental Variables mind map full screen" onclick="openImage('book/images/ch03_visual_summary.webp', 'Chapter 3 mind map: Instrumental Variables')">
+                <img src="book/images/ch03_visual_summary.webp" alt="Instrumental Variables mind map" loading="lazy">
+                <span>⊕ Mind map</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AI podcast · <span data-episode-minutes>35</span> min</p>
+                  <h5>Chapter 3 · Instrumental Variables</h5>
+                  <p class="podcast-now" aria-live="polite">Now: Opening</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls preload="none" aria-label="Chapter 3 podcast">
+                  <source src="mindmaps-podcast/audio/ch03-instrumental-variables.mp3" type="audio/mpeg">
+                  Your browser does not support audio playback. Download the recording below.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Seek in podcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>35:22</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Back 15 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Play podcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Forward 30 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Playback speed: 1×. Click to change">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
+              <div class="podcast-transcript-actions" data-enhanced hidden>
+                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-3-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch03-instrumental-variables.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              </div>
+              <div id="chapter-3-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
+              </div>
+              <div class="podcast-downloads">
+                <a href="mindmaps-podcast/audio/ch03-instrumental-variables.mp3" download>Download audio</a>
+                <a href="mindmaps-podcast/transcripts/ch03-instrumental-variables.vtt" download>Timed transcript</a>
+              </div>
+              <p class="podcast-status" role="status"></p>
+            </section>
           </div>
           <!-- Chapter 4 -->
           <div class="card chapter-card">
@@ -677,13 +835,66 @@
               <a href="slides/ch04/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
               <a href="#" onclick="openVideo('d4S2STNOHBk','Regression Discontinuity: AI Video','notebooklm');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
-            <div class="chapter-audio">
-              <span title="AI Podcast">&#127911;</span>
-              <audio controls preload="none" aria-label="Chapter 4 AI podcast">
-                <source src="https://files.catbox.moe/o4hyxn.m4a" type="audio/mp4">
-              </audio>
-              <a href="https://files.catbox.moe/o4hyxn.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
+            <div class="podcast-launch-row">
+              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-4-podcast">
+                <span class="podcast-launch-icon" aria-hidden="true"><svg width="86.4" height="32" viewBox="0 0 54 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 12V9a7 7 0 0 1 14 0v3" stroke="white" stroke-width="1.3"/><rect x="10.5" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><rect x="22" y="9" width="3.5" height="7" rx="1.5" stroke="white" stroke-width="1.3"/><text x="35" y="14" font-family="DejaVu Sans, Verdana, Geneva, sans-serif" font-size="11" fill="white">&#9654;</text></svg></span>
+                <span class="podcast-launch-label">Listen AI Podcast</span>
+              </button>
             </div>
+            <noscript><a href="mindmaps-podcast/audio/ch04-regression-discontinuity.mp3">Listen to the Chapter 4 podcast</a></noscript>
+            <section id="chapter-4-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch04-regression-discontinuity.json" aria-label="Chapter 4 podcast study player" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Open the Regression Discontinuity mind map full screen" onclick="openImage('book/images/ch04_visual_summary.webp', 'Chapter 4 mind map: Regression Discontinuity')">
+                <img src="book/images/ch04_visual_summary.webp" alt="Regression Discontinuity mind map" loading="lazy">
+                <span>⊕ Mind map</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AI podcast · <span data-episode-minutes>35</span> min</p>
+                  <h5>Chapter 4 · Regression Discontinuity</h5>
+                  <p class="podcast-now" aria-live="polite">Now: Opening</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Close the podcast player"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls preload="none" aria-label="Chapter 4 podcast">
+                  <source src="mindmaps-podcast/audio/ch04-regression-discontinuity.mp3" type="audio/mpeg">
+                  Your browser does not support audio playback. Download the recording below.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Seek in podcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>35:12</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Back 15 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Play podcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Forward 30 seconds"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Playback speed: 1×. Click to change">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
+              <div class="podcast-transcript-actions" data-enhanced hidden>
+                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-4-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              </div>
+              <div id="chapter-4-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Follow audio</label>
+              </div>
+              <div class="podcast-downloads">
+                <a href="mindmaps-podcast/audio/ch04-regression-discontinuity.mp3" download>Download audio</a>
+                <a href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.vtt" download>Timed transcript</a>
+              </div>
+              <p class="podcast-status" role="status"></p>
+            </section>
           </div>
           <!-- Chapter 5 -->
           <div class="card chapter-card">
@@ -702,13 +913,7 @@
               <a href="slides/ch05/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
               <a href="#" onclick="openVideo('eiffOVbYvNc','Introduction to Differences-in-Differences');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
-            <div class="chapter-audio">
-              <span title="AI Podcast">&#127911;</span>
-              <audio controls preload="none" aria-label="Chapter 5 AI podcast">
-                <source src="https://files.catbox.moe/j9jeap.m4a" type="audio/mp4">
-              </audio>
-              <a href="https://files.catbox.moe/j9jeap.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
-            </div>
+
           </div>
           <!-- Chapter 6 -->
           <div class="card chapter-card">
@@ -727,13 +932,7 @@
               <a href="slides/ch06/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
               <a href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
             </div>
-            <div class="chapter-audio">
-              <span title="AI Podcast">&#127911;</span>
-              <audio controls preload="none" aria-label="Chapter 6 AI podcast">
-                <source src="https://files.catbox.moe/dyyvur.m4a" type="audio/mp4">
-              </audio>
-              <a href="https://files.catbox.moe/dyyvur.m4a" download target="_blank" title="Download audio" aria-label="Download audio">&#11015;</a>
-            </div>
+
           </div>
       </div>
 

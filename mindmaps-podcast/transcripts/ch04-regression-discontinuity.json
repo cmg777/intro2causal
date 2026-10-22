@@ -1,0 +1,749 @@
+{
+  "title": "Regression discontinuity",
+  "duration": 2111.89,
+  "timing": "Script paragraphs aligned to local Whisper recognition; section boundaries from source audio chunks.",
+  "audio_sha256": "89e1b89beb6cd7abaf7399671a8c5c37deb6bc881de4403f1146f088751823d2",
+  "sections": [
+    {
+      "title": "Opening",
+      "start": 0.0,
+      "segment": 0
+    },
+    {
+      "title": "The Question",
+      "start": 112.08,
+      "segment": 6
+    },
+    {
+      "title": "The Investigation",
+      "start": 448.7,
+      "segment": 24
+    },
+    {
+      "title": "The Resolution",
+      "start": 1648.27,
+      "segment": 84
+    },
+    {
+      "title": "Wrap-up",
+      "start": 1969.66,
+      "segment": 100
+    }
+  ],
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 19.52,
+      "speaker": "Host",
+      "text": "Welcome back. Today we are on regression discontinuity, and a birthday with serious consequences. Legal access to alcohol changes suddenly at a particular age. Human bodies do not suddenly become different. Could that contrast teach us something about deaths among young adults?"
+    },
+    {
+      "start": 19.52,
+      "end": 41.653,
+      "speaker": "Economist",
+      "text": "That is the starting point. Researchers studying American mortality found a clear increase around the legal drinking birthday. Their question was whether access to alcohol caused that increase. Simply comparing drinkers with people who avoid alcohol would not settle it. Those groups may differ in risk taking, health, and many other ways."
+    },
+    {
+      "start": 41.653,
+      "end": 51.28,
+      "speaker": "Host",
+      "text": "So our question is: Does legal access to alcohol raise death rates? We need a comparison that does more than show drinking and danger together."
+    },
+    {
+      "start": 51.28,
+      "end": 71.291,
+      "speaker": "Economist",
+      "text": "By the end of this episode, you should be able to explain how a cutoff creates a causal comparison. You should also distinguish sharp from fuzzy regression discontinuity. Finally, you should evaluate the assumptions and limits of an estimated jump. We will use the drinking age and Boston's selective schools to practice those skills."
+    },
+    {
+      "start": 71.291,
+      "end": 88.08,
+      "speaker": "Host",
+      "text": "Our mind map takes us through The Question, The Investigation, and The Resolution. I like the idea of a rule creating an experiment. But I am suspicious. If a rule determines everything, where does a fair comparison come from?"
+    },
+    {
+      "start": 88.08,
+      "end": 110.88,
+      "speaker": "Economist",
+      "text": "Keep that suspicion. It will help. The rule itself is not random. Instead, we compare people extremely close to where it changes. We ask whether their expected outcomes would otherwise join smoothly. If that condition is credible, a sudden outcome change becomes informative. If it fails, the same apparent jump can mislead us."
+    },
+    {
+      "start": 112.08,
+      "end": 126.413,
+      "speaker": "Host",
+      "text": "Let us enter The Question. Start with legal access rather than actual drinking. Why is that distinction so important? An underage person can still find alcohol, while someone above the legal age can choose to avoid it."
+    },
+    {
+      "start": 126.413,
+      "end": 151.536,
+      "speaker": "Economist",
+      "text": "The treatment in our first design is permission to obtain alcohol legally. In the American setting studied, that permission begins at 21. It does not mean everyone suddenly drinks. It means the legal restriction switches. The causal effect includes the behavioral response to that change. It is an effect of access, not the biological effect of drinking a fixed amount."
+    },
+    {
+      "start": 151.536,
+      "end": 169.451,
+      "speaker": "Host",
+      "text": "Other eligibility rules have that same structure. The study guide mentions voting at 18 and Medicare eligibility at 65. They sound like promising places to look. But the rule alone cannot guarantee that an outcome change comes from the policy we care about."
+    },
+    {
+      "start": 169.451,
+      "end": 196.794,
+      "speaker": "Economist",
+      "text": "Exactly. Those are examples of thresholds, not completed causal studies. Each application needs its own investigation. For alcohol, the policy debate matters. Supporters of a lower drinking age argued that earlier legal access could encourage more responsible drinking. Others believed restricting access prevented harm. We should judge these arguments using evidence, rather than assuming either story must be right."
+    },
+    {
+      "start": 196.794,
+      "end": 209.52,
+      "speaker": "Host",
+      "text": "My first prediction is that if birthdays alone create dangerous celebrations, deaths should rise around neighboring birthdays too. Would that weaken the argument that legal drinking access matters?"
+    },
+    {
+      "start": 209.52,
+      "end": 234.12,
+      "speaker": "Economist",
+      "text": "The birthday comparison gives a useful reveal. The original study discussion finds a distinctive spike around the legal drinking birthday. Neighboring birthdays do not show the same pronounced pattern. That weakens a generic birthday explanation. But it does not yet answer whether the increase persists beyond a brief celebration. We need a broader comparison around the threshold."
+    },
+    {
+      "start": 234.47,
+      "end": 251.051,
+      "speaker": "Host",
+      "text": "Here is the puzzle of rigid rules. A person just short of the birthday and someone just past it can be nearly the same age. Yet their legal access differs completely. The comparison gets interesting precisely because the rule changes abruptly."
+    },
+    {
+      "start": 251.051,
+      "end": 275.645,
+      "speaker": "Economist",
+      "text": "Yes. Think of age advancing gradually, while eligibility changes suddenly. We do not claim nearby people are identical in every detail. We need their average underlying risks to vary smoothly. The mortality data grouped by month of age show more than a single birthday spike. They suggest a step upward around the legal boundary. That pattern motivates the design."
+    },
+    {
+      "start": 275.645,
+      "end": 287.154,
+      "speaker": "Host",
+      "text": "What does smoothly mean here? Are you saying the death rate must stay constant as people grow older? That seems unlikely, especially when young people are gaining experience and changing their behavior."
+    },
+    {
+      "start": 287.154,
+      "end": 310.635,
+      "speaker": "Economist",
+      "text": "Smoothly does not mean constant. Mortality may rise, fall, or curve with age. The requirement concerns a sudden break at the exact boundary. Without the legal change, the expected outcome should approach the same value from either side. A gradual improvement in road safety with maturity is compatible with that condition. An unrelated policy starting on the same birthday would create a problem."
+    },
+    {
+      "start": 310.635,
+      "end": 322.969,
+      "speaker": "Host",
+      "text": "Let us build the vocabulary before we fit anything. Regression discontinuity is a long name. Can we unpack the words and give every moving part a simple job?"
+    },
+    {
+      "start": 322.969,
+      "end": 347.87,
+      "speaker": "Economist",
+      "text": "We will call it RD after this. The running variable is the measure that determines eligibility. Here it is age. The cutoff is the boundary in that measure. The treatment indicator records whether legal access is switched on. Discontinuity means a break or jump. Regression describes the statistical method used to separate that jump from the surrounding trend."
+    },
+    {
+      "start": 348.22,
+      "end": 359.171,
+      "speaker": "Host",
+      "text": "And sharp versus fuzzy describes what happens to treatment at the boundary? I want to avoid confusing a sharp legal rule with a claim that everyone follows it perfectly."
+    },
+    {
+      "start": 359.171,
+      "end": 383.931,
+      "speaker": "Economist",
+      "text": "Correct. In sharp RD, the treatment being studied switches completely at the cutoff. Legal access is sharp even though drinking behavior is not. In fuzzy RD, the chance or intensity of the treatment changes, without a complete switch. A school offer might increase attendance without determining it. We must define the treatment before choosing the label."
+    },
+    {
+      "start": 383.931,
+      "end": 394.767,
+      "speaker": "Host",
+      "text": "We also need continuity, bandwidth, and placebo tests. I can remember the first as the smooth comparison we would expect without treatment. What do the other terms add?"
+    },
+    {
+      "start": 394.767,
+      "end": 416.72,
+      "speaker": "Economist",
+      "text": "Bandwidth tells us how far from the boundary we include observations. A narrow bandwidth uses only close neighbors. A placebo test asks whether something that should remain unchanged also jumps. For example, disease deaths can help test the alcohol story. These tools examine the design. They do not make its assumptions disappear."
+    },
+    {
+      "start": 416.72,
+      "end": 434.222,
+      "speaker": "Host",
+      "text": "Let me recap The Question. Legal access changes abruptly, while ordinary age related risks should change gradually. We will compare close neighbors, distinguish access from drinking, and test whether a jump deserves a causal interpretation."
+    },
+    {
+      "start": 434.222,
+      "end": 447.5,
+      "speaker": "Economist",
+      "text": "That is our foundation. Nearness creates an opportunity, not an automatic experiment. Next we must explain precisely what we compare, how we estimate it, and what could make us wrong."
+    },
+    {
+      "start": 448.7,
+      "end": 464.64,
+      "speaker": "Host",
+      "text": "We now enter The Investigation. Our first obstacle is no overlap at the threshold. At a given exact age, everyone faces the same legal rule. Where do we find an untreated comparison for someone who is already eligible?"
+    },
+    {
+      "start": 464.64,
+      "end": 490.16,
+      "speaker": "Economist",
+      "text": "We cannot find it at that exact age. That makes RD different from ordinary regression comparisons within the same control group. Instead, we estimate the outcome trend below the boundary and continue it toward the boundary. We also estimate the trend above it. We compare their predicted values where the rule switches. This short continuation of a trend is called extrapolation."
+    },
+    {
+      "start": 490.16,
+      "end": 506.554,
+      "speaker": "Host",
+      "text": "So saying that we simply control for age hides the central challenge. There is no exact age with both legal conditions in the data. We are trusting a relationship across nearby ages, rather than comparing eligible and ineligible people of identical age."
+    },
+    {
+      "start": 506.554,
+      "end": 528.085,
+      "speaker": "Economist",
+      "text": "Precisely. Imagine asking what mortality would have been just above the boundary if access had remained restricted. That unobserved alternative is the counterfactual. The trend just below the boundary helps estimate it. The justification comes from continuity near the boundary. A regression formula alone cannot supply that justification."
+    },
+    {
+      "start": 528.085,
+      "end": 545.429,
+      "speaker": "Host",
+      "text": "Now the sharp design can be stated carefully. The running variable is age, the cutoff is 21, and the legal access indicator is the switch. Are the probabilities at this boundary literally changing from 0 to 100 percent?"
+    },
+    {
+      "start": 545.429,
+      "end": 572.96,
+      "speaker": "Economist",
+      "text": "For the legal access indicator, yes. Those figures describe eligibility, not drinking participation. The identifying assumption concerns potential outcomes, meaning the outcomes under each possible legal regime. Around the boundary, those underlying outcome relationships must be continuous. Then an abrupt difference in observed mortality can be attributed to the change in access."
+    },
+    {
+      "start": 572.96,
+      "end": 586.646,
+      "speaker": "Host",
+      "text": "My prediction for this part is that a smooth downward age trend does not rule out harm from access. Mortality could be falling on both sides, while still stepping upward at the boundary. Is that what happens?"
+    },
+    {
+      "start": 586.646,
+      "end": 608.82,
+      "speaker": "Economist",
+      "text": "That prediction is right. The book's mortality comparison shows generally declining death rates with age among these young adults. At the legal drinking boundary, the fitted mortality level steps upward. A falling background trend and a harmful policy effect can coexist. Comparing broad averages across ages could obscure that distinction."
+    },
+    {
+      "start": 609.17,
+      "end": 621.84,
+      "speaker": "Host",
+      "text": "Now explain the RD regression tool without asking us to read an equation. What should the computer separate, and why should we examine the underlying data before trusting its answer?"
+    },
+    {
+      "start": 621.84,
+      "end": 649.12,
+      "speaker": "Economist",
+      "text": "The simple model separates a baseline level, an age trend, and a jump when legal access begins. The age trend captures gradual change. The jump measures the additional change at the boundary. Plotting first helps reveal unusual observations, curvature, or a result that exists only because the fitted model forces it. An attractive coefficient cannot repair a poor fit."
+    },
+    {
+      "start": 649.12,
+      "end": 663.44,
+      "speaker": "Host",
+      "text": "If the model uses separate fitted lines, are their slopes always different? The map's simple equation sounds as though it has just one age trend, yet its explanation mentions a line on each side."
+    },
+    {
+      "start": 663.44,
+      "end": 686.4,
+      "speaker": "Economist",
+      "text": "Good distinction. The simplest specification imposes the same slope on both sides, while allowing a level change. That creates parallel fitted lines. A more flexible specification lets the slopes differ. Either way, the effect of interest is the separation evaluated at 21. Comparing their heights far away would require additional extrapolation."
+    },
+    {
+      "start": 686.4,
+      "end": 698.32,
+      "speaker": "Host",
+      "text": "Why do researchers sometimes recenter age around the cutoff? Does changing the starting point change any actual comparison, or is it only a way to keep the interpretation clear?"
+    },
+    {
+      "start": 698.32,
+      "end": 721.04,
+      "speaker": "Economist",
+      "text": "It keeps interpretation clear. We measure distance from the boundary rather than age from birth. At the boundary, that distance vanishes. When we allow different slopes, the coefficient representing the level jump therefore still measures the gap exactly at the threshold. Rewriting the same fitted relationship this way does not create new evidence."
+    },
+    {
+      "start": 721.04,
+      "end": 733.864,
+      "speaker": "Host",
+      "text": "Let us examine the mortality case itself. The observations are monthly age groups, rather than a separate regression record for every individual. What exactly is measured, and what does the estimated jump mean?"
+    },
+    {
+      "start": 733.864,
+      "end": 758.81,
+      "speaker": "Economist",
+      "text": "Each monthly group has an annual death rate per 100,000 people. Monthly describes the age grouping, not the time unit of the reported mortality rate. The broad sample covers ages 19 through 22, extending up to the next birthday. The simple linear estimate adds about 7.7 annual deaths on that same population scale near the legal boundary."
+    },
+    {
+      "start": 759.16,
+      "end": 777.68,
+      "speaker": "Host",
+      "text": "I want to work through the scale. The book describes an average death rate around 95, and the extra rate is about 7.7. To express the increase relative to that average, I divide the extra rate by the average rate, then multiply by 100. What do we get?"
+    },
+    {
+      "start": 777.68,
+      "end": 801.013,
+      "speaker": "Economist",
+      "text": "That gives about 8.1 percent. This calculation uses the book's approximate average as the denominator. It is not the share of all young people who die because of access. The absolute increase remains extra annual deaths per 100,000 people. The relative figure helps judge its size against the mortality rate in this sample."
+    },
+    {
+      "start": 801.013,
+      "end": 814.8,
+      "speaker": "Host",
+      "text": "That distinction matters. A rate increase can be important without meaning that a large percentage of the entire population dies. What kinds of deaths account for the jump? A plausible mechanism should help us assess the alcohol explanation."
+    },
+    {
+      "start": 814.8,
+      "end": 839.92,
+      "speaker": "Economist",
+      "text": "Motor vehicle fatalities account for much of it. The estimates are roughly between 4 and 6 extra annual deaths per 100,000, depending on the specification. The results also suggest increases in suicide and some other external causes. Direct alcohol poisoning contributes less. The main concern is not simply poisoning from the drink itself, but harm linked to behavior after drinking."
+    },
+    {
+      "start": 839.92,
+      "end": 854.16,
+      "speaker": "Host",
+      "text": "Disease deaths are the proposed placebo. If cancer and heart disease suddenly increased at this exact birthday too, I would worry about the comparison or the data. Do those internal causes actually stay flat?"
+    },
+    {
+      "start": 854.16,
+      "end": 882.949,
+      "speaker": "Economist",
+      "text": "The broad sample gives small, statistically uncertain estimates for internal causes. That supports the access interpretation, since these deaths should not respond immediately in the same way. But we should soften the map's blanket claim of no jump. In one narrower specification, the internal cause estimate is distinguishable from zero at conventional levels. The check is supportive overall, not flawless in every version."
+    },
+    {
+      "start": 882.949,
+      "end": 895.52,
+      "speaker": "Host",
+      "text": "Does that exception destroy the whole study, or should it change how confidently we describe the evidence? It sounds like the difference between taking a diagnostic seriously and demanding a perfectly quiet dataset."
+    },
+    {
+      "start": 895.52,
+      "end": 924.32,
+      "speaker": "Economist",
+      "text": "We should report the exception and consider the pattern across outcomes and specifications. Chance can produce isolated results, while a systematic failure would be more troubling. The motor vehicle evidence fits the causal story particularly well. No individual placebo guarantees validity. Together, the design, the outcome pattern, and the robustness checks build the argument."
+    },
+    {
+      "start": 924.67,
+      "end": 936.96,
+      "speaker": "Host",
+      "text": "The robustness toolkit comes next. A smooth curve can look like a step if we insist on fitting straight lines. How do we avoid manufacturing a discontinuity from the wrong trend?"
+    },
+    {
+      "start": 936.96,
+      "end": 963.2,
+      "speaker": "Economist",
+      "text": "We try reasonable alternatives and report them. A quadratic trend allows curvature, meaning the slope can change gradually. Interacting the age terms with eligibility allows different curvature on each side. These choices can describe the data better, but flexibility is not automatically truth. We should ask whether the important conclusion survives credible changes, rather than choosing the version with our favorite result."
+    },
+    {
+      "start": 963.2,
+      "end": 975.12,
+      "speaker": "Host",
+      "text": "Bandwidth changes address the same concern differently. The map contrasts a broad group beginning at 19 with a narrower window from 20 to 22. Can you make the endpoints and the tradeoff clear?"
+    },
+    {
+      "start": 975.12,
+      "end": 998.425,
+      "speaker": "Economist",
+      "text": "The broad window includes the completed ages through 22, approaching the next birthday. The narrow window is within about a year on either side of the cutoff. In the table's completed age labels, it covers ages 20 and 21. Closer observations leave less room for misleading curvature. But fewer observations make the estimated jump less precise."
+    },
+    {
+      "start": 998.425,
+      "end": 1015.04,
+      "speaker": "Host",
+      "text": "So the apparent disagreement between completed age labels and continuous age endpoints is mostly notation. The real statistical decision is how far we reach on either side. Does the all cause result survive those changes?"
+    },
+    {
+      "start": 1015.04,
+      "end": 1039.92,
+      "speaker": "Economist",
+      "text": "Across the table's linear and flexible models, and its broad and narrow windows, the jump is roughly between 7 and 10 extra deaths per 100,000. The flexible broad sample estimate is about 9.5. Those are not identical results, but their shared direction and similar magnitude are reassuring. They are evidence of stability, not proof against every possible bias."
+    },
+    {
+      "start": 1039.92,
+      "end": 1051.12,
+      "speaker": "Host",
+      "text": "Is the narrowest possible window always best? If close neighbors make the comparison more credible, it is tempting to keep discarding observations until we are almost exactly at the cutoff."
+    },
+    {
+      "start": 1051.12,
+      "end": 1075.23,
+      "speaker": "Economist",
+      "text": "Then uncertainty may become enormous. This is the bias and variance tradeoff. Bias means systematic distortion, such as forcing the wrong trend. Variance describes sampling noise. A narrower window can reduce trend bias while increasing noise. Methods can help choose a bandwidth, but judgment remains. Researchers should show that findings do not depend on one convenient choice."
+    },
+    {
+      "start": 1075.58,
+      "end": 1087.289,
+      "speaker": "Host",
+      "text": "The book also contrasts parametric and nonparametric approaches. Those labels sound more different than the actual reasoning. Are both still trying to estimate what happens near the same boundary?"
+    },
+    {
+      "start": 1087.289,
+      "end": 1111.585,
+      "speaker": "Economist",
+      "text": "Yes. Parametric methods specify a trend over a chosen range, such as a line or curve. Nonparametric RD focuses on a neighborhood and often fits local lines there. Local means close to the boundary. It may give closer observations more weight. Neither approach is free of choices. Both must separate a genuine break from smooth variation and report uncertainty."
+    },
+    {
+      "start": 1111.585,
+      "end": 1123.406,
+      "speaker": "Host",
+      "text": "We are ready for the fuzzy extension. A cutoff might change the chance of receiving treatment without determining everyone's behavior. How does the reasoning change when the switch is incomplete?"
+    },
+    {
+      "start": 1123.406,
+      "end": 1143.852,
+      "speaker": "Economist",
+      "text": "First estimate the jump in outcomes at the cutoff. This is the reduced form, the effect of crossing the eligibility boundary on the outcome. Then estimate the jump in treatment receipt or intensity. This is the first stage. Dividing the outcome jump by the treatment jump scales the eligibility effect into an effect of treatment."
+    },
+    {
+      "start": 1143.852,
+      "end": 1157.205,
+      "speaker": "Host",
+      "text": "That sounds like instrumental variables from our earlier episode. The cutoff becomes an instrument, a source of treatment variation we hope is unrelated to the other causes of the outcome. Is that the connection?"
+    },
+    {
+      "start": 1157.205,
+      "end": 1181.44,
+      "speaker": "Economist",
+      "text": "Exactly. Two stage least squares is a way to carry out that instrumental variables calculation. The first stage predicts treatment using the cutoff indicator and suitable running variable controls. The second uses the predicted treatment, keeping those same controls. The eligibility indicator is excluded from that second relationship because it supplies the identifying variation."
+    },
+    {
+      "start": 1181.44,
+      "end": 1194.14,
+      "speaker": "Host",
+      "text": "Dividing two jumps is easy arithmetic. Giving the ratio a causal meaning is harder. What assumptions must survive when a sharp eligibility rule produces only a fuzzy change in actual treatment?"
+    },
+    {
+      "start": 1194.14,
+      "end": 1224.74,
+      "speaker": "Economist",
+      "text": "The first stage must be meaningful, and the continuity comparison must still hold. The exclusion restriction says crossing the boundary affects the outcome through the specified treatment. For binary treatment, a further monotonicity condition rules out people whose treatment moves in the opposite direction because eligibility improves. Under those conditions, the ratio identifies a local effect for compliers, the people whose treatment changes because of eligibility."
+    },
+    {
+      "start": 1225.09,
+      "end": 1240.16,
+      "speaker": "Host",
+      "text": "And with treatment intensity, such as the achievement level of classmates, we should not automatically call the ratio the effect for every student. We must say what changes and which causal interpretation our model supports."
+    },
+    {
+      "start": 1240.16,
+      "end": 1266.53,
+      "speaker": "Economist",
+      "text": "Right. A continuous exposure requires more care than a simple attendance switch. The estimated effect scales an outcome change by the exposure change induced at this boundary. Its interpretation depends on assumptions about that exposure and its effects. Sharp RD also has assumptions; ordinary least squares is merely an estimation tool. Neither label is a certificate of causality."
+    },
+    {
+      "start": 1266.53,
+      "end": 1283.28,
+      "speaker": "Host",
+      "text": "Now Boston's exam schools give us a concrete fuzzy case. Selective schools have impressive students, but admitting high achievers can create impressive averages even if the school adds little. What comparison avoids confusing those possibilities?"
+    },
+    {
+      "start": 1283.28,
+      "end": 1310.12,
+      "speaker": "Economist",
+      "text": "Compare applicants close to an admissions cutoff. The chapter focuses on Boston Latin School. Its running variable combines an entrance examination score with earlier school grades. The book often calls it the exam score for short. Qualification creates a large jump in enrollment there, but some qualifying students go elsewhere. Crucially, most applicants just missing this cutoff attend another selective exam school."
+    },
+    {
+      "start": 1310.12,
+      "end": 1325.04,
+      "speaker": "Host",
+      "text": "Then this is not simply selective school against ordinary school. If many students on both sides attend an exam school, their educational environments differ more subtly. What treatment actually changes sharply enough to study?"
+    },
+    {
+      "start": 1325.04,
+      "end": 1350.086,
+      "speaker": "Economist",
+      "text": "Their classmates' prior achievement changes. Qualifying students encounter peers with substantially stronger earlier math scores. The estimated jump is about 0.8 standard deviations. A standard deviation measures how spread out scores are. This peer measure uses schoolmates' scores from before admission. It therefore describes the entering peer group rather than an outcome created by the new school."
+    },
+    {
+      "start": 1350.086,
+      "end": 1367.76,
+      "speaker": "Host",
+      "text": "My intuition says stronger classmates should improve learning. A simple association supports that intuition. But similar families and earlier opportunities could help both students and their classmates. Does the cutoff change applicants' own earlier achievement too?"
+    },
+    {
+      "start": 1367.76,
+      "end": 1396.81,
+      "speaker": "Economist",
+      "text": "The chapter reports no comparable jump in applicants' earlier scores or measured background characteristics. That supports a comparison between similar applicants facing different peer environments. Yet the later math outcome does not show a clear corresponding increase. The reduced form estimate is slightly negative and uncertain. We should say no clear achievement gain was detected, rather than declaring the true effect exactly zero."
+    },
+    {
+      "start": 1397.16,
+      "end": 1413.6,
+      "speaker": "Host",
+      "text": "That is a useful correction to the map's shorthand that achievement does not jump. The absence of a statistically clear gain still leaves uncertainty. And it concerns marginal applicants near this particular boundary, compared with their actual alternatives."
+    },
+    {
+      "start": 1413.6,
+      "end": 1440.24,
+      "speaker": "Economist",
+      "text": "Yes. The book's instrumental variables estimate for peer achievement is also near zero and uncertain. But there is a further caveat. Admission may change teachers, courses, and the racial composition of classmates as well as peer achievement. A pure peer effect interpretation requires those other channels to have no direct effect on the measured outcome. That exclusion restriction is demanding."
+    },
+    {
+      "start": 1440.24,
+      "end": 1450.094,
+      "speaker": "Host",
+      "text": "Could we just choose a different channel, such as classmates' racial composition, and repeat the division? Would that let us discover which feature matters most?"
+    },
+    {
+      "start": 1450.094,
+      "end": 1474.806,
+      "speaker": "Economist",
+      "text": "The same small outcome jump would produce a small ratio for any exposure with a substantial first stage. That arithmetic cannot distinguish the channels. The book argues that other beneficial school features might make the peer estimate too positive, making the small result striking. That argument depends on the direction of those other effects. It does not prove every channel is absent."
+    },
+    {
+      "start": 1474.806,
+      "end": 1492.271,
+      "speaker": "Host",
+      "text": "What is a responsible policy implication for school choice? Parents may value many things besides the particular math scores measured here. A policymaker should be cautious about turning a local comparison into a judgment about every selective school."
+    },
+    {
+      "start": 1492.271,
+      "end": 1517.04,
+      "speaker": "Economist",
+      "text": "Exactly. The findings challenge the claim that impressive school averages reveal large causal gains from attending. They do not show that schools never matter, or that every admission policy has the same effect. The measured outcomes, applicants near the cutoff, competing schools, and multiple treatment channels all define the scope of the evidence."
+    },
+    {
+      "start": 1517.04,
+      "end": 1531.44,
+      "speaker": "Host",
+      "text": "Let us finish the investigation with interpretation and roots. We have repeatedly said local effect. Why does a convincing comparison near the boundary tell us less about people far away from it?"
+    },
+    {
+      "start": 1531.44,
+      "end": 1562.16,
+      "speaker": "Economist",
+      "text": "Because their untreated outcomes require a much longer extrapolation. The mortality evidence concerns access near the legal drinking age in a society where older adults already have access. It cannot directly predict national prohibition or access for much younger children. The book considers effects farther from the boundary, but explicitly treats them as more speculative. A fitted curve can extend farther than our causal confidence."
+    },
+    {
+      "start": 1562.51,
+      "end": 1580.0,
+      "speaker": "Host",
+      "text": "This approach has a surprisingly long history. The map names Thistlethwaite and Campbell in 1960, studying National Merit recognition. Their question was whether recognition itself changed students' plans, rather than whether recognized students already differed from everyone else."
+    },
+    {
+      "start": 1580.0,
+      "end": 1605.52,
+      "speaker": "Economist",
+      "text": "Comparing students around the recognition cutoff gave a different answer from a simple selection driven comparison. The estimated difference in career plans was small and statistically uncertain. That early application demonstrates the same principle as Boston's schools. A visible badge of success and a later outcome can be associated without the badge causing the outcome."
+    },
+    {
+      "start": 1605.52,
+      "end": 1624.069,
+      "speaker": "Host",
+      "text": "Here is our recap of The Investigation. We estimated trends on either side, separated the jump, checked alternative models and windows, and examined causes of death. Then fuzzy RD used a treatment jump to interpret an eligibility effect. Both cases required assumptions and careful limits."
+    },
+    {
+      "start": 1624.069,
+      "end": 1647.07,
+      "speaker": "Economist",
+      "text": "And the most important habit was defining the actual comparison. Legal access differs from drinking. A school offer differs from attendance. Boston Latin differs from the alternative schools students actually attend. Clear treatment definitions turn a numerical result into a meaningful causal answer."
+    },
+    {
+      "start": 1648.27,
+      "end": 1662.48,
+      "speaker": "Host",
+      "text": "We have reached The Resolution, starting with the devil's advocate. My objection is that RD just controls for the running variable. Why give it a special name when regression already lets us add age or test scores?"
+    },
+    {
+      "start": 1662.48,
+      "end": 1690.08,
+      "speaker": "Economist",
+      "text": "Because the source of identification differs. With ordinary controlled comparisons, we hope treated and untreated people can be compared at the same control values. In sharp RD, the rule prevents that overlap. We instead rely on continuity and extrapolate toward a boundary. How we describe the trend therefore matters directly to the causal claim. The special name reminds us of that special argument."
+    },
+    {
+      "start": 1690.08,
+      "end": 1704.671,
+      "speaker": "Host",
+      "text": "Here is my prediction for the last part. If another policy changes at the same birthday, a mortality jump alone cannot tell us which policy caused it. Even an extremely precise estimate would not solve that identification problem."
+    },
+    {
+      "start": 1704.671,
+      "end": 1729.52,
+      "speaker": "Economist",
+      "text": "Correct. Precision tells us about sampling uncertainty, not which explanation is right. We must investigate competing changes at the boundary. At 21, the alcohol interpretation gains support from the legal rule and the pattern across death causes. But a jump on its own is not proof. The evidence must support the assumption that other relevant influences remain smooth."
+    },
+    {
+      "start": 1729.52,
+      "end": 1744.813,
+      "speaker": "Host",
+      "text": "The accepted mind map also asks us to check sorting and manipulation. People cannot choose to age themselves across a birthday. But an admissions score might be adjusted. What would make that a serious threat?"
+    },
+    {
+      "start": 1744.813,
+      "end": 1771.022,
+      "speaker": "Economist",
+      "text": "Suppose, hypothetically, unusually connected applicants could arrange a score just above the cutoff. Then applicants on opposite sides might differ in family resources or motivation. Their untreated outcomes might not join smoothly. Researchers inspect the score distribution and background characteristics for warning signs. A smooth pattern helps, but cannot prove that every unmeasured influence is balanced."
+    },
+    {
+      "start": 1771.022,
+      "end": 1788.507,
+      "speaker": "Host",
+      "text": "That hypothetical is useful because it explains the danger without accusing the Boston applicants of manipulation. The actual question is whether the process makes close neighbors credible comparisons. Neither an eligibility rule nor a clean graph settles that by itself."
+    },
+    {
+      "start": 1788.507,
+      "end": 1812.63,
+      "speaker": "Economist",
+      "text": "Exactly. Another misconception is that a placebo must always equal zero in the sample. Random variation makes exact zeros unusual. We assess magnitude, uncertainty, and the pattern across checks. The internal mortality exception deserves disclosure. It also reminds us to avoid turning a collection of diagnostic tests into a mechanical pass button."
+    },
+    {
+      "start": 1812.98,
+      "end": 1827.022,
+      "speaker": "Host",
+      "text": "What takeaways should a student keep when facing a new cutoff study? I would start by naming the rule, running variable, treatment, and outcome. Then I would ask what would happen near the boundary without that treatment change."
+    },
+    {
+      "start": 1827.022,
+      "end": 1853.68,
+      "speaker": "Economist",
+      "text": "Good. Examine the data before selecting the regression. Estimate the gap at the boundary, while allowing a credible smooth trend. Vary the bandwidth and reasonable trend choices. Inspect background characteristics, manipulation concerns, and placebo outcomes where appropriate. Report uncertainty. Finally, state the population and policy comparison the local result can actually inform."
+    },
+    {
+      "start": 1853.68,
+      "end": 1869.935,
+      "speaker": "Host",
+      "text": "For fuzzy RD, I would add an extra question: how much does treatment change when eligibility changes? Without that first stage, an outcome jump cannot be translated into a treatment effect. And even with it, I must defend the exclusion restriction."
+    },
+    {
+      "start": 1869.935,
+      "end": 1891.735,
+      "speaker": "Economist",
+      "text": "Yes. For a binary treatment, say who the compliers are and why monotonicity is plausible. For an intensity measure, explain the scaling and the model supporting its interpretation. Remember Boston's competing channels. A valid eligibility effect can be informative even when a single channel interpretation remains harder to defend."
+    },
+    {
+      "start": 1891.735,
+      "end": 1907.258,
+      "speaker": "Host",
+      "text": "The thesis needs a condition attached. The map says a treatment rule's outcome jump reveals a causal effect near the threshold. That statement is helpful only if our untreated comparison is credible and competing causes do not jump there too."
+    },
+    {
+      "start": 1907.258,
+      "end": 1932.8,
+      "speaker": "Economist",
+      "text": "Our qualified thesis is this: a threshold can reveal a local causal effect when the required continuity and treatment assumptions hold. In a sharp design, we estimate the effect of the treatment that actually switches. In a fuzzy design, interpreting the scaled effect requires the additional instrumental variables assumptions. A threshold creates an opportunity that careful design must earn."
+    },
+    {
+      "start": 1932.8,
+      "end": 1948.829,
+      "speaker": "Host",
+      "text": "Let me recap The Resolution. RD is more than adding a control. A discontinuity needs a causal explanation, diagnostic checks need judgment, and the conclusion stays local. Strong evidence can guide policy while still leaving unanswered questions."
+    },
+    {
+      "start": 1948.829,
+      "end": 1968.46,
+      "speaker": "Economist",
+      "text": "That is the right balance. The mortality study offers evidence that restrictions on legal access can prevent harm near the studied age. The school study warns against judging a school's contribution by its students' impressive averages. Neither result gives us permission to generalize without examining the new setting."
+    },
+    {
+      "start": 1969.66,
+      "end": 1985.711,
+      "speaker": "Host",
+      "text": "Let us return to our goals. We can explain how a cutoff creates a comparison, distinguish sharp and fuzzy designs, and evaluate their assumptions and limits. The crucial idea is that nearby people can face different treatment because a rule changes abruptly."
+    },
+    {
+      "start": 1985.711,
+      "end": 2009.52,
+      "speaker": "Economist",
+      "text": "And our thesis is conditional. A jump supports a local causal interpretation when the underlying outcome relationships remain continuous and the treatment assumptions are credible. For fuzzy designs, a first stage and valid instrumental variables assumptions connect the outcome jump to the treatment effect. The regression summarizes that argument; it does not replace it."
+    },
+    {
+      "start": 2009.52,
+      "end": 2025.28,
+      "speaker": "Host",
+      "text": "Here is a final think question. Suppose a selective school's admissions boundary creates a large enrollment jump. Later test scores rise smoothly with entrance scores, with no clear break. Can you conclude that selective schools have no educational value anywhere?"
+    },
+    {
+      "start": 2025.28,
+      "end": 2032.38,
+      "speaker": "Economist",
+      "text": "Pause the episode and think. Name the comparison group, the students represented, and the outcome measured before answering."
+    },
+    {
+      "start": 2036.73,
+      "end": 2056.8,
+      "speaker": "Host",
+      "text": "My answer is no. We would have evidence about the admission change near that cutoff, for those applicants and measured scores. We would need uncertainty estimates and information about their alternative schools. Other students, other outcomes, and other school comparisons could produce different answers."
+    },
+    {
+      "start": 2056.8,
+      "end": 2077.04,
+      "speaker": "Economist",
+      "text": "Exactly. If we then divide by an enrollment jump, interpreting the result as an attendance effect adds assumptions. If we instead divide by a peer achievement jump, a pure peer effect interpretation adds a different exclusion claim. Naming the treatment is part of answering the question."
+    },
+    {
+      "start": 2077.04,
+      "end": 2091.984,
+      "speaker": "Host",
+      "text": "You can use the Colab notebook to reproduce the mortality comparisons and explore different bandwidths. The lecture slides provide another route through the assumptions, evidence, and interpretation. Compare the estimates, but also explain why the comparison could be credible."
+    },
+    {
+      "start": 2091.984,
+      "end": 2111.89,
+      "speaker": "Economist",
+      "text": "Next, Chapter five, Differences-in-Differences, moves from a boundary in age or scores to a comparison of changes over time. We will ask how contrasting trends can help evaluate a policy, including banking during the Great Depression. Thank you for listening, and goodbye."
+    }
+  ],
+  "alignment": [
+    {
+      "chunk": 1,
+      "matched": 0.9962
+    },
+    {
+      "chunk": 2,
+      "matched": 0.9894
+    },
+    {
+      "chunk": 3,
+      "matched": 0.9964
+    },
+    {
+      "chunk": 4,
+      "matched": 0.9739
+    },
+    {
+      "chunk": 5,
+      "matched": 0.9946
+    },
+    {
+      "chunk": 6,
+      "matched": 0.9799
+    },
+    {
+      "chunk": 7,
+      "matched": 0.9717
+    },
+    {
+      "chunk": 8,
+      "matched": 0.9699
+    },
+    {
+      "chunk": 9,
+      "matched": 0.9916
+    },
+    {
+      "chunk": 10,
+      "matched": 0.9921
+    },
+    {
+      "chunk": 11,
+      "matched": 0.992
+    },
+    {
+      "chunk": 12,
+      "matched": 0.978
+    },
+    {
+      "chunk": 13,
+      "matched": 0.9974
+    },
+    {
+      "chunk": 14,
+      "matched": 0.9755
+    },
+    {
+      "chunk": 15,
+      "matched": 0.9484
+    },
+    {
+      "chunk": 16,
+      "matched": 0.9827
+    }
+  ]
+}

@@ -16,6 +16,10 @@ book/**/*.quarto_ipynb
 *.dta
 data/ch1/*.xlsx
 
+# Copyrighted source material: local reference only, never commit or push
+/latex-original-book/
+/original-book/
+
 # OS files
 .DS_Store
 
@@ -34,3 +38,11 @@ slides/*/.quarto/
 
 # /draw-mindmap batch ZIP exports (images already live in mindmaps/images/)
 mindmaps/*.zip
+
+# Completed podcast audio is published; other recordings and local caches stay private
+mindmaps-podcast/audio/*
+!mindmaps-podcast/audio/ch01-randomized-trials.mp3
+!mindmaps-podcast/audio/ch02-regression.mp3
+!mindmaps-podcast/audio/ch03-instrumental-variables.mp3
+!mindmaps-podcast/audio/ch04-regression-discontinuity.mp3
+.work/podcast/
