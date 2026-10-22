@@ -1,10 +1,10 @@
 /* Badge geometry follows the book, Colab, slides, and video SVG buttons. */
 .podcast-launch-row { display: flex; flex-wrap: wrap; gap: .5rem; width: 100%; max-width: 31.3rem; }
-.podcast-launch { display: inline-flex; align-items: stretch; height: 32px; padding: 0; border: 0; border-radius: 5px; overflow: hidden; background: #0f766e; color: white; cursor: pointer; }
+.podcast-launch { display: inline-flex; align-items: stretch; height: 32px; padding: 0; border: 0; border-radius: 5px; overflow: hidden; background: linear-gradient(135deg, #0f766e, #115e59); color: white; cursor: pointer; }
 .podcast-launch:only-child { width: 100%; }
-.podcast-launch-icon { display: block; flex: 0 0 86.4px; background: #115e59; }
+.podcast-launch-icon { display: block; flex: 0 0 49.6px; background: #134e4a; border-right: 1px solid rgba(255,255,255,.12); }
 .podcast-launch-icon svg { display: block; }
-.podcast-launch-label { display: flex; flex: 1; align-items: center; justify-content: center; padding: 0 12.8px; font-family: 'DejaVu Sans', Verdana, Geneva, sans-serif; font-size: 17.6px; line-height: 1; white-space: nowrap; }
+.podcast-launch-label { display: flex; flex: 1; align-items: center; justify-content: center; padding: 0 12.8px; font-family: 'DejaVu Sans', Verdana, Geneva, sans-serif; font-size: 16.32px; font-weight: 600; line-height: 1; white-space: nowrap; }
 .podcast-launch:hover { filter: brightness(1.08); }
 .podcast-launch:focus-visible { outline: 2px solid #14b8a6; outline-offset: 4px; }
 .podcast-launch[aria-expanded=true] { box-shadow: 0 0 0 2px #14b8a6; }

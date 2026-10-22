@@ -64,7 +64,7 @@
     "href": "index.html#acknowledgments",
     "title": "Mastering Causal Metrics",
     "section": "Acknowledgments",
-    "text": "Acknowledgments\nThis project builds on the excellent work of Joshua D. Angrist and Jorn-Steffen Pischke, whose Mastering ’Metrics (Princeton University Press, 2015) provides the conceptual foundation for everything here. The datasets used in this project are made available through the book’s companion website.\nAdditional inspiration comes from Matheus Facure’s Causal Inference for the Brave and True and Scott Cunningham’s Causal Inference: The Mixtape, which demonstrate the power of making econometrics accessible through code.",
+    "text": "Acknowledgments\nThis project builds on the excellent work of Joshua D. Angrist and Jorn-Steffen Pischke, whose Mastering ’Metrics (Princeton University Press, 2015) provides the conceptual foundation for everything here. The datasets used in this project are made available through the book’s companion website.\nAdditional inspiration comes from Matheus Facure’s Causal Inference for the Brave and True and Scott Cunningham’s Causal Inference: The Mixtape, which demonstrate the power of making econometrics accessible through code. Nick Huntington-Klein’s The Effect: An Introduction to Research Design and Causality is also an important source of inspiration for its clear, intuitive approach to research design and causal inference.",
     "crumbs": [
       "Preface"
     ]

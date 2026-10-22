@@ -82,6 +82,6 @@ AI-enhanced study materials complement the notebooks:
 
 ## Acknowledgments
 
-This project builds on the excellent work of Joshua D. Angrist and Jorn-Steffen Pischke, whose *Mastering 'Metrics* (Princeton University Press, 2015) provides the conceptual foundation for everything here. The datasets used in this project are made available through the book's companion website.
+This project builds on the excellent work of Joshua D. Angrist and Jorn-Steffen Pischke, whose [*Mastering 'Metrics*](https://www.masteringmetrics.com/) (Princeton University Press, 2015) provides the conceptual foundation for everything here. The datasets used in this project are made available through the book's companion website.
 
-Additional inspiration comes from Matheus Facure's *Causal Inference for the Brave and True* and Scott Cunningham's *Causal Inference: The Mixtape*, which demonstrate the power of making econometrics accessible through code.
+Additional inspiration comes from Matheus Facure's [*Causal Inference for the Brave and True*](https://matheusfacure.github.io/python-causality-handbook/) and Scott Cunningham's [*Causal Inference: The Mixtape*](https://mixtape-1ed.netlify.app/), which demonstrate the power of making econometrics accessible through code. Nick Huntington-Klein's [*The Effect: An Introduction to Research Design and Causality*](https://theeffectbook.net/) is also an important source of inspiration for its clear, intuitive approach to research design and causal inference.
