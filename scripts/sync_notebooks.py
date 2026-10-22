@@ -565,6 +565,19 @@ def qmd_to_ipynb(qmd_path: Path, chapter_slug: str) -> dict:
         }
     )
 
+    nb_cells.append(
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "# Run this cell first to install the required package.\n",
+                '%pip install -q "pyfixest>=0.50"',
+            ],
+        }
+    )
+
     for cell_type, cell_content in processed_cells:
         if cell_type == "markdown":
             # Split into lines for notebook format
