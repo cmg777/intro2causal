@@ -12,6 +12,8 @@
     let current = 0;
     let playing = !reducedMotion.matches;
     let hovered = showcase.matches(':hover');
+    let resumeHovered = false;
+    let resumeFocused = false;
     let inView = false;
     let timer;
 
@@ -30,7 +32,9 @@
 
     function updatePlayback() {
       clearTimeout(timer);
-      const focused = showcase.contains(document.activeElement);
+      const focused = showcase.contains(document.activeElement)
+        && !(resumeFocused && document.activeElement === playButton);
+      const hoverPaused = hovered && !resumeHovered;
       playButton.querySelector('[data-playback-label]').textContent = playing ? 'Pause' : 'Play';
       playButton.querySelector('[data-playback-icon]').textContent = playing ? 'Ⅱ' : '▷';
       playButton.setAttribute('aria-label', `${playing ? 'Pause' : 'Start'} automatic method cycling`);
@@ -38,10 +42,10 @@
         : document.hidden ? 'Paused while the tab is hidden'
         : !inView ? 'Paused while out of view'
         : focused ? 'Paused while you explore'
-        : hovered ? 'Paused while you hover'
+        : hoverPaused ? 'Paused while you hover'
         : 'Changes every 10 seconds';
       // Resume with a fresh interval; no queued transitions or catch-up jumps.
-      if (playing && inView && !document.hidden && !hovered && !focused) {
+      if (playing && inView && !document.hidden && !hoverPaused && !focused) {
         timer = setTimeout(() => {
           selectScene((current + 1) % scenes.length);
           updatePlayback();
@@ -93,19 +97,31 @@
     });
     playButton.addEventListener('click', () => {
       playing = !playing;
+      // Explicit Play overrides the hover/focus that activated this button.
+      // Keep keyboard focus in place; a later hover or focus starts a new pause.
+      resumeHovered = playing && hovered;
+      resumeFocused = playing && document.activeElement === playButton;
       updatePlayback();
     });
     showcase.addEventListener('pointerenter', event => {
       if (event.pointerType === 'touch') return;
       hovered = true;
+      resumeHovered = false;
       updatePlayback();
     });
     showcase.addEventListener('pointerleave', () => {
       hovered = false;
+      resumeHovered = false;
       updatePlayback();
     });
-    showcase.addEventListener('focusin', updatePlayback);
-    showcase.addEventListener('focusout', () => queueMicrotask(updatePlayback));
+    showcase.addEventListener('focusin', () => {
+      resumeFocused = false;
+      updatePlayback();
+    });
+    showcase.addEventListener('focusout', () => {
+      resumeFocused = false;
+      queueMicrotask(updatePlayback);
+    });
     document.addEventListener('visibilitychange', updatePlayback);
     reducedMotion.addEventListener('change', () => {
       // Turning reduced motion on stops cycling; turning it off does not opt back in.

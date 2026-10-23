@@ -1,0 +1,406 @@
+{
+  "rct": {
+    "kind": "recomputed",
+    "cells_zero_based": [
+      18,
+      19
+    ],
+    "data": "data/ch1/rand_health_outcomes.csv",
+    "model": "health_index ~ plan_free + plan_deductible + plan_coinsurance",
+    "covariance": "CRV1 clustered by family_id",
+    "n": 3515,
+    "results": [
+      {
+        "plan": "Free care",
+        "estimate": -0.7759149176710296,
+        "ci95": [
+          -2.475327323386203,
+          0.923497488044144
+        ]
+      },
+      {
+        "plan": "Deductible",
+        "estimate": -0.8694083811964975,
+        "ci95": [
+          -2.758002163353078,
+          1.0191854009600831
+        ]
+      },
+      {
+        "plan": "Coinsurance",
+        "estimate": 0.6118833185982813,
+        "ci95": [
+          -1.1577938334659759,
+          2.3815604706625386
+        ]
+      }
+    ],
+    "notebook": "notebooks_colab/01-randomized-trials.ipynb",
+    "input_sha256": {
+      "notebooks_colab/01-randomized-trials.ipynb": "c69afede44c1eeca2d80a33a5554bc2eddd8227e8f881e8dd7431bc835debfc3",
+      "data/ch1/rand_health_outcomes.csv": "ec91ca289d697647fa02817173a844d77baf975179fa97ea004aee9fc16f8309"
+    }
+  },
+  "regression": {
+    "kind": "notebook literature summary, not a microdata replication",
+    "cells_zero_based": [
+      10
+    ],
+    "results": [
+      [
+        "No controls",
+        "~14%"
+      ],
+      [
+        "Selectivity controls",
+        "~7%"
+      ],
+      [
+        "Application controls",
+        "Near zero"
+      ]
+    ],
+    "qualification": "Approximate percentages; no numerical value assigned to close to zero.",
+    "notebook": "notebooks_colab/02-regression.ipynb",
+    "input_sha256": {
+      "notebooks_colab/02-regression.ipynb": "945052b1f0b118b1bc7b48c7142fc19859653a0abb4a8a648f40d3b584920a43"
+    }
+  },
+  "iv": {
+    "kind": "notebook-reported estimates, not a microdata replication",
+    "cells_zero_based": [
+      9
+    ],
+    "results": {
+      "first_stage": 0.741,
+      "reduced_form_sd": 0.355,
+      "late_sd": 0.48
+    },
+    "qualification": "First stage is an attendance-probability difference, not simply a winner attendance rate. No confidence intervals are reported here.",
+    "notebook": "notebooks_colab/03-instrumental-variables.ipynb",
+    "input_sha256": {
+      "notebooks_colab/03-instrumental-variables.ipynb": "adaebc8bcf83a7b39c9dec4229c777003ecc7f7fe3aaff4c8347bcca9e9e951b"
+    }
+  },
+  "rd": {
+    "kind": "recomputed notebook scatter and fitted lines",
+    "cells_zero_based": [
+      3,
+      11
+    ],
+    "data": "data/ch4/mlda_clean.csv",
+    "n_plotted": 48,
+    "raw_rows": 50,
+    "model": "all ~ age separately for age < 0 and age >= 0",
+    "fit_coefficients": {
+      "below": {
+        "Intercept": 93.61836826894947,
+        "age": 0.826994332467376
+      },
+      "above": {
+        "Intercept": 101.2810788324516,
+        "age": -2.776364411856702
+      }
+    },
+    "observations": [
+      {
+        "agecell": 19.068493,
+        "age": -1.9315071,
+        "all": 92.8254
+      },
+      {
+        "agecell": 19.150684,
+        "age": -1.8493156,
+        "all": 95.10074
+      },
+      {
+        "agecell": 19.232876,
+        "age": -1.7671242,
+        "all": 92.144295
+      },
+      {
+        "agecell": 19.31507,
+        "age": -1.6849308,
+        "all": 88.42776
+      },
+      {
+        "agecell": 19.39726,
+        "age": -1.6027393,
+        "all": 88.70494
+      },
+      {
+        "agecell": 19.479452,
+        "age": -1.5205479,
+        "all": 90.19179
+      },
+      {
+        "agecell": 19.561644,
+        "age": -1.4383564,
+        "all": 96.22031
+      },
+      {
+        "agecell": 19.643835,
+        "age": -1.3561649,
+        "all": 89.615555
+      },
+      {
+        "agecell": 19.726027,
+        "age": -1.2739735,
+        "all": 93.3817
+      },
+      {
+        "agecell": 19.80822,
+        "age": -1.1917801,
+        "all": 90.857956
+      },
+      {
+        "agecell": 19.890411,
+        "age": -1.1095886,
+        "all": 95.81015
+      },
+      {
+        "agecell": 19.972603,
+        "age": -1.0273972,
+        "all": 94.158066
+      },
+      {
+        "agecell": 20.054794,
+        "age": -0.9452057,
+        "all": 92.4646
+      },
+      {
+        "agecell": 20.136986,
+        "age": -0.8630142,
+        "all": 98.2456
+      },
+      {
+        "agecell": 20.219177,
+        "age": -0.78082275,
+        "all": 94.9604
+      },
+      {
+        "agecell": 20.30137,
+        "age": -0.6986294,
+        "all": 93.38532
+      },
+      {
+        "agecell": 20.383562,
+        "age": -0.6164379,
+        "all": 90.12092
+      },
+      {
+        "agecell": 20.465754,
+        "age": -0.53424644,
+        "all": 92.40623
+      },
+      {
+        "agecell": 20.547945,
+        "age": -0.45205498,
+        "all": 93.354485
+      },
+      {
+        "agecell": 20.630136,
+        "age": -0.3698635,
+        "all": 92.22878
+      },
+      {
+        "agecell": 20.712328,
+        "age": -0.28767204,
+        "all": 92.332245
+      },
+      {
+        "agecell": 20.794521,
+        "age": -0.20547867,
+        "all": 92.66751
+      },
+      {
+        "agecell": 20.876713,
+        "age": -0.1232872,
+        "all": 93.3902
+      },
+      {
+        "agecell": 20.958904,
+        "age": -0.041095734,
+        "all": 94.26991
+      },
+      {
+        "agecell": 21.041096,
+        "age": 0.041095734,
+        "all": 105.26835
+      },
+      {
+        "agecell": 21.123287,
+        "age": 0.1232872,
+        "all": 101.06651
+      },
+      {
+        "agecell": 21.205479,
+        "age": 0.20547867,
+        "all": 96.96652
+      },
+      {
+        "agecell": 21.287672,
+        "age": 0.28767204,
+        "all": 102.8269
+      },
+      {
+        "agecell": 21.369864,
+        "age": 0.3698635,
+        "all": 100.97943
+      },
+      {
+        "agecell": 21.452055,
+        "age": 0.45205498,
+        "all": 101.236946
+      },
+      {
+        "agecell": 21.534246,
+        "age": 0.53424644,
+        "all": 99.4976
+      },
+      {
+        "agecell": 21.616438,
+        "age": 0.6164379,
+        "all": 95.20131
+      },
+      {
+        "agecell": 21.69863,
+        "age": 0.6986294,
+        "all": 97.25825
+      },
+      {
+        "agecell": 21.780823,
+        "age": 0.78082275,
+        "all": 98.92873
+      },
+      {
+        "agecell": 21.863014,
+        "age": 0.8630142,
+        "all": 102.26221
+      },
+      {
+        "agecell": 21.945206,
+        "age": 0.9452057,
+        "all": 96.833374
+      },
+      {
+        "agecell": 22.027397,
+        "age": 1.0273972,
+        "all": 99.50197
+      },
+      {
+        "agecell": 22.109589,
+        "age": 1.1095886,
+        "all": 96.07229
+      },
+      {
+        "agecell": 22.19178,
+        "age": 1.1917801,
+        "all": 95.96821
+      },
+      {
+        "agecell": 22.273973,
+        "age": 1.2739735,
+        "all": 98.61067
+      },
+      {
+        "agecell": 22.356165,
+        "age": 1.3561649,
+        "all": 97.95247
+      },
+      {
+        "agecell": 22.438356,
+        "age": 1.4383564,
+        "all": 97.41173
+      },
+      {
+        "agecell": 22.520548,
+        "age": 1.5205479,
+        "all": 97.509476
+      },
+      {
+        "agecell": 22.60274,
+        "age": 1.6027393,
+        "all": 95.56239
+      },
+      {
+        "agecell": 22.68493,
+        "age": 1.6849308,
+        "all": 97.02306
+      },
+      {
+        "agecell": 22.767124,
+        "age": 1.7671242,
+        "all": 99.37457
+      },
+      {
+        "agecell": 22.849316,
+        "age": 1.8493156,
+        "all": 94.31531
+      },
+      {
+        "agecell": 22.931507,
+        "age": 1.9315071,
+        "all": 97.397644
+      }
+    ],
+    "notebook": "notebooks_colab/04-regression-discontinuity.ipynb",
+    "input_sha256": {
+      "notebooks_colab/04-regression-discontinuity.ipynb": "32a0bb360bd4770b3543c968750199bb144cb0a9610ddc5d04440af00f62776c",
+      "data/ch4/mlda_clean.csv": "b4d4ddb2802f48b3c451303f7fee63254b25b34ed2e84730b44993df97c882ad"
+    }
+  },
+  "did": {
+    "kind": "exact notebook series",
+    "cells_zero_based": [
+      3,
+      5,
+      19
+    ],
+    "data": "data/ch5/banks_clean.csv",
+    "baseline_year": 1930,
+    "series": [
+      {
+        "year": 1929,
+        "bib6": 141,
+        "bib8": 169,
+        "counterfactual": 141
+      },
+      {
+        "year": 1930,
+        "bib6": 135,
+        "bib8": 165,
+        "counterfactual": 135
+      },
+      {
+        "year": 1931,
+        "bib6": 121,
+        "bib8": 132,
+        "counterfactual": 102
+      },
+      {
+        "year": 1932,
+        "bib6": 113,
+        "bib8": 120,
+        "counterfactual": 90
+      },
+      {
+        "year": 1933,
+        "bib6": 102,
+        "bib8": 111,
+        "counterfactual": 81
+      },
+      {
+        "year": 1934,
+        "bib6": 102,
+        "bib8": 109,
+        "counterfactual": 79
+      }
+    ],
+    "notebook": "notebooks_colab/05-differences-in-differences.ipynb",
+    "input_sha256": {
+      "notebooks_colab/05-differences-in-differences.ipynb": "11da93a3031fcefe2fbda5f6b60445c32ae80213dccc2eb7b7994a23b4f592aa",
+      "data/ch5/banks_clean.csv": "c9ade39a2bbdf555b67a34350152bf6f3026be043c0da3da37610285dd4dcadb"
+    }
+  }
+}
