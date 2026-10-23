@@ -1,0 +1,13 @@
+Generated with the built-in ChatGPT image_gen tool.
+Source: 1536 x 1024 PNG; optimized to 1200px and 720px WebP for the homepage.
+People and setting are illustrative, not actual study participants.
+
+Use case: illustration-story
+Asset type: cinematic background artwork for a causal-inference teaching homepage, first of five coordinated editorial scenes.
+Primary request: a beautifully composed health-care setting suggesting the human question behind a randomized health-insurance trial.
+Scene/backdrop: a contemporary community health clinic, an adult patient talking with a clinician in a white coat, a second adult waiting further back, softly lit windows and restrained medical furnishings.
+Style/medium: sophisticated painterly editorial illustration, crisp architectural shapes with soft textured brushwork, cinematic depth, believable adult faces and hands, understated and humane.
+Composition/framing: wide landscape 3:2. Place the consultation in the upper right and the waiting figure toward the upper left, with atmosphere and deep navy negative space across the lower half where a precise webpage diagram will be overlaid. The clinic and people should remain recognizable at small scale.
+Lighting/mood: luminous cool window light, blue and lavender rim lighting, subtle green accents, calm and thoughtful.
+Color palette: deep midnight navy #0c1629, cobalt blue, muted violet, sea green, natural skin tones.
+Constraints: fictional illustrative people, no actual study participants. Artwork only: no typography, letters, signage, numbers, graphs, flowcharts, arrows, logos, watermarks, equations, split-screen panels, or UI. Keep the entire composition grounded in a single clinic scene. Opaque navy background.

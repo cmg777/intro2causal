@@ -443,41 +443,146 @@
     <div class="home-shell hero-stage">
       <div class="home-hero-copy">
         <p class="home-kicker"><span aria-hidden="true"></span> A FIELD GUIDE TO CAUSE &amp; EFFECT</p>
-        <h1 id="page-title">Mastering<br>Causal <span>Metrics.</span></h1>
+        <h1 id="page-title">Mastering<br>Causal <span>Metrics</span></h1>
         <p class="hero-hook">Better questions.<br>Fairer comparisons.</p>
         <p class="hero-summary">Does insurance improve health? Does education raise earnings? Learn how researchers move from a compelling question to credible evidence.</p>
         <div class="home-actions"><a class="home-button" href="book/_book/notebooks_quarto/01-randomized-trials.html">Start with Chapter 1 <span aria-hidden="true">↗</span></a><a class="home-text-link" href="#curriculum">Explore all chapters <span aria-hidden="true">↓</span></a></div>
         <p class="hero-welcome">New to causal inference? You’re in the right place.</p>
       </div>
-      <figure class="comparison-scene" aria-labelledby="scene-title">
-        <div class="scene-heading"><span class="scene-index">THE IDEA / 001</span><span class="scene-live"><i aria-hidden="true"></i> A fair comparison</span></div>
-        <h2 id="scene-title">Different paths.<br><span>The same starting point.</span></h2>
-        <svg class="assignment-diagram" viewBox="0 0 600 430" role="img" aria-labelledby="assignment-title assignment-desc">
-          <title id="assignment-title">Random assignment creates two comparison groups</title>
-          <desc id="assignment-desc">A population is randomly assigned to treatment or comparison. Random assignment makes the groups comparable on average, although differences can occur by chance. This is a conceptual illustration, not study data.</desc>
-          <defs><linearGradient id="branch-blue"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient><linearGradient id="branch-purple"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
-          <path class="scene-grid" d="M0 74H600M0 215H600M0 375H600M160 30V400M380 30V400"/>
-          <circle class="assignment-halo" cx="270" cy="215" r="83"/><circle class="assignment-ring" cx="270" cy="215" r="65"/>
-          <path class="population-line" d="M125 215H226"/>
-          <path class="branch branch-a" d="M314 215C363 215 355 135 413 135"/>
-          <path class="branch branch-b" d="M314 215C363 215 355 313 413 313"/>
-          <path class="flow-trace trace-a" d="M125 215H226M314 215C363 215 355 135 413 135"/>
-          <path class="flow-trace trace-b" d="M314 215C363 215 355 313 413 313"/>
-          <rect class="group-box treatment-box" x="415" y="90" width="110" height="87" rx="16"/>
-          <rect class="group-box comparison-box" x="415" y="268" width="110" height="87" rx="16"/>
-          <circle cx="45" cy="164" r="5" class="population-dot"/><circle cx="65" cy="164" r="5" class="population-dot"/><circle cx="85" cy="164" r="5" class="population-dot"/><circle cx="105" cy="164" r="5" class="population-dot"/><circle cx="45" cy="184" r="5" class="population-dot"/><circle cx="65" cy="184" r="5" class="population-dot"/><circle cx="85" cy="184" r="5" class="population-dot"/><circle cx="105" cy="184" r="5" class="population-dot"/><circle cx="45" cy="204" r="5" class="population-dot"/><circle cx="65" cy="204" r="5" class="population-dot"/><circle cx="85" cy="204" r="5" class="population-dot"/><circle cx="105" cy="204" r="5" class="population-dot"/><circle cx="45" cy="224" r="5" class="population-dot"/><circle cx="65" cy="224" r="5" class="population-dot"/><circle cx="85" cy="224" r="5" class="population-dot"/><circle cx="105" cy="224" r="5" class="population-dot"/><circle cx="45" cy="244" r="5" class="population-dot"/><circle cx="65" cy="244" r="5" class="population-dot"/><circle cx="85" cy="244" r="5" class="population-dot"/><circle cx="105" cy="244" r="5" class="population-dot"/><circle cx="45" cy="264" r="5" class="population-dot"/><circle cx="65" cy="264" r="5" class="population-dot"/><circle cx="85" cy="264" r="5" class="population-dot"/><circle cx="105" cy="264" r="5" class="population-dot"/><circle cx="436" cy="112" r="5" class="treatment-dot"/><circle cx="458" cy="112" r="5" class="treatment-dot"/><circle cx="480" cy="112" r="5" class="treatment-dot"/><circle cx="502" cy="112" r="5" class="treatment-dot"/><circle cx="436" cy="134" r="5" class="treatment-dot"/><circle cx="458" cy="134" r="5" class="treatment-dot"/><circle cx="480" cy="134" r="5" class="treatment-dot"/><circle cx="502" cy="134" r="5" class="treatment-dot"/><circle cx="436" cy="156" r="5" class="treatment-dot"/><circle cx="458" cy="156" r="5" class="treatment-dot"/><circle cx="480" cy="156" r="5" class="treatment-dot"/><circle cx="502" cy="156" r="5" class="treatment-dot"/><circle cx="436" cy="290" r="5" class="comparison-dot"/><circle cx="458" cy="290" r="5" class="comparison-dot"/><circle cx="480" cy="290" r="5" class="comparison-dot"/><circle cx="502" cy="290" r="5" class="comparison-dot"/><circle cx="436" cy="312" r="5" class="comparison-dot"/><circle cx="458" cy="312" r="5" class="comparison-dot"/><circle cx="480" cy="312" r="5" class="comparison-dot"/><circle cx="502" cy="312" r="5" class="comparison-dot"/><circle cx="436" cy="334" r="5" class="comparison-dot"/><circle cx="458" cy="334" r="5" class="comparison-dot"/><circle cx="480" cy="334" r="5" class="comparison-dot"/><circle cx="502" cy="334" r="5" class="comparison-dot"/>
-          <circle class="assignment-core" cx="270" cy="215" r="43"/>
-          <path class="shuffle" d="M251 204h8c10 0 12 22 22 22h10m-6-6 6 6-6 6m-34-6h8c10 0 12-22 22-22h10m-6-6 6 6-6 6"/>
-          <text class="diagram-label" x="75" y="132" text-anchor="middle">One population</text>
-          <text class="diagram-label" x="270" y="327" text-anchor="middle">Random assignment</text>
-          <text class="diagram-group-label treatment-label" x="470" y="72" text-anchor="middle">Treatment</text>
-          <text class="diagram-group-label comparison-label" x="470" y="251" text-anchor="middle">Comparison</text>
-          <path class="outcome-bracket" d="M545 134h12v178h-12"/>
-          <text class="outcome-label" transform="translate(581 223) rotate(-90)" text-anchor="middle">Compare outcomes</text>
-        </svg>
-        <figcaption><p>Chance decides who goes where.<br><span>Comparable on average. Not identical in every trial.</span></p><button id="replay-assignment" type="button" aria-label="Replay random assignment illustration" hidden><span aria-hidden="true">↻</span> Replay</button></figcaption>
-        <p class="scene-note">Conceptual illustration · not study data</p>
-      </figure>
+      <section class="method-showcase" aria-label="The Furious Five causal methods">
+        <div class="showcase-heading"><span>THE FURIOUS FIVE</span><span class="showcase-count">01 / 05</span></div>
+        <div class="scene-deck">
+        <figure class="method-scene is-active" id="scene-rct" aria-labelledby="scene-title-rct">
+          <img class="scene-art" src="assets/homepage/rct-clinic.webp" srcset="assets/homepage/rct-clinic-small.webp 720w, assets/homepage/rct-clinic.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 850px) 630px, 600px" width="1200" height="800" alt="" fetchpriority="high">
+          <div class="scene-intro">
+            <p class="scene-method">Randomized trials</p>
+            <h2 id="scene-title-rct">Does health insurance<br>improve health?</h2>
+          </div>
+          <div class="scene-graph">
+            <svg class="assignment-diagram" viewBox="0 0 480 246" role="img" aria-labelledby="assignment-title assignment-desc">
+              <title id="assignment-title">Random assignment creates treatment and comparison groups</title>
+              <desc id="assignment-desc">One study population branches by random assignment into treatment and comparison groups. Compare their outcomes. Random assignment makes groups comparable on average, though differences can occur by chance. The dots are conceptual, not study data.</desc>
+              <defs>
+                <marker id="rct-arrow-blue" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#74ceff" stroke-width="1.5"/></marker>
+                <marker id="rct-arrow-purple" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#c4acff" stroke-width="1.5"/></marker>
+              </defs>
+              <text class="graph-label" x="240" y="18" text-anchor="middle">One study population</text>
+              <g class="population-dots"><circle cx="190" cy="37" r="4" class="population-dot"/><circle cx="210" cy="37" r="4" class="population-dot"/><circle cx="230" cy="37" r="4" class="population-dot"/><circle cx="250" cy="37" r="4" class="population-dot"/><circle cx="270" cy="37" r="4" class="population-dot"/><circle cx="290" cy="37" r="4" class="population-dot"/><circle cx="190" cy="53" r="4" class="population-dot"/><circle cx="210" cy="53" r="4" class="population-dot"/><circle cx="230" cy="53" r="4" class="population-dot"/><circle cx="250" cy="53" r="4" class="population-dot"/><circle cx="270" cy="53" r="4" class="population-dot"/><circle cx="290" cy="53" r="4" class="population-dot"/></g>
+              <path class="graph-stem" d="M240 64V78"/>
+              <rect class="assignment-pill" x="157" y="78" width="166" height="30" rx="15"/>
+              <text class="graph-label graph-assignment" x="240" y="98" text-anchor="middle">Random assignment</text>
+              <path class="graph-branch graph-branch-treatment" d="M196 108C196 133 117 115 117 142" marker-end="url(#rct-arrow-blue)"/>
+              <path class="graph-branch graph-branch-comparison" d="M284 108C284 133 363 115 363 142" marker-end="url(#rct-arrow-purple)"/>
+              <g class="assigned-group">
+                <rect class="graph-group treatment-group" x="32" y="146" width="170" height="58" rx="12"/>
+                <rect class="graph-group comparison-group" x="278" y="146" width="170" height="58" rx="12"/>
+                <text class="graph-label treatment-label" x="117" y="167" text-anchor="middle">Treatment</text>
+                <text class="graph-label comparison-label" x="363" y="167" text-anchor="middle">Comparison</text>
+                <circle cx="82" cy="187" r="4" class="treatment-dot"/><circle cx="96" cy="187" r="4" class="treatment-dot"/><circle cx="110" cy="187" r="4" class="treatment-dot"/><circle cx="124" cy="187" r="4" class="treatment-dot"/><circle cx="138" cy="187" r="4" class="treatment-dot"/><circle cx="152" cy="187" r="4" class="treatment-dot"/>
+                <circle cx="328" cy="187" r="4" class="comparison-dot"/><circle cx="342" cy="187" r="4" class="comparison-dot"/><circle cx="356" cy="187" r="4" class="comparison-dot"/><circle cx="370" cy="187" r="4" class="comparison-dot"/><circle cx="384" cy="187" r="4" class="comparison-dot"/><circle cx="398" cy="187" r="4" class="comparison-dot"/>
+              </g>
+              <path class="graph-bracket" d="M117 211V226H188M363 211V226H292"/>
+              <text class="graph-outcomes" x="240" y="222" text-anchor="middle"><tspan x="240">Compare</tspan><tspan x="240" dy="17">outcomes</tspan></text>
+            </svg>
+          </div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">Chance builds the comparison.</p>
+            <p class="scene-explanation">Random assignment makes groups comparable on average, including differences we cannot observe. Any one trial can still differ by chance.</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/01-randomized-trials.html">Explore randomized trials <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">Conceptual illustration · not study data.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="method-scene" id="scene-regression" aria-labelledby="scene-title-regression" hidden>
+          <img class="scene-art" src="assets/homepage/regression-campus.webp" srcset="assets/homepage/regression-campus-small.webp 720w, assets/homepage/regression-campus.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 850px) 630px, 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">Regression</p><h2 id="scene-title-regression">Does a pricier college<br>pay off?</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="regression-graph-title regression-graph-desc"><title id="regression-graph-title">A fitted relationship summarizes an association</title><desc id="regression-graph-desc">A scatterplot of college cost and later earnings, with a rising fitted line. The line is an association; observed and unobserved differences between students can affect the comparison. Conceptual illustration, not study data.</desc><path class="plot-grid" d="M60 65H445M60 120H445M60 175H445"/><path class="plot-axis" d="M60 38V207H445"/>
+<text class="plot-text" x="64" y="23">Later earnings</text>
+<text class="plot-text" x="260" y="237" text-anchor="middle">College cost</text>
+<g class="plot-reveal"><circle class="plot-dot" cx="85" cy="169" r="4"/><circle class="plot-dot" cx="103" cy="187" r="4"/><circle class="plot-dot" cx="118" cy="140" r="4"/><circle class="plot-dot" cx="140" cy="168" r="4"/><circle class="plot-dot" cx="159" cy="130" r="4"/><circle class="plot-dot" cx="177" cy="147" r="4"/><circle class="plot-dot" cx="193" cy="112" r="4"/><circle class="plot-dot" cx="212" cy="141" r="4"/><circle class="plot-dot" cx="230" cy="92" r="4"/><circle class="plot-dot" cx="248" cy="123" r="4"/><circle class="plot-dot" cx="265" cy="86" r="4"/><circle class="plot-dot" cx="281" cy="108" r="4"/><circle class="plot-dot" cx="303" cy="70" r="4"/><circle class="plot-dot" cx="323" cy="96" r="4"/><circle class="plot-dot" cx="340" cy="56" r="4"/><circle class="plot-dot" cx="365" cy="81" r="4"/><circle class="plot-dot" cx="388" cy="45" r="4"/><circle class="plot-dot" cx="416" cy="64" r="4"/>
+<path class="plot-line line-blue" d="M80 179L425 48"/>
+</g><text class="plot-text label-purple" x="88" y="59">Fitted association</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">Account for observed differences.</p>
+            <p class="scene-explanation">Regression can adjust for differences such as prior achievement. Unobserved differences may still bias the comparison; a fitted line alone does not establish causality.</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/02-regression.html">Explore regression <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">Conceptual illustration · not study data.</p>
+          </figcaption>
+        </figure>
+        <figure class="method-scene" id="scene-iv" aria-labelledby="scene-title-iv" hidden>
+          <img class="scene-art" src="assets/homepage/iv-lottery.webp" srcset="assets/homepage/iv-lottery-small.webp 720w, assets/homepage/iv-lottery.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 850px) 630px, 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">Instrumental variables</p><h2 id="scene-title-iv">Can a school lottery<br>reveal a school’s impact?</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="iv-graph-title iv-graph-desc"><title id="iv-graph-title">Lottery offer leads to attendance, which affects outcomes</title><desc id="iv-graph-desc">The lottery is the instrument. A lottery offer changes the chance of attendance at the school. The key exclusion assumption is that the lottery affects outcomes only through attendance. Conceptual illustration, not study data.</desc>
+<defs><marker id="iv-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#74ceff" stroke-width="1.5"/></marker></defs>
+<text class="plot-text" x="240" y="28" text-anchor="middle">External variation opens a path</text>
+<g class="plot-reveal">
+<rect class="graph-group treatment-group" x="8" y="72" width="134" height="82" rx="12"/>
+<rect class="graph-group comparison-group" x="173" y="72" width="134" height="82" rx="12"/>
+<rect class="graph-group outcome-group" x="338" y="72" width="134" height="82" rx="12"/>
+<path class="plot-line line-blue" d="M146 113H166" marker-end="url(#iv-arrow)"/><path class="plot-line line-blue" d="M311 113H331" marker-end="url(#iv-arrow)"/>
+<text class="plot-text label-blue" x="75" y="106" text-anchor="middle">Lottery</text><text class="plot-text label-blue" x="75" y="129" text-anchor="middle">offer</text>
+<text class="plot-text label-purple" x="240" y="106" text-anchor="middle">School</text><text class="plot-text label-purple" x="240" y="129" text-anchor="middle">attendance</text>
+<text class="plot-text label-green" x="405" y="118" text-anchor="middle">Outcome</text>
+</g><text class="plot-text" x="240" y="193" text-anchor="middle">Key assumption:</text><text class="plot-text" x="240" y="218" text-anchor="middle">no other route from lottery to outcome</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">Let outside variation do the work.</p>
+            <p class="scene-explanation">A random lottery offer must change attendance. To use it as an instrument, assume it affects outcomes only through attendance, not through another route.</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/03-instrumental-variables.html">Explore instrumental variables <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">Conceptual illustration · not study data.</p>
+          </figcaption>
+        </figure>
+        <figure class="method-scene" id="scene-rd" aria-labelledby="scene-title-rd" hidden>
+          <img class="scene-art" src="assets/homepage/rd-threshold.webp" srcset="assets/homepage/rd-threshold-small.webp 720w, assets/homepage/rd-threshold.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 850px) 630px, 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">Regression discontinuity</p><h2 id="scene-title-rd">Does alcohol access<br>change health risks?</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="rd-graph-title rd-graph-desc"><title id="rd-graph-title">Compare outcomes just below and above age 21</title><desc id="rd-graph-desc">Dots and separately fitted lines sit on either side of an age-21 cutoff. A discontinuity in health risk at the cutoff illustrates a local comparison, assuming other determinants change smoothly. Conceptual illustration, not study data.</desc><path class="plot-grid" d="M60 65H445M60 120H445M60 175H445"/><path class="plot-axis" d="M60 38V207H445"/>
+<rect class="cutoff-band" x="220" y="38" width="60" height="169"/>
+<text class="plot-text" x="64" y="23">Health risk</text><text class="plot-text" x="442" y="237" text-anchor="end">Age</text>
+<path class="policy-marker" d="M250 38V211"/>
+<text class="plot-text label-green" x="250" y="237" text-anchor="middle">21</text>
+<g class="plot-reveal"><circle class="plot-dot" cx="85" cy="179" r="4"/><circle class="plot-dot" cx="109" cy="158" r="4"/><circle class="plot-dot" cx="133" cy="172" r="4"/><circle class="plot-dot" cx="155" cy="146" r="4"/><circle class="plot-dot" cx="180" cy="162" r="4"/><circle class="plot-dot" cx="201" cy="141" r="4"/><circle class="plot-dot" cx="224" cy="151" r="4"/><circle class="plot-dot dot-purple" cx="276" cy="96" r="4"/><circle class="plot-dot dot-purple" cx="297" cy="78" r="4"/><circle class="plot-dot dot-purple" cx="320" cy="93" r="4"/><circle class="plot-dot dot-purple" cx="342" cy="69" r="4"/><circle class="plot-dot dot-purple" cx="363" cy="82" r="4"/><circle class="plot-dot dot-purple" cx="388" cy="56" r="4"/><circle class="plot-dot dot-purple" cx="418" cy="74" r="4"/>
+<path class="plot-line line-blue" d="M80 174L250 144"/><path class="plot-line line-purple" d="M250 98L430 65"/>
+<circle class="cutoff-open" cx="250" cy="144" r="5"/><circle class="dot-purple" cx="250" cy="98" r="5"/>
+</g><text class="plot-text label-green" x="265" y="49">Cutoff</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">Look just across the threshold.</p>
+            <p class="scene-explanation">Compare people just below and above age 21. A causal reading requires other determinants of the outcome to change smoothly at the cutoff.</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/04-regression-discontinuity.html">Explore regression discontinuity <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">Conceptual illustration · not study data.</p>
+          </figcaption>
+        </figure>
+        <figure class="method-scene" id="scene-did" aria-labelledby="scene-title-did" hidden>
+          <img class="scene-art" src="assets/homepage/did-banks.webp" srcset="assets/homepage/did-banks-small.webp 720w, assets/homepage/did-banks.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 850px) 630px, 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">Differences-in-differences</p><h2 id="scene-title-did">Can a policy keep<br>banks from failing?</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="did-graph-title did-graph-desc"><title id="did-graph-title">Compare changes using a parallel-trends counterfactual</title><desc id="did-graph-desc">Treatment and comparison bank-survival trends fall in parallel before the policy. After the policy the treatment trend improves. A dashed counterfactual continues from the treatment trend at the policy point with the same change as the comparison group. This illustrates the unobserved no-policy outcome, not an empirical estimate. Conceptual illustration, not study data.</desc>
+<path class="plot-grid" d="M60 65H445M60 120H445M60 175H445"/><path class="plot-axis" d="M60 48V211H445"/>
+<text class="plot-text" transform="translate(24 137) rotate(-90)" text-anchor="middle">Bank survival</text>
+<path class="policy-marker" d="M242 45V211"/><text class="plot-text" x="242" y="38" text-anchor="middle">Policy</text>
+<g class="plot-reveal"><path class="plot-line line-blue" d="M70 95L155 105L240 115L325 110L410 105"/>
+<path class="plot-line line-purple" d="M70 145L155 155L240 165L325 185L410 205"/>
+<path class="plot-line line-green counterfactual" d="M240 115L325 135L410 155"/></g>
+<text class="plot-text label-blue" x="325" y="89">Treatment</text>
+<text class="plot-text label-purple" x="70" y="186">Comparison</text>
+<text class="plot-text label-green" x="305" y="176">Counterfactual</text>
+<text class="plot-text" x="150" y="237" text-anchor="middle">Before</text><text class="plot-text" x="340" y="237" text-anchor="middle">After</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">Compare changes, not just levels.</p>
+            <p class="scene-explanation">Compare changes in treatment and comparison groups. Assume that, without the policy, their trends would be parallel; the dashed line shows that counterfactual.</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/05-differences-in-differences.html">Explore differences-in-differences <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">Conceptual illustration · not study data.</p>
+          </figcaption>
+        </figure>
+        </div>
+        <div class="showcase-controls" hidden>
+          <div class="method-selectors" role="tablist" aria-label="Choose a causal method">
+            <button type="button" role="tab" id="tab-rct" aria-label="Randomized trials" aria-selected="true" aria-controls="scene-rct" tabindex="0" class="method-selector">RCT</button>
+            <button type="button" role="tab" id="tab-regression" aria-label="Regression" aria-selected="false" aria-controls="scene-regression" tabindex="-1" class="method-selector">Regression</button>
+            <button type="button" role="tab" id="tab-iv" aria-label="Instrumental variables" aria-selected="false" aria-controls="scene-iv" tabindex="-1" class="method-selector">IV</button>
+            <button type="button" role="tab" id="tab-rd" aria-label="Regression discontinuity" aria-selected="false" aria-controls="scene-rd" tabindex="-1" class="method-selector">RD</button>
+            <button type="button" role="tab" id="tab-did" aria-label="Differences-in-differences" aria-selected="false" aria-controls="scene-did" tabindex="-1" class="method-selector">DiD</button>
+          </div>
+          <div class="showcase-playback"><button type="button" id="showcase-play" aria-label="Pause automatic method cycling"><span data-playback-icon aria-hidden="true">Ⅱ</span><span data-playback-label>Pause</span></button><p id="showcase-status">Changes every 10 seconds</p></div>
+        </div>
+      </section>
     </div>
     <div class="home-shell hero-bottom"><p><strong>6</strong> chapters <span>/</span> <strong>5</strong> causal methods <span>/</span> Learn by doing</p><a href="#learning-path">A question is just the beginning <span aria-hidden="true">↓</span></a></div>
   </section>

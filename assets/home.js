@@ -2,31 +2,129 @@
 (() => {
   'use strict';
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const scene = document.querySelector('.comparison-scene');
-  const replay = document.getElementById('replay-assignment');
-  let animationTimer;
-  function animateAssignment() {
-    clearTimeout(animationTimer);
-    scene.classList.remove('assignment-playing');
-    if (reducedMotion.matches) return;
-    // Restart the finite CSS animation when the reader requests a replay.
-    void scene.offsetWidth;
-    scene.classList.add('assignment-playing');
-    animationTimer = setTimeout(() => scene.classList.remove('assignment-playing'), 3100);
-  }
-  replay.hidden = reducedMotion.matches;
-  replay.addEventListener('click', animateAssignment);
-  reducedMotion.addEventListener('change', () => {
-    replay.hidden = reducedMotion.matches;
-    if (reducedMotion.matches) scene.classList.remove('assignment-playing');
-  });
-  const sceneObserver = new IntersectionObserver(entries => {
-    if (entries.some(entry => entry.isIntersecting)) {
-      animateAssignment();
-      sceneObserver.disconnect();
+  const showcase = document.querySelector('.method-showcase');
+  if (showcase) {
+    const scenes = [...showcase.querySelectorAll('.method-scene')];
+    const tabs = [...showcase.querySelectorAll('[role="tab"]')];
+    const playButton = showcase.querySelector('#showcase-play');
+    const status = showcase.querySelector('#showcase-status');
+    const count = showcase.querySelector('.showcase-count');
+    let current = 0;
+    let playing = !reducedMotion.matches;
+    let hovered = showcase.matches(':hover');
+    let inView = false;
+    let timer;
+
+    // Every scene contributes to the grid height, even when visually hidden.
+    // Inactive scenes are inert and excluded from the accessibility tree.
+    showcase.classList.add('showcase-enhanced');
+    scenes.forEach((scene, index) => {
+      scene.setAttribute('role', 'tabpanel');
+      scene.setAttribute('aria-labelledby', tabs[index].id);
+      scene.setAttribute('aria-hidden', String(index !== current));
+      scene.inert = index !== current;
+      scene.tabIndex = index === current ? 0 : -1;
+      scene.hidden = false;
+    });
+    showcase.querySelector('.showcase-controls').hidden = false;
+
+    function updatePlayback() {
+      clearTimeout(timer);
+      const focused = showcase.contains(document.activeElement);
+      playButton.querySelector('[data-playback-label]').textContent = playing ? 'Pause' : 'Play';
+      playButton.querySelector('[data-playback-icon]').textContent = playing ? 'Ⅱ' : '▷';
+      playButton.setAttribute('aria-label', `${playing ? 'Pause' : 'Start'} automatic method cycling`);
+      status.textContent = !playing ? 'Choose a method, or press Play'
+        : document.hidden ? 'Paused while the tab is hidden'
+        : !inView ? 'Paused while out of view'
+        : focused ? 'Paused while you explore'
+        : hovered ? 'Paused while you hover'
+        : 'Changes every 10 seconds';
+      // Resume with a fresh interval; no queued transitions or catch-up jumps.
+      if (playing && inView && !document.hidden && !hovered && !focused) {
+        timer = setTimeout(() => {
+          selectScene((current + 1) % scenes.length);
+          updatePlayback();
+        }, 10000);
+      }
     }
-  }, {threshold: .35});
-  sceneObserver.observe(scene);
+
+    function selectScene(index) {
+      current = index;
+      scenes.forEach((scene, i) => {
+        const active = i === current;
+        scene.classList.toggle('is-active', active);
+        scene.classList.remove('assignment-playing');
+        scene.setAttribute('aria-hidden', String(!active));
+        scene.inert = !active;
+        scene.tabIndex = active ? 0 : -1;
+        tabs[i].setAttribute('aria-selected', String(active));
+        tabs[i].tabIndex = active ? 0 : -1;
+      });
+      if (!reducedMotion.matches) {
+        void scenes[current].offsetWidth;
+        scenes[current].classList.add('assignment-playing');
+      }
+      count.textContent = `${String(current + 1).padStart(2, '0')} / 05`;
+      // The image is decorative: a late or failed load never blocks the scene.
+      const nextImage = scenes[(current + 1) % scenes.length].querySelector('img');
+      nextImage.loading = 'eager';
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        playing = false;
+        selectScene(index);
+        updatePlayback();
+      });
+      tab.addEventListener('keydown', event => {
+        let next;
+        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        playing = false;
+        selectScene(next);
+        tabs[next].focus({preventScroll: true});
+        updatePlayback();
+      });
+    });
+    playButton.addEventListener('click', () => {
+      playing = !playing;
+      updatePlayback();
+    });
+    showcase.addEventListener('pointerenter', event => {
+      if (event.pointerType === 'touch') return;
+      hovered = true;
+      updatePlayback();
+    });
+    showcase.addEventListener('pointerleave', () => {
+      hovered = false;
+      updatePlayback();
+    });
+    showcase.addEventListener('focusin', updatePlayback);
+    showcase.addEventListener('focusout', () => queueMicrotask(updatePlayback));
+    document.addEventListener('visibilitychange', updatePlayback);
+    reducedMotion.addEventListener('change', () => {
+      // Turning reduced motion on stops cycling; turning it off does not opt back in.
+      if (reducedMotion.matches) playing = false;
+      scenes.forEach(scene => scene.classList.remove('assignment-playing'));
+      updatePlayback();
+    });
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        inView = entries[0].isIntersecting && entries[0].intersectionRatio >= .15;
+        updatePlayback();
+      }, {threshold: [0, .15]});
+      observer.observe(showcase);
+    } else {
+      inView = true;
+    }
+    selectScene(0);
+    updatePlayback();
+  }
 
   const revealObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
