@@ -34,6 +34,7 @@ def normalized(text):
     # not normalize substantive different words such as arrest versus dropout.
     text = re.sub(r'Knowledge\s*Is\s*Power\s*Program', 'ナレッジイズパワープログラム', text, flags=re.I)
     text = re.sub(r'(?<![A-Za-z])KIPP(?![A-Za-z])|切符', 'キップ', text, flags=re.I)
+    text = re.sub(r'first\s*stage', 'ファーストステージ', text, flags=re.I)
     return ''.join(c for c in text.casefold()
                    if unicodedata.category(c)[0] in ('L', 'N'))
 
@@ -333,6 +334,18 @@ def build(stem, cached_only=False):
     synthesis = json.loads(audio.with_suffix('.json').read_text())
     if synthesis['audio_sha256'] != sha(audio):
         raise ValueError('Audio changed after synthesis report')
+    reviewed_path = ROOT / 'mindmaps-podcast/ja/transcripts' / (stem + '.json')
+    if reviewed_path.exists():
+        previous = json.loads(reviewed_path.read_text())
+        source = ROOT / 'mindmaps-podcast/ja' / (stem + '.md')
+        if ((previous.get('flag_review_complete') or previous.get('number_review_complete'))
+            and previous.get('audio_sha256') == synthesis['audio_sha256']
+            and previous.get('script_sha256') == sha(source)
+            and not previous.get('unreviewed_flagged_spans', 0)
+            and not previous.get('unreviewed_number_flags', 0)
+            and all(reviewed_path.with_suffix(ext).exists() for ext in ('.txt', '.vtt'))):
+            print(f'{stem}: current editorially reviewed transcript preserved; no API requests sent')
+            return
     config = {**production, 'model': 'gemini-3.5-transcribe', 'pricing': {
         'checked_at': '2026-10-23', 'valid_through': '2026-12-31',
         'input_usd_per_million': 2.0, 'output_usd_per_million': 12.0,
@@ -359,6 +372,9 @@ def build(stem, cached_only=False):
             recognition = recognition_for_chunk(client, pcm, duration, config, budget)
         aligned, report = align_chunk(chunk, recognition['words'])
         reports.append({'chunk': i + 1, **report,
+                        'recognition_model': recognition.get('model', 'unknown'),
+                        'timing_granularity': recognition.get('timing_granularity', 'word timestamps'),
+                        'timing_fallback': recognition.get('timing_fallback'),
                         'omitted_timing_anchors': recognition.get('omitted_timing_anchors', [])})
         segments.extend(aligned)
         print(f'{stem} chunk {i + 1}: {report["matched_characters"]:.1%} script matched; '
@@ -379,7 +395,7 @@ def build(stem, cached_only=False):
               'audio_sha256': sha(audio), 'script_sha256': sha(source), 'sections': sections,
               'segments': segments, 'alignment': reports, 'unreviewed_flagged_spans': flags,
               'unreviewed_number_flags': numeric_flags,
-              'timing': 'Script sentences aligned to Gemini ASR word timestamps; approximate timing.',
+              'timing': 'Script sentences aligned to recognized audio timestamps; approximate timing. Source and granularity are recorded per chunk.',
               'verification': 'ASR comparison; flagged spans require review; not a claim of human listening'}
     atomic_json(output / f'{stem}.json', report)
     text = [report['title'], '', 'AI音声。文字起こしの時刻は近似です。', '']

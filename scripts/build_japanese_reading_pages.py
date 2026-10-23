@@ -76,8 +76,9 @@ def main():
                             f'<p class="passage-text">{annotated(segment["text"],glossary,seen)}</p></div>')
         remote = state.get('episodes', {}).get(episode['id'], {}).get('public_url')
         spotify = f'<p><a href="{html.escape(remote,quote=True)}">Spotifyで聴く</a></p>' if remote else ''
+        spelling_note = html.escape(data.get('english_term_spelling_note', ''))
         body = ('<p class="note">独立した学習補助番組のオリジナル原稿に基づくAI音声です。'
-                '音声認識を使って原稿と照合しています。表示時刻は近似です。</p>' + spotify +
+                '音声認識を使って原稿と照合しています。表示時刻は近似です。' + spelling_note + '</p>' + spotify +
                 f'<p><a href="{episode["id"]}.txt">日本語テキストを開く</a> · '
                 '<a href="../glossary.html">専門用語の日英対訳・読み方</a></p>' +
                 f'<nav aria-label="この章の目次"><ul>{contents}</ul></nav><article aria-label="文字起こし">' +

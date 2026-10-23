@@ -235,6 +235,18 @@
       "reading": "いとしたしょちのこうか",
       "english": "intention-to-treat effect; ITT",
       "explanation": "実際に処置を受けたかどうかではなく、処置を受けるよう割り当てたことの効果。"
+    },
+    {
+      "term": "二値",
+      "reading": "にち",
+      "english": "binary",
+      "explanation": "二つの値や状態を取ること。処置の場合は、受けるか受けないか、といった区別です。"
+    },
+    {
+      "term": "遵守者",
+      "reading": "じゅんしゅしゃ",
+      "english": "complier",
+      "explanation": "操作変数による後押しで、処置を受けるかどうかが変わる人。性格や道徳的な評価を表す言葉ではありません。"
     }
   ],
   "review_note": "Definitions checked for consistency with reviewed Japanese scripts and local causal-inference source explanations; glossary is a selective learning aid."
