@@ -130,6 +130,20 @@ Preview from the repository root with `python -m http.server 8765`, then open
 `http://localhost:8765/`. Check all five pages in both themes, mobile navigation, chapter anchors,
 code tabs and copying, and Data Dictionary filters after changing shared assets.
 
+### Homepage
+
+The homepage uses `assets/home.css` and `assets/home.js` for its scientific illustration,
+chapter panels, and accessible image/video dialogs. Keep these styles scoped to `.index-page`
+or homepage-only classes. The random-assignment diagram is conceptual, not empirical data;
+its animation plays once and respects reduced-motion preferences. All content is visible
+before animation enhancement, and replay is hidden without JavaScript.
+
+Chapter panels retain their `chapter-1` through `chapter-6` anchors and expand to the full
+desktop grid width when a podcast opens. Reuse the shared player implementation and its
+existing audio, transcript, and Spotify destinations. Check both themes at 320px, 390px,
+768px, 850px, 1100px, 1280px, and 1440px, including an open player. Check keyboard modal
+focus/escape, the mobile menu, all resource filters, and the script-free fallback.
+
 ### AI Podcasts
 
 `podcasts.html` presents the six existing English chapter episodes with visible players,

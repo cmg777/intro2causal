@@ -414,6 +414,9 @@
     }
   </style>
   <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/home.css">
+  <script src="assets/home.js" defer></script>
+  <meta name="description" content="Learn to distinguish cause from correlation. Six guided chapters, real datasets, interactive Python notebooks, AI tutors, and podcasts.">
   <script>try{document.documentElement.classList.toggle('light',localStorage.getItem('theme')==='light')}catch(e){}</script>
   <script src="assets/site.js" defer></script>
   <noscript><style>.site-header .icon-button,.site-header .menu-button{display:none}@media(max-width:1100px){.site-header{position:relative}.site-header .mobile-nav[hidden]{display:block!important}}</style></noscript>
@@ -434,108 +437,68 @@
 </header>
 
   <main id="main" tabindex="-1">
-  <!-- Hero -->
-  <section class="hero wrap" aria-labelledby="page-title">
-    <div class="hero-copy">
-      <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> AN AI-POWERED STUDY GUIDE</p>
-      <h1 id="page-title">Mastering<br>Causal <span>Metrics.</span></h1>
-      <p class="hero-intro">A better comparison.<br>A clearer understanding of cause.</p>
-      <p class="hero-description">A hands-on AI-powered study guide to Mastering Causal Metrics. Learn the foundations of causal inference with interactive Python notebooks and AI tools.</p>
-      <div class="hero-actions"><a class="button primary" href="#curriculum">Explore the study guide <span aria-hidden="true">↓</span></a><a class="hero-text-link" href="data-dictionary.html">Meet the data ↗</a></div>
-      <div class="collection-facts"><span><strong>6</strong> chapters</span><span><strong>5</strong> causal methods</span><span>Learn by doing</span></div>
-    </div>
-    <figure class="hero-feature method-map" aria-labelledby="map-title">
-      <div class="feature-top"><span class="eyebrow">YOUR LEARNING MAP</span><span class="tiny-tag">The Furious Five</span></div>
-      <h2 id="map-title">What makes a<br> comparison credible?</h2>
-      <p>Five tools. Five ways to approach the question.</p>
-      <ol class="method-path">
-        <li><a href="#chapter-1"><span class="method-index">01</span><span><strong>Randomized trials</strong><small>Start with random assignment.</small></span><svg class="method-sketch" viewBox="0 0 64 30" aria-hidden="true"><circle cx="10" cy="8" r="2"/><circle cx="21" cy="18" r="2"/><circle cx="12" cy="23" r="2"/><circle cx="25" cy="6" r="2"/><circle cx="43" cy="8" r="2"/><circle cx="55" cy="18" r="2"/><circle cx="45" cy="23" r="2"/><circle cx="58" cy="6" r="2"/></svg><span class="method-code">RCT ↗</span></a></li>
-        <li><a href="#chapter-2"><span class="method-index">02</span><span><strong>Regression</strong><small>Account for observed differences.</small></span><svg class="method-sketch" viewBox="0 0 64 30" aria-hidden="true"><path d="M5 25L60 4"/><circle cx="12" cy="19" r="2"/><circle cx="23" cy="22" r="2"/><circle cx="35" cy="10" r="2"/><circle cx="49" cy="12" r="2"/><circle cx="58" cy="3" r="2"/></svg><span class="method-code">OLS ↗</span></a></li>
-        <li><a href="#chapter-3"><span class="method-index">03</span><span><strong>Instrumental variables</strong><small>Look for an external source of variation.</small></span><svg class="method-sketch" viewBox="0 0 64 30" aria-hidden="true"><circle cx="8" cy="15" r="5"/><circle cx="32" cy="15" r="5"/><circle cx="56" cy="15" r="5"/><path d="M14 15H26M38 15H50M23 12L26 15 23 18M47 12L50 15 47 18"/></svg><span class="method-code">IV ↗</span></a></li>
-        <li><a href="#chapter-4"><span class="method-index">04</span><span><strong>Regression discontinuity</strong><small>Compare people near a cutoff.</small></span><svg class="method-sketch" viewBox="0 0 64 30" aria-hidden="true"><path d="M4 24L29 18M35 10L61 4"/><path class="sketch-guide" d="M32 2V28"/></svg><span class="method-code">RD ↗</span></a></li>
-        <li><a href="#chapter-5"><span class="method-index">05</span><span><strong>Differences in differences</strong><small>Compare changes across groups.</small></span><svg class="method-sketch" viewBox="0 0 64 30" aria-hidden="true"><path d="M4 22L28 18 60 3"/><path class="sketch-secondary" d="M4 28L28 24 60 20"/><path class="sketch-guide" d="M30 2V28"/></svg><span class="method-code">DiD ↗</span></a></li>
-      </ol>
-      <figcaption><span class="feature-caption">Every method begins with assumptions worth examining.</span><a href="#chapter-6">Bring the methods together in Chapter 6 ↗</a></figcaption>
-    </figure>
-  </section>
 
-  <!-- Three Pillars -->
-  <section class="py-16 px-4 fade-in-up">
-    <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-6">
-      <div class="card pillar rounded-xl p-6">
-        <div class="pillar-icon mb-4" style="background-color: rgba(37,99,235,0.15); color: var(--blue);">&#9881;</div>
-        <h3 class="text-lg font-semibold mb-2 text-blue">Foundational Methods</h3>
-        <p class="text-sm text-muted">Based on <a href="https://www.masteringmetrics.com/" target="_blank" style="color: var(--blue);"><em>Mastering 'Metrics</em></a> by Angrist &amp; Pischke. Learn causal inference from randomized trials to differences-in-differences.</p>
+  <section class="home-hero" aria-labelledby="page-title">
+    <div class="hero-orbit" aria-hidden="true"></div>
+    <div class="home-shell hero-stage">
+      <div class="home-hero-copy">
+        <p class="home-kicker"><span aria-hidden="true"></span> A FIELD GUIDE TO CAUSE &amp; EFFECT</p>
+        <h1 id="page-title">Mastering<br>Causal <span>Metrics.</span></h1>
+        <p class="hero-hook">Better questions.<br>Fairer comparisons.</p>
+        <p class="hero-summary">Does insurance improve health? Does education raise earnings? Learn how researchers move from a compelling question to credible evidence.</p>
+        <div class="home-actions"><a class="home-button" href="book/_book/notebooks_quarto/01-randomized-trials.html">Start with Chapter 1 <span aria-hidden="true">↗</span></a><a class="home-text-link" href="#curriculum">Explore all chapters <span aria-hidden="true">↓</span></a></div>
+        <p class="hero-welcome">New to causal inference? You’re in the right place.</p>
       </div>
-      <div class="card pillar rounded-xl p-6">
-        <div class="pillar-icon mb-4" style="background-color: rgba(124,58,237,0.15); color: var(--purple);">&#128187;</div>
-        <h3 class="text-lg font-semibold mb-2 text-purple">Python Notebooks</h3>
-        <p class="text-sm text-muted">Zero-installation Google Colab notebooks. Real datasets, working code, and complete implementations of every method.</p>
-      </div>
-      <div class="card pillar rounded-xl p-6">
-        <div class="pillar-icon mb-4" style="background-color: rgba(5,150,105,0.15); color: var(--green);">&#129302;</div>
-        <h3 class="text-lg font-semibold mb-2 text-green">AI-Powered Learning</h3>
-        <p class="text-sm text-muted">Multiple AI tutors with distinct pedagogical styles.</p>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- Interactive AI-Powered Notebooks -->
-  <section id="ai-notebooks" class="py-16 px-4 fade-in-up" style="scroll-margin-top: 80px;">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-8">
-        <h2 class="text-2xl font-bold mb-3">Interactive AI-Powered Notebooks</h2>
-        <p class="text-muted max-w-3xl mx-auto">Every chapter comes with a <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank" style="color: var(--blue);">Google Colab notebook</a> that replicates the book's causal estimates in Python with <code>pyfixest</code>. Colab's built-in AI tools generate code, explain errors, and guide you through each regression, so you can focus on the identification strategy behind every result.</p>
-      </div>
-      <div class="media-frame" role="button" tabindex="0" aria-label="Play AI-powered notebooks video"
-           onclick="openVideo('V7RXyqFUR98','Programming in Colab with AI-Powered Tools','google')"
-           onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
-        <img src="images/ai-powered-colab.jpg" alt="Programming in Colab with AI-Powered Tools" loading="lazy">
-        <div class="play-overlay"><div class="play-btn">&#9654;</div></div>
-      </div>
-      <p class="text-center text-sm text-muted mt-4">
-        Video source: Julianne DeMars-Smith and Key Jung Lee from <a href="https://research.google/" target="_blank" style="color: var(--blue);">Google Research</a>
-      </p>
-    </div>
-  </section>
-
-  <!-- Curriculum -->
-  <section id="curriculum" class="py-16 px-4 fade-in-up" style="scroll-margin-top: 80px;">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-2xl font-bold mb-2 text-center">Curriculum</h2>
-      <p class="text-center text-muted mb-10 max-w-3xl mx-auto">Six chapters on the five tools of causal inference. Click a badge to open the study guide or launch the notebook in your browser. Each card also links to lecture slides and videos. Listen to the podcasts for all six chapters: jump between sections and follow the transcript as you listen.</p>
-
-      <figure class="curriculum-art">
-      <img src="cover.jpg" alt="The Furious Five: Five Methods to Separate Cause from Correlation — RCT, OLS, IV, RD, DiD" class="curriculum-cover" loading="lazy">
+      <figure class="comparison-scene" aria-labelledby="scene-title">
+        <div class="scene-heading"><span class="scene-index">THE IDEA / 001</span><span class="scene-live"><i aria-hidden="true"></i> A fair comparison</span></div>
+        <h2 id="scene-title">Different paths.<br><span>The same starting point.</span></h2>
+        <svg class="assignment-diagram" viewBox="0 0 600 430" role="img" aria-labelledby="assignment-title assignment-desc">
+          <title id="assignment-title">Random assignment creates two comparison groups</title>
+          <desc id="assignment-desc">A population is randomly assigned to treatment or comparison. Random assignment makes the groups comparable on average, although differences can occur by chance. This is a conceptual illustration, not study data.</desc>
+          <defs><linearGradient id="branch-blue"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient><linearGradient id="branch-purple"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+          <path class="scene-grid" d="M0 74H600M0 215H600M0 375H600M160 30V400M380 30V400"/>
+          <circle class="assignment-halo" cx="270" cy="215" r="83"/><circle class="assignment-ring" cx="270" cy="215" r="65"/>
+          <path class="population-line" d="M125 215H226"/>
+          <path class="branch branch-a" d="M314 215C363 215 355 135 413 135"/>
+          <path class="branch branch-b" d="M314 215C363 215 355 313 413 313"/>
+          <path class="flow-trace trace-a" d="M125 215H226M314 215C363 215 355 135 413 135"/>
+          <path class="flow-trace trace-b" d="M314 215C363 215 355 313 413 313"/>
+          <rect class="group-box treatment-box" x="415" y="90" width="110" height="87" rx="16"/>
+          <rect class="group-box comparison-box" x="415" y="268" width="110" height="87" rx="16"/>
+          <circle cx="45" cy="164" r="5" class="population-dot"/><circle cx="65" cy="164" r="5" class="population-dot"/><circle cx="85" cy="164" r="5" class="population-dot"/><circle cx="105" cy="164" r="5" class="population-dot"/><circle cx="45" cy="184" r="5" class="population-dot"/><circle cx="65" cy="184" r="5" class="population-dot"/><circle cx="85" cy="184" r="5" class="population-dot"/><circle cx="105" cy="184" r="5" class="population-dot"/><circle cx="45" cy="204" r="5" class="population-dot"/><circle cx="65" cy="204" r="5" class="population-dot"/><circle cx="85" cy="204" r="5" class="population-dot"/><circle cx="105" cy="204" r="5" class="population-dot"/><circle cx="45" cy="224" r="5" class="population-dot"/><circle cx="65" cy="224" r="5" class="population-dot"/><circle cx="85" cy="224" r="5" class="population-dot"/><circle cx="105" cy="224" r="5" class="population-dot"/><circle cx="45" cy="244" r="5" class="population-dot"/><circle cx="65" cy="244" r="5" class="population-dot"/><circle cx="85" cy="244" r="5" class="population-dot"/><circle cx="105" cy="244" r="5" class="population-dot"/><circle cx="45" cy="264" r="5" class="population-dot"/><circle cx="65" cy="264" r="5" class="population-dot"/><circle cx="85" cy="264" r="5" class="population-dot"/><circle cx="105" cy="264" r="5" class="population-dot"/><circle cx="436" cy="112" r="5" class="treatment-dot"/><circle cx="458" cy="112" r="5" class="treatment-dot"/><circle cx="480" cy="112" r="5" class="treatment-dot"/><circle cx="502" cy="112" r="5" class="treatment-dot"/><circle cx="436" cy="134" r="5" class="treatment-dot"/><circle cx="458" cy="134" r="5" class="treatment-dot"/><circle cx="480" cy="134" r="5" class="treatment-dot"/><circle cx="502" cy="134" r="5" class="treatment-dot"/><circle cx="436" cy="156" r="5" class="treatment-dot"/><circle cx="458" cy="156" r="5" class="treatment-dot"/><circle cx="480" cy="156" r="5" class="treatment-dot"/><circle cx="502" cy="156" r="5" class="treatment-dot"/><circle cx="436" cy="290" r="5" class="comparison-dot"/><circle cx="458" cy="290" r="5" class="comparison-dot"/><circle cx="480" cy="290" r="5" class="comparison-dot"/><circle cx="502" cy="290" r="5" class="comparison-dot"/><circle cx="436" cy="312" r="5" class="comparison-dot"/><circle cx="458" cy="312" r="5" class="comparison-dot"/><circle cx="480" cy="312" r="5" class="comparison-dot"/><circle cx="502" cy="312" r="5" class="comparison-dot"/><circle cx="436" cy="334" r="5" class="comparison-dot"/><circle cx="458" cy="334" r="5" class="comparison-dot"/><circle cx="480" cy="334" r="5" class="comparison-dot"/><circle cx="502" cy="334" r="5" class="comparison-dot"/>
+          <circle class="assignment-core" cx="270" cy="215" r="43"/>
+          <path class="shuffle" d="M251 204h8c10 0 12 22 22 22h10m-6-6 6 6-6 6m-34-6h8c10 0 12-22 22-22h10m-6-6 6 6-6 6"/>
+          <text class="diagram-label" x="75" y="132" text-anchor="middle">One population</text>
+          <text class="diagram-label" x="270" y="327" text-anchor="middle">Random assignment</text>
+          <text class="diagram-group-label treatment-label" x="470" y="72" text-anchor="middle">Treatment</text>
+          <text class="diagram-group-label comparison-label" x="470" y="251" text-anchor="middle">Comparison</text>
+          <path class="outcome-bracket" d="M545 134h12v178h-12"/>
+          <text class="outcome-label" transform="translate(581 223) rotate(-90)" text-anchor="middle">Compare outcomes</text>
+        </svg>
+        <figcaption><p>Chance decides who goes where.<br><span>Comparable on average. Not identical in every trial.</span></p><button id="replay-assignment" type="button" aria-label="Replay random assignment illustration" hidden><span aria-hidden="true">↻</span> Replay</button></figcaption>
+        <p class="scene-note">Conceptual illustration · not study data</p>
       </figure>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <!-- Chapter 1 -->
-          <div id="chapter-1" class="card chapter-card">
-            <div>
-              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 1: Randomized Trials</h4>
-              <p class="text-xs text-muted mt-1">Selection Bias &middot; Potential Outcomes &middot; RAND HIE</p>
-            </div>
-            <div class="chapter-thumb">
-              <img src="book/images/ch01_visual_summary.webp" alt="Chapter 1 mind map: Randomized Trials" loading="lazy" onclick="openImage(this.src, this.alt)">
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="book/_book/notebooks_quarto/01-randomized-trials.html" target="_blank"><img src="book/images/study-guide-badge.svg" alt="Open Study Guide" class="h-8"></a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank"><img src="book/images/ai-notebook-badge.svg" alt="Open AI Notebook" class="h-8"></a>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="slides/ch01/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
-              <a href="#" onclick="openVideo('eGRd8jBdNYg','Randomized Trials: The Ideal Weapon');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
-            </div>
-            <div class="podcast-launch-row">
-              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-1-podcast">
-                <span class="podcast-launch-icon" aria-hidden="true"><svg width="49.6" height="32" viewBox="0 0 31 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="white" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 11V9a6 6 0 0 1 12 0v2"/><rect x="9" y="10" width="3" height="6" rx="1.5"/><rect x="19" y="10" width="3" height="6" rx="1.5"/><path d="M14 9v4m3-5v6" stroke-opacity=".8"/></g></svg></span>
-                <span class="podcast-launch-label">Listen AI Podcast</span>
-              </button>
-            </div>
-            <noscript><p>Enable JavaScript to use the Chapter 1 podcast player, or <a href="mindmaps-podcast/transcripts/ch01-randomized-trials.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
-            <section id="chapter-1-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch01-randomized-trials.json" aria-label="Chapter 1 podcast study player" hidden>
+    </div>
+    <div class="home-shell hero-bottom"><p><strong>6</strong> chapters <span>/</span> <strong>5</strong> causal methods <span>/</span> Learn by doing</p><a href="#learning-path">A question is just the beginning <span aria-hidden="true">↓</span></a></div>
+  </section>
+<section id="learning-path" class="home-shell learning-path" aria-labelledby="path-title">
+  <div class="section-heading-home"><p class="home-kicker">YOUR FIRST STEPS</p><h2 id="path-title">From “what if”<br>to “how do we know?”</h2><p>You don’t need all the answers to begin.<br>Just a question worth investigating.</p></div>
+  <ol class="learning-steps">
+    <li><span class="step-number">01 / READ</span><h3>Read the question.</h3><p>Start with health insurance. Meet the people, the problem, and the comparison behind the evidence.</p><a href="book/_book/notebooks_quarto/01-randomized-trials.html">Begin the first chapter <span aria-hidden="true">↗</span></a></li>
+    <li><span class="step-number">02 / EXPLORE</span><h3>Explore the evidence.</h3><p>Open a guided notebook, make a plot, and notice what the data can—and cannot—tell you.</p><a href="data-dictionary.html#ch1-rand-balance-csv">Meet the RAND data <span aria-hidden="true">↗</span></a></li>
+    <li><span class="step-number">03 / EXPLAIN</span><h3>Make the idea yours.</h3><p>Explain the comparison in your own words. Work through your questions with an AI tutor.</p><a href="tutors.html">Think it through with a tutor <span aria-hidden="true">↗</span></a></li>
+  </ol>
+</section><section id="curriculum" class="home-curriculum" aria-labelledby="curriculum-title"><div class="home-shell">
+  <div class="section-heading-home curriculum-heading"><div><p class="home-kicker">SIX CHAPTERS. QUESTIONS THAT MATTER.</p><h2 id="curriculum-title">Learn to see<br><span>cause differently.</span></h2></div><p>Follow the chapters in order, or return to the question you’re working on. Read, code, watch, or listen—each chapter gives you a way in.</p></div>
+  <details class="methods-overview"><summary><span><span class="overview-mark" aria-hidden="true">✳</span> The Furious Five <small>A visual overview of the methods</small></span><span class="overview-toggle" aria-hidden="true">+</span></summary><div><a href="cover.jpg" target="_blank" rel="noopener"><img src="cover.jpg" alt="The Furious Five: randomized trials, regression, instrumental variables, regression discontinuity, and differences-in-differences" loading="lazy"></a><p>Open the artwork at full size, or choose a chapter below.</p></div></details>
+  <div class="chapter-grid"><article id="chapter-1" class="card chapter-card" aria-labelledby="chapter-title-1">
+      <div class="chapter-top"><span class="chapter-number">01</span><span class="chapter-method">Randomized Trials</span><span class="chapter-tag">Start here</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-1">Does health insurance make people healthier?</h3><p>Begin with a question that matters. Discover how the RAND experiment and the Oregon lottery help researchers build a fair comparison.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Enlarge Chapter 1 mind map" onclick="openImage('book/images/ch01_visual_summary.webp', 'Chapter 1 mind map: Randomized Trials')"><img src="book/images/ch01_visual_summary.webp" alt="Chapter 1 mind map: Randomized Trials" loading="lazy" width="1536" height="1024"><span class="art-caption">Explore the chapter map <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/01-randomized-trials.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Read the chapter</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Open notebook</a><a class="chapter-action chapter-action-secondary" href="slides/ch01/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Slides</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('eGRd8jBdNYg','Randomized Trials: The Ideal Weapon');return false;"><span aria-hidden="true">▷</span>Watch video</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-1-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Listen to the podcast <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Enable JavaScript to use the Chapter 1 podcast player, or <a href="mindmaps-podcast/transcripts/ch01-randomized-trials.html" rel="noopener" target="_blank">Open Transcript (opens in a new tab)</a>.</p></noscript>
+      <section id="chapter-1-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch01-randomized-trials.json" aria-label="Chapter 1 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Randomized Trials mind map full screen" onclick="openImage('book/images/ch01_visual_summary.webp', 'Chapter 1 mind map: Randomized Trials')">
                 <img src="book/images/ch01_visual_summary.webp" alt="Randomized Trials mind map" loading="lazy">
                 <span>⊕ Mind map</span>
@@ -586,32 +549,15 @@
               </div>
                 <p class="podcast-status" role="status"></p>
             </section>
-          </div>
-          <!-- Chapter 2 -->
-          <div id="chapter-2" class="card chapter-card">
-            <div>
-              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 2: Regression</h4>
-              <p class="text-xs text-muted mt-1">OLS &middot; Omitted Variable Bias &middot; Bad Controls</p>
-            </div>
-            <div class="chapter-thumb">
-              <img src="book/images/ch02_visual_summary.webp" alt="Chapter 2 mind map: Regression" loading="lazy" onclick="openImage(this.src, this.alt)">
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="book/_book/notebooks_quarto/02-regression.html" target="_blank"><img src="book/images/study-guide-badge.svg" alt="Open Study Guide" class="h-8"></a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" target="_blank"><img src="book/images/ai-notebook-badge.svg" alt="Open AI Notebook" class="h-8"></a>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="slides/ch02/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
-              <a href="#" onclick="openVideo('iPBV3BlV7jk','Ceteris Paribus: Public vs. Private University');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
-            </div>
-            <div class="podcast-launch-row">
-              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-2-podcast">
-                <span class="podcast-launch-icon" aria-hidden="true"><svg width="49.6" height="32" viewBox="0 0 31 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="white" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 11V9a6 6 0 0 1 12 0v2"/><rect x="9" y="10" width="3" height="6" rx="1.5"/><rect x="19" y="10" width="3" height="6" rx="1.5"/><path d="M14 9v4m3-5v6" stroke-opacity=".8"/></g></svg></span>
-                <span class="podcast-launch-label">Listen AI Podcast</span>
-              </button>
-            </div>
-            <noscript><p>Enable JavaScript to use the Chapter 2 podcast player, or <a href="mindmaps-podcast/transcripts/ch02-regression.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
-            <section id="chapter-2-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch02-regression.json" aria-label="Chapter 2 podcast study player" hidden>
+    </article>
+<article id="chapter-2" class="card chapter-card" aria-labelledby="chapter-title-2">
+      <div class="chapter-top"><span class="chapter-number">02</span><span class="chapter-method">Regression</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-2">Is an elite college worth the extra tuition?</h3><p>Students arrive with different backgrounds and ambitions. Explore what regression can account for—and what it can still miss.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Enlarge Chapter 2 mind map" onclick="openImage('book/images/ch02_visual_summary.webp', 'Chapter 2 mind map: Regression')"><img src="book/images/ch02_visual_summary.webp" alt="Chapter 2 mind map: Regression" loading="lazy" width="1536" height="1024"><span class="art-caption">Explore the chapter map <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/02-regression.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Read the chapter</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Open notebook</a><a class="chapter-action chapter-action-secondary" href="slides/ch02/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Slides</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('iPBV3BlV7jk','Ceteris Paribus: Public vs. Private University');return false;"><span aria-hidden="true">▷</span>Watch video</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-2-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Listen to the podcast <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Enable JavaScript to use the Chapter 2 podcast player, or <a href="mindmaps-podcast/transcripts/ch02-regression.html" rel="noopener" target="_blank">Open Transcript (opens in a new tab)</a>.</p></noscript>
+      <section id="chapter-2-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch02-regression.json" aria-label="Chapter 2 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Regression mind map full screen" onclick="openImage('book/images/ch02_visual_summary.webp', 'Chapter 2 mind map: Regression')">
                 <img src="book/images/ch02_visual_summary.webp" alt="Regression mind map" loading="lazy">
                 <span>⊕ Mind map</span>
@@ -662,33 +608,15 @@
               </div>
                 <p class="podcast-status" role="status"></p>
             </section>
-          </div>
-          <!-- Chapter 3 -->
-          <div id="chapter-3" class="card chapter-card">
-            <div>
-              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 3: Instrumental Variables</h4>
-              <p class="text-xs text-muted mt-1">LATE &middot; Compliers &middot; Minneapolis DV Experiment</p>
-            </div>
-            <div class="chapter-thumb">
-              <img src="book/images/ch03_visual_summary.webp" alt="Chapter 3 mind map: Instrumental Variables" loading="lazy" onclick="openImage(this.src, this.alt)">
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="book/_book/notebooks_quarto/03-instrumental-variables.html" target="_blank"><img src="book/images/study-guide-badge.svg" alt="Open Study Guide" class="h-8"></a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" target="_blank"><img src="book/images/ai-notebook-badge.svg" alt="Open AI Notebook" class="h-8"></a>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="slides/ch03/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
-              <a href="#" onclick="openVideo('eoJUPd6104Q','Introduction to Instrumental Variables');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
-              <a href="#" onclick="openVideo('3rVPqTZGOis','Instrumental Variables: AI Video','notebooklm');return false;"><img src="book/images/video2-badge.svg" alt="Watch Video 2" class="h-8"></a>
-            </div>
-            <div class="podcast-launch-row">
-              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-3-podcast">
-                <span class="podcast-launch-icon" aria-hidden="true"><svg width="49.6" height="32" viewBox="0 0 31 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="white" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 11V9a6 6 0 0 1 12 0v2"/><rect x="9" y="10" width="3" height="6" rx="1.5"/><rect x="19" y="10" width="3" height="6" rx="1.5"/><path d="M14 9v4m3-5v6" stroke-opacity=".8"/></g></svg></span>
-                <span class="podcast-launch-label">Listen AI Podcast</span>
-              </button>
-            </div>
-            <noscript><p>Enable JavaScript to use the Chapter 3 podcast player, or <a href="mindmaps-podcast/transcripts/ch03-instrumental-variables.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
-            <section id="chapter-3-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch03-instrumental-variables.json" aria-label="Chapter 3 podcast study player" hidden>
+    </article>
+<article id="chapter-3" class="card chapter-card" aria-labelledby="chapter-title-3">
+      <div class="chapter-top"><span class="chapter-number">03</span><span class="chapter-method">Instrumental Variables</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-3">What if people ignore their assigned treatment?</h3><p>A lottery can change an opportunity without deciding what people do. Follow that variation to understand whose causal effect we can learn about.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Enlarge Chapter 3 mind map" onclick="openImage('book/images/ch03_visual_summary.webp', 'Chapter 3 mind map: Instrumental Variables')"><img src="book/images/ch03_visual_summary.webp" alt="Chapter 3 mind map: Instrumental Variables" loading="lazy" width="1536" height="1024"><span class="art-caption">Explore the chapter map <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/03-instrumental-variables.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Read the chapter</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Open notebook</a><a class="chapter-action chapter-action-secondary" href="slides/ch03/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Slides</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('eoJUPd6104Q','Introduction to Instrumental Variables');return false;"><span aria-hidden="true">▷</span>Watch video</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('3rVPqTZGOis','Instrumental Variables: AI Video','notebooklm');return false;"><span aria-hidden="true">▷</span>Watch video 2</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-3-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Listen to the podcast <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Enable JavaScript to use the Chapter 3 podcast player, or <a href="mindmaps-podcast/transcripts/ch03-instrumental-variables.html" rel="noopener" target="_blank">Open Transcript (opens in a new tab)</a>.</p></noscript>
+      <section id="chapter-3-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch03-instrumental-variables.json" aria-label="Chapter 3 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Instrumental Variables mind map full screen" onclick="openImage('book/images/ch03_visual_summary.webp', 'Chapter 3 mind map: Instrumental Variables')">
                 <img src="book/images/ch03_visual_summary.webp" alt="Instrumental Variables mind map" loading="lazy">
                 <span>⊕ Mind map</span>
@@ -739,32 +667,15 @@
               </div>
                 <p class="podcast-status" role="status"></p>
             </section>
-          </div>
-          <!-- Chapter 4 -->
-          <div id="chapter-4" class="card chapter-card">
-            <div>
-              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 4: Regression Discontinuity</h4>
-              <p class="text-xs text-muted mt-1">Sharp RD &middot; Bandwidth &middot; MLDA and Mortality</p>
-            </div>
-            <div class="chapter-thumb">
-              <img src="book/images/ch04_visual_summary.webp" alt="Chapter 4 mind map: Regression Discontinuity" loading="lazy" onclick="openImage(this.src, this.alt)">
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="book/_book/notebooks_quarto/04-regression-discontinuity.html" target="_blank"><img src="book/images/study-guide-badge.svg" alt="Open Study Guide" class="h-8"></a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" target="_blank"><img src="book/images/ai-notebook-badge.svg" alt="Open AI Notebook" class="h-8"></a>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="slides/ch04/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
-              <a href="#" onclick="openVideo('d4S2STNOHBk','Regression Discontinuity: AI Video','notebooklm');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
-            </div>
-            <div class="podcast-launch-row">
-              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-4-podcast">
-                <span class="podcast-launch-icon" aria-hidden="true"><svg width="49.6" height="32" viewBox="0 0 31 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="white" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 11V9a6 6 0 0 1 12 0v2"/><rect x="9" y="10" width="3" height="6" rx="1.5"/><rect x="19" y="10" width="3" height="6" rx="1.5"/><path d="M14 9v4m3-5v6" stroke-opacity=".8"/></g></svg></span>
-                <span class="podcast-launch-label">Listen AI Podcast</span>
-              </button>
-            </div>
-            <noscript><p>Enable JavaScript to use the Chapter 4 podcast player, or <a href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
-            <section id="chapter-4-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch04-regression-discontinuity.json" aria-label="Chapter 4 podcast study player" hidden>
+    </article>
+<article id="chapter-4" class="card chapter-card" aria-labelledby="chapter-title-4">
+      <div class="chapter-top"><span class="chapter-number">04</span><span class="chapter-method">Regression Discontinuity</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-4">Can a birthday reveal the effect of alcohol access?</h3><p>At age 21, the rules change. See how comparing people just either side of a cutoff can reveal a local causal effect.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Enlarge Chapter 4 mind map" onclick="openImage('book/images/ch04_visual_summary.webp', 'Chapter 4 mind map: Regression Discontinuity')"><img src="book/images/ch04_visual_summary.webp" alt="Chapter 4 mind map: Regression Discontinuity" loading="lazy" width="1536" height="1024"><span class="art-caption">Explore the chapter map <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/04-regression-discontinuity.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Read the chapter</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Open notebook</a><a class="chapter-action chapter-action-secondary" href="slides/ch04/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Slides</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('d4S2STNOHBk','Regression Discontinuity: AI Video','notebooklm');return false;"><span aria-hidden="true">▷</span>Watch video</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-4-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Listen to the podcast <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Enable JavaScript to use the Chapter 4 podcast player, or <a href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.html" rel="noopener" target="_blank">Open Transcript (opens in a new tab)</a>.</p></noscript>
+      <section id="chapter-4-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch04-regression-discontinuity.json" aria-label="Chapter 4 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Regression Discontinuity mind map full screen" onclick="openImage('book/images/ch04_visual_summary.webp', 'Chapter 4 mind map: Regression Discontinuity')">
                 <img src="book/images/ch04_visual_summary.webp" alt="Regression Discontinuity mind map" loading="lazy">
                 <span>⊕ Mind map</span>
@@ -815,32 +726,15 @@
               </div>
                 <p class="podcast-status" role="status"></p>
             </section>
-          </div>
-          <!-- Chapter 5 -->
-          <div id="chapter-5" class="card chapter-card">
-            <div>
-              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 5: Differences-in-Differences</h4>
-              <p class="text-xs text-muted mt-1">Parallel Trends &middot; Two-Way FE &middot; Great Depression Banking</p>
-            </div>
-            <div class="chapter-thumb">
-              <img src="book/images/ch05_visual_summary.webp" alt="Chapter 5 mind map: Differences-in-Differences" loading="lazy" onclick="openImage(this.src, this.alt)">
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="book/_book/notebooks_quarto/05-differences-in-differences.html" target="_blank"><img src="book/images/study-guide-badge.svg" alt="Open Study Guide" class="h-8"></a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" target="_blank"><img src="book/images/ai-notebook-badge.svg" alt="Open AI Notebook" class="h-8"></a>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="slides/ch05/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
-              <a href="#" onclick="openVideo('eiffOVbYvNc','Introduction to Differences-in-Differences');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
-            </div>
-            <div class="podcast-launch-row">
-              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-5-podcast">
-                <span class="podcast-launch-icon" aria-hidden="true"><svg width="49.6" height="32" viewBox="0 0 31 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="white" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 11V9a6 6 0 0 1 12 0v2"/><rect x="9" y="10" width="3" height="6" rx="1.5"/><rect x="19" y="10" width="3" height="6" rx="1.5"/><path d="M14 9v4m3-5v6" stroke-opacity=".8"/></g></svg></span>
-                <span class="podcast-launch-label">Listen AI Podcast</span>
-              </button>
-            </div>
-            <noscript><p>Enable JavaScript to use the Chapter 5 podcast player, or <a href="mindmaps-podcast/transcripts/ch05-differences-in-differences.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
-            <section id="chapter-5-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch05-differences-in-differences.json" aria-label="Chapter 5 podcast study player" hidden>
+    </article>
+<article id="chapter-5" class="card chapter-card" aria-labelledby="chapter-title-5">
+      <div class="chapter-top"><span class="chapter-number">05</span><span class="chapter-method">Differences-in-Differences</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-5">Did emergency lending save banks?</h3><p>Two Federal Reserve districts faced the same crisis with different policies. Compare their changes over time—and examine the assumptions.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Enlarge Chapter 5 mind map" onclick="openImage('book/images/ch05_visual_summary.webp', 'Chapter 5 mind map: Differences-in-Differences')"><img src="book/images/ch05_visual_summary.webp" alt="Chapter 5 mind map: Differences-in-Differences" loading="lazy" width="1536" height="1024"><span class="art-caption">Explore the chapter map <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/05-differences-in-differences.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Read the chapter</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Open notebook</a><a class="chapter-action chapter-action-secondary" href="slides/ch05/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Slides</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('eiffOVbYvNc','Introduction to Differences-in-Differences');return false;"><span aria-hidden="true">▷</span>Watch video</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-5-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Listen to the podcast <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Enable JavaScript to use the Chapter 5 podcast player, or <a href="mindmaps-podcast/transcripts/ch05-differences-in-differences.html" rel="noopener" target="_blank">Open Transcript (opens in a new tab)</a>.</p></noscript>
+      <section id="chapter-5-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch05-differences-in-differences.json" aria-label="Chapter 5 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Differences-in-Differences mind map full screen" onclick="openImage('book/images/ch05_visual_summary.webp', 'Chapter 5 mind map: Differences-in-Differences')">
                 <img src="book/images/ch05_visual_summary.webp" alt="Differences-in-Differences mind map" loading="lazy">
                 <span>⊕ Mind map</span>
@@ -891,32 +785,15 @@
               </div>
                 <p class="podcast-status" role="status"></p>
             </section>
-          </div>
-          <!-- Chapter 6 -->
-          <div id="chapter-6" class="card chapter-card">
-            <div>
-              <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 6: The Wages of Schooling</h4>
-              <p class="text-xs text-muted mt-1">Twins &middot; Quarter of Birth &middot; Sheepskin Effects</p>
-            </div>
-            <div class="chapter-thumb">
-              <img src="book/images/ch06_visual_summary.webp" alt="Chapter 6 mind map: The Wages of Schooling" loading="lazy" onclick="openImage(this.src, this.alt)">
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="book/_book/notebooks_quarto/06-wages-of-schooling.html" target="_blank"><img src="book/images/study-guide-badge.svg" alt="Open Study Guide" class="h-8"></a>
-              <a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" target="_blank"><img src="book/images/ai-notebook-badge.svg" alt="Open AI Notebook" class="h-8"></a>
-          </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <a href="slides/ch06/index.html" target="_blank"><img src="book/images/slides-badge.svg" alt="View Slides" class="h-8"></a>
-              <a href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;"><img src="book/images/video-badge.svg" alt="Watch Video" class="h-8"></a>
-            </div>
-            <div class="podcast-launch-row">
-              <button type="button" class="podcast-launch" data-podcast-toggle aria-expanded="false" aria-controls="chapter-6-podcast">
-                <span class="podcast-launch-icon" aria-hidden="true"><svg width="49.6" height="32" viewBox="0 0 31 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="white" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 11V9a6 6 0 0 1 12 0v2"/><rect x="9" y="10" width="3" height="6" rx="1.5"/><rect x="19" y="10" width="3" height="6" rx="1.5"/><path d="M14 9v4m3-5v6" stroke-opacity=".8"/></g></svg></span>
-                <span class="podcast-launch-label">Listen AI Podcast</span>
-              </button>
-            </div>
-            <noscript><p>Enable JavaScript to use the Chapter 6 podcast player, or <a href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
-            <section id="chapter-6-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch06-wages-of-schooling.json" aria-label="Chapter 6 podcast study player" hidden>
+    </article>
+<article id="chapter-6" class="card chapter-card" aria-labelledby="chapter-title-6">
+      <div class="chapter-top"><span class="chapter-number">06</span><span class="chapter-method">The Wages of Schooling</span><span class="chapter-tag">Bring it together</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-6">Does more education cause higher earnings?</h3><p>Bring the methods together. Investigate schooling, ability, and credentials through twins, birth timing, and policy changes.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Enlarge Chapter 6 mind map" onclick="openImage('book/images/ch06_visual_summary.webp', 'Chapter 6 mind map: The Wages of Schooling')"><img src="book/images/ch06_visual_summary.webp" alt="Chapter 6 mind map: The Wages of Schooling" loading="lazy" width="1536" height="1024"><span class="art-caption">Explore the chapter map <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/06-wages-of-schooling.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Read the chapter</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Open notebook</a><a class="chapter-action chapter-action-secondary" href="slides/ch06/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Slides</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('sBYDNPNvt-I','The Wages of Schooling: AI Video','notebooklm');return false;"><span aria-hidden="true">▷</span>Watch video</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-6-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Listen to the podcast <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Enable JavaScript to use the Chapter 6 podcast player, or <a href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.html" rel="noopener" target="_blank">Open Transcript (opens in a new tab)</a>.</p></noscript>
+      <section id="chapter-6-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch06-wages-of-schooling.json" aria-label="Chapter 6 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open The Wages of Schooling mind map full screen" onclick="openImage('book/images/ch06_visual_summary.webp', 'Chapter 6 mind map: The Wages of Schooling')">
                 <img src="book/images/ch06_visual_summary.webp" alt="The Wages of Schooling mind map" loading="lazy">
                 <span>⊕ Mind map</span>
@@ -967,101 +844,42 @@
               </div>
                 <p class="podcast-status" role="status"></p>
             </section>
-          </div>
-      </div>
-
-      <p class="text-center text-xs text-muted mt-8">
-        Podcasts narrated with <a href="https://ai.google.dev/" target="_blank" style="color: var(--blue);">Gemini</a> &middot; AI videos generated with <a href="https://notebooklm.google/" target="_blank" style="color: var(--blue);">NotebookLM</a> &middot; Lecture videos by <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color: var(--blue);">Marginal Revolution University</a>
-      </p>
-    </div>
-  </section>
-
-  <!-- Other Resources -->
-  <div class="gradient-divider"></div>
-  <section id="resources" class="py-16 px-4 fade-in-up" style="scroll-margin-top: 80px;">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-8">
-        <h2 class="text-2xl font-bold mb-2">Other Resources</h2>
-        <p class="text-muted">Curated materials to deepen your causal inference toolkit</p>
-      </div>
-
-      <!-- Filter pills (rendered by JS) -->
-      <div id="resource-filters" class="flex flex-wrap justify-center gap-2 mb-8"></div>
-
-      <!-- Resource cards grid (rendered by JS) -->
-      <div id="resource-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-
-      <!-- Show more button -->
-      <div id="show-more-container" class="text-center mt-8 hidden">
-        <button id="show-more-btn" class="show-more-btn" onclick="showMoreResources()">
-          <span>&#43;</span> Show <span id="show-more-count">0</span> more resources
+    </article></div>
+  <p class="curriculum-credit">Podcasts narrated with <a href="https://ai.google.dev/" target="_blank" rel="noopener">Gemini</a> · AI videos generated with <a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a> · Lecture videos by <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" rel="noopener">Marginal Revolution University</a></p>
+</div></section><section id="ai-notebooks" class="home-shell home-practice" aria-labelledby="practice-title">
+  <div class="practice-copy"><p class="home-kicker">TURN UNDERSTANDING INTO PRACTICE</p><h2 id="practice-title">Less setup.<br><span>More discovery.</span></h2><p>Open a Python notebook right in your browser. Follow the code, explore real data, and connect each estimate to the comparison behind it.</p><p>Google Colab’s AI tools can help explain code and errors. You bring the questions—and check the reasoning.</p><a class="home-button" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank" rel="noopener">Open your first notebook <span aria-hidden="true">↗</span></a><span class="practice-note">Runs in Google Colab · no local installation</span></div>
+  <figure><button type="button" class="media-frame" aria-label="Play AI-powered notebooks video" onclick="openVideo('V7RXyqFUR98','Programming in Colab with AI-Powered Tools','google')"><img src="images/ai-powered-colab.jpg" alt="Programming in Colab with AI-Powered Tools" loading="lazy"><span class="play-overlay"><span class="play-btn" aria-hidden="true">▷</span></span></button><figcaption>See how AI-assisted notebooks work.<br><span>Video: Julianne DeMars-Smith and Key Jung Lee · <a href="https://research.google/" target="_blank" rel="noopener">Google Research</a></span></figcaption></figure>
+</section>
+<nav class="home-shell toolkit-links" aria-label="More ways to learn">
+ <a href="data-dictionary.html"><span class="toolkit-icon" aria-hidden="true">▦</span><span><small>GET CURIOUS</small><strong>Meet the data</strong><span>Real cases. Guided exploration.</span></span><span aria-hidden="true">↗</span></a>
+ <a href="tutors.html"><span class="toolkit-icon" aria-hidden="true">◎</span><span><small>ASK A BETTER QUESTION</small><strong>Talk it through</strong><span>AI tutors to help you reason.</span></span><span aria-hidden="true">↗</span></a>
+ <a href="podcasts.html"><span class="toolkit-icon" aria-hidden="true">♫</span><span><small>TAKE THE IDEAS WITH YOU</small><strong>Listen and learn</strong><span>Six chapters. Six conversations.</span></span><span aria-hidden="true">↗</span></a>
+</nav><section class="home-resources" id="resources" style="scroll-margin-top: 80px;">
+<div class="home-shell">
+<div class="text-center mb-8">
+<p class="home-kicker">KEEP FOLLOWING YOUR CURIOSITY</p><h2 class="resources-title">There’s more to explore.</h2>
+<p class="text-muted">Books, courses, and practical guides for your next question.</p>
+</div>
+<noscript><p class="resource-fallback">Enable JavaScript to filter the resource directory. You can still <a href="https://www.masteringmetrics.com/">visit the original book’s resource website</a>.</p></noscript>
+<div class="flex flex-wrap justify-center gap-2 mb-8" id="resource-filters"></div>
+<!-- Resource cards grid (rendered by JS) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="resource-grid"></div>
+<!-- Show more button -->
+<div class="text-center mt-8 hidden" id="show-more-container">
+<button class="show-more-btn" id="show-more-btn" onclick="showMoreResources()">
+<span>+</span> Show <span id="show-more-count">0</span> more resources
         </button>
-      </div>
-
-      <!-- Empty state -->
-      <div id="resource-empty" class="hidden text-center py-12 text-muted">
+</div>
+<!-- Empty state -->
+<div class="hidden text-center py-12 text-muted" id="resource-empty">
         No resources found in this category yet.
       </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <div class="gradient-divider"></div>
-  </main>
-  <footer class="py-12 px-4 fade-in-up">
-    <div class="max-w-5xl mx-auto text-center">
-      <div class="author-card">
-        <img src="https://github.com/cmg777.png" alt="Carlos Mendez" style="width:64px;height:64px;border-radius:50%;margin:0 auto 8px;display:block;">
-        <p class="text-base mb-1" style="color: var(--text);">
-          By <a href="https://carlos-mendez.org" target="_blank" style="color: var(--blue); font-weight: 600;">Carlos Mendez</a>
-        </p>
-        <p class="text-sm text-muted mb-0">
-          Based on <a href="https://www.masteringmetrics.com/" target="_blank" style="color: var(--blue);"><em>Mastering 'Metrics</em></a> by Angrist &amp; Pischke
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Help Improve This Project -->
-  <div class="gradient-divider"></div>
-  <section class="py-12 px-4 fade-in-up">
-    <div class="max-w-3xl mx-auto">
-      <div class="card rounded-xl p-6 text-center">
-        <h3 class="text-lg font-semibold mb-3" style="color: var(--text);">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;display:inline-block;vertical-align:-3px;margin-right:6px;color:var(--blue);"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-          Help Improve This Project
-        </h3>
-        <p class="text-sm text-muted mb-5" style="max-width: 36rem; margin-left: auto; margin-right: auto;">
-          Found an error in the notebooks, study guide, or AI materials? Your feedback helps make this project better for everyone. Please open an issue on GitHub describing what you found, and we'll work to fix it.
-        </p>
-        <a href="https://github.com/cmg777/intro2causal/issues" target="_blank" class="btn-primary">
-          &#128030; Submit an Issue on GitHub
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- AI Acknowledgment -->
-  <div class="gradient-divider"></div>
-  <footer class="py-8 px-4" style="background-color: rgba(0,0,0,0.15);">
-    <div class="max-w-4xl mx-auto text-center">
-      <p class="text-xs text-muted mb-3" style="letter-spacing: 0.05em;">
-        BUILT WITH AI TOOLS
-      </p>
-      <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
-        <a href="https://claude.ai/code" target="_blank" class="ai-pill">
-          <img src="https://cdn.simpleicons.org/anthropic/a78bfa" alt="Claude">
-          <span><strong style="color:var(--purple);">Claude Code</strong> &mdash; infrastructure &amp; content</span>
-        </a>
-        <a href="https://gemini.google.com" target="_blank" class="ai-pill">
-          <img src="https://cdn.simpleicons.org/googlegemini/34d399" alt="Gemini">
-          <span><strong style="color:var(--green);">Google Gemini</strong> &mdash; AI tutors</span>
-        </a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Back to top -->
+</div>
+</section></main><footer class="home-footer"><div class="home-shell">
+  <div class="footer-invitation"><p class="home-kicker">START WITH A QUESTION. STAY FOR THE EVIDENCE.</p><h2>Your first fair comparison<br>starts here.</h2><a class="home-button" href="book/_book/notebooks_quarto/01-randomized-trials.html">Begin Chapter 1 <span aria-hidden="true">↗</span></a></div>
+  <div class="footer-details"><div class="footer-author"><img src="https://github.com/cmg777.png" alt="Carlos Mendez" width="48" height="48" loading="lazy"><div><p>A learning project by <a href="https://carlos-mendez.org" target="_blank" rel="noopener">Carlos Mendez</a></p><p>Based on <a href="https://www.masteringmetrics.com/" target="_blank" rel="noopener"><em>Mastering ’Metrics</em></a><br>by Joshua Angrist &amp; Jörn-Steffen Pischke.</p></div></div><div class="footer-feedback"><strong>Learning gets better together.</strong><p>Found an error or an idea worth improving?</p><a href="https://github.com/cmg777/intro2causal/issues" target="_blank" rel="noopener">Help improve this project ↗</a></div></div>
+  <div class="footer-credits"><span>Mastering Causal Metrics</span><p>Built with AI tools · <a href="https://claude.ai/code" target="_blank" rel="noopener">Claude Code</a> for infrastructure &amp; content · <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a> for AI tutors</p><a href="#main">Back to top ↑</a></div>
+</div></footer>  <!-- Back to top -->
   <button id="back-to-top" class="back-to-top" onclick="window.scrollTo({top:0})" aria-label="Back to top">&#8593;</button>
 
   <script>
@@ -1130,19 +948,6 @@
       } else {
         topBtn.classList.remove('show');
       }
-    });
-
-    // Scroll-triggered fade-in animations
-    var fadeObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          fadeObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in-up').forEach(function(el) {
-      fadeObserver.observe(el);
     });
 
     // ============================================
@@ -1325,17 +1130,22 @@
     function renderResourceFilters() {
       var container = document.getElementById('resource-filters');
       if (!container) return;
+      var focusedFilter = container.contains(document.activeElement) ? document.activeElement.getAttribute('data-filter') : null;
       container.innerHTML = RESOURCE_CATEGORIES.map(function(cat) {
         var count = cat.id === 'all'
           ? RESOURCES.length
           : RESOURCES.filter(function(r){return r.category === cat.id;}).length;
         var active = currentResourceFilter === cat.id ? ' active' : '';
-        return '<button class="filter-pill' + active + '" data-filter="' + cat.id + '" onclick="filterResources(\'' + cat.id + '\')">'
+        return '<button aria-pressed="' + (currentResourceFilter === cat.id) + '" class="filter-pill' + active + '" data-filter="' + cat.id + '" onclick="filterResources(\'' + cat.id + '\')">'
           + '<span>' + cat.icon + '</span>'
           + '<span>' + cat.label + '</span>'
           + '<span class="pill-count">(' + count + ')</span>'
           + '</button>';
       }).join('');
+      if (focusedFilter) {
+        var replacement = Array.from(container.querySelectorAll('button')).find(function(button) { return button.getAttribute('data-filter') === focusedFilter; });
+        if (replacement) replacement.focus({preventScroll: true});
+      }
     }
 
     function renderResources() {
