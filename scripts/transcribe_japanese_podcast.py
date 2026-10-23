@@ -1,5 +1,6 @@
 """Transcribe actual Japanese TTS chunks, verify coverage, and align readable script sentences."""
 import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import Counter
 import difflib
 from decimal import Decimal
@@ -12,6 +13,7 @@ import re
 import subprocess
 import sys
 import time
+import threading
 import unicodedata
 import wave
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -138,11 +140,26 @@ def recognize(client, path, duration, config):
     return words, getattr(usage, 'prompt_token_count', None), getattr(usage, 'candidates_token_count', None), omitted
 
 
-def recognition_for_chunk(client, pcm, duration, config, budget):
+class RecognitionRateLimiter:
+    def __init__(self):
+        self.lock, self.next_start = threading.Lock(), 0.
+
+    def wait(self, stop):
+        with self.lock:
+            if stop.wait(max(0., self.next_start - time.monotonic())):
+                raise ValueError('Recognition batch stopped after another chunk failed')
+            self.next_start = time.monotonic() + 20
+
+
+def recognition_for_chunk(client, pcm, duration, config, budget, limiter=None, stop=None):
     recovered = recover_recognition(pcm, duration, config, budget)
     if recovered:
         return recovered
     for attempt in range(2):
+        if stop and stop.is_set():
+            raise ValueError('Recognition batch stopped after another chunk failed')
+        if limiter:
+            limiter.wait(stop)
         reservation = budget.reserve('', 8192, pcm.stem + ':recognition',
             input_token_bound=math.ceil(duration * 25) + 4096)
         try:
@@ -159,6 +176,47 @@ def recognition_for_chunk(client, pcm, duration, config, budget):
         atomic_json(pcm.with_suffix('.recognition.json'), result)
         return result
     raise ValueError('Recognition retry limit reached; successful caches retained')
+
+
+def prefetch_recognition(stem, config, budget, workers):
+    from google import genai
+    from google.genai import types
+    audio = ROOT / 'mindmaps-podcast/ja/audio' / (stem + '.mp3')
+    synthesis = json.loads(audio.with_suffix('.json').read_text())
+    if sha(audio) != synthesis['audio_sha256']:
+        raise ValueError('Audio changed before recognition batch')
+    pending, seen = [], set()
+    for chunk in synthesis['timeline']:
+        key = chunk['cache_key']
+        if key in seen:
+            continue
+        seen.add(key)
+        pcm = CACHE / stem / (key + '.pcm')
+        meta = json.loads(pcm.with_suffix('.json').read_text())
+        if sha(pcm) != meta['pcm_sha256']:
+            raise ValueError('Corrupt TTS chunk before recognition batch')
+        if not pcm.with_suffix('.recognition.json').exists():
+            pending.append((pcm, meta['duration_seconds']))
+    limiter, stop = RecognitionRateLimiter(), threading.Event()
+    def run(item):
+        pcm, duration = item
+        client = genai.Client(api_key=api_key(), http_options=types.HttpOptions(timeout=180000,
+            retry_options=types.HttpRetryOptions(attempts=1)))
+        try:
+            recognition_for_chunk(client, pcm, duration, config, budget, limiter, stop)
+            print(f'Recognized completed audio chunk {pcm.stem[:10]} ({duration:.1f}s)', flush=True)
+        finally:
+            client.close()
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(run, item) for item in pending]
+        try:
+            for future in as_completed(futures):
+                future.result()
+        except Exception:
+            stop.set()
+            for future in futures:
+                future.cancel()
+            raise
 
 
 def align_chunk(chunk, words):
@@ -225,6 +283,13 @@ def watch_recognition(stem):
     client = genai.Client(api_key=api_key(), http_options=types.HttpOptions(timeout=180000,
         retry_options=types.HttpRetryOptions(attempts=1)))
     budget, last_progress = Budget(LEDGER, config), time.monotonic()
+    workers = production.get('recognition_workers', 1)
+    if workers not in (1, 2):
+        raise ValueError('Recognition workers must be one or two')
+    if workers > 1 and (ROOT / 'mindmaps-podcast/ja/audio' / (stem + '.json')).exists():
+        client.close()
+        prefetch_recognition(stem, config, budget, workers)
+        return
     while True:
         for meta_path in sorted((CACHE / stem).glob('*.json')):
             if not re.fullmatch(r'[a-f0-9]{64}', meta_path.stem):

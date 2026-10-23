@@ -58,6 +58,22 @@ class JapaneseAudioTests(unittest.TestCase):
             self.assertEqual([r['id'] for r in saved], [1, 2])
             self.assertTrue(all(r['status'] == 'completed' for r in saved))
 
+    def test_concurrent_reservations_cannot_exceed_shared_cap(self):
+        from concurrent.futures import ThreadPoolExecutor
+        config = json.loads(audio.PRODUCTION.read_text())
+        config['gemini_budget_usd'] = .1
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'usage.json'
+            def reserve(key):
+                try:
+                    return audio.Budget(path, config).reserve('日本語', 8192, key)['id']
+                except ValueError:
+                    return 'cap_rejected'
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                results = list(pool.map(reserve, ['one', 'two']))
+            self.assertEqual(results.count('cap_rejected'), 1)
+            self.assertEqual(len(json.loads(path.read_text())['requests']), 1)
+
     def test_audio_garbage_rejected(self):
         with self.assertRaises(ValueError):
             audio.normalize_audio(b'broken', 'audio/wav')
