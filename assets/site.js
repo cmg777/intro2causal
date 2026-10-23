@@ -1,4 +1,4 @@
-/* Shared navigation and theme controls for the four main site pages. */
+/* Shared navigation and theme controls for the five main site pages. */
 (() => {
   'use strict';
   const root = document.documentElement;

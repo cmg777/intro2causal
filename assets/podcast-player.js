@@ -1,7 +1,7 @@
 /* Offline-generated transcript; the player needs no third-party service. */
 (() => {
   async function startPlayback(audio, status) {
-    document.querySelectorAll('audio').forEach(other => { if (other !== audio) other.pause(); });
+    document.querySelectorAll('.podcast-player audio').forEach(other => { if (other !== audio) other.pause(); });
     try {
       // Call play directly from the click, without waiting for transcript loading.
       await audio.play();
@@ -13,10 +13,33 @@
       }
     }
   }
+  // Bind playback and error handling before transcript fetches, including native fallback.
+  document.querySelectorAll('[data-podcast]').forEach(player => {
+    const audio = player.querySelector('audio');
+    const status = document.createElement('p');
+    status.className = 'podcast-audio-status';
+    status.setAttribute('role', 'status');
+    player.append(status);
+    audio.addEventListener('play', () => {
+      document.querySelectorAll('.podcast-player audio').forEach(other => { if (other !== audio) other.pause(); });
+    });
+    audio.addEventListener('playing', () => { status.textContent = ''; });
+    audio.addEventListener('error', () => { status.textContent = 'Audio is unavailable. Please try again later, or use the Spotify link.'; });
+  });
+  document.querySelectorAll('[data-podcast-start]').forEach(button => {
+    button.addEventListener('click', () => {
+      const player = document.getElementById(button.dataset.podcastStart);
+      // Call play in the click handler, even if transcript enhancement is still loading.
+      startPlayback(player.querySelector('audio'), player.querySelector('.podcast-audio-status'));
+      player.setAttribute('tabindex', '-1');
+      player.focus({ preventScroll: true });
+      player.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+    });
+  });
   document.querySelectorAll('[data-podcast-toggle]').forEach(button => {
     const player = document.getElementById(button.getAttribute('aria-controls'));
     const audio = player.querySelector('audio');
-    const status = player.querySelector('.podcast-status');
+    const status = player.querySelector('.podcast-audio-status');
     const close = () => {
       button.setAttribute('aria-expanded', 'false');
       player.hidden = true;
@@ -156,7 +179,7 @@
       });
       play.addEventListener('click', () => {
         if (!audio.paused) return audio.pause();
-        startPlayback(audio, status);
+        startPlayback(audio, player.querySelector('.podcast-audio-status'));
       });
       function updatePlay() {
         const playing = !audio.paused;
@@ -166,10 +189,7 @@
         play.querySelector('[data-play-icon]').toggleAttribute('hidden', playing);
         play.querySelector('[data-pause-icon]').toggleAttribute('hidden', !playing);
       }
-      audio.addEventListener('play', () => {
-        document.querySelectorAll('audio').forEach(other => { if (other !== audio) other.pause(); });
-        updatePlay();
-      });
+      audio.addEventListener('play', updatePlay);
       audio.addEventListener('pause', updatePlay);
       audio.addEventListener('playing', updatePlay);
       audio.addEventListener('ended', updatePlay);
@@ -181,7 +201,6 @@
         if (pendingSeek !== null) { audio.currentTime = pendingSeek; pendingSeek = null; }
         update();
       });
-      audio.addEventListener('error', () => { status.textContent = 'Audio is unavailable. Please try again later.'; });
       seek.addEventListener('input', () => jump(Number(seek.value)));
       player.querySelectorAll('[data-skip]').forEach(button => button.addEventListener('click', () => jump((pendingSeek ?? audio.currentTime) + Number(button.dataset.skip))));
       const speeds = [1, 1.25, 1.5, 1.75, 2, .75];
@@ -197,7 +216,7 @@
       updatePlay();
       update();
     } catch (error) {
-      status.textContent = 'Interactive transcript unavailable. You can still listen, open the transcript, or listen on Spotify using the links below.';
+      status.textContent = 'Interactive transcript unavailable. You can still listen, open the transcript, or listen on Spotify using the episode links.';
     }
   });
 })();

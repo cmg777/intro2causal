@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Listen your way into causal inference. Six chapter podcasts with interactive audio players, timed transcripts, illustrated mind maps, and Spotify links.">
+  <title>AI Podcasts · Mastering Causal Metrics</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>try{document.documentElement.classList.toggle('light',localStorage.getItem('theme')==='light')}catch(e){}</script>
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/podcast-player.css?v=5">
+  <link rel="stylesheet" href="assets/podcasts.css">
+  <script src="assets/site.js" defer></script>
+  <script src="assets/podcast-player.js?v=5" defer></script>
+  <noscript><style>.site-header .icon-button,.site-header .menu-button{display:none}[data-podcast-start]{display:none}@media(max-width:1100px){.site-header{position:relative}.site-header .mobile-nav[hidden]{display:block!important}}</style></noscript>
+</head>
+<body class="podcasts-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<nav aria-label="Main navigation" class="site-nav">
+<a class="brand" href="index.html"><span aria-hidden="true" class="brand-mark">m<span>′</span></span> Mastering Causal Metrics</a>
+<div class="nav-links" id="desktop-nav"><a href="index.html">Home</a><a href="book/_book/index.html">Study Guide</a><a aria-current="page" href="podcasts.html">AI Podcasts</a><a href="tutors.html">AI Tutors</a><a href="data-dictionary.html">Data Dictionary</a><a href="cheatsheet.html">Code Cheatsheet</a></div>
+<button aria-label="Switch to light theme" class="icon-button" id="site-theme" title="Change color theme" type="button">☼</button>
+<button aria-controls="mobile-nav" aria-expanded="false" class="menu-button" id="site-menu" type="button">Menu</button>
+</nav>
+<nav aria-label="Mobile navigation" class="mobile-nav" hidden="" id="mobile-nav"><a href="index.html">Home</a><a href="book/_book/index.html">Study Guide</a><a aria-current="page" href="podcasts.html">AI Podcasts</a><a href="tutors.html">AI Tutors</a><a href="data-dictionary.html">Data Dictionary</a><a href="cheatsheet.html">Code Cheatsheet</a></nav>
+</header>
+<main id="main" tabindex="-1">
+  <section class="hero wrap" aria-labelledby="page-title">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> SIX CHAPTERS. A NEW WAY TO LISTEN.</p>
+      <h1 id="page-title">AI <span>Podcasts.</span></h1>
+      <p class="hero-intro">Hear the question.<br>Follow the reasoning.</p>
+      <p class="hero-description">From a health insurance lottery to the value of a diploma, explore the stories behind causal inference. Listen at your own pace, jump to a section, or follow the conversation word by word.</p>
+      <div class="hero-actions"><a class="button primary" href="#episodes">Explore the episodes <span aria-hidden="true">↓</span></a><span class="reassurance">Start at Chapter 1, or follow your curiosity.</span></div>
+      <div class="collection-facts"><span><strong>6</strong> English episodes</span><span><strong>227</strong> minutes of listening</span><span>Read along as you listen</span></div>
+    </div>
+    <figure class="hero-feature podcast-feature" aria-labelledby="featured-title">
+      <div class="feature-top"><span class="eyebrow">YOUR FIRST LISTEN</span><span class="tiny-tag">CHAPTER 01 · 38:56</span></div>
+      <a class="featured-art" href="#chapter-1" aria-label="Explore Chapter 1: Randomized Trials"><img src="book/images/ch01_visual_summary.webp" width="1600" height="900" alt="Randomized trials: an illustrated guide to health insurance experiments" fetchpriority="high"></a>
+      <h2 id="featured-title">Does health insurance<br>make people healthier?</h2>
+      <p>A lottery. A fairer comparison.<br>A question with real consequences.</p>
+      <figcaption><button class="feature-listen" type="button" data-podcast-start="chapter-1-podcast"><span class="listen-circle" aria-hidden="true">▶</span><span>Start listening<small>Randomized Trials · Chapter 1</small></span><span class="listen-arrow" aria-hidden="true">↘</span></button><noscript><a href="#chapter-1">Go to Chapter 1’s audio player ↓</a></noscript></figcaption>
+    </figure>
+  </section>
+  <section class="wrap episode-collection" id="episodes" aria-labelledby="episodes-title">
+    <div class="collection-heading"><div><p class="eyebrow">THE LISTENING COLLECTION</p><h2 id="episodes-title">One chapter. One big question.</h2></div><p>Meet the case. Follow the investigation.<br>Ask what the evidence can tell us.</p></div>
+    <nav class="episode-directory" aria-label="Jump to a podcast chapter"><a href="#chapter-1"><span>01</span>Randomized Trials<span class="chapter-arrow" aria-hidden="true">↗</span></a><a href="#chapter-2"><span>02</span>Regression<span class="chapter-arrow" aria-hidden="true">↗</span></a><a href="#chapter-3"><span>03</span>Instrumental Variables<span class="chapter-arrow" aria-hidden="true">↗</span></a><a href="#chapter-4"><span>04</span>Regression Discontinuity<span class="chapter-arrow" aria-hidden="true">↗</span></a><a href="#chapter-5"><span>05</span>Differences-in-Differences<span class="chapter-arrow" aria-hidden="true">↗</span></a><a href="#chapter-6"><span>06</span>The Wages of Schooling<span class="chapter-arrow" aria-hidden="true">↗</span></a></nav>
+    <div class="listening-guide"><span class="guide-icon" aria-hidden="true">♫</span><p><strong>Make it your conversation.</strong> Change the speed, revisit a section, or select <strong>Read along</strong> to follow the transcript. Each episode also opens on Spotify.</p><span class="guide-label">LISTEN · PAUSE · REFLECT</span></div>
+    <article class="episode" id="chapter-1" aria-labelledby="episode-1-title">
+  <header class="episode-header">
+    <span class="episode-number" aria-hidden="true">01</span>
+    <div><p class="eyebrow">CHAPTER 1 / RANDOMIZED TRIALS</p><h2 id="episode-1-title">Does health insurance make people healthier?</h2></div>
+    <span class="episode-duration"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>38:56 <span class="sr-only">duration</span></span>
+  </header>
+  <div class="episode-grid">
+    <div class="episode-context">
+      <a class="episode-art" href="book/images/ch01_visual_summary.webp" target="_blank" rel="noopener" aria-label="View Chapter 1 mind map at full size (opens in a new tab)"><img src="book/images/ch01_visual_summary.webp" alt="Illustrated chapter overview: Randomized Trials" loading="lazy" width="1600" height="900"><span>Explore the mind map <span aria-hidden="true">↗</span></span></a>
+      <p class="episode-description">People with health insurance often report better health. But did coverage make the difference? Follow the RAND experiment and Oregon lottery to see how random assignment helps separate the effect of insurance from the advantages people already have.</p>
+      <div class="listening-notes"><h3>Listen for</h3><ul><li>Recognize selection bias in an ordinary comparison.</li><li>Distinguish an offer of insurance from receiving it.</li><li>Read health outcomes alongside their uncertainty.</li></ul></div>
+    </div>
+    <div class="episode-listening"><section aria-label="Chapter 1: Randomized Trials audio player" class="podcast-player episode-player" data-podcast="mindmaps-podcast/transcripts/ch01-randomized-trials.json" id="chapter-1-podcast">
+
+<div class="podcast-heading">
+<div>
+<p class="podcast-eyebrow"><svg aria-hidden="true" fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M4 15v-4a8 8 0 0 1 16 0v4"></path><rect height="8" rx="2" width="4" x="3" y="12"></rect><rect height="8" rx="2" width="4" x="17" y="12"></rect></svg> AI podcast · <span data-episode-minutes="">39</span> min</p>
+<h3>Chapter 1 · Randomized Trials</h3>
+<p aria-live="polite" class="podcast-now">Now: Opening</p>
+</div>
+
+</div>
+<div class="podcast-playback">
+<audio aria-label="Chapter 1 podcast" controls="" controlslist="nodownload" preload="none">
+<source src="mindmaps-podcast/audio/ch01-randomized-trials.opus" type='audio/ogg; codecs="opus"'/>
+<source src="mindmaps-podcast/audio/ch01-randomized-trials.mp3" type="audio/mpeg"/>
+                  Your browser does not support audio playback. You can read the transcript below.
+                </audio>
+<div data-enhanced="" hidden="">
+<div class="podcast-timeline">
+<div aria-hidden="true" class="podcast-track"><span data-buffer=""></span><span data-progress=""></span></div>
+<div aria-hidden="true" class="podcast-cuts"></div>
+<input aria-label="Seek in podcast" data-seek="" max="1" min="0" step="0.1" type="range" value="0"/>
+</div>
+<div class="podcast-time"><span data-elapsed="">00:00</span><span data-duration="">38:56</span></div>
+<div class="podcast-controls">
+<div class="podcast-transport">
+<button aria-label="Back 15 seconds" class="podcast-skip" data-skip="-15" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"></path></svg><small>15</small></button>
+<button aria-label="Play podcast" aria-pressed="false" class="podcast-play" type="button">
+<svg aria-hidden="true" data-play-icon="" fill="currentColor" height="26" viewbox="0 0 24 24" width="26"><path d="m8 4 12 8-12 8z"></path></svg>
+<svg aria-hidden="true" data-pause-icon="" fill="currentColor" height="26" hidden="" viewbox="0 0 24 24" width="26"><path d="M6 5h4v14H6zm8 0h4v14h-4z"></path></svg>
+</button>
+<button aria-label="Forward 30 seconds" class="podcast-skip" data-skip="30" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"></path></svg><small>30</small></button>
+</div>
+<button aria-label="Playback speed: 1×. Click to change" class="podcast-speed" data-speed="" type="button">1×</button>
+</div>
+</div>
+</div>
+<div aria-label="Episode sections" class="podcast-chapters" data-enhanced="" hidden=""></div>
+<div class="podcast-transcript-actions">
+<button aria-controls="chapter-1-transcript" aria-expanded="false" class="podcast-transcript-toggle" data-enhanced="" hidden="" type="button"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><rect height="15" rx="1" width="18" x="3" y="4"></rect><path d="M6 8h12M6 11h12M6 14h8"></path></svg><span>Read along</span><svg aria-hidden="true" class="podcast-transcript-chevron" fill="none" height="14" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="14"><path d="m6 9 6 6 6-6"></path></svg></button>
+<a aria-label="Open Transcript (opens in a new tab)" class="podcast-action-link" href="mindmaps-podcast/transcripts/ch01-randomized-trials.html" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><path d="M14 3h7v7m0-7L10 14"></path><path d="M10 3H3v18h18v-7"></path></svg>Open Transcript</a>
+<a aria-label="Listen on Spotify (opens in a new tab)" class="podcast-action-link" href="https://open.spotify.com/episode/3O60EvgThQMkkdb9Y3qonF" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><circle cx="12" cy="12" r="10"></circle><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"></path></svg>Listen on Spotify</a>
+</div>
+<div class="podcast-transcript" hidden="" id="chapter-1-transcript">
+<div aria-label="Timed transcript. Select a passage to seek." class="podcast-passages" role="region" tabindex="0"></div>
+<label class="podcast-follow"><input checked="" data-follow="" type="checkbox"/> Follow audio</label>
+</div>
+<p class="podcast-status" role="status"></p>
+</section></div>
+  </div>
+</article><article class="episode" id="chapter-2" aria-labelledby="episode-2-title">
+  <header class="episode-header">
+    <span class="episode-number" aria-hidden="true">02</span>
+    <div><p class="eyebrow">CHAPTER 2 / REGRESSION</p><h2 id="episode-2-title">Is an elite college worth the extra tuition?</h2></div>
+    <span class="episode-duration"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>39:31 <span class="sr-only">duration</span></span>
+  </header>
+  <div class="episode-grid">
+    <div class="episode-context">
+      <a class="episode-art" href="book/images/ch02_visual_summary.webp" target="_blank" rel="noopener" aria-label="View Chapter 2 mind map at full size (opens in a new tab)"><img src="book/images/ch02_visual_summary.webp" alt="Illustrated chapter overview: Regression" loading="lazy" width="1600" height="900"><span>Explore the mind map <span aria-hidden="true">↗</span></span></a>
+      <p class="episode-description">Graduates of selective colleges tend to earn more. How much comes from the college, and how much came with the student? Explore controlled comparisons, college application patterns, and simulations that reveal what regression can—and cannot—resolve.</p>
+      <div class="listening-notes"><h3>Listen for</h3><ul><li>Explain what it means to hold a variable fixed.</li><li>Trace the direction of omitted variables bias.</li><li>Recognize when an extra control changes the question.</li></ul></div>
+    </div>
+    <div class="episode-listening"><section aria-label="Chapter 2: Regression audio player" class="podcast-player episode-player" data-podcast="mindmaps-podcast/transcripts/ch02-regression.json" id="chapter-2-podcast">
+
+<div class="podcast-heading">
+<div>
+<p class="podcast-eyebrow"><svg aria-hidden="true" fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M4 15v-4a8 8 0 0 1 16 0v4"></path><rect height="8" rx="2" width="4" x="3" y="12"></rect><rect height="8" rx="2" width="4" x="17" y="12"></rect></svg> AI podcast · <span data-episode-minutes="">40</span> min</p>
+<h3>Chapter 2 · Regression</h3>
+<p aria-live="polite" class="podcast-now">Now: Opening</p>
+</div>
+
+</div>
+<div class="podcast-playback">
+<audio aria-label="Chapter 2 podcast" controls="" controlslist="nodownload" preload="none">
+<source src="mindmaps-podcast/audio/ch02-regression.opus" type='audio/ogg; codecs="opus"'/>
+<source src="mindmaps-podcast/audio/ch02-regression.mp3" type="audio/mpeg"/>
+                  Your browser does not support audio playback. You can read the transcript below.
+                </audio>
+<div data-enhanced="" hidden="">
+<div class="podcast-timeline">
+<div aria-hidden="true" class="podcast-track"><span data-buffer=""></span><span data-progress=""></span></div>
+<div aria-hidden="true" class="podcast-cuts"></div>
+<input aria-label="Seek in podcast" data-seek="" max="1" min="0" step="0.1" type="range" value="0"/>
+</div>
+<div class="podcast-time"><span data-elapsed="">00:00</span><span data-duration="">39:31</span></div>
+<div class="podcast-controls">
+<div class="podcast-transport">
+<button aria-label="Back 15 seconds" class="podcast-skip" data-skip="-15" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"></path></svg><small>15</small></button>
+<button aria-label="Play podcast" aria-pressed="false" class="podcast-play" type="button">
+<svg aria-hidden="true" data-play-icon="" fill="currentColor" height="26" viewbox="0 0 24 24" width="26"><path d="m8 4 12 8-12 8z"></path></svg>
+<svg aria-hidden="true" data-pause-icon="" fill="currentColor" height="26" hidden="" viewbox="0 0 24 24" width="26"><path d="M6 5h4v14H6zm8 0h4v14h-4z"></path></svg>
+</button>
+<button aria-label="Forward 30 seconds" class="podcast-skip" data-skip="30" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"></path></svg><small>30</small></button>
+</div>
+<button aria-label="Playback speed: 1×. Click to change" class="podcast-speed" data-speed="" type="button">1×</button>
+</div>
+</div>
+</div>
+<div aria-label="Episode sections" class="podcast-chapters" data-enhanced="" hidden=""></div>
+<div class="podcast-transcript-actions">
+<button aria-controls="chapter-2-transcript" aria-expanded="false" class="podcast-transcript-toggle" data-enhanced="" hidden="" type="button"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><rect height="15" rx="1" width="18" x="3" y="4"></rect><path d="M6 8h12M6 11h12M6 14h8"></path></svg><span>Read along</span><svg aria-hidden="true" class="podcast-transcript-chevron" fill="none" height="14" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="14"><path d="m6 9 6 6 6-6"></path></svg></button>
+<a aria-label="Open Transcript (opens in a new tab)" class="podcast-action-link" href="mindmaps-podcast/transcripts/ch02-regression.html" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><path d="M14 3h7v7m0-7L10 14"></path><path d="M10 3H3v18h18v-7"></path></svg>Open Transcript</a>
+<a aria-label="Listen on Spotify (opens in a new tab)" class="podcast-action-link" href="https://open.spotify.com/episode/2gE66Q3fTts4fnU19mctyo" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><circle cx="12" cy="12" r="10"></circle><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"></path></svg>Listen on Spotify</a>
+</div>
+<div class="podcast-transcript" hidden="" id="chapter-2-transcript">
+<div aria-label="Timed transcript. Select a passage to seek." class="podcast-passages" role="region" tabindex="0"></div>
+<label class="podcast-follow"><input checked="" data-follow="" type="checkbox"/> Follow audio</label>
+</div>
+<p class="podcast-status" role="status"></p>
+</section></div>
+  </div>
+</article><article class="episode" id="chapter-3" aria-labelledby="episode-3-title">
+  <header class="episode-header">
+    <span class="episode-number" aria-hidden="true">03</span>
+    <div><p class="eyebrow">CHAPTER 3 / INSTRUMENTAL VARIABLES</p><h2 id="episode-3-title">What if people ignore their assigned treatment?</h2></div>
+    <span class="episode-duration"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>35:22 <span class="sr-only">duration</span></span>
+  </header>
+  <div class="episode-grid">
+    <div class="episode-context">
+      <a class="episode-art" href="book/images/ch03_visual_summary.webp" target="_blank" rel="noopener" aria-label="View Chapter 3 mind map at full size (opens in a new tab)"><img src="book/images/ch03_visual_summary.webp" alt="Illustrated chapter overview: Instrumental Variables" loading="lazy" width="1600" height="900"><span>Explore the mind map <span aria-hidden="true">↗</span></span></a>
+      <p class="episode-description">A school lottery offers a place, but not every winner attends. Start with the difference between an offer and an action, then follow school, policing, and family-size examples to understand how a random influence can help identify a treatment effect.</p>
+      <div class="listening-notes"><h3>Listen for</h3><ul><li>Connect the first stage, reduced form, and IV ratio.</li><li>Identify whose treatment effect the estimate describes.</li><li>Ask whether the instrument has another path to the outcome.</li></ul></div>
+    </div>
+    <div class="episode-listening"><section aria-label="Chapter 3: Instrumental Variables audio player" class="podcast-player episode-player" data-podcast="mindmaps-podcast/transcripts/ch03-instrumental-variables.json" id="chapter-3-podcast">
+
+<div class="podcast-heading">
+<div>
+<p class="podcast-eyebrow"><svg aria-hidden="true" fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M4 15v-4a8 8 0 0 1 16 0v4"></path><rect height="8" rx="2" width="4" x="3" y="12"></rect><rect height="8" rx="2" width="4" x="17" y="12"></rect></svg> AI podcast · <span data-episode-minutes="">35</span> min</p>
+<h3>Chapter 3 · Instrumental Variables</h3>
+<p aria-live="polite" class="podcast-now">Now: Opening</p>
+</div>
+
+</div>
+<div class="podcast-playback">
+<audio aria-label="Chapter 3 podcast" controls="" controlslist="nodownload" preload="none">
+<source src="mindmaps-podcast/audio/ch03-instrumental-variables.opus" type='audio/ogg; codecs="opus"'/>
+<source src="mindmaps-podcast/audio/ch03-instrumental-variables.mp3" type="audio/mpeg"/>
+                  Your browser does not support audio playback. You can read the transcript below.
+                </audio>
+<div data-enhanced="" hidden="">
+<div class="podcast-timeline">
+<div aria-hidden="true" class="podcast-track"><span data-buffer=""></span><span data-progress=""></span></div>
+<div aria-hidden="true" class="podcast-cuts"></div>
+<input aria-label="Seek in podcast" data-seek="" max="1" min="0" step="0.1" type="range" value="0"/>
+</div>
+<div class="podcast-time"><span data-elapsed="">00:00</span><span data-duration="">35:22</span></div>
+<div class="podcast-controls">
+<div class="podcast-transport">
+<button aria-label="Back 15 seconds" class="podcast-skip" data-skip="-15" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"></path></svg><small>15</small></button>
+<button aria-label="Play podcast" aria-pressed="false" class="podcast-play" type="button">
+<svg aria-hidden="true" data-play-icon="" fill="currentColor" height="26" viewbox="0 0 24 24" width="26"><path d="m8 4 12 8-12 8z"></path></svg>
+<svg aria-hidden="true" data-pause-icon="" fill="currentColor" height="26" hidden="" viewbox="0 0 24 24" width="26"><path d="M6 5h4v14H6zm8 0h4v14h-4z"></path></svg>
+</button>
+<button aria-label="Forward 30 seconds" class="podcast-skip" data-skip="30" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"></path></svg><small>30</small></button>
+</div>
+<button aria-label="Playback speed: 1×. Click to change" class="podcast-speed" data-speed="" type="button">1×</button>
+</div>
+</div>
+</div>
+<div aria-label="Episode sections" class="podcast-chapters" data-enhanced="" hidden=""></div>
+<div class="podcast-transcript-actions">
+<button aria-controls="chapter-3-transcript" aria-expanded="false" class="podcast-transcript-toggle" data-enhanced="" hidden="" type="button"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><rect height="15" rx="1" width="18" x="3" y="4"></rect><path d="M6 8h12M6 11h12M6 14h8"></path></svg><span>Read along</span><svg aria-hidden="true" class="podcast-transcript-chevron" fill="none" height="14" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="14"><path d="m6 9 6 6 6-6"></path></svg></button>
+<a aria-label="Open Transcript (opens in a new tab)" class="podcast-action-link" href="mindmaps-podcast/transcripts/ch03-instrumental-variables.html" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><path d="M14 3h7v7m0-7L10 14"></path><path d="M10 3H3v18h18v-7"></path></svg>Open Transcript</a>
+<a aria-label="Listen on Spotify (opens in a new tab)" class="podcast-action-link" href="https://open.spotify.com/episode/2VnEMA9PTdX9x1zRnl0h56" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><circle cx="12" cy="12" r="10"></circle><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"></path></svg>Listen on Spotify</a>
+</div>
+<div class="podcast-transcript" hidden="" id="chapter-3-transcript">
+<div aria-label="Timed transcript. Select a passage to seek." class="podcast-passages" role="region" tabindex="0"></div>
+<label class="podcast-follow"><input checked="" data-follow="" type="checkbox"/> Follow audio</label>
+</div>
+<p class="podcast-status" role="status"></p>
+</section></div>
+  </div>
+</article><article class="episode" id="chapter-4" aria-labelledby="episode-4-title">
+  <header class="episode-header">
+    <span class="episode-number" aria-hidden="true">04</span>
+    <div><p class="eyebrow">CHAPTER 4 / REGRESSION DISCONTINUITY</p><h2 id="episode-4-title">Can a birthday reveal the effect of alcohol access?</h2></div>
+    <span class="episode-duration"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>35:11 <span class="sr-only">duration</span></span>
+  </header>
+  <div class="episode-grid">
+    <div class="episode-context">
+      <a class="episode-art" href="book/images/ch04_visual_summary.webp" target="_blank" rel="noopener" aria-label="View Chapter 4 mind map at full size (opens in a new tab)"><img src="book/images/ch04_visual_summary.webp" alt="Illustrated chapter overview: Regression Discontinuity" loading="lazy" width="1600" height="900"><span>Explore the mind map <span aria-hidden="true">↗</span></span></a>
+      <p class="episode-description">Legal access to alcohol changes at a cutoff; most other features of a person change gradually. Explore drinking-age rules and selective-school admissions to see when comparisons just above and below a threshold can support a causal claim.</p>
+      <div class="listening-notes"><h3>Listen for</h3><ul><li>Explain why continuity near the cutoff matters.</li><li>Distinguish sharp from fuzzy discontinuity designs.</li><li>Describe the local population and limits of an estimated jump.</li></ul></div>
+    </div>
+    <div class="episode-listening"><section aria-label="Chapter 4: Regression Discontinuity audio player" class="podcast-player episode-player" data-podcast="mindmaps-podcast/transcripts/ch04-regression-discontinuity.json" id="chapter-4-podcast">
+
+<div class="podcast-heading">
+<div>
+<p class="podcast-eyebrow"><svg aria-hidden="true" fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M4 15v-4a8 8 0 0 1 16 0v4"></path><rect height="8" rx="2" width="4" x="3" y="12"></rect><rect height="8" rx="2" width="4" x="17" y="12"></rect></svg> AI podcast · <span data-episode-minutes="">35</span> min</p>
+<h3>Chapter 4 · Regression Discontinuity</h3>
+<p aria-live="polite" class="podcast-now">Now: Opening</p>
+</div>
+
+</div>
+<div class="podcast-playback">
+<audio aria-label="Chapter 4 podcast" controls="" controlslist="nodownload" preload="none">
+<source src="mindmaps-podcast/audio/ch04-regression-discontinuity.opus" type='audio/ogg; codecs="opus"'/>
+<source src="mindmaps-podcast/audio/ch04-regression-discontinuity.mp3" type="audio/mpeg"/>
+                  Your browser does not support audio playback. You can read the transcript below.
+                </audio>
+<div data-enhanced="" hidden="">
+<div class="podcast-timeline">
+<div aria-hidden="true" class="podcast-track"><span data-buffer=""></span><span data-progress=""></span></div>
+<div aria-hidden="true" class="podcast-cuts"></div>
+<input aria-label="Seek in podcast" data-seek="" max="1" min="0" step="0.1" type="range" value="0"/>
+</div>
+<div class="podcast-time"><span data-elapsed="">00:00</span><span data-duration="">35:12</span></div>
+<div class="podcast-controls">
+<div class="podcast-transport">
+<button aria-label="Back 15 seconds" class="podcast-skip" data-skip="-15" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"></path></svg><small>15</small></button>
+<button aria-label="Play podcast" aria-pressed="false" class="podcast-play" type="button">
+<svg aria-hidden="true" data-play-icon="" fill="currentColor" height="26" viewbox="0 0 24 24" width="26"><path d="m8 4 12 8-12 8z"></path></svg>
+<svg aria-hidden="true" data-pause-icon="" fill="currentColor" height="26" hidden="" viewbox="0 0 24 24" width="26"><path d="M6 5h4v14H6zm8 0h4v14h-4z"></path></svg>
+</button>
+<button aria-label="Forward 30 seconds" class="podcast-skip" data-skip="30" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"></path></svg><small>30</small></button>
+</div>
+<button aria-label="Playback speed: 1×. Click to change" class="podcast-speed" data-speed="" type="button">1×</button>
+</div>
+</div>
+</div>
+<div aria-label="Episode sections" class="podcast-chapters" data-enhanced="" hidden=""></div>
+<div class="podcast-transcript-actions">
+<button aria-controls="chapter-4-transcript" aria-expanded="false" class="podcast-transcript-toggle" data-enhanced="" hidden="" type="button"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><rect height="15" rx="1" width="18" x="3" y="4"></rect><path d="M6 8h12M6 11h12M6 14h8"></path></svg><span>Read along</span><svg aria-hidden="true" class="podcast-transcript-chevron" fill="none" height="14" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="14"><path d="m6 9 6 6 6-6"></path></svg></button>
+<a aria-label="Open Transcript (opens in a new tab)" class="podcast-action-link" href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.html" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><path d="M14 3h7v7m0-7L10 14"></path><path d="M10 3H3v18h18v-7"></path></svg>Open Transcript</a>
+<a aria-label="Listen on Spotify (opens in a new tab)" class="podcast-action-link" href="https://open.spotify.com/episode/39cBXhzM2tEQ6Iy0IPHAxP" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><circle cx="12" cy="12" r="10"></circle><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"></path></svg>Listen on Spotify</a>
+</div>
+<div class="podcast-transcript" hidden="" id="chapter-4-transcript">
+<div aria-label="Timed transcript. Select a passage to seek." class="podcast-passages" role="region" tabindex="0"></div>
+<label class="podcast-follow"><input checked="" data-follow="" type="checkbox"/> Follow audio</label>
+</div>
+<p class="podcast-status" role="status"></p>
+</section></div>
+  </div>
+</article><article class="episode" id="chapter-5" aria-labelledby="episode-5-title">
+  <header class="episode-header">
+    <span class="episode-number" aria-hidden="true">05</span>
+    <div><p class="eyebrow">CHAPTER 5 / DIFFERENCES-IN-DIFFERENCES</p><h2 id="episode-5-title">Did emergency lending save banks?</h2></div>
+    <span class="episode-duration"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>31:55 <span class="sr-only">duration</span></span>
+  </header>
+  <div class="episode-grid">
+    <div class="episode-context">
+      <a class="episode-art" href="book/images/ch05_visual_summary.webp" target="_blank" rel="noopener" aria-label="View Chapter 5 mind map at full size (opens in a new tab)"><img src="book/images/ch05_visual_summary.webp" alt="Illustrated chapter overview: Differences-in-Differences" loading="lazy" width="1600" height="900"><span>Explore the mind map <span aria-hidden="true">↗</span></span></a>
+      <p class="episode-description">During the Great Depression, Mississippi banks faced a shared panic but different central-bank responses. Follow their changing fortunes, then examine drinking-age laws, to learn how a comparison group can help reconstruct what might have happened without a policy.</p>
+      <div class="listening-notes"><h3>Listen for</h3><ul><li>Build a comparison from changes in two groups.</li><li>Explain the parallel-trends assumption.</li><li>Separate uncertainty checks from threats to the causal design.</li></ul></div>
+    </div>
+    <div class="episode-listening"><section aria-label="Chapter 5: Differences-in-Differences audio player" class="podcast-player episode-player" data-podcast="mindmaps-podcast/transcripts/ch05-differences-in-differences.json" id="chapter-5-podcast">
+
+<div class="podcast-heading">
+<div>
+<p class="podcast-eyebrow"><svg aria-hidden="true" fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M4 15v-4a8 8 0 0 1 16 0v4"></path><rect height="8" rx="2" width="4" x="3" y="12"></rect><rect height="8" rx="2" width="4" x="17" y="12"></rect></svg> AI podcast · <span data-episode-minutes="">32</span> min</p>
+<h3>Chapter 5 · Differences-in-Differences</h3>
+<p aria-live="polite" class="podcast-now">Now: Opening</p>
+</div>
+
+</div>
+<div class="podcast-playback">
+<audio aria-label="Chapter 5 podcast" controls="" controlslist="nodownload" preload="none">
+<source src="mindmaps-podcast/audio/ch05-differences-in-differences.opus" type='audio/ogg; codecs="opus"'/>
+<source src="mindmaps-podcast/audio/ch05-differences-in-differences.mp3" type="audio/mpeg"/>
+                  Your browser does not support audio playback. You can read the transcript below.
+                </audio>
+<div data-enhanced="" hidden="">
+<div class="podcast-timeline">
+<div aria-hidden="true" class="podcast-track"><span data-buffer=""></span><span data-progress=""></span></div>
+<div aria-hidden="true" class="podcast-cuts"></div>
+<input aria-label="Seek in podcast" data-seek="" max="1" min="0" step="0.1" type="range" value="0"/>
+</div>
+<div class="podcast-time"><span data-elapsed="">00:00</span><span data-duration="">31:55</span></div>
+<div class="podcast-controls">
+<div class="podcast-transport">
+<button aria-label="Back 15 seconds" class="podcast-skip" data-skip="-15" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"></path></svg><small>15</small></button>
+<button aria-label="Play podcast" aria-pressed="false" class="podcast-play" type="button">
+<svg aria-hidden="true" data-play-icon="" fill="currentColor" height="26" viewbox="0 0 24 24" width="26"><path d="m8 4 12 8-12 8z"></path></svg>
+<svg aria-hidden="true" data-pause-icon="" fill="currentColor" height="26" hidden="" viewbox="0 0 24 24" width="26"><path d="M6 5h4v14H6zm8 0h4v14h-4z"></path></svg>
+</button>
+<button aria-label="Forward 30 seconds" class="podcast-skip" data-skip="30" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"></path></svg><small>30</small></button>
+</div>
+<button aria-label="Playback speed: 1×. Click to change" class="podcast-speed" data-speed="" type="button">1×</button>
+</div>
+</div>
+</div>
+<div aria-label="Episode sections" class="podcast-chapters" data-enhanced="" hidden=""></div>
+<div class="podcast-transcript-actions">
+<button aria-controls="chapter-5-transcript" aria-expanded="false" class="podcast-transcript-toggle" data-enhanced="" hidden="" type="button"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><rect height="15" rx="1" width="18" x="3" y="4"></rect><path d="M6 8h12M6 11h12M6 14h8"></path></svg><span>Read along</span><svg aria-hidden="true" class="podcast-transcript-chevron" fill="none" height="14" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="14"><path d="m6 9 6 6 6-6"></path></svg></button>
+<a aria-label="Open Transcript (opens in a new tab)" class="podcast-action-link" href="mindmaps-podcast/transcripts/ch05-differences-in-differences.html" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><path d="M14 3h7v7m0-7L10 14"></path><path d="M10 3H3v18h18v-7"></path></svg>Open Transcript</a>
+<a aria-label="Listen on Spotify (opens in a new tab)" class="podcast-action-link" href="https://open.spotify.com/episode/097YUmXOFyuwCr6xKKPyyB" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><circle cx="12" cy="12" r="10"></circle><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"></path></svg>Listen on Spotify</a>
+</div>
+<div class="podcast-transcript" hidden="" id="chapter-5-transcript">
+<div aria-label="Timed transcript. Select a passage to seek." class="podcast-passages" role="region" tabindex="0"></div>
+<label class="podcast-follow"><input checked="" data-follow="" type="checkbox"/> Follow audio</label>
+</div>
+<p class="podcast-status" role="status"></p>
+</section></div>
+  </div>
+</article><article class="episode" id="chapter-6" aria-labelledby="episode-6-title">
+  <header class="episode-header">
+    <span class="episode-number" aria-hidden="true">06</span>
+    <div><p class="eyebrow">CHAPTER 6 / THE WAGES OF SCHOOLING</p><h2 id="episode-6-title">Does more education cause higher earnings?</h2></div>
+    <span class="episode-duration"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>45:33 <span class="sr-only">duration</span></span>
+  </header>
+  <div class="episode-grid">
+    <div class="episode-context">
+      <a class="episode-art" href="book/images/ch06_visual_summary.webp" target="_blank" rel="noopener" aria-label="View Chapter 6 mind map at full size (opens in a new tab)"><img src="book/images/ch06_visual_summary.webp" alt="Illustrated chapter overview: The Wages of Schooling" loading="lazy" width="1600" height="900"><span>Explore the mind map <span aria-hidden="true">↗</span></span></a>
+      <p class="episode-description">More schooling and higher wages often go together. Bring the course’s methods together through twins, birth timing, policy changes, and exam cutoffs—and ask how a return to learning differs from a return to a diploma.</p>
+      <div class="listening-notes"><h3>Listen for</h3><ul><li>Recognize ability bias and measurement error.</li><li>Compare the assumptions behind different research designs.</li><li>Distinguish an extra year of schooling from a credential.</li></ul></div>
+    </div>
+    <div class="episode-listening"><section aria-label="Chapter 6: The Wages of Schooling audio player" class="podcast-player episode-player" data-podcast="mindmaps-podcast/transcripts/ch06-wages-of-schooling.json" id="chapter-6-podcast">
+
+<div class="podcast-heading">
+<div>
+<p class="podcast-eyebrow"><svg aria-hidden="true" fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M4 15v-4a8 8 0 0 1 16 0v4"></path><rect height="8" rx="2" width="4" x="3" y="12"></rect><rect height="8" rx="2" width="4" x="17" y="12"></rect></svg> AI podcast · <span data-episode-minutes="">46</span> min</p>
+<h3>Chapter 6 · The Wages of Schooling</h3>
+<p aria-live="polite" class="podcast-now">Now: Opening</p>
+</div>
+
+</div>
+<div class="podcast-playback">
+<audio aria-label="Chapter 6 podcast" controls="" controlslist="nodownload" preload="none">
+<source src="mindmaps-podcast/audio/ch06-wages-of-schooling.opus" type='audio/ogg; codecs="opus"'/>
+<source src="mindmaps-podcast/audio/ch06-wages-of-schooling.mp3" type="audio/mpeg"/>
+                  Your browser does not support audio playback. You can read the transcript below.
+                </audio>
+<div data-enhanced="" hidden="">
+<div class="podcast-timeline">
+<div aria-hidden="true" class="podcast-track"><span data-buffer=""></span><span data-progress=""></span></div>
+<div aria-hidden="true" class="podcast-cuts"></div>
+<input aria-label="Seek in podcast" data-seek="" max="1" min="0" step="0.1" type="range" value="0"/>
+</div>
+<div class="podcast-time"><span data-elapsed="">00:00</span><span data-duration="">45:33</span></div>
+<div class="podcast-controls">
+<div class="podcast-transport">
+<button aria-label="Back 15 seconds" class="podcast-skip" data-skip="-15" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"></path></svg><small>15</small></button>
+<button aria-label="Play podcast" aria-pressed="false" class="podcast-play" type="button">
+<svg aria-hidden="true" data-play-icon="" fill="currentColor" height="26" viewbox="0 0 24 24" width="26"><path d="m8 4 12 8-12 8z"></path></svg>
+<svg aria-hidden="true" data-pause-icon="" fill="currentColor" height="26" hidden="" viewbox="0 0 24 24" width="26"><path d="M6 5h4v14H6zm8 0h4v14h-4z"></path></svg>
+</button>
+<button aria-label="Forward 30 seconds" class="podcast-skip" data-skip="30" type="button"><svg aria-hidden="true" fill="none" height="28" stroke="currentColor" stroke-width="1.8" viewbox="0 0 32 32" width="28"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"></path></svg><small>30</small></button>
+</div>
+<button aria-label="Playback speed: 1×. Click to change" class="podcast-speed" data-speed="" type="button">1×</button>
+</div>
+</div>
+</div>
+<div aria-label="Episode sections" class="podcast-chapters" data-enhanced="" hidden=""></div>
+<div class="podcast-transcript-actions">
+<button aria-controls="chapter-6-transcript" aria-expanded="false" class="podcast-transcript-toggle" data-enhanced="" hidden="" type="button"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><rect height="15" rx="1" width="18" x="3" y="4"></rect><path d="M6 8h12M6 11h12M6 14h8"></path></svg><span>Read along</span><svg aria-hidden="true" class="podcast-transcript-chevron" fill="none" height="14" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="14"><path d="m6 9 6 6 6-6"></path></svg></button>
+<a aria-label="Open Transcript (opens in a new tab)" class="podcast-action-link" href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.html" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><path d="M14 3h7v7m0-7L10 14"></path><path d="M10 3H3v18h18v-7"></path></svg>Open Transcript</a>
+<a aria-label="Listen on Spotify (opens in a new tab)" class="podcast-action-link" href="https://open.spotify.com/episode/7Ai11CxTsj9yoVtL68UcvV" rel="noopener" target="_blank"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" width="17"><circle cx="12" cy="12" r="10"></circle><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"></path></svg>Listen on Spotify</a>
+</div>
+<div class="podcast-transcript" hidden="" id="chapter-6-transcript">
+<div aria-label="Timed transcript. Select a passage to seek." class="podcast-passages" role="region" tabindex="0"></div>
+<label class="podcast-follow"><input checked="" data-follow="" type="checkbox"/> Follow audio</label>
+</div>
+<p class="podcast-status" role="status"></p>
+</section></div>
+  </div>
+</article>
+    <aside class="listening-close"><p class="eyebrow">KEEP THE QUESTION GOING</p><h2>Heard an idea you want to explore?</h2><p>Bring it to the study guide. Work through the evidence and make the reasoning your own.</p><a class="button secondary" href="book/_book/index.html">Open the study guide <span aria-hidden="true">↗</span></a></aside>
+  </section>
+</main>
+<footer class="podcasts-footer wrap"><a class="footer-brand" href="index.html">Mastering Causal Metrics</a><p>An AI-powered study guide by Carlos Mendez.</p><p>Based on <em>Mastering ’Metrics</em> by Joshua D. Angrist and Jörn-Steffen Pischke.</p><div><a href="index.html">Home</a><a href="book/_book/index.html">Study Guide</a><a href="https://github.com/cmg777/intro2causal" target="_blank" rel="noopener">GitHub ↗</a></div></footer>
+</body>
+</html>

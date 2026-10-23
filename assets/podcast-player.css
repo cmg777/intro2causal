@@ -134,3 +134,7 @@
   .podcast-transcript-actions { gap: .4rem; }
   .podcast-player .podcast-transcript-toggle, .podcast-player .podcast-action-link { font-size: .7rem; padding: .4rem .55rem; }
 }
+
+/* Audio errors remain distinct from transcript fallback guidance. */
+.podcast-audio-status { grid-column: 1 / -1; color: var(--pod-muted); font-size: .75rem; }
+.podcast-audio-status:empty { display: none; }

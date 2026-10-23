@@ -116,7 +116,7 @@ The book output appears in `book/_book/`. Open `book/_book/index.html` to view i
 
 ## Website design
 
-The four main pages share `assets/site.css` (palette, navigation, heroes, and supporting layouts)
+The five main pages share `assets/site.css` (palette, navigation, heroes, and supporting layouts)
 and `assets/site.js` (theme persistence, mobile navigation, and hero code tabs).
 Navigation links are rendered directly in each page so they remain available without JavaScript;
 keep their labels, order, and destinations synchronized when editing the menu.
@@ -127,8 +127,24 @@ it also updates the Cheatsheet syntax-highlighting stylesheet. Page-specific int
 in their existing scripts. The book, slides, and podcast reading pages use their own layouts.
 
 Preview from the repository root with `python -m http.server 8765`, then open
-`http://localhost:8765/`. Check all four pages in both themes, mobile navigation, chapter anchors,
+`http://localhost:8765/`. Check all five pages in both themes, mobile navigation, chapter anchors,
 code tabs and copying, and Data Dictionary filters after changing shared assets.
+
+### AI Podcasts
+
+`podcasts.html` presents the six existing English chapter episodes with visible players,
+listening prompts, and chapter mind maps. Its layout is in `assets/podcasts.css`; playback
+uses the same `assets/podcast-player.css` and `assets/podcast-player.js` as the homepage.
+The hero's `data-podcast-start` button targets the first existing player, with no duplicate audio.
+Keep audio sources, transcript paths, Spotify episode links, and displayed durations aligned
+with the corresponding homepage player and `mindmaps-podcast/transcripts/ch*.json`.
+Ground introductions and listening takeaways in those transcripts. Full-size artwork opens
+in a new tab; transcript reading pages and audio files are reused without modification.
+
+After changes, check all six players, section seeking, skip/speed controls, read-along/follow,
+new-tab links, and switching episodes. Also check native audio fallback with unavailable
+transcript JSON, blocked playback, both themes, narrow screens, keyboard access, and homepage
+player behavior. Keep the book navigation independent of the five main-page menus.
 
 ## Python Libraries
 
