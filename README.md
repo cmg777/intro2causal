@@ -114,6 +114,22 @@ uv run quarto render notebooks_quarto/01-randomized-trials.qmd
 
 The book output appears in `book/_book/`. Open `book/_book/index.html` to view it locally.
 
+## Website design
+
+The four main pages share `assets/site.css` (palette, navigation, heroes, and supporting layouts)
+and `assets/site.js` (theme persistence, mobile navigation, and hero code tabs).
+Navigation links are rendered directly in each page so they remain available without JavaScript;
+keep their labels, order, and destinations synchronized when editing the menu.
+
+Theme state lives in the existing `theme` localStorage key and the `light` class on `<html>`.
+The shared controller emits `site:themechange` so the Data Dictionary can redraw Plotly previews;
+it also updates the Cheatsheet syntax-highlighting stylesheet. Page-specific interactions stay
+in their existing scripts. The book, slides, and podcast reading pages use their own layouts.
+
+Preview from the repository root with `python -m http.server 8765`, then open
+`http://localhost:8765/`. Check all four pages in both themes, mobile navigation, chapter anchors,
+code tabs and copying, and Data Dictionary filters after changing shared assets.
+
 ## Python Libraries
 
 | Library | Purpose |

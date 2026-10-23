@@ -110,12 +110,9 @@ function scrollToHash(){
   if(!target&&(cases.some(c=>c.id===id)||id==='chapter-2-simulations'||/^chapter-[1-6]$/.test(id))){reset();target=document.getElementById(id);}
   if(target)target.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
 }
-function themeLabel(){const light=document.documentElement.classList.contains('light');$('#theme').setAttribute('aria-label',`Switch to ${light?'dark':'light'} theme`);$('#theme').textContent=light?'☾':'☼';}
-$('#theme').onclick=()=>{
-  document.documentElement.classList.toggle('light');try{localStorage.setItem('theme',document.documentElement.classList.contains('light')?'light':'dark')}catch(e){}
-  themeLabel();document.querySelectorAll('[data-rendered]').forEach(el=>{const file=el.dataset.file,hero=el.dataset.hero==='true';Plotly.purge(el);delete el.dataset.rendered;drawChart(el,file,hero);});
-};themeLabel();
-$('#menu').onclick=()=>{const nav=$('#mobile-nav');nav.hidden=!nav.hidden;$('#menu').setAttribute('aria-expanded',String(!nav.hidden));};
+document.addEventListener('site:themechange',()=>{
+  document.querySelectorAll('[data-rendered]').forEach(el=>{const file=el.dataset.file,hero=el.dataset.hero==='true';Plotly.purge(el);delete el.dataset.rendered;drawChart(el,file,hero);});
+});
 ['search','chapter','type'].forEach(id=>$('#'+id).addEventListener(id==='search'?'input':'change',render));
 $('#reset').onclick=reset;$('#expand').onclick=()=>document.querySelectorAll('.dictionary').forEach(d=>d.open=true);$('#collapse').onclick=()=>document.querySelectorAll('.dictionary').forEach(d=>d.open=false);$('#print').onclick=()=>window.print();
 window.addEventListener('hashchange',scrollToHash);

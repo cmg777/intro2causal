@@ -7,21 +7,24 @@
   <title>Data Dictionary · Stories behind the data</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/data-exploration.css">
-  <script>try{if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light')}catch(e){}</script>
   <script src="assets/data-exploration.js" defer></script>
+  <link rel="stylesheet" href="assets/site.css">
+  <script>try{document.documentElement.classList.toggle('light',localStorage.getItem('theme')==='light')}catch(e){}</script>
+  <script src="assets/site.js" defer></script>
+  <noscript><style>.site-header .icon-button,.site-header .menu-button{display:none}@media(max-width:1100px){.site-header{position:relative}.site-header .mobile-nav[hidden]{display:block!important}}</style></noscript>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <nav class="site-nav" aria-label="Main navigation">
     <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">m<span>′</span></span> Mastering Causal Metrics</a>
-    <div class="nav-links" id="desktop-nav"><a href="index.html">Home</a><a href="tutors.html">AI Tutors</a><a href="data-dictionary.html" aria-current="page">Data Dictionary</a><a href="cheatsheet.html">Code Cheatsheet</a></div>
-    <button id="theme" class="icon-button" aria-label="Switch to light theme" title="Change color theme">☼</button>
-    <button id="menu" class="menu-button" aria-expanded="false" aria-controls="mobile-nav">Menu</button>
+    <div class="nav-links" id="desktop-nav"><a href="index.html">Home</a><a href="book/_book/index.html">Study Guide</a><a href="tutors.html">AI Tutors</a><a href="data-dictionary.html" aria-current="page">Data Dictionary</a><a href="cheatsheet.html">Code Cheatsheet</a></div>
+    <button id="site-theme" class="icon-button" type="button" aria-label="Switch to light theme" title="Change color theme">☼</button>
+    <button id="site-menu" class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav">Menu</button>
   </nav>
-  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="index.html">Home</a><a href="tutors.html">AI Tutors</a><a href="data-dictionary.html" aria-current="page">Data Dictionary</a><a href="cheatsheet.html">Code Cheatsheet</a></nav>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="index.html">Home</a><a href="book/_book/index.html">Study Guide</a><a href="tutors.html">AI Tutors</a><a href="data-dictionary.html" aria-current="page">Data Dictionary</a><a href="cheatsheet.html">Code Cheatsheet</a></nav>
 </header>
-<main id="main">
+<main id="main" tabindex="-1">
   <section class="hero wrap" aria-labelledby="page-title">
     <div class="hero-copy">
       <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> THE DATA DICTIONARY / A FIELD GUIDE</p>

@@ -15,26 +15,6 @@
     code, .mono { font-family: 'JetBrains Mono', monospace; }
 
     /* Dark mode defaults */
-    :root {
-      --bg: #0f172a;
-      --bg-card: #1e293b;
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-      --blue: #38bdf8;
-      --purple: #a78bfa;
-      --green: #34d399;
-      --border: rgba(255,255,255,0.1);
-    }
-    .light {
-      --bg: #f8fafc;
-      --bg-card: #ffffff;
-      --text: #1e293b;
-      --text-muted: #64748b;
-      --blue: #2563eb;
-      --purple: #7c3aed;
-      --green: #059669;
-      --border: #e2e8f0;
-    }
     body {
       background-color: var(--bg);
       color: var(--text);
@@ -55,11 +35,6 @@
     .text-muted { color: var(--text-muted); }
     .bg-blue { background-color: var(--blue); }
 
-    .nav-link {
-      color: var(--text-muted);
-      transition: color 0.2s;
-    }
-    .nav-link:hover { color: var(--blue); }
 
     .btn-primary {
       background: linear-gradient(135deg, #2563eb, #7c3aed);
@@ -185,40 +160,6 @@
     }
     .media-frame:hover .play-btn { transform: scale(1.1); }
 
-    /* Blinking cursor */
-    .blink-cursor {
-      animation: blink 1s step-end infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    /* Animated gradient title */
-    .gradient-title {
-      background: linear-gradient(270deg, #38bdf8, #a78bfa, #34d399, #38bdf8);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradient-shift 6s ease infinite;
-      padding-bottom: 0.15em;
-    }
-    @keyframes gradient-shift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Cover image hover */
-    .cover-hover {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .cover-hover:hover {
-      transform: scale(1.02);
-      box-shadow: 0 12px 40px rgba(37,99,235,0.25), 0 0 60px rgba(124,58,237,0.15);
-    }
-
     /* Back to top button */
     .back-to-top {
       position: fixed;
@@ -274,13 +215,6 @@
       border-radius: 4px;
     }
 
-    /* Light-mode navbar */
-    .light nav { background-color: rgba(248,250,252,0.85) !important; }
-
-    /* Hero gradient glow */
-    .hero-glow {
-      background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.15) 0%, rgba(124,58,237,0.1) 40%, transparent 70%);
-    }
 
     /* Scroll-triggered fade-in */
     .fade-in-up {
@@ -312,29 +246,6 @@
       background: linear-gradient(90deg, var(--blue), var(--purple), var(--green));
       z-index: 9999;
       transition: width 0.1s linear;
-    }
-
-    /* Mobile menu slide animation */
-    #mobile-menu {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-    #mobile-menu.open {
-      max-height: 300px;
-      padding-top: 0;
-      padding-bottom: 1rem;
-    }
-
-    /* Navbar shrink on scroll */
-    nav .nav-inner {
-      transition: padding 0.3s ease;
-    }
-    nav.scrolled .nav-inner {
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
     }
 
     /* Gradient section divider */
@@ -502,59 +413,50 @@
       transform: translateY(-2px);
     }
   </style>
+  <link rel="stylesheet" href="assets/site.css">
+  <script>try{document.documentElement.classList.toggle('light',localStorage.getItem('theme')==='light')}catch(e){}</script>
+  <script src="assets/site.js" defer></script>
+  <noscript><style>.site-header .icon-button,.site-header .menu-button{display:none}@media(max-width:1100px){.site-header{position:relative}.site-header .mobile-nav[hidden]{display:block!important}}</style></noscript>
 </head>
-<body>
+<body class="index-page">
   <!-- Scroll Progress -->
   <div id="scroll-progress" class="scroll-progress"></div>
 
-  <!-- Navigation -->
-  <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(15,23,42,0.85);">
-    <div class="nav-inner max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="index.html" class="text-lg font-bold" style="color: var(--blue);">Mastering Causal Metrics</a>
-      <div class="hidden md:flex items-center gap-6">
-        <a href="book/_book/index.html" class="nav-link text-sm">Study Guide</a>
-        <a href="#ai-notebooks" class="nav-link text-sm">AI Notebooks</a>
-        <a href="tutors.html" class="nav-link text-sm">AI Tutors</a>
-        <a href="data-dictionary.html" class="nav-link text-sm">Data Dictionary</a>
-        <a href="cheatsheet.html" class="nav-link text-sm">Code Cheatsheet</a>
-        <a href="#resources" class="nav-link text-sm">Other Resources</a>
-        <button id="theme-toggle" class="nav-link text-sm cursor-pointer" aria-label="Toggle theme">
-          <span id="theme-icon">&#9790;</span>
-        </button>
-      </div>
-      <!-- Mobile menu button -->
-      <button id="mobile-menu-btn" class="md:hidden nav-link text-xl cursor-pointer" aria-label="Menu">&#9776;</button>
-    </div>
-    <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
-      <a href="book/_book/index.html" class="block py-2 nav-link text-sm">Study Guide</a>
-      <a href="#ai-notebooks" class="block py-2 nav-link text-sm">AI Notebooks</a>
-      <a href="tutors.html" class="block py-2 nav-link text-sm">AI Tutors</a>
-      <a href="data-dictionary.html" class="block py-2 nav-link text-sm">Data Dictionary</a>
-      <a href="cheatsheet.html" class="block py-2 nav-link text-sm">Code Cheatsheet</a>
-      <a href="#resources" class="block py-2 nav-link text-sm">Other Resources</a>
-      <button id="theme-toggle-mobile" class="block py-2 nav-link text-sm cursor-pointer text-left w-full">Toggle Theme</button>
-    </div>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">m<span>′</span></span> Mastering Causal Metrics</a>
+    <div class="nav-links" id="desktop-nav"><a href="index.html" aria-current="page">Home</a><a href="book/_book/index.html">Study Guide</a><a href="tutors.html">AI Tutors</a><a href="data-dictionary.html">Data Dictionary</a><a href="cheatsheet.html">Code Cheatsheet</a></div>
+    <button id="site-theme" class="icon-button" type="button" aria-label="Switch to light theme" title="Change color theme">☼</button>
+    <button id="site-menu" class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav">Menu</button>
   </nav>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="index.html" aria-current="page">Home</a><a href="book/_book/index.html">Study Guide</a><a href="tutors.html">AI Tutors</a><a href="data-dictionary.html">Data Dictionary</a><a href="cheatsheet.html">Code Cheatsheet</a></nav>
+</header>
 
+  <main id="main" tabindex="-1">
   <!-- Hero -->
-  <section class="pt-32 pb-16 px-4 hero-glow">
-    <div class="max-w-4xl mx-auto text-center">
-      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--purple);"><span id="typewriter"></span><span class="blink-cursor">_</span></p>
-      <h1 class="text-4xl md:text-6xl font-extrabold leading-snug mb-6 gradient-title">
-        Mastering Causal Metrics
-      </h1>
-      <p class="text-lg max-w-2xl mx-auto mb-8 text-muted">
-        A hands-on AI-powered study guide to Mastering Causal Metrics.
-        Learn the foundations of causal inference with interactive Python notebooks and AI tools.
-      </p>
-      <img src="cover.jpg" alt="The Furious Five: Five Methods to Separate Cause from Correlation — RCT, OLS, IV, RD, DiD" class="rounded-xl mb-8 mx-auto cover-hover" style="max-width: 100%; border: 1px solid var(--border); box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#curriculum" class="btn-primary">&#128214; Revise Study Guide</a>
-        <a href="tutors.html" class="btn-secondary">&#129302; Chat with AI Tutors</a>
-        <a href="cheatsheet.html" class="btn-secondary">&#128187; Learn by Coding</a>
-      </div>
+  <section class="hero wrap" aria-labelledby="page-title">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> AN AI-POWERED STUDY GUIDE</p>
+      <h1 id="page-title">Mastering<br>Causal <span>Metrics.</span></h1>
+      <p class="hero-intro">A better comparison.<br>A clearer understanding of cause.</p>
+      <p class="hero-description">A hands-on AI-powered study guide to Mastering Causal Metrics. Learn the foundations of causal inference with interactive Python notebooks and AI tools.</p>
+      <div class="hero-actions"><a class="button primary" href="#curriculum">Explore the study guide <span aria-hidden="true">↓</span></a><a class="hero-text-link" href="data-dictionary.html">Meet the data ↗</a></div>
+      <div class="collection-facts"><span><strong>6</strong> chapters</span><span><strong>5</strong> causal methods</span><span>Learn by doing</span></div>
     </div>
+    <figure class="hero-feature method-map" aria-labelledby="map-title">
+      <div class="feature-top"><span class="eyebrow">YOUR LEARNING MAP</span><span class="tiny-tag">The Furious Five</span></div>
+      <h2 id="map-title">What makes a<br> comparison credible?</h2>
+      <p>Five tools. Five ways to approach the question.</p>
+      <ol class="method-path">
+        <li><a href="#chapter-1"><span class="method-index">01</span><span><strong>Randomized trials</strong><small>Start with random assignment.</small></span><svg class="method-sketch" viewBox="0 0 64 30" aria-hidden="true"><circle cx="10" cy="8" r="2"/><circle cx="21" cy="18" r="2"/><circle cx="12" cy="23" r="2"/><circle cx="25" cy="6" r="2"/><circle cx="43" cy="8" r="2"/><circle cx="55" cy="18" r="2"/><circle cx="45" cy="23" r="2"/><circle cx="58" cy="6" r="2"/></svg><span class="method-code">RCT ↗</span></a></li>
+        <li><a href="#chapter-2"><span class="method-index">02</span><span><strong>Regression</strong><small>Account for observed differences.</small></span><svg class="method-sketch" viewBox="0 0 64 30" aria-hidden="true"><path d="M5 25L60 4"/><circle cx="12" cy="19" r="2"/><circle cx="23" cy="22" r="2"/><circle cx="35" cy="10" r="2"/><circle cx="49" cy="12" r="2"/><circle cx="58" cy="3" r="2"/></svg><span class="method-code">OLS ↗</span></a></li>
+        <li><a href="#chapter-3"><span class="method-index">03</span><span><strong>Instrumental variables</strong><small>Look for an external source of variation.</small></span><svg class="method-sketch" viewBox="0 0 64 30" aria-hidden="true"><circle cx="8" cy="15" r="5"/><circle cx="32" cy="15" r="5"/><circle cx="56" cy="15" r="5"/><path d="M14 15H26M38 15H50M23 12L26 15 23 18M47 12L50 15 47 18"/></svg><span class="method-code">IV ↗</span></a></li>
+        <li><a href="#chapter-4"><span class="method-index">04</span><span><strong>Regression discontinuity</strong><small>Compare people near a cutoff.</small></span><svg class="method-sketch" viewBox="0 0 64 30" aria-hidden="true"><path d="M4 24L29 18M35 10L61 4"/><path class="sketch-guide" d="M32 2V28"/></svg><span class="method-code">RD ↗</span></a></li>
+        <li><a href="#chapter-5"><span class="method-index">05</span><span><strong>Differences in differences</strong><small>Compare changes across groups.</small></span><svg class="method-sketch" viewBox="0 0 64 30" aria-hidden="true"><path d="M4 22L28 18 60 3"/><path class="sketch-secondary" d="M4 28L28 24 60 20"/><path class="sketch-guide" d="M30 2V28"/></svg><span class="method-code">DiD ↗</span></a></li>
+      </ol>
+      <figcaption><span class="feature-caption">Every method begins with assumptions worth examining.</span><a href="#chapter-6">Bring the methods together in Chapter 6 ↗</a></figcaption>
+    </figure>
   </section>
 
   <!-- Three Pillars -->
@@ -603,6 +505,10 @@
     <div class="max-w-6xl mx-auto">
       <h2 class="text-2xl font-bold mb-2 text-center">Curriculum</h2>
       <p class="text-center text-muted mb-10 max-w-3xl mx-auto">Six chapters on the five tools of causal inference. Click a badge to open the study guide or launch the notebook in your browser. Each card also links to lecture slides and videos. Listen to the podcasts for all six chapters: jump between sections and follow the transcript as you listen.</p>
+
+      <figure class="curriculum-art">
+      <img src="cover.jpg" alt="The Furious Five: Five Methods to Separate Cause from Correlation — RCT, OLS, IV, RD, DiD" class="curriculum-cover" loading="lazy">
+      </figure>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <!-- Chapter 1 -->
@@ -1101,6 +1007,7 @@
 
   <!-- Footer -->
   <div class="gradient-divider"></div>
+  </main>
   <footer class="py-12 px-4 fade-in-up">
     <div class="max-w-5xl mx-auto text-center">
       <div class="author-card">
@@ -1158,36 +1065,6 @@
   <button id="back-to-top" class="back-to-top" onclick="window.scrollTo({top:0})" aria-label="Back to top">&#8593;</button>
 
   <script>
-    // Dark mode toggle
-    const body = document.body;
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light') body.classList.add('light');
-
-    function toggleTheme() {
-      body.classList.toggle('light');
-      localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
-      document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
-    }
-
-    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-    const mobileToggle = document.getElementById('theme-toggle-mobile');
-    if (mobileToggle) mobileToggle.addEventListener('click', toggleTheme);
-
-    // Set initial icon
-    document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
-
-    // Mobile menu (slide animation)
-    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-      var menu = document.getElementById('mobile-menu');
-      if (menu.classList.contains('open')) {
-        menu.classList.remove('open');
-        setTimeout(function() { menu.classList.add('hidden'); }, 300);
-      } else {
-        menu.classList.remove('hidden');
-        requestAnimationFrame(function() { menu.classList.add('open'); });
-      }
-    });
-
     // Video modal
     function openVideo(videoId, title, source) {
       document.getElementById('video-title').textContent = title;
@@ -1238,25 +1115,9 @@
       if (e.key === 'Escape') { closeVideo(); closeImage(); }
     });
 
-    // Typewriter effect
-    (function() {
-      var text = 'An AI-Powered Study Guide';
-      var el = document.getElementById('typewriter');
-      var i = 0;
-      function type() {
-        if (i <= text.length) {
-          el.textContent = text.substring(0, i);
-          i++;
-          setTimeout(type, 60);
-        }
-      }
-      type();
-    })();
-
-    // Scroll progress bar + back to top + navbar shrink
+    // Scroll progress bar + back to top
     var topBtn = document.getElementById('back-to-top');
     var scrollBar = document.getElementById('scroll-progress');
-    var mainNav = document.getElementById('main-nav');
     window.addEventListener('scroll', function() {
       // Progress bar
       var scrollTop = window.scrollY;
@@ -1268,12 +1129,6 @@
         topBtn.classList.add('show');
       } else {
         topBtn.classList.remove('show');
-      }
-      // Navbar shrink
-      if (scrollTop > 80) {
-        mainNav.classList.add('scrolled');
-      } else {
-        mainNav.classList.remove('scrolled');
       }
     });
 

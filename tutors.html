@@ -9,28 +9,6 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
     body { font-family: 'Inter', sans-serif; }
-    :root {
-      --bg: #0f172a;
-      --bg-card: #1e293b;
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-      --blue: #38bdf8;
-      --purple: #a78bfa;
-      --green: #34d399;
-      --orange: #f97316;
-      --border: rgba(255,255,255,0.1);
-    }
-    .light {
-      --bg: #f8fafc;
-      --bg-card: #ffffff;
-      --text: #1e293b;
-      --text-muted: #64748b;
-      --blue: #2563eb;
-      --purple: #7c3aed;
-      --green: #059669;
-      --orange: #ea580c;
-      --border: #e2e8f0;
-    }
     body { background-color: var(--bg); color: var(--text); transition: background-color 0.3s, color 0.3s; }
     .card { background-color: var(--bg-card); border: 1px solid var(--border); transition: all 0.3s; }
     .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
@@ -39,8 +17,6 @@
     .text-green { color: var(--green); }
     .text-orange { color: var(--orange); }
     .text-muted { color: var(--text-muted); }
-    .nav-link { color: var(--text-muted); transition: color 0.2s; }
-    .nav-link:hover { color: var(--blue); }
     .tutor-icon {
       width: 64px; height: 64px; border-radius: 16px;
       display: flex; align-items: center; justify-content: center;
@@ -60,63 +36,54 @@
       padding: 2px 6px; border-radius: 4px;
     }
   </style>
+  <link rel="stylesheet" href="assets/site.css">
+  <script>try{document.documentElement.classList.toggle('light',localStorage.getItem('theme')==='light')}catch(e){}</script>
+  <script src="assets/site.js" defer></script>
+  <noscript><style>.site-header .icon-button,.site-header .menu-button{display:none}@media(max-width:1100px){.site-header{position:relative}.site-header .mobile-nav[hidden]{display:block!important}}</style></noscript>
 </head>
-<body>
-  <!-- Navigation -->
-  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(15,23,42,0.85);">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="index.html" class="text-lg font-bold" style="color: var(--blue);">Mastering Causal Metrics</a>
-      <div class="hidden md:flex items-center gap-6">
-        <a href="book/_book/index.html" class="nav-link text-sm">Book</a>
-        <a href="tutors.html" class="nav-link text-sm font-semibold" style="color: var(--blue);">AI Tutors</a>
-        <a href="data-dictionary.html" class="nav-link text-sm">Data Dictionary</a>
-        <a href="cheatsheet.html" class="nav-link text-sm">Code Cheatsheet</a>
-        <a href="https://github.com/cmg777/intro2causal" target="_blank" class="nav-link text-sm">GitHub</a>
-        <button id="theme-toggle" class="nav-link text-sm cursor-pointer" aria-label="Toggle theme">
-          <span id="theme-icon">&#9790;</span>
-        </button>
-      </div>
-      <button id="mobile-menu-btn" class="md:hidden nav-link text-xl cursor-pointer" aria-label="Menu">&#9776;</button>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
-      <a href="index.html" class="block py-2 nav-link text-sm">Home</a>
-      <a href="book/_book/index.html" class="block py-2 nav-link text-sm">Book</a>
-      <a href="tutors.html" class="block py-2 nav-link text-sm">AI Tutors</a>
-      <a href="data-dictionary.html" class="block py-2 nav-link text-sm">Data Dictionary</a>
-      <a href="cheatsheet.html" class="block py-2 nav-link text-sm">Code Cheatsheet</a>
-      <button id="theme-toggle-mobile" class="block py-2 nav-link text-sm cursor-pointer text-left w-full">Toggle Theme</button>
-    </div>
+<body class="tutors-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">m<span>′</span></span> Mastering Causal Metrics</a>
+    <div class="nav-links" id="desktop-nav"><a href="index.html">Home</a><a href="book/_book/index.html">Study Guide</a><a href="tutors.html" aria-current="page">AI Tutors</a><a href="data-dictionary.html">Data Dictionary</a><a href="cheatsheet.html">Code Cheatsheet</a></div>
+    <button id="site-theme" class="icon-button" type="button" aria-label="Switch to light theme" title="Change color theme">☼</button>
+    <button id="site-menu" class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav">Menu</button>
   </nav>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="index.html">Home</a><a href="book/_book/index.html">Study Guide</a><a href="tutors.html" aria-current="page">AI Tutors</a><a href="data-dictionary.html">Data Dictionary</a><a href="cheatsheet.html">Code Cheatsheet</a></nav>
+</header>
 
+  <main id="main" tabindex="-1">
   <!-- Hero -->
-  <section class="pt-32 pb-12 px-4">
-    <div class="max-w-4xl mx-auto text-center">
-      <p class="text-sm font-medium tracking-widest uppercase mb-4" style="color: var(--green);">AI-Enhanced Learning</p>
-      <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4">
-        Choose Your <span class="text-purple">AI Tutor</span>
-      </h1>
-      <p class="text-lg max-w-2xl mx-auto mb-6 text-muted">
-        Every student learns differently. Our AI tutors are built as customized Google Gemini Gems — each with a distinct pedagogical approach, trained on the course content. "Learn by coding" is also a key feature of these tutors. You can use the <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank" style="color: var(--blue);">Google Colab scratchpad</a> to easily engage with the code the tutors provide.
-      </p>
-      <div class="flex flex-wrap gap-4 justify-center text-sm text-muted">
-        <span>6 chapters</span>
-        <span>&middot;</span>
-        <span>5 causal methods</span>
-        <span>&middot;</span>
-        <span>Python code</span>
-        <span>&middot;</span>
-        <span>Real datasets</span>
-      </div>
+  <section class="hero wrap" aria-labelledby="page-title">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> AI-ENHANCED LEARNING</p>
+      <h1 id="page-title">Choose your<br><span>AI tutor.</span></h1>
+      <p class="hero-intro">Bring your questions.<br>Find your way to understanding.</p>
+      <p class="hero-description">Every student learns differently. Our AI tutors are built as customized Google Gemini Gems — each with a distinct pedagogical approach, trained on the course content. "Learn by coding" is also a key feature of these tutors. You can use the <a href="https://colab.research.google.com/notebooks/empty.ipynb" target="_blank" style="color: var(--blue);">Google Colab scratchpad</a> to easily engage with the code the tutors provide.</p>
+      <div class="hero-actions"><a class="button primary" href="#tutor-collection">Find your learning approach <span aria-hidden="true">↓</span></a></div>
+      <div class="collection-facts"><span><strong>6</strong> chapters</span><span><strong>5</strong> causal methods</span><span>Python code · Real datasets</span></div>
     </div>
+    <figure class="hero-feature tutor-preview" aria-labelledby="tutor-preview-title">
+      <div class="feature-top"><span class="eyebrow">A QUESTION TO START WITH</span><span class="tiny-tag">Illustrative exchange</span></div>
+      <h2 id="tutor-preview-title">Think it through.<br> One step at a time.</h2>
+      <div class="dialogue">
+        <div class="dialogue-turn student"><span class="speaker">STUDENT</span><p>Why randomly assign health insurance in the RAND experiment?</p></div>
+        <div class="dialogue-turn coach"><span class="speaker">LEARNING COACH</span><p>People who choose different insurance plans may differ in health, too. Random assignment helps make the groups comparable before treatment.</p><p>What would you compare at the start to check whether the groups look similar?</p></div>
+        <div class="thinking-prompt"><span aria-hidden="true">↳</span> Start with a question. Build the reasoning.</div>
+      </div>
+      <figcaption><span class="feature-caption">An example of guided reasoning. Actual tutor responses vary.</span><a href="#tutor-collection">Meet the five tutors ↗</a></figcaption>
+    </figure>
   </section>
 
   <!-- Tutor Grid -->
-  <section class="py-12 px-4">
-    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+  <section id="tutor-collection" class="tutor-collection wrap" aria-labelledby="tutor-collection-title">
+    <div class="collection-heading"><div><p class="eyebrow">FIVE WAYS TO LEARN</p><h2 id="tutor-collection-title">Find your thinking partner.</h2></div><p>Choose the approach that fits<br>the question in front of you.</p></div>
+    <div class="tutor-grid">
 
       <!-- Learning Coach -->
-      <div class="card rounded-xl p-6">
-        <div class="tutor-icon" style="background: rgba(56,189,248,0.15); color: var(--blue);">&#127891;</div>
+      <article class="card tutor-card" style="--tutor-accent:var(--blue)">
+        <div class="tutor-icon" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">&#127891;</div>
         <h3 class="text-xl font-semibold mb-1 text-blue">Learning Coach</h3>
         <p class="text-xs text-muted mb-3">Recommended for first-time learners</p>
         <p class="text-sm text-muted mb-3">
@@ -126,22 +93,22 @@
           6 chapters: RCTs, Regression, IV, RD, DD, and the Wages of Schooling.
         </p>
         <div class="flex flex-wrap gap-1.5 mb-3">
-          <span class="tag-pill" style="background: rgba(56,189,248,0.12); color: var(--blue);">Step-by-Step</span>
-          <span class="tag-pill" style="background: rgba(56,189,248,0.12); color: var(--blue);">Worked Examples</span>
-          <span class="tag-pill" style="background: rgba(56,189,248,0.12); color: var(--blue);">Comprehension Checks</span>
-          <span class="tag-pill" style="background: rgba(56,189,248,0.12); color: var(--blue);">Homework Help</span>
-          <span class="tag-pill" style="background: rgba(56,189,248,0.12); color: var(--blue);">Beginner Friendly</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Step-by-Step</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Worked Examples</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Comprehension Checks</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Homework Help</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Beginner Friendly</span>
         </div>
         <p class="text-xs text-muted mb-3" style="font-style: italic;">
-          Try: <span class="example-prompt" style="background: rgba(56,189,248,0.08); color: var(--blue); font-style: normal;">"Walk me through the RAND Health Insurance Experiment from Chapter 1 step by step"</span>
+          Try: <span class="example-prompt" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent); font-style: normal;">"Walk me through the RAND Health Insurance Experiment from Chapter 1 step by step"</span>
         </p>
         <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Building intuition chapter by chapter, getting unstuck on homework problems</p>
-        <a href="https://gemini.google.com/gem/1wDacVuUPK9sY_FMn1n8T_lH9M5zge_o0?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(56,189,248,0.15); color: var(--blue);">Start Learning &rarr;</a>
-      </div>
+        <a href="https://gemini.google.com/gem/1wDacVuUPK9sY_FMn1n8T_lH9M5zge_o0?usp=sharing" target="_blank" class="tutor-btn" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Start Learning &rarr;</a>
+      </article>
 
       <!-- Case-Study Explainer -->
-      <div class="card rounded-xl p-6">
-        <div class="tutor-icon" style="background: rgba(249,115,22,0.15); color: var(--orange);">&#127963;</div>
+      <article class="card tutor-card" style="--tutor-accent:var(--purple)">
+        <div class="tutor-icon" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">&#127963;</div>
         <h3 class="text-xl font-semibold mb-1 text-orange">Case-Study Explainer</h3>
         <p class="text-xs text-muted mb-3">For understanding the stories behind the data</p>
         <p class="text-sm text-muted mb-3">
@@ -151,22 +118,22 @@
           MDVE, KIPP schools, MLDA mortality, and Great Depression banking.
         </p>
         <div class="flex flex-wrap gap-1.5 mb-3">
-          <span class="tag-pill" style="background: rgba(249,115,22,0.12); color: var(--orange);">Historical Context</span>
-          <span class="tag-pill" style="background: rgba(249,115,22,0.12); color: var(--orange);">Policy Analysis</span>
-          <span class="tag-pill" style="background: rgba(249,115,22,0.12); color: var(--orange);">11 Case Studies</span>
-          <span class="tag-pill" style="background: rgba(249,115,22,0.12); color: var(--orange);">Identification Strategy</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Historical Context</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Policy Analysis</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">11 Case Studies</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Identification Strategy</span>
         </div>
         <p class="text-xs text-muted mb-3" style="font-style: italic;">
-          Try: <span class="example-prompt" style="background: rgba(249,115,22,0.08); color: var(--orange); font-style: normal;">"Explain the institutional context behind the Oregon Health Plan lottery from Chapter 1"</span>
+          Try: <span class="example-prompt" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent); font-style: normal;">"Explain the institutional context behind the Oregon Health Plan lottery from Chapter 1"</span>
         </p>
         <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Understanding why each causal method works in its real-world setting, preparing policy discussions</p>
-        <a href="https://gemini.google.com/gem/1JENt-nAh0uMHozwHarid09vQdVP5rMwV?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(249,115,22,0.15); color: var(--orange);">Start Learning &rarr;</a>
-      </div>
+        <a href="https://gemini.google.com/gem/1JENt-nAh0uMHozwHarid09vQdVP5rMwV?usp=sharing" target="_blank" class="tutor-btn" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Start Learning &rarr;</a>
+      </article>
 
       <!-- Exam Coach -->
-      <div class="card rounded-xl p-6">
-        <div class="tutor-icon" style="background: rgba(251,191,36,0.15); color: #fbbf24;">&#128221;</div>
-        <h3 class="text-xl font-semibold mb-1" style="color: #fbbf24;">Exam Coach</h3>
+      <article class="card tutor-card" style="--tutor-accent:var(--green)">
+        <div class="tutor-icon" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">&#128221;</div>
+        <h3 class="text-xl font-semibold mb-1" style="color: var(--tutor-accent);">Exam Coach</h3>
         <p class="text-xs text-muted mb-3">For midterm and final preparation</p>
         <p class="text-sm text-muted mb-3">
           Your test-preparation specialist. Starts with diagnostic questions to find your weak spots, then builds
@@ -175,22 +142,22 @@
           multiple choice, short answer, Wald estimator calculations, and scenario-based problems.
         </p>
         <div class="flex flex-wrap gap-1.5 mb-3">
-          <span class="tag-pill" style="background: rgba(251,191,36,0.12); color: #fbbf24;">Practice Questions</span>
-          <span class="tag-pill" style="background: rgba(251,191,36,0.12); color: #fbbf24;">Weak Spot Diagnosis</span>
-          <span class="tag-pill" style="background: rgba(251,191,36,0.12); color: #fbbf24;">Method Distinctions</span>
-          <span class="tag-pill" style="background: rgba(251,191,36,0.12); color: #fbbf24;">Flashcard Summaries</span>
-          <span class="tag-pill" style="background: rgba(251,191,36,0.12); color: #fbbf24;">Increasing Difficulty</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Practice Questions</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Weak Spot Diagnosis</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Method Distinctions</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Flashcard Summaries</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Increasing Difficulty</span>
         </div>
         <p class="text-xs text-muted mb-3" style="font-style: italic;">
-          Try: <span class="example-prompt" style="background: rgba(251,191,36,0.08); color: #fbbf24; font-style: normal;">"Quiz me on the difference between IV and RD for Chapters 3 and 4"</span>
+          Try: <span class="example-prompt" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent); font-style: normal;">"Quiz me on the difference between IV and RD for Chapters 3 and 4"</span>
         </p>
         <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Drilling key concepts before exams, identifying gaps in your understanding of the 5 causal methods</p>
-        <a href="https://gemini.google.com/gem/1g4hoQvY6M9TS3q9tk8YeyWo8oDrZgkzK?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(251,191,36,0.15); color: #fbbf24;">Start Learning &rarr;</a>
-      </div>
+        <a href="https://gemini.google.com/gem/1g4hoQvY6M9TS3q9tk8YeyWo8oDrZgkzK?usp=sharing" target="_blank" class="tutor-btn" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Start Learning &rarr;</a>
+      </article>
 
       <!-- Socratic Challenger -->
-      <div class="card rounded-xl p-6">
-        <div class="tutor-icon" style="background: rgba(167,139,250,0.15); color: var(--purple);">&#129300;</div>
+      <article class="card tutor-card" style="--tutor-accent:var(--purple)">
+        <div class="tutor-icon" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">&#129300;</div>
         <h3 class="text-xl font-semibold mb-1 text-purple">Socratic Challenger</h3>
         <p class="text-xs text-muted mb-3">For students with some foundation</p>
         <p class="text-sm text-muted mb-3">
@@ -200,22 +167,22 @@
           compliers?&rsquo; Gives direct help after 3 rounds if you&rsquo;re stuck, or immediately for Python syntax.
         </p>
         <div class="flex flex-wrap gap-1.5 mb-3">
-          <span class="tag-pill" style="background: rgba(167,139,250,0.12); color: var(--purple);">Questions Only</span>
-          <span class="tag-pill" style="background: rgba(167,139,250,0.12); color: var(--purple);">Assumption Challenges</span>
-          <span class="tag-pill" style="background: rgba(167,139,250,0.12); color: var(--purple);">Validity Threats</span>
-          <span class="tag-pill" style="background: rgba(167,139,250,0.12); color: var(--purple);">Deep Thinking</span>
-          <span class="tag-pill" style="background: rgba(167,139,250,0.12); color: var(--purple);">Critical Reasoning</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Questions Only</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Assumption Challenges</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Validity Threats</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Deep Thinking</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Critical Reasoning</span>
         </div>
         <p class="text-xs text-muted mb-3" style="font-style: italic;">
-          Try: <span class="example-prompt" style="background: rgba(167,139,250,0.08); color: var(--purple); font-style: normal;">"I think comparing average outcomes between treated and control groups always gives a causal effect"</span>
+          Try: <span class="example-prompt" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent); font-style: normal;">"I think comparing average outcomes between treated and control groups always gives a causal effect"</span>
         </p>
         <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Developing critical thinking about identification, preparing to defend research design choices</p>
-        <a href="https://gemini.google.com/gem/1NY_-bU2XsnElee4rA2PIdQqrK0iCpwvK?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(167,139,250,0.15); color: var(--purple);">Start Learning &rarr;</a>
-      </div>
+        <a href="https://gemini.google.com/gem/1NY_-bU2XsnElee4rA2PIdQqrK0iCpwvK?usp=sharing" target="_blank" class="tutor-btn" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Start Learning &rarr;</a>
+      </article>
 
       <!-- Code-First Experimenter -->
-      <div class="card rounded-xl p-6">
-        <div class="tutor-icon" style="background: rgba(52,211,153,0.15); color: var(--green);">&#128187;</div>
+      <article class="card tutor-card" style="--tutor-accent:var(--blue)">
+        <div class="tutor-icon" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">&#128187;</div>
         <h3 class="text-xl font-semibold mb-1 text-green">Code-First Experimenter</h3>
         <p class="text-xs text-muted mb-3">For hands-on, learn-by-doing coders</p>
         <p class="text-sm text-muted mb-3">
@@ -224,18 +191,18 @@
           compare OLS to IV. Uses pandas and pyfixest with all course datasets streamed from GitHub.
         </p>
         <div class="flex flex-wrap gap-1.5 mb-3">
-          <span class="tag-pill" style="background: rgba(52,211,153,0.12); color: var(--green);">Python Code</span>
-          <span class="tag-pill" style="background: rgba(52,211,153,0.12); color: var(--green);">Real Datasets</span>
-          <span class="tag-pill" style="background: rgba(52,211,153,0.12); color: var(--green);">What-If Experiments</span>
-          <span class="tag-pill" style="background: rgba(52,211,153,0.12); color: var(--green);">pyfixest</span>
-          <span class="tag-pill" style="background: rgba(52,211,153,0.12); color: var(--green);">Google Colab Ready</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Python Code</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Real Datasets</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">What-If Experiments</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">pyfixest</span>
+          <span class="tag-pill" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Google Colab Ready</span>
         </div>
         <p class="text-xs text-muted mb-3" style="font-style: italic;">
-          Try: <span class="example-prompt" style="background: rgba(52,211,153,0.08); color: var(--green); font-style: normal;">"Show me IV estimation of returns to schooling using quarter-of-birth data from Chapter 6"</span>
+          Try: <span class="example-prompt" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent); font-style: normal;">"Show me IV estimation of returns to schooling using quarter-of-birth data from Chapter 6"</span>
         </p>
         <p class="text-xs text-muted mb-4"><strong>Best for:</strong> Learning causal methods through code, extending chapter notebooks with your own experiments</p>
-        <a href="https://gemini.google.com/gem/1R7ugDrQpJgL8_gGKcxszy801Wjh4MSi8?usp=sharing" target="_blank" class="tutor-btn" style="background: rgba(52,211,153,0.15); color: var(--green);">Start Learning &rarr;</a>
-      </div>
+        <a href="https://gemini.google.com/gem/1R7ugDrQpJgL8_gGKcxszy801Wjh4MSi8?usp=sharing" target="_blank" class="tutor-btn" style="background: color-mix(in srgb,var(--tutor-accent) 10%,transparent); color: var(--tutor-accent);">Start Learning &rarr;</a>
+      </article>
 
     </div>
   </section>
@@ -265,6 +232,7 @@
   </section>
 
   <!-- Footer -->
+  </main>
   <footer class="py-12 px-4" style="border-top: 1px solid var(--border);">
     <div class="max-w-5xl mx-auto text-center">
       <p class="text-lg font-semibold mb-2" style="color: var(--text);">
@@ -300,24 +268,6 @@
     </div>
   </footer>
 
-  <script>
-    const body = document.body;
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light') body.classList.add('light');
 
-    function toggleTheme() {
-      body.classList.toggle('light');
-      localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
-      document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
-    }
-
-    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-    const mt = document.getElementById('theme-toggle-mobile');
-    if (mt) mt.addEventListener('click', toggleTheme);
-    document.getElementById('theme-icon').textContent = body.classList.contains('light') ? '\u2600' : '\u263E';
-    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-      document.getElementById('mobile-menu').classList.toggle('hidden');
-    });
-  </script>
 </body>
 </html>
