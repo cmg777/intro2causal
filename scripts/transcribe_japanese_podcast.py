@@ -29,7 +29,12 @@ def canonical_numbers(text):
 
 
 def normalized(text):
-    return ''.join(c for c in canonical_numbers(text).casefold()
+    text = canonical_numbers(text)
+    # Equivalent written/phonetic forms of the chapter's named school. This does
+    # not normalize substantive different words such as arrest versus dropout.
+    text = re.sub(r'Knowledge\s*Is\s*Power\s*Program', 'ナレッジイズパワープログラム', text, flags=re.I)
+    text = re.sub(r'(?<![A-Za-z])KIPP(?![A-Za-z])|切符', 'キップ', text, flags=re.I)
+    return ''.join(c for c in text.casefold()
                    if unicodedata.category(c)[0] in ('L', 'N'))
 
 
