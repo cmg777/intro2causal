@@ -341,3 +341,30 @@ The datasets in this collection come from the following studies:
 | Quarter of Birth | Angrist, J.D. and Krueger, A.B. (1991). "Does Compulsory School Attendance Affect Schooling and Earnings?" *QJE*, 106(4), 979–1014 |
 | Sheepskin | Clark, D. and Martorell, P. (2014). "The Signaling Value of a High School Diploma." *JPE*, 122(2), 282–318 |
 | Twins | Ashenfelter, O. and Krueger, A. (1994). "Estimates of the Economic Return to Schooling from a New Sample of Twins." *AER*, 84(5), 1157–1173 |
+
+---
+
+## Guided case collection
+
+The website's Data Dictionary pairs the 15 study-guide CSVs with individual beginner investigations, plus a six-scenario Chapter 2 lab. These use the **prepared CSV extracts**, whose sizes and observation units can differ from the original Stata files listed above. The three Chapter 6 synthetic CSVs come from the repository generator, not a published empirical study.
+
+The curated stories, definitions, chart code, exercises, and reviewed source destinations are maintained in `scripts/exploration_content.py`. The standalone notebooks require no local repository files: they load CSVs from raw GitHub URLs and use pandas and Plotly Express. Notebook filenames and dataset anchors remain stable.
+
+To rebuild after editing case content:
+
+```sh
+uv run python scripts/build_data_dictionary.py
+uv run python scripts/build_explorations.py
+```
+
+The second command produces the 16 exploration notebooks, the public case manifest, compact interactive preview files, and a single vendored Plotly.js bundle matching the installed Python package. Keep the vendor license header. Serve the repository over HTTP to preview the page; opening the HTML directly as a local file blocks its JSON requests in some browsers.
+
+To verify coverage, exact Chapter 2 simulation equivalence, all notebook cells, and the concealed worked solutions:
+
+```sh
+uv run --with pip python scripts/verify_explorations.py
+```
+
+This writes executed notebook copies, rendered HTML, and a machine-readable execution report under `.work/exploration-qa/`. Source links require a separate destination-and-content review: successful HTTP status alone does not establish that the destination is the intended study. The last implementation review is recorded in `data/exploration-verification.json`.
+
+The child-labor indicators `cl7`, `cl8`, and `cl9` refer to **years of schooling required before work**, not school-entry ages. This definition is supported by the source paper and Stata labels and is now consistent in the linked Chapter 6 materials.

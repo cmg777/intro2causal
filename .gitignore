@@ -55,3 +55,6 @@ mindmaps-podcast/audio/*
 !mindmaps-podcast/audio/ch06-wages-of-schooling.mp3
 !mindmaps-podcast/audio/ch06-wages-of-schooling.opus
 .work/podcast/
+
+# Local case-collection execution and browser review artifacts
+.work/exploration-qa/

@@ -10,6 +10,7 @@ dependencies = [
     "matplotlib>=3.10.8",
     "numpy>=2.3,<2.4",
     "pandas>=3.0.2",
+    "plotly>=6,<7",
     "pyfixest>=0.50",
     "pyyaml>=6.0.3",
     "scipy>=1.17.1",

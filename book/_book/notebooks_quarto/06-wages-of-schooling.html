@@ -2272,7 +2272,7 @@ Figure&nbsp;6.3: First stage (left) and reduced form (right). Q4 births get slig
 <section id="strategy-3-child-labor-law-iv" class="level2">
 <h2 class="anchored" data-anchor-id="strategy-3-child-labor-law-iv">Strategy 3: Child Labor Law IV</h2>
 <p><strong>Research question:</strong> Do compulsory schooling laws that forced children to enter school by certain ages provide another valid instrument for estimating the return to education?</p>
-<p><strong>The data:</strong> Acemoglu and Angrist used data on compulsory schooling laws that varied across U.S. states. Three instruments capture whether a state required children to enter school by age 7 (<code>cl7</code>), 8 (<code>cl8</code>), or 9 (<code>cl9</code>). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means.</p>
+<p><strong>The data:</strong> Acemoglu and Angrist used data on compulsory schooling laws that varied across U.S. states. Three instruments describe schooling requirements before work: 7 years (<code>cl7</code>), 8 years (<code>cl8</code>), or at least 9 years (<code>cl9</code>). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means.</p>
 <p>With multiple instruments and fixed effects, the 2SLS framework is:</p>
 <p><strong>First stage:</strong> Predict schooling using the three compulsory schooling instruments</p>
 <p><span class="math display">\[S_{scy} = \alpha_1 + \phi_1 \, CL7_{sc} + \phi_2 \, CL8_{sc} + \phi_3 \, CL9_{sc} + \beta_s + \gamma_c + \delta_y + v_{scy}\]</span></p>
@@ -2280,7 +2280,7 @@ Figure&nbsp;6.3: First stage (left) and reduced form (right). Q4 births get slig
 <p><span class="math display">\[\ln W_{scy} = \alpha_2 + \rho_{IV} \, \hat{S}_{scy} + \beta_s + \gamma_c + \delta_y + u_{scy}\]</span></p>
 <p>where:</p>
 <ul>
-<li><span class="math inline">\(CL7\)</span>, <span class="math inline">\(CL8\)</span>, <span class="math inline">\(CL9\)</span> = indicators for compulsory school entry by age 7, 8, or 9 (<code>cl7</code>, <code>cl8</code>, <code>cl9</code>)</li>
+<li><span class="math inline">\(CL7\)</span>, <span class="math inline">\(CL8\)</span>, <span class="math inline">\(CL9\)</span> = indicators for required schooling before work: 7, 8, or at least 9 years (<code>cl7</code>, <code>cl8</code>, <code>cl9</code>)</li>
 <li><span class="math inline">\(\beta_s\)</span> = state-of-birth fixed effects (<code>| sob</code>)</li>
 <li><span class="math inline">\(\gamma_c\)</span> = year-of-birth cohort effects (<code>| yob</code>)</li>
 <li><span class="math inline">\(\delta_y\)</span> = census-year effects (<code>| year</code>)</li>
@@ -2375,7 +2375,7 @@ Figure&nbsp;6.3: First stage (left) and reduced form (right). Q4 births get slig
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>f_stat <span class="op">=</span> <span class="bu">float</span>(coefs <span class="op">@</span> np.linalg.inv(V_sub) <span class="op">@</span> coefs <span class="op">/</span> <span class="dv">3</span>)</span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instrument"</span>: [<span class="st">"cl7 (enter by age 7)"</span>, <span class="st">"cl8 (enter by age 8)"</span>, <span class="st">"cl9 (enter by age 9)"</span>, <span class="st">"Joint F-statistic"</span>],</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instrument"</span>: [<span class="st">"cl7 (7 years required)"</span>, <span class="st">"cl8 (8 years required)"</span>, <span class="st">"cl9 (9+ years required)"</span>, <span class="st">"Joint F-statistic"</span>],</span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coefficient"</span>: [</span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>fs_cl<span class="sc">.</span>coef()[<span class="st">'cl7'</span>]<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>fs_cl<span class="sc">.</span>se()[<span class="st">'cl7'</span>]<span class="sc">:.4f}</span><span class="ss">)"</span>,</span>
 <span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>fs_cl<span class="sc">.</span>coef()[<span class="st">'cl8'</span>]<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>fs_cl<span class="sc">.</span>se()[<span class="st">'cl8'</span>]<span class="sc">:.4f}</span><span class="ss">)"</span>,</span>
@@ -2405,17 +2405,17 @@ Table&nbsp;6.9: First stage: compulsory schooling laws jointly predict education
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>cl7 (enter by age 7)</td>
+<td>cl7 (7 years required)</td>
 <td>0.1690 (0.0674)</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>cl8 (enter by age 8)</td>
+<td>cl8 (8 years required)</td>
 <td>0.1872 (0.0621)</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
-<td>cl9 (enter by age 9)</td>
+<td>cl9 (9+ years required)</td>
 <td>0.3973 (0.0984)</td>
 </tr>
 <tr class="even">
@@ -5924,7 +5924,7 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb36-860"><a href="#cb36-860" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-861"><a href="#cb36-861" aria-hidden="true" tabindex="-1"></a>**Research question:** Do compulsory schooling laws that forced children to enter school by certain ages provide another valid instrument for estimating the return to education?</span>
 <span id="cb36-862"><a href="#cb36-862" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-863"><a href="#cb36-863" aria-hidden="true" tabindex="-1"></a>**The data:** Acemoglu and Angrist used data on compulsory schooling laws that varied across U.S. states. Three instruments capture whether a state required children to enter school by age 7 (<span class="in">`cl7`</span>), 8 (<span class="in">`cl8`</span>), or 9 (<span class="in">`cl9`</span>). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means.</span>
+<span id="cb36-863"><a href="#cb36-863" aria-hidden="true" tabindex="-1"></a>**The data:** Acemoglu and Angrist used data on compulsory schooling laws that varied across U.S. states. Three instruments describe schooling requirements before work: 7 years (<span class="in">`cl7`</span>), 8 years (<span class="in">`cl8`</span>), or at least 9 years (<span class="in">`cl9`</span>). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means.</span>
 <span id="cb36-864"><a href="#cb36-864" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-865"><a href="#cb36-865" aria-hidden="true" tabindex="-1"></a>With multiple instruments and fixed effects, the 2SLS framework is:</span>
 <span id="cb36-866"><a href="#cb36-866" aria-hidden="true" tabindex="-1"></a></span>
@@ -5938,7 +5938,7 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb36-874"><a href="#cb36-874" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-875"><a href="#cb36-875" aria-hidden="true" tabindex="-1"></a>where:</span>
 <span id="cb36-876"><a href="#cb36-876" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-877"><a href="#cb36-877" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$CL7$, $CL8$, $CL9$ = indicators for compulsory school entry by age 7, 8, or 9 (<span class="in">`cl7`</span>, <span class="in">`cl8`</span>, <span class="in">`cl9`</span>)</span>
+<span id="cb36-877"><a href="#cb36-877" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$CL7$, $CL8$, $CL9$ = indicators for required schooling before work: 7, 8, or at least 9 years (<span class="in">`cl7`</span>, <span class="in">`cl8`</span>, <span class="in">`cl9`</span>)</span>
 <span id="cb36-878"><a href="#cb36-878" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\beta_s$ = state-of-birth fixed effects (<span class="in">`| sob`</span>)</span>
 <span id="cb36-879"><a href="#cb36-879" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\gamma_c$ = year-of-birth cohort effects (<span class="in">`| yob`</span>)</span>
 <span id="cb36-880"><a href="#cb36-880" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\delta_y$ = census-year effects (<span class="in">`| year`</span>)</span>
@@ -5967,7 +5967,7 @@ Table&nbsp;6.17: Pre-trend test: DD regression on pre-reform period only
 <span id="cb36-907"><a href="#cb36-907" aria-hidden="true" tabindex="-1"></a>f_stat <span class="op">=</span> <span class="bu">float</span>(coefs <span class="op">@</span> np.linalg.inv(V_sub) <span class="op">@</span> coefs <span class="op">/</span> <span class="dv">3</span>)</span>
 <span id="cb36-908"><a href="#cb36-908" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-909"><a href="#cb36-909" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb36-910"><a href="#cb36-910" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instrument"</span>: [<span class="st">"cl7 (enter by age 7)"</span>, <span class="st">"cl8 (enter by age 8)"</span>, <span class="st">"cl9 (enter by age 9)"</span>, <span class="st">"Joint F-statistic"</span>],</span>
+<span id="cb36-910"><a href="#cb36-910" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Instrument"</span>: [<span class="st">"cl7 (7 years required)"</span>, <span class="st">"cl8 (8 years required)"</span>, <span class="st">"cl9 (9+ years required)"</span>, <span class="st">"Joint F-statistic"</span>],</span>
 <span id="cb36-911"><a href="#cb36-911" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coefficient"</span>: [</span>
 <span id="cb36-912"><a href="#cb36-912" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>fs_cl<span class="sc">.</span>coef()[<span class="st">'cl7'</span>]<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>fs_cl<span class="sc">.</span>se()[<span class="st">'cl7'</span>]<span class="sc">:.4f}</span><span class="ss">)"</span>,</span>
 <span id="cb36-913"><a href="#cb36-913" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>fs_cl<span class="sc">.</span>coef()[<span class="st">'cl8'</span>]<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>fs_cl<span class="sc">.</span>se()[<span class="st">'cl8'</span>]<span class="sc">:.4f}</span><span class="ss">)"</span>,</span>

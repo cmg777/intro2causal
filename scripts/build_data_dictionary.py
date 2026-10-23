@@ -2,6 +2,7 @@
 import csv, json, math, re
 from collections import Counter
 from pathlib import Path
+from exploration_content import CASES, DEFINITIONS, GUIDE_ANCHORS
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "dictionary-summary.json"
@@ -55,7 +56,23 @@ def build_file(path):
         if categorical:
             record["categories"]=[{"value":v,"count":c,"share":c/len(present) if present else 0} for v,c in freq.most_common()]
             record["distinct"]=len(freq)
+        record["meaning"] = DEFINITIONS.get(name, "Definition not independently documented in the source extract.")
+        if key == "ch4/mlda_clean.csv" and name == "age":
+            record["meaning"] = "Age centered on 21: actual age minus 21, in years. Use agecell for actual age."
+        record["role"] = "Identifier / grouping field" if identifier else ("Category or indicator" if categorical else "Measured or constructed quantity")
         fields.append(record)
+    case = CASES[Path(key).stem]
+    question, source, source_url = case["question"], case["source"], case["sourceUrl"]
+    notebook = "book/_book/" + notebook.replace(".qmd", ".html")
+    page = notebook.split("#")[0]
+    fragment = GUIDE_ANCHORS[Path(key).stem]
+    notebook = page + "#" + fragment
+    if fragment and f'id="{fragment}"' not in (ROOT/page).read_text():
+        notebook = page
+    if key == "ch1/nhis_clean.csv":
+        unit = "Person in a selected sample of married adults ages 26–59 in households with an employed adult."
+    if key == "ch5/deaths_clean.csv":
+        unit = "State × year × death cause, for the chapter’s ages 18–20 population."
     anchor=re.sub(r"[^a-z0-9]+","-",key.lower()).strip("-")
     return {"id":anchor,"chapter":int(key[2]),"chapterTitle":CHAPTERS[int(key[2])],"file":key,"title":title,"kind":kind,"question":question,"unit":unit,"rows":len(rows),"columns":len(cols),"provenance":provenance,"notebook":notebook,"source":source,"sourceUrl":source_url,"fields":fields}
 

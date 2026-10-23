@@ -6630,7 +6630,7 @@ The quarter-of-birth IV uses a clever natural experiment, but it relies on a sin
 
 **Research question:** Do compulsory schooling laws that forced children to enter school by certain ages provide another valid instrument for estimating the return to education?
 
-**The data:** Acemoglu and Angrist used data on compulsory schooling laws that varied across U.S. states. Three instruments capture whether a state required children to enter school by age 7 (`cl7`), 8 (`cl8`), or 9 (`cl9`). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means.
+**The data:** Acemoglu and Angrist used data on compulsory schooling laws that varied across U.S. states. Three instruments describe schooling requirements before work: 7 years (`cl7`), 8 years (`cl8`), or at least 9 years (`cl9`). The data has been collapsed to state-of-birth × year-of-birth × census-year cell means.
 
 With multiple instruments and fixed effects, the 2SLS framework is:
 
@@ -6644,7 +6644,7 @@ $$\ln W_{scy} = \alpha_2 + \rho_{IV} \, \hat{S}_{scy} + \beta_s + \gamma_c + \de
 
 where:
 
-- $CL7$, $CL8$, $CL9$ = indicators for compulsory school entry by age 7, 8, or 9 (`cl7`, `cl8`, `cl9`)
+- $CL7$, $CL8$, $CL9$ = indicators for required schooling before work: 7, 8, or at least 9 years (`cl7`, `cl8`, `cl9`)
 - $\beta_s$ = state-of-birth fixed effects (`| sob`)
 - $\gamma_c$ = year-of-birth cohort effects (`| yob`)
 - $\delta_y$ = census-year effects (`| year`)
@@ -6670,7 +6670,7 @@ V_sub = fs_cl._vcov[np.ix_(idx, idx)]
 f_stat = float(coefs @ np.linalg.inv(V_sub) @ coefs / 3)
 
 pd.DataFrame({
-    "Instrument": ["cl7 (enter by age 7)", "cl8 (enter by age 8)", "cl9 (enter by age 9)", "Joint F-statistic"],
+    "Instrument": ["cl7 (7 years required)", "cl8 (8 years required)", "cl9 (9+ years required)", "Joint F-statistic"],
     "Coefficient": [
         f"{fs_cl.coef()['cl7']:.4f} ({fs_cl.se()['cl7']:.4f})",
         f"{fs_cl.coef()['cl8']:.4f} ({fs_cl.se()['cl8']:.4f})",

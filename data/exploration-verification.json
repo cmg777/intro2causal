@@ -1,0 +1,348 @@
+{
+  "reviewed_at": "2026-10-23T14:05:17",
+  "scope": "15 study-guide CSV cases plus the six-scenario Chapter 2 exploration notebook",
+  "notebook_execution": [
+    {
+      "notebook": "explore-banks_clean.ipynb",
+      "status": "passed",
+      "code_cells": 11,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-chapter-2-simulations.ipynb",
+      "status": "passed",
+      "code_cells": 14,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-childlabor_clean.ipynb",
+      "status": "passed",
+      "code_cells": 12,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-deaths_clean.ipynb",
+      "status": "passed",
+      "code_cells": 12,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-mdve_clean.ipynb",
+      "status": "passed",
+      "code_cells": 11,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-mlda_clean.ipynb",
+      "status": "passed",
+      "code_cells": 11,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-nhis_clean.ipynb",
+      "status": "passed",
+      "code_cells": 12,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-qob_clean.ipynb",
+      "status": "passed",
+      "code_cells": 11,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-rand_balance.ipynb",
+      "status": "passed",
+      "code_cells": 12,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-rand_health_outcomes.ipynb",
+      "status": "passed",
+      "code_cells": 12,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-rand_utilization.ipynb",
+      "status": "passed",
+      "code_cells": 12,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-sheepskin_clean.ipynb",
+      "status": "passed",
+      "code_cells": 12,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-synthetic_did.ipynb",
+      "status": "passed",
+      "code_cells": 11,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-synthetic_ovb.ipynb",
+      "status": "passed",
+      "code_cells": 11,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-synthetic_rct.ipynb",
+      "status": "passed",
+      "code_cells": 11,
+      "solutions_executed": 1
+    },
+    {
+      "notebook": "explore-twins_clean.ipynb",
+      "status": "passed",
+      "code_cells": 11,
+      "solutions_executed": 1
+    }
+  ],
+  "final_code_matches_executed_revisions": true,
+  "simulation_validation": "All columns in all six scenarios match the corresponding Chapter 2 Python draws exactly, including draw order and seed resets.",
+  "browser": {
+    "cases": 16,
+    "colab_links": 16,
+    "all_previews_rendered": true,
+    "filters_keyboard_sorting_hashes_themes": "passed",
+    "errors": [],
+    "viewports": [
+      {
+        "width": 1440,
+        "theme": "light",
+        "horizontal_overflow": false
+      },
+      {
+        "width": 1440,
+        "theme": "dark",
+        "horizontal_overflow": false
+      },
+      {
+        "width": 768,
+        "theme": "light",
+        "horizontal_overflow": false
+      },
+      {
+        "width": 768,
+        "theme": "dark",
+        "horizontal_overflow": false
+      },
+      {
+        "width": 390,
+        "theme": "light",
+        "horizontal_overflow": false
+      },
+      {
+        "width": 390,
+        "theme": "dark",
+        "horizontal_overflow": false
+      },
+      {
+        "width": 320,
+        "theme": "light",
+        "horizontal_overflow": false
+      },
+      {
+        "width": 320,
+        "theme": "dark",
+        "horizontal_overflow": false
+      }
+    ]
+  },
+  "notebook_visual_review": {
+    "rendered_examples": [
+      "Minneapolis opening, assignment heatmap, concealed worked solution"
+    ],
+    "solutions_hidden_until_opened": true
+  },
+  "colab": {
+    "existing_destinations_open": true,
+    "unpublished_revision_import": "Attempted File > Upload notebook in Colab; Google sign-in required. Existing notebook destination opens successfully. New revision rendered locally; no cloud runtime claim.",
+    "local_validation": "All 16 notebooks and their actual optional solutions executed in clean project Python kernels using raw GitHub data URLs."
+  },
+  "source_review": [
+    {
+      "cases": [
+        "nhis_clean"
+      ],
+      "url": "https://archive.cdc.gov/www_cdc_gov/nchs/nhis/nhis_2009_data_release.htm",
+      "status": 200,
+      "identity": "Official CDC archived 2009 NHIS data release; title and subject confirmed."
+    },
+    {
+      "cases": [
+        "rand_balance",
+        "rand_utilization",
+        "rand_health_outcomes"
+      ],
+      "url": "https://www.aeaweb.org/articles?id=10.1257/jep.27.1.197",
+      "status": 200,
+      "identity": "Publisher page: Aron-Dine, Einav and Finkelstein (2013), The RAND Health Insurance Experiment, Three Decades Later. This is labeled as a retrospective article.",
+      "replaced": "RAND project page returned 403 in actual browser and was removed."
+    },
+    {
+      "cases": [
+        "mdve_clean"
+      ],
+      "url": "https://www.ojp.gov/library/publications/minneapolis-domestic-violence-experiment",
+      "status": 200,
+      "identity": "Office of Justice Programs record names Sherman, Berk and the Minneapolis experiment."
+    },
+    {
+      "cases": [
+        "mlda_clean"
+      ],
+      "url": "https://www.aeaweb.org/articles?id=10.1257/app.1.1.164",
+      "status": 200,
+      "identity": "Publisher page matches Carpenter and Dobkin (2009), alcohol consumption, mortality and the minimum drinking age."
+    },
+    {
+      "cases": [
+        "banks_clean"
+      ],
+      "url": "https://www.economics.uci.edu/files/docs/faculty_review/richardson_troost_2009_jpe.pdf",
+      "status": 200,
+      "identity": "Downloaded PDF first page confirms Richardson, Troost and Monetary Intervention Mitigated Banking Panics. Previous author-directory URL returned 404 and was removed."
+    },
+    {
+      "cases": [
+        "qob_clean",
+        "childlabor_clean"
+      ],
+      "url": "https://economics.mit.edu/people/faculty/josh-angrist/angrist-data-archive",
+      "status": 200,
+      "identity": "Author archive contains the relevant Angrist–Krueger and Acemoglu–Angrist studies; labeled as an archive, not a direct paper."
+    },
+    {
+      "cases": [
+        "twins_clean"
+      ],
+      "url": "https://www.masteringmetrics.com/resources-post/chapter-6-table-6-2/",
+      "status": 200,
+      "identity": "Browser page explicitly identifies Twinsburg data and both Ashenfelter–Krueger (1994) and Ashenfelter–Rouse (1998). Plain urllib request returned 406; actual browser and web-reader succeeded."
+    },
+    {
+      "cases": [
+        "synthetic_ovb",
+        "synthetic_rct",
+        "synthetic_did"
+      ],
+      "url": "https://github.com/cmg777/intro2causal/blob/main/code/python/ch6/generate_synthetic.py",
+      "status": 200,
+      "identity": "Repository generator file confirmed; simulations are clearly labeled."
+    },
+    {
+      "cases": [
+        "deaths_clean",
+        "sheepskin_clean"
+      ],
+      "url": null,
+      "identity": "Plain-text study citations retained; no unverified study destination linked."
+    }
+  ],
+  "content_corrections": [
+    "Bank columns count banks in business, not failures.",
+    "Actual age and centered age distinguished.",
+    "Chapter 6 simulated earnings columns labeled as log earnings.",
+    "Minneapolis extract has 314 cases and no recidivism outcome.",
+    "NHIS sample unit describes employed households, not universally employed respondents.",
+    "Child-labor indicators describe years required before work; chapter source and rendered copies corrected.",
+    "Source weights and cell denominators distinguished.",
+    "Numeric code and identifier means suppressed in the page dictionary.",
+    "All six Chapter 2 simulation scenarios restored to the chapter equations."
+  ],
+  "evidence_directory": ".work/exploration-qa/",
+  "build_commands": [
+    "uv run python scripts/build_data_dictionary.py",
+    "uv run python scripts/build_explorations.py"
+  ],
+  "verification_command": "uv run --with pip python scripts/verify_explorations.py",
+  "published_chapter_links": [
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/01-randomized-trials.html#does-health-insurance-improve-health",
+      "status": 200,
+      "anchor": "does-health-insurance-improve-health"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/01-randomized-trials.html#step-1-verify-randomization-balance-check",
+      "status": 200,
+      "anchor": "step-1-verify-randomization-balance-check"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/01-randomized-trials.html#step-2-estimate-causal-effects-on-health-care-use",
+      "status": 200,
+      "anchor": "step-2-estimate-causal-effects-on-health-care-use"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/01-randomized-trials.html#step-3-estimate-causal-effects-on-health",
+      "status": 200,
+      "anchor": "step-3-estimate-causal-effects-on-health"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/02-regression.html",
+      "status": 200,
+      "anchor": ""
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/03-instrumental-variables.html#the-minneapolis-domestic-violence-experiment",
+      "status": 200,
+      "anchor": "the-minneapolis-domestic-violence-experiment"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/04-regression-discontinuity.html#the-mlda-question",
+      "status": 200,
+      "anchor": "the-mlda-question"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/05-differences-in-differences.html#a-mississippi-experiment",
+      "status": 200,
+      "anchor": "a-mississippi-experiment"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/05-differences-in-differences.html#case-study-mlda-and-death-rates",
+      "status": 200,
+      "anchor": "case-study-mlda-and-death-rates"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/06-wages-of-schooling.html#seeing-ovb-in-action",
+      "status": 200,
+      "anchor": "seeing-ovb-in-action"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/06-wages-of-schooling.html#strategy-1-twin-comparisons",
+      "status": 200,
+      "anchor": "strategy-1-twin-comparisons"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/06-wages-of-schooling.html#strategy-2-quarter-of-birth-iv",
+      "status": 200,
+      "anchor": "strategy-2-quarter-of-birth-iv"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/06-wages-of-schooling.html#strategy-3-child-labor-law-iv",
+      "status": 200,
+      "anchor": "strategy-3-child-labor-law-iv"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/06-wages-of-schooling.html#strategy-4-sheepskin-effects-via-rd",
+      "status": 200,
+      "anchor": "strategy-4-sheepskin-effects-via-rd"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/06-wages-of-schooling.html#strategy-5-differences-in-differences",
+      "status": 200,
+      "anchor": "strategy-5-differences-in-differences"
+    },
+    {
+      "url": "https://cmg777.github.io/intro2causal/book/_book/notebooks_quarto/06-wages-of-schooling.html#why-not-an-rct",
+      "status": 200,
+      "anchor": "why-not-an-rct"
+    }
+  ],
+  "preview_screenshots": [
+    ".work/exploration-qa/preview-desktop.png",
+    ".work/exploration-qa/preview-case.png",
+    ".work/exploration-qa/preview-mobile.png"
+  ]
+}
