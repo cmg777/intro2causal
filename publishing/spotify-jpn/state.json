@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "project_id": "intro2causal-ja",
+  "show": {
+    "remote_id": "0XQHUSyrO9YYgaUUc2fbcT",
+    "public_url": "https://open.spotify.com/show/0XQHUSyrO9YYgaUUc2fbcT",
+    "status": "published_four_episodes",
+    "creator_url": "https://creators.spotify.com/home/show/0XQHUSyrO9YYgaUUc2fbcT",
+    "created_at": "2026-10-23T01:16:43.477303+00:00",
+    "artwork_sha256": "9b860f3a8bc00ef2d455c2e088038761d200d5ddef8ec5689775b78c766e4de1",
+    "public_verification": "Public Japanese show title, creator, cover and Chapters1–4 metadata, mind-map art and reading/glossary links verified",
+    "evidence": "publishing/spotify-jpn/show-created.png"
+  },
+  "episodes": {
+    "ch01-randomized-trials": {
+      "status": "published",
+      "remote_id": "08VY5KT5rrAjQPif6eygXo",
+      "local_preparation": {
+        "script": "reviewed",
+        "audio": "generated_decode_passed",
+        "transcript": "aligned",
+        "script_sha256": "44def82f894a146e0e54d74f73c28428076d20a53229d00ac09dd4fc618c449d",
+        "turn_count": 111,
+        "audio_sha256": "a94b882bfbe7a3aeacf29b0b23e9bc39550c7fdde60cd24b74ea03fed533b7b3",
+        "duration_seconds": 3222.629999999998,
+        "unreviewed_flagged_spans": 0,
+        "unreviewed_number_flags": 0
+      },
+      "creator_url": "https://creators.spotify.com/pod/show/0XQHUSyrO9YYgaUUc2fbcT/episode/08VY5KT5rrAjQPif6eygXo/details",
+      "audio_sha256": "a94b882bfbe7a3aeacf29b0b23e9bc39550c7fdde60cd24b74ea03fed533b7b3",
+      "observed_duration": "53:43",
+      "updated_at": "2026-10-23T07:33:39.647719+00:00",
+      "transcript_delivery": "linked_text",
+      "native_transcript_observation": "Published episode Details: Transcript disabled; tooltip: Transcripts are not available for this podcast.",
+      "metadata_saved": "verified_on_review_screen",
+      "artwork_saved": "crop_save_completed_and_review_preview_observed",
+      "published_at": "2026-10-23T07:35:20.779730+00:00",
+      "public_url": "https://open.spotify.com/episode/08VY5KT5rrAjQPif6eygXo",
+      "public_verification": "verified_metadata_artwork_links_and_playback",
+      "publication_evidence": "publishing/spotify-jpn/pilot-published.png",
+      "artwork_sha256": "c7b479d3236c0c809a7ac1ada8a17e116ebac2642f944c095f7427314cb61246",
+      "metadata_sha256": "bb6e1af7d8f689fe1b9eab0599465371af4d1b3762d1fd7df15a1b6d13511678",
+      "linked_transcript_sha256": "f64a716cc15ef5be57c9789d3156f2ae66bd447182d541fa9db19c13993cf15a",
+      "local_timed_transcript_sha256": "0d14756bbd3d5756c8726c8a64f6b77433c8f54d064471aa6e814d03840386fe",
+      "native_transcript_uploaded": false,
+      "indexing_observation": "Share URL opened public web player; Could not find that podcast, while Creator page confirms Published.",
+      "playback_observation": "Public episode indexed; Play and More controls unresponsive. Exploring supported embed fallback without reuploading.",
+      "verified_at": "2026-10-23T07:46:03.540762+00:00",
+      "playback_verification": {
+        "surface": "Spotify public embedded player",
+        "opening": "Playback progressed to 2:14 before seek",
+        "middle": "Seek near26:50, playback progressed to27:42",
+        "end": "Seek52:05, playback progressed to52:48;54seconds remaining when paused",
+        "method": "Observed progressing timer/URL position and Pause state; no claim of agent human listening",
+        "evidence": "publishing/spotify-jpn/pilot-playback-verified.png"
+      }
+    },
+    "ch02-regression": {
+      "status": "published",
+      "remote_id": "2kp8R7AYWPngI6FXa9bzzm",
+      "local_preparation": {
+        "script": "reviewed",
+        "audio": "generated_decode_passed",
+        "transcript": "aligned",
+        "script_sha256": "40fda90a2d578d144c407f4a6e36ebc60fb192050e2e04a42ebed6e876eeada8",
+        "turn_count": 110,
+        "audio_sha256": "68c503a98ac3970e21d29555cbd663f350f4dba6bb1bfa6c3e143a50769ff782",
+        "duration_seconds": 3265.7299999999973,
+        "unreviewed_flagged_spans": 0,
+        "unreviewed_number_flags": 0
+      },
+      "creator_url": "https://creators.spotify.com/pod/show/0XQHUSyrO9YYgaUUc2fbcT/episode/2kp8R7AYWPngI6FXa9bzzm/details",
+      "audio_sha256": "68c503a98ac3970e21d29555cbd663f350f4dba6bb1bfa6c3e143a50769ff782",
+      "updated_at": "2026-10-23T07:42:06.363450+00:00",
+      "metadata_saved": "Verified Japanese metadata, links, episode2 and art preview on Review and publish screen",
+      "artwork_saved": "Episode art crop save completed",
+      "published_at": "2026-10-23T07:54:07.797984+00:00",
+      "public_url": "https://open.spotify.com/episode/2kp8R7AYWPngI6FXa9bzzm",
+      "transcript_delivery": "linked_text",
+      "public_verification": "Public show lists Japanese title,54:25 duration, correct mind-map art and reading links",
+      "native_transcript_uploaded": false,
+      "publication_evidence": "publishing/spotify-jpn/ch02-published.png",
+      "artwork_sha256": "86d2c18292bedbb92fe166955154bcf992926d2b6764a236ce566cecb2a1366b",
+      "metadata_sha256": "ece868bb6208621d459459692d85a3ff19a0de6645bf699e1cae8e7ab80cc806",
+      "linked_transcript_sha256": "aa37d4aec675277643b98af9f4b6269819fb1de64ed57a9c90a8abb57f4796ce",
+      "local_timed_transcript_sha256": "4aee16b3ed5d85f4846886801a45c1be81c082d08f536975ec0b27785cdd538c",
+      "verified_at": "2026-10-23T07:59:13.660771+00:00",
+      "playback_verification": {
+        "surface": "Spotify public embedded player",
+        "observation": "Progressed from the opening to4:42, then paused",
+        "evidence": "publishing/spotify-jpn/ch02-playback-verified.png",
+        "method": "Observable timer progression, not a claim of human listening"
+      }
+    },
+    "ch03-instrumental-variables": {
+      "status": "published",
+      "remote_id": "5uxEam7mYsbgcAaxGFxrLd",
+      "local_preparation": {
+        "script": "reviewed",
+        "audio": "generated_decode_passed",
+        "transcript": "aligned",
+        "script_sha256": "6135bc0d0aededd035cdad0f35caf5b21debe798b29d01eecc41811d9f7b259b",
+        "turn_count": 114,
+        "audio_sha256": "65cbb23b643851531d229d8cf71dd43b6a94adc6d5d4cdd5559e6c5fb6176950",
+        "duration_seconds": 3004.8399999999974,
+        "unreviewed_flagged_spans": 0,
+        "unreviewed_number_flags": 0
+      },
+      "creator_url": "https://creators.spotify.com/pod/show/0XQHUSyrO9YYgaUUc2fbcT/episode/5uxEam7mYsbgcAaxGFxrLd/details",
+      "audio_sha256": "65cbb23b643851531d229d8cf71dd43b6a94adc6d5d4cdd5559e6c5fb6176950",
+      "updated_at": "2026-10-23T08:05:27.072012+00:00",
+      "published_at": "2026-10-23T08:11:05.610719+00:00",
+      "public_url": "https://open.spotify.com/episode/5uxEam7mYsbgcAaxGFxrLd",
+      "transcript_delivery": "linked_text",
+      "public_verification": "Public title, art, duration and playback verified; saved reading links match deployed files",
+      "native_transcript_uploaded": false,
+      "publication_evidence": "publishing/spotify-jpn/ch03-published.png",
+      "artwork_sha256": "2bf05ed339917302235d0bcb108ad9dfd3d0e1d14699a258d17e4fac7b0844b5",
+      "metadata_sha256": "b98664fc348049fce49f45bea48580e97b42b59f98b89c9e2d14127dc8c36606",
+      "linked_transcript_sha256": "faf5270d11a574eb96c653738139b22d36636e6fed94cfe3e49fc7ace4465d34",
+      "local_timed_transcript_sha256": "feceb8faa8bdf9066c7b17fff3f8bf03a88fe9e691d6bd9c57d50a36a7e25370",
+      "playback_verification": {
+        "surface": "Spotify public embedded player",
+        "observation": "Progressed from the opening to4:09, then paused",
+        "method": "Observed progressing timer, not human listening",
+        "evidence": "publishing/spotify-jpn/ch03-playback-verified.png"
+      }
+    },
+    "ch04-regression-discontinuity": {
+      "status": "published",
+      "remote_id": "4xwFwyWnEwKgpKMk1PtgWV",
+      "local_preparation": {
+        "script": "reviewed",
+        "audio": "generated_decode_passed",
+        "transcript": "aligned",
+        "script_sha256": "ce11f606d5868b7e0ac3cbcb1a6e42173343e6951ea50759cb7928dd250811ba",
+        "turn_count": 108,
+        "audio_sha256": "e4be656ad8b2e17eb26cdf2c69aeb0bbd1084ef720eb25ee2edc5912f298ca41",
+        "duration_seconds": 2985.4999999999986,
+        "unreviewed_flagged_spans": 0,
+        "unreviewed_number_flags": 0
+      },
+      "recognition_recovery": {
+        "reason": "Provider word offsets repeatedly jumped forward/backward in one chunk; validation rejected the transcript rather than retiming words.",
+        "action": "Original raw response preserved; one explicit rerecognition of the same audio chunk, under shared budget.",
+        "cache_key": "4e28a778aa22b3177b2ea6bc464d272c9aee8640bd2a02cbfdfdf5bae9110b65"
+      },
+      "creator_url": "https://creators.spotify.com/pod/show/0XQHUSyrO9YYgaUUc2fbcT/episode/4xwFwyWnEwKgpKMk1PtgWV/details",
+      "audio_sha256": "e4be656ad8b2e17eb26cdf2c69aeb0bbd1084ef720eb25ee2edc5912f298ca41",
+      "updated_at": "2026-10-23T08:20:50.416779+00:00",
+      "metadata_saved": "Japanese title, description, linked reading materials, episode4, no explicit/promotional content and mind-map art verified on final Review screen",
+      "transcript_delivery": "linked_text",
+      "reading_page_verification": "Public HTML and TXT matched reviewed local files before release",
+      "transcript_review": "Two timing-prefix fallbacks documented,13 terminology spans reviewed, two unspoken English parentheticals omitted from captions, no unreviewed numeric/text flags",
+      "published_at": "2026-10-23T08:36:33.896439+00:00",
+      "public_url": "https://open.spotify.com/episode/4xwFwyWnEwKgpKMk1PtgWV",
+      "public_verification": "verified_metadata_artwork_links_and_playback",
+      "native_transcript_uploaded": false,
+      "publication_evidence": "publishing/spotify-jpn/ch04-published.png",
+      "artwork_sha256": "a624d989617499d35b3cdd4628dca8181439a599405e6167d68dd94090b85c70",
+      "metadata_sha256": "e076272cf410e4b253f8b6fdf4df2d750d00b02c924c7446bfb467c00bdd4408",
+      "linked_transcript_sha256": "8eda2ecd255327ddc4dd8f455b6df992a2692ebb797a022ce183447614226e42",
+      "local_timed_transcript_sha256": "60b38e8d46712622c2134144f1f3fb2b9ce8335113148e4cd5b3c79fb42b37d8",
+      "verified_at": "2026-10-23T08:45:34.649261+00:00",
+      "playback_verification": {
+        "surface": "Spotify public embedded player",
+        "observation": "Playback progressed to1:36, then paused",
+        "method": "Observed progressing timer, not a claim of human listening",
+        "evidence": "publishing/spotify-jpn/ch04-playback-verified.png"
+      }
+    },
+    "ch05-differences-in-differences": {
+      "status": "draft",
+      "remote_id": "2d8ZC0e8QInEZ140JifVQp",
+      "local_preparation": {
+        "script": "reviewed",
+        "audio": "generated_decode_passed",
+        "transcript": "missing",
+        "script_sha256": "030314a2e1592f2d877530a6e9e5a9ad7df315b7510630b81d5b685f3703cd63",
+        "turn_count": 107,
+        "audio_sha256": "a5c05305ed053545ba4bf80c1d833874ba13815b20d4db35908df14d69f4a805",
+        "duration_seconds": 2796.849999999998
+      },
+      "creator_url": "https://creators.spotify.com/pod/show/0XQHUSyrO9YYgaUUc2fbcT/episode/2d8ZC0e8QInEZ140JifVQp/wizard",
+      "audio_sha256": "a5c05305ed053545ba4bf80c1d833874ba13815b20d4db35908df14d69f4a805",
+      "updated_at": "2026-10-23T08:45:34.649261+00:00",
+      "publication_blocker": "Recognition daily quota; finish transcript verification and public reading page before release",
+      "observed_duration": "46:37",
+      "metadata_saved": "Japanese title, description, reading/glossary links, episode5, no explicit/promotional content and art verified on Review; Save draft completed and Episodes list confirms Draft",
+      "artwork_saved": "Crop save completed and preview observed",
+      "artwork_sha256": "19050e3e86f12dd74109b6ca82ceef3747e41ebe1314acdddebdc8cba7fd87f6",
+      "draft_evidence": "publishing/spotify-jpn/ch05-draft-review.png",
+      "pending_reading_link": "https://cmg777.github.io/intro2causal/mindmaps-podcast/ja/transcripts/ch05-differences-in-differences.html",
+      "transcript_delivery": "linked_text_pending_verification_and_deployment"
+    },
+    "ch06-wages-of-schooling": {
+      "status": "not_uploaded",
+      "remote_id": null,
+      "local_preparation": {
+        "script": "reviewed",
+        "audio": "missing",
+        "transcript": "missing",
+        "script_sha256": "0362640ba824a255ecec649133367e9c9a3906683cc879bcfadbc66ff1d693aa",
+        "turn_count": 168
+      }
+    }
+  },
+  "production_status": "chapters1_to4_published_chapter5_asr_and_chapter6_audio_daily_quota_wait",
+  "sample": {
+    "audio": "mindmaps-podcast/ja/audio/voice-sample.mp3",
+    "audio_sha256": "73f03355f587f23485d2a79750489aa9f1f64d2bfa6566abc39a01b3195d9cfa",
+    "duration_seconds": 114.4,
+    "approval": "approved",
+    "approval_note": "User approved voices and pace after listening review request"
+  },
+  "resume": {
+    "not_before": "2026-10-24T07:10:00Z",
+    "timezone": "Asia/Tokyo",
+    "model": "gemini-3.8-flash-tts",
+    "instructions": "publishing/spotify-jpn/resume-after-quota.md",
+    "automation_id": "resume-japanese-spotify-original-model",
+    "scheduling_status": "verified_active_in_app_scheduler",
+    "automation_file": "/Users/carlosmendez/.codex/automations/resume-japanese-spotify-original-model/automation.toml",
+    "scheduled_local": "2026-10-24T16:22:40+09:00",
+    "verified_at": "2026-10-23T08:45:34.649261+00:00",
+    "verification": "Read-only app scheduler record confirms ACTIVE status and next_run_at; scheduler applies timing jitter. Rule expires after this one future occurrence.",
+    "scheduled_utc": "2026-10-24T07:22:40+00:00",
+    "nominal_utc": "2026-10-24T07:20:00+00:00",
+    "rrule": "FREQ=DAILY;BYHOUR=7;BYMINUTE=20;UNTIL=20261024T073000Z"
+  },
+  "pilot_verified": true,
+  "quota_block": {
+    "chapter": "ch06-wages-of-schooling",
+    "model": "gemini-3.8-flash-tts",
+    "quota": "GenerateRequestsPerDayPerProjectPerModel",
+    "retry_delay_seconds": 82862,
+    "observed_at": "2026-10-23T08:00:15.857135+00:00",
+    "next_safe_attempt": "2026-10-24T07:10:00Z",
+    "preserved": "All successful audio caches and conservative cost reservations"
+  },
+  "quota_blocks": [
+    {
+      "chapter": "ch06-wages-of-schooling",
+      "model": "gemini-3.8-flash-tts",
+      "quota": "GenerateRequestsPerDayPerProjectPerModel",
+      "retry_delay_seconds": 82862,
+      "observed_at": "2026-10-23T08:00:15.857135+00:00",
+      "next_safe_attempt": "2026-10-24T07:10:00Z",
+      "preserved": "All successful audio caches and conservative cost reservations"
+    },
+    {
+      "chapter": "ch05-differences-in-differences",
+      "model": "gemini-3.5-transcribe",
+      "quota": "GenerateRequestsPerDayPerProjectPerModel",
+      "retry_delay_seconds": 81117,
+      "observed_at": "2026-10-23T08:30:30.538910+00:00",
+      "next_safe_attempt": "2026-10-24T07:10:00Z",
+      "preserved": "Two completed Chapter5 recognition chunks and all complete Chapter5 audio"
+    }
+  ],
+  "budget_snapshot": {
+    "conservative_committed_usd": 6.260789,
+    "cap_usd": 25,
+    "includes": "Translation, samples, TTS, recognition and conservative unresolved/failed request reservations",
+    "provider_billing_authoritative": true,
+    "at": "2026-10-23T08:41:05.138463+00:00"
+  },
+  "checkpoint_evidence": "publishing/spotify-jpn/episodes-status.png"
+}
