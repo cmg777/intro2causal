@@ -6,8 +6,8 @@
   <title>Mastering Causal Metrics</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="assets/podcast-player.css?v=3">
-  <script src="assets/podcast-player.js?v=3" defer></script>
+  <link rel="stylesheet" href="assets/podcast-player.css?v=4">
+  <script src="assets/podcast-player.js?v=4" defer></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
     html { scroll-behavior: smooth; }
@@ -604,7 +604,7 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <!-- Chapter 1 -->
-          <div class="card chapter-card">
+          <div id="chapter-1" class="card chapter-card">
             <div>
               <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 1: Randomized Trials</h4>
               <p class="text-xs text-muted mt-1">Selection Bias &middot; Potential Outcomes &middot; RAND HIE</p>
@@ -626,7 +626,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><p>Enable JavaScript to use the Chapter 1 podcast player, or <a href="mindmaps-podcast/transcripts/ch01-randomized-trials.txt" download>download the transcript</a>.</p></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 1 podcast player, or <a href="mindmaps-podcast/transcripts/ch01-randomized-trials.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
             <section id="chapter-1-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch01-randomized-trials.json" aria-label="Chapter 1 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Randomized Trials mind map full screen" onclick="openImage('book/images/ch01_visual_summary.webp', 'Chapter 1 mind map: Randomized Trials')">
                 <img src="book/images/ch01_visual_summary.webp" alt="Randomized Trials mind map" loading="lazy">
@@ -667,9 +667,10 @@
                 </div>
               </div>
               <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
-              <div class="podcast-transcript-actions" data-enhanced hidden>
-                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-1-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch01-randomized-trials.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-1-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch01-randomized-trials.html" target="_blank" rel="noopener" aria-label="Open Transcript (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Open Transcript</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/3O60EvgThQMkkdb9Y3qonF" target="_blank" rel="noopener" aria-label="Listen on Spotify (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Listen on Spotify</a>
               </div>
               <div id="chapter-1-transcript" class="podcast-transcript" hidden>
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
@@ -679,7 +680,7 @@
             </section>
           </div>
           <!-- Chapter 2 -->
-          <div class="card chapter-card">
+          <div id="chapter-2" class="card chapter-card">
             <div>
               <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 2: Regression</h4>
               <p class="text-xs text-muted mt-1">OLS &middot; Omitted Variable Bias &middot; Bad Controls</p>
@@ -701,7 +702,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><p>Enable JavaScript to use the Chapter 2 podcast player, or <a href="mindmaps-podcast/transcripts/ch02-regression.txt" download>download the transcript</a>.</p></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 2 podcast player, or <a href="mindmaps-podcast/transcripts/ch02-regression.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
             <section id="chapter-2-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch02-regression.json" aria-label="Chapter 2 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Regression mind map full screen" onclick="openImage('book/images/ch02_visual_summary.webp', 'Chapter 2 mind map: Regression')">
                 <img src="book/images/ch02_visual_summary.webp" alt="Regression mind map" loading="lazy">
@@ -742,9 +743,10 @@
                 </div>
               </div>
               <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
-              <div class="podcast-transcript-actions" data-enhanced hidden>
-                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-2-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch02-regression.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-2-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch02-regression.html" target="_blank" rel="noopener" aria-label="Open Transcript (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Open Transcript</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/2gE66Q3fTts4fnU19mctyo" target="_blank" rel="noopener" aria-label="Listen on Spotify (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Listen on Spotify</a>
               </div>
               <div id="chapter-2-transcript" class="podcast-transcript" hidden>
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
@@ -754,7 +756,7 @@
             </section>
           </div>
           <!-- Chapter 3 -->
-          <div class="card chapter-card">
+          <div id="chapter-3" class="card chapter-card">
             <div>
               <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 3: Instrumental Variables</h4>
               <p class="text-xs text-muted mt-1">LATE &middot; Compliers &middot; Minneapolis DV Experiment</p>
@@ -777,7 +779,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><p>Enable JavaScript to use the Chapter 3 podcast player, or <a href="mindmaps-podcast/transcripts/ch03-instrumental-variables.txt" download>download the transcript</a>.</p></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 3 podcast player, or <a href="mindmaps-podcast/transcripts/ch03-instrumental-variables.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
             <section id="chapter-3-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch03-instrumental-variables.json" aria-label="Chapter 3 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Instrumental Variables mind map full screen" onclick="openImage('book/images/ch03_visual_summary.webp', 'Chapter 3 mind map: Instrumental Variables')">
                 <img src="book/images/ch03_visual_summary.webp" alt="Instrumental Variables mind map" loading="lazy">
@@ -818,9 +820,10 @@
                 </div>
               </div>
               <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
-              <div class="podcast-transcript-actions" data-enhanced hidden>
-                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-3-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch03-instrumental-variables.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-3-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch03-instrumental-variables.html" target="_blank" rel="noopener" aria-label="Open Transcript (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Open Transcript</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/2VnEMA9PTdX9x1zRnl0h56" target="_blank" rel="noopener" aria-label="Listen on Spotify (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Listen on Spotify</a>
               </div>
               <div id="chapter-3-transcript" class="podcast-transcript" hidden>
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
@@ -830,7 +833,7 @@
             </section>
           </div>
           <!-- Chapter 4 -->
-          <div class="card chapter-card">
+          <div id="chapter-4" class="card chapter-card">
             <div>
               <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 4: Regression Discontinuity</h4>
               <p class="text-xs text-muted mt-1">Sharp RD &middot; Bandwidth &middot; MLDA and Mortality</p>
@@ -852,7 +855,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><p>Enable JavaScript to use the Chapter 4 podcast player, or <a href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.txt" download>download the transcript</a>.</p></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 4 podcast player, or <a href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
             <section id="chapter-4-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch04-regression-discontinuity.json" aria-label="Chapter 4 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Regression Discontinuity mind map full screen" onclick="openImage('book/images/ch04_visual_summary.webp', 'Chapter 4 mind map: Regression Discontinuity')">
                 <img src="book/images/ch04_visual_summary.webp" alt="Regression Discontinuity mind map" loading="lazy">
@@ -893,9 +896,10 @@
                 </div>
               </div>
               <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
-              <div class="podcast-transcript-actions" data-enhanced hidden>
-                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-4-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-4-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.html" target="_blank" rel="noopener" aria-label="Open Transcript (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Open Transcript</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/39cBXhzM2tEQ6Iy0IPHAxP" target="_blank" rel="noopener" aria-label="Listen on Spotify (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Listen on Spotify</a>
               </div>
               <div id="chapter-4-transcript" class="podcast-transcript" hidden>
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
@@ -905,7 +909,7 @@
             </section>
           </div>
           <!-- Chapter 5 -->
-          <div class="card chapter-card">
+          <div id="chapter-5" class="card chapter-card">
             <div>
               <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 5: Differences-in-Differences</h4>
               <p class="text-xs text-muted mt-1">Parallel Trends &middot; Two-Way FE &middot; Great Depression Banking</p>
@@ -927,7 +931,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><p>Enable JavaScript to use the Chapter 5 podcast player, or <a href="mindmaps-podcast/transcripts/ch05-differences-in-differences.txt" download>download the transcript</a>.</p></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 5 podcast player, or <a href="mindmaps-podcast/transcripts/ch05-differences-in-differences.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
             <section id="chapter-5-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch05-differences-in-differences.json" aria-label="Chapter 5 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open the Differences-in-Differences mind map full screen" onclick="openImage('book/images/ch05_visual_summary.webp', 'Chapter 5 mind map: Differences-in-Differences')">
                 <img src="book/images/ch05_visual_summary.webp" alt="Differences-in-Differences mind map" loading="lazy">
@@ -968,9 +972,10 @@
                 </div>
               </div>
               <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
-              <div class="podcast-transcript-actions" data-enhanced hidden>
-                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-5-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch05-differences-in-differences.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-5-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch05-differences-in-differences.html" target="_blank" rel="noopener" aria-label="Open Transcript (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Open Transcript</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/097YUmXOFyuwCr6xKKPyyB" target="_blank" rel="noopener" aria-label="Listen on Spotify (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Listen on Spotify</a>
               </div>
               <div id="chapter-5-transcript" class="podcast-transcript" hidden>
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>
@@ -980,7 +985,7 @@
             </section>
           </div>
           <!-- Chapter 6 -->
-          <div class="card chapter-card">
+          <div id="chapter-6" class="card chapter-card">
             <div>
               <h4 class="text-base font-semibold" style="color: var(--text);">Chapter 6: The Wages of Schooling</h4>
               <p class="text-xs text-muted mt-1">Twins &middot; Quarter of Birth &middot; Sheepskin Effects</p>
@@ -1002,7 +1007,7 @@
                 <span class="podcast-launch-label">Listen AI Podcast</span>
               </button>
             </div>
-            <noscript><p>Enable JavaScript to use the Chapter 6 podcast player, or <a href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.txt" download>download the transcript</a>.</p></noscript>
+            <noscript><p>Enable JavaScript to use the Chapter 6 podcast player, or <a href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.html" target="_blank" rel="noopener">Open Transcript (opens in a new tab)</a>.</p></noscript>
             <section id="chapter-6-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch06-wages-of-schooling.json" aria-label="Chapter 6 podcast study player" hidden>
               <button type="button" class="podcast-mindmap" aria-label="Open The Wages of Schooling mind map full screen" onclick="openImage('book/images/ch06_visual_summary.webp', 'Chapter 6 mind map: The Wages of Schooling')">
                 <img src="book/images/ch06_visual_summary.webp" alt="The Wages of Schooling mind map" loading="lazy">
@@ -1043,9 +1048,10 @@
                 </div>
               </div>
               <div class="podcast-chapters" data-enhanced hidden aria-label="Episode sections"></div>
-              <div class="podcast-transcript-actions" data-enhanced hidden>
-                <button type="button" class="podcast-transcript-toggle" aria-expanded="false" aria-controls="chapter-6-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-                <a class="podcast-transcript-download" href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.txt" download><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M3 15v5h18v-5"/></svg>Download transcript</a>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-6-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Read along</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.html" target="_blank" rel="noopener" aria-label="Open Transcript (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Open Transcript</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/7Ai11CxTsj9yoVtL68UcvV" target="_blank" rel="noopener" aria-label="Listen on Spotify (opens in a new tab)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Listen on Spotify</a>
               </div>
               <div id="chapter-6-transcript" class="podcast-transcript" hidden>
                 <div class="podcast-passages" role="region" aria-label="Timed transcript. Select a passage to seek." tabindex="0"></div>

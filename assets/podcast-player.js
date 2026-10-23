@@ -5,7 +5,7 @@
     try {
       // Call play directly from the click, without waiting for transcript loading.
       await audio.play();
-      status.textContent = '';
+      if (status.textContent.startsWith('Audio could not play.')) status.textContent = '';
     } catch (error) {
       // Closing or switching players can cancel a pending playback request.
       if (error.name !== 'AbortError') {
@@ -197,7 +197,7 @@
       updatePlay();
       update();
     } catch (error) {
-      status.textContent = 'Interactive transcript unavailable. You can still listen and download the transcript below.';
+      status.textContent = 'Interactive transcript unavailable. You can still listen, open the transcript, or listen on Spotify using the links below.';
     }
   });
 })();

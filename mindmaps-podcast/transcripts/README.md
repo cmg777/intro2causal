@@ -1,8 +1,9 @@
 # Read-along transcripts for Chapters 1–6
 
 The website uses each chapter's JSON file for passage highlighting and section
-markers in the shared podcast player. Students can download the plain-text (`.txt`)
-transcript only. Text comes from the existing HOST/ECONOMIST script. Paragraph timings
+markers in the shared podcast player. “Open Transcript” opens a formatted HTML
+reading page in a new tab while audio continues in the original tab. “Read along”
+keeps the timed transcript inside the player. Text comes from the existing HOST/ECONOMIST script. Paragraph timings
 are aligned to offline whisper.cpp recognition; they are approximate rather than
 word-level timestamps. Section boundaries come from the original audio chunk
 durations, including the assembler's inserted silences.
@@ -43,7 +44,22 @@ To regenerate the compressed recordings and their metadata after rebuilding tran
 python3 scripts/compress_podcast_audio.py
 ```
 
-The website offers plain-text transcript downloads only. Audio and timed-transcript
-download links are removed,
-and native controls request `nodownload` where supported. Public browser playback
+The website offers transcript reading pages rather than download buttons. Existing
+TXT, JSON, and VTT URLs remain available for compatibility. Native audio controls
+request `nodownload` where supported. Public browser playback
 still transfers audio and cannot prevent listeners from saving the underlying files.
+
+## Transcript reading pages
+
+After changing or rebuilding transcript JSON, regenerate all six committed HTML
+reading pages with the standard-library-only command:
+
+```sh
+python3 scripts/build_transcript_pages.py
+```
+
+Pages use the JSON section boundaries, speaker labels, timestamps, and full text.
+They remain readable without JavaScript; the optional theme toggle shares the
+main site’s saved theme preference. No transcription or audio generation is needed.
+Each player also links directly to its chapter’s published Spotify episode, using
+the episode URLs recorded in `publishing/spotify/state.json`.

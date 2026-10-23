@@ -8,7 +8,7 @@
 .podcast-launch:hover { filter: brightness(1.08); }
 .podcast-launch:focus-visible { outline: 2px solid #14b8a6; outline-offset: 4px; }
 .podcast-launch[aria-expanded=true] { box-shadow: 0 0 0 2px #14b8a6; }
-.chapter-card { container-type: inline-size; }
+.chapter-card { container-type: inline-size; scroll-margin-top: 80px; }
 /* Two 154×20 badges rendered at 32px high, plus the existing 8px gap.
    When those badges wrap, the podcast row follows their single-column width. */
 @container (width < 31.3rem) {
@@ -102,8 +102,8 @@
 .podcast-chapters button[aria-current=true]::before { border-color: var(--pod-accent); background: var(--pod-accent); }
 .podcast-chapters time { min-width: 2.7rem; font-size: .75rem; color: var(--pod-muted); font-variant-numeric: tabular-nums; }
 .podcast-transcript-actions { grid-area: actions; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .3rem; }
-.podcast-player .podcast-transcript-toggle, .podcast-player .podcast-transcript-download { display: inline-flex; align-items: center; gap: .4rem; padding: .4rem .7rem; border: 1px solid var(--pod-border); border-radius: 999px; color: var(--pod-link); font-size: .75rem; font-weight: 600; line-height: 1.4; text-decoration: none; }
-.podcast-transcript-toggle:hover, .podcast-transcript-download:hover { background: var(--pod-track); }
+.podcast-player .podcast-transcript-toggle, .podcast-player .podcast-action-link { display: inline-flex; align-items: center; gap: .4rem; padding: .4rem .7rem; border: 1px solid var(--pod-border); border-radius: 999px; color: var(--pod-link); font-size: .75rem; font-weight: 600; line-height: 1.4; text-decoration: none; }
+.podcast-transcript-toggle:hover, .podcast-action-link:hover { background: var(--pod-track); }
 .podcast-transcript-toggle[aria-expanded=true] .podcast-transcript-chevron { transform: rotate(180deg); }
 .podcast-transcript { grid-area: transcript; min-width: 0; }
 .podcast-passages { position: relative; max-height: 350px; overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid var(--pod-border); padding: 0 .25rem .5rem 0; scrollbar-width: thin; scrollbar-color: var(--pod-border) transparent; scroll-padding-top: 2rem; }
@@ -132,5 +132,5 @@
   .podcast-transport { gap: .7rem; }
   .podcast-chapters button { font-size: .8rem; gap: .4rem; }
   .podcast-transcript-actions { gap: .4rem; }
-  .podcast-player .podcast-transcript-toggle, .podcast-player .podcast-transcript-download { font-size: .7rem; padding: .4rem .55rem; }
+  .podcast-player .podcast-transcript-toggle, .podcast-player .podcast-action-link { font-size: .7rem; padding: .4rem .55rem; }
 }
