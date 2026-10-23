@@ -9,7 +9,9 @@
   function syncTheme() {
     const light = root.classList.contains('light');
     theme.textContent = light ? '☾' : '☼';
-    theme.setAttribute('aria-label', `Switch to ${light ? 'dark' : 'light'} theme`);
+    theme.setAttribute('aria-label', root.lang.startsWith('ja')
+      ? `${light ? 'ダーク' : 'ライト'}テーマに切り替える`
+      : `Switch to ${light ? 'dark' : 'light'} theme`);
     const darkSyntax = document.getElementById('hljs-dark');
     const lightSyntax = document.getElementById('hljs-light');
     if (darkSyntax && lightSyntax) {

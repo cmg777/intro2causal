@@ -93,7 +93,7 @@ def main():
     (DEST / 'glossary.html').write_text(page('専門用語の日英対訳・読み方', ''.join(glossary_body)))
     show_url = state.get('show', {}).get('public_url')
     show_link = f'<p><a href="{html.escape(show_url,quote=True)}">Spotifyで番組を聴く</a></p>' if show_url else ''
-    body = (show_link + '<p>学生と先生の対話で、因果推論を日本語で学ぶ全6章の番組です。日本語を学習中の方にも、'
+    body = ('<p><a href="../../podcasts-ja.html">日本語の音声とマインドマップを開く →</a></p>' + show_link + '<p>学生と先生の対話で、因果推論を日本語で学ぶ全6章の番組です。日本語を学習中の方にも、'
             '専門用語の読み方と日英対訳をご用意しています。</p>'
             '<p><a href="glossary.html">専門用語の日英対訳・読み方</a></p>'
             '<nav aria-label="公開済みの章"><ul class="chapter-links">' + ''.join(items) + '</ul></nav>'
