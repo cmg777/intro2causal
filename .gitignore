@@ -56,5 +56,10 @@ mindmaps-podcast/audio/*
 !mindmaps-podcast/audio/ch06-wages-of-schooling.opus
 .work/podcast/
 
+# Japanese-edition generation caches and unpublished recordings
+.work/podcast-ja/
+mindmaps-podcast/ja/audio/
+publishing/spotify-jpn/*manifest.json
+
 # Local case-collection execution and browser review artifacts
 .work/exploration-qa/
