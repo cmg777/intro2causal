@@ -466,7 +466,8 @@
         <button class="lang-tab" onclick="showLang('f5','stata')">Stata</button>
         <button class="lang-tab" onclick="showLang('f5','r')">R</button>
       </div>
-      <div id="f5-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd
+      <div id="f5-python" class="code-block" style="border-top-left-radius:0;">!pip install -q pyfixest
+import pandas as pd
 import numpy as np
 import pyfixest as pf
 
@@ -759,7 +760,8 @@ display "5. Wald-DD: " round(_b[treat_post] / dd_fs, 0.0001)</div>
         <button class="lang-tab" onclick="showLang('ch1','stata')">Stata</button>
         <button class="lang-tab" onclick="showLang('ch1','r')">R</button>
       </div>
-      <div id="ch1-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd
+      <div id="ch1-python" class="code-block" style="border-top-left-radius:0;">!pip install -q pyfixest
+import pandas as pd
 import pyfixest as pf
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
@@ -864,7 +866,8 @@ reg health_index plan_free plan_deductible plan_coinsurance, cluster(family_id)<
         <button class="lang-tab" onclick="showLang('ch2','stata')">Stata</button>
         <button class="lang-tab" onclick="showLang('ch2','r')">R</button>
       </div>
-      <div id="ch2-python" class="code-block" style="border-top-left-radius:0;">import numpy as np, pandas as pd, pyfixest as pf
+      <div id="ch2-python" class="code-block" style="border-top-left-radius:0;">!pip install -q pyfixest
+import numpy as np, pandas as pd, pyfixest as pf
 
 # --- Step 1: Simulate data where we KNOW the true causal effect ---
 np.random.seed(42)
@@ -971,7 +974,8 @@ display "OVB = " _b[private] " x " gamma " = " _b[private]*gamma</div>
         <button class="lang-tab" onclick="showLang('ch3','stata')">Stata</button>
         <button class="lang-tab" onclick="showLang('ch3','r')">R</button>
       </div>
-      <div id="ch3-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, pyfixest as pf
+      <div id="ch3-python" class="code-block" style="border-top-left-radius:0;">!pip install -q pyfixest
+import pandas as pd, pyfixest as pf
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # --- Step 1: Load Minneapolis Domestic Violence Experiment ---
@@ -1071,7 +1075,8 @@ display "LATE = " reduced_form " / " first_stage " = " reduced_form/first_stage<
         <button class="lang-tab" onclick="showLang('ch4','stata')">Stata</button>
         <button class="lang-tab" onclick="showLang('ch4','r')">R</button>
       </div>
-      <div id="ch4-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, matplotlib.pyplot as plt, pyfixest as pf
+      <div id="ch4-python" class="code-block" style="border-top-left-radius:0;">!pip install -q pyfixest
+import pandas as pd, matplotlib.pyplot as plt, pyfixest as pf
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # --- Step 1: Load MLDA mortality data ---
@@ -1159,7 +1164,8 @@ reg internal over21 age, robust</div>
         <button class="lang-tab" onclick="showLang('ch5','stata')">Stata</button>
         <button class="lang-tab" onclick="showLang('ch5','r')">R</button>
       </div>
-      <div id="ch5-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, pyfixest as pf
+      <div id="ch5-python" class="code-block" style="border-top-left-radius:0;">!pip install -q pyfixest
+import pandas as pd, pyfixest as pf
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # --- Step 1: Manual DD (Great Depression banking data) ---
@@ -1262,7 +1268,8 @@ reg mrate legal i.state i.year, cluster(state)</div>
         <button class="lang-tab" onclick="showLang('ch6','stata')">Stata</button>
         <button class="lang-tab" onclick="showLang('ch6','r')">R</button>
       </div>
-      <div id="ch6-python" class="code-block" style="border-top-left-radius:0;">import pandas as pd, pyfixest as pf
+      <div id="ch6-python" class="code-block" style="border-top-left-radius:0;">!pip install -q pyfixest
+import pandas as pd, pyfixest as pf
 DATA = "https://raw.githubusercontent.com/cmg777/intro2causal/main/data/"
 
 # --- Step 1: Simple bivariate OLS ---
