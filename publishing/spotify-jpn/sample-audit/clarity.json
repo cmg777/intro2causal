@@ -1,0 +1,53 @@
+{
+  "lens": "clarity",
+  "round": 3,
+  "script_sha256": "623ca355ccd616aec27f57c71ff9092210c989a0cbb48ec16734bb91bd17774b",
+  "scope": "Japanese voice-sample excerpt only; L1 adapted to natural polite Japanese around JLPT N2. This is a script review, not an audio pronunciation or completeness certification.",
+  "scores": {
+    "L1": {
+      "score": 5,
+      "reason": "Natural polite Japanese and short connected sentences remain accessible around N2. The health-score explanation uses concrete 点数 language and separates coding from the higher-is-healthier explanation. No new language obstacle appears in the current excerpt."
+    },
+    "L2": {
+      "score": 5,
+      "reason": "反実仮想 follows the concrete same-person/two-situations explanation, and 無作為割り当て is immediately explained by a lottery analogy. The script does not rely on unexplained English abbreviations. Verify はんじつかそう and むさくいわりあて in the eventual audio; no pronunciation defect can be inferred from text alone."
+    },
+    "L3": {
+      "score": 5,
+      "reason": "Reported health is converted to a 1-to-5 point score before either decimal mean is introduced, and the direction is stated in its own short sentence. Both means carry 点; the host repeats the inputs and their subtraction. The revised wording remains understandable by ear, while actual decimal delivery still needs audio QA."
+    },
+    "L4": {
+      "score": 5,
+      "reason": "The student supplies plausible questions and a calculation, while the teacher answers rather than delivering disconnected monologues. Turns are manageable for a measured Japanese sample, and the final student question naturally elicits random assignment."
+    },
+    "L5": {
+      "score": 5,
+      "reason": "The opening announces the health-insurance question; the host moves from the observed difference to its causal meaning; the teacher then explicitly introduces random assignment and signals the forthcoming study. These transitions work without seeing a map. Full-episode outline coverage is outside this excerpt review."
+    }
+  },
+  "findings": [
+    {
+      "id": "L-1",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "本人が答えた健康状態を、1から5までの点数にしたものです。点数が高いほど健康です。",
+      "problem": "尺度 is an extra abstract technical noun after several numbers, although the listener only needs to know how the score works.",
+      "fix": "Use a concrete phrasing such as 「本人が答えた健康状態を、点数で表しています。点数が高いほど健康です。」 Keep the prose in polite Japanese.",
+      "previous_anchor": "点数が高いほど健康という尺度です。",
+      "resolution": "The abstract 尺度 wording remains absent. The revised explanation states that reported health is converted to a point score, then clearly states its direction in a separate sentence; the listening-clarity fix remains resolved."
+    },
+    {
+      "id": "L-2",
+      "criterion": "L3",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "夫のグループでは、保険に入っている人の平均は4.01点、入っていない人は3.70点でした。",
+      "problem": "The listener first hears two decimal values and only afterward learns that they are self-reported health scores. This briefly increases the working-memory load for a Japanese learner.",
+      "fix": "Move the existing explanation of the health point score before these values, retaining both groups and the host’s worked subtraction. In the generated sample verify よんてんぜろいち, さんてんななぜろ, and れいてんさんいち (or consistent natural zero/rei variants), without adding pronunciation annotations to the listener transcript.",
+      "previous_anchor": "夫のグループでは、保険に入っている人の健康の平均は4.01、入っていない人は3.70でした。",
+      "resolution": "The revised score-coding explanation and higher-is-healthier statement still precede the decimal group means, which explicitly use 点. The original listening-load concern remains fixed."
+    }
+  ],
+  "summary": "PASS after round 3 re-reading of the complete current Japanese voice-sample excerpt: all L1–L5 criteria remain 5, both earlier minor findings remain fixed, and no open findings were identified. The corrected wording about coding reported health retains clear Japanese listening flow. This is a script clarity assessment; generated-audio pronunciation, pace, and intelligibility still require verification."
+}

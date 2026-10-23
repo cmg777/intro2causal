@@ -1,0 +1,63 @@
+{
+  "lens": "pedagogy",
+  "round": 1,
+  "script_sha256": "88b6023b04e211a4af46a9bd277423cdad6c511248f6f12667aed2591d08e6e5",
+  "scores": {
+    "P1": {
+      "score": 5,
+      "reason": "Treatment is defined as legal access before sharp/fuzzy classification. Running variable, cutoff, discontinuity, continuity, bandwidth, placebo, extrapolation, potential outcomes, reduced form and first stage are explained before substantive use. IV terminology builds explicitly on the preceding episode."
+    },
+    "P2": {
+      "score": 5,
+      "reason": "The sequence establishes the untreated smooth comparison, then lack of overlap, extrapolated trends, the cutoff gap and regression specification. It separates access from drinking, monthly age grouping from annual mortality, and reduced-form eligibility effects from scaled treatment effects. Boston alternatives and competing causal channels are explicitly explained."
+    },
+    "P3": {
+      "score": 5,
+      "reason": "Three concrete goals are stated and revisited. Each Part contains a genuine prediction/reveal and closing recap. The worked 7.7 divided by95 multiplied by100 calculation yields approximately8.1percent, and the response explains the denominator and absolute-versus-relative interpretation rather than just reporting arithmetic."
+    },
+    "P4": {
+      "score": 5,
+      "reason": "Plausible misconceptions are voiced and corrected with reasons: smooth means constant, a sharp access rule means everyone drinks, RD just controls for age, the narrowest bandwidth is always best, precision establishes the causal channel, insignificant achievement effects prove no value, and every placebo must be exactly zero."
+    },
+    "P5": {
+      "score": 5,
+      "reason": "The mortality and Boston examples keep treatment definitions, outcomes and actual alternatives clear. The score manipulation story is explicitly hypothetical and followed by a reminder that it is not an accusation about Boston applicants. Locality and uncertainty prevent the examples from teaching universal conclusions."
+    },
+    "P6": {
+      "score": 5,
+      "reason": "The closing admissions question applies the taught local-effect, alternative-school and uncertainty principles. An explicit stop-and-think invitation precedes an answer that correctly distinguishes admission, attendance and peer-effect interpretations. All three stated learning goals are fulfilled."
+    },
+    "P7": {
+      "score": 4,
+      "reason": "Most turns introduce a small number of quantities and explain units repeatedly; the dialogue works without equations or paper. One fuzzy-RD assumption turn bundles several newly named concepts and English equivalents, increasing memory load for N2 listeners, but subsequent Boston examples and recaps provide reinforcement."
+    }
+  },
+  "findings": [
+    {
+      "id": "JP04-P-1",
+      "criterion": "P7",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "第一段階が意味のある大きさでなければならず、連続性の比較も成り立っていなければなりません。",
+      "problem": "This single reply introduces exclusion restriction, binary treatment, monotonicity, compliers and LATE in addition to recalling first stage and continuity. The definitions are present, but five new labels plus English equivalents create avoidable listening load for the intended N2 audience.",
+      "fix": "Split the assumptions into two or three short alternating turns: first explain exclusion with a school example, then monotonicity and who changes treatment, then name the resulting local average effect. Preserve all assumptions and substantive coverage; do not shorten the episode merely to meet the old duration target."
+    }
+  ],
+  "summary": "PASS for the pedagogy gate: all seven scores are at least4 and there are no open major/error findings. The full Japanese adaptation retains the English teaching sequence and substantial caveats, gives an actual worked calculation, and uses a meaningful application question. One optional listening-load improvement concerns the concentrated fuzzy-RD assumption definitions.",
+  "review_context": {
+    "language": "Japanese at approximately JLPT N2; selective technical English equivalents retained",
+    "length_policy": "Full faithful substantive coverage; original20minute default does not apply",
+    "sources_read": [
+      ".claude/skills/write-podcast-script4mindmaps/reference/audit.md",
+      ".claude/skills/write-podcast-script4mindmaps/reference/episode.md",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch04-regression-discontinuity/brief.json",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch04-regression-discontinuity/coverage.json",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch04-regression-discontinuity/source-notes.md",
+      "mindmaps-podcast/ch04-regression-discontinuity.md",
+      "mindmaps-podcast/ja/ch04-regression-discontinuity.md",
+      "mindmaps/ch04-regression-discontinuity.md",
+      "mindmaps/images/ch04-regression-discontinuity-v2.png",
+      "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex (targeted RD and Boston sections)"
+    ]
+  }
+}

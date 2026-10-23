@@ -1,0 +1,75 @@
+{
+  "lens": "pedagogy",
+  "round": 1,
+  "script_sha256": "7853cddb7eba11671bbedd4baf6fadcd77f6052cb47b029b056d039ec38b9346",
+  "scores": {
+    "P1": {
+      "score": 4,
+      "reason": "Outcome, treatment, potential outcomes, counterfactual, selection bias, and random assignment are introduced in a sensible order. Dummy regression coefficients are interpreted immediately, but explicitly coding membership as 1/0 would make the intercept explanation easier for a first-time listener."
+    },
+    "P2": {
+      "score": 2,
+      "reason": "The selection-bias decomposition, randomization logic, attrition warning, and assignment/receipt distinction are taught step by step. However, the final standard-error explanation instructs listeners to combine 標本分散, normally individual-outcome sample variances, omitting division by each group size; that is an incorrect procedural explanation."
+    },
+    "P3": {
+      "score": 5,
+      "reason": "Three opening learning goals return in the closing. Every Part has a substantive prediction/reveal and recap. The husbands calculation supplies inputs, subtraction, 0.31 index-point result, and association-only interpretation over two turns."
+    },
+    "P4": {
+      "score": 5,
+      "reason": "Plausible beliefs about association proving causation, sample size curing selection, initial randomization curing attrition, moral hazard implying waste, and insignificance proving zero are explicitly corrected with reasons."
+    },
+    "P5": {
+      "score": 5,
+      "reason": "The two-student example is explicitly hypothetical and supports the direction-reversal intuition. RAND and Oregon retain distinct treatment/control definitions, and the worked survey comparison stays within the husbands sample."
+    },
+    "P6": {
+      "score": 5,
+      "reason": "The closing goals match the taught material. The final lottery application asks about assignment versus receipt, explicitly invites a pause, and explains the answer using the same reasoning taught in Oregon; the next-chapter bridge follows naturally."
+    },
+    "P7": {
+      "score": 4,
+      "reason": "The narrative is usable without the image, with oral comparisons and useful repetition. One survey turn delivers four decimal means plus sample switching; splitting it would reduce Japanese-listening memory load without shortening the faithful adaptation."
+    }
+  },
+  "findings": [
+    {
+      "id": "JP-P-1",
+      "criterion": "P2",
+      "severity": "error",
+      "status": "open",
+      "anchor": "標準誤差を得るためには、平方根を取る前にグループごとの標本分散を合算します。",
+      "problem": "標本分散 usually denotes variance of individual observations in a sample. Adding those directly does not yield the sampling variance of the difference in means. The English source says sampling variances; the Japanese wording removes the group-size adjustment, contradicting the later explanation of why a small control group limits precision.",
+      "fix": "Say that each group mean has uncertainty: divide each group’s outcome variance by its number of people, add those two values, then take the square root. Alternatively say 各グループの平均値の推定誤差の分散を足し合わせます if avoiding an additional formula, and explicitly retain the group-size intuition.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ch01-randomized-trials.md",
+          "quote": "We combine their sampling variances before taking a square root to obtain the standard error."
+        },
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "quote": "Using separate variances for treatment and control observations, we have"
+        }
+      ]
+    },
+    {
+      "id": "JP-P-2",
+      "criterion": "P1",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "ダミー変数とは、グループへの所属を記録する変数です。",
+      "problem": "The script immediately explains an intercept and insurance coefficient but never states which group is coded zero and which is one. A novice listener has to infer the coding behind the baseline interpretation.",
+      "fix": "Add a short oral definition: 加入していれば1、未加入なら0と記録します。 Keep the existing intuitive explanations of intercept and coefficient."
+    },
+    {
+      "id": "JP-P-3",
+      "criterion": "P7",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "夫の場合、加入者の平均は4.01で、未加入者の平均は3.70です。",
+      "problem": "One turn gives the husbands pair, wives pair, and a caution about distinct samples. Four similar decimals increase short-term memory load for N2 listeners even though the next worked example focuses only on husbands.",
+      "fix": "Give the husbands pair, then a brief HOST check before the wives pair; retain all values and the instruction not to mix samples. This is optional polish, not a request to shorten the full adaptation."
+    }
+  ],
+  "summary": "The full Japanese adaptation preserves the English lesson’s goals, causal sequence, teaching devices, caveats, and final application. Gate FAIL pending correction of JP-P-1; two additional minor listening/scaffolding improvements are identified. Review uses JLPT N2-oriented Japanese teaching expectations, not the superseded 20-minute English default."
+}

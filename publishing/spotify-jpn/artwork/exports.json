@@ -1,0 +1,114 @@
+[
+  {
+    "id": "show",
+    "original": "publishing/spotify-jpn/artwork/show-original.png",
+    "final": "publishing/spotify-jpn/artwork/show.png",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "export_size": [
+      2048,
+      2048
+    ],
+    "mode": "RGB",
+    "sha256": "9b860f3a8bc00ef2d455c2e088038761d200d5ddef8ec5689775b78c766e4de1",
+    "normalization": "RGB conversion and Lanczos resize; no new native detail"
+  },
+  {
+    "id": "ch01-randomized-trials",
+    "original": "publishing/spotify-jpn/artwork/ch01-randomized-trials-original.png",
+    "final": "publishing/spotify-jpn/artwork/ch01-randomized-trials.png",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "export_size": [
+      2048,
+      2048
+    ],
+    "mode": "RGB",
+    "sha256": "c7b479d3236c0c809a7ac1ada8a17e116ebac2642f944c095f7427314cb61246",
+    "normalization": "RGB conversion and Lanczos resize; no new native detail"
+  },
+  {
+    "id": "ch02-regression",
+    "original": "publishing/spotify-jpn/artwork/ch02-regression-original.png",
+    "final": "publishing/spotify-jpn/artwork/ch02-regression.png",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "export_size": [
+      2048,
+      2048
+    ],
+    "mode": "RGB",
+    "sha256": "86d2c18292bedbb92fe166955154bcf992926d2b6764a236ce566cecb2a1366b",
+    "normalization": "RGB conversion and Lanczos resize; no new native detail"
+  },
+  {
+    "id": "ch03-instrumental-variables",
+    "original": "publishing/spotify-jpn/artwork/ch03-instrumental-variables-original.png",
+    "final": "publishing/spotify-jpn/artwork/ch03-instrumental-variables.png",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "export_size": [
+      2048,
+      2048
+    ],
+    "mode": "RGB",
+    "sha256": "2bf05ed339917302235d0bcb108ad9dfd3d0e1d14699a258d17e4fac7b0844b5",
+    "normalization": "RGB conversion and Lanczos resize; no new native detail"
+  },
+  {
+    "id": "ch04-regression-discontinuity",
+    "original": "publishing/spotify-jpn/artwork/ch04-regression-discontinuity-original.png",
+    "final": "publishing/spotify-jpn/artwork/ch04-regression-discontinuity.png",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "export_size": [
+      2048,
+      2048
+    ],
+    "mode": "RGB",
+    "sha256": "a624d989617499d35b3cdd4628dca8181439a599405e6167d68dd94090b85c70",
+    "normalization": "RGB conversion and Lanczos resize; no new native detail"
+  },
+  {
+    "id": "ch05-differences-in-differences",
+    "original": "publishing/spotify-jpn/artwork/ch05-differences-in-differences-original.png",
+    "final": "publishing/spotify-jpn/artwork/ch05-differences-in-differences.png",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "export_size": [
+      2048,
+      2048
+    ],
+    "mode": "RGB",
+    "sha256": "19050e3e86f12dd74109b6ca82ceef3747e41ebe1314acdddebdc8cba7fd87f6",
+    "normalization": "RGB conversion and Lanczos resize; no new native detail"
+  },
+  {
+    "id": "ch06-wages-of-schooling",
+    "original": "publishing/spotify-jpn/artwork/ch06-wages-of-schooling-original.png",
+    "final": "publishing/spotify-jpn/artwork/ch06-wages-of-schooling.png",
+    "native_size": [
+      1254,
+      1254
+    ],
+    "export_size": [
+      2048,
+      2048
+    ],
+    "mode": "RGB",
+    "sha256": "69835784d644fab344bbd23d7aa2262c7b826fcd89dea27a428561e5fd4e91ac",
+    "normalization": "RGB conversion and Lanczos resize; no new native detail"
+  }
+]

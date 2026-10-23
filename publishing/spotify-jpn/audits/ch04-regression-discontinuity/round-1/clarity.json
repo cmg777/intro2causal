@@ -1,0 +1,66 @@
+{
+  "lens": "clarity",
+  "round": 1,
+  "script_sha256": "88b6023b04e211a4af46a9bd277423cdad6c511248f6f12667aed2591d08e6e5",
+  "scores": {
+    "L1": {
+      "score": 4,
+      "reason": "Polite Japanese communicates the argument, but literal window/exposure language and some abstract strings exceed natural N2 listening style."
+    },
+    "L2": {
+      "score": 4,
+      "reason": "RD, cutoff, running variable, counterfactual, bandwidth, standard deviation and fuzzy assumptions receive explanations. Robustness is illustrated but its Japanese label is not directly glossed."
+    },
+    "L3": {
+      "score": 3,
+      "reason": "Mortality units, percent calculation, admission versus attendance and local limits are explicit. One mistranslated comparator describes ordinary regression as comparison within the same control group, obscuring the central overlap distinction."
+    },
+    "L4": {
+      "score": 4,
+      "reason": "HOST asks genuine objections and predicts results; several ECONOMIST turns are formal and dense but their follow-up questions unpack them."
+    },
+    "L5": {
+      "score": 5,
+      "reason": "Question, investigation and conclusion branches are announced and recapped, with audible transitions independent of the image."
+    }
+  },
+  "findings": [
+    {
+      "id": "L-1",
+      "criterion": "L3",
+      "severity": "major",
+      "status": "open",
+      "anchor": "この点が、同じ対照群の中で比較を行う通常の回帰分析とRDが異なる点です。",
+      "problem": "The source means treated and untreated people with the same control-variable values. 同じ対照群 instead means the same control group, which changes the comparison and confuses why sharp RD lacks overlap.",
+      "fix": "Replace with この点が、年齢などの統制変数の値が同じ人の中で、処置を受けた人と受けない人を比べる通常の回帰分析との違いです。 Keep the adjacent exact-age explanation."
+    },
+    {
+      "id": "L-2",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "連続的な曝露を扱う場合は、単なる出席の切り替えよりも注意が必要です。",
+      "problem": "曝露 is an unexplained literal rendering of exposure and 出席 suggests daily attendance rather than enrollment. This dense transition is hard for N2 listeners.",
+      "fix": "Use 同級生の学力のように、処置の強さが連続的に変わる場合は、入学するかしないかという二択よりも注意が必要です。 In the following sentences use 処置の強さ instead of repeated 曝露."
+    },
+    {
+      "id": "L-3",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "広い窓枠には22歳の満年齢が含まれ、次の誕生日の直前までを含みます。",
+      "problem": "窓枠 is a physical window frame in ordinary Japanese; repeated use is a literal translation that burdens an otherwise clear bandwidth explanation.",
+      "fix": "Use 分析に使う年齢の範囲 consistently in place of 窓枠, and make endpoints explicit as 19歳から23歳になる直前まで and 20歳から22歳になる直前まで."
+    },
+    {
+      "id": "L-4",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "次は頑健性のツールですね。",
+      "problem": "頑健性 appears as a label without a plain Japanese gloss. The following examples teach the idea but a listener may lose the label.",
+      "fix": "Say 次は、分析方法を少し変えても結論が大きく変わらないかを確かめます。これを頑健性の確認と呼ぶのですね。"
+    }
+  ],
+  "summary": "Not yet passing: correct the ordinary-regression comparator (L-1). Four actionable clarity findings; the other three are minor Japanese-listening polish. Technical readings/acronyms were left to pronunciation.json. No script edits made."
+}

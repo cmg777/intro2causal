@@ -1,0 +1,93 @@
+{
+  "lens": "clarity",
+  "round": 3,
+  "script_sha256": "030314a2e1592f2d877530a6e9e5a9ad7df315b7510630b81d5b685f3703cd63",
+  "script": "mindmaps-podcast/ja/ch05-differences-in-differences.md",
+  "language": "ja",
+  "rubric_adaptation": "L1 assesses natural polite Japanese around JLPT N2; technical readings are handled separately in the pronunciation map. This review covers full Japanese dialogue against its English source, not recorded audio.",
+  "scores": {
+    "L1": {
+      "score": 5,
+      "reason": "全107ターンを独立に再読。丁寧体が一貫し、抽象的な概念を銀行・飲酒年齢法・交通安全の具体例と言い換えで支えています。改訂された真正手形学説の説明も短い文で、景気後退期の信用供給という内容が耳で理解できます。専門章として必要な語彙を超える重大な日本語学習上の障害はありません。"
+    },
+    "L2": {
+      "score": 5,
+      "reason": "反実仮想、平行トレンド、パネルデータ、固定効果、ATT、系列相関、標準誤差、頑健性を文脈で説明しています。真正手形学説は現在、景気後退期に中央銀行が信用供給を抑える考えとして直後に説明され、説明なしの歴史用語として残っていません。"
+    },
+    "L3": {
+      "score": 5,
+      "reason": "銀行数の損失の大きさと符号付き変化を明示的に区別し、マイナス14からマイナス33を引いてプラス19と読み上げます。反実仮想135から33を引いた102と観察値121の比較も確認でき、銀行数と死亡率の単位、対象年齢・期間・対照群が明確です。"
+    },
+    "L4": {
+      "score": 5,
+      "reason": "HOSTが自然な予想・誤解・反論を示し、ECONOMISTが理由と具体例で応じる構造です。前後比較からDD、固定効果、限界への移行が明瞭で、説明は複数の短文に分けられています。改訂箇所は会話の対比を妨げません。"
+    },
+    "L5": {
+      "score": 5,
+      "reason": "問い・検証・結論の3部を音声で予告し、各部のまとめと銀行、法定飲酒年齢、頑健性、スノーへの移行を明示します。色や画像上の位置に依存した指示がなく、音声のみで追えます。"
+    }
+  },
+  "findings": [
+    {
+      "id": "L-1",
+      "criterion": "L3",
+      "severity": "major",
+      "status": "fixed",
+      "anchor": "マイナス14からマイナス33を引くので、差はプラス19行です。",
+      "problem": "減少幅を正の数として読み上げた直後なので、耳では14から33を引く計算になり、プラス19という結論にたどり着けません。符号付き変化と減少幅が切り替わっています。",
+      "fix": "変化の符号を明示してください。例：「変化を符号付きで表すと、アトランタはマイナス14行、セントルイスはマイナス33行です。マイナス14からマイナス33を引くので、差はプラス19行です。」続く反実仮想の計算は維持できます。",
+      "previous_anchor": "14行の減少から33行の減少を引くと、プラス19行という差が得られます。",
+      "resolution": "符号付き変化を両地区について読み上げ、マイナス14からマイナス33を引く手順を明示。続く135−33=102と121−102=19という反実仮想説明とも一致します。"
+    },
+    {
+      "id": "L-2",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "対照群の変化を使い、政策がなかった場合の結果を推定できるようになります。",
+      "problem": "「手に入らない政策の結果」は直訳調で、政策を入手できないのか結果を観察できないのか曖昧です。後の反実仮想の定義は明瞭ですが、学習目標の第一印象が抽象的です。",
+      "fix": "「対照群の変化を使い、政策がなかった場合の結果を推定できるようになります」など、観察できない内容を具体的に述べてください。",
+      "previous_anchor": "対照群の変化を用いて、手に入らない政策の結果を構築できるようになっているはずです。",
+      "resolution": "政策がなかった場合の結果を推定するという具体的な学習目標に修正されています。"
+    },
+    {
+      "id": "L-3",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "教科書では、景気後退期には中央銀行が信用の供給を抑えるべきだ、という考え方として紹介されています。",
+      "problem": "真正手形学説は専門的な歴史用語で、説明なしでは日本語学習者に意味が伝わりません。すぐ後の対比で融資に消極的だったことは伝わるため、DD理解を妨げるほどではありません。",
+      "fix": "用語を残すなら「商取引に裏づけられた融資を重視する考え方です」など短い言い換えを添えるか、ここでは融資を厳しく制限したという対比だけで説明してください。",
+      "previous_anchor": "そこの指導者たちは真正手形学説の下で信用規制を好みました。",
+      "resolution": "round 3で、現在の原典に即した信用供給の説明を確認。専門用語の直後に短い意味説明があり、融資積極派と制限派の対比を維持しています。前回の商取引についての言い換えに依存せず、明瞭さの指摘は引き続き解消されています。",
+      "previous_round_anchor": "真正手形学説という、商取引に裏づけられた融資を重視する考え方に立ち、融資を厳しく制限する方針をとりました。"
+    },
+    {
+      "id": "L-4",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "飲酒を認める法改正の効果と、キャンペーンの効果が混ざったままなのではないかと思います。",
+      "problem": "「法律の権利」は日本語として不自然で、道路安全キャンペーンと何の効果が絡むのかを余計に考えさせます。文脈上は飲酒を認める法改正の効果を指しています。",
+      "fix": "「飲酒を認める法改正の効果と、キャンペーンの効果が混ざったままなのではないかと思います」など具体化してください。",
+      "previous_anchor": "法律の権利と絡み合ったままになってしまうのではないかと思います。",
+      "resolution": "法改正とキャンペーンそれぞれの効果を明示し、混ざる対象が音声だけでわかるようになっています。"
+    }
+  ],
+  "summary": "前任者とは別の独立したclarity担当として現在の107ターン全編、英語台本、マップ・brief、真正手形学説の原典文脈を再読。過去の4件は現在の文言でも修正済みと確認しました。追加の明瞭さの指摘はなく、L1–L5はすべて5、clarity gate PASSです。録音の実際の発音や欠落の確認は行っていません。",
+  "gate": "PASS",
+  "reviewer": "fresh independent clarity reviewer; prior round reviewer unavailable",
+  "checks": {
+    "turn_count": 107,
+    "current_script_hash": true,
+    "sources_read": [
+      "mindmaps-podcast/ja/ch05-differences-in-differences.md",
+      "mindmaps-podcast/ch05-differences-in-differences.md",
+      "mindmaps/ch05-differences-in-differences.md",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch05-differences-in-differences/brief.json",
+      "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex:3200–3248"
+    ],
+    "independent_of_writer": true,
+    "recording_listened": false
+  }
+}

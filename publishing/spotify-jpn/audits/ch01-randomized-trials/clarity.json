@@ -1,0 +1,99 @@
+{
+  "lens": "clarity",
+  "round": 2,
+  "script_sha256": "44def82f894a146e0e54d74f73c28428076d20a53229d00ac09dd4fc618c449d",
+  "scores": {
+    "L1": {
+      "score": 4,
+      "reason": "The revised treatment-effect decomposition, missing comparison, and confidence-interval explanation now use short concrete Japanese without removing substantive distinctions. Only a minor awkward sentence join remains; the technical register is otherwise suitable for N2-oriented supported listening."
+    },
+    "L2": {
+      "score": 5,
+      "reason": "Health-specific catastrophic-coverage wording replaces the literal label; zero/one membership and intercept are explicitly glossed. Core causal and inference terms are explained, and the separate pronunciation map covers the flagged acronyms and counterfactual reading without contaminating reader text."
+    },
+    "L3": {
+      "score": 5,
+      "reason": "The standard-error operation explicitly divides each group variance by its own sample size, sums, then takes a square root. Independence and clustering caveats remain. Numeric score points versus percentage points, comparison groups, and verbal calculations are clear."
+    },
+    "L4": {
+      "score": 4,
+      "reason": "Student questions and teacher answers remain plausible and alternating, and the principal unnatural host questions were corrected. One remaining translated phrase is minor conversational polish."
+    },
+    "L5": {
+      "score": 5,
+      "reason": "Three-act labels, transitions, recaps, learning-goal return, application question, and next-chapter bridge continue to support listening without viewing the map."
+    }
+  },
+  "findings": [
+    {
+      "id": "JA-L1-1",
+      "criterion": "L1",
+      "severity": "major",
+      "status": "fixed",
+      "anchor": "大勢の人を比べる場合も、差を二つに分けます。",
+      "problem": "This central condition is expressed through abstract, unnatural wording; similar literal phrases recur in the decomposition and uncertainty sections (for example 「グループ間での処置なしの潜在的な結果を比べる部分」 and 「推計値とどのような効果が整合的なまま残されているのか」). A learner must decode the Japanese before following the causal idea.",
+      "fix": "Rewrite these dense statements as short spoken Japanese while retaining the substantive content. For this anchor, say 「保険に入った人が、もし入らなかったらどうなったか。その代わりとして、未加入者の健康状態を使ってよい理由が必要です」. Likewise unpack the decomposition into two explicitly numbered verbal components and ask 「このデータでは、どのくらいの効果までありそうだと言えるのでしょうか」 before explaining confidence intervals. Preserve the distinction between effect on treated people and the overall population.",
+      "note": "Verified revised full script: the missing counterfactual comparison, two-part decomposition, and confidence-interval passage are now concrete spoken Japanese; ATT versus population distinction remains."
+    },
+    {
+      "id": "JA-L2-1",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "無料の医療対高額な医療費だけを主に保障する保険という対比",
+      "problem": "「壊滅的損害保険」 is an unnatural literal label for a health-insurance plan and may evoke property catastrophe coverage. It is repeatedly burdensome by ear even though the later explanation gives its intended meaning.",
+      "fix": "Use a clear health-specific description consistently, such as 「高額な医療費だけを主に保障する保険」, and explain at first mention that this is the catastrophic-coverage comparison plan. Retain the crucial distinction from complete absence of insurance.",
+      "note": "Verified all literal 壊滅的損害保険 labels removed; plain health-specific comparison description and no-insurance distinction retained."
+    },
+    {
+      "id": "JA-L2-2",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "切片とは、この変数が0のときの予測値です。",
+      "problem": "The dummy variable is described as membership but never explicitly as zero/one; 切片 and 最小二乗回帰 arrive together without plain-Japanese glosses. Subsequent equations are verbally described, so the core comparison remains recoverable, but jargon adds avoidable load.",
+      "fix": "State 「加入なら1、未加入なら0とする変数です」. Briefly gloss 切片 as the prediction when the indicator is zero, and identify 最小二乗 as the regression calculation used here without a derivation. Preserve the point that regression alone does not remove selection bias.",
+      "note": "Verified explicit 1/0 indicator, intercept as prediction at zero, and brief least-squares gloss."
+    },
+    {
+      "id": "JA-L2-3",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "アメリカの全国健康聞き取り調査、NHISでは",
+      "problem": "The duplicated 健康 is a text error and the acronym is not given a Japanese spoken reading. Other pronunciation-sensitive terms include 反実仮想, ITT, t統計量, and Colab; the script itself cannot establish how Gemini will pronounce them.",
+      "fix": "Remove the duplicated 健康, use a clear name such as 「アメリカの全国健康聞き取り調査」, and add NHIS/ITT/t/Colab readings to the separate TTS pronunciation map. Check 反実仮想 and the names in actual generated audio; keep pronunciation instructions out of the reader transcript.",
+      "note": "Verified duplicated 健康 removed and publishing/spotify-jpn/pronunciation.json includes NHIS, ITT, t統計量, Colab and 反実仮想. Generated-audio pronunciation remains a subsequent audio-quality check."
+    },
+    {
+      "id": "JA-L3-1",
+      "criterion": "L3",
+      "severity": "major",
+      "status": "fixed",
+      "anchor": "結果の分散をそのグループの人数で割ります。",
+      "problem": "A listener is told to add each group’s sample variance before taking a square root. The English source says sampling variances, meaning the variances of the sample means. As written, this drops the sample-size scaling and makes the described standard-error calculation incorrect or at least seriously ambiguous.",
+      "fix": "Say, for independent observations, 「まず、それぞれのグループで、結果の分散をそのグループの人数で割ります。その二つを足して、平方根を取ると、平均値の差の標準誤差になります」. Then retain the existing point that a small control group limits precision and the earlier warning that related family observations require clustering.",
+      "note": "Verified each group variance is divided by that group sample size before summing and square-rooting; independent-observations condition and clustering discussion retained."
+    },
+    {
+      "id": "JA-L4-1",
+      "criterion": "L4",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "そして実証データからの持ち帰り事項は",
+      "problem": "The original highlighted question and surviving-claim phrase are fixed. A second occurrence of 「持ち帰り事項」 remains in this host recap; understandable but still written-translation phrasing.",
+      "fix": "Optionally replace this occurrence with 「そして、実験の結果から特に覚えておきたいのは」, retaining the complete RAND/Oregon recap.",
+      "note": "Partially fixed: principal question corrected, residual occurrence remains minor."
+    },
+    {
+      "id": "JA-L1-2",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "そうした違いを保険の効果として解釈するためには、保険に入った人が、もし入らなかったらどうなったか。",
+      "problem": "The new concrete explanation is understandable but joins a dangling 「ためには」 clause directly to an embedded question, creating a slight spoken grammatical stumble.",
+      "fix": "For polish, say 「そうした違いを保険の効果と考えるには、まず、保険に入った人が、もし入らなかったらどうなったかを知る必要があります」, then retain the sentence about using non-enrollees as the substitute."
+    }
+  ],
+  "summary": "Round 2 PASS for script clarity: all L1–L5 scores at least 4, no open errors or major findings. Full-script reread verifies the two prior major fixes and the terminology/pronunciation preparation. Two minor spoken-Japanese polish items remain. This passes script clarity only; actual generated-audio pronunciation and pacing must still be checked."
+}

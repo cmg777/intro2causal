@@ -1,0 +1,109 @@
+{
+  "lens": "content",
+  "round": 2,
+  "script_sha256": "6135bc0d0aededd035cdad0f35caf5b21debe798b29d01eecc41811d9f7b259b",
+  "scores": {
+    "C1": {
+      "score": 5,
+      "reason": "Re-read all 114 current Japanese turns. The closing tutoring application now explicitly divides the outcome effect of winning by the offer-induced increase in attendance (first stage), resolving C-JA3-1. Relevance, independence, exclusion, monotonicity, counterfactual compliance types, local LATE/TOT distinction, ordered treatment, 2SLS residuals and weak-instrument logic remain accurate."
+    },
+    "C2": {
+      "score": 5,
+      "reason": "The controlled OLS association is now clearly approximately 0.15 fewer years in families with one additional sibling, resolving C-JA3-2 without causal overclaim. Rechecked MDVE 99/78/73 percent, .797-.011=.786 and .114/.786=.145 (14.5 points), naive 8.7 points; KIPP .355/.741=.479 SD over one year; raw family-size first stages .32/.08 and controlled pooled .237(.128) rounded .24(.13). Units, signs and adjusted/unadjusted distinctions remain correct."
+    },
+    "C3": {
+      "score": 5,
+      "reason": "Rechecked changed turns against original local chapter and prior source verification. Added charter-school definition (publicly funded with operational autonomy) is accurate. Police eligibility/discretion/six-month outcome, KIPP lottery/risk sets/missing-data qualifiers, family-size population/instruments, Wright 1928 and inference caveats remain supported. No new unsupported empirical or policy claim."
+    },
+    "C4": {
+      "score": 5,
+      "reason": "Full current 114-turn Japanese episode re-read. Comparison with initial adaptation provenance identifies only turns 3,64,75,112, all targeted clarifications with no reordered or lost substantive coverage. Covers central question, all 14 ordered leaves, three studies, thesis, essential appendix caveats and local-effect interpretation. Selected Japanese artwork inspected in round1; no content mismatch introduced."
+    },
+    "C5": {
+      "score": 5,
+      "reason": "Preserves assignment versus receipt, counterfactual versus observed compliance, independence/exclusion distinction, spillovers/package effects, local/external-validity limits, absence of exact-zero proof, uncertainty of family-size positive estimate, weak-instrument F-rule qualification and potential improvement with more data. Non-arrest always-taker absence is approximate, not falsely exact."
+    }
+  },
+  "findings": [
+    {
+      "id": "C-JA3-1",
+      "criterion": "C1",
+      "severity": "error",
+      "status": "fixed",
+      "anchor": "当選が結果に与えた効果を、当選による通学率の上昇幅、つまり第一段階で割っても",
+      "problem": "The closing answer names the attendance causal effect as the denominator. The denominator must be the effect of the offer on attendance, i.e. the first stage. This local mistranslation reverses the meaning of the IV calculation despite the otherwise correct explanations.",
+      "fix": "Replace with 「それを、提示による通学率の変化、つまり第一段階で割った比率」 or an equally explicit denominator.",
+      "evidence": [
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "line": 2191,
+          "quote": "Effect of offers on attendance"
+        },
+        {
+          "file": "mindmaps-podcast/ch03-instrumental-variables.md",
+          "line": 141,
+          "quote": "Dividing the math offer effect by the attendance first stage"
+        },
+        {
+          "file": "mindmaps-podcast/ja/ch03-instrumental-variables.md",
+          "line": 237,
+          "quote": "しかし、それを通学効果で割った比率には異なる経路が混ざり合ってしまい"
+        }
+      ],
+      "note": "Round2 supplies both numerator and correct first-stage denominator and preserves the additional-tutoring-channel explanation. No attendance-effect denominator remains."
+    },
+    {
+      "id": "C-JA3-2",
+      "criterion": "C2",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "就学年数が平均して約0.15年短いという相関が見られます",
+      "problem": "Combines a signed negative change with 「短くなる」, producing an avoidable double negative in the schooling association. The rest of the dialogue makes the intended decrease clear.",
+      "fix": "Say 「約0.15年短くなる」, or 「就学年数の係数は約マイナス0.15年」.",
+      "evidence": [
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "quote": "Years of schooling & -. 145 (.005)"
+        },
+        {
+          "file": "mindmaps-podcast/ch03-instrumental-variables.md",
+          "line": 159,
+          "quote": "about minus 0.15 years of schooling per extra sibling with controls"
+        }
+      ],
+      "note": "Round2 states a lower schooling association without combining a negative sign with shorter. The coefficient remains explicitly associational."
+    }
+  ],
+  "summary": "PASS round2: all C1–C5 score5. C-JA3-1 and C-JA3-2 fixed; no open findings. All114 current turns re-read, changes faithful to sources and numerical results preserved.",
+  "checks": {
+    "turn_count": 114,
+    "english_turn_count": 114,
+    "original_chapter_read": [
+      2046,
+      2764
+    ],
+    "empirical_notes_read": [
+      4461,
+      4490
+    ],
+    "local_sources_only": true,
+    "selected_artwork_inspected": "publishing/spotify-jpn/artwork/ch03-instrumental-variables.png",
+    "gate": "PASS",
+    "computed": {
+      "mdve_first_stage": 0.786,
+      "mdve_late": 0.1450381679389313,
+      "kipp_late": 0.4790823211875843,
+      "family_95pct_ci": [
+        -0.013880000000000003,
+        0.48788
+      ]
+    },
+    "reviewed_changes_from_initial_provenance": [
+      3,
+      64,
+      75,
+      112
+    ],
+    "round1_archive": "publishing/spotify-jpn/audits/ch03-instrumental-variables/round-1/content.json"
+  }
+}

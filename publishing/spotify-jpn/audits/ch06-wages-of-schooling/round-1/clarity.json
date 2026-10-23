@@ -1,0 +1,64 @@
+{
+  "lens": "clarity",
+  "round": 1,
+  "script_sha256": "7f948481e9ea1c40eb80a41880b5691bf7d8a1cac0ab0fdb9f54b31dfc5d058a",
+  "scores": {
+    "L1": {
+      "score": 4,
+      "reason": "全168ターンを通読。丁寧な日本語で文は概ね短く、反実仮想、統制、信頼性、政策の限界を具体的に言い換えている。英語targetを「真の目標」とする一箇所が軽微に直訳調（L-1）。"
+    },
+    "L2": {
+      "score": 4,
+      "reason": "OLS、対数、信頼性比率、人的資本、シグナリング、羊皮紙効果、除外制約、固定効果、減衰、第一段階/誘導形、単調性、得点ビン、平行トレンドは意味を説明してから使うか直後に説明する。生まれ四半期の三か月区分だけ短い説明があるとN2学習者にさらに明確（L-2）。"
+    },
+    "L3": {
+      "score": 5,
+      "reason": "週給/時給/年収の変更を宣言し、双子個人とペア内差分を区別。0.0068÷0.0921→0.074→7.4%は司会が復唱し、40パーセントポイントを相対40%と明確に区別する。操作変数とDDの分子/分母も口頭で追える。数字の密度はあるが前後の意味説明と復唱で追跡可能。"
+    },
+    "L4": {
+      "score": 5,
+      "reason": "司会の問いは大標本なら因果が確定するか、差分で回答の精度自体が落ちるか、資格効果が教育年数の効果を否定するか等、実際の初心者の疑問として自然。先生が短い文を連ねて返し、相づち、予想、検証、再確認がある。長めのターンも一つの論点に限定。"
+    },
+    "L5": {
+      "score": 5,
+      "reason": "問い→検証→解決/結論の移行を音声で明示。能力、実験、双子、生まれた時期、児童労働法、資格閾値、DD、統合、反論、結論の順に話題を案内し、図を見なくても比較対象を説明する。図やマップの誤解を訂正する箇所も修正内容を口頭で述べる。"
+    }
+  },
+  "findings": [
+    {
+      "id": "L-1",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "値が低いからといって真の目標に近いとは限らない",
+      "problem": "「真の目標」は英語targetの直訳に聞こえ、ここで比べるのが研究上の目標ではなく、知りたい因果効果の値であることが一瞬わかりにくい。次の減衰説明で意味は回復するため軽微。",
+      "fix": "「推計値が低いからといって、知りたい本当の因果効果に近いとは限りません」など、値を指す表現にする。"
+    },
+    {
+      "id": "L-2",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "生まれ四半期の操作変数に移りましょう。",
+      "problem": "「生まれ四半期」は意味は推測できるが日本語としてやや硬く、四半期が一年を三か月ずつに分けた区分である説明がない。後の第4四半期対それ以前という比較は明確なので、デザイン理解を妨げる重大な欠落ではない。日本語学習者には短い定義が有用。",
+      "fix": "この最初の導入で「生まれた四半期、つまり1年を3か月ずつに分けたときの生まれた時期」などと一言説明する。"
+    }
+  ],
+  "summary": "PASS at clarity gate: all criteria at least4, no open errors/majors. Two minor Japanese phrasing/term-gloss improvements. Script-only review; no claim of recorded-audio listening.",
+  "checks": {
+    "turn_count": 168,
+    "sources_read": [
+      ".claude/skills/write-podcast-script4mindmaps/SKILL.md",
+      ".claude/skills/write-podcast-script4mindmaps/reference/audit.md",
+      ".claude/skills/write-podcast-script4mindmaps/reference/episode.md",
+      "mindmaps-podcast/ja/ch06-wages-of-schooling.md",
+      "mindmaps-podcast/ch06-wages-of-schooling.md",
+      "mindmaps/ch06-wages-of-schooling.md",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch06-wages-of-schooling/brief.json",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch06-wages-of-schooling/source-notes.md",
+      "book/notebooks_quarto/06-wages-of-schooling.qmd (term and design context)",
+      "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex:3681–3710 (intro and terms)"
+    ],
+    "scope": "Clarity lens only, N2 Japanese adaptation; content/coverage certification belongs to separate auditors."
+  }
+}

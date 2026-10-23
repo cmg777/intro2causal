@@ -1,0 +1,100 @@
+{
+  "lens": "content",
+  "round": 1,
+  "script_sha256": "0f353c13e34a6f585225894b7e69c2ff19c24caea7cbe2a09f9cb55bdbcc23eb",
+  "scores": {
+    "C1": {
+      "score": 2,
+      "reason": "IV assumptions, binary response types, monotonicity, LATE/TOT distinction, exclusions, ordered treatment, 2SLS and weak-instrument logic are correct throughout 114 turns, except the closing tutoring application explicitly divides by the attendance causal effect rather than the offer-driven attendance first stage (C-JA3-1)."
+    },
+    "C2": {
+      "score": 4,
+      "reason": "All empirical quantities match authoritative tables: MDVE 99/78/73 percent compliance, .797-.011=.786 and .114/.786=.145 (14.5 percentage points), naive 8.7 points; KIPP .355/.741=.479 SD over one school year; unadjusted family-size shifts .32/.08 and controlled -.145/.237(.128) rounded -.15/.24(.13). The OLS narration has a local double-negative wording problem (C-JA3-2), although the surrounding interpretation consistently states a negative association."
+    },
+    "C3": {
+      "score": 5,
+      "reason": "Police eligibility, discretion, six-month same-address suspected-assault outcome, KIPP post-2005 lottery/context/risk sets/missing-data qualification, Jewish firstborn sample, twin and sex-mix threats, Wright 1928 and inference caveats are supported by the local original chapter and empirical notes. Tutoring and household channels are clearly hypotheses. No unsupported causal policy generalization found."
+    },
+    "C4": {
+      "score": 5,
+      "reason": "All 114 alternating Japanese turns correspond to the 114 English turns in original order. Covers the central noncompliance question, all 14 ordered map leaves, thesis, three empirical studies, 2SLS/weak instruments and essential appendix qualifications. Inspected selected Japanese artwork: accurately highlights assignment versus receipt, IV validity, first stage/reduced form and local response population. No essential chapter omission found; technical derivations and historical biographies are appropriately omitted."
+    },
+    "C5": {
+      "score": 5,
+      "reason": "Preserves assignment versus receipt, counterfactual versus observed compliance, independence/exclusion distinction, spillovers/package effects, local/external-validity limits, absence of exact-zero proof, uncertainty of family-size positive estimate, weak-instrument F-rule qualification and potential improvement with more data. Non-arrest always-taker absence is approximate, not falsely exact."
+    }
+  },
+  "findings": [
+    {
+      "id": "C-JA3-1",
+      "criterion": "C1",
+      "severity": "error",
+      "status": "open",
+      "anchor": "それを通学効果で割った比率",
+      "problem": "The closing answer names the attendance causal effect as the denominator. The denominator must be the effect of the offer on attendance, i.e. the first stage. This local mistranslation reverses the meaning of the IV calculation despite the otherwise correct explanations.",
+      "fix": "Replace with 「それを、提示による通学率の変化、つまり第一段階で割った比率」 or an equally explicit denominator.",
+      "evidence": [
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "line": 2191,
+          "quote": "Effect of offers on attendance"
+        },
+        {
+          "file": "mindmaps-podcast/ch03-instrumental-variables.md",
+          "line": 141,
+          "quote": "Dividing the math offer effect by the attendance first stage"
+        },
+        {
+          "file": "mindmaps-podcast/ja/ch03-instrumental-variables.md",
+          "line": 237,
+          "quote": "しかし、それを通学効果で割った比率には異なる経路が混ざり合ってしまい"
+        }
+      ]
+    },
+    {
+      "id": "C-JA3-2",
+      "criterion": "C2",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "約マイナス0.15年短くなる",
+      "problem": "Combines a signed negative change with 「短くなる」, producing an avoidable double negative in the schooling association. The rest of the dialogue makes the intended decrease clear.",
+      "fix": "Say 「約0.15年短くなる」, or 「就学年数の係数は約マイナス0.15年」.",
+      "evidence": [
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "quote": "Years of schooling & -. 145 (.005)"
+        },
+        {
+          "file": "mindmaps-podcast/ch03-instrumental-variables.md",
+          "line": 159,
+          "quote": "about minus 0.15 years of schooling per extra sibling with controls"
+        }
+      ]
+    }
+  ],
+  "summary": "FAIL round 1: one open local formula error in the closing application requires correction before audio; one minor signed-change wording issue. Otherwise faithful 114-turn adaptation with all empirical calculations and important identification/precision/locality caveats preserved.",
+  "checks": {
+    "turn_count": 114,
+    "english_turn_count": 114,
+    "original_chapter_read": [
+      2046,
+      2764
+    ],
+    "empirical_notes_read": [
+      4461,
+      4490
+    ],
+    "local_sources_only": true,
+    "selected_artwork_inspected": "publishing/spotify-jpn/artwork/ch03-instrumental-variables.png",
+    "gate": "FAIL",
+    "computed": {
+      "mdve_first_stage": 0.786,
+      "mdve_late": 0.1450381679389313,
+      "kipp_late": 0.4790823211875843,
+      "family_95pct_ci": [
+        -0.013880000000000003,
+        0.48788
+      ]
+    }
+  }
+}

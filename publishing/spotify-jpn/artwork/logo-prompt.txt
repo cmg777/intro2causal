@@ -1,0 +1,4 @@
+Use case: logo-brand.
+Asset type: standalone transparent logo for the Japanese edition of an existing educational podcast.
+Reference: publishing/spotify/cover.png supplies the established navy, cyan, violet and emerald visual identity and node/arrow plus audio-wave vocabulary; it is not an edit target.
+Create a simple, bold symbol combining three causal nodes joined by directed arrows with a compact audio-wave motif. Cyan dominant with one violet and one emerald accent, clear silhouette recognizable at 64px, generous transparent margins. No letters, words, numbers, flags or tiny details. Genuine transparent background, square image. This is a brand mark, not a scientific causal diagram. Target native output 2048x2048 if supported; preserve original output and verify actual dimensions.

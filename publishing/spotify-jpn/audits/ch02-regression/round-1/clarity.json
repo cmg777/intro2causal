@@ -1,0 +1,82 @@
+{
+  "lens": "clarity",
+  "round": 1,
+  "script_sha256": "a8fc4f96d12e72113b2ad7fb428cfa5f7d0334489942da9d4a8a9f246bd70144",
+  "language": "ja",
+  "target_level": "Natural polite Japanese around JLPT N2; technical terms explained in context",
+  "sources_reviewed": [
+    "mindmaps-podcast/ja/ch02-regression.md",
+    "mindmaps-podcast/ch02-regression.md",
+    "publishing/spotify-jpn/pronunciation.json",
+    ".claude/skills/write-podcast-script4mindmaps/reference/audit.md",
+    ".claude/skills/write-podcast-script4mindmaps/reference/episode.md"
+  ],
+  "scores": {
+    "L1": {
+      "score": 4,
+      "reason": "丁寧体で、文の切れ目は明確です。英語の比喩を大きく引きずらず、全体は日本語で理解できます。「悪質な統制変数」など一部の直訳調の語は軽い修正の余地があります。"
+    },
+    "L2": {
+      "score": 4,
+      "reason": "反実仮想、統制変数、短い／長い回帰、係数、条件付き独立性、残差、条件付き期待値、共分散、対数、標準誤差、信頼区間は文脈で説明されています。ダミー変数だけは短い初出説明を追加するとよいです。発音は別ファイルの責任範囲として区別しています。"
+    },
+    "L3": {
+      "score": 4,
+      "reason": "誰と誰の比較か、当時の年額授業料、仮想データと実調査、二種類の標本、パーセントとパーセントポイントが区別されています。二分の一と三分の二から六分の一、六万ドルとの積という計算も耳で追えます。傾きの分母だけは分散という言葉を補うと明確です。"
+    },
+    "L4": {
+      "score": 4,
+      "reason": "HOST は予想、誤解、確認の質問を行い、ECONOMIST が答える自然な学習対話になっています。欠落変数の恒等式と不確実性の説明の二ターンは密なので、短い確認を挟むとさらに聞きやすくなります。"
+    },
+    "L5": {
+      "score": 5,
+      "reason": "「問い」「検証」「結論」の順序を冒頭で示し、各部の開始と振り返り、大学選びへの復帰、実習から実証への移行、最後の次章案内まで言葉で明示しています。色や位置を見ることを要求せず音声だけで追えます。"
+    }
+  },
+  "findings": [
+    {
+      "id": "JA02-L1-1",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "悪質な統制変数の危険性を考えると、変数の選択はさらに重要になりますね。",
+      "problem": "「悪質」は悪意や道徳的な悪さを連想させます。ここでの bad controls は因果比較に不適切な統制変数を意味するので、直訳調の語が学習者の理解を少し妨げます。",
+      "fix": "「不適切な統制変数の危険性を考えると」にするなど、比較にとって不適切だと表現してください。"
+    },
+    {
+      "id": "JA02-L2-1",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "各グループにダミー変数を置くことで、私立進学の推定値はグループ内の対比を組み合わせたものになります。",
+      "problem": "「ダミー変数」が説明されずに初登場します。直前のグループ分けから意味を推測できますが、初学者には「ダミー」が仮のデータを指すようにも聞こえます。",
+      "fix": "「各グループに属するかどうかをゼロか一で示す変数、つまりダミー変数を入れると」などと短く定義してください。"
+    },
+    {
+      "id": "JA02-L3-1",
+      "criterion": "L3",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "傾きは、その共通の動きを、残された進学のばらつきの大きさで割ったものです。",
+      "problem": "直観としては追えますが、「ばらつきの大きさ」だけでは分散なのか標準偏差なのか不明です。共分散の説明と併せて傾きを計算する説明なので、分母の言葉を明確にすると耳だけの理解が安定します。英語の原文にも同じ抽象化があります。",
+      "fix": "分母を「残された進学のばらつきを表す分散」と呼び、「平均との差を二乗して平均したもの」など必要最小限の説明を付けてください。数式記号は不要です。"
+    },
+    {
+      "id": "JA02-L4-1",
+      "criterion": "L4",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "この恒等式は、同じ標本におけるこれらの最小二乗モデルにおいて厳密に成り立ちます。",
+      "problem": "この ECONOMIST のターンは、既存の統制、恒等式、因果解釈、基準モデル、標本変更と欠損値を一度に説明します。後半の信頼区間のターンも同様に長く、自然な会話としては説明が密です。ただし内容のつながりと各文の意味は保たれており、重大な理解障害ではありません。",
+      "fix": "標本変更の注意へ移る前に HOST の「同じ学生で比較する必要があるのですね」のような短い確認を挟んでください。信頼区間への移行も HOST の質問で分けるとよいです。"
+    }
+  ],
+  "summary": "PASS: L1–L5 are all at least 4; there are no open errors or major findings. Japanese preserves the English dialogue structure, substantive comparisons, numerical context, and chapter signposting. Four minor clarity improvements are recorded; this is a script review, not verification of generated audio pronunciation.",
+  "gate": {
+    "pass": true,
+    "minimum_score": 4,
+    "open_errors": 0,
+    "open_majors": 0,
+    "open_minors": 4
+  }
+}

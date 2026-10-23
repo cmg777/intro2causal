@@ -1,0 +1,25 @@
+# Resume Japanese Spotify production after quota reset
+
+The user explicitly chose to retain **gemini-3.8-flash-tts** and resume after its quota resets. Keep approved Puck/Kore voices and the US$25 total Gemini cap, including all translation, samples, retries and recognition. Do not switch production to Flash-Lite or ask for the existing voice/release/website approvals again.
+
+The latest daily quota error occurred on October23 around08:00UTC, at the first Chapter6 audio request. Quota ID: `GenerateRequestsPerDayPerProjectPerModel`; provider retry delay82862seconds. Next safe attempt: **2026-10-24T07:10:00Z (October24,16:10 Asia/Tokyo)**. If still limited, preserve caches and record the new observed delay without rapid retries.
+
+Read `state.json`, `production.json`, `config.json` and `gemini-usage.json` here for current status. All six Japanese scripts now have current passing independent content, pedagogy and clarity audits. Chapters1–5 MP3s are complete, with full decode checks. Chapter6 has not generated audio yet. Its script and Japanese mind-map art are ready. Original raw book sources remain local-only; never stage them.
+
+Existing Spotify show: `0XQHUSyrO9YYgaUUc2fbcT`, public URL https://open.spotify.com/show/0XQHUSyrO9YYgaUUc2fbcT . Do not create another show. Reconcile current drafts before uploads and skip unchanged published episodes. Chapter1 remote ID08VY5KT5rrAjQPif6eygXo and Chapter2 remote ID2kp8R7AYWPngI6FXa9bzzm were published. Later episode transitions are recorded in state.json as they occur.
+
+The pilot was verified publicly: correct Japanese title, show identity, mind-map art and reading links; Spotify's public embedded player progressed at the beginning, midpoint and near the end. This is observable playback verification, not a claim of human listening by the agent. The main web player's controls were unresponsive, while the supported embed worked. Its route follows the official documented form `https://open.spotify.com/embed/episode/<observed-ID>`.
+
+Published episode Details explicitly states: “Transcripts are not available for this podcast.” Native transcript upload is unavailable for this show. Use the verified public Japanese reading-page/glossary links in descriptions, preserve local VTT/TXT/JSON files, and state this limitation accurately. All Japanese artwork is finished; do not regenerate it unnecessarily.
+
+Continue Chapter6 audio with:
+
+`uv run --with 'google-genai>=2.25.0' python -u -I scripts/japanese_podcast_audio.py mindmaps-podcast/ja/ch06-wages-of-schooling.md`
+
+Then use `scripts/transcribe_japanese_podcast.py ch06-wages-of-schooling --watch` (same uv SDK environment). The helper uses actual recognition timestamps, shared budget locking, conservative failed reservations, documented omission of at most isolated invalid anchors, and a single explicitly budgeted retry for an empty provider response. With completed audio, configured two-worker recognition shares a20-second request-start limiter. SDK hidden retries remain disabled. Audio generation remains sequential. `--cached-only` can rebuild completed recognition files without API calls and without taking the network recognition lock.
+
+Review any long-text or numeric flags before publication. Equivalent Japanese number forms and fraction order are normalized without changing meaning. Do not invent timestamps or clear uncertain speech flags without evidence. One Chapter1 Gemini ASR400-versus4000 disagreement was resolved using independent local Whisper on the actual14-second excerpt, which recognized4000. Raw/cached responses and diagnostics are preserved under ignored `.work/podcast-ja/`.
+
+Run sync_japanese_production.py, build_japanese_reading_pages.py and publish2spotify preparation with explicit Japanese config/state/output paths. Render/verify public reading pages and glossary, stage only this task's files, and deploy via the existing main-branch GitHub Pages route. Other work is occurring in this checkout; preserve unrelated modifications. Never commit recordings, API credentials, raw book sources or absolute-path upload manifests.
+
+Publish remaining chapters in order under the existing authorization. Save observed remote IDs, URLs, status and hashes atomically after every transition; distinguish saved/published from publicly verified. Once all six are verified complete, disable the bounded continuation and report show/reading links, native-transcript limitation and final conservative Gemini estimate. Do not create recurring monitoring.

@@ -1,0 +1,70 @@
+{
+  "lens": "content",
+  "round": 1,
+  "script_sha256": "a8fc4f96d12e72113b2ad7fb428cfa5f7d0334489942da9d4a8a9f246bd70144",
+  "scores": {
+    "C1": {
+      "score": 4,
+      "reason": "CIA, overlap, OLS orthogonality versus independence, residualization and same-sample/common-control OVB identity are correct. Bad controls cover blocked mediation and induced selection, without claiming every pre-treatment variable is safe. One minor referent ambiguity says income is held fixed where parental income is intended."
+    },
+    "C2": {
+      "score": 5,
+      "reason": "Verified annual historical $20,000 tuition difference; simulation of 1,000 with true $5,000; $20,000 minus $10,000 and (2/3 minus 1/2) times $60,000 both $10,000; matched 5,583 versus broader 14,238; 1976 entry/1995 full-time pretax earnings; 1886/1899. Table 2.2 .135/.007 become approximately 14%/0.7%, correcting the derivative map 7%. Approximately 3% from the broader sample remains separate. Log-percent approximation is explicit."
+    },
+    "C3": {
+      "score": 5,
+      "reason": "Nancy, the two distinct application-control designs, earnings/peer-selectivity findings, sample restrictions, sensitivity analysis and historical claims match the original chapter and empirical notes. Simulation is clearly fictional and agrees with companion code. No unsupported causal or current-policy claim found."
+    },
+    "C4": {
+      "score": 5,
+      "reason": "All 110 authoritative Japanese turns compared with all 110 English-source turns and provenance; no missing/reordered turns or substantive translation loss. Ordered map leaves, central question and thesis are retained. Essential appendix content includes CEF specification, residual anatomy, OLS properties, heterogeneity/weights, log interpretation and precision tradeoff. Inspected original map and Japanese episode art: inaccurate map 7% is absent from Japanese narration and simplified art."
+    },
+    "C5": {
+      "score": 5,
+      "reason": "Preserves model conditions behind matching intuition, description versus causation, simulation versus survey, null-result uncertainty, precision versus bias, overlap and population limits. Family-size signs are assumptions. Occupation-fixed direct effects require a separate justified design."
+    }
+  },
+  "findings": [
+    {
+      "id": "C-JA2-1",
+      "criterion": "C1",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "所得を一定に保つというのは単純に聞こえますが",
+      "problem": "Income here can sound like the student’s outcome is controlled. The following clause clarifies parental income, making this a minor local ambiguity.",
+      "fix": "Use 「親の所得を一定に保つというのは単純に聞こえますが」.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ja/ch02-regression.md",
+          "line": 83,
+          "quote": "親の所得と本人の所得の関係は直線ではなく曲がっているかもしれません。"
+        },
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "quote": "individual SAT scores"
+        },
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "quote": "parental income"
+        }
+      ]
+    }
+  ],
+  "summary": "PASS: all criteria >=4, no open major/error; one minor precision edit recommended. Review uses the original book over inconsistent derivative numbers.",
+  "checks": {
+    "turn_count": 110,
+    "english_turn_count": 110,
+    "provenance_source_matches_current_english": true,
+    "current_japanese_matches_provenance": true,
+    "original_chapter_read": [
+      1011,
+      2045
+    ],
+    "empirical_notes_read": [
+      4436,
+      4455
+    ],
+    "local_sources_only": true,
+    "gate": "PASS"
+  }
+}

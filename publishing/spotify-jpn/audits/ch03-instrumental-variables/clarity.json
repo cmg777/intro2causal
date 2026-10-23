@@ -1,0 +1,96 @@
+{
+  "lens": "clarity",
+  "round": 2,
+  "script_sha256": "6135bc0d0aededd035cdad0f35caf5b21debe798b29d01eecc41811d9f7b259b",
+  "language": "ja",
+  "target_level": "Natural polite Japanese around JLPT N2; technical terms explained in context",
+  "sources_reviewed": [
+    "mindmaps-podcast/ja/ch03-instrumental-variables.md",
+    "mindmaps-podcast/ch03-instrumental-variables.md",
+    "publishing/spotify-jpn/pronunciation.json",
+    ".claude/skills/write-podcast-script4mindmaps/reference/audit.md",
+    ".claude/skills/write-podcast-script4mindmaps/reference/episode.md"
+  ],
+  "scores": {
+    "L1": {
+      "score": 4,
+      "reason": "全体は丁寧体で意味を追える日本語です。実際の選択を考慮したいというHOSTの発言は自然になりました。学校の offer を「無作為な入学の提示」と呼ぶ語感に軽微な直訳調が残りますが、入学の権利と実際の通学の区別は明確です。"
+    },
+    "L2": {
+      "score": 5,
+      "reason": "操作変数、第一段階、誘導形、局所平均処置効果、遵守者、独立性、除外制約、単調性、標準偏差、外的妥当性、標準誤差、弱い操作変数が具体例とともに説明されています。チャータースクールも公費と運営の自由という短い定義が補われました。英略語の発音は別の発音辞書に任せ、本文をかなで過密にしていません。"
+    },
+    "L3": {
+      "score": 5,
+      "reason": "警察の確率差と相対変化、学校の標準偏差、家族の就学年数の単位と相関が区別されています。修正された最後の答えでは、当選が結果に与えた効果を当選による通学率の上昇幅＝第一段階で割ると明示し、分子・分母と推定対象の混同が解消しました。マイナス0.15年短いという二重表現も解消しました。"
+    },
+    "L4": {
+      "score": 5,
+      "reason": "HOSTが指示遵守者だけ残す予想、抵抗者の見分け方、標本サイズによる一般化など、初学者が抱く疑問を順に提示します。ECONOMISTが先に直観を示し、計算や限界を回答する会話が保たれ、長い説明も複数の短い文で追えます。"
+    },
+    "L5": {
+      "score": 5,
+      "reason": "冒頭に問い・検証・解決の順序を示し、各部の開始と振り返りを発話で案内します。警察から学校、家族規模、推定手法への移行も明示され、色・位置や画像を見ることを要求しません。"
+    }
+  },
+  "findings": [
+    {
+      "id": "JA03-L1-1",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "それは、くじによる無作為な入学の提示です。",
+      "problem": "人々の実際の選択を考慮するという表現は自然になりました。一方、「無作為な入学の提示」「学校の提示」はやや直訳調で、入学そのものを提示するという言い方が日本語では不自然に響きます。前後で入学の権利を説明しているので意味を妨げる程度は軽微です。",
+      "fix": "冒頭を「くじ引きで無作為に決まった、入学できるという通知です」とするなど、入学の案内・権利を提示したと一度明示すれば十分です。",
+      "note": "実際の選択を尊重するという倫理的な読み方は解消しました。残る offer の語感だけを任意の小さな改善点として維持します。"
+    },
+    {
+      "id": "JA03-L2-1",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "チャータースクールは、公費で運営され、運営に一定の自由が認められた学校です。",
+      "problem": "日本の学校制度になじみのある聴き手にはチャータースクールの制度的意味が不明です。公立とは説明されますが、普通の地域の公立学校と何が違うのかが残ります。",
+      "fix": "初出で「公費で運営され、運営に一定の自由が認められた学校」と短く説明してください。",
+      "note": "日本の学校制度との違いが短い定義で説明されました。"
+    },
+    {
+      "id": "JA03-L3-1",
+      "criterion": "L3",
+      "severity": "major",
+      "status": "fixed",
+      "anchor": "しかし、当選が結果に与えた効果を、当選による通学率の上昇幅、つまり第一段階で割っても、そこには個別指導という別の経路の影響が混ざっています。",
+      "problem": "最後の応用問題の答えで分母を「通学効果」と呼ぶため、推定したい通学の因果効果で割るように聞こえます。英語の attendance effect はここでは当選が通学率に及ぼす第一段階の効果です。日本語では同じ一文の後半の「通学の効果」と混同され、学習者が比率の向きを誤って持ち帰るおそれがあります。",
+      "fix": "「しかし、当選が結果に与えた効果を、当選による通学率の上昇幅で割っても、そこには個別指導という別の経路の影響が混ざっています。そのため、通学だけの効果とは言えません」など、分子・分母と推定対象を分けてください。",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ch03-instrumental-variables.md",
+          "quote": "But its ratio to the attendance effect mixes channels and need not identify an attendance effect."
+        },
+        {
+          "file": "mindmaps-podcast/ja/ch03-instrumental-variables.md",
+          "quote": "第一段階は、操作変数が処置をどれだけ変えるかを測るものです。"
+        }
+      ],
+      "note": "分子を当選の結果への効果、分母を当選による通学率の変化＝第一段階と明記しています。後続で推定したい通学だけの効果と分離され、重大な混同は解消しました。"
+    },
+    {
+      "id": "JA03-L3-2",
+      "criterion": "L3",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "きょうだいが1人多い家庭では、就学年数が平均して約0.15年短いという相関が見られます。",
+      "problem": "「マイナス0.15年」と「短くなる」が重複し、負の数だけ短くなるという二重の符号として聞こえかねません。後続の負の相関という説明で意味は回復できますが、数値を初めて聞く場面では避けたい表現です。",
+      "fix": "「きょうだいが1人多い家庭では、就学年数が平均して約0.15年短いという相関が見られます」としてください。符号を係数として読みたいなら「係数は約マイナス0.15年です。つまり、平均して0.15年短いという相関です」と分けてください。",
+      "note": "負の符号と短くなるの重複がなくなり、観察上の負の相関だと明示されました。"
+    }
+  ],
+  "summary": "PASS round 2: re-read the full current Japanese episode and verified all targeted fixes. L1 scores 4 for one remaining optional offer-wording improvement; L2–L5 score 5. No open errors or major findings. This is a script clarity audit, not verification of audio pronunciation or an original-book content audit.",
+  "gate": {
+    "pass": true,
+    "minimum_score": 4,
+    "open_errors": 0,
+    "open_majors": 0,
+    "open_minors": 1
+  }
+}

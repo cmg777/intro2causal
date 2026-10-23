@@ -1,0 +1,86 @@
+{
+  "lens": "pedagogy",
+  "round": 2,
+  "script_sha256": "40fda90a2d578d144c407f4a6e36ebc60fb192050e2e04a42ebed6e876eeada8",
+  "scores": {
+    "P1": {
+      "score": 5,
+      "reason": "Definitions and prerequisites now precede their use, including a zero/one group-membership explanation of dummy variables. Counterfactuals, controls, coefficients, conditional independence, residuals, covariance and variance receive accessible explanations before subsequent use."
+    },
+    "P2": {
+      "score": 5,
+      "reason": "The full revised dialogue preserves intuition before numbers, distinct fitting and identifying assumptions, both equivalent OVB calculations, and overlap/model-form limits. Parent income is now an explicit control in the model-shape discussion, and the slope denominator is explicitly variance with a verbal definition."
+    },
+    "P3": {
+      "score": 5,
+      "reason": "Three concrete opening goals are revisited; each Part has a HOST prediction followed by correction/explanation and a substantive closing recap. The fictional 20,000-minus-10,000 calculation is checked by one-sixth times 60,000, with the result interpreted rather than merely recited."
+    },
+    "P4": {
+      "score": 5,
+      "reason": "Plausible errors about larger surveys, residual orthogonality, more controls, and insignificant estimates are voiced by the HOST and corrected with causal or statistical reasons. The final occupation exercise applies the bad-control correction."
+    },
+    "P5": {
+      "score": 5,
+      "reason": "Nancy supplies a motivating individual example without causal overclaim. The simulation and classroom table are explicitly fictional, real matched and self-revelation samples remain separate, and possible family-size relationships are explicitly hypotheses."
+    },
+    "P6": {
+      "score": 5,
+      "reason": "All three goals receive substantial teaching and a closing return. The final application asks whether occupation should be controlled when seeking the total earnings effect, invites an explicit pause, and answers using both blocked pathways and induced selection already explained."
+    },
+    "P7": {
+      "score": 4,
+      "reason": "Most operations remain paced across alternating voices and useful recaps. The two previously flagged qualification-heavy turns remain intact: their sentence boundaries make them understandable, but a HOST rehearsal would still improve N2 listening load. These are minor local refinements, not a defect in substantive length."
+    }
+  },
+  "findings": [
+    {
+      "id": "P-1",
+      "criterion": "P1",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "各グループに属するかどうかをゼロか一で示す変数、つまりダミー変数を入れると",
+      "problem": "ダミー変数 is used before a plain Japanese explanation. The surrounding text explains its purpose but does not tell a first-time listener what the variable records.",
+      "fix": "At first use add a short gloss such as 各グループに属するかどうかを表す変数 before continuing the weighting explanation.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ja/ch02-regression.md",
+          "quote": "各グループに属するかどうかをゼロか一で示す変数、つまりダミー変数を入れると"
+        }
+      ],
+      "note": "Round2 explicitly explains the dummy as a zero/one record of belonging to each group before naming the term."
+    },
+    {
+      "id": "P-2",
+      "criterion": "P7",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "この恒等式は、同じ標本におけるこれらの最小二乗モデルにおいて厳密に成り立ちます。",
+      "problem": "This long turn moves from shared controls to an exact identity, causal interpretation, benchmark choice, and changing samples. These are valuable qualifications, but together they ask an N2 listener to retain several new distinctions before speaking changes.",
+      "fix": "Preserve every qualification and insert a brief HOST restatement between the same-sample identity and the causal/changed-sample caveats, or divide the material into shorter alternating turns.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ja/ch02-regression.md",
+          "quote": "長い回帰の係数が因果関係を示しているかどうかは別の問いです。"
+        }
+      ],
+      "note": "Round2 re-read: the same-sample, benchmark, causal-interpretation, and missing-sample qualifications remain in one turn. Clear sentence boundaries keep this a minor suggestion; no material understanding barrier or missing qualification."
+    },
+    {
+      "id": "P-3",
+      "criterion": "P7",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "信頼区間は、統計的仮定のもとで推定値およびその標本抽出の不確実性と両立する効果の範囲を示します。",
+      "problem": "The standard-error turn adds the definition of confidence intervals after several sentences on sampling, selection, heterogeneity, and household decisions. The concepts are sound but the uninterrupted delivery weakens the new distinction for language learners.",
+      "fix": "Insert a HOST question or rehearsal before the confidence-interval definition, then retain the point that an interval containing zero may include economically important effects.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ja/ch02-regression.md",
+          "quote": "ゼロを含む範囲であっても、実質的に重要となり得る正や負の効果を含むことがあります。"
+        }
+      ],
+      "note": "Round2 re-read: uncertainty and confidence-interval teaching remains accurate in the same long turn. A speaker rehearsal remains optional polish for N2 listening; no major issue."
+    }
+  ],
+  "summary": "ROUND2 PASS: full current script re-read, P1 fixed by the actual zero/one definition; P2–P6 remain strong. P-2 and P-3 remain open minor listening refinements. All criteria >=4; no open major/error and no new pedagogical findings. Faithful substantive coverage retained without an arbitrary English duration limit."
+}

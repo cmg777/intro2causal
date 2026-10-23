@@ -1,0 +1,69 @@
+{
+  "lens": "content",
+  "round": 1,
+  "script_sha256": "7f948481e9ea1c40eb80a41880b5691bf7d8a1cac0ab0fdb9f54b31dfc5d058a",
+  "scores": {
+    "C1": {
+      "score": 5,
+      "reason": "Correct potential-outcome comparison, ability-bias sign ambiguity and omitted-variable intuition; separates pre-treatment controls from occupational mediation/composition bias even under random assignment. Classical measurement-error assumptions and reliability variance share are correctly conditional. Twin-report IV validity, QOB independence/exclusion/monotonicity/local margins, policy counterfactual trends and fuzzy RD scaled credential effects are accurately distinguished."
+    },
+    "C2": {
+      "score": 5,
+      "reason": "All 168 source-matched Japanese turns checked. Census outcome is log weekly wages; twins340pairs, OLS~11%, FE~6%, corrected individual/difference~12/~11% match original Table6.2. QOB sample329,509 men born1930–1939 in1980, fourth quarter versus quarters1–3, .0068/.0921=.0738328≈.074≈7.4% match Table6.4 and fix its display typo. Child-law original .124 versus OLS .075 are distinguished from companion .1288/.0698. Diploma $52/SE~$630/mean~$13,000 and near10% permissible CI match original. Forty-point companion first stage is separated from original roughly.5 to>.9;46 bins are not46 persons. Synthetic .09/.12/about40%, lottery2/.08, DD10of20states2005 are explicitly classroom quantities; rounding caveat avoids false exact arithmetic."
+    },
+    "C3": {
+      "score": 5,
+      "reason": "Checked original chapter3681–4312 including appendix/notes, English script, companion qmd/slides, coverage/claims/source notes and notebook output availability. Jagger/Harmenberg examples, imperfect post-school IQ controls, potential-experience warning, Twinsburg reports, historical QOB mechanism/maternal seasonality and schooling-law trend failure are grounded locally. No simulation is presented as an independent historical finding; no invented new empirical claim identified."
+    },
+    "C4": {
+      "score": 5,
+      "reason": "Preserves central education/earnings question, every map leaf in order, synthesis/thesis and all168 English dialogue turns. Includes essential original material absent/misstated in derivative outline: bad-control composition, ability-control measurement error, potential experience downstream status, child laws as years before permitted employment (not entry ages), state-specific trends shrinking first stage with smaller SEs, diploma uncertainty, distinct estimands and non-independent simulations. Accepted English map v2 and Japanese episode artwork inspected; Japanese art appropriately separates schooling from credential and warns about measurement error."
+    },
+    "C5": {
+      "score": 4,
+      "reason": "Preserves local effects, uncertainty, causal assumptions, no-signaling/nonzero-effect limits, failed child-law identification and qualified7–10% synthesis. One minor translation sentence makes precision improvement from adding instruments sound automatic rather than possible; following sentences/context limit its practical impact, but conditional wording should be restored."
+    }
+  },
+  "findings": [
+    {
+      "id": "C-1",
+      "criterion": "C5",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "操作変数を増やせば精度は上がりますが、推計値も変化します。",
+      "problem": "Japanese renders the source’s conditional “can improve precision” as an unqualified improvement whenever more instruments are added. More instruments need not universally improve finite-sample precision; the original describes a specific Table6.5 result.",
+      "fix": "Restore possibility/context, e.g.「操作変数を増やすと、精度が上がる場合もあります。元の研究では推計値も変化しました。」Retain validity caveats that follow.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ch06-wages-of-schooling.md:197",
+          "quote": "More instruments can improve precision while also changing estimates."
+        },
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex:4041",
+          "quote": "leads to a noteworthy gain in precision"
+        }
+      ]
+    }
+  ],
+  "summary": "PASS at content gate: no open major/error, every criterion≥4. One minor conditional-wording translation issue on precision remains. Full current Japanese script reviewed; this audit does not assess recorded audio.",
+  "checks": {
+    "turn_count": 168,
+    "original_chapter_reviewed": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex:3681–4312, including appendix and empirical notes",
+    "images_inspected": [
+      "mindmaps/images/ch06-wages-of-schooling-v2.png",
+      "publishing/spotify-jpn/artwork/ch06-wages-of-schooling.png"
+    ],
+    "notebook_saved_text_outputs": 0,
+    "sources_read": [
+      "mindmaps-podcast/ch06-wages-of-schooling.md",
+      "mindmaps/ch06-wages-of-schooling.md",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch06-wages-of-schooling/brief.json",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch06-wages-of-schooling/claims.json",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch06-wages-of-schooling/coverage.json",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch06-wages-of-schooling/source-notes.md",
+      "book/notebooks_quarto/06-wages-of-schooling.qmd",
+      "slides/ch06/slides.qmd",
+      "notebooks_colab/06-wages-of-schooling.ipynb"
+    ]
+  }
+}

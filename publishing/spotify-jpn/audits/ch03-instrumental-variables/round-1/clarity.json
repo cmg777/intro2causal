@@ -1,0 +1,92 @@
+{
+  "lens": "clarity",
+  "round": 1,
+  "script_sha256": "0f353c13e34a6f585225894b7e69c2ff19c24caea7cbe2a09f9cb55bdbcc23eb",
+  "language": "ja",
+  "target_level": "Natural polite Japanese around JLPT N2; technical terms explained in context",
+  "sources_reviewed": [
+    "mindmaps-podcast/ja/ch03-instrumental-variables.md",
+    "mindmaps-podcast/ch03-instrumental-variables.md",
+    "publishing/spotify-jpn/pronunciation.json",
+    ".claude/skills/write-podcast-script4mindmaps/reference/audit.md",
+    ".claude/skills/write-podcast-script4mindmaps/reference/episode.md"
+  ],
+  "scores": {
+    "L1": {
+      "score": 4,
+      "reason": "丁寧体と短い文の区切りは明確です。中心となる因果の説明は自然ですが、冒頭の「人々の選択を尊重した答え」と学校の「提示」の連発に直訳調が残ります。"
+    },
+    "L2": {
+      "score": 4,
+      "reason": "操作変数、第一段階、誘導形、局所平均処置効果、遵守者、独立性、除外制約、単調性、標準偏差、外的妥当性、標準誤差、弱い操作変数を具体例と併せて説明しています。チャータースクールの制度的な意味は日本の初学者向けに短い補足が必要です。発音辞書が扱う英略語を本文のかなに直す必要はありません。"
+    },
+    "L3": {
+      "score": 3,
+      "reason": "警察の計算では確率、パーセントポイント、相対変化が区別され、学校の計算では標準偏差が説明されます。ただし最後の応用問題の分母「通学効果」が、通学率の第一段階の変化と通学の因果効果を混同させます。就学年数のマイナス符号にも軽微な二重表現があります。"
+    },
+    "L4": {
+      "score": 5,
+      "reason": "HOSTが指示遵守者だけ残す予想、抵抗者の見分け方、標本サイズによる一般化など、初学者が抱く疑問を順に提示します。ECONOMISTが先に直観を示し、計算や限界を回答する会話が保たれ、長い説明も複数の短い文で追えます。"
+    },
+    "L5": {
+      "score": 5,
+      "reason": "冒頭に問い・検証・解決の順序を示し、各部の開始と振り返りを発話で案内します。警察から学校、家族規模、推定手法への移行も明示され、色・位置や画像を見ることを要求しません。"
+    }
+  },
+  "findings": [
+    {
+      "id": "JA03-L1-1",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "私は人々の選択を尊重した答えを知りたいです。",
+      "problem": "英語の account for actual choices に相当する意図を「選択を尊重した」と表すため、選択を分析に反映する話が、選択の権利を尊重する倫理の話に一瞬聞こえます。「無作為な入学の提示」「学校の提示」も直訳調です。",
+      "fix": "「人々が実際にどう選んだかを考慮した答えを知りたいです」とし、冒頭の学校の offer は「入学の案内」「入学できるという通知」などにしてから以後の「提示」と対応付けてください。"
+    },
+    {
+      "id": "JA03-L2-1",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "KIPPリンは、規律ある環境と長時間の授業を特徴とする公立のチャータースクールでした。",
+      "problem": "日本の学校制度になじみのある聴き手にはチャータースクールの制度的意味が不明です。公立とは説明されますが、普通の地域の公立学校と何が違うのかが残ります。",
+      "fix": "初出で「公費で運営され、運営に一定の自由が認められた学校」と短く説明してください。"
+    },
+    {
+      "id": "JA03-L3-1",
+      "criterion": "L3",
+      "severity": "major",
+      "status": "open",
+      "anchor": "しかし、それを通学効果で割った比率には異なる経路が混ざり合ってしまい、通学の効果を識別しているとは言えなくなります。",
+      "problem": "最後の応用問題の答えで分母を「通学効果」と呼ぶため、推定したい通学の因果効果で割るように聞こえます。英語の attendance effect はここでは当選が通学率に及ぼす第一段階の効果です。日本語では同じ一文の後半の「通学の効果」と混同され、学習者が比率の向きを誤って持ち帰るおそれがあります。",
+      "fix": "「しかし、当選が結果に与えた効果を、当選による通学率の上昇幅で割っても、そこには個別指導という別の経路の影響が混ざっています。そのため、通学だけの効果とは言えません」など、分子・分母と推定対象を分けてください。",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ch03-instrumental-variables.md",
+          "quote": "But its ratio to the attendance effect mixes channels and need not identify an attendance effect."
+        },
+        {
+          "file": "mindmaps-podcast/ja/ch03-instrumental-variables.md",
+          "quote": "第一段階は、操作変数が処置をどれだけ変えるかを測るものです。"
+        }
+      ]
+    },
+    {
+      "id": "JA03-L3-2",
+      "criterion": "L3",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "きょうだいが1人増えるごとに就学年数が約マイナス0.15年短くなるという結果が得られます。",
+      "problem": "「マイナス0.15年」と「短くなる」が重複し、負の数だけ短くなるという二重の符号として聞こえかねません。後続の負の相関という説明で意味は回復できますが、数値を初めて聞く場面では避けたい表現です。",
+      "fix": "「きょうだいが1人多い家庭では、就学年数が平均して約0.15年短いという相関が見られます」としてください。符号を係数として読みたいなら「係数は約マイナス0.15年です。つまり、平均して0.15年短いという相関です」と分けてください。"
+    }
+  ],
+  "summary": "FAIL round 1: L3 has one open major concerning the IV denominator in the closing application answer. Three minor findings concern a literal translation, the Japanese-audience definition of charter school, and a duplicated negative sign. All other clarity criteria score at least four. This is a full-script clarity audit, not a pronunciation/audio verification or an independent original-book content audit.",
+  "gate": {
+    "pass": false,
+    "minimum_score": 3,
+    "open_errors": 0,
+    "open_majors": 1,
+    "open_minors": 3
+  }
+}

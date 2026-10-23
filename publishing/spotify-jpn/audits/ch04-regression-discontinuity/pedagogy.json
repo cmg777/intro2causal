@@ -1,0 +1,65 @@
+{
+  "lens": "pedagogy",
+  "round": 2,
+  "script_sha256": "ce11f606d5868b7e0ac3cbcb1a6e42173343e6951ea50759cb7928dd250811ba",
+  "scores": {
+    "P1": {
+      "score": 5,
+      "reason": "Treatment is defined before sharp/fuzzy classification and the RD vocabulary is introduced before application. The revised robustness gloss and plain treatment-intensity/enrollment explanation make prerequisites more accessible to N2 listeners. IV concepts explicitly build on the preceding episode."
+    },
+    "P2": {
+      "score": 5,
+      "reason": "The revised comparison now explicitly contrasts treated and untreated people at the same control-variable values, avoiding confusion with a control group. The progression through no overlap, continuity, extrapolation, cutoff gap, regression and fuzzy scaling is complete. Wide/narrow endpoints are explicit (19 until before23;20 until before22), while annual mortality and age grouping remain distinct."
+    },
+    "P3": {
+      "score": 5,
+      "reason": "Three concrete goals, all three prediction/reveal pairs and Part-end recaps remain intact. The worked calculation gives inputs7.7 and95, division and multiplication by100, the approximately8.1percent result, and an explanation of its denominator and mortality-rate meaning."
+    },
+    "P4": {
+      "score": 5,
+      "reason": "The full revised script retains reasoned corrections to smooth-versus-constant, legal access-versus-drinking, RD-as-ordinary-control, minimum-bandwidth, precision-as-identification, universal-school-value, and exact-zero-placebo misconceptions."
+    },
+    "P5": {
+      "score": 5,
+      "reason": "Mortality and Boston examples preserve units, treatment definitions, alternative schools and locality. The score-manipulation case remains explicitly hypothetical, and the concrete school example follows the more accessible continuous-treatment explanation without claiming every school channel is separately identified."
+    },
+    "P6": {
+      "score": 5,
+      "reason": "The closing question still asks listeners to apply local interpretation, alternative comparison and measured-outcome limits; explicit pause precedes the answer. The answer separates admission, attendance and peer intensity and revisits all stated goals."
+    },
+    "P7": {
+      "score": 4,
+      "reason": "Plain analysis-range terminology, explicit endpoints and replacement of exposure jargon improve oral comprehension. Numbers are framed with units and no paper or equations are required. The unchanged fuzzy-assumption reply still concentrates multiple newly named conditions, leaving the same minor memory-load issue for N2 listeners."
+    }
+  },
+  "findings": [
+    {
+      "id": "JP04-P-1",
+      "criterion": "P7",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "第一段階が意味のある大きさでなければならず、連続性の比較も成り立っていなければなりません。",
+      "problem": "This single reply introduces exclusion restriction, binary treatment, monotonicity, compliers and LATE in addition to recalling first stage and continuity. The definitions are present, but five new labels plus English equivalents create avoidable listening load for the intended N2 audience.",
+      "fix": "Split the assumptions into two or three short alternating turns: first explain exclusion with a school example, then monotonicity and who changes treatment, then name the resulting local average effect. Preserve all assumptions and substantive coverage; do not shorten the episode merely to meet the old duration target.",
+      "note": "Round2: re-read the full revised script. The assumption reply and unique anchor are unchanged, so this optional minor remains open; other terminology and endpoint improvements do not remove this specific concentration."
+    }
+  ],
+  "summary": "Round2 pedagogy gate PASS: P1–P6=5 and P7=4, with no open majors/errors. Comparator wording, treatment-intensity language, robustness gloss and explicit analysis endpoints improve comprehension without losing substantive coverage. Stable minor JP04-P-1 remains optional.",
+  "review_context": {
+    "language": "Japanese at approximately JLPT N2; selective technical English equivalents retained",
+    "length_policy": "Full faithful substantive coverage; original20minute default does not apply",
+    "sources_read": [
+      ".claude/skills/write-podcast-script4mindmaps/reference/audit.md",
+      ".claude/skills/write-podcast-script4mindmaps/reference/episode.md",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch04-regression-discontinuity/brief.json",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch04-regression-discontinuity/coverage.json",
+      ".claude/skills/write-podcast-script4mindmaps/state/ch04-regression-discontinuity/source-notes.md",
+      "mindmaps-podcast/ch04-regression-discontinuity.md",
+      "mindmaps-podcast/ja/ch04-regression-discontinuity.md",
+      "mindmaps/ch04-regression-discontinuity.md",
+      "mindmaps/images/ch04-regression-discontinuity-v2.png",
+      "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex (targeted RD and Boston sections)"
+    ],
+    "round2_review": "Full revised Japanese script re-read; prior English script, map, brief and source context retained. Round1 preserved under round-1/pedagogy.json."
+  }
+}

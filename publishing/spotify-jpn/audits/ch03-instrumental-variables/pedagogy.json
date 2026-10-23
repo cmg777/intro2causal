@@ -1,0 +1,78 @@
+{
+  "lens": "pedagogy",
+  "round": 2,
+  "script_sha256": "6135bc0d0aededd035cdad0f35caf5b21debe798b29d01eecc41811d9f7b259b",
+  "scores": {
+    "P1": {
+      "score": 5,
+      "reason": "Assignment versus receipt and selection bias precede IV vocabulary; instrument/treatment/outcome retain the school example. First stage and reduced form precede the ratio; the four response types precede monotonicity and local interpretation. Definitions are reintroduced where needed, with earlier regression lessons treated as prerequisites. The newly added charter-school definition also supplies the local institutional prerequisite before the KIPP results."
+    },
+    "P2": {
+      "score": 5,
+      "reason": "Re-read the complete revised script. The causal chain, unchanged-type cancellation, police subtraction/division and percentage-point interpretation remain clear. The closing answer now explicitly divides winning's outcome effect by winning's attendance-rate increase (first stage), then explains why the additional tutoring channel prevents an attendance-only interpretation. P-1 is fixed."
+    },
+    "P3": {
+      "score": 5,
+      "reason": "Three concrete opening goals are revisited at the end. All three Parts have a HOST prediction followed by a reasoned correction or confirmation and closing recap. The police calculation spans multiple turns: 0.797 minus 0.011 gives 0.786; 0.114 divided by 0.786 gives 0.145, then 14.5 percentage points and a bounded interpretation."
+    },
+    "P4": {
+      "score": 5,
+      "reason": "Plausible misconceptions are voiced by the learner, then corrected with mechanisms: dropping noncompliers restores selection, observed enrollment does not identify response type, larger samples do not turn a complier estimate into an everyone estimate, and agreement with OLS may reflect many-weak bias."
+    },
+    "P5": {
+      "score": 5,
+      "reason": "Police, school and family-size cases preserve their differing assignments, treatments, outcomes and populations. Police treatment coding is fixed before calculation; KIPP adjusted rates are explicitly paired with the same outcome/sample; tutoring is clearly hypothetical and exclusion threats are reasoned rather than asserted as facts. The ordinary-regression contrast now unambiguously describes a 0.15-year negative association rather than a signed shortening."
+    },
+    "P6": {
+      "score": 5,
+      "reason": "All three opening goals are fulfilled and revisited. The closing lottery/tutoring application has an explicit pause, correctly states the Wald denominator and explains the exclusion failure; it follows directly from the earlier hypothetical and assumptions lesson."
+    },
+    "P7": {
+      "score": 4,
+      "reason": "Numbers are grouped by case, probability differences are distinguished from relative percentages, and repeated causal-chain summaries permit listening without a diagram. Some advanced-method turns nevertheless stack several unfamiliar Japanese technical expressions, creating a minor N2 listening-load issue (P-2). Full source coverage justifies length; no English twenty-minute cap was applied."
+    }
+  },
+  "findings": [
+    {
+      "id": "P-1",
+      "criterion": "P2",
+      "severity": "major",
+      "status": "fixed",
+      "anchor": "しかし、当選が結果に与えた効果を、当選による通学率の上昇幅、つまり第一段階で割っても、そこには個別指導という別の経路の影響が混ざっています。",
+      "problem": "The denominator is called 通学効果 (attendance effect). After teaching that IV estimates the attendance effect by dividing the offer effect on scores by the offer effect on attendance rates, this phrase can tell listeners to divide by the very causal effect being estimated. The closing application must reinforce the learned first-stage operation unambiguously.",
+      "fix": "Replace the phrase with an explicit first-stage denominator, for example 「しかし、その点数の差を、提示による通学率の差、つまり第一段階で割っても、個別指導と通学の経路が混ざります。」 Preserve the subsequent conclusion that the ratio does not isolate attendance effects.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ja/ch03-instrumental-variables.md",
+          "quote": "誘導形を第一段階で割るのですね。"
+        },
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "quote": "Dividing ITT estimates from a randomized trial by the corresponding difference in compliance rates is another case of IV in action"
+        }
+      ],
+      "note": "Round 2 verified the new sentence explicitly names the outcome-effect numerator and first-stage attendance-rate denominator. The subsequent sentence correctly rejects an attendance-only causal interpretation."
+    },
+    {
+      "id": "P-2",
+      "criterion": "P7",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "多数の弱い操作変数を使うと、第一段階で過剰適合が起きる可能性があります。",
+      "problem": "This turn moves from 過剰適合 to finite-sample pull toward OLS, 限定情報最尤法, estimator comparison, reduced-form inspection and exclusion within one response. The mechanisms are present, but an N2 listener receives several new abstract terms before a turn break.",
+      "fix": "Split this response with a short HOST paraphrase after explaining the pull toward ordinary regression, and retain the advanced-estimator label as optional terminology with a plain-language reminder. Keep the substantive coverage."
+    }
+  ],
+  "summary": "Round 2 pedagogy PASS: every P1–P7 score is at least 4, with no open major or error. P-1 is verified fixed. P-2 remains an optional minor N2 listening-load improvement; the full faithful coverage and well-supported teaching sequence are retained.",
+  "reviewed_sources": [
+    ".claude/skills/write-podcast-script4mindmaps/reference/audit.md",
+    ".claude/skills/write-podcast-script4mindmaps/reference/episode.md",
+    ".claude/skills/write-podcast-script4mindmaps/state/ch03-instrumental-variables/brief.json",
+    ".claude/skills/write-podcast-script4mindmaps/state/ch03-instrumental-variables/coverage.json",
+    ".claude/skills/write-podcast-script4mindmaps/state/ch03-instrumental-variables/source-notes.md",
+    "mindmaps-podcast/ch03-instrumental-variables.md",
+    "mindmaps/ch03-instrumental-variables.md",
+    "publishing/spotify-jpn/artwork/ch03-instrumental-variables.png",
+    "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex:2317-2370"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "project_id": "intro2causal-ja",
+  "show_title": "Mastering Causal Metrics (JPN)",
+  "source_project": "publishing/spotify/project.json",
+  "chapters": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "language": "ja-JP",
+  "audience": "Econometrics beginners; Japanese learners around JLPT N2",
+  "adaptation": "Faithful natural Japanese, retaining substantive coverage, examples and numerical findings",
+  "creator": "Carlos Mendez",
+  "category": "Courses",
+  "explicit": false,
+  "reading_material": "Japanese transcript, selective readings and first-introduction English terms; Japanese-English glossary",
+  "website_publication_authorized": true,
+  "release_authorized": true,
+  "release_sequence": "Publish Chapter 1, verify, then Chapters 2–6 in order",
+  "voice_sample_approved": true,
+  "model": "gemini-3.8-flash-tts",
+  "voices": {
+    "HOST": "Puck",
+    "ECONOMIST": "Kore"
+  },
+  "style": {
+    "HOST": "Native standard Japanese (Tokyo pronunciation), warm male student host, polite natural Japanese around JLPT N2, clear measured delivery. Read the provided text verbatim. Pronounce numbers and technical terms carefully; do not add dialogue or read speaker labels.",
+    "ECONOMIST": "Native standard Japanese (Tokyo pronunciation), calm female economics teacher, friendly polite Japanese around JLPT N2, clear measured delivery with natural pauses. Read the provided text verbatim. Pronounce numbers and technical terms carefully; do not add dialogue or read speaker labels."
+  },
+  "gemini_budget_usd": 25.0,
+  "pricing": {
+    "checked_at": "2026-10-23",
+    "valid_through": "2026-12-31",
+    "input_usd_per_million": 0.5,
+    "output_usd_per_million": 9.0,
+    "source": "https://ai.google.dev/gemini-api/docs/pricing",
+    "audio_tokens_per_second": 25
+  },
+  "max_output_tokens": 8192,
+  "chunk_max_characters": 650,
+  "status": "chapter6_original_model_daily_quota_wait",
+  "voice_approval_at": "2026-10-23T00:49:28.848392+00:00",
+  "voice_approval_note": "User: yes, I approve.",
+  "model_preference": "Keep original gemini-3.8-flash-tts; resume after daily quota reset",
+  "model_preference_at": "2026-10-23T01:24:53.357243+00:00",
+  "comparison_model_approved": false,
+  "recognition_empty_retry_limit": 1,
+  "recognition_retry_policy": "One retry only for a provider STOP response containing exclusively empty text and no words. Retain both raw responses and conservative budget reservations. No transport/quota or inaccurate-content retries are automatic.",
+  "recognition_workers": 2,
+  "recognition_request_spacing_seconds": 20,
+  "recognition_concurrency_note": "At most two recognition requests in flight; a shared limiter spaces every request start, including empty-response retries, by at least20 seconds. Audio generation remains sequential."
+}

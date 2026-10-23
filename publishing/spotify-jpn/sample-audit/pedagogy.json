@@ -1,0 +1,56 @@
+{
+  "lens": "pedagogy",
+  "round": 3,
+  "script_sha256": "623ca355ccd616aec27f57c71ff9092210c989a0cbb48ec16734bb91bd17774b",
+  "scope": "Independent review of a short Japanese voice-review excerpt for economics beginners around JLPT N2; full-chapter coverage, per-act devices and episode-ending application question are not required.",
+  "scores": {
+    "P1": {
+      "score": 5,
+      "reason": "Starts from an everyday insurance question, introduces differences between groups before the survey numbers, and explains the missing alternative before naming 反実仮想. Random assignment comes only after the comparison problem is established."
+    },
+    "P2": {
+      "score": 5,
+      "reason": "Explains group differences before the numerical comparison, identifies the 1–5 coding of self-reported health and its direction before both means, and walks through the subtraction before explaining why the gap is not automatically causal. The same-person counterfactual then motivates random assignment. The correction to distinguish responses from their numerical coding retains this teaching sequence."
+    },
+    "P3": {
+      "score": 5,
+      "reason": "For this short sample, the opening inquiry supplies a clear goal, the host performs a concrete subtraction, and the host immediately interprets its limitation. This is enough teaching machinery for the voice-review scope; full-episode recaps and multiple predictions are not appropriate requirements."
+    },
+    "P4": {
+      "score": 5,
+      "reason": "The plausible initial belief that healthier insured people prove insurance works is stated explicitly. The economist corrects it using concrete income, education and job differences; the host then restates that the numerical gap need not be the insurance effect."
+    },
+    "P5": {
+      "score": 5,
+      "reason": "Uses one continuous real insurance example, keeps the numerical comparison within husbands, identifies self-reported health, and uses a lottery analogy only to explain chance allocation. No invented empirical or hypothetical outcomes are introduced."
+    },
+    "P6": {
+      "score": 5,
+      "reason": "The excerpt fulfills its local goal: listeners can see why a simple insurance-health comparison does not identify an effect. The final host question follows directly from the explanation and the economist points to the next topic. A concluding application question is intentionally outside this excerpt."
+    },
+    "P7": {
+      "score": 5,
+      "reason": "The 1–5 bounds establish a familiar response scale before the two means; only one substantive comparison and its subtraction follow. The host repeats the calculation and interpretation in words. No table, equation or diagram is needed."
+    }
+  },
+  "findings": [
+    {
+      "id": "P-1",
+      "criterion": "P2",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "本人が答えた健康状態を、1から5までの点数にしたものです。点数が高いほど健康です。",
+      "problem": "The listener learns that larger scores mean better health, but not the bounds of the scale. The meaning of averages near 4 is therefore less concrete than it could be.",
+      "fix": "Briefly state that the response scale runs from 1 to 5, with larger values indicating better self-reported health; keep the interpretation explicitly as score points, not a percentage.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ch01-randomized-trials.md",
+          "quote": "what counted as health on that 1 to 5 scale?"
+        }
+      ],
+      "note": "Resolved in round 2 and rechecked in round 3: the current script states the 1–5 coding and direction before giving both husbands’ means in 点 units. The revised wording distinguishes reported health from numerical coding; the pedagogical numerical-context finding remains fixed."
+    }
+  ],
+  "verdict": "PASS",
+  "summary": "PASS after rereading the entire round-3 sample: P1–P7 are all 5 and no findings remain open. The health response is now described as coded to 1–5, preserving the clarified numerical context before the group means and the question-to-counterfactual teaching sequence. This review certifies pedagogy of the sample text only, not a full episode or generated speech."
+}

@@ -1,0 +1,782 @@
+{
+  "source": "mindmaps-podcast/ch02-regression.md",
+  "source_sha256": "e734bd73ca595e7f3fd56b93e5b6cdd3f0579e1ee6fd9bd0e7e49d50b1b8c817",
+  "script_sha256": "40fda90a2d578d144c407f4a6e36ebc60fb192050e2e04a42ebed6e876eeada8",
+  "model": "gemini-3.8-flash",
+  "created_at": "2026-10-23T00:54:35.959400+00:00",
+  "review_status": "independent_audits_pass",
+  "turn_count": 110,
+  "turns": [
+    {
+      "id": 1,
+      "speaker": "HOST",
+      "section": "オープニング",
+      "english": "Welcome back. Today we are on regression, college choices, and the price of a famous name. Imagine choosing between an expensive private college and a less expensive public university. Graduates of the private college earn more. That sounds like useful evidence. But how much of their success came with them through the college gate?",
+      "japanese": "おかえりなさい。今回は回帰分析、大学の選択、そして有名大学というブランドの価値について考えます。学費が高い私立大学と、それほど高くない州立大学のどちらを選ぶか想像してみてください。私立大学の卒業生のほうが高い所得を得ています。一見すると、これは説得力のある証拠に思えます。しかし、彼らの成功のうち、大学に入る前から本人が持っていたものはどれくらいあるのでしょうか。"
+    },
+    {
+      "id": 2,
+      "speaker": "ECONOMIST",
+      "section": "オープニング",
+      "english": "Consider Nancy, a student described in the college study discussion. She was admitted to Harvard and the University of Texas. Texas offered generous financial help, and she chose Texas. She later became an economics professor. Her experience makes the choice interesting. It cannot tell us what Harvard would have changed in her life.",
+      "japanese": "大学研究の議論で紹介されている、ナンシーという学生の例を考えてみましょう。彼女はハーバード大学とテキサス大学の両方に合格しました。テキサス大学から手厚い奨学金の提示があったため、彼女はテキサス大学を選びました。彼女はのちに経済学の教授になりました。彼女の経験は選択について考えるうえで興味深いものです。ですが、ハーバード大学に通っていたら彼女の人生がどう変わっていたかまでは教えてくれません。"
+    },
+    {
+      "id": 3,
+      "speaker": "HOST",
+      "section": "オープニング",
+      "english": "We need more than an impressive personal story. Is an elite private college worth the extra tuition? I want to know whether the more expensive education creates higher earnings. A list of successful graduates would not answer that question.",
+      "japanese": "印象的な個人の体験談だけでは不十分です。名門私立大学には、高い授業料に見合う価値があるのでしょうか。私が知りたいのは、より高額な教育を受けることで本当に高い所得が得られるのか、という点です。成功した卒業生のリストを並べても、その問いには答えられません。"
+    },
+    {
+      "id": 4,
+      "speaker": "ECONOMIST",
+      "section": "オープニング",
+      "english": "By the end of this episode, you should be able to explain how regression makes controlled comparisons. You should also predict the direction of omitted variables bias. Finally, you should judge whether a control variable strengthens or damages a causal argument. Those skills help us ask better questions about education and many other policies.",
+      "japanese": "今回の内容を聞き終えるころには、回帰分析がどのように条件をそろえた比較を行うのかを説明できるようになります。また、欠落変数による偏りの向きを予測できるようになるはずです。そして、ある統制変数が因果推論の主張を強めるのか、それとも損なうのかを判断できるようになります。これらのスキルは、教育だけでなく多くの政策について、より適切な問いを立てるのに役立ちます。"
+    },
+    {
+      "id": 5,
+      "speaker": "HOST",
+      "section": "オープニング",
+      "english": "Our mind map follows The Question, The Investigation, and The Resolution. We will keep returning to the same college choice. We will also visit a computer exercise where the truth is known. That should help separate what the method calculates from what we have to assume.",
+      "japanese": "私たちの思考の道筋は、「問い」「検証」「結論」の順に進みます。先ほどの大学選びの例に何度も立ち戻りながら進めましょう。また、正解が最初から分かっているコンピューターでの実習も確認します。そうすることで、手法が計算していることと、人間が仮定しなければならないこととを区別しやすくなります。"
+    },
+    {
+      "id": 6,
+      "speaker": "ECONOMIST",
+      "section": "オープニング",
+      "english": "Exactly. A computer can fit a regression very accurately while answering the wrong causal question. We need to understand the people being compared, the variables held fixed, and the remaining uncertainty. You can follow the episode without looking at the map. Its branches simply organize our route.",
+      "japanese": "そのとおりです。コンピューターは回帰分析を非常に正確に計算できますが、答えている問いが因果関係の問いとして間違っていることもあります。比較されているのは誰なのか、どの変数が一定に保たれているのか、そしてどのような不確実性が残っているのかを理解する必要があります。地図を見なくても話の流れは追えます。全体の枝分かれは、議論の道筋を整理するためのものです。"
+    },
+    {
+      "id": 7,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "The Question begins with the tuition decision itself. Paying more might buy smaller classes, helpful contacts, or a different learning environment. But it also means giving up money that could support other plans. What exactly are we trying to measure before we decide whether the cost is worthwhile?",
+      "japanese": "「問い」は、授業料の支払いという判断そのものから始まります。高いお金を払えば、少人数授業や役立つ人脈、異なる学習環境が手に入るかもしれません。しかしそれは、他の計画に使えるはずだった資金を手放すことも意味します。その費用に見合う価値があるかを判断する前に、私たちは具体的に何を測定しようとしているのでしょうか。"
+    },
+    {
+      "id": 8,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "Start with the extra tuition at the time described in the original discussion. Private college cost roughly 20,000 dollars more per year than an in-state public university. This is a historical comparison, not a current price quote. We want to compare the same person's later earnings under the different college choices.",
+      "japanese": "元の研究の議論で描かれていた当時の追加の授業料から始めましょう。私立大学は、州内の公立大学よりも年間でおよそ20,000ドル多くかかっていました。これは当時の比較であり、現在の学費を示すものではありません。私たちが調べたいのは、同じ人が別の大学を選んだ場合に、その後の所得がどう変わるかという比較です。"
+    },
+    {
+      "id": 9,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "So the question is personal, even though the evidence must come from many people. How much would Nancy earn after Texas, compared with what she would earn after Harvard? We can observe the first path. The second path never happens for her.",
+      "japanese": "証拠は多くの人から集める必要がありますが、問い自体は個人の比較なのですね。ナンシーがテキサス大学を出たあとの所得は、もしハーバード大学を出ていた場合の所得と比べてどうなのか、という問いです。最初の道は観察できますが、二つ目の道は彼女には実際には起きませんでした。"
+    },
+    {
+      "id": 10,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "That missing path is a counterfactual: an outcome under a choice that was not made. Each student has potential outcomes under public and private attendance. We see only the outcome associated with the actual choice. The earnings effect is the difference between those potential outcomes. It is not automatically the difference between different students.",
+      "japanese": "その選ばれなかった道が、反実仮想です。選ばなかった条件のもとで生じる結果のことです。どの学生にも、公立大学に通った場合と私立大学に通った場合の潜在的な結果があります。しかし、私たちが観察できるのは、実際に選んだ選択肢に伴う結果だけです。所得への効果とは、それらの潜在的な結果の間の差のことです。それは、異なる学生同士を単純に比べた差と自動的に同じになるわけではありません。"
+    },
+    {
+      "id": 11,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "My prediction is that a large raw earnings gap will settle the tuition question. If private graduates earn much more, perhaps the extra tuition pays for itself. Even if we cannot observe both paths for Nancy, should a large enough survey give us the answer?",
+      "japanese": "私の予想では、単純な所得の格差が大きければ、授業料の問いは解決しそうです。私立の卒業生がずっと多く稼いでいるなら、高い授業料の元は取れているのかもしれません。ナンシーの両方の道を観察できないとしても、十分に大規模な調査を行えば答えは出るのではないでしょうか。"
+    },
+    {
+      "id": 12,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "A larger survey cannot repair a systematically unfair comparison. It can measure an unfair comparison more precisely. Before calculating a financial payoff, we need a credible earnings effect. We also need to remember that earnings are only part of college value. Friendships, learning, and personal experience may matter without appearing in a wage measure.",
+      "japanese": "調査の規模を大きくしても、本質的に不公平な比較を正すことはできません。不公平な比較をより正確に測定できるだけです。金銭的な採算を計算する前に、信頼できる所得への効果を知る必要があります。また、所得は大学の価値の一部にすぎないことも忘れてはいけません。友人関係や学び、個人的な経験は大切ですが、賃金の数字には表れないこともあります。"
+    },
+    {
+      "id": 13,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "The naive evidence is the raw earnings gap. Private graduates have higher earnings, on average. But those students already passed a demanding admissions process. Their motivation or family connections might have raised their earnings at a public university too. We could be paying the college credit for advantages the students already had.",
+      "japanese": "単純な証拠とは、観察される所得の格差のことですね。平均すると私立大学の卒業生のほうが所得が高いです。しかし、そうした学生はすでに入学審査を突破しています。彼らの意欲や家庭環境のつながりは、公立大学に行っていたとしても所得を押し上げたかもしれません。私たちは、学生が最初から持っていた強みに対して、大学の成果だと認めてしまっている可能性があります。"
+    },
+    {
+      "id": 14,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "Yes. That is selection bias. People who select different treatments may also have different earnings prospects before treatment. Admissions decisions add another layer of selection. Colleges evaluate applicants, and applicants decide where to enroll. There is no admissions lottery in this investigation that balances all those differences for us.",
+      "japanese": "そのとおりです。それが選択バイアスです。異なる処置を選ぶ人々は、処置を受ける前の段階から将来の所得の見込みが違っていることがあります。入試の合否判定は、さらなる選択の違いを生み出します。大学が出願者を審査し、出願者はどの大学に進学するかを決めます。今回の検証には、そうした違いをすべて均等に均してくれるような入試のくじ引きはありません。"
+    },
+    {
+      "id": 15,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "But the same admission letter seems useful. Nancy could have gone to Harvard. Someone who accepted Harvard's offer also could have gone there. Is comparing them more informative than comparing every Harvard graduate with every public university graduate?",
+      "japanese": "しかし、同じ大学の合格通知を持っていることには意味がありそうです。ナンシーはハーバードに行くこともできました。ハーバードの合格通知を受け入れて進学した人も、そこに行くことができました。彼らを比べるほうが、すべてのハーバード卒業生とすべての公立大学卒業生を比べるよりも、有益な情報が得られるのではないでしょうか。"
+    },
+    {
+      "id": 16,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "Potentially. Applications show where students hoped to go, and admissions decisions summarize how colleges judged them. These signals can help us compare students with similar preparation and ambition. Still, admission to the same college does not make people identical. Their final choices may reflect differences that also affect later earnings.",
+      "japanese": "その可能性があります。出願先は学生がどこに行きたかったかを示し、合否判定は大学が彼らをどう評価したかを要約しています。これらの手がかりは、同じような準備や意欲を持つ学生同士を比べるのに役立ちます。それでも、同じ大学に合格したからといって、人々が完全に同一になるわけではありません。最終的な選択の違いには、その後の所得にも影響する別の違いが反映されている可能性があります。"
+    },
+    {
+      "id": 17,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "Then we need vocabulary for a careful comparison. I hear researchers say they control for something. They clearly cannot change a graduate's family background after the fact. What does a control actually do in the analysis?",
+      "japanese": "そうすると、慎重な比較を行うための用語が必要になりますね。研究者が「何かを統制する」と言うのを耳にします。彼らは明らかに、卒業生の家庭環境を事後的に変えることはできません。分析の中で、統制変数は実際には何をしているのでしょうか。"
+    },
+    {
+      "id": 18,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "A control variable is a measured characteristic we hold fixed in the statistical comparison. We might compare students with similar admission test scores or family income. Ceteris paribus means other things equal. In practice, the calculation equalizes the characteristics included in the model. It does not automatically equalize everything important in life.",
+      "japanese": "統制変数とは、統計的な比較において一定に保たれる、測定された特徴のことです。入試の点数や世帯所得が似ている学生同士を比較するような場合です。他の条件が同じという意味のラテン語の表現もあります。実際の計算では、モデルに含められた特徴が同じになります。人生におけるあらゆる重要な要素が自動的に等しくなるわけではありません。"
+    },
+    {
+      "id": 19,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "And short and long regressions? Those names sound as if one model takes more time to run. Do they describe the length of the computer program, or the list of characteristics we hold fixed?",
+      "japanese": "では、短い回帰と長い回帰とは何でしょうか。その名前を聞くと、一方のモデルのほうが実行に時間がかかるように思えます。コンピューターのプログラムの長さを指しているのか、それとも一定に保つ特徴のリストを指しているのでしょうか。"
+    },
+    {
+      "id": 20,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "They describe relative lists of controls. A short regression leaves out something included in a longer regression. The long version contains the short version's variables and adds others. The resulting change in the treatment coefficient helps us study omitted variables bias. A coefficient is the estimated number attached to a variable in the fitted model.",
+      "japanese": "それは統制変数のリストの相対的な長さを表しています。短い回帰は、より長い回帰に含まれている変数を省いています。長い回帰は短い回帰の変数を含んだうえで、さらに他の変数を追加したものです。その結果として生じる処置の係数の変化を見ることで、欠落変数による偏りを調べることができます。係数とは、当てはめたモデルの中で変数に掛け合わされる推定された数値のことです。"
+    },
+    {
+      "id": 21,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "I understand the possibility of missing characteristics. But why use the formal phrase conditional independence assumption? What extra idea is hidden behind those words? I would like a version I could explain without using the abbreviation.",
+      "japanese": "測定されていない特徴が存在しうることは分かります。しかし、なぜ条件付き独立性という正式な用語を使うのでしょうか。その言葉の背景にはどのような考えが隠れているのでしょうか。略称を使わずに説明できる表現を知りたいです。"
+    },
+    {
+      "id": 22,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "It says that, among students with the same controls, the college choice is unrelated to their potential earnings. Conditional means within the groups defined by those controls. Independence means the remaining choice carries no systematic information about those potential outcomes. This is the claim that choice is effectively random inside comparable groups.",
+      "japanese": "それは、同じ統制変数を持つ学生の間では、大学の選択が潜在的な所得と関係していないということです。条件付きとは、それらの統制変数で定義されたグループの中での話という意味です。独立とは、残された選択の違いが潜在的な結果についての体系的な情報を持たないことを意味します。これは、比較可能なグループの中では、選択が実質的に無作為に行われているという主張です。"
+    },
+    {
+      "id": 23,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "Let me recap The Question. We want the earnings change caused by attending private college, rather than a gap between different kinds of students. Controls make particular measured traits equal. They help only if the remaining college choice no longer sorts students by their potential earnings.",
+      "japanese": "「問い」をまとめてみます。私たちが知りたいのは、異なるタイプの学生同士の格差ではなく、私立大学に通うことによって生じる所得の変化です。統制変数は、測定された特定の特徴をそろえます。それらが役立つのは、残された大学の選択が、潜在的な所得によって学生を振り分けることがなくなった場合だけです。"
+    },
+    {
+      "id": 24,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "That recap captures the challenge. The assumption concerns outcomes we cannot fully observe, so we cannot verify it directly. Good research explains why the controls are convincing and looks for weaknesses. Our investigation now asks how regression builds the comparison and how an omitted trait can distort it.",
+      "japanese": "そのまとめは課題を的確に捉えています。この仮定は完全には観察できない結果に関するものなので、直接確かめることはできません。優れた研究は、なぜその統制変数が説得力を持つのかを説明し、弱点を探ります。ここからの検証では、回帰分析がどのように比較を組み立てるのか、そして欠落した特徴がどのように比較を歪めるのかを見ていきます。"
+    },
+    {
+      "id": 25,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "The Investigation starts with selection without randomization. In Chapter one, a fair assignment procedure gave us comparable groups on average. Here, students make choices and admissions offices screen them. Can regression recover some of that fairness, or does it merely describe the selection problem in more detail?",
+      "japanese": "「検証」は、無作為割り当てのない選択から始まります。第1章では、公平な割り当て手順によって、平均して比較可能なグループが得られました。今回の状況では、学生が選択を行い、大学の入試担当者が選考します。回帰分析はその公平さをある程度取り戻すことができるのでしょうか。それとも、単に選択の問題をより詳しく描写しているだけなのでしょうか。"
+    },
+    {
+      "id": 26,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Think of regression as an automated matching procedure. It compares students with similar measured characteristics who enrolled in different kinds of colleges. Within each comparison, the controls are held fixed. It then summarizes the differences. The hope is to remove the important selection differences without needing to measure every feature of each person's life.",
+      "japanese": "回帰分析を、自動化されたマッチングの手順だと考えてみてください。測定された特徴が似ていて、異なる種類の大学に進学した学生同士を比較します。それぞれの比較の中で、統制変数は一定に保たれます。そのうえで、違いを要約します。人々の生活のあらゆる特徴を測定しなくても、重要な選択の違いを取り除くことが狙いです。"
+    },
+    {
+      "id": 27,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "I predict that comparing students with similar applications will reduce the apparent private college advantage. Applications should reveal something about preparation and ambition. But if an entire matched group chooses private colleges, can that group still tell us what private attendance changed?",
+      "japanese": "似たような出願状況の学生を比較すれば、私立大学の表面上の優位性は小さくなると予想します。出願先からは、学力や意欲について何らかの情報が分かるはずです。しかし、マッチングされたグループの全員が私立大学を選んだ場合、そのグループから私立大学に通うことで何が変わったかを知ることはできるのでしょうか。"
+    },
+    {
+      "id": 28,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "It cannot provide a within-group private versus public comparison. We need overlap: comparable students taking each path. A group containing only private students supplies no public outcome for that comparison. A group containing only public students has the opposite problem. Regression cannot create the missing contrast simply because the data set is large.",
+      "japanese": "そのグループ内では、私立と公立の比較を行うことはできません。それぞれの道を進む比較可能な学生が両方存在する、重なり合いが必要です。私立の学生しかいないグループには、比較するための公立の結果がありません。公立の学生しかいないグループにも逆の問題があります。データが大規模だからといって、回帰分析が存在しない対比を作り出せるわけではありません。"
+    },
+    {
+      "id": 29,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "That helps explain why the population matters. We are learning about students whose choices overlap in the observed data. We should hesitate before applying the answer to students who never had either option. The statistical comparison has a particular audience as well as a particular treatment.",
+      "japanese": "対象となる集団がなぜ重要なのかがよく分かりました。私たちが知ることができるのは、観察データの中で選択の重なりがある学生についての情報です。どちらの選択肢も持っていなかった学生に、その結果をそのまま当てはめるのは慎重になるべきですね。統計的な比較には、特定の処置だけでなく、特定の対象集団が存在します。"
+    },
+    {
+      "id": 30,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Right. The original discussion groups students using applications and admissions. Some groups offer useful contrasts; others do not. Regression with group controls removes differences across those groups. With a separate indicator for each group, the private attendance estimate combines within-group contrasts. Groups with more students and more mixed attendance receive greater weight.",
+      "japanese": "そのとおりです。元の研究の議論では、出願と合否の結果を使って学生をグループ分けしています。役立つ対比が得られるグループもあれば、そうでないグループもあります。グループの統制変数を含めた回帰分析は、それらのグループ間の違いを取り除きます。各グループに属するかどうかをゼロか一で示す変数、つまりダミー変数を入れると、私立進学の推定値はグループ内の対比を組み合わせたものになります。学生数が多く、進学先が混ざり合っているグループほど、大きな重みが与えられます。"
+    },
+    {
+      "id": 31,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "The tool is regression with controls. Talk me through its ingredients without reading an equation. Which number represents college choice, and where do family background and test scores enter? I also want to understand what the prediction error means.",
+      "japanese": "使われる道具は、統制変数を入れた回帰分析ですね。数式を読み上げずに、その構成要素を説明してください。どの数値が大学の選択を表し、家庭環境やテストの点数はどこに入るのでしょうか。また、予測の誤差が何を意味するのかも理解したいです。"
+    },
+    {
+      "id": 32,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The outcome is later earnings. The treatment indicator records whether the student attended private college. Controls describe background characteristics and application groups. The model predicts earnings using a baseline, a private attendance term, and terms for the controls. The residual is actual earnings minus predicted earnings: whatever the fitted prediction misses.",
+      "japanese": "結果となる変数はその後の所得です。処置を表す変数は、その学生が私立大学に通ったかどうかを記録します。統制変数は家庭環境の特徴や出願グループを表します。モデルは、基準となる値、私立進学の項、そして統制変数の項を使って所得を予測します。残差とは実際の所得から予測された所得を引いたもので、当てはめた予測が捉えきれなかった部分のことです。"
+    },
+    {
+      "id": 33,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "How does the computer choose those numbers? If some predictions are too high and others too low, could their errors cancel? A model might look accurate overall while being wrong for almost everyone.",
+      "japanese": "コンピューターはそれらの数値をどのように選ぶのですか。高すぎる予測と低すぎる予測がある場合、それらの誤差が互いに打ち消し合ってしまうことはないのでしょうか。全体としては正確に見えても、ほぼすべての人に対して予測が外れているというモデルもあり得ます。"
+    },
+    {
+      "id": 34,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Ordinary least squares prevents that cancellation by squaring each residual before adding them. It selects coefficients that make this total as small as possible. Large misses count more heavily than small misses. This defines how we fit the model. It does not establish that the private attendance coefficient measures a causal effect.",
+      "japanese": "通常の最小二乗法は、足し合わせる前に各残差を二乗することで、その打ち消し合いを防ぎます。そして、この合計をできる限り小さくする係数を選びます。小さな外れよりも大きな外れのほうが重く評価されます。これがモデルの当てはめ方の定義です。私立進学の係数が因果効果を測定していると証明するものではありません。"
+    },
+    {
+      "id": 35,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Is it useful that fitted residuals are unrelated to the variables in the regression? I sometimes hear that the treatment must be safe because its relationship with the error is zero. Does the fitting procedure itself prove that selection has disappeared?",
+      "japanese": "当てはめた残差が回帰分析の変数と無関係であることは役に立ちますか。処置と誤差との関係がゼロだから、処置の効果は安全だと耳にすることがあります。モデルを当てはめる計算手順そのものが、選択バイアスが消えたことを証明してくれるのでしょうか。"
+    },
+    {
+      "id": 36,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "No. With an intercept, least squares residuals average zero and are uncorrelated with the included regressors by construction. Those are mathematical properties of the fitted model. Unmeasured ability can still contaminate the treatment coefficient. Removing sample correlation with a fitted residual does not prove independence from potential outcomes.",
+      "japanese": "いいえ、違います。定数項がある場合、最小二乗法の残差は平均がゼロになり、含まれる説明変数と相関しないように数式上作られています。これらは当てはめたモデルの数学的な性質にすぎません。測定されていない能力が、処置の係数を歪めている可能性は依然として残ります。標本内の残差との相関を取り除いたからといって、潜在的な結果から独立していることの証明にはなりません。"
+    },
+    {
+      "id": 37,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "So the conditional independence assumption does the causal work. We need overlap too. Is there also a modeling condition? Holding income fixed sounds straightforward, but income and earnings might have a curved relationship. A straight line could compare students poorly even when income is measured correctly.",
+      "japanese": "因果推論の役割を果たすのは条件付き独立性の仮定なのですね。重なり合いも必要です。モデルの形についての条件もありますか。親の所得を一定に保つというのは単純に聞こえますが、親の所得と本人の所得の関係は直線ではなく曲がっているかもしれません。直線を使うと、所得が正確に測定されていても、学生同士をうまく比較できない可能性があります。"
+    },
+    {
+      "id": 38,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "That is why model specification matters. A conditional expectation is the average outcome for people sharing specified characteristics. The collection of those averages need not follow a straight line. Regression reproduces it when the chosen model represents it correctly. Otherwise, the fitted line gives a least squares approximation, which can miss important features.",
+      "japanese": "だからこそモデルの指定が重要になります。条件付き期待値とは、特定の特徴を持つ人々の平均的な結果のことです。それらの平均の集まりは、直線になるとは限りません。選んだモデルがその関係を正しく表していれば、回帰分析はそれを再現します。そうでなければ、当てはめた直線は最小二乗法による近似となり、重要な特徴を見落とすことがあります。"
+    },
+    {
+      "id": 39,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Then automated matching is an intuition with conditions. Using separate group indicators makes the within-group comparison especially clear. With continuous controls, we must check that the fitted relationship is suitable. And even an excellent prediction rule cannot replace a credible argument about the remaining selection.",
+      "japanese": "そうすると、自動化されたマッチングという考え方は、条件付きの直感なのですね。グループごとのダミー変数を使えば、グループ内の比較が特に明確になります。連続的な統制変数の場合は、当てはめた関係が適切かどうかを確認しなければなりません。そして、どれほど優れた予測ルールであっても、残された選択バイアスについての説得力のある議論の代わりにはなりません。"
+    },
+    {
+      "id": 40,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Exactly. Another useful idea is regression anatomy. First predict private attendance using the other controls. Subtract that prediction from actual attendance. The leftover attendance variation is the part not explained by those controls. The controlled earnings comparison uses that leftover variation. If almost nothing remains, identifying the contrast becomes difficult.",
+      "japanese": "そのとおりです。もう一つの有用な考え方は、回帰の分解です。まず、他の統制変数を使って私立への進学を予測します。実際の進学状況からその予測値を引きます。残った進学のばらつきは、それらの統制変数では説明できない部分です。条件をそろえた所得の比較では、この残されたばらつきが使われます。もし残るばらつきがほとんどなければ、対比を捉えることは難しくなります。"
+    },
+    {
+      "id": 41,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "So first we remove attendance differences predicted by the controls. The remaining attendance variation supplies the comparison. How does that connect to calculating the slope?",
+      "japanese": "つまり、まず統制変数で予測できる進学の違いを取り除き、残った進学のばらつきを使って比較を行うわけですね。それが傾きの計算とどう結びつくのでしょうか。"
+    },
+    {
+      "id": 42,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Covariance measures how two quantities move together. Here we compare earnings with the leftover attendance variation. The slope divides that shared movement by the amount of leftover attendance variation. Regression anatomy applies this idea after accounting for the controls. It clarifies what information identifies the coefficient, rather than creating new information.",
+      "japanese": "共分散は二つの量がどのように連動して動くかを測ります。ここでは、所得と、残された進学のばらつきとを比較します。傾きは、その共通の動きを、残された進学のばらつきを表す分散で割ったものです。分散は、平均からの差を二乗して平均したものです。回帰の分解は、統制変数を考慮したあとにこの考え方を適用します。これは新しい情報を作り出すのではなく、どの情報が係数を特定しているのかを明確にしてくれます。"
+    },
+    {
+      "id": 43,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "The simulation lab gives us a known truth. We cannot look inside real students and measure every relevant talent. But we can create artificial students with ability recorded. What does the companion exercise build into the data, and what can it teach us about the limits of regression?",
+      "japanese": "シミュレーション実習では、正解があらかじめ分かっています。現実の学生の内面を見て、あらゆる才能を測定することはできません。しかし、能力の数値が記録された架空の学生を作り出すことはできます。実習のデータにはどのようなルールが組み込まれていて、回帰分析の限界について何を教えてくれるのでしょうか。"
+    },
+    {
+      "id": 44,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "It creates 1,000 simulated students. Higher ability makes private attendance more likely and independently raises earnings. The programmer builds in a private attendance effect of 5,000 dollars. These are teaching data, not the real college survey. Knowing their rules lets us check whether a regression separates the school effect from ability.",
+      "japanese": "実習では1,000人の仮想の学生を作成します。高い能力を持つ学生ほど私立大学に進学しやすく、また能力が高いほど独自に所得も高くなります。作成者は私立進学の効果を5,000ドルとしてデータに組み込みました。これらは教育用のデータであり、実際の大学調査ではありません。ルールが分かっているからこそ、回帰分析が学校の効果と能力とを正しく分離できるかを確認できます。"
+    },
+    {
+      "id": 45,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "The short regression ignores ability. Private students have both the school term and better average ability. I expect that regression to assign some of ability's contribution to private college. What happens when the exercise adds ability as a control?",
+      "japanese": "短い回帰は能力を無視します。私立の学生は学校の効果だけでなく、平均して高い能力も持っています。その回帰分析は、能力による影響の一部を私立大学の効果として割り当ててしまうと予想されます。実習で能力を統制変数として加えるとどうなりますか。"
+    },
+    {
+      "id": 46,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The short estimate is well above the effect built into the exercise. The long estimate moves close to 5,000 dollars. It need not match perfectly because random earnings noise remains in this finite sample. Including the correct confounder works here because the data were designed so that the remaining private choice is unrelated to earnings noise.",
+      "japanese": "短い回帰の推定値は、実習に組み込まれた効果を大きく上回ります。長い回帰の推定値は5,000ドル近くに移動します。この有限の標本には所得のランダムなノイズが残っているため、完全に一致するとは限りません。ここで正しい交絡要因を含めることが機能したのは、残された私立の選択が所得のノイズと無関係になるようにデータが設計されていたからです。"
+    },
+    {
+      "id": 47,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "I should not conclude that adding ability always solves a real college study. In the exercise, we know the complete rules. In life, a measured test score may capture only part of ability. A successful simulation demonstrates the mechanism. It does not certify the controls available in a real survey.",
+      "japanese": "能力を加えれば実際の大学研究がいつでも解決する、と結論づけるべきではありませんね。実習では完全なルールを知っています。しかし現実では、測定されたテストの点数は能力の一部しか捉えていないかもしれません。成功したシミュレーションは仕組みを示してくれますが、実際の調査で利用できる統制変数の正しさを保証するわけではありません。"
+    },
+    {
+      "id": 48,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Exactly. The notebook also changes the rules to explore additional confounders and reversed selection. These exercises distinguish sampling variation from omitted variables bias. A well-designed estimator can fluctuate around the truth. A biased comparison systematically includes another relationship. More simulated observations would reduce random fluctuation without fixing a missing confounder.",
+      "japanese": "そのとおりです。実習ノートブックでは、ルールを変更して別の交絡要因や逆向きの選択についても調べます。これらの実習は、標本抽出に伴うばらつきと、欠落変数による偏りとを区別します。適切に設計された推定量であっても、真の値の周りで変動します。一方、偏りのある比較は、体系的に別の関係性を巻き込んでしまいます。仮想のデータ数を増やしても、ランダムな変動は減りますが、欠落した交絡要因は修正されません。"
+    },
+    {
+      "id": 49,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "The omitted variables formula gives that distortion a precise structure. Can we work through a calculation using the original chapter's small teaching example? I would rather understand the mechanism slowly than memorize a formula with unexplained letters.",
+      "japanese": "欠落変数の公式は、その歪みに正確な構造を与えてくれます。元の章にあった小さな教育用の例を使って、計算を確認できますか。記号の意味が分からない公式を丸暗記するよりも、仕組みをゆっくり理解したいです。"
+    },
+    {
+      "id": 50,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Use the example's informative students, grouped by applications and admissions. The short private attendance coefficient is 20,000 dollars. Adding the applicant-group control makes the long coefficient 10,000 dollars. These are dollar differences from a fictional classroom table, not findings from the real college survey. We are asking how much the coefficient changes.",
+      "japanese": "出願と合否によってグループ分けされた、例示用の学生データを使いましょう。私立進学の短い回帰の係数は20,000ドルです。出願グループの統制変数を加えると、長い回帰の係数は10,000ドルになります。これらは架空の表から得られた金額の差であり、実際の大学調査の結果ではありません。係数がどれだけ変化するかを見ています。"
+    },
+    {
+      "id": 51,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "I subtract the controlled coefficient from the uncontrolled coefficient. That gives 10,000 dollars of omitted variables bias relative to the long model. The raw comparison attributed that extra amount to private college. Now explain how the missing group characteristic produces exactly the same difference another way.",
+      "japanese": "統制変数を含まない係数から、統制変数を含んだ係数を引きます。すると、長いモデルと比べて10,000ドルの欠落変数による偏りがあることが分かります。単純な比較では、その余分な金額が私立大学の効果だとされていました。では、省かれたグループの特徴が、別の方法でまったく同じ差を生み出す仕組みを説明してください。"
+    },
+    {
+      "id": 52,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "We need two relationships. First, how strongly does membership in the omitted applicant group differ between private and public students? An auxiliary regression measures that relationship by predicting the omitted variable using treatment. Auxiliary simply means it helps interpret our main regression. Here, the relevant group contains two-thirds of private students but half of public students.",
+      "japanese": "二つの関係が必要です。第一に、省かれた出願グループに属する割合は、私立の学生と公立の学生でどれくらい違うでしょうか。補助回帰は、処置を使ってその省かれた変数を予測することで、その関係を測定します。補助とは、主たる回帰の解釈に役立つという意味です。ここでは、該当するグループに私立の学生の3分の2が含まれますが、公立の学生は半分しか含まれません。"
+    },
+    {
+      "id": 53,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "The difference between two-thirds and one-half is one-sixth. So private students are more likely to belong to the higher-earning applicant group. The second relationship must tell us how much that group membership matters for earnings after accounting for private attendance.",
+      "japanese": "3分の2と2分の1の差は6分の1ですね。つまり、私立の学生のほうが、より高所得につながる出願グループに属しやすいわけです。第二の関係は、私立進学を考慮したあとで、そのグループへの所属が所得にどれだけ影響するかを示すものですね。"
+    },
+    {
+      "id": 54,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Correct. In the long regression, that group coefficient is 60,000 dollars. Multiply one-sixth by 60,000 and the result is 10,000 dollars. That matches the difference between short and long. The missing trait travels with treatment and predicts the outcome. The short coefficient absorbs the product of those relationships.",
+      "japanese": "正解です。長い回帰において、そのグループの係数は60,000ドルです。6分の1に60,000を掛けると、結果は10,000ドルになります。これは短い回帰と長い回帰の差と一致します。欠落した特徴は処置とともに動き、結果を予測します。短い回帰の係数は、それらの関係の積を吸収してしまうのです。"
+    },
+    {
+      "id": 55,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "I can see why both factors are necessary. If the omitted trait predicts earnings but is equally distributed across the college choices, it does not distort this contrast. If it differs across choices but has no earnings relationship conditional on the other controls, there is no contribution through that factor either.",
+      "japanese": "両方の要素が必要な理由がよく分かります。省かれた特徴が所得を予測するとしても、大学の選択肢の間で均等に分布していれば、この対比を歪めることはありません。逆に、選択肢の間で偏りがあっても、他の統制変数を考慮したあとに所得との関係がなければ、その要素を通じた影響もありません。"
+    },
+    {
+      "id": 56,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Yes. With existing controls, both relationships must account for those same controls. Predict the omitted trait using treatment and the shared controls. Then use its coefficient from the long outcome regression. The identity is exact for these least squares models in the same sample. Whether the long coefficient is causal remains a separate question. Calling this difference bias assumes the longer model is the benchmark we want. The algebra remains valid even when neither model identifies a causal effect. Also, separate regressions using different students need not obey the same comparison. Missing observations can change the sample when a new control is added. We must keep that possibility separate from the effect of the control itself.",
+      "japanese": "そのとおりです。すでに統制変数が存在する場合、両方の関係においてそれら同じ統制変数を考慮する必要があります。処置と共通の統制変数を使って、省かれた特徴を予測します。そして、長い回帰におけるその特徴の係数を使います。この恒等式は、同じ標本におけるこれらの最小二乗モデルにおいて厳密に成り立ちます。長い回帰の係数が因果関係を示しているかどうかは別の問いです。この差を偏りと呼ぶことは、長いモデルが私たちが望む基準であると前提にしています。どちらのモデルも因果効果を特定していない場合でも、この数式自体は成り立ちます。また、異なる学生を用いた別の回帰では、同じ比較が成り立つとは限りません。新しい統制変数を追加したときに、欠損値によって標本が変わってしまうことがあります。その可能性は、統制変数自体の効果と区別しなければなりません。"
+    },
+    {
+      "id": 57,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "What about direction? With ability, higher ability makes private attendance more likely and raises earnings. Both relationships are positive, so omission pushes the private coefficient upward. If the signs differ, the bias should be negative. Does a pair of negative relationships produce upward bias too?",
+      "japanese": "方向性についてはどうでしょうか。能力の場合、能力が高いほど私立に行きやすく、所得も高くなります。どちらの関係も正であるため、それを省くと私立の係数は上向きに押し上げられます。符号が異なれば、偏りは負になるはずです。二つの関係がどちらも負の場合も、上向きの偏りが生じるのでしょうか。"
+    },
+    {
+      "id": 58,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "It does. The original discussion considers family size as an unobserved concern. Suppose private students come from smaller families after the existing controls. Also suppose larger families predict lower later earnings. Those are possible relationships, not verified findings here. Both factors would be negative, and their product would push the short coefficient upward.",
+      "japanese": "そのとおりです。元の議論では、観察されていない懸念として家族の人数を挙げています。既存の統制変数を考慮したあとでも、私立の学生のほうが家族の人数が少ないと仮定します。また、家族の人数が多いほど将来の所得が低いと仮定します。これらはあり得る関係であり、ここで確認された事実ではありません。両方の要素が負であれば、それらの積は短い回帰の係数を上向きに押し上げます。"
+    },
+    {
+      "id": 59,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "That sounds useful even when family size is missing from the data. We cannot calculate its actual bias, but we can state a plausible direction and explain our reasoning. We must not treat that reasoning as a direct test. Unobserved variables remain unobserved.",
+      "japanese": "データに家族の人数の情報がない場合でも、この考え方は役に立ちそうですね。実際の偏りを計算することはできなくても、もっともらしい方向性を提示し、その根拠を説明できます。その推論を直接の検証と同一視してはいけませんね。観察されていない変数は、観察されないままです。"
+    },
+    {
+      "id": 60,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Precisely. Positive with positive gives upward bias, and negative with negative also gives upward bias. Opposite signs give downward bias. The simulation verifies the product identity using its recorded ability variable. The same reasoning lets us explore missing characteristics in real data without claiming we have measured them.",
+      "japanese": "まさにそのとおりです。正と正の組み合わせは上向きの偏りを生み、負と負の組み合わせも上向きの偏りを生みます。符号が逆であれば下向きの偏りになります。シミュレーションでは、記録された能力変数を使ってこの積の恒等式を確かめます。同じ推論を使うことで、現実のデータにおいて、測定したと主張することなく、欠落した特徴の影響を検討できます。"
+    },
+    {
+      "id": 61,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "The Dale and Krueger case study now takes us back to actual college choices. Their College and Beyond data include more than 14,000 former students. How do they use applications to learn about qualities that a test score alone might miss?",
+      "japanese": "デールとクルーガーの事例研究に話を戻しましょう。彼らのデータには14,000人以上の元学生が含まれています。テストの点数だけでは見落とされがちな性質を調べるために、彼らは出願情報をどのように利用したのでしょうか。"
+    },
+    {
+      "id": 62,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Applying to a demanding college signals ambition and confidence about admission. An offer provides another assessment of preparation. The analysis studies students who entered college in nineteen seventy-six. They were working full time in nineteen ninety-five. The outcome is pretax annual earnings. The sample excludes historically Black universities. Those historical graduates at the included institutions are the evidence base. The findings are not a direct survey of today's applicants.",
+      "japanese": "難関大学への出願は、意欲や合格への自信を示します。そして合格通知は、学力に対するもう一つの評価となります。この分析では、1976年に大学に入学した学生を対象にしています。彼らは1995年時点でフルタイムで働いていました。結果となる変数は税引前の年間所得です。標本からは歴史的黒人大学が除外されています。対象となった教育機関の当時の卒業生が証拠の基礎となっています。この結果は、現在の出願者を直接調査したものではありません。"
+    },
+    {
+      "id": 63,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Before we discuss the result, I want to separate the designs. Does the matching approach literally require identical college names? And is that the same thing as the self-revelation model? Those descriptions sound close enough that I might accidentally treat them as interchangeable.",
+      "japanese": "結果について話す前に、分析設計を区別しておきたいです。マッチングの手法は、文字通りまったく同じ大学名の組み合わせを必要とするのでしょうか。また、それは自己開示モデルと同じものですか。説明が似ているので、誤って同じものとして扱ってしまいそうです。"
+    },
+    {
+      "id": 64,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The motivating example matches identical application and admission sets. For the real matching analysis, the book groups schools using Barron's selectivity categories. That allows more students to be compared. It then keeps groups containing private and public attendance. This matched sample contains 5,583 students. Its controls describe application and admission selectivity patterns.",
+      "japanese": "導入の例では、出願と合格の組み合わせが完全に一致する学生同士をマッチングさせていました。実際の分析では、より多くの学生を比較できるように、バロンズの選抜性カテゴリーを使って大学をグループ分けしています。そのうえで、私立と公立の両方の進学者が含まれるグループを残します。このマッチングされた標本には5,583人の学生が含まれています。その統制変数は、出願先と合格先の選抜性のパターンを表しています。"
+    },
+    {
+      "id": 65,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "So that sample supports within-group contrasts among students with similar options. The controls do not merely record how selective the attended college was. They describe the student's application and admission history. What is the raw earnings gap within this matched sample, before those group controls enter the regression?",
+      "japanese": "つまりその標本は、似た選択肢を持っていた学生の間でのグループ内対比を支えているわけですね。統制変数は、実際に通った大学がどれほど難関だったかを記録しているだけではありません。学生の出願と合格の履歴を表しています。それらのグループ統制変数を回帰に加える前の、このマッチング標本における生の所得格差はどれくらいですか。"
+    },
+    {
+      "id": 66,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The raw private premium is about 14 percent. After adding the applicant selectivity-group controls, the estimate is about 0.7 percent, close to zero. The matched-sample result is near zero already. These controls compare students with similar application and admission options, rather than only adjusting for the selectivity of the college attended.",
+      "japanese": "単純な私立の賃金プレミアムは約14パーセントです。出願者の選抜性グループの統制変数を加えると、推定値は約0.7パーセントとなり、ほぼゼロになります。マッチングされた標本の結果はすでにゼロに近いです。これらの統制変数は、通った大学の選抜性だけを調整するのではなく、似た出願と合格の選択肢を持っていた学生同士を比較しています。"
+    },
+    {
+      "id": 67,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "So the raw premium nearly disappears when we compare similar applicants. Are those exact percentage changes, or approximations from a different earnings measure? I do not want to confuse a percentage increase in earnings with a change in the percentage of students who attend private college.",
+      "japanese": "似た出願者を比較すると、表面上のプレミアムはほぼ消えてしまうのですね。それらは正確なパーセントの変化ですか、それとも別の所得指標からの近似値でしょうか。所得の増加率としてのパーセントと、私立大学に通う学生の割合の変化とを混同したくありません。"
+    },
+    {
+      "id": 68,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "They are approximate proportional earnings differences from a regression using log earnings. A logarithm expresses proportional changes conveniently. A small difference in log earnings is approximately a percentage difference in earnings. These are not percentage points of attendance. The interpretation is approximate, and precision does not remove the need for a valid selection argument.",
+      "japanese": "対数所得を用いた回帰分析から得られる、おおよその比率の差です。対数は比率の変化を便利に表します。対数所得の小さな差は、所得のおおよそのパーセントの差になります。これらは進学率のパーセントポイントではありません。解釈は近似的なものであり、推定値が正確に見えても、選択に関する妥当な議論が不要になるわけではありません。"
+    },
+    {
+      "id": 69,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Now explain self-revelation separately. Exact or category-based matching can lose many observations because suitable comparisons are unavailable. How does the alternative model use more students without pretending that everybody has an identical admissions history?",
+      "japanese": "では、自己開示モデルについて別途説明してください。完全一致やカテゴリーによるマッチングでは、適切な比較対象が見つからず、多くの観測値が失われることがあります。この別のモデルは、全員が同じ入試履歴を持っていると仮定せずに、どのようにしてより多くの学生を活用するのでしょうか。"
+    },
+    {
+      "id": 70,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "It controls for the number of applications and the average selectivity of colleges applied to. Selectivity is measured using those colleges' average admission test scores. The idea is that applicants reveal information about themselves through their choices. This model uses 14,238 students. It is a different control scheme and a broader sample.",
+      "japanese": "このモデルは、出願した大学の数と、出願した大学の平均的な選抜性を統制します。選抜性は、それらの大学の平均的な入試テストの点数で測られます。出願者は自分の選択を通じて自分自身の情報を明らかにしている、という考え方です。このモデルは14,238人の学生を使用します。これは異なる統制の方法であり、より広い標本を対象にしています。"
+    },
+    {
+      "id": 71,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Then its raw comparison cannot simply be inserted into the matched sample's sequence. What happens in the broader sample when those self-revelation controls are included? And what does the evidence say about prestigious classmates rather than the private label itself?",
+      "japanese": "そうすると、その単純な比較を、マッチング標本の一連の結果にそのまま当てはめることはできませんね。より広い標本において、これらの自己開示の統制変数を含めると何が起きるでしょうか。また、私立という名前に限らず、優秀な同級生の影響についてはデータから何が言えるでしょうか。"
+    },
+    {
+      "id": 72,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The broader sample's controlled private estimate is small and statistically insignificant, roughly three percent. The book also replaces private attendance with the attended college's average test score. Its strong uncontrolled earnings relationship disappears with self-revelation controls. That weakens the claim of a large earnings gain from more selective peers in this setting.",
+      "japanese": "より広い標本において統制変数を入れた私立の効果の推定値は、約3パーセントと小さく、統計的に有意ではありません。この分析では、私立への進学の代わりに、通った大学の平均テスト点数も使っています。統制変数を含めない場合の強い所得との関係は、自己開示の統制変数を入れると消えてしまいます。これは、この状況において、より優秀な仲間に囲まれることで大きな所得の伸びが得られるという主張を弱めるものです。"
+    },
+    {
+      "id": 73,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Small and statistically insignificant does not mean exactly zero. We have a point estimate and uncertainty around it. The students also come from a particular collection of colleges. We should not announce that college quality never matters for any student, any outcome, or any historical period.",
+      "japanese": "小さくて統計的に有意でないというのは、完全にゼロという意味ではありませんね。点推定値があり、その周りには不確実性があります。また、学生たちも特定の大学群の出身です。大学の質が、あらゆる学生、あらゆる結果、あらゆる時代において決して重要ではない、と結論づけるべきではありません。"
+    },
+    {
+      "id": 74,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Correct. Standard errors measure how much an estimate varies across repeated samples under the statistical setup. They do not measure omitted variables bias. The observed results challenge a substantial average private earnings advantage under these controls. They leave uncertainty and possible differences across students. Earnings results alone cannot decide every family's best college choice. A confidence interval describes a range of effects compatible with the estimate and its sampling uncertainty under the statistical assumptions. A range containing zero can also contain positive or negative effects that matter in practice. Ask how wide that range is. Statistical significance and economic importance answer different questions. Neither one settles whether selection bias remains.",
+      "japanese": "そのとおりです。標準誤差は、統計的な設定のもとで、標本抽出を繰り返したときに推定値がどれくらいばらつくかを測ります。欠落変数による偏りを測るものではありません。得られた結果は、これらの統制変数の下で、私立大学に大きな平均的所得優位性があるという見方に疑問を投げかけています。不確実性や学生ごとの違いの可能性は残ります。所得の結果だけで、各家庭にとって最善の大学選びを決めることはできません。信頼区間は、統計的仮定のもとで推定値およびその標本抽出の不確実性と両立する効果の範囲を示します。ゼロを含む範囲であっても、実質的に重要となり得る正や負の効果を含むことがあります。その範囲がどれほど広いかを確認してください。統計的有意性と経済的な重要性は異なる問いに答えるものです。どちらも、選択バイアスが残っているかどうかを決着させるものではありません。"
+    },
+    {
+      "id": 75,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Sensitivity analysis asks what happens when the controls change. Suppose we already include the application information. If we then add the student's own test score, parental income, and demographic characteristics, do we get a very different private attendance estimate?",
+      "japanese": "感度分析は、統制変数を変えたときに何が起きるかを調べます。すでに出願情報が含まれているとします。そこに学生自身のテストの点数、親の所得、属性の特徴を追加した場合、私立進学の推定値は大きく変わるでしょうか。"
+    },
+    {
+      "id": 76,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The estimated private effect changes little. That stability is reassuring because those background characteristics are plausible confounders. The omitted variables formula explains why. Conditional on application information, private and public students have much smaller differences in these measured traits. The relationship between the omitted trait and treatment has become small.",
+      "japanese": "推定された私立の効果はほとんど変わりません。それらの家庭環境の特徴は交絡要因として十分に考えられるため、推定値が安定していることは安心材料になります。欠落変数の公式がその理由を説明してくれます。出願情報を条件付けると、私立と公立の学生の間で、これらの測定された特徴の差がずっと小さくなります。省かれた特徴と処置との関係が小さくなったのです。"
+    },
+    {
+      "id": 77,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "So stability does not mean test scores and family income are irrelevant to earnings. They could still predict earnings strongly. Their omission changes the treatment coefficient little because they no longer differ much across the treatment choices after the core controls. We have reduced the first factor in the bias formula.",
+      "japanese": "安定しているからといって、テストの点数や世帯所得が所得に関係ないという意味ではないのですね。それらは依然として所得を強く予測するかもしれません。主要な統制変数をそろえたあとでは、処置の選択肢の間でそれらの特徴に大きな差がなくなるため、それらを省いても処置の係数がほとんど変わらないわけです。公式の第一の要素を小さくしたのですね。"
+    },
+    {
+      "id": 78,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Exactly. That is evidence in favor of the core controls, rather than a proof that every missing variable is harmless. Unmeasured traits could behave differently from measured traits. Controls could also share similar measurement weaknesses. A stable estimate is most informative when we have a substantive reason to trust the comparisons being tested.",
+      "japanese": "そのとおりです。これは主要な統制変数を支持する証拠ではありますが、あらゆる欠落変数が無害であることの証明ではありません。測定されていない特徴は、測定された特徴とは異なる動きをする可能性があります。また、統制変数が共通の測定上の弱点を持っている可能性もあります。推定値が安定していることが最も意味を持つのは、検証されている比較自体を信頼できる実質的な理由があるときです。"
+    },
+    {
+      "id": 79,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Does adding controls always make an estimate more precise? If they explain earnings, I would expect less prediction noise. But earlier you said the controlled comparison also depends on leftover variation in college attendance. Could better prediction come with less useful treatment variation?",
+      "japanese": "統制変数を追加すれば、推定値は常に正確になるのでしょうか。それらが所得を説明してくれるなら、予測のノイズは減ると思います。しかし先ほど、条件をそろえた比較は大学進学の残されたばらつきにも依存すると言っていました。予測が良くなると同時に、利用できる処置のばらつきが減ってしまうことはありますか。"
+    },
+    {
+      "id": 80,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Yes. Controls may reduce unexplained earnings variation, which improves precision. They may also remove much of the treatment variation, which reduces precision. Those forces can pull in different directions. Robust standard errors allow prediction noise to vary across people. They address that statistical uncertainty; they do not correct an invalid causal design.",
+      "japanese": "あります。統制変数は説明のつかない所得のばらつきを減らし、精度を向上させることがあります。一方で、処置のばらつきの多くを取り除いてしまい、精度を低下させることもあります。それらの力が逆方向に働くことがあるのです。不均一分散に頑健な標準誤差は、人によって予測のノイズが異なることを許容します。これは統計的な不確実性に対処するものであり、妥当でない因果推論の設計を正すものではありません。"
+    },
+    {
+      "id": 81,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "The danger of bad controls makes the choice of variables even more important. Imagine private attendance changes someone's occupation, and occupation changes earnings. If I hold occupation fixed, I might remove part of the effect I wanted to measure. Is that the main problem?",
+      "japanese": "不適切な統制変数の危険性を考えると、変数の選択はさらに重要になりますね。私立に通うことで誰かの職業が変わり、職業によって所得が変わるとします。職業を一定に保つと、測定したかった効果の一部を取り除いてしまう可能性があります。それが主な問題でしょうか。"
+    },
+    {
+      "id": 82,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "It is one problem. Occupation can be a pathway through which education changes earnings. Holding it fixed blocks that pathway. Occupation may also depend on other personal traits affecting pay. Selecting people with the same eventual occupation can therefore create new differences between the college groups. The result need not estimate the total college effect.",
+      "japanese": "問題の一つです。職業は、教育が所得を変える経路になり得ます。それを一定に保つと、その経路を遮断してしまいます。また、職業は給与に影響を与える本人の他の性質に依存することもあります。そのため、最終的な職業が同じ人を選ぶことで、大学グループの間に新たな違いを生み出してしまう可能性があります。その結果は、大学の全体的な効果を推定しているとは限りません。"
+    },
+    {
+      "id": 83,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "My misconception would be that adding every available variable must improve the causal estimate. But the timing and role of each variable matter. A characteristic measured before enrollment is a candidate control. A job chosen after enrollment could be an outcome of the education itself.",
+      "japanese": "利用可能なすべての変数を追加すれば因果効果の推定が改善するはずだ、というのは誤解ですね。各変数が測定された時期と役割が重要です。入学前に測定された特徴は統制変数の候補になります。入学後に選ばれた職業は、教育そのものの結果である可能性があります。"
+    },
+    {
+      "id": 84,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Exactly. Pre-treatment timing helps us avoid controlling away a consequence of treatment. It is not a guarantee that every earlier variable is useful or safe. We need an argument about its role in the selection process. For policy, distinguish the total earnings effect of college from a different question about earnings within occupations.",
+      "japanese": "そのとおりです。処置の前の時点であることは、処置の結果を統制してしまうのを避けるのに役立ちます。ただし、それより前の変数ならすべて有用で安全だという保証にはなりません。選択のプロセスにおけるその変数の役割についての議論が必要です。政策を考える上では、大学の所得全体への効果と、特定の職業内での所得に関する別の問いとを区別してください。"
+    },
+    {
+      "id": 85,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Regression across the wider course is now easier to recognize. Experiments compare assigned groups, and regression can summarize the difference. Later methods use instruments, admission thresholds, or changes over time. We will need their separate assumptions even if a regression program produces the final coefficient.",
+      "japanese": "これからの学習全体における回帰分析の位置づけが分かりやすくなってきました。実験では割り当てられたグループ同士を比較し、回帰分析はその差を要約できます。このあとの手法では、操作変数や合格の閾値、あるいは時間の経過による変化を利用します。最終的な係数を出すのが回帰プログラムだとしても、それぞれ固有の仮定が必要になりますね。"
+    },
+    {
+      "id": 86,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Regression is a calculation tool across those designs. It does not turn all of them into the same research strategy. Returns to additional schooling also differ from returns to a private college label. Changing years of education and changing college type are different treatments. Each requires its own comparison and interpretation. A single regression coefficient may also summarize different effects across students. In the group-control example, its weights depend on how much private and public attendance mix within groups. It need not give every student or every group equal weight. That is another reason to describe the comparison population before treating the estimate as a universal effect.",
+      "japanese": "回帰分析は、それらの設計全体で使われる計算ツールです。だからといって、それらすべてが同じ研究戦略になるわけではありません。教育年数の追加による収益も、私立大学というブランドによる収益とは異なります。教育年数を変えることと大学の種類を変えることは異なる処置です。それぞれに固有の比較と解釈が必要です。また、一つの回帰係数が、学生ごとの異なる効果を要約していることもあります。グループ統制変数の例では、その重みはグループ内で私立と公立の学生がどれくらい混ざり合っているかに依存します。すべての学生やグループに等しい重みが与えられるとは限りません。これもまた、推定値を普遍的な効果として扱う前に、比較されている対象集団を確認すべき理由です。"
+    },
+    {
+      "id": 87,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "What about the historical name? Regression to the mean sounds like a force pulling people back toward average outcomes. Should I think of that as another causal effect, or is the word regression connecting different statistical ideas?",
+      "japanese": "歴史的な名前についてはどうですか。平均への回帰と聞くと、人々を平均的な結果へと引き戻す力のように聞こえます。あれも一種の因果効果と考えるべきですか、それとも回帰という言葉が異なる統計的概念を結びつけているだけでしょうか。"
+    },
+    {
+      "id": 88,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Galton used the term in 1886 while studying the heights of parents and children. Exceptionally tall parents tended to have children whose heights were less exceptional. This is a pattern in correlated measurements, not proof of a causal force toward average height. His statistical contribution also coexisted with deeply harmful eugenic ideas.",
+      "japanese": "ゴルトンは1886年に親と子の身長を研究していた際にこの言葉を使いました。非常に背が高い親の子どもは、親ほど極端な身長にならない傾向がありました。これは相関する測定値に見られるパターンであり、平均的な身長に向かわせる因果的な力が存在することの証明ではありません。また、彼の統計学的な貢献は、極めて有害な優生学の思想とともになされたものでした。"
+    },
+    {
+      "id": 89,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "And Yule's contribution was closer to what we are doing with controls? Rather than treating an observed relationship as an automatic explanation, he tried to compare places after accounting for other measured characteristics. That sounds like the beginning of the modern controlled policy comparison.",
+      "japanese": "そしてユールの貢献は、私たちが統制変数を使って行っていることに近かったのでしょうか。観察された関係をそのまま説明として受け入れるのではなく、測定された他の特徴を考慮したうえで地域同士を比較しようとしました。これは現代の条件をそろえた政策比較の始まりのように思えます。"
+    },
+    {
+      "id": 90,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "In 1899, Yule studied English poverty and relief policy while controlling for population growth and age structure. His question was causal, even though including controls did not automatically settle it. To recap The Investigation, regression summarizes controlled comparisons. Omitted variables explain coefficient changes. Useful controls, overlap, suitable modeling, and credible selection assumptions make the comparison persuasive.",
+      "japanese": "1899年、ユールは人口増加や年齢構成を統制しながら、英国の貧困と救済政策を研究しました。統制変数を含めても自動的に解決したわけではありませんが、彼の問いは因果関係に関するものでした。「検証」をまとめると、回帰分析は条件をそろえた比較を要約します。欠落変数は係数の変化を説明します。有用な統制変数、重なり合い、適切なモデル化、そして信頼できる選択の仮定がそろって初めて、比較に説得力が生まれます。"
+    },
+    {
+      "id": 91,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "The Resolution begins with a devil's advocate. Elite graduates earn more, so elite college pays. That statement still sounds persuasive in everyday conversation. If I present the controlled result, someone might reply that clever statistical adjustments are hiding an obvious benefit. How do we answer without overselling our own evidence?",
+      "japanese": "「結論」は、あえて反対の意見を述べることから始めましょう。名門大学の卒業生のほうが稼いでいるのだから、名門大学には元を取る価値がある、という意見です。この主張は日常の会話では今でも説得力を持って聞こえます。条件をそろえた結果を提示すると、統計的な小細工で明らかな恩恵を隠しているだけだと反論されるかもしれません。自分の証拠を過大に主張することなく、どう答えるべきでしょうか。"
+    },
+    {
+      "id": 92,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "Ask which students are being compared. The raw gap mixes the institution's effect with the students' earlier advantages. The application-based comparisons substantially reduce that gap in this evidence. Those adjustments have a reason: they aim to compare similar applicants. We should defend the comparison and its assumptions, rather than defend regression simply because it is technical.",
+      "japanese": "どの学生同士が比較されているのかを尋ねてみてください。単純な格差には、大学の効果と学生がもともと持っていた強みが混ざり合っています。出願状況に基づいた比較を行うと、このデータではその格差が大幅に縮小します。そうした調整には理由があります。似たような出願者同士を比較することを目指しているからです。回帰分析が専門的な手法だからという理由で擁護するのではなく、その比較と仮定の妥当性を擁護すべきです。"
+    },
+    {
+      "id": 93,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "Here is my prediction for the other extreme. If I add enough controls, I will eventually prove there is no private college effect. The coefficient might become tiny and statistically insignificant. Would that count as success, provided I keep all the available observations?",
+      "japanese": "もう一つの極端な例として、私の予想を言います。統制変数を十分に増やせば、私立大学の効果がないことを証明できるはずです。係数はごくわずかになり、統計的にも有意でなくなるかもしれません。利用可能なすべての観測値を保持している限り、それは成功と言えるのでしょうか。"
+    },
+    {
+      "id": 94,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "No. A tiny estimate could reflect a good comparison, a bad control, or a poor specification. Statistical insignificance also leaves uncertainty; it does not establish an exact zero. The goal is a credible estimate of a defined effect. We must justify controls before celebrating where the coefficient ends up.",
+      "japanese": "いいえ。推定値がごくわずかになったとしても、適切な比較を反映している場合もあれば、不適切な統制変数やモデルの誤った指定を反映している場合もあります。また、統計的に有意でないことは不確実性を残すだけであり、効果が厳密にゼロであることを証明するわけではありません。目標は、定義された効果について信頼できる推定値を得ることです。係数がどこに落ち着いたかを喜ぶ前に、統制変数を正当化しなければなりません。"
+    },
+    {
+      "id": 95,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "And a family's decision still depends on more than the average coefficient. Financial aid can change the actual tuition difference. Students can value subjects, location, friendships, or other opportunities. The study challenges a particular earnings claim. It does not remove personal judgment from choosing a university.",
+      "japanese": "そして家族の決断は、依然として平均的な係数以上のものに左右されます。奨学金によって実際の学費の差は変わります。学生は専攻、場所、友人関係、その他の機会を重視することもあります。この研究は所得に関する特定の主張に疑問を投げかけているのであって、大学選びから個人の判断を取り去るものではありません。"
+    },
+    {
+      "id": 96,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "That is the policy implication. Avoid treating an uncontrolled private graduate earnings gap as a guaranteed return on tuition spending. Also avoid declaring that every expensive college is a bad investment. The evidence concerns particular graduates, institutions, and earnings outcomes. A responsible recommendation states those limits and separates earnings from other benefits.",
+      "japanese": "それが政策的な意味合いです。統制されていない私立卒業生の所得格差を、学費に対する確実な見返りとして扱わないようにしましょう。同時に、高額な大学はすべて悪い投資だと決めつけることも避けるべきです。この証拠は、特定の卒業生、特定の教育機関、特定の所得結果に関するものです。責任ある提案とは、そうした限界を明示し、所得とそれ以外の恩恵を切り離して考えることです。"
+    },
+    {
+      "id": 97,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "Our takeaways start with a fair comparison. Regression holds measured controls fixed and summarizes the remaining treatment contrast. It cannot promise that unmeasured differences disappear. That is the central distinction between fitting a model and identifying a causal effect.",
+      "japanese": "今回の要点は、公平な比較から始まります。回帰分析は測定された統制変数を一定に保ち、残された処置の対比を要約します。測定されていない違いが消えることを保証するわけではありません。それこそが、モデルを当てはめることと、因果効果を特定することの決定的な違いです。"
+    },
+    {
+      "id": 98,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "The bias formula adds a practical diagnostic. Ask how an omitted trait differs with treatment after the shared controls. Then ask how that trait predicts the outcome in the long model. Their product explains the short-to-long coefficient difference. Its signs suggest upward or downward distortion. Its interpretation still depends on the credibility of the longer comparison.",
+      "japanese": "偏りの公式は、実践的な診断方法を与えてくれます。共通の統制変数を考慮したあとで、省かれた特徴が処置によってどう異なるかを考えます。次に、長いモデルにおいてその特徴が結果をどのように予測するかを考えます。それらの積が、短いモデルと長いモデルの係数の差を説明します。その符号から、歪みが上向きか下向きかが分かります。その解釈は、長いモデルによる比較の信頼性に依然として依存しています。"
+    },
+    {
+      "id": 99,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "Stability across reasonable models gives us another check. If important measured background traits no longer change the estimate after application controls, confidence grows. But simply collecting many similar controls can create a false sense of security. We need meaningful challenges to the design, including missing traits that might behave differently.",
+      "japanese": "妥当なモデル間での安定性も、もう一つの確認材料になります。出願情報を統制したあとで、測定された重要な家庭環境の特徴を追加しても推定値がほとんど変わらなければ、信頼性は高まります。しかし、単に似たような統制変数をたくさん集めるだけでは、誤った安心感を生むことになりかねません。異なる動きをするかもしれない欠落した特徴を含め、分析の設計に対する意味のある検証が必要です。"
+    },
+    {
+      "id": 100,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "We also distinguish uncertainty from bias. A standard error quantifies sampling variation, not whether the controls remove selection. More observations can narrow uncertainty around a biased answer. A more complicated model can change precision in either direction. Report the estimate's uncertainty while separately explaining why its causal interpretation may be credible.",
+      "japanese": "また、不確実性と偏りも区別します。標準誤差は標本抽出に伴うばらつきを数値化するものであり、統制変数が選択バイアスを取り除いているかどうかを示すものではありません。データ数を増やしても、偏った答えの周りの不確実性が狭まるだけということもあります。より複雑なモデルにすると、精度はどちらの方向にも変化し得ます。推定値の不確実性を報告すると同時に、なぜ因果関係としての解釈が信頼できるのかを別途説明してください。"
+    },
+    {
+      "id": 101,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "Then the thesis is that regression delivers causal effects only when the right pre-treatment controls make treatment as good as random. We also need actual overlap and a suitable model for the controlled comparison. Those qualifications give the thesis content. They tell us what to inspect before trusting the treatment coefficient.",
+      "japanese": "今回の主張は、処置の前の適切な統制変数によって処置が無作為と同等になったときにのみ、回帰分析が因果効果をもたらす、ということです。また、条件をそろえた比較を行うための実際の重なり合いと、適切なモデルも必要です。これらの条件があってこそ、この主張に実質的な意味が生まれます。処置の係数を信頼する前に何を確認すべきかを教えてくれます。"
+    },
+    {
+      "id": 102,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "To recap The Resolution, private college's raw earnings premium does not establish its payoff. The relevant application controls largely remove it in the original evidence. Better controls are justified by the causal question, not by their quantity. A credible regression argument explains selection, modeling, uncertainty, and the limits of the population being compared.",
+      "japanese": "「結論」をまとめると、私立大学の生の所得プレミアムは、その採算の良さを証明するものではありません。元の研究の証拠では、適切な出願の統制変数によってその差はほぼ消えます。優れた統制変数とは、その数ではなく、因果関係の問いによって正当化されるものです。信頼できる回帰分析の主張とは、選択、モデル化、不確実性、そして比較されている集団の限界について説明しているものです。"
+    },
+    {
+      "id": 103,
+      "speaker": "HOST",
+      "section": "まとめ",
+      "english": "Let us return to our learning goals. We can explain a controlled regression as a comparison of students with similar measured characteristics. We can predict omitted variables bias from the signs of its two factors. We can also distinguish useful background controls from treatment consequences that could damage the comparison.",
+      "japanese": "学習目標を振り返りましょう。統制変数を用いた回帰分析を、測定された特徴が似ている学生同士の比較として説明できるようになりました。二つの要素の符号から、欠落変数による偏りの向きを予測できるようになりました。また、有用な背景の統制変数と、比較を損なう恐れのある処置の結果とを区別できるようになりました。"
+    },
+    {
+      "id": 104,
+      "speaker": "ECONOMIST",
+      "section": "まとめ",
+      "english": "Our central thesis remains: regression delivers causal effects only when the right pre-treatment controls make treatment as good as random. The calculation alone cannot establish that condition. In the college example, application information creates much more convincing comparisons. The resulting evidence challenges a large private earnings advantage, while leaving room for uncertainty and differences across people.",
+      "japanese": "私たちの中心的な主張は変わりません。回帰分析が因果効果をもたらすのは、処置の前の適切な統制変数によって処置が無作為と同等になったときだけです。計算だけでその条件を証明することはできません。大学の例では、出願情報を使うことで、はるかに説得力のある比較が作られました。そこから得られた証拠は、不確実性や個人差の余地を残しつつも、私立大学による大きな所得の優位性に疑問を投げかけています。"
+    },
+    {
+      "id": 105,
+      "speaker": "HOST",
+      "section": "まとめ",
+      "english": "Here is our closing think question. A researcher already controls for application patterns and prior test scores. They propose adding the graduate's eventual occupation. They say it will make students more comparable. If the goal is the total earnings effect of private attendance, should we welcome that control?",
+      "japanese": "最後の思考の問いです。ある研究者が、すでに出願パターンと過去のテスト点数を統制しています。彼らは、学生をより比較可能にするためだとして、卒業生の最終的な職業を追加することを提案しています。私立進学がもたらす所得全体への効果を知りたい場合、その統制変数を歓迎すべきでしょうか。"
+    },
+    {
+      "id": 106,
+      "speaker": "ECONOMIST",
+      "section": "まとめ",
+      "english": "Pause the episode and think about when occupation is determined. Ask whether the college choice could change it. Also ask whether holding it fixed might select different kinds of private and public graduates. You do not need a numerical calculation to diagnose this problem.",
+      "japanese": "音声を一度止めて考えてみてください。職業が決まる時期について考えてみましょう。大学の選択がそれを変える可能性があるかを考えてみてください。また、職業を一定に保つことで、私立と公立の卒業生の中から異なるタイプの人々を選び出してしまうことにならないかも考えてみましょう。この問題を診断するのに計算は必要ありません。"
+    },
+    {
+      "id": 107,
+      "speaker": "HOST",
+      "section": "まとめ",
+      "english": "My answer is that occupation can be caused by the education. Holding it fixed could remove an earnings channel and introduce a new selection problem. The proposal changes the comparison. More controls do not guarantee a better estimate of the total effect.",
+      "japanese": "私の答えは、職業は教育によって引き起こされる可能性がある、というものです。それを一定に保つと、所得への経路を一つ取り除いてしまい、新たな選択バイアスを生み出す恐れがあります。この提案は比較の内容を変えてしまいます。統制変数を増やしても、全体的な効果についてのより良い推定値が得られるとは限りません。"
+    },
+    {
+      "id": 108,
+      "speaker": "ECONOMIST",
+      "section": "まとめ",
+      "english": "That is the answer. We would need a different, carefully justified design to study a direct effect holding occupation fixed. For practice with the selection mechanism, use the companion Colab notebook. Change the simulated confounders and compare the short and long regressions. The lecture slides revisit the same reasoning and the application-based college example.",
+      "japanese": "そのとおりです。職業を一定に保った直接的な効果を調べるには、慎重に正当化された別の設計が必要になります。選択のメカニズムを練習するには、付属のColabノートブックを使ってみてください。仮想の交絡要因を変更し、短い回帰と長い回帰を比較してみてください。講義スライドでも同じ推論と、出願情報を用いた大学の例を復習できます。"
+    },
+    {
+      "id": 109,
+      "speaker": "HOST",
+      "section": "まとめ",
+      "english": "Next, Chapter three, Instrumental Variables, asks what we can do when the treatment itself remains selected. It begins with people who ignore assigned treatment. We will separate what people were offered from what they actually received. That brings a different route to causal knowledge and a new set of assumptions.",
+      "japanese": "次回、第3章「操作変数」では、処置そのものが選択されたままである場合に何ができるかを考えます。割り当てられた処置に従わない人々から話が始まります。人々に対して提供されたものと、実際に受け取ったものとを区別します。これにより、因果関係を知るための別のアプローチと、新たな仮定のセットが導入されます。"
+    },
+    {
+      "id": 110,
+      "speaker": "ECONOMIST",
+      "section": "まとめ",
+      "english": "Until then, ask what was held fixed, why it was held fixed, and what still differs. Those questions turn a regression result into a research argument you can examine. Thanks for listening, and goodbye.",
+      "japanese": "それでは次回まで、何が一定に保たれているのか、なぜそれが一定に保たれているのか、そして何がまだ異なっているのかを問い続けてみてください。これらの問いが、回帰分析の結果を検証可能な研究の主張へと変えてくれます。ご清聴ありがとうございました。それでは、また。"
+    }
+  ],
+  "initial_translation_sha256": "a8fc4f96d12e72113b2ad7fb428cfa5f7d0334489942da9d4a8a9f246bd70144"
+}

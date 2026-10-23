@@ -1,0 +1,114 @@
+{
+  "lens": "content",
+  "round": 1,
+  "script_sha256": "7853cddb7eba11671bbedd4baf6fadcd77f6052cb47b029b056d039ec38b9346",
+  "scores": {
+    "C1": {
+      "score": 2,
+      "reason": "Potential outcomes, ATT decomposition, randomization, clustering, ITT and IV limits are sound, but sampling variance was mistranslated as sample variance in the formula for the standard error of a difference."
+    },
+    "C2": {
+      "score": 5,
+      "reason": "All empirical numbers were checked against original tables/notes; 4.01−3.70=0.31, 1.66 rounds to 1.7, 285/636=44.8%, and Oregon 14%+26 percentage points≈40%. The misleading 25% total enrollment shorthand is explicitly rejected."
+    },
+    "C3": {
+      "score": 5,
+      "reason": "Hypothetical students are identified as hypothetical. RAND attrition, corrected vision exception, Oregon emergency use, financial and mental-health outcomes, historical dates and eligibility context match local original sources; mechanisms are qualified."
+    },
+    "C4": {
+      "score": 5,
+      "reason": "All 111 English turns and their ordered Question–Investigation–Resolution coverage survive. The full original chapter and inference appendix were checked, including essential extensions beyond the map. The Japanese artwork accurately selects selection bias, random assignment, RAND and Oregon."
+    },
+    "C5": {
+      "score": 4,
+      "reason": "Finite-sample balance, differential attrition, external validity, assignment versus receipt and nonsignificance limits are preserved. The literal catastrophic-coverage terminology is misleading in Japanese but its surrounding high-medical-cost explanation limits the damage."
+    }
+  },
+  "findings": [
+    {
+      "id": "C-JA01-1",
+      "criterion": "C1",
+      "severity": "error",
+      "status": "open",
+      "anchor": "標準誤差を得るためには、平方根を取る前にグループごとの標本分散を合算します。",
+      "problem": "The English sampling variances of the two mean estimators became 標本分散, which denotes the variance of the observed individual outcomes. Summing raw sample variances and taking a square root omits division by each group sample size and contradicts the subsequent small-control-group precision claim.",
+      "fix": "State explicitly that each group’s outcome sample variance is divided by that group’s sample size, then the two values are added and the square root is taken; retain the independence qualification.",
+      "evidence": [
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "lines": "1003–1008",
+          "quote": "S E\\left(\\bar{Y}^{1}-\\bar{Y}^{0}\\right)=\\sqrt{\\frac{V^{1}\\left(Y_{i}\\right)}{n_{1}}+\\frac{V^{0}\\left(Y_{i}\\right)}{n_{0}}},"
+        },
+        {
+          "file": "mindmaps-podcast/ch01-randomized-trials.md",
+          "quote": "We combine their sampling variances before taking a square root"
+        }
+      ]
+    },
+    {
+      "id": "C-JA01-2",
+      "criterion": "C5",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "壊滅的損害保険、免責額プラン、共同保険プラン、そして無料医療です。",
+      "problem": "壊滅的損害保険 is a literal rendering that suggests disaster/property insurance rather than medical insurance protecting against very large medical bills. The dialogue explains the high-cost protection, so the design remains understandable, but recurring terminology can distract Japanese listeners.",
+      "fix": "Use a medical-context label consistently, such as 高額な医療費を保障するプラン, and retain the explanation that controls still had protection against very high spending.",
+      "evidence": [
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "lines": "522–525",
+          "quote": "required families to pay 95\\% of their health-care costs"
+        }
+      ]
+    }
+  ],
+  "numeric_checks": [
+    {
+      "claims": "NHIS 2009; ages 26–59; one working spouse; 1–5 health scale",
+      "source": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+      "locations": "Table 1.1; footnote 2; empirical notes lines 4356–4368",
+      "result": "verified"
+    },
+    {
+      "claims": "Husbands 4.01/3.70; wives 4.02/3.62; husbands gap 0.31 index points; survey weights",
+      "source": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+      "locations": "Table 1.1; empirical notes",
+      "result": "verified; separate samples retained; computed 4.01−3.70=0.31"
+    },
+    {
+      "claims": "Approximate absolute t threshold 2; 95% confidence coverage; interval estimate±about two SE; square-root n relation",
+      "source": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+      "locations": "Appendix Mastering Inference equations 1.5–1.6 and confidence interval discussion",
+      "result": "verified, apart from C-JA01-1 denominator mistranslation"
+    },
+    {
+      "claims": "Peirce/Jastrow 1885; Fisher 1925",
+      "source": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+      "locations": "Masters of Metrics historical section",
+      "result": "verified; conflicting Lind year omitted as in reviewed English"
+    },
+    {
+      "claims": "RAND 1974–1982; approximately 4,000 people; four grouped plan types",
+      "source": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+      "locations": "RAND design and grouping discussion",
+      "result": "verified against 3,958 participants, original 14 plans grouped into four"
+    },
+    {
+      "claims": "RAND +1.7 face-to-face visits; +45% total spending",
+      "source": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+      "locations": "Table 1.4",
+      "result": "verified: reported 1.66 rounds to 1.7; 285/636≈44.81%"
+    },
+    {
+      "claims": "Oregon 2008; misleading quarter/25% total enrollment; controls about14%; coverage increase about26 percentage points; winners about40%",
+      "source": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+      "locations": "Table 1.5 and accompanying text; coverage-adjustment discussion",
+      "result": "verified: .141+.256=.397≈40%; quarter shorthand explicitly corrected; no percent/percentage-point confusion"
+    },
+    {
+      "claims": "Ordinal chapter/part references and counts such as two possible outcomes are organizational/logical rather than additional empirical estimates",
+      "result": "checked"
+    }
+  ],
+  "summary": "FAIL pending correction of C-JA01-1. The Japanese edition faithfully preserves the complete reviewed English episode, numeric framing and original-book caveats. Correct the sampling-variance formula and improve catastrophic medical coverage terminology before generating full audio. No source extraction was saved; original references remain local."
+}

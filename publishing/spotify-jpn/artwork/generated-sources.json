@@ -1,0 +1,17 @@
+{
+  "tool": "built-in image_gen",
+  "generation_directory": "/Users/carlosmendez/.codex/generated_images/01a165da-5c94-7de2-a518-b9d500e23285",
+  "selected": {
+    "show": "exec-dc4f0df0-12ec-4fe0-9e71-8ac1f2629df4.png",
+    "ch01-randomized-trials": "exec-59c27cb2-2fcf-4614-917e-2cb1bd4ddf8c.png",
+    "ch02-regression": "exec-e5e081a4-bb8e-4fc1-900c-0445d5f1c277.png",
+    "ch03-instrumental-variables": "exec-9d36dfcd-1bf4-432c-9166-0593fa01267d.png",
+    "ch04-regression-discontinuity": "exec-7961e7a4-6d61-40cc-9f18-3736a7b79821.png",
+    "ch05-differences-in-differences": "exec-8b38815f-c4b2-486f-8a78-ce20680958a9.png",
+    "ch06-wages-of-schooling": "exec-6294b4d1-db13-416b-8ede-8ca17b35246b.png"
+  },
+  "superseded": {
+    "ch03-instrumental-variables": "exec-33cb1df5-9e51-4c83-9546-ed14cf43bc57.png"
+  },
+  "logo": "exec-e5e998b6-6cb4-4a2e-801f-f4f1e5a46e25.png"
+}

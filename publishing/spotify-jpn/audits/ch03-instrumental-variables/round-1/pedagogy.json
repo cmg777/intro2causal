@@ -1,0 +1,77 @@
+{
+  "lens": "pedagogy",
+  "round": 1,
+  "script_sha256": "0f353c13e34a6f585225894b7e69c2ff19c24caea7cbe2a09f9cb55bdbcc23eb",
+  "scores": {
+    "P1": {
+      "score": 5,
+      "reason": "Assignment versus receipt and selection bias precede IV vocabulary; instrument/treatment/outcome retain the school example. First stage and reduced form precede the ratio; the four response types precede monotonicity and local interpretation. Definitions are reintroduced where needed, with earlier regression lessons treated as prerequisites."
+    },
+    "P2": {
+      "score": 3,
+      "reason": "The causal chain, cancellation of unchanged response types, and worked police Wald ratio are explained with inputs, operation and interpretation. However, the closing answer calls the denominator the attendance effect, which can teach the wrong operation at the final application checkpoint; P-1 must be corrected."
+    },
+    "P3": {
+      "score": 5,
+      "reason": "Three concrete opening goals are revisited at the end. All three Parts have a HOST prediction followed by a reasoned correction or confirmation and closing recap. The police calculation spans multiple turns: 0.797 minus 0.011 gives 0.786; 0.114 divided by 0.786 gives 0.145, then 14.5 percentage points and a bounded interpretation."
+    },
+    "P4": {
+      "score": 5,
+      "reason": "Plausible misconceptions are voiced by the learner, then corrected with mechanisms: dropping noncompliers restores selection, observed enrollment does not identify response type, larger samples do not turn a complier estimate into an everyone estimate, and agreement with OLS may reflect many-weak bias."
+    },
+    "P5": {
+      "score": 5,
+      "reason": "Police, school and family-size cases preserve their differing assignments, treatments, outcomes and populations. Police treatment coding is fixed before calculation; KIPP adjusted rates are explicitly paired with the same outcome/sample; tutoring is clearly hypothetical and exclusion threats are reasoned rather than asserted as facts."
+    },
+    "P6": {
+      "score": 5,
+      "reason": "All stated goals are substantively fulfilled. The final lottery/tutoring question applies an already explained exclusion threat, explicitly invites a pause, and gives the correct conceptual answer that assignment can retain meaning while a schooling-only channel fails. The ratio wording defect in that answer is captured under P2."
+    },
+    "P7": {
+      "score": 4,
+      "reason": "Numbers are grouped by case, probability differences are distinguished from relative percentages, and repeated causal-chain summaries permit listening without a diagram. Some advanced-method turns nevertheless stack several unfamiliar Japanese technical expressions, creating a minor N2 listening-load issue (P-2). Full source coverage justifies length; no English twenty-minute cap was applied."
+    }
+  },
+  "findings": [
+    {
+      "id": "P-1",
+      "criterion": "P2",
+      "severity": "major",
+      "status": "open",
+      "anchor": "しかし、それを通学効果で割った比率には異なる経路が混ざり合ってしまい",
+      "problem": "The denominator is called 通学効果 (attendance effect). After teaching that IV estimates the attendance effect by dividing the offer effect on scores by the offer effect on attendance rates, this phrase can tell listeners to divide by the very causal effect being estimated. The closing application must reinforce the learned first-stage operation unambiguously.",
+      "fix": "Replace the phrase with an explicit first-stage denominator, for example 「しかし、その点数の差を、提示による通学率の差、つまり第一段階で割っても、個別指導と通学の経路が混ざります。」 Preserve the subsequent conclusion that the ratio does not isolate attendance effects.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ja/ch03-instrumental-variables.md",
+          "quote": "誘導形を第一段階で割るのですね。"
+        },
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "quote": "Dividing ITT estimates from a randomized trial by the corresponding difference in compliance rates is another case of IV in action"
+        }
+      ]
+    },
+    {
+      "id": "P-2",
+      "criterion": "P7",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "多数の弱い操作変数を使うと、第一段階で過剰適合が起きる可能性があります。",
+      "problem": "This turn moves from 過剰適合 to finite-sample pull toward OLS, 限定情報最尤法, estimator comparison, reduced-form inspection and exclusion within one response. The mechanisms are present, but an N2 listener receives several new abstract terms before a turn break.",
+      "fix": "Split this response with a short HOST paraphrase after explaining the pull toward ordinary regression, and retain the advanced-estimator label as optional terminology with a plain-language reminder. Keep the substantive coverage."
+    }
+  ],
+  "summary": "Strong, faithful pedagogical sequence with all planned learning devices, worked ratio, local-effect limits and application question. Gate FAIL in round 1: correct the closing denominator wording (P-1). One optional listening-load improvement remains (P-2).",
+  "reviewed_sources": [
+    ".claude/skills/write-podcast-script4mindmaps/reference/audit.md",
+    ".claude/skills/write-podcast-script4mindmaps/reference/episode.md",
+    ".claude/skills/write-podcast-script4mindmaps/state/ch03-instrumental-variables/brief.json",
+    ".claude/skills/write-podcast-script4mindmaps/state/ch03-instrumental-variables/coverage.json",
+    ".claude/skills/write-podcast-script4mindmaps/state/ch03-instrumental-variables/source-notes.md",
+    "mindmaps-podcast/ch03-instrumental-variables.md",
+    "mindmaps/ch03-instrumental-variables.md",
+    "publishing/spotify-jpn/artwork/ch03-instrumental-variables.png",
+    "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex:2317-2370"
+  ]
+}

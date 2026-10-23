@@ -1,0 +1,84 @@
+{
+  "lens": "clarity",
+  "round": 1,
+  "script_sha256": "7853cddb7eba11671bbedd4baf6fadcd77f6052cb47b029b056d039ec38b9346",
+  "scores": {
+    "L1": {
+      "score": 3,
+      "reason": "The basic polite register is appropriate, but several central explanations retain literal English abstractions and unnatural nominal phrases. Taken together, these make selection-bias and inference passages materially harder to follow at the requested N2 listening level."
+    },
+    "L2": {
+      "score": 4,
+      "reason": "Potential outcomes, treatment, counterfactual, selection bias, confounding, ITT, and inference terms receive substantive explanations. Some Japanese labels and abbreviation/pronunciation handling still need minor polish."
+    },
+    "L3": {
+      "score": 3,
+      "reason": "The numerical examples distinguish score points, percentages, and percentage points clearly. However, the spoken standard-error calculation says to sum sample variances, obscuring the required sample-size adjustment and potentially teaching the wrong operation."
+    },
+    "L4": {
+      "score": 4,
+      "reason": "Alternating student questions and teacher answers preserve plausible misconceptions and allow the argument to develop. A few host reactions sound like literal written translation rather than natural Japanese conversation."
+    },
+    "L5": {
+      "score": 5,
+      "reason": "Opening announces 問い・検証・結論, each act is named aloud, recaps track the argument, and transitions work without seeing the image. Wrap-up returns to the goals and bridges clearly to Chapter 2."
+    }
+  },
+  "findings": [
+    {
+      "id": "JA-L1-1",
+      "criterion": "L1",
+      "severity": "major",
+      "status": "open",
+      "anchor": "それらのグループが互いに同等な代替関係にあると言える根拠",
+      "problem": "This central condition is expressed through abstract, unnatural wording; similar literal phrases recur in the decomposition and uncertainty sections (for example 「グループ間での処置なしの潜在的な結果を比べる部分」 and 「推計値とどのような効果が整合的なまま残されているのか」). A learner must decode the Japanese before following the causal idea.",
+      "fix": "Rewrite these dense statements as short spoken Japanese while retaining the substantive content. For this anchor, say 「保険に入った人が、もし入らなかったらどうなったか。その代わりとして、未加入者の健康状態を使ってよい理由が必要です」. Likewise unpack the decomposition into two explicitly numbered verbal components and ask 「このデータでは、どのくらいの効果までありそうだと言えるのでしょうか」 before explaining confidence intervals. Preserve the distinction between effect on treated people and the overall population."
+    },
+    {
+      "id": "JA-L2-1",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "無料の医療対壊滅的損害保険という対比",
+      "problem": "「壊滅的損害保険」 is an unnatural literal label for a health-insurance plan and may evoke property catastrophe coverage. It is repeatedly burdensome by ear even though the later explanation gives its intended meaning.",
+      "fix": "Use a clear health-specific description consistently, such as 「高額な医療費だけを主に保障する保険」, and explain at first mention that this is the catastrophic-coverage comparison plan. Retain the crucial distinction from complete absence of insurance."
+    },
+    {
+      "id": "JA-L2-2",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "切片と、その指標変数だけを使った最小二乗回帰を行うと",
+      "problem": "The dummy variable is described as membership but never explicitly as zero/one; 切片 and 最小二乗回帰 arrive together without plain-Japanese glosses. Subsequent equations are verbally described, so the core comparison remains recoverable, but jargon adds avoidable load.",
+      "fix": "State 「加入なら1、未加入なら0とする変数です」. Briefly gloss 切片 as the prediction when the indicator is zero, and identify 最小二乗 as the regression calculation used here without a derivation. Preserve the point that regression alone does not remove selection bias."
+    },
+    {
+      "id": "JA-L2-3",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "国民健康健康聞き取り調査、いわゆるNHISでは",
+      "problem": "The duplicated 健康 is a text error and the acronym is not given a Japanese spoken reading. Other pronunciation-sensitive terms include 反実仮想, ITT, t統計量, and Colab; the script itself cannot establish how Gemini will pronounce them.",
+      "fix": "Remove the duplicated 健康, use a clear name such as 「アメリカの全国健康聞き取り調査」, and add NHIS/ITT/t/Colab readings to the separate TTS pronunciation map. Check 反実仮想 and the names in actual generated audio; keep pronunciation instructions out of the reader transcript."
+    },
+    {
+      "id": "JA-L3-1",
+      "criterion": "L3",
+      "severity": "major",
+      "status": "open",
+      "anchor": "平方根を取る前にグループごとの標本分散を合算します",
+      "problem": "A listener is told to add each group’s sample variance before taking a square root. The English source says sampling variances, meaning the variances of the sample means. As written, this drops the sample-size scaling and makes the described standard-error calculation incorrect or at least seriously ambiguous.",
+      "fix": "Say, for independent observations, 「まず、それぞれのグループで、結果の分散をそのグループの人数で割ります。その二つを足して、平方根を取ると、平均値の差の標準誤差になります」. Then retain the existing point that a small control group limits precision and the earlier warning that related family observations require clustering."
+    },
+    {
+      "id": "JA-L4-1",
+      "criterion": "L4",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "今回の主な持ち帰り事項は何でしょうか",
+      "problem": "「持ち帰り事項」 and nearby literal student reactions such as 「どちらの主張が生き残るでしょうか」 sound like translated written English rather than a natural Japanese student/teacher exchange. They do not block understanding but reduce conversational ease.",
+      "fix": "Use 「今回、特に覚えておきたいことは何でしょうか」 and 「どちらの主張なら、根拠があると言えるのでしょうか」. Give similarly literal host turns a light spoken-Japanese polish without removing questions, predictions, or substantive coverage."
+    }
+  ],
+  "summary": "Round 1 FAIL: L1 and L3 have open major findings. The full Japanese adaptation preserves the English argument and strong three-act signposting, but central literal phrasing and the sample-variance instruction need targeted revision before N2-oriented audio generation. Other findings are minor terminology, pronunciation-preparation, and dialogue polish. This is a script clarity audit, not an auditory certification of generated speech."
+}

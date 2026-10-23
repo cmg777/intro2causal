@@ -1,0 +1,104 @@
+{
+  "lens": "content",
+  "round": 3,
+  "script_sha256": "623ca355ccd616aec27f57c71ff9092210c989a0cbb48ec16734bb91bd17774b",
+  "scope": "Short Japanese voice-review excerpt only (health-insurance question, NHIS husbands comparison, missing counterfactual, and preview of random assignment). This is not a complete chapter script or full map/completeness audit; RAND/Oregon cases, survey weighting, sample restrictions, inference and later chapter coverage remain for the eventual full episode audit.",
+  "scores": {
+    "C1": {
+      "score": 5,
+      "reason": "Correctly separates the observed insured/uninsured health gap from an insurance effect, identifies income/education/work as possible group differences, and defines the missing same-person alternative outcome. Random assignment is described cautiously as helping make starting points comparable, without promising exact finite-sample balance."
+    },
+    "C2": {
+      "score": 5,
+      "reason": "The corrected wording accurately distinguishes respondents’ self-reported health from its coding into1–5 points. The higher-is-healthier direction, husbands-only means4.01/3.70, and difference0.31 all match original Table1.1 and measure definitions. The excerpt introduces no percentage, pooled-sex, causal-effect or weighting mislabel; full sample/year/weight context remains for the full chapter."
+    },
+    "C3": {
+      "score": 5,
+      "reason": "Every substantive claim in this excerpt is supported by the original book and reviewed English dialogue: health self-report and separate spouse groups, demographic selection, same-person potential outcomes, and assignment by chance. There are no invented experiments, current-policy assertions, or claims that insurance is proven effective."
+    },
+    "C4": {
+      "score": 5,
+      "reason": "Within the expressly limited sample scope, the sequence preserves the chapter question, naive NHIS evidence, missing counterfactual and transition toward random assignment. Uses original Table 1.1 rather than the derivative map’s conflicting means. Full-map and original-chapter completeness are explicitly outside this sample-only verdict."
+    },
+    "C5": {
+      "score": 5,
+      "reason": "Simplifications remain valid: an observed mean gap is expressly not necessarily the insurance effect; the impossible same-time comparison captures the fundamental missing-outcome issue; the randomization preview says starting points become easier to align, not that any realized groups are identical. No insignificant-null or generalization claims occur."
+    }
+  },
+  "findings": [
+    {
+      "id": "C-1",
+      "criterion": "C2",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "本人が健康状態を1から5までの点数で答え",
+      "problem": "The original NHIS question asks respondents for a verbal health category; researchers assign1–5 to those categories. This wording instead says respondents provided numeric point answers. The range is right but the description of elicitation is slightly inaccurate.",
+      "fix": "Say 「本人が答えた健康状態を、1から5までの点数にしたものです。点数が高いほど健康です。」 or an equally natural formulation distinguishing the answer from its numeric coding.",
+      "evidence": [
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "lines": "282",
+          "quote": "We used this question to code an index that assigns 5 to excellent health and 1 to poor health"
+        }
+      ],
+      "resolution": "Round3: The current script now says 「本人が答えた健康状態を、1から5までの点数にしたものです。」, accurately distinguishing the health response from numeric coding. Verified against original line282; original finding and evidence retained."
+    }
+  ],
+  "sources_reviewed": [
+    {
+      "file": "mindmaps-podcast/ch01-randomized-trials.md",
+      "lines": "7–57, 85–111",
+      "purpose": "English source dialogue for question, NHIS, potential outcomes and random assignment"
+    },
+    {
+      "file": ".claude/skills/write-podcast-script4mindmaps/state/ch01-randomized-trials/brief.json",
+      "purpose": "Chapter scope, leaf order and original chapter source location"
+    },
+    {
+      "file": ".claude/skills/write-podcast-script4mindmaps/state/ch01-randomized-trials/source-notes.md",
+      "purpose": "Reconciliation of derivative map numbers and original weighted NHIS comparison"
+    },
+    {
+      "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+      "lines": "280–405",
+      "purpose": "Authoritative NHIS measure, Table 1.1, selection and potential outcomes"
+    },
+    {
+      "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+      "lines": "466–508",
+      "purpose": "Random assignment and finite-sample comparability limits"
+    },
+    {
+      "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+      "lines": "4356–4370",
+      "purpose": "NHIS sample, five-point measure and survey weights"
+    },
+    {
+      "file": "book/notebooks_quarto/01-randomized-trials.qmd",
+      "lines": "350–455, 1083–1116",
+      "purpose": "Companion corroboration; original authority retained where simplified statements differ"
+    }
+  ],
+  "gate": "PASS",
+  "summary": "PASS for factual fidelity of the complete current short Japanese voice-review excerpt: C1–C5 all5, C-1 fixed, no open findings. This is not a full chapter-completeness, language, pronunciation, generated-audio or timing certification.",
+  "recheck_history": [
+    {
+      "round": 1,
+      "script_sha256": "2e90b4517801b23e73c5af4b67faa271d2d447d3925621410474929bc9c5012f",
+      "verdict": "PASS",
+      "note": "Original excerpt had no findings."
+    },
+    {
+      "round": 2,
+      "script_sha256": "bcbabd26efbc34a5cec08d30e8801b831e34765a3d796ba55fff23e16eb39391",
+      "verdict": "PASS",
+      "note": "Re-read complete current excerpt; rechecked original line282 and empirical definitions. Added range and point units are correct; minor coding-versus-response wording issue newly introduced. Previous evidence retained."
+    },
+    {
+      "round": 3,
+      "script_sha256": "623ca355ccd616aec27f57c71ff9092210c989a0cbb48ec16734bb91bd17774b",
+      "verdict": "PASS",
+      "note": "Re-read the entire current excerpt. C-1 fixed; range, units, means, arithmetic, selection-bias warning, counterfactual and cautious randomization preview remain correct. No new findings."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "lens": "clarity",
+  "round": 2,
+  "script_sha256": "ce11f606d5868b7e0ac3cbcb1a6e42173343e6951ea50759cb7928dd250811ba",
+  "scores": {
+    "L1": {
+      "score": 5,
+      "reason": "Re-read the complete revised Japanese script. Polite exposition and explicit examples make technical material accessible; the literal exposure/window wording is repaired."
+    },
+    "L2": {
+      "score": 5,
+      "reason": "Relevant terms are explained in context, including bandwidth, running variable, counterfactual, reduced form, first stage, standard deviation, exclusion, monotonicity and robustness. Separate pronunciation guidance handles readings."
+    },
+    "L3": {
+      "score": 5,
+      "reason": "The same-control-values comparator is corrected; mortality rates and annual units, relative increase, age endpoints, admission-versus-enrollment and local limits are clear by ear."
+    },
+    "L4": {
+      "score": 5,
+      "reason": "HOST poses predictions and substantive objections; ECONOMIST answers them in manageable sentence sequences and the follow-ups unpack the denser IV material. No remaining actionable dialogue issue."
+    },
+    "L5": {
+      "score": 5,
+      "reason": "All three branches, recaps and transitions are audible without the image; conclusion and final application question revisit the limited causal interpretation."
+    }
+  },
+  "findings": [
+    {
+      "id": "L-1",
+      "criterion": "L3",
+      "severity": "major",
+      "status": "fixed",
+      "anchor": "この点が、年齢などの統制変数の値が同じ人の中で、処置を受けた人と受けない人を比べる通常の回帰分析との違いです。",
+      "problem": "The source means treated and untreated people with the same control-variable values. 同じ対照群 instead means the same control group, which changes the comparison and confuses why sharp RD lacks overlap.",
+      "fix": "Replace with この点が、年齢などの統制変数の値が同じ人の中で、処置を受けた人と受けない人を比べる通常の回帰分析との違いです。 Keep the adjacent exact-age explanation.",
+      "note": "The revised comparator correctly describes equal control-variable values, followed by treated-versus-untreated comparison."
+    },
+    {
+      "id": "L-2",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "同級生の学力のように、処置の強さが連続的に変わる場合は、入学するかしないかという二択よりも注意が必要です。",
+      "problem": "曝露 is an unexplained literal rendering of exposure and 出席 suggests daily attendance rather than enrollment. This dense transition is hard for N2 listeners.",
+      "fix": "Use 同級生の学力のように、処置の強さが連続的に変わる場合は、入学するかしないかという二択よりも注意が必要です。 In the following sentences use 処置の強さ instead of repeated 曝露.",
+      "note": "Exposure is now expressed as treatment intensity, and enrollment is distinguished from binary enrollment status."
+    },
+    {
+      "id": "L-3",
+      "criterion": "L1",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "広い分析範囲は19歳から23歳になる直前までです。",
+      "problem": "窓枠 is a physical window frame in ordinary Japanese; repeated use is a literal translation that burdens an otherwise clear bandwidth explanation.",
+      "fix": "Use 分析に使う年齢の範囲 consistently in place of 窓枠, and make endpoints explicit as 19歳から23歳になる直前まで and 20歳から22歳になる直前まで.",
+      "note": "Analysis ranges replace the physical window metaphor; both broad and narrow age endpoints are stated explicitly."
+    },
+    {
+      "id": "L-4",
+      "criterion": "L2",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "次は、分析方法を少し変えても結論が大きく変わらないかを確かめます。これを頑健性の確認と呼ぶのですね。",
+      "problem": "頑健性 appears as a label without a plain Japanese gloss. The following examples teach the idea but a listener may lose the label.",
+      "fix": "Say 次は、分析方法を少し変えても結論が大きく変わらないかを確かめます。これを頑健性の確認と呼ぶのですね。",
+      "note": "A direct plain-language robustness explanation now accompanies the label."
+    }
+  ],
+  "summary": "PASS for clarity round 2: all four round-1 findings verified fixed against the current complete script. All L1–L5 score 5; no open findings. No script edits made."
+}

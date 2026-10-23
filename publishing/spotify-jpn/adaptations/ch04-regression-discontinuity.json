@@ -1,0 +1,768 @@
+{
+  "source": "mindmaps-podcast/ch04-regression-discontinuity.md",
+  "source_sha256": "ffb2626b902e82736cfe44b57e4d0ddbedb9d1c9e61e31a09a4b016c0ede298f",
+  "script_sha256": "ce11f606d5868b7e0ac3cbcb1a6e42173343e6951ea50759cb7928dd250811ba",
+  "model": "gemini-3.8-flash",
+  "created_at": "2026-10-23T01:02:14.314900+00:00",
+  "review_status": "independent_audits_pass",
+  "turn_count": 108,
+  "turns": [
+    {
+      "id": 1,
+      "speaker": "HOST",
+      "section": "オープニング",
+      "english": "Welcome back. Today we are on regression discontinuity, and a birthday with serious consequences. Legal access to alcohol changes suddenly at a particular age. Human bodies do not suddenly become different. Could that contrast teach us something about deaths among young adults?",
+      "japanese": "おかえりなさい。本日のテーマは回帰不連続デザイン（regression discontinuity design）、そして重大な結果をもたらすある誕生日についてです。飲酒が法的に認められるかどうかは、特定の年齢で突然切り替わります。しかし、人間の身体がその瞬間に突然変わるわけではありません。この対比から、若者の死亡について何かを学ぶことができるのでしょうか。"
+    },
+    {
+      "id": 2,
+      "speaker": "ECONOMIST",
+      "section": "オープニング",
+      "english": "That is the starting point. Researchers studying American mortality found a clear increase around the legal drinking birthday. Their question was whether access to alcohol caused that increase. Simply comparing drinkers with people who avoid alcohol would not settle it. Those groups may differ in risk taking, health, and many other ways.",
+      "japanese": "そこが出発点です。アメリカの死亡率を調べた研究者たちは、法定飲酒年齢の誕生日の前後で、明らかな死亡率の上昇を発見しました。彼らの問いは、お酒を手に入れられるようになったことがその上昇の原因なのか、ということでした。単にお酒を飲む人と避ける人を比べるだけでは、決着はつきません。そうしたグループの間では、危険を冒す度合いや健康状態、その他多くの点で違いがあるかもしれないからです。"
+    },
+    {
+      "id": 3,
+      "speaker": "HOST",
+      "section": "オープニング",
+      "english": "So our question is: Does legal access to alcohol raise death rates? We need a comparison that does more than show drinking and danger together.",
+      "japanese": "つまり私たちの問いは、「飲酒が法的に認められると死亡率は上がるのか」ということです。単に飲酒と危険が同時に起きていることを示す以上の比較が必要ですね。"
+    },
+    {
+      "id": 4,
+      "speaker": "ECONOMIST",
+      "section": "オープニング",
+      "english": "By the end of this episode, you should be able to explain how a cutoff creates a causal comparison. You should also distinguish sharp from fuzzy regression discontinuity. Finally, you should evaluate the assumptions and limits of an estimated jump. We will use the drinking age and Boston's selective schools to practice those skills.",
+      "japanese": "このエピソードの終わりまでに、閾値（cutoff）がどのように因果関係の比較を作り出すのかを説明できるようになります。また、シャープな回帰不連続とファジーな回帰不連続の違いを区別できるようになります。最後に、推定された段差の仮定と限界を評価できるようになります。法定飲酒年齢とボストンの選抜制学校の事例を使って、それらのスキルを練習していきましょう。"
+    },
+    {
+      "id": 5,
+      "speaker": "HOST",
+      "section": "オープニング",
+      "english": "Our mind map takes us through The Question, The Investigation, and The Resolution. I like the idea of a rule creating an experiment. But I am suspicious. If a rule determines everything, where does a fair comparison come from?",
+      "japanese": "今回の思考マップは、「問い」「検証」「結論」という三つの部分を通って進みます。ルールが実験を作り出すという考え方は面白いですね。ただ、私は少し疑っています。ルールがすべてを決めてしまうなら、公平な比較はどこから生まれるのでしょうか。"
+    },
+    {
+      "id": 6,
+      "speaker": "ECONOMIST",
+      "section": "オープニング",
+      "english": "Keep that suspicion. It will help. The rule itself is not random. Instead, we compare people extremely close to where it changes. We ask whether their expected outcomes would otherwise join smoothly. If that condition is credible, a sudden outcome change becomes informative. If it fails, the same apparent jump can mislead us.",
+      "japanese": "その疑いは持ち続けてください。理解の助けになります。ルールそのものは無作為ではありません。そうではなく、ルールが切り替わる境界のすぐ前後にいる人たちを比べます。そして、もしそのルールがなかったら、期待される結果は滑らかにつながっていたはずか、と考えるのです。その条件がもっともらしいなら、結果の突然の変化から多くのことがわかります。もしそれが成り立たなければ、同じように見える段差でも、私たちを誤った判断に導いてしまいます。"
+    },
+    {
+      "id": 7,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "Let us enter The Question. Start with legal access rather than actual drinking. Why is that distinction so important? An underage person can still find alcohol, while someone above the legal age can choose to avoid it.",
+      "japanese": "では、「問い」に入っていきましょう。実際の飲酒ではなく、法的な入手資格から始めます。なぜその区別がそれほど重要なのでしょうか。法定年齢未満の人でもお酒を見つけることはできますし、法定年齢を超えた人でも飲まないことを選べますよね。"
+    },
+    {
+      "id": 8,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "The treatment in our first design is permission to obtain alcohol legally. In the American setting studied, that permission begins at 21. It does not mean everyone suddenly drinks. It means the legal restriction switches. The causal effect includes the behavioral response to that change. It is an effect of access, not the biological effect of drinking a fixed amount.",
+      "japanese": "私たちの最初のデザインにおける処置（treatment）は、お酒を合法的に手に入れる許可です。研究されたアメリカの設定では、その許可は21歳から始まります。これは、全員が突然飲み始めるという意味ではありません。法的な規制が切り替わるということです。因果効果には、その変化に対する行動の反応も含まれます。これは入手のしやすさの効果であって、決まった量のアルコールを飲むことによる生物学的な効果ではありません。"
+    },
+    {
+      "id": 9,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "Other eligibility rules have that same structure. The study guide mentions voting at 18 and Medicare eligibility at 65. They sound like promising places to look. But the rule alone cannot guarantee that an outcome change comes from the policy we care about.",
+      "japanese": "他の受給資格や権利のルールも同じ構造を持っていますね。学習ガイドには、18歳での選挙権や65歳でのメディケアの資格が挙げられています。有望な着眼点のように聞こえます。しかし、ルールがあるというだけでは、結果の変化が関心のある政策から生じたとは保証できませんよね。"
+    },
+    {
+      "id": 10,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "Exactly. Those are examples of thresholds, not completed causal studies. Each application needs its own investigation. For alcohol, the policy debate matters. Supporters of a lower drinking age argued that earlier legal access could encourage more responsible drinking. Others believed restricting access prevented harm. We should judge these arguments using evidence, rather than assuming either story must be right.",
+      "japanese": "その通りです。それらは閾値の例であって、因果関係の研究が完成しているわけではありません。それぞれの事例ごとに検証が必要です。アルコールに関しては、政策的な議論が重要になります。法定飲酒年齢の引き下げを支持する人々は、より早い時期に合法的に手に入れられるようにすれば、より責任ある飲酒が促されると主張しました。一方で、入手を制限することが害を防ぐと信じる人々もいました。私たちは、どちらかの話が正しいに違いないと思い込むのではなく、証拠を使ってこれらの主張を判断するべきです。"
+    },
+    {
+      "id": 11,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "My first prediction is that if birthdays alone create dangerous celebrations, deaths should rise around neighboring birthdays too. Would that weaken the argument that legal drinking access matters?",
+      "japanese": "私の最初の予想ですが、もし誕生日そのものが危険なお祝いを引き起こすだけなら、前後の誕生日でも死亡率は上がるはずです。もしそうなったら、法的な飲酒資格が重要だという主張は弱まりますか。"
+    },
+    {
+      "id": 12,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "The birthday comparison gives a useful reveal. The original study discussion finds a distinctive spike around the legal drinking birthday. Neighboring birthdays do not show the same pronounced pattern. That weakens a generic birthday explanation. But it does not yet answer whether the increase persists beyond a brief celebration. We need a broader comparison around the threshold.",
+      "japanese": "誕生日の比較は有益な事実を明らかにします。元の研究の議論では、飲酒が合法になる誕生日の前後に特有の急増が見られます。前後の誕生日では、これほど際立ったパターンは見られません。そのことは、誕生日一般による説明を弱めます。しかし、この増加が一過性のお祝いを超えて持続するかどうかには、まだ答えていません。閾値の前後のより広い比較が必要です。"
+    },
+    {
+      "id": 13,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "Here is the puzzle of rigid rules. A person just short of the birthday and someone just past it can be nearly the same age. Yet their legal access differs completely. The comparison gets interesting precisely because the rule changes abruptly.",
+      "japanese": "厳格なルールの難しさはここにありますね。誕生日直前の人と直後の人は、ほとんど同じ年齢です。それなのに、法的な入手資格は完全に異なります。ルールが急激に変化するからこそ、比較が興味深くなるわけですね。"
+    },
+    {
+      "id": 14,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "Yes. Think of age advancing gradually, while eligibility changes suddenly. We do not claim nearby people are identical in every detail. We need their average underlying risks to vary smoothly. The mortality data grouped by month of age show more than a single birthday spike. They suggest a step upward around the legal boundary. That pattern motivates the design.",
+      "japanese": "そうです。年齢が徐々に進む一方で、資格は突然変化すると考えてみてください。境界の近くにいる人たちが、あらゆる面で全く同一だと言っているわけではありません。潜在的なリスクの平均が滑らかに変化していればよいのです。月齢ごとにまとめられた死亡データは、単なる誕生日当日の急増以上のものを示しています。法的な境界の前後で、一段階上に上がっていることを示唆しているのです。そのパターンが、このデザインの動機となっています。"
+    },
+    {
+      "id": 15,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "What does smoothly mean here? Are you saying the death rate must stay constant as people grow older? That seems unlikely, especially when young people are gaining experience and changing their behavior.",
+      "japanese": "ここでの「滑らか」とはどういう意味ですか。年齢を重ねても死亡率が一定のままでなければならない、という意味でしょうか。若者が経験を積み、行動を変えていくことを考えると、それはありそうにない気がします。"
+    },
+    {
+      "id": 16,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "Smoothly does not mean constant. Mortality may rise, fall, or curve with age. The requirement concerns a sudden break at the exact boundary. Without the legal change, the expected outcome should approach the same value from either side. A gradual improvement in road safety with maturity is compatible with that condition. An unrelated policy starting on the same birthday would create a problem.",
+      "japanese": "滑らかとは、一定という意味ではありません。死亡率は年齢とともに上昇しても、低下しても、曲線を引いても構いません。要件は、まさにその境界で突然の断絶がないことです。法的な変化がなかった場合、期待される結果は境界のどちら側から近づいても同じ値に近づくはずです。大人になるにつれて道路交通の安全性が徐々に向上することは、この条件と両立します。同じ誕生日に始まる無関係な別の政策があると、問題が生じることになります。"
+    },
+    {
+      "id": 17,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "Let us build the vocabulary before we fit anything. Regression discontinuity is a long name. Can we unpack the words and give every moving part a simple job?",
+      "japanese": "分析を当てはめる前に、用語を整理しておきましょう。回帰不連続デザインというのは長い名前です。言葉を分解して、動いている各要素に分かりやすい役割を与えることはできますか。"
+    },
+    {
+      "id": 18,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "We will call it RD after this. The running variable is the measure that determines eligibility. Here it is age. The cutoff is the boundary in that measure. The treatment indicator records whether legal access is switched on. Discontinuity means a break or jump. Regression describes the statistical method used to separate that jump from the surrounding trend.",
+      "japanese": "これ以降はRDと呼びましょう。ランニング変数（running variable）とは、資格を決定する尺度のことです。ここでは年齢です。閾値とは、その尺度における境界のことです。処置の指標は、法的な入手資格が有効になったかどうかを記録します。不連続（discontinuity）とは、断絶や段差を意味します。回帰（regression）は、その段差を周囲の傾向から切り離すために使われる統計手法を指します。"
+    },
+    {
+      "id": 19,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "And sharp versus fuzzy describes what happens to treatment at the boundary? I want to avoid confusing a sharp legal rule with a claim that everyone follows it perfectly.",
+      "japanese": "そしてシャープとファジーの違いは、境界で処置に何が起きるかを表しているのですね。シャープな法的ルールと、全員がそれに完璧に従うという主張を混同しないようにしたいです。"
+    },
+    {
+      "id": 20,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "Correct. In sharp RD, the treatment being studied switches completely at the cutoff. Legal access is sharp even though drinking behavior is not. In fuzzy RD, the chance or intensity of the treatment changes, without a complete switch. A school offer might increase attendance without determining it. We must define the treatment before choosing the label.",
+      "japanese": "その通りです。シャープなRDでは、調べたい処置が閾値で完全に切り替わります。飲酒行動そのものは完全でなくても、法的な入手資格はシャープです。一方、ファジーなRDでは、完全な切り替えではなく、処置を受ける確率や強度が変化します。学校の合格通知は、入学を完全に決定づけなくても、入学する確率を高めることがあります。どちらの分類を選ぶかの前に、処置を定義しなければなりません。"
+    },
+    {
+      "id": 21,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "We also need continuity, bandwidth, and placebo tests. I can remember the first as the smooth comparison we would expect without treatment. What do the other terms add?",
+      "japanese": "連続性の仮定、帯域幅（bandwidth）、そしてプラセボ検定（placebo test）も必要ですね。最初のものは、処置がなかった場合に期待される滑らかな比較として覚えられます。他の用語にはどのような意味があるのでしょうか。"
+    },
+    {
+      "id": 22,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "Bandwidth tells us how far from the boundary we include observations. A narrow bandwidth uses only close neighbors. A placebo test asks whether something that should remain unchanged also jumps. For example, disease deaths can help test the alcohol story. These tools examine the design. They do not make its assumptions disappear.",
+      "japanese": "帯域幅は、境界からどれくらい離れたデータまで分析に含めるかを示します。狭い帯域幅では、ごく近くの人たちだけを使います。プラセボ検定は、変化しないはずの他のものまで一緒に段差を示していないかを確かめます。例えば、病気による死亡は、アルコールの説明を検証するのに役立ちます。これらのツールはデザインを点検するためのものであり、前提となる仮定を消し去ってくれるわけではありません。"
+    },
+    {
+      "id": 23,
+      "speaker": "HOST",
+      "section": "第1部：問い",
+      "english": "Let me recap The Question. Legal access changes abruptly, while ordinary age related risks should change gradually. We will compare close neighbors, distinguish access from drinking, and test whether a jump deserves a causal interpretation.",
+      "japanese": "「問い」の部分をまとめます。法的な入手資格は急激に変化しますが、年齢に伴う通常のリスクは徐々に変化するはずです。境界のすぐ近くの人たちを比較し、入手の権利と実際の飲酒を区別し、段差が因果関係としての解釈に値するかどうかを検証していきます。"
+    },
+    {
+      "id": 24,
+      "speaker": "ECONOMIST",
+      "section": "第1部：問い",
+      "english": "That is our foundation. Nearness creates an opportunity, not an automatic experiment. Next we must explain precisely what we compare, how we estimate it, and what could make us wrong.",
+      "japanese": "それが私たちの基盤です。境界に近いことは機会を生み出しますが、自動的に実験になるわけではありません。次に、私たちが具体的に何を比較し、どのように推定し、何によって判断を誤りうるのかを正確に説明しなければなりません。"
+    },
+    {
+      "id": 25,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "We now enter The Investigation. Our first obstacle is no overlap at the threshold. At a given exact age, everyone faces the same legal rule. Where do we find an untreated comparison for someone who is already eligible?",
+      "japanese": "ここから「検証」に入ります。私たちの最初の障害は、閾値において重複（overlap）が存在しないことです。ある正確な年齢において、全員が同じ法的ルールに直面します。すでに資格を持っている人に対して、処置を受けていない比較対象をどこで見つければよいのでしょうか。"
+    },
+    {
+      "id": 26,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "We cannot find it at that exact age. That makes RD different from ordinary regression comparisons within the same control group. Instead, we estimate the outcome trend below the boundary and continue it toward the boundary. We also estimate the trend above it. We compare their predicted values where the rule switches. This short continuation of a trend is called extrapolation.",
+      "japanese": "その正確な年齢では見つけることができません。この点が、年齢などの統制変数の値が同じ人の中で、処置を受けた人と受けない人を比べる通常の回帰分析との違いです。代わりに、境界より下の年齢での結果の傾向を推定し、それを境界に向かって延長します。境界より上の傾向も推定します。そして、ルールが切り替わる境界において、それぞれの予測値を比較するのです。この傾向の短い延長を外挿（extrapolation）と呼びます。"
+    },
+    {
+      "id": 27,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "So saying that we simply control for age hides the central challenge. There is no exact age with both legal conditions in the data. We are trusting a relationship across nearby ages, rather than comparing eligible and ineligible people of identical age.",
+      "japanese": "ですから、単に年齢を統制していると言うだけでは、核心となる難しさが見えなくなってしまいますね。データの中には、両方の法的条件を併せ持つ正確な年齢は存在しません。全く同じ年齢の有資格者と無資格者を比べるのではなく、近隣の年齢間の関係性を信頼しているわけです。"
+    },
+    {
+      "id": 28,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Precisely. Imagine asking what mortality would have been just above the boundary if access had remained restricted. That unobserved alternative is the counterfactual. The trend just below the boundary helps estimate it. The justification comes from continuity near the boundary. A regression formula alone cannot supply that justification.",
+      "japanese": "その通りです。もし入手制限が続いていたら、境界のすぐ上で死亡率はどうなっていたかを想像してみてください。その観察できないもう一つの可能性が反実仮想（counterfactual）です。境界のすぐ下の傾向が、それを推定する助けになります。このやり方を正当化できるのは、境界の近くでの連続性があるからです。回帰の計算式だけでその正当化を与えることはできません。"
+    },
+    {
+      "id": 29,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Now the sharp design can be stated carefully. The running variable is age, the cutoff is 21, and the legal access indicator is the switch. Are the probabilities at this boundary literally changing from 0 to 100 percent?",
+      "japanese": "これでシャープなデザインを正確に表現できますね。ランニング変数は年齢、閾値は21歳、法的な入手資格の指標がスイッチです。この境界での確率は、文字通り0から100パーセントに変わるのでしょうか。"
+    },
+    {
+      "id": 30,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "For the legal access indicator, yes. Those figures describe eligibility, not drinking participation. The identifying assumption concerns potential outcomes, meaning the outcomes under each possible legal regime. Around the boundary, those underlying outcome relationships must be continuous. Then an abrupt difference in observed mortality can be attributed to the change in access.",
+      "japanese": "法的な入手資格の指標については、その通りです。それらの数値は受給資格を表しており、実際に飲酒したかどうかではありません。識別に関する仮定は潜在的な結果、つまりそれぞれの法的枠組みのもとで生じる結果に関するものです。境界の前後で、それらの潜在的な結果の関係が滑らかでなければなりません。そうであれば、観察された死亡率の突然の差を、入手資格の変化によるものだと見なすことができます。"
+    },
+    {
+      "id": 31,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "My prediction for this part is that a smooth downward age trend does not rule out harm from access. Mortality could be falling on both sides, while still stepping upward at the boundary. Is that what happens?",
+      "japanese": "この部分に関する私の予想ですが、年齢とともに滑らかに低下する傾向があっても、入手資格による害が排除されるわけではありません。両側で死亡率が低下していても、境界で上に一段ステップすることがあり得ます。実際にそうなっているのでしょうか。"
+    },
+    {
+      "id": 32,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "That prediction is right. The book's mortality comparison shows generally declining death rates with age among these young adults. At the legal drinking boundary, the fitted mortality level steps upward. A falling background trend and a harmful policy effect can coexist. Comparing broad averages across ages could obscure that distinction.",
+      "japanese": "その予想は当たっています。書籍に示された死亡率の比較では、これらの若者の間では年齢とともに死亡率が概して低下しています。しかし、飲酒が合法になる境界において、当てはめられた死亡率の水準は上に一段跳ね上がります。背景にある低下傾向と、政策による有害な効果は共存できます。年齢層全体の広い平均を比較してしまうと、その区別が曖昧になってしまう可能性があります。"
+    },
+    {
+      "id": 33,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Now explain the RD regression tool without asking us to read an equation. What should the computer separate, and why should we examine the underlying data before trusting its answer?",
+      "japanese": "では、数式を読ませることなく、RDの回帰ツールについて説明してください。コンピューターは何を分離すべきであり、なぜその答えを信用する前に元のデータを調べるべきなのでしょうか。"
+    },
+    {
+      "id": 34,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The simple model separates a baseline level, an age trend, and a jump when legal access begins. The age trend captures gradual change. The jump measures the additional change at the boundary. Plotting first helps reveal unusual observations, curvature, or a result that exists only because the fitted model forces it. An attractive coefficient cannot repair a poor fit.",
+      "japanese": "単純なモデルは、基準となる水準、年齢の傾向、そして法的な入手資格が始まったときの段差を分離します。年齢の傾向は緩やかな変化を捉え、段差は境界での追加的な変化を測ります。まずグラフを描いてみることは、特異なデータ点や曲がり具合、あるいは当てはめたモデルが無理に作り出しただけの結果を見つけるのに役立ちます。見栄えの良い係数があっても、データの当てはまりの悪さを修復することはできません。"
+    },
+    {
+      "id": 35,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "If the model uses separate fitted lines, are their slopes always different? The map's simple equation sounds as though it has just one age trend, yet its explanation mentions a line on each side.",
+      "japanese": "モデルが左右で別々の当てはめ線を使う場合、それらの傾きは常に異なるのでしょうか。マップにある単純な式では年齢の傾向が一つだけのようにも聞こえますが、その説明では両側に線があると言及されています。"
+    },
+    {
+      "id": 36,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Good distinction. The simplest specification imposes the same slope on both sides, while allowing a level change. That creates parallel fitted lines. A more flexible specification lets the slopes differ. Either way, the effect of interest is the separation evaluated at 21. Comparing their heights far away would require additional extrapolation.",
+      "japanese": "良い着眼点です。最も単純な設定では、水準の変化を許しつつ、両側で同じ傾きを強制します。これにより平行な線が引かれます。より柔軟な設定では、傾きが異なることを許容します。いずれにしても、関心のある効果は21歳の地点で評価された二つの線の開きです。そこから遠く離れた場所での高さを比較するには、さらなる外挿が必要になってしまいます。"
+    },
+    {
+      "id": 37,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Why do researchers sometimes recenter age around the cutoff? Does changing the starting point change any actual comparison, or is it only a way to keep the interpretation clear?",
+      "japanese": "なぜ研究者は年齢の中心を閾値に合わせて再調整するのでしょうか。起点（ゼロ点）を変えることで実際の比較が変わるのですか、それとも解釈を分かりやすくするための方法にすぎないのでしょうか。"
+    },
+    {
+      "id": 38,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "It keeps interpretation clear. We measure distance from the boundary rather than age from birth. At the boundary, that distance vanishes. When we allow different slopes, the coefficient representing the level jump therefore still measures the gap exactly at the threshold. Rewriting the same fitted relationship this way does not create new evidence.",
+      "japanese": "解釈を分かりやすくするためです。生まれてからの年齢ではなく、境界からの距離を測るようにします。境界では、その距離はゼロになります。したがって、異なる傾きを許容した場合でも、水準の跳ね上がりを表す係数は、まさに閾値での差を測定することになります。当てはめられた同じ関係をこのように書き直しても、新たな証拠が生まれるわけではありません。"
+    },
+    {
+      "id": 39,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Let us examine the mortality case itself. The observations are monthly age groups, rather than a separate regression record for every individual. What exactly is measured, and what does the estimated jump mean?",
+      "japanese": "死亡率の事例そのものを見てみましょう。データは個人ごとの記録ではなく、月齢ごとのグループですね。具体的に何が測定されていて、推定された段差は何を意味しているのでしょうか。"
+    },
+    {
+      "id": 40,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Each monthly group has an annual death rate per 100,000 people. Monthly describes the age grouping, not the time unit of the reported mortality rate. The broad sample covers ages 19 through 22, extending up to the next birthday. The simple linear estimate adds about 7.7 annual deaths on that same population scale near the legal boundary.",
+      "japanese": "月ごとの各グループについて、人口100,000人あたりの年間死亡率が算出されています。「月ごと」というのは年齢の区切りのことであり、報告されている死亡率の期間の単位ではありません。全体の広い標本は19歳から22歳までをカバーし、次の誕生日までを含みます。単純な線形モデルの推定では、法的な境界の近くで、同じ人口規模において年間約7.7人の死亡が追加されるという結果になります。"
+    },
+    {
+      "id": 41,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "I want to work through the scale. The book describes an average death rate around 95, and the extra rate is about 7.7. To express the increase relative to that average, I divide the extra rate by the average rate, then multiply by 100. What do we get?",
+      "japanese": "規模感を計算してみたいと思います。書籍では平均死亡率はおよそ95人と説明されており、追加の死亡率は約7.7人です。その平均に対する増加を割合で表すために、追加の率を平均の率で割って、100を掛けます。どうなりますか。"
+    },
+    {
+      "id": 42,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "That gives about 8.1 percent. This calculation uses the book's approximate average as the denominator. It is not the share of all young people who die because of access. The absolute increase remains extra annual deaths per 100,000 people. The relative figure helps judge its size against the mortality rate in this sample.",
+      "japanese": "約8.1パーセントになります。この計算では、書籍にあるおおよその平均値を分母として使っています。これは、入手資格が原因で死亡する若者全体の割合ではありません。絶対的な増加分は、人口100,000人あたり年間で増える死亡数です。相対的な数値は、この標本における死亡率と比べたときの大きさを判断するのに役立ちます。"
+    },
+    {
+      "id": 43,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "That distinction matters. A rate increase can be important without meaning that a large percentage of the entire population dies. What kinds of deaths account for the jump? A plausible mechanism should help us assess the alcohol explanation.",
+      "japanese": "その区別は大切ですね。人口全体の大きな割合が死亡するわけではなくても、死亡率の上昇そのものは重大であり得ます。どのような種類の死亡がその跳ね上がりを占めているのでしょうか。妥当なメカニズムがあれば、アルコールによる説明を評価する助けになります。"
+    },
+    {
+      "id": 44,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Motor vehicle fatalities account for much of it. The estimates are roughly between 4 and 6 extra annual deaths per 100,000, depending on the specification. The results also suggest increases in suicide and some other external causes. Direct alcohol poisoning contributes less. The main concern is not simply poisoning from the drink itself, but harm linked to behavior after drinking.",
+      "japanese": "自動車事故による死亡がその多くを占めています。推定値は、分析の設定によって多少異なりますが、おおむね人口100,000人あたり年間で約4人から6人の増加です。また、自殺やその他の外因による死亡の増加も示唆されています。直接の急性アルコール中毒の寄与は比較的小さいです。主な懸念は、お酒そのものによる中毒だけでなく、飲酒後の行動に関連した害なのです。"
+    },
+    {
+      "id": 45,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Disease deaths are the proposed placebo. If cancer and heart disease suddenly increased at this exact birthday too, I would worry about the comparison or the data. Do those internal causes actually stay flat?",
+      "japanese": "病気による死亡がプラセボとして提案されていますね。もしがんや心臓病もこの同じ誕生日に突然増加するとしたら、比較の方法やデータに不安を感じます。そうした体質的・内因性の原因は、実際に変化していないのでしょうか。"
+    },
+    {
+      "id": 46,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The broad sample gives small, statistically uncertain estimates for internal causes. That supports the access interpretation, since these deaths should not respond immediately in the same way. But we should soften the map's blanket claim of no jump. In one narrower specification, the internal cause estimate is distinguishable from zero at conventional levels. The check is supportive overall, not flawless in every version.",
+      "japanese": "広い標本では、内因性の原因による死亡の推定値は小さく、統計的にも不確実です。これらの死亡は同じようにすぐには反応しないはずなので、この結果は入手資格による影響だという解釈を支持します。しかし、マップにある「段差は全くない」という全面的な主張は少し和らげる必要があります。より狭い範囲を使った一つの設定では、内因性の死亡の推定値が通常の基準でゼロと区別できるものもあります。この検証は全体として支持的ですが、あらゆるバージョンで完璧というわけではありません。"
+    },
+    {
+      "id": 47,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Does that exception destroy the whole study, or should it change how confidently we describe the evidence? It sounds like the difference between taking a diagnostic seriously and demanding a perfectly quiet dataset.",
+      "japanese": "その例外によって研究全体が台無しになるのでしょうか、それとも証拠をどれくらい自信を持って説明すべきかが変わるだけでしょうか。診断を真剣に受け止めることと、完全に雑音のないデータを要求することの違いのように思えます。"
+    },
+    {
+      "id": 48,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "We should report the exception and consider the pattern across outcomes and specifications. Chance can produce isolated results, while a systematic failure would be more troubling. The motor vehicle evidence fits the causal story particularly well. No individual placebo guarantees validity. Together, the design, the outcome pattern, and the robustness checks build the argument.",
+      "japanese": "その例外を報告した上で、他の結果や様々な設定を通じた全体のパターンを考慮すべきです。偶然によって単発の結果が出ることもありますが、系統的な破綻であればより問題になります。自動車事故の証拠は、因果関係の説明に特によく適合しています。単一のプラセボ検証だけで妥当性が保証されるわけではありません。デザイン、結果のパターン、そして頑健性の確認が合わさることで、主張が組み立てられます。"
+    },
+    {
+      "id": 49,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "The robustness toolkit comes next. A smooth curve can look like a step if we insist on fitting straight lines. How do we avoid manufacturing a discontinuity from the wrong trend?",
+      "japanese": "次は、分析方法を少し変えても結論が大きく変わらないかを確かめます。これを頑健性の確認と呼ぶのですね。滑らかな曲線であっても、直線で無理に当てはめようとすると段差のように見えてしまうことがあります。誤った傾向を仮定して不自然な不連続を作り出してしまうことを、どうすれば防げるでしょうか。"
+    },
+    {
+      "id": 50,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "We try reasonable alternatives and report them. A quadratic trend allows curvature, meaning the slope can change gradually. Interacting the age terms with eligibility allows different curvature on each side. These choices can describe the data better, but flexibility is not automatically truth. We should ask whether the important conclusion survives credible changes, rather than choosing the version with our favorite result.",
+      "japanese": "合理的な代替案を試し、それを報告することです。2次の傾向線を使えば曲線を許容でき、傾きが徐々に変化することを表現できます。年齢の項と資格の有無を掛け合わせることで、境界の左右で異なる曲がり方を許すこともできます。これらの選択肢はデータをより良く記述できますが、柔軟にすれば自動的に真実になるわけではありません。自分のお気に入りの結果が出るバージョンを選ぶのではなく、信頼できる変更を加えても重要な結論が生き残るかどうかを問うべきです。"
+    },
+    {
+      "id": 51,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Bandwidth changes address the same concern differently. The map contrasts a broad group beginning at 19 with a narrower window from 20 to 22. Can you make the endpoints and the tradeoff clear?",
+      "japanese": "帯域幅の変更も、同じ懸念に対して異なるアプローチをとるものですね。マップでは、19歳から始まる広いグループと、20歳から22歳になる直前までの狭い分析範囲を対比しています。両端の取り方と、そのトレードオフを明確にしてもらえますか。"
+    },
+    {
+      "id": 52,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The broad window includes the completed ages through 22, approaching the next birthday. The narrow window is within about a year on either side of the cutoff. In the table's completed age labels, it covers ages 20 and 21. Closer observations leave less room for misleading curvature. But fewer observations make the estimated jump less precise.",
+      "japanese": "広い分析範囲は19歳から23歳になる直前までです。22歳の満年齢が含まれます。狭い分析範囲は、閾値の前後の約1年以内です。表の満年齢の表記では、20歳と21歳をカバーしています。境界に近いデータを使えば、誤った曲線の影響を受けにくくなります。しかし、データ数が減るため、推定される段差の精度は低くなります。"
+    },
+    {
+      "id": 53,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "So the apparent disagreement between completed age labels and continuous age endpoints is mostly notation. The real statistical decision is how far we reach on either side. Does the all cause result survive those changes?",
+      "japanese": "つまり、満年齢の表記と連続的な年齢の端点との見かけ上の違いは、主に表記上の問題ですね。統計的な本当の決定は、両側にどれくらい広く手を伸ばすかということです。全死因の結果は、そうした変更を加えても残るのでしょうか。"
+    },
+    {
+      "id": 54,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Across the table's linear and flexible models, and its broad and narrow windows, the jump is roughly between 7 and 10 extra deaths per 100,000. The flexible broad sample estimate is about 9.5. Those are not identical results, but their shared direction and similar magnitude are reassuring. They are evidence of stability, not proof against every possible bias.",
+      "japanese": "表にある線形モデルと柔軟なモデル、そして広い分析範囲と狭い分析範囲のいずれを通じても、段差はおおむね人口100,000人あたり約7人から10人の追加的な死亡となっています。柔軟な広い標本での推定値は約9.5です。これらは完全に同一の結果ではありませんが、同じ方向を向き、規模も似通っていることは心強い材料です。それらは結果が安定している証拠ですが、あらゆるバイアスに対する絶対的な証明ではありません。"
+    },
+    {
+      "id": 55,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Is the narrowest possible window always best? If close neighbors make the comparison more credible, it is tempting to keep discarding observations until we are almost exactly at the cutoff.",
+      "japanese": "可能な限り最も狭い分析範囲が常に最善なのでしょうか。境界に近い人たちを比べたほうが説得力が増すのであれば、閾値のすぐそばになるまでデータを捨て続けたくなる誘惑にかられます。"
+    },
+    {
+      "id": 56,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Then uncertainty may become enormous. This is the bias and variance tradeoff. Bias means systematic distortion, such as forcing the wrong trend. Variance describes sampling noise. A narrower window can reduce trend bias while increasing noise. Methods can help choose a bandwidth, but judgment remains. Researchers should show that findings do not depend on one convenient choice.",
+      "japanese": "そうすると、不確実性が非常に大きくなってしまう可能性があります。これがバイアスと分散のトレードオフです。バイアスとは、誤った傾向を強制することなどによる系統的な歪みです。分散は標本のばらつきによる雑音を表します。分析範囲を狭くすると傾向のバイアスを減らせる一方で、雑音が増加します。帯域幅の選択を支援する手法はありますが、判断は残ります。研究者は、結果が特定の都合の良い一つの選択に依存していないことを示すべきです。"
+    },
+    {
+      "id": 57,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "The book also contrasts parametric and nonparametric approaches. Those labels sound more different than the actual reasoning. Are both still trying to estimate what happens near the same boundary?",
+      "japanese": "書籍では、パラメトリックな手法とノンパラメトリックな手法の対比も行われています。それらの名称は実際の考え方よりも大きな違いがあるように聞こえます。どちらも同じ境界の近くで何が起きているかを推定しようとしているのでしょうか。"
+    },
+    {
+      "id": 58,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Yes. Parametric methods specify a trend over a chosen range, such as a line or curve. Nonparametric RD focuses on a neighborhood and often fits local lines there. Local means close to the boundary. It may give closer observations more weight. Neither approach is free of choices. Both must separate a genuine break from smooth variation and report uncertainty.",
+      "japanese": "その通りです。パラメトリックな手法は、直線や曲線など、選んだ範囲全体での傾向の形を指定します。ノンパラメトリックなRDは近傍に焦点を当て、多くの場合、局所的な直線を当てはめます。「局所的」とは境界に近いという意味です。より近いデータに大きな重みを与えることもあります。どちらの手法にも裁量の余地があります。どちらも、滑らかな変動から本物の断絶を分離し、その不確実性を報告しなければなりません。"
+    },
+    {
+      "id": 59,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "We are ready for the fuzzy extension. A cutoff might change the chance of receiving treatment without determining everyone's behavior. How does the reasoning change when the switch is incomplete?",
+      "japanese": "これでファジーな拡張に進む準備が整いました。閾値によって処置を受ける確率は変化しても、全員の行動が決まるわけではない場合もあります。切り替えが完全でない場合、推論の仕方はどう変わるのでしょうか。"
+    },
+    {
+      "id": 60,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "First estimate the jump in outcomes at the cutoff. This is the reduced form, the effect of crossing the eligibility boundary on the outcome. Then estimate the jump in treatment receipt or intensity. This is the first stage. Dividing the outcome jump by the treatment jump scales the eligibility effect into an effect of treatment.",
+      "japanese": "まず、閾値における結果の段差を推定します。これが誘導形（reduced form）であり、資格の境界を越えることが結果に与える効果です。次に、処置の受給やその強度の段差を推定します。これが第一段階（first stage）です。結果の段差を処置の段差で割ることで、受給資格の効果を処置そのものの効果へと換算します。"
+    },
+    {
+      "id": 61,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "That sounds like instrumental variables from our earlier episode. The cutoff becomes an instrument, a source of treatment variation we hope is unrelated to the other causes of the outcome. Is that the connection?",
+      "japanese": "以前のエピソードで扱った操作変数（instrumental variable）に似ていますね。閾値が操作変数となり、結果の他の原因とは無関係であってほしい処置の変動の源泉となるわけです。そういうつながりですか。"
+    },
+    {
+      "id": 62,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Exactly. Two stage least squares is a way to carry out that instrumental variables calculation. The first stage predicts treatment using the cutoff indicator and suitable running variable controls. The second uses the predicted treatment, keeping those same controls. The eligibility indicator is excluded from that second relationship because it supplies the identifying variation.",
+      "japanese": "まさにその通りです。2段階最小二乗法は、その操作変数の計算を実行するための一つの方法です。第一段階では、閾値の指標と適切なランニング変数の統制変数を使って処置を予測します。第二段階では、同じ統制変数を維持したまま、予測された処置を用います。受給資格の指標は、識別のための変動を提供するものなので、その第二段階の関係からは除外されます。"
+    },
+    {
+      "id": 63,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Dividing two jumps is easy arithmetic. Giving the ratio a causal meaning is harder. What assumptions must survive when a sharp eligibility rule produces only a fuzzy change in actual treatment?",
+      "japanese": "二つの段差を割り算するのは簡単な計算です。しかし、その比率に因果関係の意味を持たせるのはもっと難しいですね。シャープな資格ルールが、実際の処置においてファジーな変化しか生まない場合、どのような仮定が成り立っていなければならないのでしょうか。"
+    },
+    {
+      "id": 64,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The first stage must be meaningful, and the continuity comparison must still hold. The exclusion restriction says crossing the boundary affects the outcome through the specified treatment. For binary treatment, a further monotonicity condition rules out people whose treatment moves in the opposite direction because eligibility improves. Under those conditions, the ratio identifies a local effect for compliers, the people whose treatment changes because of eligibility.",
+      "japanese": "第一段階が意味のある大きさでなければならず、連続性の比較も成り立っていなければなりません。除外制約（exclusion restriction）は、境界を越えることが、指定された処置を通じてのみ結果に影響を与えることを求めています。二値の処置の場合、さらに単調性（monotonicity）の条件により、資格を得たことによって逆に処置を受けなくなるような人がいないことが求められます。これらの条件の下で、この比率は遵守者（complier）、すなわち資格を得たことによって処置の状態が変わる人たちに対する局所平均処置効果（local average treatment effect; LATE）を識別します。"
+    },
+    {
+      "id": 65,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "And with treatment intensity, such as the achievement level of classmates, we should not automatically call the ratio the effect for every student. We must say what changes and which causal interpretation our model supports.",
+      "japanese": "そして、同級生の学力水準のような処置の強度を扱う場合、その比率をすべての生徒に対する効果だと自動的に呼ぶべきではありませんね。何が変化し、モデルがどの因果的な解釈を支持しているのかを明確にする必要があります。"
+    },
+    {
+      "id": 66,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Right. A continuous exposure requires more care than a simple attendance switch. The estimated effect scales an outcome change by the exposure change induced at this boundary. Its interpretation depends on assumptions about that exposure and its effects. Sharp RD also has assumptions; ordinary least squares is merely an estimation tool. Neither label is a certificate of causality.",
+      "japanese": "その通りです。同級生の学力のように、処置の強さが連続的に変わる場合は、入学するかしないかという二択よりも注意が必要です。推定された効果は、この境界で引き起こされた処置の強さの変化によって結果の変化を換算したものです。その解釈は、その処置の強さとその効果についての仮定に依存します。シャープなRDにも仮定があり、通常の最小二乗法は単なる推定ツールにすぎません。どちらの名前も、それだけで因果関係を証明する証書にはならないのです。"
+    },
+    {
+      "id": 67,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Now Boston's exam schools give us a concrete fuzzy case. Selective schools have impressive students, but admitting high achievers can create impressive averages even if the school adds little. What comparison avoids confusing those possibilities?",
+      "japanese": "ボストンの選抜制学校が、具体的なファジーの事例になりますね。選抜制の学校には優秀な生徒が集まりますが、学力の高い生徒を入学させれば、学校自体の効果が小さくても素晴らしい平均点が生まれます。そうした可能性の混同を避けるには、どのような比較を行えばよいのでしょうか。"
+    },
+    {
+      "id": 68,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Compare applicants close to an admissions cutoff. The chapter focuses on Boston Latin School. Its running variable combines an entrance examination score with earlier school grades. The book often calls it the exam score for short. Qualification creates a large jump in enrollment there, but some qualifying students go elsewhere. Crucially, most applicants just missing this cutoff attend another selective exam school.",
+      "japanese": "合格最低点の近くにいる出願者を比較します。この章ではボストン・ラテン・スクールに焦点を当てています。そこでのランニング変数は、入学試験の点数とそれまでの学校の成績を組み合わせたものです。書籍では簡略化して単にテストの点数と呼ぶことがよくあります。合格するとそこへの入学率は大きく跳ね上がりますが、合格しても別の学校へ行く生徒もいます。極めて重要なのは、この合格点にわずかに届かなかった出願者の大半も、別の選抜制学校に通っているということです。"
+    },
+    {
+      "id": 69,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Then this is not simply selective school against ordinary school. If many students on both sides attend an exam school, their educational environments differ more subtly. What treatment actually changes sharply enough to study?",
+      "japanese": "そうなると、これは単に「選抜校と一般的な学校」の比較ではありませんね。両側の多くの生徒が何らかの選抜校に通うのであれば、生徒たちの教育環境の違いはもっと捉えにくいものになります。どのような処置が、研究できるほど明確に変化しているのでしょうか。"
+    },
+    {
+      "id": 70,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Their classmates' prior achievement changes. Qualifying students encounter peers with substantially stronger earlier math scores. The estimated jump is about 0.8 standard deviations. A standard deviation measures how spread out scores are. This peer measure uses schoolmates' scores from before admission. It therefore describes the entering peer group rather than an outcome created by the new school.",
+      "japanese": "同級生の過去の学力が変化します。合格した生徒は、それまでの数学の成績が大幅に高い同級生に出会うことになります。推定される段差は約0.8標準偏差です。標準偏差は、点数のばらつきの大きさを表します。この同級生の指標は、入学前の学校での成績に基づいています。したがって、これは新しい学校によって作り出された結果ではなく、入学時点で一緒になる同級生グループの特徴を表しています。"
+    },
+    {
+      "id": 71,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "My intuition says stronger classmates should improve learning. A simple association supports that intuition. But similar families and earlier opportunities could help both students and their classmates. Does the cutoff change applicants' own earlier achievement too?",
+      "japanese": "私の直感では、優秀な同級生がいれば学習が進むはずだと感じます。単純な相関関係もその直感を後押しします。しかし、似たような家庭環境やそれまでの機会が、生徒本人とその同級生の両方に好影響を与えている可能性もあります。閾値によって、出願者自身の以前の学力も変化しているのでしょうか。"
+    },
+    {
+      "id": 72,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The chapter reports no comparable jump in applicants' earlier scores or measured background characteristics. That supports a comparison between similar applicants facing different peer environments. Yet the later math outcome does not show a clear corresponding increase. The reduced form estimate is slightly negative and uncertain. We should say no clear achievement gain was detected, rather than declaring the true effect exactly zero.",
+      "japanese": "この章では、出願者自身の以前の点数や測定された背景属性には、境界での同様な段差は見られないと報告されています。このことは、異なる学力の同級生環境に直面している、似たような出願者同士を比較できていることを支持します。しかし、その後の数学のテスト結果には、明確な対応する上昇は見られません。誘導形の推定値はわずかにマイナスで、統計的にも不確実です。真の効果が完全にゼロだと断言するのではなく、明確な学力向上は検出されなかった、と言うべきです。"
+    },
+    {
+      "id": 73,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "That is a useful correction to the map's shorthand that achievement does not jump. The absence of a statistically clear gain still leaves uncertainty. And it concerns marginal applicants near this particular boundary, compared with their actual alternatives.",
+      "japanese": "マップの「学力は上がらない」という単純なまとめに対する、有益な修正ですね。統計的に明確な向上が見られないとしても、不確実性は残ります。そしてこれは、この特定の境界付近にいる限界的な出願者について、実際に通う他の選択肢と比較した場合の話ですね。"
+    },
+    {
+      "id": 74,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Yes. The book's instrumental variables estimate for peer achievement is also near zero and uncertain. But there is a further caveat. Admission may change teachers, courses, and the racial composition of classmates as well as peer achievement. A pure peer effect interpretation requires those other channels to have no direct effect on the measured outcome. That exclusion restriction is demanding.",
+      "japanese": "そうです。書籍にある同級生の学力に関する操作変数の推定値も、ほぼゼロで不確実です。しかし、さらに注意点があります。合格によって、同級生の学力だけでなく、教員や履修科目、同級生の人種構成も変わる可能性があります。純粋な同級生効果として解釈するためには、それらの他の経路が、測定された結果に直接の影響を与えないことが必要です。その除外制約は非常に厳しい要求です。"
+    },
+    {
+      "id": 75,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Could we just choose a different channel, such as classmates' racial composition, and repeat the division? Would that let us discover which feature matters most?",
+      "japanese": "同級生の人種構成など別の経路を選んで、同じ割り算を繰り返すことはできますか。そうすれば、どの要素が最も重要かがわかるのでしょうか。"
+    },
+    {
+      "id": 76,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "The same small outcome jump would produce a small ratio for any exposure with a substantial first stage. That arithmetic cannot distinguish the channels. The book argues that other beneficial school features might make the peer estimate too positive, making the small result striking. That argument depends on the direction of those other effects. It does not prove every channel is absent.",
+      "japanese": "結果の小さな段差が同じであれば、第一段階が十分に大きいどのような環境要因に対しても、小さな比率が算出されてしまいます。その計算だけで個別の経路を区別することはできません。書籍では、学校の他の有益な要素が同級生効果の推定値を実際より良く見せる可能性があるため、効果が小さいという結果はより際立つ、と論じられています。その議論は他の要素の影響がプラスの方向に働くかどうかに依存しており、すべての経路が存在しないことを証明するものではありません。"
+    },
+    {
+      "id": 77,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "What is a responsible policy implication for school choice? Parents may value many things besides the particular math scores measured here. A policymaker should be cautious about turning a local comparison into a judgment about every selective school.",
+      "japanese": "学校選択に関する責任ある政策的含意とはどのようなものでしょうか。親はここで測定された特定の数学の点数以外にも、多くの価値を重視しているかもしれません。政策担当者は、ある局所的な比較を、あらゆる選抜校に対する評価へと拡大することには慎重であるべきですね。"
+    },
+    {
+      "id": 78,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Exactly. The findings challenge the claim that impressive school averages reveal large causal gains from attending. They do not show that schools never matter, or that every admission policy has the same effect. The measured outcomes, applicants near the cutoff, competing schools, and multiple treatment channels all define the scope of the evidence.",
+      "japanese": "その通りです。これらの発見は、学校の素晴らしい平均点を見れば通学による大きな因果的利益がわかる、という主張に疑問を投げかけています。学校に通うことが無意味だとか、あらゆる入学者選抜方針が同じ結果を生むと言っているわけではありません。測定された結果、境界付近の出願者、競合する学校、そして複数の処置の経路のすべてが、この証拠の適用範囲を定めています。"
+    },
+    {
+      "id": 79,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Let us finish the investigation with interpretation and roots. We have repeatedly said local effect. Why does a convincing comparison near the boundary tell us less about people far away from it?",
+      "japanese": "解釈と歴史的ルーツに触れて、検証を締めくくりましょう。私たちは繰り返し「局所的な効果」と言ってきました。境界の近くでの納得のいく比較が、なぜそこから遠く離れた人たちについてはあまり多くを教えてくれないのでしょうか。"
+    },
+    {
+      "id": 80,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Because their untreated outcomes require a much longer extrapolation. The mortality evidence concerns access near the legal drinking age in a society where older adults already have access. It cannot directly predict national prohibition or access for much younger children. The book considers effects farther from the boundary, but explicitly treats them as more speculative. A fitted curve can extend farther than our causal confidence.",
+      "japanese": "遠く離れた人たちの処置を受けない場合の結果を知るには、はるかに長い外挿が必要になるからです。死亡率の証拠は、成人がすでにお酒を手に入れられる社会において、法定飲酒年齢の近くで入手できるようになることの影響に関するものです。これをもって、全国的な禁酒法や、もっと幼い子どもへの飲酒解禁の影響を直接予測することはできません。書籍でも境界から遠い場所での効果を検討していますが、それらをより推測的なものとして明確に扱っています。当てはめた曲線は遠くまで伸ばせても、因果関係に対する私たちの確信まで同じように伸ばせるわけではありません。"
+    },
+    {
+      "id": 81,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "This approach has a surprisingly long history. The map names Thistlethwaite and Campbell in 1960, studying National Merit recognition. Their question was whether recognition itself changed students' plans, rather than whether recognized students already differed from everyone else.",
+      "japanese": "この手法には驚くほど長い歴史がありますね。マップには、1960年のシスルスウェイトとキャンベルによるナショナル・メリット奨学金の研究が挙げられています。彼らの問いは、表彰された生徒がもともと他と違っていたのかではなく、表彰そのものが生徒の進路計画を変えたのか、ということでした。"
+    },
+    {
+      "id": 82,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "Comparing students around the recognition cutoff gave a different answer from a simple selection driven comparison. The estimated difference in career plans was small and statistically uncertain. That early application demonstrates the same principle as Boston's schools. A visible badge of success and a later outcome can be associated without the badge causing the outcome.",
+      "japanese": "表彰の合否ラインの前後の生徒を比較したところ、単純な選択バイアスによる比較とは異なる答えが得られました。進路計画において推定された差は小さく、統計的にも不確実でした。この初期の応用例は、ボストンの学校と同じ原則を示しています。成功の目に見える証拠と将来の結果に関連があったとしても、その証拠が結果の原因になっているとは限らないのです。"
+    },
+    {
+      "id": 83,
+      "speaker": "HOST",
+      "section": "第2部：検証",
+      "english": "Here is our recap of The Investigation. We estimated trends on either side, separated the jump, checked alternative models and windows, and examined causes of death. Then fuzzy RD used a treatment jump to interpret an eligibility effect. Both cases required assumptions and careful limits.",
+      "japanese": "「検証」をまとめます。境界の両側の傾向を推定し、段差を切り離し、別のモデルや分析範囲を検証し、死因を調べました。そしてファジーなRDでは、処置の段差を利用して受給資格の効果を解釈しました。どちらの事例でも、仮定と慎重な適用限界が必要でした。"
+    },
+    {
+      "id": 84,
+      "speaker": "ECONOMIST",
+      "section": "第2部：検証",
+      "english": "And the most important habit was defining the actual comparison. Legal access differs from drinking. A school offer differs from attendance. Boston Latin differs from the alternative schools students actually attend. Clear treatment definitions turn a numerical result into a meaningful causal answer.",
+      "japanese": "そして最も重要な習慣は、実際の比較対象を定義することでした。法的な入手資格は実際の飲酒とは異なります。学校の合格通知は実際の通学とは異なります。ボストン・ラテン校は、生徒たちが実際に通う他の代替校とは異なります。処置を明確に定義して初めて、数値の結果を有意義な因果関係の答えに変えることができるのです。"
+    },
+    {
+      "id": 85,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "We have reached The Resolution, starting with the devil's advocate. My objection is that RD just controls for the running variable. Why give it a special name when regression already lets us add age or test scores?",
+      "japanese": "「結論」に入りましょう。まずはあえて反対の立場をとる意見から始めます。私の反論ですが、RDは単にランニング変数を統制しているだけではありませんか。回帰分析を使えばすでに年齢やテストの点数を追加できるのに、なぜ特別な名前を付けるのでしょうか。"
+    },
+    {
+      "id": 86,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "Because the source of identification differs. With ordinary controlled comparisons, we hope treated and untreated people can be compared at the same control values. In sharp RD, the rule prevents that overlap. We instead rely on continuity and extrapolate toward a boundary. How we describe the trend therefore matters directly to the causal claim. The special name reminds us of that special argument.",
+      "japanese": "識別の根拠が異なるからです。通常の統制された比較では、同じ統制変数の値において、処置を受けた人と受けない人を比較できることを期待します。しかしシャープなRDでは、ルールによってその重複が妨げられます。私たちは代わりに連続性に依存し、境界に向かって外挿します。したがって、傾向をどのように記述するかが因果関係の主張に直結するのです。特別な名称は、その特別な論理を思い出させてくれます。"
+    },
+    {
+      "id": 87,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "Here is my prediction for the last part. If another policy changes at the same birthday, a mortality jump alone cannot tell us which policy caused it. Even an extremely precise estimate would not solve that identification problem.",
+      "japanese": "最後の部分についての私の予想です。もし同じ誕生日に別の政策も変わるのだとしたら、死亡率の段差だけからどちらの政策が原因かを判断することはできません。どれほど非常に精密な推定値であっても、その識別の問題を解決することはできないはずです。"
+    },
+    {
+      "id": 88,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "Correct. Precision tells us about sampling uncertainty, not which explanation is right. We must investigate competing changes at the boundary. At 21, the alcohol interpretation gains support from the legal rule and the pattern across death causes. But a jump on its own is not proof. The evidence must support the assumption that other relevant influences remain smooth.",
+      "japanese": "その通りです。推定の精度は標本の不確実性について教えてくれるだけで、どちらの説明が正しいかを教えてくれるわけではありません。境界で同時に起きている他の変化を調査する必要があります。21歳については、法的なルールや死因ごとのパターンからアルコールの解釈が支持されます。しかし、段差があること自体は証明にはなりません。他の関連する影響が滑らかなままであるという仮定を、証拠が支持していなければなりません。"
+    },
+    {
+      "id": 89,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "The accepted mind map also asks us to check sorting and manipulation. People cannot choose to age themselves across a birthday. But an admissions score might be adjusted. What would make that a serious threat?",
+      "japanese": "承認された思考マップでは、選別や操作の有無を確認することも求められています。人間が自分の意思で誕生日をまたいで年を取ることはできません。しかし、入試の点数は操作される可能性があります。どうなると重大な脅威になるのでしょうか。"
+    },
+    {
+      "id": 90,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "Suppose, hypothetically, unusually connected applicants could arrange a score just above the cutoff. Then applicants on opposite sides might differ in family resources or motivation. Their untreated outcomes might not join smoothly. Researchers inspect the score distribution and background characteristics for warning signs. A smooth pattern helps, but cannot prove that every unmeasured influence is balanced.",
+      "japanese": "仮に、特別なコネを持つ出願者が、合格最低点のすぐ上の点数を手に入れることができたとします。そうなると、境界の反対側にいる出願者同士で、家庭の資源や意欲が異なってしまう可能性があります。処置を受けなかった場合の結果が、滑らかにつながらなくなるかもしれません。研究者は警告の兆候がないか、点数の分布や背景属性を点検します。滑らかなパターンであれば安心材料になりますが、測定されていないすべての影響が釣り合っていることまで証明できるわけではありません。"
+    },
+    {
+      "id": 91,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "That hypothetical is useful because it explains the danger without accusing the Boston applicants of manipulation. The actual question is whether the process makes close neighbors credible comparisons. Neither an eligibility rule nor a clean graph settles that by itself.",
+      "japanese": "その仮定の話は、ボストンの出願者が不正をしたと非難することなく危険性を説明できるので分かりやすいですね。実際の問題は、その選考プロセスによって、境界のすぐ前後の人たちが信頼できる比較対象になっているかどうかです。受給資格のルールがあることや、きれいなグラフがあることだけで、自動的にそれが解決するわけではありません。"
+    },
+    {
+      "id": 92,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "Exactly. Another misconception is that a placebo must always equal zero in the sample. Random variation makes exact zeros unusual. We assess magnitude, uncertainty, and the pattern across checks. The internal mortality exception deserves disclosure. It also reminds us to avoid turning a collection of diagnostic tests into a mechanical pass button.",
+      "japanese": "その通りです。もう一つの誤解は、標本の中でプラセボの結果が常に完全にゼロにならなければならない、というものです。偶然のばらつきがあるため、完全にゼロになることは滅多にありません。私たちは大きさ、不確実性、そして複数の確認を通じた全体のパターンを評価します。内因性の死亡における例外はきちんと開示すべきです。またそれは、一連の診断テストを機械的な合格ボタンにしてしまわないよう注意を促してくれます。"
+    },
+    {
+      "id": 93,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "What takeaways should a student keep when facing a new cutoff study? I would start by naming the rule, running variable, treatment, and outcome. Then I would ask what would happen near the boundary without that treatment change.",
+      "japanese": "学生が新しい閾値の研究に出会ったとき、どのような教訓を心に留めておくべきでしょうか。私ならまず、ルール、ランニング変数、処置、そして結果の名前を挙げることから始めます。その上で、処置の変化がなかったら境界の近くで何が起きていたかを考えます。"
+    },
+    {
+      "id": 94,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "Good. Examine the data before selecting the regression. Estimate the gap at the boundary, while allowing a credible smooth trend. Vary the bandwidth and reasonable trend choices. Inspect background characteristics, manipulation concerns, and placebo outcomes where appropriate. Report uncertainty. Finally, state the population and policy comparison the local result can actually inform.",
+      "japanese": "素晴らしいですね。回帰モデルを選ぶ前に、データをよく観察してください。妥当で滑らかな傾向を許容しながら、境界での差を推定します。帯域幅を変えたり、合理的な傾向線の選択肢を試したりしてください。必要に応じて、背景属性、不正操作の懸念、プラセボの結果を点検します。不確実性を報告してください。そして最後に、その局所的な結果が、実際にどの対象集団とどの政策の比較について情報を提供できるのかを明記することです。"
+    },
+    {
+      "id": 95,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "For fuzzy RD, I would add an extra question: how much does treatment change when eligibility changes? Without that first stage, an outcome jump cannot be translated into a treatment effect. And even with it, I must defend the exclusion restriction.",
+      "japanese": "ファジーなRDについては、もう一つ問いを加えたいと思います。「受給資格が変わったとき、処置はどれくらい変わるのか」です。その第一段階がなければ、結果の段差を処置効果に換算することはできません。そしてそれがあったとしても、除外制約を擁護しなければなりませんね。"
+    },
+    {
+      "id": 96,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "Yes. For a binary treatment, say who the compliers are and why monotonicity is plausible. For an intensity measure, explain the scaling and the model supporting its interpretation. Remember Boston's competing channels. A valid eligibility effect can be informative even when a single channel interpretation remains harder to defend.",
+      "japanese": "そうです。二値の処置であれば、遵守者が誰であり、なぜ単調性がもっともらしいのかを説明してください。強度の尺度であれば、換算の根拠とその解釈を支えるモデルを説明します。ボストンの事例にあった複数の競合する経路を思い出してください。単一の経路としての解釈を守ることが難しい場合でも、受給資格自体の有効な効果から多くのことを学べます。"
+    },
+    {
+      "id": 97,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "The thesis needs a condition attached. The map says a treatment rule's outcome jump reveals a causal effect near the threshold. That statement is helpful only if our untreated comparison is credible and competing causes do not jump there too.",
+      "japanese": "この主張には条件を付ける必要がありますね。マップには、処置ルールの結果に見られる段差が閾値付近での因果効果を明らかにする、とあります。しかしその言明は、処置を受けない場合の比較が信頼でき、他の競合する原因がそこで一緒に跳ね上がったりしていない場合にのみ成り立ちます。"
+    },
+    {
+      "id": 98,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "Our qualified thesis is this: a threshold can reveal a local causal effect when the required continuity and treatment assumptions hold. In a sharp design, we estimate the effect of the treatment that actually switches. In a fuzzy design, interpreting the scaled effect requires the additional instrumental variables assumptions. A threshold creates an opportunity that careful design must earn.",
+      "japanese": "条件付きの結論はこうです。「必要な連続性と処置に関する仮定が成り立つとき、閾値は局所的な因果効果を明らかにすることができる」。シャープなデザインでは、実際に切り替わる処置の効果を推定します。ファジーなデザインでは、換算された効果を解釈するために、追加の操作変数の仮定が必要です。閾値は機会を与えてくれますが、丁寧なデザインによってそれを裏付けなければなりません。"
+    },
+    {
+      "id": 99,
+      "speaker": "HOST",
+      "section": "第3部：結論",
+      "english": "Let me recap The Resolution. RD is more than adding a control. A discontinuity needs a causal explanation, diagnostic checks need judgment, and the conclusion stays local. Strong evidence can guide policy while still leaving unanswered questions.",
+      "japanese": "「結論」をまとめます。RDは単に統制変数を追加すること以上のものです。不連続性には因果的な説明が必要であり、診断的な確認には判断が伴い、得られる結論は局所的なものにとどまります。強力な証拠は、未解決の問いを残しつつも、政策の指針となり得ます。"
+    },
+    {
+      "id": 100,
+      "speaker": "ECONOMIST",
+      "section": "第3部：結論",
+      "english": "That is the right balance. The mortality study offers evidence that restrictions on legal access can prevent harm near the studied age. The school study warns against judging a school's contribution by its students' impressive averages. Neither result gives us permission to generalize without examining the new setting.",
+      "japanese": "それが適切なバランスです。死亡率の研究は、法的な入手制限が、調査された年齢の近辺において害を防ぐことができるという証拠を提供しています。学校の研究は、生徒たちの素晴らしい平均点だけで学校の貢献度を判断することに対して警告を発しています。どちらの結果も、新しい環境を吟味することなく一般化してよいという許可を与えているわけではありません。"
+    },
+    {
+      "id": 101,
+      "speaker": "HOST",
+      "section": "まとめ",
+      "english": "Let us return to our goals. We can explain how a cutoff creates a comparison, distinguish sharp and fuzzy designs, and evaluate their assumptions and limits. The crucial idea is that nearby people can face different treatment because a rule changes abruptly.",
+      "japanese": "私たちの目標に戻りましょう。閾値がどのように比較を作り出すかを説明し、シャープなデザインとファジーなデザインを区別し、それらの仮定と限界を評価できるようになりました。決定的に重要な考え方は、ルールが急激に変化することによって、すぐ近くにいる人たちが異なる処置に直面しうる、ということです。"
+    },
+    {
+      "id": 102,
+      "speaker": "ECONOMIST",
+      "section": "まとめ",
+      "english": "And our thesis is conditional. A jump supports a local causal interpretation when the underlying outcome relationships remain continuous and the treatment assumptions are credible. For fuzzy designs, a first stage and valid instrumental variables assumptions connect the outcome jump to the treatment effect. The regression summarizes that argument; it does not replace it.",
+      "japanese": "そして私たちの結論には条件が付きます。根底にある結果の関係が滑らかなままであり、処置の仮定が信頼できる場合に、段差は局所的な因果関係の解釈を支持します。ファジーなデザインでは、第一段階と有効な操作変数の仮定によって、結果の段差と処置効果が結びつけられます。回帰分析はその議論を要約するものであり、議論の代わりになるものではありません。"
+    },
+    {
+      "id": 103,
+      "speaker": "HOST",
+      "section": "まとめ",
+      "english": "Here is a final think question. Suppose a selective school's admissions boundary creates a large enrollment jump. Later test scores rise smoothly with entrance scores, with no clear break. Can you conclude that selective schools have no educational value anywhere?",
+      "japanese": "最後に考えてもらう問いがあります。ある選抜校の合否の境界によって、入学率が大きく跳ね上がるとします。その後のテストの点数は入試の点数とともに滑らかに上昇し、明確な段差は見られませんでした。このことから、選抜校にはどこであっても教育的な価値が全くない、と結論づけることはできますか。"
+    },
+    {
+      "id": 104,
+      "speaker": "ECONOMIST",
+      "section": "まとめ",
+      "english": "Pause the episode and think. Name the comparison group, the students represented, and the outcome measured before answering.",
+      "japanese": "音声を一度止めて考えてみてください。答える前に、比較対象となっているグループ、対象となっている生徒たち、そして測定された結果が何であるかを明確にしてみましょう。"
+    },
+    {
+      "id": 105,
+      "speaker": "HOST",
+      "section": "まとめ",
+      "english": "My answer is no. We would have evidence about the admission change near that cutoff, for those applicants and measured scores. We would need uncertainty estimates and information about their alternative schools. Other students, other outcomes, and other school comparisons could produce different answers.",
+      "japanese": "私の答えは「いいえ」です。得られたのは、その特定の合格最低点の近くにおける、該当する出願者と測定されたテストの点数に関する合格の効果についての証拠です。推定値の不確実性や、生徒たちが通う他の代替校についての情報も必要になります。別の生徒、別の結果、そして別の学校との比較であれば、異なる結果になる可能性があります。"
+    },
+    {
+      "id": 106,
+      "speaker": "ECONOMIST",
+      "section": "まとめ",
+      "english": "Exactly. If we then divide by an enrollment jump, interpreting the result as an attendance effect adds assumptions. If we instead divide by a peer achievement jump, a pure peer effect interpretation adds a different exclusion claim. Naming the treatment is part of answering the question.",
+      "japanese": "その通りです。もしそこで入学率の跳ね上がりで割り算をして、その結果を通学の効果として解釈するなら、さらなる仮定が加わります。もし代わりに同級生の学力の跳ね上がりで割るなら、純粋な同級生効果という解釈には別の除外制約の主張が加わります。処置が何であるかを明確に指定することも、この問いに答える一部なのです。"
+    },
+    {
+      "id": 107,
+      "speaker": "HOST",
+      "section": "まとめ",
+      "english": "You can use the Colab notebook to reproduce the mortality comparisons and explore different bandwidths. The lecture slides provide another route through the assumptions, evidence, and interpretation. Compare the estimates, but also explain why the comparison could be credible.",
+      "japanese": "死亡率の比較を再現し、さまざまな帯域幅を試すためにColabノートブックを活用できます。講義スライドでは、仮定、証拠、そして解釈をたどるもう一つの道筋が提供されています。推定値を比較するだけでなく、なぜその比較が信頼できると言えるのかも説明してみてください。"
+    },
+    {
+      "id": 108,
+      "speaker": "ECONOMIST",
+      "section": "まとめ",
+      "english": "Next, Chapter five, Differences-in-Differences, moves from a boundary in age or scores to a comparison of changes over time. We will ask how contrasting trends can help evaluate a policy, including banking during the Great Depression. Thank you for listening, and goodbye.",
+      "japanese": "次回、第5章の「差の差法（difference-in-differences）」では、年齢や点数の境界から、時間の経過に伴う変化の比較へと移ります。異なる傾向を対比することが、世界恐慌期における銀行業務を含む政策の評価にどう役立つかを考えていきます。お聴きいただきありがとうございました。それでは、また。"
+    }
+  ],
+  "initial_translation_sha256": "88b6023b04e211a4af46a9bd277423cdad6c511248f6f12667aed2591d08e6e5"
+}

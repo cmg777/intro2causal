@@ -1,0 +1,27 @@
+{
+  "scope": "voice sample only",
+  "file": "mindmaps-podcast/ja/audio/voice-sample.mp3",
+  "duration_seconds": 114.4,
+  "full_decode": "passed",
+  "recognizer": "local whisper-cli large-v3-turbo; explicit Japanese language",
+  "recognition_file": ".work/podcast-ja/voice-sample/recognition.json",
+  "recognized_numbers": [
+    "4.01",
+    "3.70",
+    "0.31"
+  ],
+  "flags": [
+    {
+      "term": "反実仮想",
+      "reading": "はんじつかそう",
+      "approximate_time_seconds": 90,
+      "recognized_as": "半日過剰",
+      "status": "needs_listening_review; ASR error versus pronunciation error unresolved"
+    }
+  ],
+  "listening_verification": "User approved sample; no additional human-listening claim by agent",
+  "voice_approval": "approved",
+  "native_transcript_uploaded": false,
+  "approval_note": "User: yes, I approve.",
+  "additional_asr": "Gemini sample alignment completed with 95.8% character coverage and no long flagged discrepancies; ASR alone does not prove pronunciation."
+}

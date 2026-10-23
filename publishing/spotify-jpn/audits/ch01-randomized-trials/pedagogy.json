@@ -1,0 +1,78 @@
+{
+  "lens": "pedagogy",
+  "round": 2,
+  "script_sha256": "44def82f894a146e0e54d74f73c28428076d20a53229d00ac09dd4fc618c449d",
+  "scores": {
+    "P1": {
+      "score": 5,
+      "reason": "Terms progress from outcome and treatment through counterfactuals, selection, randomization, and inference. The revised dummy explanation explicitly codes insurance1 versus0, defines the zero-group intercept, and then explains the coefficient as a mean difference; the earlier scaffolding gap is fixed."
+    },
+    "P2": {
+      "score": 5,
+      "reason": "The revised group decomposition separates the treated group’s effect from its counterfactual difference in plain Japanese. The standard-error procedure now explicitly divides each group’s outcome variance by its group size, adds the two values, and takes the square root. It coherently explains why a small control group limits precision. Confidence-interval repetition and design caveats preserve the causal and statistical reasoning."
+    },
+    "P3": {
+      "score": 5,
+      "reason": "Three opening learning goals return in the closing. Every Part has a substantive prediction/reveal and recap. The husbands calculation supplies inputs, subtraction, 0.31 index-point result, and association-only interpretation over two turns."
+    },
+    "P4": {
+      "score": 5,
+      "reason": "Plausible beliefs about association proving causation, sample size curing selection, initial randomization curing attrition, moral hazard implying waste, and insignificance proving zero are explicitly corrected with reasons."
+    },
+    "P5": {
+      "score": 5,
+      "reason": "The two-student example is explicitly hypothetical and supports the direction-reversal intuition. RAND and Oregon retain distinct treatment/control definitions, and the worked survey comparison stays within the husbands sample."
+    },
+    "P6": {
+      "score": 5,
+      "reason": "The closing goals match the taught material. The final lottery application asks about assignment versus receipt, explicitly invites a pause, and explains the answer using the same reasoning taught in Oregon; the next-chapter bridge follows naturally."
+    },
+    "P7": {
+      "score": 4,
+      "reason": "The narrative is usable without the image, with oral comparisons and useful repetition. One survey turn delivers four decimal means plus sample switching; splitting it would reduce Japanese-listening memory load without shortening the faithful adaptation."
+    }
+  },
+  "findings": [
+    {
+      "id": "JP-P-1",
+      "criterion": "P2",
+      "severity": "error",
+      "status": "fixed",
+      "anchor": "観察される人どうしが独立している場合は、まず、それぞれのグループで、結果の分散をそのグループの人数で割ります。",
+      "problem": "標本分散 usually denotes variance of individual observations in a sample. Adding those directly does not yield the sampling variance of the difference in means. The English source says sampling variances; the Japanese wording removes the group-size adjustment, contradicting the later explanation of why a small control group limits precision.",
+      "fix": "Say that each group mean has uncertainty: divide each group’s outcome variance by its number of people, add those two values, then take the square root. Alternatively say 各グループの平均値の推定誤差の分散を足し合わせます if avoiding an additional formula, and explicitly retain the group-size intuition.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ch01-randomized-trials.md",
+          "quote": "We combine their sampling variances before taking a square root to obtain the standard error."
+        },
+        {
+          "file": "latex-original-book/bcc8e691-b2d0-4113-958f-24667783493c.tex",
+          "quote": "Using separate variances for treatment and control observations, we have"
+        }
+      ],
+      "note": "Round2 explicitly supplies each variance/group-size step, followed by summation and square root; independent-observations qualification is retained."
+    },
+    {
+      "id": "JP-P-2",
+      "criterion": "P1",
+      "severity": "minor",
+      "status": "fixed",
+      "anchor": "ダミー変数とは、グループへの所属を記録する変数です。",
+      "problem": "The script immediately explains an intercept and insurance coefficient but never states which group is coded zero and which is one. A novice listener has to infer the coding behind the baseline interpretation.",
+      "fix": "Add a short oral definition: 加入していれば1、未加入なら0と記録します。 Keep the existing intuitive explanations of intercept and coefficient.",
+      "note": "Round2 explicitly supplies insurance1/noninsurance0 and explains the intercept as the prediction at zero before interpreting both means."
+    },
+    {
+      "id": "JP-P-3",
+      "criterion": "P7",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "夫の場合、加入者の平均は4.01で、未加入者の平均は3.70です。",
+      "problem": "One turn gives the husbands pair, wives pair, and a caution about distinct samples. Four similar decimals increase short-term memory load for N2 listeners even though the next worked example focuses only on husbands.",
+      "fix": "Give the husbands pair, then a brief HOST check before the wives pair; retain all values and the instruction not to mix samples. This is optional polish, not a request to shorten the full adaptation."
+    }
+  ],
+  "summary": "Round2 pedagogy gate PASS: all P1–P7 scores are at least4; no open errors or majors. The standard-error reasoning and dummy-coding scaffold are corrected, with faithful full coverage and stronger Japanese explanations. JP-P-3 remains optional minor polish: four means still share a turn, but husbands and wives are explicitly separated and the husbands pair is repeated for the worked calculation.",
+  "gate": "PASS"
+}

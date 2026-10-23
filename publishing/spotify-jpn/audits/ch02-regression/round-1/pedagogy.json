@@ -1,0 +1,83 @@
+{
+  "lens": "pedagogy",
+  "round": 1,
+  "script_sha256": "a8fc4f96d12e72113b2ad7fb428cfa5f7d0334489942da9d4a8a9f246bd70144",
+  "scores": {
+    "P1": {
+      "score": 4,
+      "reason": "Counterfactuals, controls, short/long models, coefficients, and conditional independence are introduced in a useful order before the calculation and empirical estimates. One minor exception is the unexplained ダミー変数 in the group-weighting explanation."
+    },
+    "P2": {
+      "score": 5,
+      "reason": "The dialogue explains the comparison before its calculation, distinguishes fitting from identification, derives omitted-variable bias through both subtraction and the product of two relationships, and explains overlap, model form, and remaining selection."
+    },
+    "P3": {
+      "score": 5,
+      "reason": "Three concrete opening goals are revisited; each Part has a HOST prediction followed by correction/explanation and a substantive closing recap. The fictional 20,000-minus-10,000 calculation is checked by one-sixth times 60,000, with the result interpreted rather than merely recited."
+    },
+    "P4": {
+      "score": 5,
+      "reason": "Plausible errors about larger surveys, residual orthogonality, more controls, and insignificant estimates are voiced by the HOST and corrected with causal or statistical reasons. The final occupation exercise applies the bad-control correction."
+    },
+    "P5": {
+      "score": 5,
+      "reason": "Nancy supplies a motivating individual example without causal overclaim. The simulation and classroom table are explicitly fictional, real matched and self-revelation samples remain separate, and possible family-size relationships are explicitly hypotheses."
+    },
+    "P6": {
+      "score": 5,
+      "reason": "All three goals receive substantial teaching and a closing return. The final application asks whether occupation should be controlled when seeking the total earnings effect, invites an explicit pause, and answers using both blocked pathways and induced selection already explained."
+    },
+    "P7": {
+      "score": 4,
+      "reason": "Most numerical reasoning is spread over alternating turns, referents remain stable, and recaps support listening without paper. Two extended technical turns stack several qualifications without a HOST rehearsal, which is minor listening-load polish for the N2 audience; the faithful substantive length itself is not a defect."
+    }
+  },
+  "findings": [
+    {
+      "id": "P-1",
+      "criterion": "P1",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "各グループにダミー変数を置くことで",
+      "problem": "ダミー変数 is used before a plain Japanese explanation. The surrounding text explains its purpose but does not tell a first-time listener what the variable records.",
+      "fix": "At first use add a short gloss such as 各グループに属するかどうかを表す変数 before continuing the weighting explanation.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ja/ch02-regression.md",
+          "quote": "各グループにダミー変数を置くことで、私立進学の推定値はグループ内の対比を組み合わせたものになります。"
+        }
+      ]
+    },
+    {
+      "id": "P-2",
+      "criterion": "P7",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "この恒等式は、同じ標本におけるこれらの最小二乗モデルにおいて厳密に成り立ちます。",
+      "problem": "This long turn moves from shared controls to an exact identity, causal interpretation, benchmark choice, and changing samples. These are valuable qualifications, but together they ask an N2 listener to retain several new distinctions before speaking changes.",
+      "fix": "Preserve every qualification and insert a brief HOST restatement between the same-sample identity and the causal/changed-sample caveats, or divide the material into shorter alternating turns.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ja/ch02-regression.md",
+          "quote": "長い回帰の係数が因果関係を示しているかどうかは別の問いです。"
+        }
+      ]
+    },
+    {
+      "id": "P-3",
+      "criterion": "P7",
+      "severity": "minor",
+      "status": "open",
+      "anchor": "信頼区間は、統計的仮定のもとで推定値およびその標本抽出の不確実性と両立する効果の範囲を示します。",
+      "problem": "The standard-error turn adds the definition of confidence intervals after several sentences on sampling, selection, heterogeneity, and household decisions. The concepts are sound but the uninterrupted delivery weakens the new distinction for language learners.",
+      "fix": "Insert a HOST question or rehearsal before the confidence-interval definition, then retain the point that an interval containing zero may include economically important effects.",
+      "evidence": [
+        {
+          "file": "mindmaps-podcast/ja/ch02-regression.md",
+          "quote": "ゼロを含む範囲であっても、実質的に重要となり得る正や負の効果を含むことがあります。"
+        }
+      ]
+    }
+  ],
+  "summary": "PASS at the >=4/no-open-major-or-error gate. Full Japanese script reviewed against the English dialogue, map, coverage/brief, prior English pedagogical review, and relevant local teaching/source passages. Faithful substantive coverage is retained without imposing an English 20-minute default. Three minor improvements concern one term gloss and two local listening pauses; no missing pedagogical mechanism or unsupported closing exercise was found."
+}
