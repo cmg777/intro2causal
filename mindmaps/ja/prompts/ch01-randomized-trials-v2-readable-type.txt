@@ -1,0 +1,93 @@
+Use case: text-localization / typography readability revision.
+Edit the attached Chapter 1 Japanese FULL mind map. The user finds the current Japanese font hard to read and wants larger text. This is a typography revision of the complete map, not a simplified cover.
+
+PRIMARY CHANGE — JAPANESE TYPOGRAPHY:
+Replace ALL Japanese lettering with clean, non-condensed, modern Japanese Gothic sans-serif lettering, matching Noto Sans JP or BIZ UDPGothic. Use regular-width, open, correctly formed glyphs; medium weight for explanatory text and semibold for headings. Absolutely no narrow, condensed, hand-drawn, brush, chalk, calligraphy, distressed or outlined Japanese text. Never squeeze glyphs horizontally to fit. Typography should look like carefully typeset Japanese teaching material. Use natural Japanese line breaks, no broken kanji, ample line spacing of about 1.4–1.5, and solid crisp white body text on navy.
+Increase Japanese explanatory body text and diagram labels by approximately 25–30% relative to the attached sample. At a 1672px-wide preview target body characters around 28–30px high and Japanese headings 44–50px high; scale those proportions consistently if output is larger. Existing headings are already prominent: prioritize increasing BODY text, illustration labels, caveats and equations rather than only enlarging the headings. Set English key-term subtitles clearly but slightly smaller than Japanese body text, with regular-width sans-serif glyphs.
+
+MAKE ROOM WITHOUT LOSING INFORMATION:
+Preserve six radial branches and their relative positions, navy background, cyan/purple/green branch colors, every teaching point, illustration, Japanese/English term, number, qualifier and equation. Reduce the central circle and illustrations moderately to free space for larger text. Keep people and all original illustration motifs. Reflow bullet text over more lines and redistribute whitespace; do not shrink or compress body lettering to preserve the old line breaks. Keep center title readable but subordinate in area to the branches. Allow the branch text columns to be wider. Keep clear safe margins and no overlaps between text, central circle, connectors or illustrations. The right edge and bottom edge must have generous padding, not text running to the edge.
+
+OUTPUT:
+One complete landscape 16:9 image, target native 3840 × 2160 pixels if supported. Do not fake detail by interpolating old pixels. Preserve all content and render it again with the revised typography. Do not add graphs, data, claims or decorative text. A crisp readable map is the goal, not a stylized Japanese headline poster.
+
+EXACT CONTENT TO RETAIN (line breaks may change for readability):
+CENTER: preserve the cyan-rimmed central circle, the two people and heart/shield illustration.
+「第1章」
+「無作為化比較試験」
+「Randomized Trials」
+「医療保険は健康を改善する？」
+
+UPPER LEFT CYAN BRANCH — preserve forked-road illustration, person and Y₁ / Y₀ signposts.
+Heading: 「潜在的な結果」
+English subheading: 「Potential outcomes」
+Four bullets:
+「Y₁：保険に入った場合」
+「Y₀：保険に入らなかった場合」
+「観察できるのは片方だけ」
+「個人の効果 = Y₁ − Y₀」
+Keep the subscripts in the equations and road signs.
+
+MIDDLE LEFT PURPLE BRANCH — preserve two groups separated by a dashed vertical divider, coins and graduation caps.
+Heading: 「選択バイアス」
+English subheading: 「Selection bias」
+Three bullets:
+「処置を受ける前からグループが違う」
+「母集団の平均の差 = ATT + 選択バイアス」
+「ATT：処置を受けた人への平均効果」
+Illustration labels, under the left group:
+「高所得」
+「教育年数が長い」
+Illustration labels, under the right group:
+「低所得」
+「教育年数が短い」
+
+LOWER LEFT CYAN BRANCH — preserve the original schematic dot-and-whisker illustration, with no numerical axis, as a generic confidence-interval icon.
+Heading: 「証拠の読み方」
+English subheading: 「Reading the evidence」
+Three bullets, preserving every qualification:
+「0/1の処置変数の係数 = 平均の差」
+「（切片あり・ほかの統制変数なし）」 as the continuation of the first bullet, not a fourth bullet.
+「大標本の95%信頼区間（CI）≈ 推定値 ± 1.96 × 標準誤差（SE）」
+「有意でない ≠ 効果がない」
+Whisker icon labels:
+Above: 「95%信頼区間（CI）」
+Below: 「推定値」
+
+UPPER RIGHT PURPLE BRANCH — preserve coin toss and its two arrows into cyan and purple groups. A coin flip assigns groups; do not add an intermediate scientific graph.
+Heading: 「無作為割り当て」
+English subheading: 「Random assignment」
+Three bullets:
+「コイン投げでグループを決める」
+「平均的には、条件がそろう」
+「開始時点のバランスを確認」
+Group labels:
+「処置群（Treatment）」
+「対照群（Control）」
+
+MIDDLE RIGHT GREEN BRANCH — preserve two insurance cards, arrow and stethoscope, with all card labels and the spending label.
+Heading: 「RAND実験」
+English subheading: 「RAND experiment」
+Three bullets:
+「無料診療 vs. 高額医療費のみを保障する保険：医療費が約45%増」
+「平均的な健康の変化は小さい」
+「低所得で健康状態の悪い人の一部には改善」
+Card/illustration labels:
+Left card: 「高額医療費の保障」
+Right card: 「無料診療」
+Arrow: 「医療費 約45%増」
+Stethoscope: 「健康（明確な変化なし）」
+
+LOWER RIGHT GREEN BRANCH — preserve lottery ticket, heart, happy face and wallet, two arrows to winner/loser groups. These illustrate getting an opportunity, not guaranteed insurance enrollment.
+Heading: 「オレゴンの抽選」
+English subheading: 「Oregon lottery」
+Four bullets:
+「医療利用が増え、心の健康が改善」
+「医療費による借金が減る」
+「2年後の身体の健康：測定された改善は統計的に有意でない」
+「ITT：抽選の当選者と落選者を比べる」
+Ticket label: 「抽選」
+Winning group: 「当選者」 / 「（加入の機会あり）」
+Losing group: 「落選者」 / 「（加入の機会なし）」
+
+Invariants: preserve all six complete branches, illustrations, scientific qualifications, the two distinct RAND occurrences of approximately 45%, the 95% confidence level, 1.96 multiplier, 2-year horizon, ATT and ITT distinction, Y₁ and Y₀, ± and ≠ symbols. No invented result, numeric axis, new claim, logo, watermark, title-ending period, square layout, simplified content or Spotify branding. All exact copy must fit without overlaps or clipping.

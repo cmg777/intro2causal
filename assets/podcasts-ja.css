@@ -1,10 +1,11 @@
-/* Japanese copy and square mind maps share the English collection's components. */
+/* Japanese copy shares the English collection's components. */
 .podcasts-ja { font-family: Inter, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif; line-height: 1.85; }
 .podcasts-ja h1, .podcasts-ja h2, .podcasts-ja h3 { letter-spacing: -.025em; line-height: 1.5; }
 .podcasts-ja .hero h1 { font-size: clamp(34px, 4.3vw, 58px); }
 .podcasts-ja .hero h1 span { display: block; }
-.podcasts-ja .featured-art { max-width: 340px; margin-inline: auto; }
-.podcasts-ja .featured-art img, .podcasts-ja .episode-art img { aspect-ratio: 1; }
+.podcasts-ja .featured-art { max-width: 100%; margin-inline: auto; }
+/* Full translated maps retain their native landscape proportions. */
+.podcasts-ja .featured-art img, .podcasts-ja .episode-art img { aspect-ratio: auto; }
 .podcasts-ja .episode-description, .podcasts-ja .listening-notes li { font-size: 14px; line-height: 1.9; }
 .podcasts-ja .episode-directory a { font-size: 13px; }
 .podcasts-ja .podcast-passages button > span:last-child { line-height: 1.9; }

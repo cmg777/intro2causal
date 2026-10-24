@@ -1,0 +1,34 @@
+{
+  "chapter": 2,
+  "slug": "ch02-regression",
+  "version": "v1",
+  "english_source": "book/images/ch02_visual_summary.webp",
+  "english_source_sha256": "92c4efe159fc2624ce137fe0a6a302dcf3736a6e2d8e1ecce892ad700fd8faf9",
+  "full_image": "mindmaps/ja/images/ch02-regression-v1.png",
+  "full_image_sha256": "b1e1d8def27c366039303cbe65ffa36d5c1446bcf9b241428df802f1da4877d1",
+  "web_image": "assets/podcasts-ja/full/ch02-regression-v1.webp",
+  "web_image_sha256": "ced5f6bdd258978b9ac0a2c8acad588de11bf649608f520b737e0447c0603114",
+  "native_width": 1672,
+  "native_height": 941,
+  "upscaled": false,
+  "prompt": "mindmaps/ja/prompts/ch02-regression-v1.txt",
+  "generator": "built-in image_gen.imagegen",
+  "generation_source": "exec-f8a6166f-0aa0-42ba-a43c-7a2df8fca879.png",
+  "font_note": "Generated regular-width Japanese Gothic-style lettering; not an embedded or verified font file.",
+  "review": {
+    "method": "Manual visual comparison of generated image against complete English source and exact translated prompt; not automated OCR",
+    "content_checks": [
+      "Conditional means at P=0/1, holding X fixed; not empirical scatter",
+      "OVB fork points from omitted trait to BOTH college choice and earnings",
+      "Model and single-omitted-variable identities retained",
+      "Study-summary approximate14%,7%,near-zero not independently re-estimated; microdata unavailable",
+      "College→occupation→earnings mediator retained",
+      "Conditional independence, overlap, specification and remaining unobserved confounding retained"
+    ]
+  },
+  "source_checks": {
+    "notebook": "notebooks_colab/02-regression.ipynb",
+    "english_audit": "mindmaps/audit/econometric-audit.txt",
+    "numerical_audit": "mindmaps/audit/numerical-checks.json"
+  }
+}

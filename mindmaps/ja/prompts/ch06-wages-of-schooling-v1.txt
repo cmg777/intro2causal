@@ -1,0 +1,49 @@
+Use case: text-localization. Generate a faithful Japanese version of the FULL English chapter mind map, not a simplified cover.
+Input image 1 is the English chapter map: authoritative CONTENT, SIX BRANCHES, diagrams, geometry, equations and numerical labels. Input image 2 is the USER-APPROVED Japanese Chapter 1 version 2: TYPOGRAPHY, CONTRAST and visual style only. Do not copy Chapter 1 content.
+Use clear, regular-width modern Japanese Gothic sans-serif lettering in the style of Noto Sans JP / BIZ UDPGothic: medium-weight solid WHITE explanatory text on uniform very dark navy; cyan/purple/green headings matching source branches. Large, open, correctly formed glyphs. No condensed, brush, handwritten, distressed or outlined Japanese fonts. Aim for the approved sample's body size and contrast, around 28–30px body text at 1672px width; headings 44–50px. Natural line breaks, comfortable line spacing, generous safe margins. English key-heading subtitles should remain readable but smaller. Keep ALL English key technical terms specified below.
+Keep the complete source illustrations and six-branch radial composition. Reduce the center and illustration sizes moderately and reflow text to fit readable body type. Preserve every substantive detail, caveat, numeric magnitude, equation, arrow direction and diagram qualification. Do not omit bullets or shrink into tiny lettering. Preserve landscape 16:9; target high native resolution 3840×2160 if supported, but never simply enlarge old pixels. Nothing cropped, overlapped, outside the canvas, or covered by branch connectors. Render exact text below, permitting line breaks only.
+Scientific graphics: faithfully translate the SOURCE schematics. Do not invent empirical observations, numerical axes, trends, treatment effects, fitted lines or confidence intervals. Copy specified geometric relationships exactly. They illustrate concepts unless explicitly labeled otherwise; do not make schematics look like new study results. Preserve approximate signs and synthetic-demo labels. No additional data or claims. Do not replace mathematical symbols with Japanese lookalikes. All labels and decorative English in the source must be replaced as specified, apart from standard math symbols, abbreviations, proper names and the supplied English subtitles.
+CENTER: 第6章 / 教育と所得 / The Wages of Schooling / 教育を受けると所得は増える？
+Keep open book, graduation cap, coins and upward arrow.
+UPPER LEFT cyan — 単純な差が誤解を招く理由 / Why raw gaps mislead
+• ln W = α + ρS + e
+• 能力は教育と賃金の両方に影響
+• 申告の誤りは推定値を下げうる
+• 職業は不適切な統制変数
+Preserve ability lightbulb pointing BOTH to schooling and earnings, schooling→earnings possible path. Labels: 能力 / 教育（S） / 所得（W） / 申告の誤り. Keep measurement-error ruler.
+MIDDLE LEFT purple — 双子を比べる / Twin comparisons
+• 遺伝子や育ちが共通でも、個人の能力まで同じとは限らない
+• 双子の固定効果：1年あたり約6%
+• 小さな差ではノイズが目立つ
+• もう一方の申告を使うIV：約11%（誤差の独立性が必要）
+• 共有しない違いは残りうる
+Preserve twins, their books 私の教育年数 / あなたの教育年数, noisy measure→IV correction illustration. Labels: ノイズのある測定 → IVで補正. Do not promise perfect correction or identical unshared ability.
+LOWER LEFT cyan — 自然に生じる操作変数 / Natural instruments
+• 生まれた四半期 + 入学ルール
+• 生まれた四半期のIV：1年あたり約7%
+• 義務教育法のIV：約13%、不確か
+  第1段階が弱い
+• 効果は影響を受けるコンプライヤーに対するもの
+Preserve calendar PLUS school-law book (not birthquarter→law). Calendar: 生まれた四半期; Q1 1〜3月 / Q2 4〜6月 / Q3 7〜9月 / Q4 10〜12月. Law: 義務教育法. Below: どちらも教育年数を変える. Books: 教育（S） → 教育（S）.
+UPPER RIGHT purple — 卒業資格の境界：ファジーRD / Diploma cutoff: fuzzy RD
+• 合格点付近の学生への局所効果
+• 合格で卒業資格の取得率が約40ポイント上昇
+• 所得には明確な飛びが見られない
+• 卒業資格の効果 ≠ 教育年数の効果
+• 合格しても卒業が保証されるわけではない
+Preserve the source0–1 probability axis Pr(卒業資格), cutoff at samex, PARTIAL upward jump ~40 pp within0..1 (approximately.2→.6), with vertical jump marker at cutoff. Labels: 合格点 / 約40ポイント / 下 / 境界 / 上. Diploma certificate: 卒業証書. The adjacent earnings diagram remains smooth (no clear jump), vertical axis 所得; below 下 / 境界 / 上. Do not turn partial probability jump into0→1 or measure arrow at different cutoffs. These probability levels illustrate the jump, not fabricated empirical baseline probabilities.
+MIDDLE RIGHT green — 制度改革：差の差法 / Policy reform: DD
+• 人工データによる授業用の実演
+• 平行トレンドが必要
+• ρ ≈ DD ln(所得) ÷ DD 教育年数
+• 改革が所得に影響する経路は教育だけ
+Keep calendar 制度改革 and EXACT source DD schematic: horizontal parallel PRE-trends at different levels; treated cyan above purple control, both flat before reform. Post treated rises; dashed counterfactual starts at treated policy-date level and stays horizontal/parallel to control; control stays horizontal. Labels: 対数所得 / 前 / 後 / 処置群 / 対照群 / 反実仮想. Synthetic demonstration must be explicitly labeled; not a real empirical policy estimate. Keep ln in numerator; do not replace with dollar earnings or reverse ratio.
+LOWER RIGHT green — 不完全な設計を比べる / Compare imperfect designs
+• 人工データの抽選：RCT + IV
+• 回帰分析・IV・RD・DD
+• 前提が違えば、推定する効果も違う
+• この章の総括：教育1年あたり約7〜10%
+• 対数係数から計算した近似的な割合
+Preserve the source five method boxes and all separate paths into earnings. Labels:
+RCT/IV（人工データ） / 回帰分析 / IV / RD（卒業資格） / DD（人工データ） / 所得（W）.
+IMPORTANT: preserve approximate6%,11%,7%,13%,40 percentage POINTS not40 percent,7–10%;1-year return scope, uncertain/weak school-law IV, syntheticDD/RCT labels, local diploma estimand, ln specification, no perfect-identical-twins assumption. All six full branches remain.

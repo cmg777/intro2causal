@@ -1,0 +1,35 @@
+{
+  "chapter": 5,
+  "slug": "ch05-differences-in-differences",
+  "version": "v1",
+  "english_source": "book/images/ch05_visual_summary.webp",
+  "english_source_sha256": "905c90a976e8a93835ac859631163dd88a47a8fa2b209b6fcdf9bf77be90414a",
+  "full_image": "mindmaps/ja/images/ch05-differences-in-differences-v1.png",
+  "full_image_sha256": "7c39df938841a8f48afd3e8535ab07a4d94aade28b4294b0080f1548a15fe34f",
+  "web_image": "assets/podcasts-ja/full/ch05-differences-in-differences-v1.webp",
+  "web_image_sha256": "b3e7a69d97b04a19c3611662b40d192fbecc89004267b9f1b5c0d694b30937c7",
+  "native_width": 1672,
+  "native_height": 941,
+  "upscaled": false,
+  "prompt": "mindmaps/ja/prompts/ch05-differences-in-differences-v1.txt",
+  "generator": "built-in image_gen.imagegen",
+  "generation_source": "exec-77a4aaeb-93f2-4451-9b9b-da81340440d0.png",
+  "font_note": "Generated regular-width Japanese Gothic-style lettering; not an embedded or verified font file.",
+  "review": {
+    "method": "Manual visual comparison of generated image against complete English source and exact translated prompt; not automated OCR",
+    "content_checks": [
+      "DD=(treated post−pre)−(control post−pre)",
+      "Parallel horizontal pre-trends at different levels; counterfactual begins at treated policy-date level",
+      "DD arrow joins actual treated and counterfactual at common post-treatment time",
+      "Two-group/two-period model,group/time FE,assignment-group clustering retained",
+      "No anticipation/spillover and staggered-adoption cautions retained",
+      "Approximate19–23 bank difference; conceptual rising diagram is not bank-count data",
+      "18–20 full legal access,approximately8–12 additional deaths per100,000 retained"
+    ]
+  },
+  "source_checks": {
+    "notebook": "notebooks_colab/05-differences-in-differences.ipynb",
+    "english_audit": "mindmaps/audit/econometric-audit.txt",
+    "numerical_audit": "mindmaps/audit/numerical-checks.json"
+  }
+}

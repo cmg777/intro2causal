@@ -1,0 +1,42 @@
+Use case: text-localization. Generate a faithful Japanese version of the FULL English chapter mind map, not a simplified cover.
+Input image 1 is the English chapter map: authoritative CONTENT, SIX BRANCHES, diagrams, geometry, equations and numerical labels. Input image 2 is the USER-APPROVED Japanese Chapter 1 version 2: TYPOGRAPHY, CONTRAST and visual style only. Do not copy Chapter 1 content.
+Use clear, regular-width modern Japanese Gothic sans-serif lettering in the style of Noto Sans JP / BIZ UDPGothic: medium-weight solid WHITE explanatory text on uniform very dark navy; cyan/purple/green headings matching source branches. Large, open, correctly formed glyphs. No condensed, brush, handwritten, distressed or outlined Japanese fonts. Aim for the approved sample's body size and contrast, around 28–30px body text at 1672px width; headings 44–50px. Natural line breaks, comfortable line spacing, generous safe margins. English key-heading subtitles should remain readable but smaller. Keep ALL English key technical terms specified below.
+Keep the complete source illustrations and six-branch radial composition. Reduce the center and illustration sizes moderately and reflow text to fit readable body type. Preserve every substantive detail, caveat, numeric magnitude, equation, arrow direction and diagram qualification. Do not omit bullets or shrink into tiny lettering. Preserve landscape 16:9; target high native resolution 3840×2160 if supported, but never simply enlarge old pixels. Nothing cropped, overlapped, outside the canvas, or covered by branch connectors. Render exact text below, permitting line breaks only.
+Scientific graphics: faithfully translate the SOURCE schematics. Do not invent empirical observations, numerical axes, trends, treatment effects, fitted lines or confidence intervals. Copy specified geometric relationships exactly. They illustrate concepts unless explicitly labeled otherwise; do not make schematics look like new study results. Preserve approximate signs and synthetic-demo labels. No additional data or claims. Do not replace mathematical symbols with Japanese lookalikes. All labels and decorative English in the source must be replaced as specified, apart from standard math symbols, abbreviations, proper names and the supplied English subtitles.
+CENTER: 第2章 / 回帰分析 / Regression / 有名私立大学は学費に見合う？
+Keep the university, graduation cap and coins illustration.
+UPPER LEFT cyan — 抽選がないときの選択 / Selection without a lottery
+• 大学に入る前から学生は違う
+• 能力・意欲・家庭環境が異なる
+• 単純な所得の差が因果効果とは限らない
+Preserve two students at university signposts. Signs: 有名私立大学 / 公立大学.
+MIDDLE LEFT purple — 似た条件の人を比べる / Compare like with like
+• Y = α + βP + γ′X + e
+• P：私立大学、X：統制変数
+• β：ほかの条件を一定にした差
+• OLSは残差の二乗和を最小にする
+Labels above two students: 似た条件 X.
+Keep the two fitted means at binary P=0 and P=1, connected by a line; NOT a continuous scatter. Vertical axis Y; horizontal axis P, only positions 0 and 1; points Ŷ₀ and Ŷ₁. Label: Xを固定した予測平均. No new observations or numerical scale.
+LOWER LEFT cyan — 欠落変数バイアス / Omitted variables bias
+• OVB = β_short − β_long = π₁ × γ
+• π₁：省いた特性をPで回帰した係数
+• γ：その特性の長い回帰式での係数
+• どちらかが0なら → OVBはない
+Preserve the confounder fork: omitted trait points BOTH to college choice and earnings; college choice also points to earnings. Do NOT reverse into college→trait→earnings. Puzzle labels: 省いた特性 / 大学選択 / 所得.
+UPPER RIGHT purple — 因果解釈の前提 / The causal assumption
+• 条件付き独立性
+• 条件の重なりと適切なモデル設定
+• 観察できない交絡要因のリスクは残る
+Preserve balanced scales: students labeled 同じX; central unobserved silhouette labeled 観察できない交絡要因.
+MIDDLE RIGHT green — デール＝クルーガー研究 / Dale–Krueger study
+• 単純な私立大学の所得差：約14%
+• 大学の選抜性を統制：約7%
+• 出願先の組合せを統制：ほぼ0
+Preserve source bar-summary 14% → 7% → ~0, with third near-zero bar small but nonzero; do not imply exact zero. Bar labels: 単純な私立大学の所得差 / 選抜性を統制 / 出願先を統制. Signs: 有名私立大学 / 公立大学. Student folders: 出願.
+These approximate study-summary values are not a new regression or microdata scatter.
+LOWER RIGHT green — 統制変数を慎重に選ぶ / Choose controls carefully
+• 処置前の交絡要因を使う
+• 職業は不適切な統制変数
+• 推定値の安定は信頼を高める
+Preserve mediator pathway 大学 → 職業 → 所得. Occupation is circled as the bad control, not a pre-treatment confounder.
+IMPORTANT: every equation/symbol retained; no causal guarantee from regression; approximate 14%,7%,near-zero intact. Same six branches as source.

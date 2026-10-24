@@ -1,0 +1,56 @@
+{
+  "method": "Native raster inspection without changing pixels; conceptual line geometry, not empirical validity",
+  "tolerance_pixels": 3,
+  "checks": {
+    "chapter_5": {
+      "x_pixels": [
+        100,
+        125,
+        150,
+        175,
+        200
+      ],
+      "treated_y_pixels": [
+        597,
+        597,
+        597,
+        597,
+        596.5
+      ],
+      "control_y_pixels": [
+        639,
+        639.0,
+        639,
+        639,
+        639
+      ],
+      "separation_drift_pixels": 0.5,
+      "passed": true
+    },
+    "chapter_6": {
+      "x_pixels": [
+        1085,
+        1100,
+        1120,
+        1140,
+        1160
+      ],
+      "treated_y_pixels": [
+        534,
+        534.0,
+        534,
+        534,
+        534
+      ],
+      "control_y_pixels": [
+        579,
+        579,
+        579,
+        579,
+        579
+      ],
+      "separation_drift_pixels": 0,
+      "passed": true
+    }
+  }
+}

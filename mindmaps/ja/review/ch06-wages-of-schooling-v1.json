@@ -1,0 +1,36 @@
+{
+  "chapter": 6,
+  "slug": "ch06-wages-of-schooling",
+  "version": "v1",
+  "english_source": "book/images/ch06_visual_summary.webp",
+  "english_source_sha256": "c6f09089380001d48064c2d6688482883a926cef868e5c2174bd03bffa45d409",
+  "full_image": "mindmaps/ja/images/ch06-wages-of-schooling-v1.png",
+  "full_image_sha256": "29fcbd2ee3efe1e9cfeeff6762663a1e0151c929f3bdde690634d41d32dc4d4b",
+  "web_image": "assets/podcasts-ja/full/ch06-wages-of-schooling-v1.webp",
+  "web_image_sha256": "ce23fad535953d42b2a96d6ce1350cb7b8aae33071e198cad8ad40483b9be4ae",
+  "native_width": 1672,
+  "native_height": 941,
+  "upscaled": false,
+  "prompt": "mindmaps/ja/prompts/ch06-wages-of-schooling-v1.txt",
+  "generator": "built-in image_gen.imagegen",
+  "generation_source": "exec-62176be6-aa0e-4e18-96cc-38ada7bbc63d.png",
+  "font_note": "Generated regular-width Japanese Gothic-style lettering; not an embedded or verified font file.",
+  "review": {
+    "method": "Manual visual comparison of generated image against complete English source and exact translated prompt; not automated OCR",
+    "content_checks": [
+      "lnW model and log-earnings DD numerator retained",
+      "Twin FE≈6%,co-twin IV≈11%,QOB IV≈7%,school-law IV≈13% uncertain/weak retained",
+      "Birth-quarter + school-law inputs not a causal arrow from quarter to law",
+      "Diploma fuzzy probability jump approximately40percentage points within0..1; not40percent",
+      "Diploma effect local to near-pass students; credential effect differs from schooling-year effect",
+      "Synthetic classroom DD and RCT/IV clearly labeled",
+      "Parallel pre-trends and treated counterfactual above control retained",
+      "Chapter approximate7–10% per-year synthesis qualified as log-coefficient approximation"
+    ]
+  },
+  "source_checks": {
+    "notebook": "notebooks_colab/06-wages-of-schooling.ipynb",
+    "english_audit": "mindmaps/audit/econometric-audit.txt",
+    "numerical_audit": "mindmaps/audit/numerical-checks.json"
+  }
+}

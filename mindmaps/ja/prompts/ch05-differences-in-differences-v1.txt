@@ -1,0 +1,42 @@
+Use case: text-localization. Generate a faithful Japanese version of the FULL English chapter mind map, not a simplified cover.
+Input image 1 is the English chapter map: authoritative CONTENT, SIX BRANCHES, diagrams, geometry, equations and numerical labels. Input image 2 is the USER-APPROVED Japanese Chapter 1 version 2: TYPOGRAPHY, CONTRAST and visual style only. Do not copy Chapter 1 content.
+Use clear, regular-width modern Japanese Gothic sans-serif lettering in the style of Noto Sans JP / BIZ UDPGothic: medium-weight solid WHITE explanatory text on uniform very dark navy; cyan/purple/green headings matching source branches. Large, open, correctly formed glyphs. No condensed, brush, handwritten, distressed or outlined Japanese fonts. Aim for the approved sample's body size and contrast, around 28–30px body text at 1672px width; headings 44–50px. Natural line breaks, comfortable line spacing, generous safe margins. English key-heading subtitles should remain readable but smaller. Keep ALL English key technical terms specified below.
+Keep the complete source illustrations and six-branch radial composition. Reduce the center and illustration sizes moderately and reflow text to fit readable body type. Preserve every substantive detail, caveat, numeric magnitude, equation, arrow direction and diagram qualification. Do not omit bullets or shrink into tiny lettering. Preserve landscape 16:9; target high native resolution 3840×2160 if supported, but never simply enlarge old pixels. Nothing cropped, overlapped, outside the canvas, or covered by branch connectors. Render exact text below, permitting line breaks only.
+Scientific graphics: faithfully translate the SOURCE schematics. Do not invent empirical observations, numerical axes, trends, treatment effects, fitted lines or confidence intervals. Copy specified geometric relationships exactly. They illustrate concepts unless explicitly labeled otherwise; do not make schematics look like new study results. Preserve approximate signs and synthetic-demo labels. No additional data or claims. Do not replace mathematical symbols with Japanese lookalikes. All labels and decorative English in the source must be replaced as specified, apart from standard math symbols, abbreviations, proper names and the supplied English subtitles.
+CENTER: 第5章 / 差の差法 / Differences-in-Differences / 政策がなかった場合を考えられる？
+Keep Atlanta and St. Louis banks with the credit lifeline on Atlanta, and source before/after timeline. Labels: アトランタ / セントルイス / 資金支援 / 前 / 後.
+UPPER LEFT cyan — 差をもう一度とる / Difference twice
+• DD = 処置群の変化 − 対照群の変化
+• 固定的な差と共通のショックを除く
+• 前後だけの比較では誤ることがある
+Preserve two groups of before/after bars with their change arrows and DD difference bracket; these are unscaled schematics, no empirical numerical axis. Labels: 結果 / 前 / 後 / 処置群 / 対照群. Bracket label: DD = 処置群の変化 − 対照群の変化.
+MIDDLE LEFT purple — 平行トレンド / Parallel trends
+• 政策がなければ、変化は同じ
+• 最初の水準が同じである必要はない
+• 対照群の推移から反実仮想をつくる
+CRITICAL MAIN SCHEMATIC: preserve exactly the original parallel horizontal PRE-policy treated/control lines at different levels, cyan treated ABOVE purple control. Both completely flat before cutoff. At policy cutoff actual cyan treated rises AFTER treatment; purple control stays horizontal. Dashed white untreated counterfactual starts at treated policy-date level and remains horizontal, parallel to control. Vertical DD効果 arrow joins actual treated and its counterfactual at the SAME post-policy time. Never use an arrow down to control as the DD effect. Labels: 結果 / 時間 / 前 / 後 / 政策 / 処置群 / 対照群 / 反実仮想 / DD効果. This is a conceptual diagram, not bank counts.
+LOWER LEFT cyan — 回帰分析の道具 / Regression toolkit
+• Y_gt = α_g + λ_t + δ(Treated_g × Post_t) + e_gt
+  2群・2時点モデル
+• グループ固定効果：変わらない違い
+• 時間固定効果：共通のショック
+• 割り当てグループ単位で標準誤差をクラスタ化
+Preserve panel grid rows グループA/B/C, columns t₁,t₂,t₃,t₄; gears グループ固定効果 / 時間固定効果; books パネルデータ. Keep model coefficients Greek α,λ,δ, their g/t subscripts and interaction multiplication symbol. It is the basic two-group/two-period model, not a blanket staggered-TWFE validity claim.
+UPPER RIGHT purple — 前提を確かめる / Check the assumptions
+• 政策前の推移は手がかりで、証明ではない
+• 先取り行動・ほかへの波及がない
+• トレンド・重み・統制・プラセボを確認
+• 導入時期が異なる場合は特に注意
+Keep analyst, magnifying glass on pre-policy lines and checklist. Chart labels: 結果 / 時間 / 政策. Checklist: 政策前の推移 / 別のモデル設定 / プラセボ / 残るリスク.
+MIDDLE RIGHT green — ミシシッピ州の銀行 / Mississippi banks
+• アトランタ：流動性を支援
+• セントルイス：信用供給を抑制
+• 約19〜23行の銀行が存続
+Keep source Mississippi map, two bank buildings and credit lifeline to Atlanta. Labels: アトランタ / セントルイス / ミシシッピ / 資金支援. Do not invent a rising empirical bank series; actual bank counts can fall in both districts while DD is positive.
+LOWER RIGHT green — 飲酒を認める政策 / Legal drinking policy
+• 18〜20歳の全員に合法的な飲酒を認める
+• 人口10万人あたり約8〜12人の死亡増
+• 増加の大半は交通事故
+• 内因による死亡：プラセボ
+Preserve calendar labeled 州の政策, road/car scene, roadside sign 安全な道路. The8〜12 magnitude is for a0→1 legal-access share, not for one percentage point. Do not imply universal statistical significance.
+IMPORTANT: all six branches, every qualification, numbers19–23,18–20,8–12/100,000 preserved; pre-trends exactly parallel and DD-counterfactual arrow mathematically correct. No invented observations.

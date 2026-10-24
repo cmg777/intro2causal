@@ -4,6 +4,7 @@ Run with: uv run --with playwright python scripts/test_japanese_podcasts_page.py
 Optional: PLAYWRIGHT_CHROMIUM_EXECUTABLE=/path/to/chromium
 """
 import json
+import hashlib
 import os
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -64,6 +65,28 @@ def verify(browser, base):
     expect(page.locator('.podcast-player.enhanced')).to_have_count(4)
     assert page.locator('audio').count() == 5
     assert page.locator('.episode-art').count() == 6
+    # Full translated maps must use their own assets and retain landscape geometry.
+    full_maps = page.locator('.full-mindmap img')
+    assert full_maps.count() == 7  # Six chapter cards and the Chapter 1 hero.
+    manifest = json.loads((ROOT / 'mindmaps/ja/manifest.json').read_text())
+    assert [entry['chapter'] for entry in manifest['chapters']] == list(range(1, 7))
+    for entry in manifest['chapters']:
+        art = page.locator(f"#chapter-{entry['chapter']} .episode-art")
+        assert art.get_attribute('href') == entry['full_image']
+        assert art.locator('img').get_attribute('src') == entry['web_image']
+        for path_key, hash_key in [('english_source', 'english_source_sha256'), ('full_image', 'full_image_sha256'), ('web_image', 'web_image_sha256')]:
+            assert hashlib.sha256((ROOT / entry[path_key]).read_bytes()).hexdigest() == entry[hash_key]
+        assert (ROOT / entry['prompt']).is_file()
+    assert page.locator('.featured-art img').get_attribute('src') == manifest['chapters'][0]['web_image']
+    assert page.locator('a[href*="spotify-jpn/artwork"], img[src*="spotify-jpn/artwork"]').count() == 0
+    for image in full_maps.all():
+        image.scroll_into_view_if_needed()
+        expect(image).to_be_visible()
+        assert '/full/' in image.get_attribute('src')
+        page.wait_for_function('(img) => img.complete && img.naturalWidth > 0', arg=image.element_handle())
+        assert image.evaluate('(img) => img.naturalWidth / img.naturalHeight > 1.7')
+        assert image.evaluate('(img) => Math.abs(img.width / img.height - img.naturalWidth / img.naturalHeight) < 0.02')
+    assert page.locator('#chapter-1 .episode-art').get_attribute('href').startswith('mindmaps/ja/images/')
     assert page.locator('#chapter-6 audio, #chapter-6 [data-podcast]').count() == 0
     assert page.locator('#chapter-5 .podcast-action-link').count() == 0
     expect(page.locator('#chapter-5')).to_contain_text('文字起こしは準備中')

@@ -1,0 +1,52 @@
+{
+  "chapter": 1,
+  "status": "historical_superseded_by_user_approved_v2",
+  "generator": "built-in image_gen.imagegen",
+  "source_english": "book/images/ch01_visual_summary.webp",
+  "english_sha256": "651f7fe7c7ad274a6cb5a63e283390170128605db8fc6db5b73aa1c5cac61c31",
+  "full_image": "mindmaps/ja/images/ch01-randomized-trials-v1.png",
+  "full_image_sha256": "130e4f3a7c95d570a58dc96b7b7da6f531c1bbf1bfc1e621a412b1910acdacfc",
+  "web_image": "assets/podcasts-ja/full/ch01-randomized-trials-v1.webp",
+  "native_dimensions": [
+    1672,
+    941
+  ],
+  "target_dimensions": [
+    3840,
+    2160
+  ],
+  "resolution_target_met": false,
+  "resolution_note": "Both built-in generation calls returned 1672 × 941, matching the English source. No upscaling was applied. This limitation must be disclosed during sample review.",
+  "initial_generation": "exec-137c6c9f-09b2-410e-99c8-3cdc0a4072b1.png",
+  "selected_generation": "exec-6dd4bbf1-4575-4b30-abed-906762b3a887.png",
+  "prompts": [
+    "mindmaps/ja/prompts/ch01-randomized-trials-v1.txt",
+    "mindmaps/ja/prompts/ch01-resolution-refinement.txt"
+  ],
+  "visual_review": {
+    "method": "Manual visual comparison against the complete English image and exact Japanese prompt; not automated OCR",
+    "branches_present": [
+      "Potential outcomes",
+      "Selection bias",
+      "Reading the evidence",
+      "Random assignment",
+      "RAND experiment",
+      "Oregon lottery"
+    ],
+    "checks_passed": [
+      "All six branches and their teaching points retained",
+      "Original illustrated motifs retained",
+      "Japanese explanations and English key headings legible at native size",
+      "No observed clipping or branch connectors obscuring text",
+      "Y₁ and Y₀, ATT and ITT preserved",
+      "Both approximate 45% spending labels retained",
+      "95%, 1.96, ±, ≠ and large-sample qualification retained",
+      "Intercept and no-other-controls condition retained",
+      "Two-year physical-health non-significance qualification retained",
+      "Catastrophic coverage remains insurance",
+      "Lottery opportunity does not imply guaranteed enrollment"
+    ],
+    "remaining": "Superseded: user requested clearer type; version 2 was approved"
+  },
+  "publication": "Historical comparison; website uses approved version 2"
+}

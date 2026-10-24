@@ -1,0 +1,41 @@
+Use case: text-localization. Generate a faithful Japanese version of the FULL English chapter mind map, not a simplified cover.
+Input image 1 is the English chapter map: authoritative CONTENT, SIX BRANCHES, diagrams, geometry, equations and numerical labels. Input image 2 is the USER-APPROVED Japanese Chapter 1 version 2: TYPOGRAPHY, CONTRAST and visual style only. Do not copy Chapter 1 content.
+Use clear, regular-width modern Japanese Gothic sans-serif lettering in the style of Noto Sans JP / BIZ UDPGothic: medium-weight solid WHITE explanatory text on uniform very dark navy; cyan/purple/green headings matching source branches. Large, open, correctly formed glyphs. No condensed, brush, handwritten, distressed or outlined Japanese fonts. Aim for the approved sample's body size and contrast, around 28–30px body text at 1672px width; headings 44–50px. Natural line breaks, comfortable line spacing, generous safe margins. English key-heading subtitles should remain readable but smaller. Keep ALL English key technical terms specified below.
+Keep the complete source illustrations and six-branch radial composition. Reduce the center and illustration sizes moderately and reflow text to fit readable body type. Preserve every substantive detail, caveat, numeric magnitude, equation, arrow direction and diagram qualification. Do not omit bullets or shrink into tiny lettering. Preserve landscape 16:9; target high native resolution 3840×2160 if supported, but never simply enlarge old pixels. Nothing cropped, overlapped, outside the canvas, or covered by branch connectors. Render exact text below, permitting line breaks only.
+Scientific graphics: faithfully translate the SOURCE schematics. Do not invent empirical observations, numerical axes, trends, treatment effects, fitted lines or confidence intervals. Copy specified geometric relationships exactly. They illustrate concepts unless explicitly labeled otherwise; do not make schematics look like new study results. Preserve approximate signs and synthetic-demo labels. No additional data or claims. Do not replace mathematical symbols with Japanese lookalikes. All labels and decorative English in the source must be replaced as specified, apart from standard math symbols, abbreviations, proper names and the supplied English subtitles.
+CENTER: 第4章 / 回帰不連続デザイン / Regression Discontinuity / 境界から因果効果を調べられる？
+Keep two students/young adults, age-21 sign and same central separation.
+UPPER LEFT cyan — ルールが境界をつくる / A rule creates a threshold
+• ランニング変数：年齢や得点
+• カットオフで資格が切り替わる
+• 境界に近い人を比べる
+Age ruler remains 19,20,21,22,23, cutoff21. Labels: 対象外 / 対象. Age sign21. Do not turn 21 into a speed limit.
+MIDDLE LEFT purple — 連続性という前提 / The continuity assumption
+• 処置がなければ、推移は滑らか
+• 結果を左右するほかの要因も滑らか
+• 境界への選別や操作を確認
+Preserve schematic smooth curve, observations and magnifier around same cutoff; no discontinuity on the untreated smooth trend. Horizontal label: ランニング変数.
+LOWER LEFT cyan — 境界での飛びを推定 / Estimate the jump
+• まず図を描き、境界の両側を推定
+• 効果 = カットオフでの差
+• 境界付近に限られる局所的な効果
+Preserve source pedagogical positive step with points on both sides. Mark vertical 効果 arrow between left/right fitted limits at the SAME cutoff. Axis: 結果 / ランニング変数. These are conceptual points, not new study data; add no numerical axis.
+UPPER RIGHT purple — シャープとファジー / Sharp versus fuzzy
+• シャープ：処置が完全に切り替わる
+• ファジー：処置の確率が飛ぶ
+• ファジーRD = 結果の飛び ÷ 処置確率の飛び
+• 効果は境界付近のコンプライヤーに限る
+Two source probability diagrams: シャープ / ファジー. Both vertical axes Pr(D = 1), marked0 and1. Sharp0→1 step at21. Fuzzy partial jump strictly within0..1, at the same21. Keep both as probability diagrams, not outcome charts. Horizontal: ランニング変数.
+MIDDLE RIGHT green — 21歳で飲酒が合法に / Legal drinking at 21
+• 人口10万人あたり約7.7人の死亡増
+• 主な経路：交通事故
+• 内因による死亡には明確な飛びなし
+Preserve car/road scene and age21 sign, mortality-step SUMMARY graphic with age21 cutoff. Vertical label: 死亡率（人口10万人あたり）. Horizontal: 年齢. This step summarizes the local jump; do not invent empirical raw observations or assert zero slope as an empirical fit.
+LOWER RIGHT green — 設計の頑健性を確かめる / Stress-test the design
+• 帯域幅とトレンドを変える
+• プラセボの結果変数を使う
+• 選抜校：同級生の質は向上
+• 学力には明確な飛びなし
+Preserve NESTED SYMMETRIC bandwidth windows centered on SAME cutoff. Labels: 広い帯域幅 / 狭い帯域幅 / ランニング変数. Keep magnifier.
+School building: 選抜校. Preserve peer-quality jump and smooth achievement sketches. Labels: 同級生の質 / 学力, both horizontal ランニング変数. Peer-quality jumps positively; achievement remains smooth. Do not swap.
+IMPORTANT: preserve every qualification, local/complier scope, mortality units,7.7 and age21. Copy source schematic geometry, no invented empirical data.

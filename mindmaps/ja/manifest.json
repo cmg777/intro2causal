@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "language": "ja",
+  "approved_style_reference": "mindmaps/ja/images/ch01-randomized-trials-v2.png",
+  "style_approval": "User: Great, I like it. Proceed.",
+  "native_resolution_note": "The built-in tool returned1672×941,matching the English sources.3840×2160 was requested but not delivered.No upscaling was applied.",
+  "chapters": [
+    {
+      "chapter": 1,
+      "slug": "ch01-randomized-trials",
+      "version": "v2",
+      "english_source": "book/images/ch01_visual_summary.webp",
+      "english_source_sha256": "651f7fe7c7ad274a6cb5a63e283390170128605db8fc6db5b73aa1c5cac61c31",
+      "full_image": "mindmaps/ja/images/ch01-randomized-trials-v2.png",
+      "full_image_sha256": "5afcb6db2bb4624fb59d1cfd110cc7feaf609a2eb6e198a9ef6f31c42437d8c2",
+      "web_image": "assets/podcasts-ja/full/ch01-randomized-trials-v2.webp",
+      "web_image_sha256": "ab74acea9c2ce3ae2c441a82f4d41682be4e08f2dc2b3c00d38ceb4d475a4d29",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompt": "mindmaps/ja/prompts/ch01-randomized-trials-v2-readable-type.txt",
+      "generator": "built-in image_gen.imagegen",
+      "generation_source": "ch01-randomized-trials-v2.png",
+      "font_note": "Generated regular-width Japanese Gothic-style lettering; not an embedded or verified font file.",
+      "review": {
+        "method": "Manual visual comparison of generated image against complete English source and exact translated prompt; not automated OCR",
+        "content_checks": [
+          "Six complete branches retained",
+          "Y₁/Y₀, ATT/ITT, 95%, 1.96, ± and ≠ retained",
+          "RAND approximately45% against catastrophic coverage, not no insurance",
+          "Oregon nonsignificance scoped to measured physical health at two years"
+        ]
+      },
+      "source_checks": {
+        "notebook": "notebooks_colab/01-randomized-trials.ipynb",
+        "english_audit": "mindmaps/audit/econometric-audit.txt",
+        "numerical_audit": "mindmaps/audit/numerical-checks.json"
+      }
+    },
+    {
+      "chapter": 2,
+      "slug": "ch02-regression",
+      "version": "v1",
+      "english_source": "book/images/ch02_visual_summary.webp",
+      "english_source_sha256": "92c4efe159fc2624ce137fe0a6a302dcf3736a6e2d8e1ecce892ad700fd8faf9",
+      "full_image": "mindmaps/ja/images/ch02-regression-v1.png",
+      "full_image_sha256": "b1e1d8def27c366039303cbe65ffa36d5c1446bcf9b241428df802f1da4877d1",
+      "web_image": "assets/podcasts-ja/full/ch02-regression-v1.webp",
+      "web_image_sha256": "ced5f6bdd258978b9ac0a2c8acad588de11bf649608f520b737e0447c0603114",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompt": "mindmaps/ja/prompts/ch02-regression-v1.txt",
+      "generator": "built-in image_gen.imagegen",
+      "generation_source": "exec-f8a6166f-0aa0-42ba-a43c-7a2df8fca879.png",
+      "font_note": "Generated regular-width Japanese Gothic-style lettering; not an embedded or verified font file.",
+      "review": {
+        "method": "Manual visual comparison of generated image against complete English source and exact translated prompt; not automated OCR",
+        "content_checks": [
+          "Conditional means at P=0/1, holding X fixed; not empirical scatter",
+          "OVB fork points from omitted trait to BOTH college choice and earnings",
+          "Model and single-omitted-variable identities retained",
+          "Study-summary approximate14%,7%,near-zero not independently re-estimated; microdata unavailable",
+          "College→occupation→earnings mediator retained",
+          "Conditional independence, overlap, specification and remaining unobserved confounding retained"
+        ]
+      },
+      "source_checks": {
+        "notebook": "notebooks_colab/02-regression.ipynb",
+        "english_audit": "mindmaps/audit/econometric-audit.txt",
+        "numerical_audit": "mindmaps/audit/numerical-checks.json"
+      }
+    },
+    {
+      "chapter": 3,
+      "slug": "ch03-instrumental-variables",
+      "version": "v1",
+      "english_source": "book/images/ch03_visual_summary.webp",
+      "english_source_sha256": "9b4d336dd4b4a77600102a64d15675a011abec367a2ef2577e662b95124e0853",
+      "full_image": "mindmaps/ja/images/ch03-instrumental-variables-v1.png",
+      "full_image_sha256": "ba6f4f8f128883a6507593268f60eb5308b33d21f1031e5aeccba7e666b10b04",
+      "web_image": "assets/podcasts-ja/full/ch03-instrumental-variables-v1.webp",
+      "web_image_sha256": "4db00387729cde56913f88071545b0f8039c912fff45f54af0c92a4bb0b24406",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompt": "mindmaps/ja/prompts/ch03-instrumental-variables-v1.txt",
+      "generator": "built-in image_gen.imagegen",
+      "generation_source": "exec-2e813909-cd8e-4d42-af47-621bed86d7e4.png",
+      "font_note": "Generated regular-width Japanese Gothic-style lettering; not an embedded or verified font file.",
+      "review": {
+        "method": "Manual visual comparison of generated image against complete English source and exact translated prompt; not automated OCR",
+        "content_checks": [
+          "Z→D→Y path and blocked bypass retained",
+          "Both 2SLS stages include X; valid-IV-SE caveat retained",
+          "Binary-Z/D qualification retained for simple Wald LATE ratio",
+          "Complier,always-taker,never-taker Z/D labels visually checked",
+          "0.355/0.741 rounds0.48SD per year for compliers; first stage not winner enrollment rate",
+          "Stable treatment,no-spillover,monotonicity and exclusion assumptions retained"
+        ]
+      },
+      "source_checks": {
+        "notebook": "notebooks_colab/03-instrumental-variables.ipynb",
+        "english_audit": "mindmaps/audit/econometric-audit.txt",
+        "numerical_audit": "mindmaps/audit/numerical-checks.json"
+      }
+    },
+    {
+      "chapter": 4,
+      "slug": "ch04-regression-discontinuity",
+      "version": "v1",
+      "english_source": "book/images/ch04_visual_summary.webp",
+      "english_source_sha256": "380d4c123aaa1aac505e30d51197da87701c6c342183eb0d19b9a2528c5742fc",
+      "full_image": "mindmaps/ja/images/ch04-regression-discontinuity-v1.png",
+      "full_image_sha256": "85ca202b47665ec35acfe7e9b4fc720b71bacd62534584d12071000a7b0a21b7",
+      "web_image": "assets/podcasts-ja/full/ch04-regression-discontinuity-v1.webp",
+      "web_image_sha256": "a08507b74ddc5aa4c9789eaf7caf2b647b177d7e4d238d8091229cc889e817f8",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompt": "mindmaps/ja/prompts/ch04-regression-discontinuity-v1.txt",
+      "generator": "built-in image_gen.imagegen",
+      "generation_source": "exec-1c31573f-f96e-4c76-8935-e37dc82e3a89.png",
+      "font_note": "Generated regular-width Japanese Gothic-style lettering; not an embedded or verified font file.",
+      "review": {
+        "method": "Manual visual comparison of generated image against complete English source and exact translated prompt; not automated OCR",
+        "content_checks": [
+          "Sharp0→1 and fuzzy partial probability jumps retain Pr(D=1) axes and0/1 bounds",
+          "Outcome jump compared at the same cutoff",
+          "Nested symmetric bandwidth windows centered on the same cutoff",
+          "Age21 and approximately7.7 additional deaths per100,000 retained",
+          "Road-accident channel and internal-cause placebo distinction retained",
+          "Peer quality jumps; achievement remains smooth",
+          "Schematics not new fitted observations or empirical series"
+        ]
+      },
+      "source_checks": {
+        "notebook": "notebooks_colab/04-regression-discontinuity.ipynb",
+        "english_audit": "mindmaps/audit/econometric-audit.txt",
+        "numerical_audit": "mindmaps/audit/numerical-checks.json"
+      }
+    },
+    {
+      "chapter": 5,
+      "slug": "ch05-differences-in-differences",
+      "version": "v1",
+      "english_source": "book/images/ch05_visual_summary.webp",
+      "english_source_sha256": "905c90a976e8a93835ac859631163dd88a47a8fa2b209b6fcdf9bf77be90414a",
+      "full_image": "mindmaps/ja/images/ch05-differences-in-differences-v1.png",
+      "full_image_sha256": "7c39df938841a8f48afd3e8535ab07a4d94aade28b4294b0080f1548a15fe34f",
+      "web_image": "assets/podcasts-ja/full/ch05-differences-in-differences-v1.webp",
+      "web_image_sha256": "b3e7a69d97b04a19c3611662b40d192fbecc89004267b9f1b5c0d694b30937c7",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompt": "mindmaps/ja/prompts/ch05-differences-in-differences-v1.txt",
+      "generator": "built-in image_gen.imagegen",
+      "generation_source": "exec-77a4aaeb-93f2-4451-9b9b-da81340440d0.png",
+      "font_note": "Generated regular-width Japanese Gothic-style lettering; not an embedded or verified font file.",
+      "review": {
+        "method": "Manual visual comparison of generated image against complete English source and exact translated prompt; not automated OCR",
+        "content_checks": [
+          "DD=(treated post−pre)−(control post−pre)",
+          "Parallel horizontal pre-trends at different levels; counterfactual begins at treated policy-date level",
+          "DD arrow joins actual treated and counterfactual at common post-treatment time",
+          "Two-group/two-period model,group/time FE,assignment-group clustering retained",
+          "No anticipation/spillover and staggered-adoption cautions retained",
+          "Approximate19–23 bank difference; conceptual rising diagram is not bank-count data",
+          "18–20 full legal access,approximately8–12 additional deaths per100,000 retained"
+        ]
+      },
+      "source_checks": {
+        "notebook": "notebooks_colab/05-differences-in-differences.ipynb",
+        "english_audit": "mindmaps/audit/econometric-audit.txt",
+        "numerical_audit": "mindmaps/audit/numerical-checks.json"
+      }
+    },
+    {
+      "chapter": 6,
+      "slug": "ch06-wages-of-schooling",
+      "version": "v1",
+      "english_source": "book/images/ch06_visual_summary.webp",
+      "english_source_sha256": "c6f09089380001d48064c2d6688482883a926cef868e5c2174bd03bffa45d409",
+      "full_image": "mindmaps/ja/images/ch06-wages-of-schooling-v1.png",
+      "full_image_sha256": "29fcbd2ee3efe1e9cfeeff6762663a1e0151c929f3bdde690634d41d32dc4d4b",
+      "web_image": "assets/podcasts-ja/full/ch06-wages-of-schooling-v1.webp",
+      "web_image_sha256": "ce23fad535953d42b2a96d6ce1350cb7b8aae33071e198cad8ad40483b9be4ae",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompt": "mindmaps/ja/prompts/ch06-wages-of-schooling-v1.txt",
+      "generator": "built-in image_gen.imagegen",
+      "generation_source": "exec-62176be6-aa0e-4e18-96cc-38ada7bbc63d.png",
+      "font_note": "Generated regular-width Japanese Gothic-style lettering; not an embedded or verified font file.",
+      "review": {
+        "method": "Manual visual comparison of generated image against complete English source and exact translated prompt; not automated OCR",
+        "content_checks": [
+          "lnW model and log-earnings DD numerator retained",
+          "Twin FE≈6%,co-twin IV≈11%,QOB IV≈7%,school-law IV≈13% uncertain/weak retained",
+          "Birth-quarter + school-law inputs not a causal arrow from quarter to law",
+          "Diploma fuzzy probability jump approximately40percentage points within0..1; not40percent",
+          "Diploma effect local to near-pass students; credential effect differs from schooling-year effect",
+          "Synthetic classroom DD and RCT/IV clearly labeled",
+          "Parallel pre-trends and treated counterfactual above control retained",
+          "Chapter approximate7–10% per-year synthesis qualified as log-coefficient approximation"
+        ]
+      },
+      "source_checks": {
+        "notebook": "notebooks_colab/06-wages-of-schooling.ipynb",
+        "english_audit": "mindmaps/audit/econometric-audit.txt",
+        "numerical_audit": "mindmaps/audit/numerical-checks.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+Use case: text-localization. Generate a faithful Japanese version of the FULL English chapter mind map, not a simplified cover.
+Input image 1 is the English chapter map: authoritative CONTENT, SIX BRANCHES, diagrams, geometry, equations and numerical labels. Input image 2 is the USER-APPROVED Japanese Chapter 1 version 2: TYPOGRAPHY, CONTRAST and visual style only. Do not copy Chapter 1 content.
+Use clear, regular-width modern Japanese Gothic sans-serif lettering in the style of Noto Sans JP / BIZ UDPGothic: medium-weight solid WHITE explanatory text on uniform very dark navy; cyan/purple/green headings matching source branches. Large, open, correctly formed glyphs. No condensed, brush, handwritten, distressed or outlined Japanese fonts. Aim for the approved sample's body size and contrast, around 28–30px body text at 1672px width; headings 44–50px. Natural line breaks, comfortable line spacing, generous safe margins. English key-heading subtitles should remain readable but smaller. Keep ALL English key technical terms specified below.
+Keep the complete source illustrations and six-branch radial composition. Reduce the center and illustration sizes moderately and reflow text to fit readable body type. Preserve every substantive detail, caveat, numeric magnitude, equation, arrow direction and diagram qualification. Do not omit bullets or shrink into tiny lettering. Preserve landscape 16:9; target high native resolution 3840×2160 if supported, but never simply enlarge old pixels. Nothing cropped, overlapped, outside the canvas, or covered by branch connectors. Render exact text below, permitting line breaks only.
+Scientific graphics: faithfully translate the SOURCE schematics. Do not invent empirical observations, numerical axes, trends, treatment effects, fitted lines or confidence intervals. Copy specified geometric relationships exactly. They illustrate concepts unless explicitly labeled otherwise; do not make schematics look like new study results. Preserve approximate signs and synthetic-demo labels. No additional data or claims. Do not replace mathematical symbols with Japanese lookalikes. All labels and decorative English in the source must be replaced as specified, apart from standard math symbols, abbreviations, proper names and the supplied English subtitles.
+CENTER: 第3章 / 操作変数法 / Instrumental Variables / 割り当てた処置を受けなかったら？
+Keep central three cards Z → D → Y.
+UPPER LEFT cyan — 割り当てに従わない場合 / Non-compliance
+• 割り当てた処置 ≠ 実際に受けた処置
+• 処置の選択でバイアスが再び生じる
+• 代わりに無作為な働きかけを使う
+Preserve hand with assignment sheet and two paths, one into treatment building and one bypassing it. Sheet: 処置の割り当て（Z）. Building: 処置. Path labels: 処置を受ける（D = 1） / 処置を受けない（D = 0）.
+MIDDLE LEFT purple — IVのつながり / The IV chain
+• Z → D → Y
+• 第1段階：ZがDを変える
+• 誘導形：ZがYを変える
+• ZとDが0/1の場合：LATE = 誘導形 ÷ 第1段階
+Preserve instrument-lever Z, treatment domino D, outcome Y. Do NOT drop the binary-Z-and-D qualification or change ratio direction.
+LOWER LEFT cyan — 2段階最小二乗法で推定 / Estimate with 2SLS
+• 第1段階：DをZと統制変数で回帰
+• 第2段階：YをD̂と統制変数で回帰
+• 正しい標準誤差にはIV用ソフトを使う
+• 弱い第1段階 → 推定が不安定
+Preserve sequential panels, both including controls X. Panel 1: Z, X → D̂. Panel 2: D̂, X → Y.
+Above labels: 処置の変動（D） / 予測したDをYへ.
+Below labels: Zによる変動だけを使う / 予測した処置で結果を説明.
+UPPER RIGHT purple — 操作変数の条件 / Instrument requirements
+• 関連性：処置を動かす
+• 独立性：統制条件のもとで無作為
+• 除外制約：Yへの影響はDを通るだけ
+• 処置の安定性・ほかの人への波及なし
+Preserve Z key, D lock, Y outcome; legitimate path Z→D→Y. Dashed direct/bypass Z→Y must be blocked with X and labeled Dを通らない経路はない. Do not block D→Y.
+MIDDLE RIGHT green — LATEは誰への効果？ / Who does LATE describe?
+• コンプライヤー：操作変数で処置が変わる人
+• 常に受ける人・決して受けない人もいる
+• 単調性：逆らって変わる人はいない
+• 局所的な効果で、全員への効果ではない
+Preserve three person-pair columns with exact Z,D labels:
+コンプライヤー: Z=0,D=0 → Z=1,D=1.
+常に受ける人: Z=0,D=1 and Z=1,D=1.
+決して受けない人: Z=0,D=0 and Z=1,D=0.
+Preserve these truth-table relationships precisely.
+LOWER RIGHT green — IVから得られる証拠 / Evidence from IV
+Three illustrated cases, separated as in source:
+KIPPの数学：0.355 ÷ 0.741 ≈ 0.48 SD
+1年あたり・コンプライヤーへの効果
+Keep lottery-ticket→chalkboard with +0.48 SD, books. Ticket: 抽選.
+ミネアポリス：割り当てと実際の対応
+Keep police badge, checklist 割り当て → radio 実際の対応.
+家族の人数のIV：教育への明確な悪影響は見られない
+Keep family and books labeled 教育.
+IMPORTANT: the first stage .741 is a probability DIFFERENCE, not a winner attendance rate; no invented microdata/intervals. Retain per-year and complier qualifications, first-stage ratio .355/.741 and .48 SD. No universal claim that family size never matters.

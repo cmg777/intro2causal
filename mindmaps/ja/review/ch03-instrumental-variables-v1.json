@@ -1,0 +1,34 @@
+{
+  "chapter": 3,
+  "slug": "ch03-instrumental-variables",
+  "version": "v1",
+  "english_source": "book/images/ch03_visual_summary.webp",
+  "english_source_sha256": "9b4d336dd4b4a77600102a64d15675a011abec367a2ef2577e662b95124e0853",
+  "full_image": "mindmaps/ja/images/ch03-instrumental-variables-v1.png",
+  "full_image_sha256": "ba6f4f8f128883a6507593268f60eb5308b33d21f1031e5aeccba7e666b10b04",
+  "web_image": "assets/podcasts-ja/full/ch03-instrumental-variables-v1.webp",
+  "web_image_sha256": "4db00387729cde56913f88071545b0f8039c912fff45f54af0c92a4bb0b24406",
+  "native_width": 1672,
+  "native_height": 941,
+  "upscaled": false,
+  "prompt": "mindmaps/ja/prompts/ch03-instrumental-variables-v1.txt",
+  "generator": "built-in image_gen.imagegen",
+  "generation_source": "exec-2e813909-cd8e-4d42-af47-621bed86d7e4.png",
+  "font_note": "Generated regular-width Japanese Gothic-style lettering; not an embedded or verified font file.",
+  "review": {
+    "method": "Manual visual comparison of generated image against complete English source and exact translated prompt; not automated OCR",
+    "content_checks": [
+      "Z→D→Y path and blocked bypass retained",
+      "Both 2SLS stages include X; valid-IV-SE caveat retained",
+      "Binary-Z/D qualification retained for simple Wald LATE ratio",
+      "Complier,always-taker,never-taker Z/D labels visually checked",
+      "0.355/0.741 rounds0.48SD per year for compliers; first stage not winner enrollment rate",
+      "Stable treatment,no-spillover,monotonicity and exclusion assumptions retained"
+    ]
+  },
+  "source_checks": {
+    "notebook": "notebooks_colab/03-instrumental-variables.ipynb",
+    "english_audit": "mindmaps/audit/econometric-audit.txt",
+    "numerical_audit": "mindmaps/audit/numerical-checks.json"
+  }
+}
