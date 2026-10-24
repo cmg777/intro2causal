@@ -414,7 +414,7 @@
     }
   </style>
   <link rel="stylesheet" href="assets/site.css">
-  <link rel="stylesheet" href="assets/home.css?v=5">
+  <link rel="stylesheet" href="assets/home.css?v=7">
   <script src="assets/home.js?v=2" defer></script>
   <meta name="description" content="Learn to distinguish cause from correlation. Six guided chapters, real datasets, interactive Python notebooks, AI tutors, and podcasts.">
   <script>try{document.documentElement.classList.toggle('light',localStorage.getItem('theme')==='light')}catch(e){}</script>
@@ -543,7 +543,50 @@
   </ol>
 </section><section id="curriculum" class="home-curriculum" aria-labelledby="curriculum-title"><div class="home-shell">
   <div class="section-heading-home curriculum-heading"><div><p class="home-kicker">SIX CHAPTERS. QUESTIONS THAT MATTER.</p><h2 id="curriculum-title">Learn to see<br><span>cause differently.</span></h2></div><p>Follow the chapters in order, or return to the question you’re working on. Read, code, watch, or listen—each chapter gives you a way in.</p></div>
-  <details class="methods-overview"><summary><span><span class="overview-mark" aria-hidden="true">✳</span> The Furious Five <small>A visual overview of the methods</small></span><span class="overview-toggle" aria-hidden="true">+</span></summary><div><a href="cover.jpg" target="_blank" rel="noopener"><img src="cover.jpg" alt="The Furious Five: randomized trials, regression, instrumental variables, regression discontinuity, and differences-in-differences" loading="lazy"></a><p>Open the artwork at full size, or choose a chapter below.</p></div></details>
+  <section class="methods-overview" aria-labelledby="overview-title">
+    <div class="overview-heading"><span class="overview-mark" aria-hidden="true">✳</span><div><h2 id="overview-title" class="overview-title">The Furious Five</h2><small>A visual overview of the methods</small></div></div>
+    <div class="overview-content">
+      <p class="overview-intro">Five methods to separate <span>cause from correlation.</span></p>
+      <div class="overview-grid">
+          <article class="overview-card overview-rct" aria-labelledby="overview-rct-title">
+            <div class="overview-card-heading"><span class="overview-number">01</span><h3 id="overview-rct-title">RCT</h3></div>
+            <p class="overview-method-name">Randomized trials</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="Treatment and control bars, with one treatment bar higher."><path class="overview-axis" d="M24 20V150H216"/><rect x="45" y="76" width="28" height="74" rx="4" fill="currentColor" opacity=".65"/><rect x="80" y="48" width="28" height="102" rx="4" fill="currentColor"/><rect x="139" y="76" width="28" height="74" rx="4" fill="currentColor" opacity=".35"/><rect x="174" y="76" width="28" height="74" rx="4" fill="currentColor" opacity=".35"/><text x="76" y="177">Treatment</text><text x="170" y="177">Control</text></svg>
+            <div class="overview-equation"><span>ATE = E[Y<sub>1</sub>] − E[Y<sub>0</sub>]</span></div>
+            <p class="overview-assumption">Random assignment eliminates selection bias</p>
+          </article>
+          <article class="overview-card overview-ols" aria-labelledby="overview-ols-title">
+            <div class="overview-card-heading"><span class="overview-number">02</span><h3 id="overview-ols-title">OLS</h3></div>
+            <p class="overview-method-name">Regression</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="Scatter plot with a positively sloped fitted regression line."><path class="overview-axis" d="M24 20V150H216"/><path class="overview-stroke" d="M32 137L207 39"/><circle cx="43" cy="137" r="4.5" fill="currentColor" opacity=".75"/><circle cx="52" cy="111" r="4.5" fill="currentColor" opacity=".75"/><circle cx="66" cy="121" r="4.5" fill="currentColor" opacity=".75"/><circle cx="73" cy="97" r="4.5" fill="currentColor" opacity=".75"/><circle cx="85" cy="130" r="4.5" fill="currentColor" opacity=".75"/><circle cx="91" cy="109" r="4.5" fill="currentColor" opacity=".75"/><circle cx="103" cy="81" r="4.5" fill="currentColor" opacity=".75"/><circle cx="112" cy="95" r="4.5" fill="currentColor" opacity=".75"/><circle cx="122" cy="62" r="4.5" fill="currentColor" opacity=".75"/><circle cx="132" cy="86" r="4.5" fill="currentColor" opacity=".75"/><circle cx="144" cy="62" r="4.5" fill="currentColor" opacity=".75"/><circle cx="154" cy="72" r="4.5" fill="currentColor" opacity=".75"/><circle cx="166" cy="32" r="4.5" fill="currentColor" opacity=".75"/><circle cx="178" cy="64" r="4.5" fill="currentColor" opacity=".75"/><circle cx="192" cy="29" r="4.5" fill="currentColor" opacity=".75"/></svg>
+            <div class="overview-equation"><span>Y = α + βX + ε</span></div>
+            <p class="overview-assumption">All confounders are observed and controlled</p>
+          </article>
+          <article class="overview-card overview-iv" aria-labelledby="overview-iv-title">
+            <div class="overview-card-heading"><span class="overview-number">03</span><h3 id="overview-iv-title">IV</h3></div>
+            <p class="overview-method-name">Instrumental variables</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="Z affects D, which affects Y. The direct path from Z to Y is crossed out."><path class="overview-stroke" d="M60 105H88M142 105H170"/><path fill="currentColor" d="M88 105l-9-5v10zM170 105l-9-5v10z"/><path class="overview-stroke overview-dashed" d="M38 76Q116 -9 196 76" opacity=".55"/><path class="overview-stroke" d="M108 28l20 20m0-20l-20 20"/><circle cx="34" cy="105" r="26" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="2"/><text class="overview-node" x="34" y="113">Z</text><circle cx="116" cy="105" r="26" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="2"/><text class="overview-node" x="116" y="113">D</text><circle cx="198" cy="105" r="26" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="2"/><text class="overview-node" x="198" y="113">Y</text></svg>
+            <div class="overview-equation"><span>β<sub>IV</sub> = </span><span class="overview-fraction"><span>Cov(Y, Z)</span><span>Cov(D, Z)</span></span></div>
+            <p class="overview-assumption">Instrument affects Y only through D</p>
+          </article>
+          <article class="overview-card overview-rd" aria-labelledby="overview-rd-title">
+            <div class="overview-card-heading"><span class="overview-number">04</span><h3 id="overview-rd-title">RD</h3></div>
+            <p class="overview-method-name">Regression discontinuity</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="Outcomes jump at the cutoff of the running variable."><path class="overview-axis" d="M24 20V150H216"/><path class="overview-stroke overview-dashed" opacity=".5" d="M120 20V150"/><circle cx="36" cy="121" r="4.5" fill="currentColor"/><circle cx="43" cy="136" r="4.5" fill="currentColor"/><circle cx="52" cy="125" r="4.5" fill="currentColor"/><circle cx="61" cy="112" r="4.5" fill="currentColor"/><circle cx="72" cy="118" r="4.5" fill="currentColor"/><circle cx="81" cy="132" r="4.5" fill="currentColor"/><circle cx="96" cy="108" r="4.5" fill="currentColor"/><circle cx="106" cy="121" r="4.5" fill="currentColor"/><circle cx="111" cy="101" r="4.5" fill="currentColor"/><circle cx="130" cy="57" r="4.5" fill="currentColor"/><circle cx="139" cy="70" r="4.5" fill="currentColor"/><circle cx="148" cy="43" r="4.5" fill="currentColor"/><circle cx="159" cy="62" r="4.5" fill="currentColor"/><circle cx="170" cy="37" r="4.5" fill="currentColor"/><circle cx="181" cy="52" r="4.5" fill="currentColor"/><circle cx="193" cy="26" r="4.5" fill="currentColor"/><circle cx="203" cy="40" r="4.5" fill="currentColor"/></svg>
+            <div class="overview-equation"><span>τ = <span class="overview-limit">lim<small>cutoff</small></span> Y<sup>+</sup> − <span class="overview-limit">lim<small>cutoff</small></span> Y<sup>−</sup></span></div>
+            <p class="overview-assumption">No manipulation of the running variable</p>
+          </article>
+          <article class="overview-card overview-did" aria-labelledby="overview-did-title">
+            <div class="overview-card-heading"><span class="overview-number">05</span><h3 id="overview-did-title">DiD</h3></div>
+            <p class="overview-method-name">Differences-in-differences</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="Parallel trends before treatment; the treated trend diverges upward afterward."><path class="overview-axis" d="M24 20V150H216"/><path class="overview-stroke overview-dashed" opacity=".5" d="M120 20V150"/><path class="overview-stroke" d="M25 118L120 83L213 23"/><path class="overview-stroke overview-dashed" opacity=".75" d="M25 139L120 104L213 70"/></svg>
+            <div class="overview-equation overview-equation-stacked"><span>δ = (Y<sub>T,post</sub> − Y<sub>T,pre</sub>)</span><span>− (Y<sub>C,post</sub> − Y<sub>C,pre</sub>)</span></div>
+            <p class="overview-assumption">Parallel trends in the absence of treatment</p>
+          </article>
+      </div>
+      <div class="overview-footer"><p>Mastering Causal Metrics <span>— An AI-Powered Study Guide</span></p><a href="cover.jpg" target="_blank" rel="noopener">View original artwork <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
   <div class="chapter-grid"><article id="chapter-1" class="card chapter-card" aria-labelledby="chapter-title-1">
       <div class="chapter-top"><span class="chapter-number">01</span><span class="chapter-method">Randomized Trials</span><span class="chapter-tag">Start here</span></div>
       <div class="chapter-story"><h3 id="chapter-title-1">Does health insurance make people healthier?</h3><p>Begin with a question that matters. Discover how the RAND experiment and the Oregon lottery help researchers build a fair comparison.</p></div>
