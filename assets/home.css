@@ -19,7 +19,7 @@
 .home-hero-copy { grid-area: copy; align-self: center; min-width: 0; container-type: inline-size; position: relative; z-index: 1; }
 .home-hero-copy .home-kicker { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
 .home-hero-copy .home-kicker>span { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 16px rgba(52,211,153,.5); }
-.index-page .home-hero h1 { font-size: clamp(40px,14cqi,84px); line-height: 1.06; font-weight: 600; letter-spacing: -.065em; margin-bottom: 26px; }
+.index-page .home-hero h1 { font-size: clamp(32px,14cqi,84px); line-height: 1.06; font-weight: 600; letter-spacing: -.065em; margin-bottom: 26px; }
 .hero-title-line { display: block; white-space: nowrap; }
 .home-hero h1 .hero-title-accent { color: var(--blue); background: linear-gradient(100deg,var(--blue) 8%,#a8a8ff 95%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .light .home-hero h1 .hero-title-accent { background-image: linear-gradient(100deg,#2563eb,#7c3aed); }
@@ -299,7 +299,7 @@
 /* Stack before either column becomes too narrow; keep every section on one rail. */
 @media (max-width:1000px) {
   .index-page .home-hero .home-shell { width: min(680px,calc(100% - 64px)); }
-  .hero-stage { grid-template-columns: minmax(0,1fr); grid-template-areas: "copy" "showcase" "author"; grid-template-rows: auto; gap: 36px; padding-block: 48px 32px; }
+  .hero-stage { grid-template-columns: minmax(0,1fr); grid-template-areas: "copy" "author" "showcase"; grid-template-rows: auto; gap: 36px; padding-block: 48px 32px; }
   .hero-summary { max-width: 560px; }
   .hero-author { padding-top: 24px; }
   .hero-orbit { top: -50px; right: -700px; }
@@ -402,6 +402,45 @@
   .footer-credits { font-size: 9px; gap: 15px; }
   .footer-credits p { order: 3; }
   .index-page .back-to-top { right: 12px; bottom: 12px; width: 38px; height: 38px; }
+}
+/* Short desktop windows need less vertical whitespace, not a clipped/fixed-height hero.
+   Keep intrinsic sizing so zoom, larger text, and very short windows can still scroll. */
+@media (min-width:1001px) and (max-height:1050px) {
+  .hero-stage { padding-block: clamp(16px,3svh,28px); row-gap: 20px; grid-template-rows: auto auto; align-content: center; }
+  .home-hero-copy { align-self: center; }
+  .home-hero-copy .home-kicker { margin-bottom: 14px; }
+  .index-page .home-hero h1 { font-size: clamp(40px,min(12cqi,8svh),68px); margin-bottom: 18px; }
+  .hero-hook { font-size: 24px; margin-bottom: 12px; }
+  .hero-summary { line-height: 1.65; margin-bottom: 18px; }
+  .home-hero .home-actions { gap: 8px 18px; }
+  .index-page .hero-welcome { margin-top: 10px; }
+  .hero-author { padding-top: 16px; gap: 16px; }
+  .hero-author img { width: 60px; height: 60px; }
+  .index-page .hero-author p { line-height: 1.5; margin-bottom: 5px; }
+  .showcase-heading { padding-block: 10px; }
+  .scene-intro { min-height: 0; padding-block: 14px 10px; }
+  .scene-method { margin-bottom: 6px; }
+  .index-page .method-scene h2 { font-size: 26px; }
+  .assignment-diagram { max-width: clamp(340px,44svh,396px); }
+  .scene-caption { padding-block: 10px 12px; }
+  .index-page .scene-explanation { line-height: 1.6; margin-bottom: 4px; }
+  .index-page .scene-note { margin-top: 0; }
+  .showcase-controls { padding-block: 10px; }
+  .showcase-playback { margin-top: 4px; }
+  .hero-bottom { padding-block: 12px; }
+}
+@media (min-width:1001px) and (max-height:780px) {
+  .hero-stage { padding-block: 16px; }
+  .scene-intro { padding-block: 8px; }
+  .scene-method { margin-bottom: 3px; }
+  .index-page .method-scene h2 { font-size: 24px; }
+  .scene-caption { padding-block: 8px; }
+  .index-page .scene-note { line-height: 1.4; }
+  .showcase-controls { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 4px 8px; padding-block: 8px; }
+  .showcase-playback { display: contents; }
+  #showcase-play { grid-column: 2; grid-row: 1; }
+  #showcase-status { grid-column: 1 / -1; }
+  .hero-bottom { padding-block: 8px; }
 }
 @media (prefers-reduced-motion:reduce) {
   html { scroll-behavior: auto!important; }
