@@ -35,6 +35,12 @@ def normalized(text):
     text = re.sub(r'Knowledge\s*Is\s*Power\s*Program', 'ナレッジイズパワープログラム', text, flags=re.I)
     text = re.sub(r'(?<![A-Za-z])KIPP(?![A-Za-z])|切符', 'キップ', text, flags=re.I)
     text = re.sub(r'first\s*stage', 'ファーストステージ', text, flags=re.I)
+    # Standard English glossary spellings and their observed Japanese readings.
+    # Normalize only these terms, leaving substantive wording mismatches visible.
+    text = re.sub(r'difference[\s-]*in[\s-]*differences', 'ディファレンスインディファレンス', text, flags=re.I)
+    text = text.replace('ディファレンスインディファレンシーズ', 'ディファレンスインディファレンス')
+    text = re.sub(r'counterfactual', 'カウンターファクチャル', text, flags=re.I)
+    text = re.sub(r'fixed[\s-]*effects', 'フィックスドエフェクト', text, flags=re.I)
     return ''.join(c for c in text.casefold()
                    if unicodedata.category(c)[0] in ('L', 'N'))
 

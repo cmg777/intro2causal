@@ -51,6 +51,9 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(number_flags('20,000ドルと10,000ドル','2万ドルと1万ドル'),[])
         self.assertEqual(normalized('KIPPはKnowledge Is Power Program'),normalized('切符はナレッジイズパワープログラム'))
         self.assertNotEqual(normalized('逮捕'),normalized('退学'))
+        self.assertEqual(normalized('difference-in-differences'), normalized('ディファレンスインディファレンシーズ'))
+        self.assertEqual(normalized('counterfactual'), normalized('カウンターファクチャル'))
+        self.assertEqual(normalized('fixed effects'), normalized('フィックスドエフェクト'))
 
     def test_isolated_bad_provider_anchor_is_documented_not_retimed(self):
         words = [{'word':'語', 'start_offset':f'{i}s', 'end_offset':f'{i+.5}s'} for i in range(101)]
