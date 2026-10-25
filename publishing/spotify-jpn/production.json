@@ -42,7 +42,7 @@
   },
   "max_output_tokens": 8192,
   "chunk_max_characters": 650,
-  "status": "chapter5_recognition_and_chapter6_audio_daily_quota_wait",
+  "status": "complete_all_six_published_and_publicly_verified",
   "voice_approval_at": "2026-10-23T00:49:28.848392+00:00",
   "voice_approval_note": "User: yes, I approve.",
   "model_preference": "Keep original gemini-3.8-flash-tts; resume after daily quota reset",
@@ -52,5 +52,7 @@
   "recognition_retry_policy": "One retry only for a provider STOP response containing exclusively empty text and no words. Retain both raw responses and conservative budget reservations. No transport/quota or inaccurate-content retries are automatic.",
   "recognition_workers": 2,
   "recognition_request_spacing_seconds": 20,
-  "recognition_concurrency_note": "At most two recognition requests in flight; a shared limiter spaces every request start, including empty-response retries, by at least20 seconds. Audio generation remains sequential."
+  "recognition_concurrency_note": "At most two recognition requests in flight; a shared limiter spaces every request start, including empty-response retries, by at least20 seconds. Audio generation remains sequential.",
+  "completed_at": "2026-10-25T01:52:17.162382+00:00",
+  "final_conservative_gemini_usd": 7.673873
 }

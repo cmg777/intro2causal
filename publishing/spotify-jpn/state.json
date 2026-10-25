@@ -4,11 +4,11 @@
   "show": {
     "remote_id": "0XQHUSyrO9YYgaUUc2fbcT",
     "public_url": "https://open.spotify.com/show/0XQHUSyrO9YYgaUUc2fbcT",
-    "status": "published_four_episodes",
+    "status": "published_six_episodes",
     "creator_url": "https://creators.spotify.com/home/show/0XQHUSyrO9YYgaUUc2fbcT",
     "created_at": "2026-10-23T01:16:43.477303+00:00",
     "artwork_sha256": "9b860f3a8bc00ef2d455c2e088038761d200d5ddef8ec5689775b78c766e4de1",
-    "public_verification": "Public Japanese show title, creator, cover and Chapters1–4 metadata, mind-map art and reading/glossary links verified",
+    "public_verification": "All six Japanese episodes, show identity, episode mind-map artwork and reading/glossary links publicly verified; progressing playback timers observed for every episode",
     "evidence": "publishing/spotify-jpn/show-created.png"
   },
   "episodes": {
@@ -170,42 +170,89 @@
       }
     },
     "ch05-differences-in-differences": {
-      "status": "draft",
+      "status": "published",
       "remote_id": "2d8ZC0e8QInEZ140JifVQp",
       "local_preparation": {
         "script": "reviewed",
         "audio": "generated_decode_passed",
-        "transcript": "missing",
+        "transcript": "aligned",
         "script_sha256": "030314a2e1592f2d877530a6e9e5a9ad7df315b7510630b81d5b685f3703cd63",
         "turn_count": 107,
         "audio_sha256": "a5c05305ed053545ba4bf80c1d833874ba13815b20d4db35908df14d69f4a805",
-        "duration_seconds": 2796.849999999998
+        "duration_seconds": 2796.849999999998,
+        "unreviewed_flagged_spans": 0,
+        "unreviewed_number_flags": 0
       },
-      "creator_url": "https://creators.spotify.com/pod/show/0XQHUSyrO9YYgaUUc2fbcT/episode/2d8ZC0e8QInEZ140JifVQp/wizard",
+      "creator_url": "https://creators.spotify.com/pod/show/0XQHUSyrO9YYgaUUc2fbcT/episode/2d8ZC0e8QInEZ140JifVQp/details",
       "audio_sha256": "a5c05305ed053545ba4bf80c1d833874ba13815b20d4db35908df14d69f4a805",
       "updated_at": "2026-10-23T08:45:34.649261+00:00",
-      "publication_blocker": "Recognition daily quota; finish transcript verification and public reading page before release",
       "observed_duration": "46:37",
       "metadata_saved": "Japanese title, description, reading/glossary links, episode5, no explicit/promotional content and art verified on Review; Save draft completed and Episodes list confirms Draft",
       "artwork_saved": "Crop save completed and preview observed",
       "artwork_sha256": "19050e3e86f12dd74109b6ca82ceef3747e41ebe1314acdddebdc8cba7fd87f6",
       "draft_evidence": "publishing/spotify-jpn/ch05-draft-review.png",
-      "pending_reading_link": "https://cmg777.github.io/intro2causal/mindmaps-podcast/ja/transcripts/ch05-differences-in-differences.html",
-      "transcript_delivery": "linked_text_pending_verification_and_deployment"
+      "transcript_delivery": "linked_text",
+      "published_at": "2026-10-25T01:33:25.583301+00:00",
+      "public_verification": "verified_metadata_artwork_reading_links_and_playback",
+      "native_transcript_uploaded": false,
+      "reading_page_verification": "Public HTML and TXT matched reviewed local files before publication; visible page layout inspected",
+      "publication_evidence": "publishing/spotify-jpn/ch05-published.png",
+      "public_url": "https://open.spotify.com/episode/2d8ZC0e8QInEZ140JifVQp",
+      "metadata_sha256": "74c3d32c5b9070d4d08989305442430ae6144c64113699c0630150b3ad4c6526",
+      "linked_transcript_sha256": "fcd3a0045cdaed3ffa493d6ace92209746e91e6c21abb01dbff994179957b8ee",
+      "local_timed_transcript_sha256": "f5100676aa236f05755e142326198c314d68891ee5faa44eeba6e7a79950d303",
+      "playback_verification": {
+        "surface": "Spotify public embedded player",
+        "observation": "Progressed from opening to0:43, then paused",
+        "method": "Observed progressing timer and Pause state; not a claim of human listening",
+        "evidence": "publishing/spotify-jpn/ch05-playback-verified.png"
+      },
+      "verified_at": "2026-10-25T01:36:42.392733+00:00"
     },
     "ch06-wages-of-schooling": {
-      "status": "not_uploaded",
-      "remote_id": null,
+      "status": "published",
+      "remote_id": "7nXGE920jvQ9u8yZDBqaX9",
       "local_preparation": {
         "script": "reviewed",
-        "audio": "missing",
-        "transcript": "missing",
+        "audio": "generated_decode_passed",
+        "transcript": "aligned",
         "script_sha256": "0362640ba824a255ecec649133367e9c9a3906683cc879bcfadbc66ff1d693aa",
-        "turn_count": 168
+        "turn_count": 168,
+        "audio_sha256": "02ab87ddaf17b0daca39b0466c8e1cf12ac1984c124ca4c8bb080a66fab9cb6e",
+        "duration_seconds": 3878.9899999999975,
+        "unreviewed_flagged_spans": 0,
+        "unreviewed_number_flags": 0
+      },
+      "creator_url": "https://creators.spotify.com/pod/show/0XQHUSyrO9YYgaUUc2fbcT/episode/7nXGE920jvQ9u8yZDBqaX9/details",
+      "audio_sha256": "02ab87ddaf17b0daca39b0466c8e1cf12ac1984c124ca4c8bb080a66fab9cb6e",
+      "updated_at": "2026-10-25T01:35:47.306735+00:00",
+      "metadata_saved": "Review confirms Japanese title, description and pending reading links, No/No, Full, episode6 and art preview",
+      "artwork_saved": "Crop save completed and preview verified on Review",
+      "artwork_sha256": "69835784d644fab344bbd23d7aa2262c7b826fcd89dea27a428561e5fd4e91ac",
+      "observed_duration": "01:04:39",
+      "draft_evidence": "publishing/spotify-jpn/ch06-draft-review.png",
+      "draft_saved": "Save draft completed; Episodes list confirms Draft,64:39 duration and existing remote ID",
+      "published_at": "2026-10-25T01:49:53.642379+00:00",
+      "public_verification": "verified_metadata_artwork_reading_links_and_playback",
+      "native_transcript_uploaded": false,
+      "transcript_delivery": "linked_text",
+      "publication_evidence": "publishing/spotify-jpn/ch06-published.png",
+      "reading_page_verification": "Public HTML and TXT matched reviewed local files before release; layout inspected",
+      "transcript_review": "All38 chunks aligned;604sentences; single sample-size recognition error resolved by independent local Whisper; zero unreviewed text/numeric flags",
+      "metadata_sha256": "602744fd3b38d9d5a73b064841b891ceaab620ae64c35891beec38e3ca0acd69",
+      "linked_transcript_sha256": "bae277defc99b22949c204059a100256c93de548b125c824d71ef26731365d20",
+      "local_timed_transcript_sha256": "b3f1f9fd200a7f86c134f1586d1842762a0e7b47bbeedfcc8eb91595c63281d2",
+      "public_url": "https://open.spotify.com/episode/7nXGE920jvQ9u8yZDBqaX9",
+      "verified_at": "2026-10-25T01:52:17.162382+00:00",
+      "playback_verification": {
+        "surface": "Spotify public embedded player",
+        "observation": "Playback progressed from opening to0:53, then paused",
+        "method": "Observed progressing timer, not a claim of human listening",
+        "evidence": "publishing/spotify-jpn/ch06-playback-verified.png"
       }
     }
   },
-  "production_status": "chapters1_to4_published_chapter5_asr_and_chapter6_audio_daily_quota_wait",
+  "production_status": "complete_all_six_published_and_publicly_verified",
   "sample": {
     "audio": "mindmaps-podcast/ja/audio/voice-sample.mp3",
     "audio_sha256": "73f03355f587f23485d2a79750489aa9f1f64d2bfa6566abc39a01b3195d9cfa",
@@ -219,14 +266,18 @@
     "model": "gemini-3.8-flash-tts",
     "instructions": "publishing/spotify-jpn/resume-after-quota.md",
     "automation_id": "resume-japanese-spotify-original-model",
-    "scheduling_status": "verified_active_in_app_scheduler",
+    "scheduling_status": "local_configuration_paused_runtime_status_not_refreshed",
     "automation_file": "/Users/carlosmendez/.codex/automations/resume-japanese-spotify-original-model/automation.toml",
     "scheduled_local": "2026-10-24T16:22:40+09:00",
-    "verified_at": "2026-10-23T08:45:34.649261+00:00",
+    "verified_at": "2026-10-25T01:53:40.583196+00:00",
     "verification": "Read-only app scheduler record confirms ACTIVE status and next_run_at; scheduler applies timing jitter. Rule expires after this one future occurrence.",
     "scheduled_utc": "2026-10-24T07:22:40+00:00",
     "nominal_utc": "2026-10-24T07:20:00+00:00",
-    "rrule": "FREQ=DAILY;BYHOUR=7;BYMINUTE=20;UNTIL=20261024T073000Z"
+    "rrule": "FREQ=DAILY;BYHOUR=7;BYMINUTE=20;UNTIL=20261024T073000Z",
+    "execution_status": "completed",
+    "live_reconciliation": "October25 Creator Episodes confirms Chapters1–4 published and existing Chapter5 draft46:37; no Chapter6 upload",
+    "completed_at": "2026-10-25T01:52:17.162382+00:00",
+    "runtime_observation": "Read-only app scheduler still reports ACTIVE with a past next_run_at despite PAUSED local configuration. The original RRULE expired October24; prompt checks completed state and takes no further action."
   },
   "pilot_verified": true,
   "quota_block": {
@@ -236,7 +287,8 @@
     "retry_delay_seconds": 82862,
     "observed_at": "2026-10-23T08:00:15.857135+00:00",
     "next_safe_attempt": "2026-10-24T07:10:00Z",
-    "preserved": "All successful audio caches and conservative cost reservations"
+    "preserved": "All successful audio caches and conservative cost reservations",
+    "resolved_at": "2026-10-25T01:52:17.162382+00:00"
   },
   "quota_blocks": [
     {
@@ -246,7 +298,8 @@
       "retry_delay_seconds": 82862,
       "observed_at": "2026-10-23T08:00:15.857135+00:00",
       "next_safe_attempt": "2026-10-24T07:10:00Z",
-      "preserved": "All successful audio caches and conservative cost reservations"
+      "preserved": "All successful audio caches and conservative cost reservations",
+      "resolved_at": "2026-10-25T01:52:17.162382+00:00"
     },
     {
       "chapter": "ch05-differences-in-differences",
@@ -255,15 +308,18 @@
       "retry_delay_seconds": 81117,
       "observed_at": "2026-10-23T08:30:30.538910+00:00",
       "next_safe_attempt": "2026-10-24T07:10:00Z",
-      "preserved": "Two completed Chapter5 recognition chunks and all complete Chapter5 audio"
+      "preserved": "Two completed Chapter5 recognition chunks and all complete Chapter5 audio",
+      "resolved_at": "2026-10-25T01:52:17.162382+00:00"
     }
   ],
   "budget_snapshot": {
-    "conservative_committed_usd": 6.260789,
+    "conservative_committed_usd": 7.673873,
     "cap_usd": 25,
     "includes": "Translation, samples, TTS, recognition and conservative unresolved/failed request reservations",
     "provider_billing_authoritative": true,
-    "at": "2026-10-23T08:41:05.138463+00:00"
+    "at": "2026-10-25T01:49:53.642379+00:00"
   },
-  "checkpoint_evidence": "publishing/spotify-jpn/episodes-status.png"
+  "checkpoint_evidence": "publishing/spotify-jpn/episodes-status-complete.png",
+  "resumed_at": "2026-10-25T01:23:02.056447+00:00",
+  "completed_at": "2026-10-25T01:52:17.162382+00:00"
 }

@@ -1,3 +1,7 @@
+# Completed — no further continuation required
+
+All six Japanese episodes were published and publicly verified on October25,2026. The original Gemini model and approved voices were retained. The local bounded-continuation configuration is PAUSED; runtime pause is not yet reflected by the app scheduler. Its original RRULE expired October24, and its prompt takes no further action when completion is already verified. Read state.json for the final remote IDs, hashes and verification evidence. Do not regenerate or republish unchanged episodes. The instructions below are retained as historical recovery documentation.
+
 # Resume Japanese Spotify production after quota reset
 
 The user explicitly chose to retain **gemini-3.8-flash-tts** and resume after its quota resets. Keep approved Puck/Kore voices and the US$25 total Gemini cap, including all translation, samples, retries and recognition. Do not switch production to Flash-Lite or ask for the existing voice/release/website approvals again.
