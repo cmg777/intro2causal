@@ -62,8 +62,8 @@ def verify(browser, base):
     page.goto(base + '/podcasts.html')
     page.get_by_role('link', name='Explore Japanese version').click()
     expect(page.locator('html')).to_have_attribute('lang', 'ja')
-    expect(page.locator('.podcast-player.enhanced')).to_have_count(4)
-    assert page.locator('audio').count() == 5
+    expect(page.locator('.podcast-player.enhanced')).to_have_count(6)
+    assert page.locator('audio').count() == 6
     assert page.locator('.episode-art').count() == 6
     # Full translated maps must use their own assets and retain landscape geometry.
     full_maps = page.locator('.full-mindmap img')
@@ -87,12 +87,11 @@ def verify(browser, base):
         assert image.evaluate('(img) => img.naturalWidth / img.naturalHeight > 1.7')
         assert image.evaluate('(img) => Math.abs(img.width / img.height - img.naturalWidth / img.naturalHeight) < 0.02')
     assert page.locator('#chapter-1 .episode-art').get_attribute('href').startswith('mindmaps/ja/images/')
-    assert page.locator('#chapter-6 audio, #chapter-6 [data-podcast]').count() == 0
-    assert page.locator('#chapter-5 .podcast-action-link').count() == 0
-    expect(page.locator('#chapter-5')).to_contain_text('文字起こしは準備中')
-    expect(page.locator('.podcast-status')).to_have_text([''] * 4)
+    assert page.locator('.episode-pending').count() == 0
+    assert '準備中' not in page.locator('main').inner_text()
+    expect(page.locator('.podcast-status')).to_have_text([''] * 6)
     state = json.loads((ROOT / 'publishing/spotify-jpn/state.json').read_text())
-    for i in range(1, 5):
+    for i in range(1, 7):
         player = page.locator(f'#chapter-{i}-podcast')
         transcript_path = player.get_attribute('data-podcast')
         data = json.loads((ROOT / transcript_path).read_text())
@@ -123,9 +122,9 @@ def verify(browser, base):
     assert popup.value.locator('html').get_attribute('lang') == 'ja'
     assert not player.locator('audio').evaluate('(a) => a.paused')
     popup.value.close()
-    # Native Chapter 5 playback pauses an enhanced player and vice versa.
+    # Starting another chapter pauses only the other enhanced players.
     fifth = page.locator('#chapter-5 audio')
-    fifth.evaluate('(a) => a.play()')
+    page.locator('#chapter-5 .podcast-play').click()
     page.wait_for_function('document.querySelector("#chapter-5 audio").currentTime > 0.3')
     assert player.locator('audio').evaluate('(a) => a.paused')
     player.locator('.podcast-play').click()
@@ -163,7 +162,7 @@ def verify(browser, base):
     context = browser.new_context(java_script_enabled=False)
     page = context.new_page()
     page.goto(base + '/podcasts-ja.html')
-    assert page.locator('audio[controls]').count() == 5
+    assert page.locator('audio[controls]').count() == 6
     expect(page.locator('#chapter-1-podcast audio')).to_be_visible()
     page.locator('#chapter-1-podcast .podcast-action-link').first.get_attribute('href')
     context.close()
