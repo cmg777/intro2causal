@@ -11,7 +11,9 @@
     theme.textContent = light ? '☾' : '☼';
     theme.setAttribute('aria-label', root.lang.startsWith('ja')
       ? `${light ? 'ダーク' : 'ライト'}テーマに切り替える`
-      : `Switch to ${light ? 'dark' : 'light'} theme`);
+      : root.lang.startsWith('es')
+        ? `Cambiar al tema ${light ? 'oscuro' : 'claro'}`
+        : `Switch to ${light ? 'dark' : 'light'} theme`);
     const darkSyntax = document.getElementById('hljs-dark');
     const lightSyntax = document.getElementById('hljs-light');
     if (darkSyntax && lightSyntax) {
@@ -32,6 +34,14 @@
     }
   });
   syncTheme();
+
+  // Home-page language pills: remember an explicit choice so index.html stops auto-redirecting.
+  document.querySelectorAll('.lang-switch a[data-lang]').forEach(link => {
+    link.addEventListener('click', () => {
+      try { localStorage.setItem('lang', link.dataset.lang); } catch (_) {}
+      if (location.hash) link.href = link.getAttribute('href').split('#')[0] + location.hash;
+    });
+  });
 
   function closeMenu(restoreFocus = false) {
     mobileNav.hidden = true;

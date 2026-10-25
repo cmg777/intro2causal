@@ -1,0 +1,34 @@
+CENTER: CAPÍTULO 2 / Regresión / ¿Vale la pena pagar más por una universidad privada de élite?
+Keep the university, graduation cap and coins illustration.
+UPPER LEFT cyan — Selección sin lotería
+• Los estudiantes difieren antes de la universidad
+• Habilidad, ambición, origen familiar
+• La brecha simple de ingresos no tiene por qué ser causal
+Signposts: Privada de élite / Pública
+MIDDLE LEFT purple — Comparar casos similares
+• Y = α + βP + γ′X + e
+• P: universidad privada; X: controles
+• β: todo lo demás constante
+• MCO minimiza la suma de residuos al cuadrado
+Label between students: X similar. Keep the two fitted means at binary P=0 and P=1 connected by a line; vertical axis Y, horizontal axis P with only 0 and 1; points Ŷ₀ and Ŷ₁. Label: Medias ajustadas con X fijo. No new observations.
+LOWER LEFT cyan — Sesgo por variables omitidas
+• OVB = β_corta − β_larga = π₁ × γ   (render subscripts as in source: β with subscripts "corta" and "larga")
+• π₁: rasgo omitido regresado sobre P
+• γ: su coeficiente en la regresión larga
+• Si algún factor es cero → no hay OVB
+Puzzle labels: Rasgo omitido / Elección de universidad / Ingresos. Keep the fork: omitted trait points to BOTH college choice and earnings; college choice also points to earnings.
+UPPER RIGHT purple — El supuesto causal
+• Independencia condicional
+• Superposición y especificación adecuada
+• Los confusores no observados siguen siendo un riesgo
+Scale labels: Mismo X / Mismo X; center silhouette: Confusores no observados
+MIDDLE RIGHT green — Estudio Dale–Krueger
+• Prima privada simple: ~14%
+• Controles de selectividad: ~7%
+• Controles por conjunto de solicitudes: casi cero
+Signs: Privada de élite / Pública. Folders: Solicitud. Bars keep 14% → 7% → ~0 (third bar small but nonzero). Bar labels: Prima privada simple / Controles de selectividad / Controles por solicitudes
+LOWER RIGHT green — Elige los controles con cuidado
+• Usa confusores previos al tratamiento
+• La ocupación es un mal control
+• Estimaciones estables generan confianza
+Pathway labels: Universidad → Ocupación → Ingresos (occupation circled as bad control)

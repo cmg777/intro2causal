@@ -1,0 +1,34 @@
+CENTER: CAPÍTULO 1 / Experimentos aleatorios / ¿El seguro médico mejora la salud de las personas?
+Keep the two young people with the heart shield.
+UPPER LEFT cyan — Resultados potenciales
+• Y₁: con seguro
+• Y₀: sin seguro
+• Solo se observa uno
+• Efecto individual = Y₁ − Y₀
+Keep the forked path with signposts Y₁ and Y₀.
+MIDDLE LEFT purple — Sesgo de selección
+• Los grupos difieren antes del tratamiento
+• Diferencia de medias = ATT + sesgo de selección
+• ATT: efecto promedio en los tratados
+Illustration labels: Mayor ingreso / Más educación  |  Menor ingreso / Menos educación
+LOWER LEFT cyan — Cómo leer la evidencia
+• Coeficiente de tratamiento binario = diferencia de medias (con intercepto; sin otros controles)
+• IC del 95% en muestras grandes ≈ estimación ± 1.96 × EE
+• No significativo ≠ sin efecto
+Interval diagram labels: IC del 95% / Estimación
+UPPER RIGHT purple — Asignación aleatoria
+• Una moneda asigna los grupos
+• Grupos equilibrados en promedio
+• Verificar el balance inicial
+Group labels: Tratamiento / Control
+MIDDLE RIGHT green — Experimento RAND
+• Gratuito vs. catastrófico: ~45% más gasto
+• Poco cambio promedio en la salud
+• Algunos pacientes pobres y enfermos se beneficiaron
+Diagram labels: ~45% más gasto / Catastrófico / Atención gratuita / Salud (sin cambio claro)
+LOWER RIGHT green — Lotería de Oregon
+• Más atención; mejor salud mental
+• Menos deuda médica
+• Sin mejora significativa medida en la salud física a los 2 años
+• ITT: comparar ganadores vs. perdedores de la lotería
+Ticket text: LOTERÍA. Group labels: Ganadores (obtienen una oportunidad) / Perdedores (no obtienen una oportunidad)

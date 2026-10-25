@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "language": "es",
+  "variety": "neutral Latin American Spanish (tú)",
+  "review": "Manual visual comparison of each image against the complete English source and the exact Spanish prompt: every branch, bullet, label, equation, number and diagram direction. Spelling defects were corrected with targeted edit passes (v2/v3); see the *-fix.txt prompts.",
+  "chapters": [
+    {
+      "chapter": 1,
+      "slug": "ch01-randomized-trials",
+      "version": "v1",
+      "english_source": "book/images/ch01_visual_summary.webp",
+      "english_source_sha256": "651f7fe7c7ad274a6cb5a63e283390170128605db8fc6db5b73aa1c5cac61c31",
+      "full_image": "mindmaps/es/images/ch01-randomized-trials-v1.png",
+      "full_image_sha256": "e41a35ad7f5530908969205abcbe28c96bc1117c3046d51150c61c9d344f0c9a",
+      "web_image": "assets/home-es/full/ch01-randomized-trials-v1.webp",
+      "web_image_sha256": "84be19a7b6bd295a32711efb19c57bfc2543ebdcd180d2b86d348b54adf471be",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompts": [
+        "mindmaps/es/prompts/_common.txt",
+        "mindmaps/es/prompts/ch01-randomized-trials-v1.txt"
+      ],
+      "generator": "Codex CLI built-in image_gen"
+    },
+    {
+      "chapter": 2,
+      "slug": "ch02-regression",
+      "version": "v2",
+      "english_source": "book/images/ch02_visual_summary.webp",
+      "english_source_sha256": "92c4efe159fc2624ce137fe0a6a302dcf3736a6e2d8e1ecce892ad700fd8faf9",
+      "full_image": "mindmaps/es/images/ch02-regression-v2.png",
+      "full_image_sha256": "fb25545438b4054e73f7bf660e236b5b5a78f564f269fb1b1fbb594dbf085fa3",
+      "web_image": "assets/home-es/full/ch02-regression-v2.webp",
+      "web_image_sha256": "d0b008fbb657d377e679a082195e3e824f7702cad406eb68683b429083303f90",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompts": [
+        "mindmaps/es/prompts/_common.txt",
+        "mindmaps/es/prompts/ch02-regression-v1.txt",
+        "mindmaps/es/prompts/ch02-regression-v2-fix.txt"
+      ],
+      "generator": "Codex CLI built-in image_gen"
+    },
+    {
+      "chapter": 3,
+      "slug": "ch03-instrumental-variables",
+      "version": "v1",
+      "english_source": "book/images/ch03_visual_summary.webp",
+      "english_source_sha256": "9b4d336dd4b4a77600102a64d15675a011abec367a2ef2577e662b95124e0853",
+      "full_image": "mindmaps/es/images/ch03-instrumental-variables-v1.png",
+      "full_image_sha256": "e7f041ff4e30592307c536e0a88aac8dca8c609f016f8d71444a7fead33400ab",
+      "web_image": "assets/home-es/full/ch03-instrumental-variables-v1.webp",
+      "web_image_sha256": "76775d312ee6cd4b576dc45cbe7dc1d4a2c8d542931e2a8efea8dbbbe61044da",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompts": [
+        "mindmaps/es/prompts/_common.txt",
+        "mindmaps/es/prompts/ch03-instrumental-variables-v1.txt"
+      ],
+      "generator": "Codex CLI built-in image_gen"
+    },
+    {
+      "chapter": 4,
+      "slug": "ch04-regression-discontinuity",
+      "version": "v3",
+      "english_source": "book/images/ch04_visual_summary.webp",
+      "english_source_sha256": "380d4c123aaa1aac505e30d51197da87701c6c342183eb0d19b9a2528c5742fc",
+      "full_image": "mindmaps/es/images/ch04-regression-discontinuity-v3.png",
+      "full_image_sha256": "b2bca5b1df8c78a8f64991ce69f4bc1a463d266e87ebf57fa559e32f79f1a048",
+      "web_image": "assets/home-es/full/ch04-regression-discontinuity-v3.webp",
+      "web_image_sha256": "4ccb62f2c8fcdcfdbe9686e9f82cbec8aa298393ba4bfd38f0600f0f55d1653b",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompts": [
+        "mindmaps/es/prompts/_common.txt",
+        "mindmaps/es/prompts/ch04-regression-discontinuity-v1.txt",
+        "mindmaps/es/prompts/ch04-regression-discontinuity-v2-fix.txt",
+        "mindmaps/es/prompts/ch04-regression-discontinuity-v3-fix.txt"
+      ],
+      "generator": "Codex CLI built-in image_gen"
+    },
+    {
+      "chapter": 5,
+      "slug": "ch05-differences-in-differences",
+      "version": "v2",
+      "english_source": "book/images/ch05_visual_summary.webp",
+      "english_source_sha256": "905c90a976e8a93835ac859631163dd88a47a8fa2b209b6fcdf9bf77be90414a",
+      "full_image": "mindmaps/es/images/ch05-differences-in-differences-v2.png",
+      "full_image_sha256": "3c00bf008a0471ba3ca60b733df6326b34687a7a6d4d95e0c4d351c391d340df",
+      "web_image": "assets/home-es/full/ch05-differences-in-differences-v2.webp",
+      "web_image_sha256": "e15f7ca654d5e35a2693930e9a70115ef875a35f2180084dbbbe16e7cdf9b7de",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompts": [
+        "mindmaps/es/prompts/_common.txt",
+        "mindmaps/es/prompts/ch05-differences-in-differences-v1.txt",
+        "mindmaps/es/prompts/ch05-differences-in-differences-v2-fix.txt"
+      ],
+      "generator": "Codex CLI built-in image_gen"
+    },
+    {
+      "chapter": 6,
+      "slug": "ch06-wages-of-schooling",
+      "version": "v2",
+      "english_source": "book/images/ch06_visual_summary.webp",
+      "english_source_sha256": "c6f09089380001d48064c2d6688482883a926cef868e5c2174bd03bffa45d409",
+      "full_image": "mindmaps/es/images/ch06-wages-of-schooling-v2.png",
+      "full_image_sha256": "86960701d3e95bcfe2b942d9cfbcfe49237519e27b93b5b6c503eba30e50e08c",
+      "web_image": "assets/home-es/full/ch06-wages-of-schooling-v2.webp",
+      "web_image_sha256": "1cb8e09fdede5a58bc7953704592a151cfb27f1c278304514563032c2957b796",
+      "native_width": 1672,
+      "native_height": 941,
+      "upscaled": false,
+      "prompts": [
+        "mindmaps/es/prompts/_common.txt",
+        "mindmaps/es/prompts/ch06-wages-of-schooling-v1.txt",
+        "mindmaps/es/prompts/ch06-wages-of-schooling-v2-fix.txt"
+      ],
+      "generator": "Codex CLI built-in image_gen"
+    }
+  ]
+}

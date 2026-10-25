@@ -1,0 +1,34 @@
+CENTER: CAPÍTULO 3 / Variables instrumentales / ¿Qué pasa si las personas ignoran el tratamiento asignado?
+Keep the Z → D → Y dominoes.
+UPPER LEFT cyan — Incumplimiento
+• Asignado ≠ tratamiento recibido
+• Elegir el tratamiento revive el sesgo
+• Usa el empujón aleatorio en su lugar
+Illustration labels: paper "ASIGNACIÓN DEL TRATAMIENTO (Z)"; building sign "TRATAMIENTO"; arrows "Toma el tratamiento (D = 1)" and "No toma el tratamiento (D = 0)"
+MIDDLE LEFT purple — La cadena de VI
+• Z → D → Y
+• Primera etapa: Z cambia D
+• Forma reducida: Z cambia Y
+• Z y D binarias: LATE = forma reducida ÷ primera etapa
+LOWER LEFT cyan — Estimar con MC2E
+• Etapa 1: D sobre Z y controles
+• Etapa 2: Y sobre D̂ y controles
+• Usa software de VI para EE válidos
+• Primera etapa débil → estimaciones frágiles
+Board diagram: "① Variación del tratamiento (D)" board "Z, X → D̂" caption "Parte inducida por el instrumento (de Z)"; "② D predicha hacia Y" board "D̂, X → Y" caption "El tratamiento predicho explica el resultado"
+UPPER RIGHT purple — Requisitos del instrumento
+• Relevancia: mueve el tratamiento
+• Independencia: aleatorio dados los controles
+• Exclusión: Y cambia solo a través de D
+• Tratamientos estables; sin efectos de derrame
+Key/lock diagram Z → D → Y; dashed crossed path label: "Ningún camino a Y excepto a través de D"
+MIDDLE RIGHT green — ¿A quién describe el LATE?
+• Cumplidores: el instrumento los mueve
+• Siempre-tomadores y nunca-tomadores
+• Monotonicidad: no hay desafiantes
+• Efecto local, no el efecto de todos
+Panel headings: Cumplidores / Siempre / Nunca; keep all Z = 0/1, D = 0/1 labels exactly as in source.
+LOWER RIGHT green — Evidencia de VI
+Panel 1: "Matemáticas KIPP: 0.355 ÷ 0.741 ≈ 0.48 DE por año, para cumplidores"; ticket "LOTERÍA"; board "+0.48 DE"
+Panel 2: "Minneapolis: asignación vs. acción"; badge "POLICÍA"; clipboard "Asignación"; label "Acción"
+Panel 3: "VI de tamaño familiar: sin daño claro en la escolaridad"; books "ESCOLARIDAD"

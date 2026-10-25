@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domina la econometría causal</title>
+  <link rel="canonical" href="https://cmg777.github.io/intro2causal/index-es.html">
+  <link rel="alternate" hreflang="en" href="https://cmg777.github.io/intro2causal/index.html">
+  <link rel="alternate" hreflang="es" href="https://cmg777.github.io/intro2causal/index-es.html">
+  <link rel="alternate" hreflang="ja" href="https://cmg777.github.io/intro2causal/index-ja.html">
+  <link rel="alternate" hreflang="x-default" href="https://cmg777.github.io/intro2causal/index.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/podcast-player.css?v=5">
+  <script src="assets/podcast-player.js?v=7" defer></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; }
+    code, .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Dark mode defaults */
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: background-color 0.3s, border-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    }
+    .card.pillar:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .text-blue { color: var(--blue); }
+    .text-purple { color: var(--purple); }
+    .text-green { color: var(--green); }
+    .text-muted { color: var(--text-muted); }
+    .bg-blue { background-color: var(--blue); }
+
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+    }
+    .btn-secondary {
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: border-color 0.2s, color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .pillar-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    /* Chapter resource links share a clear hover and keyboard-focus treatment. */
+    .chapter-card a:has(> img.h-8) {
+      display: inline-flex;
+      border-radius: 5px;
+      transition: transform .2s, filter .2s, box-shadow .2s;
+    }
+    .chapter-card a:has(> img.h-8):hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+      box-shadow: 0 3px 8px rgba(0,0,0,.18);
+    }
+    .chapter-card a:has(> img.h-8):focus-visible {
+      outline: 2px solid var(--text);
+      outline-offset: 4px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .chapter-card a:has(> img.h-8) { transition: none; }
+      .chapter-card a:has(> img.h-8):hover { transform: none; }
+    }
+
+    /* Chapter cards */
+    .chapter-card {
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-self: start;
+      gap: 0.75rem;
+    }
+    .chapter-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .chapter-thumb {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: var(--bg);
+    }
+    .chapter-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+    .chapter-thumb img:hover { transform: scale(1.03); }
+
+    /* AI notebooks video thumbnail */
+    .media-frame {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .media-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .media-frame .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.3);
+      transition: background 0.2s;
+    }
+    .media-frame:hover .play-overlay { background: rgba(0,0,0,0.4); }
+    .media-frame .play-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      padding-left: 6px;
+      transition: transform 0.2s;
+    }
+    .media-frame:hover .play-btn { transform: scale(1.1); }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.2s;
+      z-index: 50;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .back-to-top.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .back-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+    }
+
+    /* AI footer pills */
+    .ai-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .ai-pill:hover {
+      transform: translateY(-2px);
+      border-color: var(--blue);
+    }
+    .ai-pill img {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+
+    /* Scroll-triggered fade-in */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer author card */
+    .author-card {
+      display: inline-block;
+      padding: 24px 32px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background-color: var(--bg-card);
+    }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--green));
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* Gradient section divider */
+    .gradient-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--purple), transparent);
+      border: none;
+    }
+
+    /* ===== Other Resources section ===== */
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .filter-pill:hover {
+      color: var(--text);
+      border-color: var(--blue);
+    }
+    .filter-pill .pill-count {
+      font-size: 0.7rem;
+      opacity: 0.7;
+      font-weight: 500;
+    }
+    .filter-pill.active {
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      border-color: transparent;
+    }
+    .filter-pill.active .pill-count { opacity: 0.85; }
+
+    .resource-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s, border-color 0.2s;
+    }
+    .resource-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--blue);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+    }
+    .resource-card.hiding {
+      opacity: 0;
+      transform: scale(0.96) translateY(8px);
+    }
+    .resource-card.showing {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .resource-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      background-color: var(--border);
+      color: var(--text);
+    }
+    .resource-type-badge.type-video    { background: rgba(239,68,68,0.15);  color: #f87171; }
+    .resource-type-badge.type-course   { background: rgba(167,139,250,0.15); color: var(--purple); }
+    .resource-type-badge.type-website  { background: rgba(148,163,184,0.18); color: var(--text-muted); }
+    .resource-type-badge.type-article  { background: rgba(56,189,248,0.15);  color: var(--blue); }
+
+    .resource-pinned-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: rgba(251,191,36,0.15);
+      color: #fbbf24;
+    }
+
+    .resource-cat-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .resource-cat-icon.cat-general    { background: rgba(56,189,248,0.15);  color: var(--blue); }
+    .resource-cat-icon.cat-rct        { background: rgba(52,211,153,0.15);  color: var(--green); }
+    .resource-cat-icon.cat-regression { background: rgba(34,211,238,0.15);  color: #22d3ee; }
+    .resource-cat-icon.cat-iv         { background: rgba(251,191,36,0.15);  color: #fbbf24; }
+    .resource-cat-icon.cat-rd         { background: rgba(248,113,113,0.15); color: #f87171; }
+    .resource-cat-icon.cat-did        { background: rgba(167,139,250,0.15); color: var(--purple); }
+    .resource-cat-icon.cat-sc         { background: rgba(251,146,60,0.15);  color: #fb923c; }
+    .resource-cat-icon.cat-econ       { background: rgba(52,211,153,0.15);  color: var(--green); }
+
+    .resource-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .resource-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--blue);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .resource-link:hover { color: var(--purple); }
+    .resource-link .arrow {
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    .resource-link:hover .arrow { transform: translateX(3px); }
+
+    .show-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s, color 0.2s;
+    }
+    .show-more-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      transform: translateY(-2px);
+    }
+  </style>
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/home.css?v=9">
+  <script src="assets/home.js?v=3" defer></script>
+  <meta name="description" content="Aprende a distinguir causa de correlación. Seis capítulos guiados, datos reales, notebooks interactivos de Python, tutores de IA y pódcasts.">
+  <script>try{document.documentElement.classList.toggle('light',localStorage.getItem('theme')==='light')}catch(e){}</script>
+  <script src="assets/site.js?v=3" defer></script>
+  <noscript><style>.site-header .icon-button,.site-header .menu-button{display:none}@media(max-width:1100px){.site-header{position:relative}.site-header .mobile-nav[hidden]{display:block!important}}</style></noscript>
+</head>
+<body class="index-page">
+  <!-- Scroll Progress -->
+  <div id="scroll-progress" class="scroll-progress"></div>
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+<header class="site-header">
+  <nav class="site-nav" aria-label="Navegación principal">
+    <a class="brand" href="index-es.html"><span class="brand-mark" aria-hidden="true">m<span>′</span></span> Domina la econometría causal</a>
+    <div class="nav-links" id="desktop-nav"><a href="index-es.html" aria-current="page">Inicio</a><a href="book/_book/index.html">Guía de estudio <span class="nav-lang-tag">(en inglés)</span></a><a href="podcasts.html">Pódcasts con IA <span class="nav-lang-tag">(en inglés)</span></a><a href="tutors.html">Tutores de IA <span class="nav-lang-tag">(en inglés)</span></a><a href="data-dictionary.html">Diccionario de datos <span class="nav-lang-tag">(en inglés)</span></a><a href="cheatsheet.html">Guía de código <span class="nav-lang-tag">(en inglés)</span></a></div>
+    <div class="lang-switch" role="group" aria-label="Idioma"><a href="index.html" hreflang="en" lang="en" data-lang="en" title="English">EN</a><a href="index-es.html" hreflang="es" lang="es" data-lang="es" aria-current="true" title="Español">ES</a><a href="index-ja.html" hreflang="ja" lang="ja" data-lang="ja" title="日本語">JA</a></div>
+    <button id="site-theme" class="icon-button" type="button" aria-label="Cambiar al tema claro" title="Cambiar el tema de color">☼</button>
+    <button id="site-menu" class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav">Menú</button>
+  </nav>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil" hidden><a href="index-es.html" aria-current="page">Inicio</a><a href="book/_book/index.html">Guía de estudio <span class="nav-lang-tag">(en inglés)</span></a><a href="podcasts.html">Pódcasts con IA <span class="nav-lang-tag">(en inglés)</span></a><a href="tutors.html">Tutores de IA <span class="nav-lang-tag">(en inglés)</span></a><a href="data-dictionary.html">Diccionario de datos <span class="nav-lang-tag">(en inglés)</span></a><a href="cheatsheet.html">Guía de código <span class="nav-lang-tag">(en inglés)</span></a><div class="lang-switch lang-switch-mobile" role="group" aria-label="Idioma"><a href="index.html" hreflang="en" lang="en" data-lang="en" title="English">EN</a><a href="index-es.html" hreflang="es" lang="es" data-lang="es" aria-current="true" title="Español">ES</a><a href="index-ja.html" hreflang="ja" lang="ja" data-lang="ja" title="日本語">JA</a></div></nav>
+</header>
+
+  <main id="main" tabindex="-1">
+
+  <section class="home-hero" aria-labelledby="page-title">
+    <div class="hero-orbit" aria-hidden="true"></div>
+    <div class="home-shell hero-stage">
+      <div class="home-hero-copy">
+        <p class="home-kicker"><span aria-hidden="true"></span> UNA GUÍA DE CAMPO SOBRE CAUSA Y EFECTO</p>
+        <h1 id="page-title">Domina la
+          <span class="hero-title-line">econometría <span class="hero-title-accent">causal</span></span></h1>
+        <p class="hero-hook">Mejores preguntas.<br>Comparaciones más justas.</p>
+        <p class="hero-summary">¿El seguro mejora la salud? ¿La educación aumenta los ingresos? Aprende cómo los investigadores pasan de una pregunta interesante a evidencia creíble.</p>
+        <div class="home-actions"><a class="home-button" href="book/_book/notebooks_quarto/01-randomized-trials.html">Empieza con el capítulo 1 <span aria-hidden="true">↗</span></a><a class="home-text-link" href="#curriculum">Explora todos los capítulos <span aria-hidden="true">↓</span></a></div>
+        <p class="hero-welcome">¿Es tu primer contacto con la inferencia causal? Estás en el lugar indicado.</p>
+      </div>
+      <div class="hero-author">
+        <img src="https://github.com/cmg777.png" alt="Carlos Mendez" width="72" height="72">
+        <div>
+          <p>Un proyecto de aprendizaje de <a href="https://carlos-mendez.org" target="_blank" rel="noopener">Carlos Mendez</a></p>
+          <p>Basado en <a href="https://www.masteringmetrics.com/" target="_blank" rel="noopener"><em>Mastering ’Metrics</em></a><br>de Joshua Angrist y Jörn-Steffen Pischke.</p>
+        </div>
+      </div>
+      <section class="method-showcase" aria-label="Los cinco furiosos: métodos causales">
+        <div class="showcase-heading"><span>LOS CINCO FURIOSOS</span><span class="showcase-count">01 / 05</span></div>
+        <div class="scene-deck">
+        <figure class="method-scene is-active" id="scene-rct" aria-labelledby="scene-title-rct">
+          <img class="scene-art" src="assets/homepage/rct-clinic.webp" srcset="assets/homepage/rct-clinic-small.webp 720w, assets/homepage/rct-clinic.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 1000px) min(680px, calc(100vw - 64px)), 600px" width="1200" height="800" alt="" fetchpriority="high">
+          <div class="scene-intro">
+            <p class="scene-method">Experimentos aleatorios</p>
+            <h2 id="scene-title-rct">¿El seguro médico<br>mejora la salud?</h2>
+          </div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="rct-graph-title rct-graph-desc"><title id="rct-graph-title">RAND: efectos en la salud general frente al plan catastrófico</title><desc id="rct-graph-desc">Recalculado con el modelo y los datos del capítulo 1. Los puntos son efectos de cada plan en unidades del índice de salud general; las líneas son intervalos de confianza del 95% agrupados por familia. Los tres intervalos incluyen el cero.</desc><text class="plot-text graph-subtitle" x="24.00" y="22.00" text-anchor="start">Salud general · efecto vs. plan catastrófico</text><path class="policy-marker" d="M305.00 40.00L305.00 187.00"/><text class="plot-text" x="24.00" y="71.00" text-anchor="start">Atención gratuita</text><g><title>Atención gratuita: -0.78; intervalo del 95% de -2.48 a 0.92</title><path class="plot-line line-blue" d="M193.61 66.00L346.56 66.00"/><path class="plot-line line-blue" d="M193.61 61.00L193.61 71.00"/><path class="plot-line line-blue" d="M346.56 61.00L346.56 71.00"/><circle class="plot-dot" cx="270.08" cy="66" r="5"/></g><text class="plot-text" x="24.00" y="124.00" text-anchor="start">Deducible</text><g><title>Deducible: -0.87; intervalo del 95% de -2.76 a 1.02</title><path class="plot-line line-purple" d="M180.89 119.00L350.86 119.00"/><path class="plot-line line-purple" d="M180.89 114.00L180.89 124.00"/><path class="plot-line line-purple" d="M350.86 114.00L350.86 124.00"/><circle class="dot-purple" cx="265.88" cy="119" r="5"/></g><text class="plot-text" x="24.00" y="177.00" text-anchor="start">Coaseguro</text><g><title>Coaseguro: 0.61; intervalo del 95% de -1.16 a 2.38</title><path class="plot-line line-purple" d="M252.90 172.00L412.17 172.00"/><path class="plot-line line-purple" d="M252.90 167.00L252.90 177.00"/><path class="plot-line line-purple" d="M412.17 167.00L412.17 177.00"/><circle class="dot-purple" cx="332.53" cy="172" r="5"/></g><path class="plot-axis" d="M170.00 198.00L440.00 198.00"/><text class="plot-text" x="170.00" y="219.00" text-anchor="middle">-3</text><text class="plot-text" x="305.00" y="219.00" text-anchor="middle">0</text><text class="plot-text" x="440.00" y="219.00" text-anchor="middle">+3</text><text class="plot-text graph-subtitle" x="305.00" y="242.00" text-anchor="middle">Puntos del índice de salud · intervalos del 95%</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">Sin una mejora clara en la salud general.</p>
+            <p class="scene-explanation">En RAND, los efectos de la atención gratuita, el deducible y el coaseguro sobre la salud general tienen intervalos del 95% que incluyen el cero. Estas comparaciones son frente a una cobertura catastrófica, no frente a no tener seguro.</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/01-randomized-trials.html">Explora los experimentos aleatorios <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">Resultados de RAND recalculados · intervalos agrupados por familia.<br><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank" rel="noopener">Fuente en Colab ↗</a> · Las ilustraciones son decorativas.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="method-scene" id="scene-regression" aria-labelledby="scene-title-regression" hidden>
+          <img class="scene-art" src="assets/homepage/regression-campus.webp" srcset="assets/homepage/regression-campus-small.webp 720w, assets/homepage/regression-campus.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 1000px) min(680px, calc(100vw - 64px)), 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">Regresión</p><h2 id="scene-title-regression">¿Vale la pena una<br>universidad más cara?</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="regression-graph-title regression-graph-desc"><title id="regression-graph-title">Prima de la universidad privada: resumen de la literatura del notebook</title><desc id="regression-graph-desc">El capítulo 2 reporta cerca de 14% sin controles, cerca de 7% con controles de selectividad y casi cero con controles por solicitudes. Son resúmenes aproximados de la literatura, no estimaciones replicadas con microdatos de estudiantes. No se da un valor exacto para “casi cero”.</desc><text class="plot-text graph-subtitle" x="24.00" y="22.00" text-anchor="start">Prima salarial de la universidad privada</text><path class="plot-grid" d="M24.00 84.00L456.00 84.00"/><text class="plot-text" x="24.00" y="65.00" text-anchor="start">Sin controles</text><text class="plot-text label-blue result-value" x="448.00" y="65.00" text-anchor="end">~14%</text><path class="plot-grid" d="M24.00 139.00L456.00 139.00"/><text class="plot-text" x="24.00" y="120.00" text-anchor="start">Controles de selectividad</text><text class="plot-text label-purple result-value" x="448.00" y="120.00" text-anchor="end">~7%</text><path class="plot-grid" d="M24.00 194.00L456.00 194.00"/><text class="plot-text" x="24.00" y="175.00" text-anchor="start">Controles por solicitudes</text><text class="plot-text label-green result-value" x="448.00" y="175.00" text-anchor="end">Casi cero</text><text class="plot-text graph-subtitle" x="240.00" y="230.00" text-anchor="middle">Hallazgos aproximados reportados en el capítulo 2</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">La prima se reduce con los controles.</p>
+            <p class="scene-explanation">El capítulo 2 resume la prima de la universidad privada como cerca de 14%, luego 7% y luego casi cero a medida que mejoran los controles. Los datos del estudio no están disponibles aquí; este es el resumen de la literatura del notebook.</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/02-regression.html">Explora la regresión <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">Resumen de la literatura del notebook · hallazgos aproximados.<br><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" target="_blank" rel="noopener">Fuente en Colab ↗</a> · Las ilustraciones son decorativas.</p>
+          </figcaption>
+        </figure>
+        <figure class="method-scene" id="scene-iv" aria-labelledby="scene-title-iv" hidden>
+          <img class="scene-art" src="assets/homepage/iv-lottery.webp" srcset="assets/homepage/iv-lottery-small.webp 720w, assets/homepage/iv-lottery.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 1000px) min(680px, calc(100vw - 64px)), 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">Variables instrumentales</p><h2 id="scene-title-iv">¿Puede una lotería escolar<br>revelar el impacto de una escuela?</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="iv-graph-title iv-graph-desc"><title id="iv-graph-title">KIPP: las estimaciones reportadas en el capítulo 3</title><desc id="iv-graph-desc">El notebook reporta una primera etapa de 0.741, un efecto de forma reducida sobre los puntajes de matemáticas de 0.355 desviaciones estándar y un efecto de VI de la asistencia de 0.48 desviaciones estándar para los cumplidores. Son estimaciones reportadas en el notebook, no una nueva replicación. DE significa desviaciones estándar.</desc><text class="plot-text graph-subtitle" x="240.00" y="25.00" text-anchor="middle">Oferta → asistencia: +74.1 puntos porcentuales</text><defs><marker id="iv-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#74ceff" stroke-width="1.5"/></marker></defs><rect class="graph-group treatment-group" x="8" y="65" width="134" height="82" rx="12"/><text class="plot-text label-blue" x="75.00" y="99.00" text-anchor="middle">Oferta de</text><text class="plot-text label-blue" x="75.00" y="123.00" text-anchor="middle">la lotería</text><rect class="graph-group comparison-group" x="173" y="65" width="134" height="82" rx="12"/><text class="plot-text label-purple" x="240.00" y="99.00" text-anchor="middle">KIPP</text><text class="plot-text label-purple" x="240.00" y="123.00" text-anchor="middle">asistencia</text><rect class="graph-group outcome-group" x="338" y="65" width="134" height="82" rx="12"/><text class="plot-text label-green" x="405.00" y="99.00" text-anchor="middle">Puntajes de</text><text class="plot-text label-green" x="405.00" y="123.00" text-anchor="middle">matemáticas</text><path class="plot-line line-blue" d="M146 106H166" marker-end="url(#iv-arrow)"/><path class="plot-line line-blue" d="M311 106H331" marker-end="url(#iv-arrow)"/><text class="plot-text" x="240.00" y="187.00" text-anchor="middle">Oferta → puntajes de matemáticas: +0.355 DE</text><text class="plot-text label-green" x="240.00" y="220.00" text-anchor="middle">Efecto de la asistencia: +0.48 DE para cumplidores</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">Un efecto positivo para quienes cumplen con la lotería.</p>
+            <p class="scene-explanation">El capítulo 3 reporta un efecto de +0.48 desviaciones estándar en matemáticas por asistir a KIPP para los cumplidores de la lotería. La lectura causal requiere que la lotería afecte los puntajes solo a través de la asistencia.</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/03-instrumental-variables.html">Explora las variables instrumentales <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">Estimaciones de KIPP reportadas en el notebook · DE = desviaciones estándar.<br><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" target="_blank" rel="noopener">Fuente en Colab ↗</a> · Las ilustraciones son decorativas.</p>
+          </figcaption>
+        </figure>
+        <figure class="method-scene" id="scene-rd" aria-labelledby="scene-title-rd" hidden>
+          <img class="scene-art" src="assets/homepage/rd-threshold.webp" srcset="assets/homepage/rd-threshold-small.webp 720w, assets/homepage/rd-threshold.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 1000px) min(680px, calc(100vw - 64px)), 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">Regresión discontinua</p><h2 id="scene-title-rd">¿El acceso al alcohol<br>cambia los riesgos de salud?</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="rd-graph-title rd-graph-desc"><title id="rd-graph-title">Mortalidad por todas las causas alrededor de los 21 años: reproducida del capítulo 4</title><desc id="rd-graph-desc">Se grafican las 48 observaciones por grupo de edad sin datos faltantes de mlda_clean.csv, con regresiones lineales separadas a cada lado, como en la celda 11 del notebook. La mortalidad salta hacia arriba a los 21; la tendencia ajustada por encima del umbral tiene pendiente negativa. Las unidades son muertes por cada 100,000.</desc><text class="plot-text graph-subtitle" x="60.00" y="22.00" text-anchor="start">Muertes por todas las causas por cada 100,000</text><path class="plot-grid" d="M60.00 173.00L445.00 173.00"/><text class="plot-text" x="50.00" y="178.00" text-anchor="end">90</text><path class="plot-grid" d="M60.00 109.00L445.00 109.00"/><text class="plot-text" x="50.00" y="114.00" text-anchor="end">100</text><path class="plot-grid" d="M60.00 45.00L445.00 45.00"/><text class="plot-text" x="50.00" y="50.00" text-anchor="end">110</text><path class="plot-axis" d="M60.00 45.00L60.00 205.00"/><path class="plot-axis" d="M60.00 205.00L445.00 205.00"/><path class="policy-marker" d="M252.50 35.00L252.50 205.00"/><text class="plot-text" x="60.00" y="225.00" text-anchor="middle">19</text><text class="plot-text" x="156.25" y="225.00" text-anchor="middle">20</text><text class="plot-text label-green" x="252.50" y="225.00" text-anchor="middle">21</text><text class="plot-text" x="348.75" y="225.00" text-anchor="middle">22</text><text class="plot-text" x="445.00" y="225.00" text-anchor="middle">23</text><text class="plot-text graph-subtitle" x="252.00" y="245.00" text-anchor="middle">Edad (años)</text><circle class="plot-dot" cx="66.59" cy="154.92" r="3"><title>Edad 19.068: 92.825 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="74.50" cy="140.36" r="3"><title>Edad 19.151: 95.101 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="82.41" cy="159.28" r="3"><title>Edad 19.233: 92.144 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="90.33" cy="183.06" r="3"><title>Edad 19.315: 88.428 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="98.24" cy="181.29" r="3"><title>Edad 19.397: 88.705 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="106.15" cy="171.77" r="3"><title>Edad 19.479: 90.192 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="114.06" cy="133.19" r="3"><title>Edad 19.562: 96.220 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="121.97" cy="175.46" r="3"><title>Edad 19.644: 89.616 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="129.88" cy="151.36" r="3"><title>Edad 19.726: 93.382 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="137.79" cy="167.51" r="3"><title>Edad 19.808: 90.858 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="145.70" cy="135.82" r="3"><title>Edad 19.890: 95.810 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="153.61" cy="146.39" r="3"><title>Edad 19.973: 94.158 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="161.52" cy="157.23" r="3"><title>Edad 20.055: 92.465 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="169.43" cy="120.23" r="3"><title>Edad 20.137: 98.246 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="177.35" cy="141.25" r="3"><title>Edad 20.219: 94.960 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="185.26" cy="151.33" r="3"><title>Edad 20.301: 93.385 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="193.17" cy="172.23" r="3"><title>Edad 20.384: 90.121 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="201.08" cy="157.60" r="3"><title>Edad 20.466: 92.406 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="208.99" cy="151.53" r="3"><title>Edad 20.548: 93.354 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="216.90" cy="158.74" r="3"><title>Edad 20.630: 92.229 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="224.81" cy="158.07" r="3"><title>Edad 20.712: 92.332 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="232.72" cy="155.93" r="3"><title>Edad 20.795: 92.668 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="240.63" cy="151.30" r="3"><title>Edad 20.877: 93.390 muertes por cada 100,000</title></circle><circle class="plot-dot" cx="248.54" cy="145.67" r="3"><title>Edad 20.959: 94.270 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="256.46" cy="75.28" r="3"><title>Edad 21.041: 105.268 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="264.37" cy="102.17" r="3"><title>Edad 21.123: 101.067 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="272.28" cy="128.41" r="3"><title>Edad 21.205: 96.967 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="280.19" cy="90.91" r="3"><title>Edad 21.288: 102.827 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="288.10" cy="102.73" r="3"><title>Edad 21.370: 100.979 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="296.01" cy="101.08" r="3"><title>Edad 21.452: 101.237 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="303.92" cy="112.22" r="3"><title>Edad 21.534: 99.498 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="311.83" cy="139.71" r="3"><title>Edad 21.616: 95.201 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="319.74" cy="126.55" r="3"><title>Edad 21.699: 97.258 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="327.65" cy="115.86" r="3"><title>Edad 21.781: 98.929 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="335.57" cy="94.52" r="3"><title>Edad 21.863: 102.262 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="343.48" cy="129.27" r="3"><title>Edad 21.945: 96.833 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="351.39" cy="112.19" r="3"><title>Edad 22.027: 99.502 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="359.30" cy="134.14" r="3"><title>Edad 22.110: 96.072 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="367.21" cy="134.80" r="3"><title>Edad 22.192: 95.968 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="375.12" cy="117.89" r="3"><title>Edad 22.274: 98.611 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="383.03" cy="122.10" r="3"><title>Edad 22.356: 97.952 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="390.94" cy="125.56" r="3"><title>Edad 22.438: 97.412 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="398.85" cy="124.94" r="3"><title>Edad 22.521: 97.509 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="406.76" cy="137.40" r="3"><title>Edad 22.603: 95.562 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="414.67" cy="128.05" r="3"><title>Edad 22.685: 97.023 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="422.59" cy="113.00" r="3"><title>Edad 22.767: 99.375 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="430.50" cy="145.38" r="3"><title>Edad 22.849: 94.315 muertes por cada 100,000</title></circle><circle class="plot-dot dot-purple" cx="438.41" cy="125.66" r="3"><title>Edad 22.932: 97.398 muertes por cada 100,000</title></circle><path class="plot-line line-blue" d="M66.59 160.07 L74.50 159.63 L82.41 159.20 L90.33 158.76 L98.24 158.33 L106.15 157.89 L114.06 157.46 L121.97 157.02 L129.88 156.59 L137.79 156.15 L145.70 155.72 L153.61 155.28 L161.52 154.85 L169.43 154.41 L177.35 153.98 L185.26 153.54 L193.17 153.11 L201.08 152.67 L208.99 152.24 L216.90 151.80 L224.81 151.37 L232.72 150.93 L240.63 150.49 L248.54 150.06"/><path class="plot-line line-purple" d="M256.46 101.53 L264.37 102.99 L272.28 104.45 L280.19 105.91 L288.10 107.37 L296.01 108.83 L303.92 110.29 L311.83 111.75 L319.74 113.21 L327.65 114.68 L335.57 116.14 L343.48 117.60 L351.39 119.06 L359.30 120.52 L367.21 121.98 L375.12 123.44 L383.03 124.90 L390.94 126.36 L398.85 127.82 L406.76 129.28 L414.67 130.74 L422.59 132.20 L430.50 133.66 L438.41 135.12"/></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">Un salto hacia arriba a los 21 años.</p>
+            <p class="scene-explanation">Estas tasas de mortalidad por grupo de edad y los ajustes lineales separados reproducen el capítulo 4. La mortalidad aumenta en el umbral; la lectura causal requiere que los demás determinantes cambien suavemente allí.</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/04-regression-discontinuity.html">Explora la regresión discontinua <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">Grupos de edad observados y rectas ajustadas · capítulo 4.<br><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" target="_blank" rel="noopener">Fuente en Colab ↗</a> · Las ilustraciones son decorativas.</p>
+          </figcaption>
+        </figure>
+        <figure class="method-scene" id="scene-did" aria-labelledby="scene-title-did" hidden>
+          <img class="scene-art" src="assets/homepage/did-banks.webp" srcset="assets/homepage/did-banks-small.webp 720w, assets/homepage/did-banks.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 1000px) min(680px, calc(100vw - 64px)), 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">Diferencias en diferencias</p><h2 id="scene-title-did">¿Puede una política evitar<br>que los bancos quiebren?</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="did-graph-title did-graph-desc"><title id="did-graph-title">Número de bancos y el contrafactual reproducidos del capítulo 5</title><desc id="did-graph-desc">Número anual de bancos al 1 de julio, 1929–1934, en los distritos 6 y 8 de la Reserva Federal. Ambos distritos pierden bancos. El contrafactual discontinuo del distrito 6 se copia de banks_clean.csv, con 1930 como base para los cambios posteriores del grupo de comparación. En 1934, el distrito 6 tiene 102 bancos frente a un contrafactual de 79.</desc><text class="plot-text graph-subtitle" x="60.00" y="20.00" text-anchor="start">Bancos en operación · número al 1 de julio</text><path class="plot-grid" d="M60.00 197.00L445.00 197.00"/><text class="plot-text" x="50.00" y="202.00" text-anchor="end">60</text><path class="plot-grid" d="M60.00 121.50L445.00 121.50"/><text class="plot-text" x="50.00" y="126.50" text-anchor="end">120</text><path class="plot-grid" d="M60.00 46.00L445.00 46.00"/><text class="plot-text" x="50.00" y="51.00" text-anchor="end">180</text><path class="plot-axis" d="M60.00 46.00L60.00 197.00"/><path class="plot-axis" d="M60.00 197.00L445.00 197.00"/><path class="policy-marker" d="M137.00 46.00L137.00 197.00"/><text class="plot-text graph-subtitle" x="137.00" y="39.00" text-anchor="middle">Base</text><text class="plot-text graph-subtitle" x="60.00" y="218.00" text-anchor="middle">1929</text><text class="plot-text graph-subtitle" x="137.00" y="218.00" text-anchor="middle">1930</text><text class="plot-text graph-subtitle" x="214.00" y="218.00" text-anchor="middle">1931</text><text class="plot-text graph-subtitle" x="291.00" y="218.00" text-anchor="middle">1932</text><text class="plot-text graph-subtitle" x="368.00" y="218.00" text-anchor="middle">1933</text><text class="plot-text graph-subtitle" x="445.00" y="218.00" text-anchor="middle">1934</text><path class="plot-line line-green counterfactual" d="M60.00 95.07 L137.00 102.62 L214.00 144.15 L291.00 159.25 L368.00 170.57 L445.00 173.09"/><path class="plot-line line-blue" d="M60.00 95.07 L137.00 102.62 L214.00 120.24 L291.00 130.31 L368.00 144.15 L445.00 144.15"/><circle class="plot-dot" cx="60.00" cy="95.07" r="3"><title>Distrito 6, 1929: 141 bancos</title></circle><circle class="plot-dot" cx="137.00" cy="102.62" r="3"><title>Distrito 6, 1930: 135 bancos</title></circle><circle class="plot-dot" cx="214.00" cy="120.24" r="3"><title>Distrito 6, 1931: 121 bancos</title></circle><circle class="plot-dot" cx="291.00" cy="130.31" r="3"><title>Distrito 6, 1932: 113 bancos</title></circle><circle class="plot-dot" cx="368.00" cy="144.15" r="3"><title>Distrito 6, 1933: 102 bancos</title></circle><circle class="plot-dot" cx="445.00" cy="144.15" r="3"><title>Distrito 6, 1934: 102 bancos</title></circle><path class="plot-line line-purple" d="M60.00 59.84 L137.00 64.88 L214.00 106.40 L291.00 121.50 L368.00 132.82 L445.00 135.34"/><circle class="dot-purple" cx="60.00" cy="59.84" r="3"><title>Distrito 8, 1929: 169 bancos</title></circle><circle class="dot-purple" cx="137.00" cy="64.88" r="3"><title>Distrito 8, 1930: 165 bancos</title></circle><circle class="dot-purple" cx="214.00" cy="106.40" r="3"><title>Distrito 8, 1931: 132 bancos</title></circle><circle class="dot-purple" cx="291.00" cy="121.50" r="3"><title>Distrito 8, 1932: 120 bancos</title></circle><circle class="dot-purple" cx="368.00" cy="132.82" r="3"><title>Distrito 8, 1933: 111 bancos</title></circle><circle class="dot-purple" cx="445.00" cy="135.34" r="3"><title>Distrito 8, 1934: 109 bancos</title></circle><text class="plot-text label-blue graph-subtitle" x="62.00" y="243.00" text-anchor="start">Distrito 6 (política)</text><text class="plot-text label-purple graph-subtitle" x="195.00" y="243.00" text-anchor="start">Distrito 8</text><path class="plot-line line-green counterfactual" d="M253.00 237.00L281.00 237.00"/><text class="plot-text label-green graph-subtitle" x="288.00" y="243.00" text-anchor="start">Contrafactual del 6</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">Menos pérdidas, no una recuperación.</p>
+            <p class="scene-explanation">El número de bancos cae en ambos distritos. En 1934, el distrito 6 tiene 102 bancos frente a un contrafactual de 79. La diferencia de 23 bancos depende del supuesto de tendencias paralelas.</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/05-differences-in-differences.html">Explora diferencias en diferencias <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">Serie de bancos del notebook · la línea discontinua es el contrafactual.<br><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" target="_blank" rel="noopener">Fuente en Colab ↗</a> · Las ilustraciones son decorativas.</p>
+          </figcaption>
+        </figure>
+        </div>
+        <div class="showcase-controls" hidden>
+          <div class="method-selectors" role="tablist" aria-label="Elige un método causal">
+            <button type="button" role="tab" id="tab-rct" aria-label="Experimentos aleatorios" aria-selected="true" aria-controls="scene-rct" tabindex="0" class="method-selector">ECA</button>
+            <button type="button" role="tab" id="tab-regression" aria-label="Regresión" aria-selected="false" aria-controls="scene-regression" tabindex="-1" class="method-selector">Regresión</button>
+            <button type="button" role="tab" id="tab-iv" aria-label="Variables instrumentales" aria-selected="false" aria-controls="scene-iv" tabindex="-1" class="method-selector">VI</button>
+            <button type="button" role="tab" id="tab-rd" aria-label="Regresión discontinua" aria-selected="false" aria-controls="scene-rd" tabindex="-1" class="method-selector">RD</button>
+            <button type="button" role="tab" id="tab-did" aria-label="Diferencias en diferencias" aria-selected="false" aria-controls="scene-did" tabindex="-1" class="method-selector">DD</button>
+          </div>
+          <div class="showcase-playback"><button type="button" id="showcase-play" aria-label="Pausar el cambio automático de métodos"><span data-playback-icon aria-hidden="true">Ⅱ</span><span data-playback-label>Pausar</span></button><p id="showcase-status">Cambia cada 10 segundos</p></div>
+        </div>
+      </section>
+    </div>
+    <div class="home-shell hero-bottom"><p><strong>6</strong> capítulos <span>/</span> <strong>5</strong> métodos causales <span>/</span> Aprende haciendo</p><a href="#learning-path">Una pregunta es solo el comienzo <span aria-hidden="true">↓</span></a></div>
+  </section>
+<section id="learning-path" class="home-shell learning-path" aria-labelledby="path-title">
+  <div class="section-heading-home"><p class="home-kicker">TUS PRIMEROS PASOS</p><h2 id="path-title">De “¿y si…?”<br>a “¿cómo lo sabemos?”</h2><p>No necesitas tener todas las respuestas para empezar.<br>Solo una pregunta que valga la pena investigar.</p></div>
+  <ol class="learning-steps">
+    <li><span class="step-number">01 / LEE</span><h3>Lee la pregunta.</h3><p>Empieza con el seguro médico. Conoce a las personas, el problema y la comparación detrás de la evidencia.</p><a href="book/_book/notebooks_quarto/01-randomized-trials.html">Comienza el primer capítulo (en inglés) <span aria-hidden="true">↗</span></a></li>
+    <li><span class="step-number">02 / EXPLORA</span><h3>Explora la evidencia.</h3><p>Abre un notebook guiado, haz un gráfico y observa lo que los datos pueden —y no pueden— decirte.</p><a href="data-dictionary.html#ch1-rand-balance-csv">Conoce los datos de RAND (en inglés) <span aria-hidden="true">↗</span></a></li>
+    <li><span class="step-number">03 / EXPLICA</span><h3>Haz tuya la idea.</h3><p>Explica la comparación con tus propias palabras. Resuelve tus dudas con un tutor de IA.</p><a href="tutors.html">Razónalo con un tutor (en inglés) <span aria-hidden="true">↗</span></a></li>
+  </ol>
+</section><section id="curriculum" class="home-curriculum" aria-labelledby="curriculum-title"><div class="home-shell">
+  <div class="section-heading-home curriculum-heading"><div><p class="home-kicker">SEIS CAPÍTULOS. PREGUNTAS QUE IMPORTAN.</p><h2 id="curriculum-title">Aprende a ver<br><span>las causas de otra forma.</span></h2></div><p>Sigue los capítulos en orden o vuelve a la pregunta en la que estás trabajando. Lee, programa, mira o escucha: cada capítulo te ofrece una forma de entrar. Los mapas mentales están en español; los capítulos, notebooks, diapositivas, videos y pódcasts están en inglés.</p></div>
+  <section class="methods-overview" aria-labelledby="overview-title">
+    <div class="overview-heading"><span class="overview-mark" aria-hidden="true">✳</span><div><h2 id="overview-title" class="overview-title">Los cinco furiosos</h2><small>Un panorama visual de los métodos</small></div></div>
+    <div class="overview-content">
+      <p class="overview-intro">Cinco métodos para separar <span>causa de correlación.</span></p>
+      <div class="overview-grid">
+          <article class="overview-card overview-rct" aria-labelledby="overview-rct-title">
+            <div class="overview-card-heading"><span class="overview-number">01</span><h3 id="overview-rct-title">ECA</h3></div>
+            <p class="overview-method-name">Experimentos aleatorios</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="Barras de tratamiento y control, con una barra de tratamiento más alta."><path class="overview-axis" d="M24 20V150H216"/><rect x="45" y="76" width="28" height="74" rx="4" fill="currentColor" opacity=".65"/><rect x="80" y="48" width="28" height="102" rx="4" fill="currentColor"/><rect x="139" y="76" width="28" height="74" rx="4" fill="currentColor" opacity=".35"/><rect x="174" y="76" width="28" height="74" rx="4" fill="currentColor" opacity=".35"/><text x="76" y="177">Tratamiento</text><text x="170" y="177">Control</text></svg>
+            <div class="overview-equation"><span>ATE = E[Y<sub>1</sub>] − E[Y<sub>0</sub>]</span></div>
+            <p class="overview-assumption">La asignación aleatoria elimina el sesgo de selección</p>
+          </article>
+          <article class="overview-card overview-ols" aria-labelledby="overview-ols-title">
+            <div class="overview-card-heading"><span class="overview-number">02</span><h3 id="overview-ols-title">MCO</h3></div>
+            <p class="overview-method-name">Regresión</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="Diagrama de dispersión con una recta de regresión ajustada de pendiente positiva."><path class="overview-axis" d="M24 20V150H216"/><path class="overview-stroke" d="M32 137L207 39"/><circle cx="43" cy="137" r="4.5" fill="currentColor" opacity=".75"/><circle cx="52" cy="111" r="4.5" fill="currentColor" opacity=".75"/><circle cx="66" cy="121" r="4.5" fill="currentColor" opacity=".75"/><circle cx="73" cy="97" r="4.5" fill="currentColor" opacity=".75"/><circle cx="85" cy="130" r="4.5" fill="currentColor" opacity=".75"/><circle cx="91" cy="109" r="4.5" fill="currentColor" opacity=".75"/><circle cx="103" cy="81" r="4.5" fill="currentColor" opacity=".75"/><circle cx="112" cy="95" r="4.5" fill="currentColor" opacity=".75"/><circle cx="122" cy="62" r="4.5" fill="currentColor" opacity=".75"/><circle cx="132" cy="86" r="4.5" fill="currentColor" opacity=".75"/><circle cx="144" cy="62" r="4.5" fill="currentColor" opacity=".75"/><circle cx="154" cy="72" r="4.5" fill="currentColor" opacity=".75"/><circle cx="166" cy="32" r="4.5" fill="currentColor" opacity=".75"/><circle cx="178" cy="64" r="4.5" fill="currentColor" opacity=".75"/><circle cx="192" cy="29" r="4.5" fill="currentColor" opacity=".75"/></svg>
+            <div class="overview-equation"><span>Y = α + βX + ε</span></div>
+            <p class="overview-assumption">Todos los confusores se observan y se controlan</p>
+          </article>
+          <article class="overview-card overview-iv" aria-labelledby="overview-iv-title">
+            <div class="overview-card-heading"><span class="overview-number">03</span><h3 id="overview-iv-title">VI</h3></div>
+            <p class="overview-method-name">Variables instrumentales</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="Z afecta a D, que afecta a Y. El camino directo de Z a Y está tachado."><path class="overview-stroke" d="M60 105H88M142 105H170"/><path fill="currentColor" d="M88 105l-9-5v10zM170 105l-9-5v10z"/><path class="overview-stroke overview-dashed" d="M38 76Q116 -9 196 76" opacity=".55"/><path class="overview-stroke" d="M108 28l20 20m0-20l-20 20"/><circle cx="34" cy="105" r="26" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="2"/><text class="overview-node" x="34" y="113">Z</text><circle cx="116" cy="105" r="26" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="2"/><text class="overview-node" x="116" y="113">D</text><circle cx="198" cy="105" r="26" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="2"/><text class="overview-node" x="198" y="113">Y</text></svg>
+            <div class="overview-equation"><span>β<sub>IV</sub> = </span><span class="overview-fraction"><span>Cov(Y, Z)</span><span>Cov(D, Z)</span></span></div>
+            <p class="overview-assumption">El instrumento afecta a Y solo a través de D</p>
+          </article>
+          <article class="overview-card overview-rd" aria-labelledby="overview-rd-title">
+            <div class="overview-card-heading"><span class="overview-number">04</span><h3 id="overview-rd-title">RD</h3></div>
+            <p class="overview-method-name">Regresión discontinua</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="Los resultados saltan en el umbral de la variable de asignación."><path class="overview-axis" d="M24 20V150H216"/><path class="overview-stroke overview-dashed" opacity=".5" d="M120 20V150"/><circle cx="36" cy="121" r="4.5" fill="currentColor"/><circle cx="43" cy="136" r="4.5" fill="currentColor"/><circle cx="52" cy="125" r="4.5" fill="currentColor"/><circle cx="61" cy="112" r="4.5" fill="currentColor"/><circle cx="72" cy="118" r="4.5" fill="currentColor"/><circle cx="81" cy="132" r="4.5" fill="currentColor"/><circle cx="96" cy="108" r="4.5" fill="currentColor"/><circle cx="106" cy="121" r="4.5" fill="currentColor"/><circle cx="111" cy="101" r="4.5" fill="currentColor"/><circle cx="130" cy="57" r="4.5" fill="currentColor"/><circle cx="139" cy="70" r="4.5" fill="currentColor"/><circle cx="148" cy="43" r="4.5" fill="currentColor"/><circle cx="159" cy="62" r="4.5" fill="currentColor"/><circle cx="170" cy="37" r="4.5" fill="currentColor"/><circle cx="181" cy="52" r="4.5" fill="currentColor"/><circle cx="193" cy="26" r="4.5" fill="currentColor"/><circle cx="203" cy="40" r="4.5" fill="currentColor"/></svg>
+            <div class="overview-equation"><span>τ = <span class="overview-limit">lim<small>umbral</small></span> Y<sup>+</sup> − <span class="overview-limit">lim<small>umbral</small></span> Y<sup>−</sup></span></div>
+            <p class="overview-assumption">Sin manipulación de la variable de asignación</p>
+          </article>
+          <article class="overview-card overview-did" aria-labelledby="overview-did-title">
+            <div class="overview-card-heading"><span class="overview-number">05</span><h3 id="overview-did-title">DD</h3></div>
+            <p class="overview-method-name">Diferencias en diferencias</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="Tendencias paralelas antes del tratamiento; después, la tendencia de los tratados se separa hacia arriba."><path class="overview-axis" d="M24 20V150H216"/><path class="overview-stroke overview-dashed" opacity=".5" d="M120 20V150"/><path class="overview-stroke" d="M25 118L120 83L213 23"/><path class="overview-stroke overview-dashed" opacity=".75" d="M25 139L120 104L213 70"/></svg>
+            <div class="overview-equation overview-equation-stacked"><span>δ = (Y<sub>T,post</sub> − Y<sub>T,pre</sub>)</span><span>− (Y<sub>C,post</sub> − Y<sub>C,pre</sub>)</span></div>
+            <p class="overview-assumption">Tendencias paralelas en ausencia de tratamiento</p>
+          </article>
+      </div>
+      <div class="overview-footer"><p>Domina la econometría causal <span>— Una guía de estudio con IA</span></p><a href="cover.jpg" target="_blank" rel="noopener">Ver la ilustración original <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+  <div class="chapter-grid"><article id="chapter-1" class="card chapter-card" aria-labelledby="chapter-title-1">
+      <div class="chapter-top"><span class="chapter-number">01</span><span class="chapter-method">Experimentos aleatorios</span><span class="chapter-tag">Empieza aquí</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-1">¿El seguro médico mejora la salud de las personas?</h3><p>Empieza con una pregunta que importa. Descubre cómo el experimento RAND y la lotería de Oregon ayudan a construir una comparación justa.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Ampliar el mapa mental del capítulo 1" onclick="openImage('assets/home-es/full/ch01-randomized-trials-v1.webp', 'Mapa mental del capítulo 1: Experimentos aleatorios')"><img src="assets/home-es/full/ch01-randomized-trials-v1.webp" alt="Mapa mental del capítulo 1: Experimentos aleatorios" loading="lazy" width="1536" height="1024"><span class="art-caption">Explora el mapa del capítulo <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/01-randomized-trials.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Leer el capítulo</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Abrir notebook con IA</a><a class="chapter-action chapter-action-secondary" href="slides/ch01/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Diapositivas</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('eGRd8jBdNYg','Experimentos aleatorios: el arma ideal (video en inglés)');return false;"><span aria-hidden="true">▷</span>Ver video</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-1-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Escucha el pódcast (en inglés) <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Activa JavaScript para usar el reproductor del pódcast del capítulo 1, o <a href="mindmaps-podcast/transcripts/ch01-randomized-trials.html" rel="noopener" target="_blank">Abrir transcripción (se abre en una pestaña nueva)</a>.</p></noscript>
+      <section id="chapter-1-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch01-randomized-trials.json" aria-label="Reproductor de estudio del pódcast del capítulo 1 (en inglés)" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Abrir en pantalla completa el mapa mental: Experimentos aleatorios" onclick="openImage('assets/home-es/full/ch01-randomized-trials-v1.webp', 'Mapa mental del capítulo 1: Experimentos aleatorios')">
+                <img src="assets/home-es/full/ch01-randomized-trials-v1.webp" alt="Mapa mental: Experimentos aleatorios" loading="lazy">
+                <span>⊕ Mapa mental</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> Pódcast con IA · <span data-episode-minutes>39</span> min</p>
+                  <h5>Capítulo 1 · Experimentos aleatorios (en inglés)</h5>
+                  <p class="podcast-now" aria-live="polite">Ahora: Apertura</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Cerrar el reproductor del pódcast"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Pódcast del capítulo 1 (en inglés)">
+                  <source src="mindmaps-podcast/audio/ch01-randomized-trials.opus" type='audio/ogg; codecs="opus"'>
+                  <source src="mindmaps-podcast/audio/ch01-randomized-trials.mp3" type="audio/mpeg">
+                  Tu navegador no puede reproducir audio. Puedes leer la transcripción más abajo.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Buscar en el pódcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>38:56</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Retroceder 15 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Reproducir pódcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Avanzar 30 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Velocidad de reproducción: 1×. Haz clic para cambiarla">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Secciones del episodio"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-1-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Leer en paralelo</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch01-randomized-trials.html" target="_blank" rel="noopener" aria-label="Abrir transcripción (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Abrir transcripción</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/3O60EvgThQMkkdb9Y3qonF" target="_blank" rel="noopener" aria-label="Escuchar en Spotify (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Escuchar en Spotify</a>
+              </div>
+              <div id="chapter-1-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Transcripción sincronizada. Selecciona un pasaje para ir a ese punto." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Seguir el audio</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article>
+<article id="chapter-2" class="card chapter-card" aria-labelledby="chapter-title-2">
+      <div class="chapter-top"><span class="chapter-number">02</span><span class="chapter-method">Regresión</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-2">¿Vale la pena pagar más por una universidad de élite?</h3><p>Los estudiantes llegan con orígenes y ambiciones distintas. Explora lo que la regresión puede tener en cuenta y lo que todavía puede pasar por alto.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Ampliar el mapa mental del capítulo 2" onclick="openImage('assets/home-es/full/ch02-regression-v2.webp', 'Mapa mental del capítulo 2: Regresión')"><img src="assets/home-es/full/ch02-regression-v2.webp" alt="Mapa mental del capítulo 2: Regresión" loading="lazy" width="1536" height="1024"><span class="art-caption">Explora el mapa del capítulo <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/02-regression.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Leer el capítulo</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Abrir notebook con IA</a><a class="chapter-action chapter-action-secondary" href="slides/ch02/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Diapositivas</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('iPBV3BlV7jk','Ceteris paribus: universidad pública vs. privada (video en inglés)');return false;"><span aria-hidden="true">▷</span>Ver video</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-2-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Escucha el pódcast (en inglés) <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Activa JavaScript para usar el reproductor del pódcast del capítulo 2, o <a href="mindmaps-podcast/transcripts/ch02-regression.html" rel="noopener" target="_blank">Abrir transcripción (se abre en una pestaña nueva)</a>.</p></noscript>
+      <section id="chapter-2-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch02-regression.json" aria-label="Reproductor de estudio del pódcast del capítulo 2 (en inglés)" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Abrir en pantalla completa el mapa mental: Regresión" onclick="openImage('assets/home-es/full/ch02-regression-v2.webp', 'Mapa mental del capítulo 2: Regresión')">
+                <img src="assets/home-es/full/ch02-regression-v2.webp" alt="Mapa mental: Regresión" loading="lazy">
+                <span>⊕ Mapa mental</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> Pódcast con IA · <span data-episode-minutes>40</span> min</p>
+                  <h5>Capítulo 2 · Regresión (en inglés)</h5>
+                  <p class="podcast-now" aria-live="polite">Ahora: Apertura</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Cerrar el reproductor del pódcast"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Pódcast del capítulo 2 (en inglés)">
+                  <source src="mindmaps-podcast/audio/ch02-regression.opus" type='audio/ogg; codecs="opus"'>
+                  <source src="mindmaps-podcast/audio/ch02-regression.mp3" type="audio/mpeg">
+                  Tu navegador no puede reproducir audio. Puedes leer la transcripción más abajo.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Buscar en el pódcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>39:31</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Retroceder 15 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Reproducir pódcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Avanzar 30 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Velocidad de reproducción: 1×. Haz clic para cambiarla">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Secciones del episodio"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-2-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Leer en paralelo</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch02-regression.html" target="_blank" rel="noopener" aria-label="Abrir transcripción (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Abrir transcripción</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/2gE66Q3fTts4fnU19mctyo" target="_blank" rel="noopener" aria-label="Escuchar en Spotify (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Escuchar en Spotify</a>
+              </div>
+              <div id="chapter-2-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Transcripción sincronizada. Selecciona un pasaje para ir a ese punto." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Seguir el audio</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article>
+<article id="chapter-3" class="card chapter-card" aria-labelledby="chapter-title-3">
+      <div class="chapter-top"><span class="chapter-number">03</span><span class="chapter-method">Variables instrumentales</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-3">¿Qué pasa si las personas ignoran el tratamiento asignado?</h3><p>Una lotería puede cambiar una oportunidad sin decidir lo que hacen las personas. Sigue esa variación para entender de quién es el efecto causal que podemos conocer.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Ampliar el mapa mental del capítulo 3" onclick="openImage('assets/home-es/full/ch03-instrumental-variables-v1.webp', 'Mapa mental del capítulo 3: Variables instrumentales')"><img src="assets/home-es/full/ch03-instrumental-variables-v1.webp" alt="Mapa mental del capítulo 3: Variables instrumentales" loading="lazy" width="1536" height="1024"><span class="art-caption">Explora el mapa del capítulo <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/03-instrumental-variables.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Leer el capítulo</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Abrir notebook con IA</a><a class="chapter-action chapter-action-secondary" href="slides/ch03/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Diapositivas</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('eoJUPd6104Q','Introducción a las variables instrumentales (video en inglés)');return false;"><span aria-hidden="true">▷</span>Ver video</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('3rVPqTZGOis','Variables instrumentales: video con IA (en inglés)','notebooklm');return false;"><span aria-hidden="true">▷</span>Ver video 2</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-3-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Escucha el pódcast (en inglés) <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Activa JavaScript para usar el reproductor del pódcast del capítulo 3, o <a href="mindmaps-podcast/transcripts/ch03-instrumental-variables.html" rel="noopener" target="_blank">Abrir transcripción (se abre en una pestaña nueva)</a>.</p></noscript>
+      <section id="chapter-3-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch03-instrumental-variables.json" aria-label="Reproductor de estudio del pódcast del capítulo 3 (en inglés)" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Abrir en pantalla completa el mapa mental: Variables instrumentales" onclick="openImage('assets/home-es/full/ch03-instrumental-variables-v1.webp', 'Mapa mental del capítulo 3: Variables instrumentales')">
+                <img src="assets/home-es/full/ch03-instrumental-variables-v1.webp" alt="Mapa mental: Variables instrumentales" loading="lazy">
+                <span>⊕ Mapa mental</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> Pódcast con IA · <span data-episode-minutes>35</span> min</p>
+                  <h5>Capítulo 3 · Variables instrumentales (en inglés)</h5>
+                  <p class="podcast-now" aria-live="polite">Ahora: Apertura</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Cerrar el reproductor del pódcast"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Pódcast del capítulo 3 (en inglés)">
+                  <source src="mindmaps-podcast/audio/ch03-instrumental-variables.opus" type='audio/ogg; codecs="opus"'>
+                  <source src="mindmaps-podcast/audio/ch03-instrumental-variables.mp3" type="audio/mpeg">
+                  Tu navegador no puede reproducir audio. Puedes leer la transcripción más abajo.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Buscar en el pódcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>35:22</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Retroceder 15 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Reproducir pódcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Avanzar 30 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Velocidad de reproducción: 1×. Haz clic para cambiarla">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Secciones del episodio"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-3-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Leer en paralelo</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch03-instrumental-variables.html" target="_blank" rel="noopener" aria-label="Abrir transcripción (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Abrir transcripción</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/2VnEMA9PTdX9x1zRnl0h56" target="_blank" rel="noopener" aria-label="Escuchar en Spotify (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Escuchar en Spotify</a>
+              </div>
+              <div id="chapter-3-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Transcripción sincronizada. Selecciona un pasaje para ir a ese punto." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Seguir el audio</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article>
+<article id="chapter-4" class="card chapter-card" aria-labelledby="chapter-title-4">
+      <div class="chapter-top"><span class="chapter-number">04</span><span class="chapter-method">Regresión discontinua</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-4">¿Puede un cumpleaños revelar el efecto del acceso al alcohol?</h3><p>A los 21 años, las reglas cambian. Mira cómo comparar a personas justo a cada lado de un umbral puede revelar un efecto causal local.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Ampliar el mapa mental del capítulo 4" onclick="openImage('assets/home-es/full/ch04-regression-discontinuity-v3.webp', 'Mapa mental del capítulo 4: Regresión discontinua')"><img src="assets/home-es/full/ch04-regression-discontinuity-v3.webp" alt="Mapa mental del capítulo 4: Regresión discontinua" loading="lazy" width="1536" height="1024"><span class="art-caption">Explora el mapa del capítulo <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/04-regression-discontinuity.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Leer el capítulo</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Abrir notebook con IA</a><a class="chapter-action chapter-action-secondary" href="slides/ch04/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Diapositivas</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('d4S2STNOHBk','Regresión discontinua: video con IA (en inglés)','notebooklm');return false;"><span aria-hidden="true">▷</span>Ver video</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-4-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Escucha el pódcast (en inglés) <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Activa JavaScript para usar el reproductor del pódcast del capítulo 4, o <a href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.html" rel="noopener" target="_blank">Abrir transcripción (se abre en una pestaña nueva)</a>.</p></noscript>
+      <section id="chapter-4-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch04-regression-discontinuity.json" aria-label="Reproductor de estudio del pódcast del capítulo 4 (en inglés)" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Abrir en pantalla completa el mapa mental: Regresión discontinua" onclick="openImage('assets/home-es/full/ch04-regression-discontinuity-v3.webp', 'Mapa mental del capítulo 4: Regresión discontinua')">
+                <img src="assets/home-es/full/ch04-regression-discontinuity-v3.webp" alt="Mapa mental: Regresión discontinua" loading="lazy">
+                <span>⊕ Mapa mental</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> Pódcast con IA · <span data-episode-minutes>35</span> min</p>
+                  <h5>Capítulo 4 · Regresión discontinua (en inglés)</h5>
+                  <p class="podcast-now" aria-live="polite">Ahora: Apertura</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Cerrar el reproductor del pódcast"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Pódcast del capítulo 4 (en inglés)">
+                  <source src="mindmaps-podcast/audio/ch04-regression-discontinuity.opus" type='audio/ogg; codecs="opus"'>
+                  <source src="mindmaps-podcast/audio/ch04-regression-discontinuity.mp3" type="audio/mpeg">
+                  Tu navegador no puede reproducir audio. Puedes leer la transcripción más abajo.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Buscar en el pódcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>35:12</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Retroceder 15 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Reproducir pódcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Avanzar 30 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Velocidad de reproducción: 1×. Haz clic para cambiarla">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Secciones del episodio"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-4-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Leer en paralelo</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch04-regression-discontinuity.html" target="_blank" rel="noopener" aria-label="Abrir transcripción (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Abrir transcripción</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/39cBXhzM2tEQ6Iy0IPHAxP" target="_blank" rel="noopener" aria-label="Escuchar en Spotify (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Escuchar en Spotify</a>
+              </div>
+              <div id="chapter-4-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Transcripción sincronizada. Selecciona un pasaje para ir a ese punto." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Seguir el audio</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article>
+<article id="chapter-5" class="card chapter-card" aria-labelledby="chapter-title-5">
+      <div class="chapter-top"><span class="chapter-number">05</span><span class="chapter-method">Diferencias en diferencias</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-5">¿Los préstamos de emergencia salvaron bancos?</h3><p>Dos distritos de la Reserva Federal enfrentaron la misma crisis con políticas distintas. Compara sus cambios en el tiempo y examina los supuestos.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Ampliar el mapa mental del capítulo 5" onclick="openImage('assets/home-es/full/ch05-differences-in-differences-v2.webp', 'Mapa mental del capítulo 5: Diferencias en diferencias')"><img src="assets/home-es/full/ch05-differences-in-differences-v2.webp" alt="Mapa mental del capítulo 5: Diferencias en diferencias" loading="lazy" width="1536" height="1024"><span class="art-caption">Explora el mapa del capítulo <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/05-differences-in-differences.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Leer el capítulo</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Abrir notebook con IA</a><a class="chapter-action chapter-action-secondary" href="slides/ch05/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Diapositivas</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('eiffOVbYvNc','Introducción a diferencias en diferencias (video en inglés)');return false;"><span aria-hidden="true">▷</span>Ver video</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-5-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Escucha el pódcast (en inglés) <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Activa JavaScript para usar el reproductor del pódcast del capítulo 5, o <a href="mindmaps-podcast/transcripts/ch05-differences-in-differences.html" rel="noopener" target="_blank">Abrir transcripción (se abre en una pestaña nueva)</a>.</p></noscript>
+      <section id="chapter-5-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch05-differences-in-differences.json" aria-label="Reproductor de estudio del pódcast del capítulo 5 (en inglés)" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Abrir en pantalla completa el mapa mental: Diferencias en diferencias" onclick="openImage('assets/home-es/full/ch05-differences-in-differences-v2.webp', 'Mapa mental del capítulo 5: Diferencias en diferencias')">
+                <img src="assets/home-es/full/ch05-differences-in-differences-v2.webp" alt="Mapa mental: Diferencias en diferencias" loading="lazy">
+                <span>⊕ Mapa mental</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> Pódcast con IA · <span data-episode-minutes>32</span> min</p>
+                  <h5>Capítulo 5 · Diferencias en diferencias (en inglés)</h5>
+                  <p class="podcast-now" aria-live="polite">Ahora: Apertura</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Cerrar el reproductor del pódcast"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Pódcast del capítulo 5 (en inglés)">
+                  <source src="mindmaps-podcast/audio/ch05-differences-in-differences.opus" type='audio/ogg; codecs="opus"'>
+                  <source src="mindmaps-podcast/audio/ch05-differences-in-differences.mp3" type="audio/mpeg">
+                  Tu navegador no puede reproducir audio. Puedes leer la transcripción más abajo.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Buscar en el pódcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>31:55</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Retroceder 15 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Reproducir pódcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Avanzar 30 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Velocidad de reproducción: 1×. Haz clic para cambiarla">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Secciones del episodio"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-5-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Leer en paralelo</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch05-differences-in-differences.html" target="_blank" rel="noopener" aria-label="Abrir transcripción (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Abrir transcripción</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/097YUmXOFyuwCr6xKKPyyB" target="_blank" rel="noopener" aria-label="Escuchar en Spotify (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Escuchar en Spotify</a>
+              </div>
+              <div id="chapter-5-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Transcripción sincronizada. Selecciona un pasaje para ir a ese punto." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Seguir el audio</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article>
+<article id="chapter-6" class="card chapter-card" aria-labelledby="chapter-title-6">
+      <div class="chapter-top"><span class="chapter-number">06</span><span class="chapter-method">Los salarios de la escolaridad</span><span class="chapter-tag">Todo junto</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-6">¿Más educación causa mayores ingresos?</h3><p>Une todos los métodos. Investiga la escolaridad, la habilidad y los títulos con gemelos, la fecha de nacimiento y cambios de política.</p></div>
+      <button class="chapter-thumb" type="button" aria-label="Ampliar el mapa mental del capítulo 6" onclick="openImage('assets/home-es/full/ch06-wages-of-schooling-v2.webp', 'Mapa mental del capítulo 6: Los salarios de la escolaridad')"><img src="assets/home-es/full/ch06-wages-of-schooling-v2.webp" alt="Mapa mental del capítulo 6: Los salarios de la escolaridad" loading="lazy" width="1536" height="1024"><span class="art-caption">Explora el mapa del capítulo <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/06-wages-of-schooling.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>Leer el capítulo</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>Abrir notebook con IA</a><a class="chapter-action chapter-action-secondary" href="slides/ch06/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>Diapositivas</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('sBYDNPNvt-I','Los salarios de la escolaridad: video con IA (en inglés)','notebooklm');return false;"><span aria-hidden="true">▷</span>Ver video</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-6-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> Escucha el pódcast (en inglés) <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>Activa JavaScript para usar el reproductor del pódcast del capítulo 6, o <a href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.html" rel="noopener" target="_blank">Abrir transcripción (se abre en una pestaña nueva)</a>.</p></noscript>
+      <section id="chapter-6-podcast" class="podcast-player" data-podcast="mindmaps-podcast/transcripts/ch06-wages-of-schooling.json" aria-label="Reproductor de estudio del pódcast del capítulo 6 (en inglés)" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="Abrir en pantalla completa el mapa mental: Los salarios de la escolaridad" onclick="openImage('assets/home-es/full/ch06-wages-of-schooling-v2.webp', 'Mapa mental del capítulo 6: Los salarios de la escolaridad')">
+                <img src="assets/home-es/full/ch06-wages-of-schooling-v2.webp" alt="Mapa mental: Los salarios de la escolaridad" loading="lazy">
+                <span>⊕ Mapa mental</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> Pódcast con IA · <span data-episode-minutes>46</span> min</p>
+                  <h5>Capítulo 6 · Los salarios de la escolaridad (en inglés)</h5>
+                  <p class="podcast-now" aria-live="polite">Ahora: Apertura</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="Cerrar el reproductor del pódcast"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="Pódcast del capítulo 6 (en inglés)">
+                  <source src="mindmaps-podcast/audio/ch06-wages-of-schooling.opus" type='audio/ogg; codecs="opus"'>
+                  <source src="mindmaps-podcast/audio/ch06-wages-of-schooling.mp3" type="audio/mpeg">
+                  Tu navegador no puede reproducir audio. Puedes leer la transcripción más abajo.
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="Buscar en el pódcast">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>45:33</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="Retroceder 15 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="Reproducir pódcast" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="Avanzar 30 segundos"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="Velocidad de reproducción: 1×. Haz clic para cambiarla">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="Secciones del episodio"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-6-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>Leer en paralelo</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/transcripts/ch06-wages-of-schooling.html" target="_blank" rel="noopener" aria-label="Abrir transcripción (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>Abrir transcripción</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/7Ai11CxTsj9yoVtL68UcvV" target="_blank" rel="noopener" aria-label="Escuchar en Spotify (se abre en una pestaña nueva)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Escuchar en Spotify</a>
+              </div>
+              <div id="chapter-6-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="Transcripción sincronizada. Selecciona un pasaje para ir a ese punto." tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> Seguir el audio</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article></div>
+  <p class="curriculum-credit">Pódcasts narrados con <a href="https://ai.google.dev/" target="_blank" rel="noopener">Gemini</a> · Videos con IA generados con <a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a> · Videos de clase de <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" rel="noopener">Marginal Revolution University</a></p>
+</div></section><section id="ai-notebooks" class="home-shell home-practice" aria-labelledby="practice-title">
+  <div class="practice-copy"><p class="home-kicker">CONVIERTE LA COMPRENSIÓN EN PRÁCTICA</p><h2 id="practice-title">Menos configuración.<br><span>Más descubrimiento.</span></h2><p>Abre un notebook de Python directamente en tu navegador. Sigue el código, explora datos reales y conecta cada estimación con la comparación que la sustenta.</p><p>Las herramientas de IA de Google Colab pueden ayudarte a entender el código y los errores. Tú pones las preguntas y revisas el razonamiento.</p><a class="home-button" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank" rel="noopener">Abre tu primer notebook (en inglés) <span aria-hidden="true">↗</span></a><span class="practice-note">Funciona en Google Colab · sin instalar nada</span></div>
+  <figure><button type="button" class="media-frame" aria-label="Reproducir el video sobre notebooks con IA" onclick="openVideo('V7RXyqFUR98','Programar en Colab con herramientas de IA (video en inglés)','google')"><img src="images/ai-powered-colab.jpg" alt="Programar en Colab con herramientas de IA" loading="lazy"><span class="play-overlay"><span class="play-btn" aria-hidden="true">▷</span></span></button><figcaption>Mira cómo funcionan los notebooks con IA (video en inglés).<br><span>Video: Julianne DeMars-Smith y Key Jung Lee · <a href="https://research.google/" target="_blank" rel="noopener">Google Research</a></span></figcaption></figure>
+</section>
+<nav class="home-shell toolkit-links" aria-label="Más formas de aprender">
+ <a href="data-dictionary.html"><span class="toolkit-icon" aria-hidden="true">▦</span><span><small>DESPIERTA TU CURIOSIDAD</small><strong>Conoce los datos</strong><span>Casos reales. Exploración guiada. (En inglés)</span></span><span aria-hidden="true">↗</span></a>
+ <a href="tutors.html"><span class="toolkit-icon" aria-hidden="true">◎</span><span><small>HAZ UNA MEJOR PREGUNTA</small><strong>Conversa para entender</strong><span>Tutores de IA que te ayudan a razonar. (En inglés)</span></span><span aria-hidden="true">↗</span></a>
+ <a href="podcasts.html"><span class="toolkit-icon" aria-hidden="true">♫</span><span><small>LLEVA LAS IDEAS CONTIGO</small><strong>Escucha y aprende</strong><span>Seis capítulos. Seis conversaciones. (En inglés)</span></span><span aria-hidden="true">↗</span></a>
+</nav><section class="home-resources" id="resources" style="scroll-margin-top: 80px;">
+<div class="home-shell">
+<div class="text-center mb-8">
+<p class="home-kicker">SIGUE TU CURIOSIDAD</p><h2 class="resources-title">Hay más por explorar.</h2>
+<p class="text-muted">Libros, cursos y guías prácticas para tu próxima pregunta. Los recursos están en inglés.</p>
+</div>
+<noscript><p class="resource-fallback">Activa JavaScript para filtrar el directorio de recursos. También puedes <a href="https://www.masteringmetrics.com/">visitar el sitio de recursos del libro original</a>.</p></noscript>
+<div class="flex flex-wrap justify-center gap-2 mb-8" id="resource-filters"></div>
+<!-- Resource cards grid (rendered by JS) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="resource-grid"></div>
+<!-- Show more button -->
+<div class="text-center mt-8 hidden" id="show-more-container">
+<button class="show-more-btn" id="show-more-btn" onclick="showMoreResources()">
+<span>+</span> Mostrar <span id="show-more-count">0</span> recursos más
+        </button>
+</div>
+<!-- Empty state -->
+<div class="hidden text-center py-12 text-muted" id="resource-empty">
+        Todavía no hay recursos en esta categoría.
+      </div>
+</div>
+</section></main><footer class="home-footer"><div class="home-shell">
+  <div class="footer-invitation"><p class="home-kicker">EMPIEZA CON UNA PREGUNTA. QUÉDATE POR LA EVIDENCIA.</p><h2>Tu primera comparación justa<br>empieza aquí.</h2><a class="home-button" href="book/_book/notebooks_quarto/01-randomized-trials.html">Comienza el capítulo 1 (en inglés) <span aria-hidden="true">↗</span></a></div>
+  <div class="footer-details"><div class="footer-author"><img src="https://github.com/cmg777.png" alt="Carlos Mendez" width="48" height="48" loading="lazy"><div><p>Un proyecto de aprendizaje de <a href="https://carlos-mendez.org" target="_blank" rel="noopener">Carlos Mendez</a></p><p>Basado en <a href="https://www.masteringmetrics.com/" target="_blank" rel="noopener"><em>Mastering ’Metrics</em></a><br>de Joshua Angrist y Jörn-Steffen Pischke.</p></div></div><div class="footer-feedback"><strong>Juntos aprendemos mejor.</strong><p>¿Encontraste un error o tienes una idea para mejorar?</p><a href="https://github.com/cmg777/intro2causal/issues" target="_blank" rel="noopener">Ayuda a mejorar este proyecto ↗</a></div></div>
+  <div class="footer-credits"><span>Domina la econometría causal</span><p>Hecho con herramientas de IA · <a href="https://claude.ai/code" target="_blank" rel="noopener">Claude Code</a> para la infraestructura y el contenido · <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a> para los tutores de IA</p><a href="#main">Volver arriba ↑</a></div>
+</div></footer>  <!-- Back to top -->
+  <button id="back-to-top" class="back-to-top" onclick="window.scrollTo({top:0})" aria-label="Volver arriba">&#8593;</button>
+
+  <script>
+    // Video modal
+    function openVideo(videoId, title, source) {
+      document.getElementById('video-title').textContent = title;
+      document.getElementById('video-iframe').src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+      var credit = document.getElementById('video-credit');
+      if (source === 'google') {
+        credit.innerHTML = 'Video de Julianne DeMars-Smith y Key Jung Lee, de <a href="https://research.google/" target="_blank" style="color:#38bdf8;">Google Research</a> &middot; Presiona Esc o haz clic fuera para cerrar';
+      } else if (source === 'notebooklm') {
+        credit.innerHTML = 'Generado con <a href="https://notebooklm.google/" target="_blank" style="color:#38bdf8;">NotebookLM</a> a partir de un resumen del capítulo &middot; Presiona Esc o haz clic fuera para cerrar';
+      } else {
+        credit.innerHTML = 'Video de <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color:#38bdf8;">Marginal Revolution University</a> &middot; Presiona Esc o haz clic fuera para cerrar';
+      }
+      var modal = document.getElementById('video-modal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideo() {
+      var modal = document.getElementById('video-modal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+      document.getElementById('video-iframe').src = '';
+      document.body.style.overflow = '';
+    }
+
+    // Image lightbox
+    function openImage(src, alt) {
+      var img = document.getElementById('image-modal-img');
+      img.src = src;
+      img.alt = alt;
+      document.getElementById('image-modal-title').textContent = alt;
+      var modal = document.getElementById('image-modal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImage() {
+      var modal = document.getElementById('image-modal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Close modals on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeVideo(); closeImage(); }
+    });
+
+    // Scroll progress bar + back to top
+    var topBtn = document.getElementById('back-to-top');
+    var scrollBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', function() {
+      // Progress bar
+      var scrollTop = window.scrollY;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = docHeight > 0 ? (scrollTop / docHeight * 100) : 0;
+      scrollBar.style.width = pct + '%';
+      // Back to top
+      if (scrollTop > 400) {
+        topBtn.classList.add('show');
+      } else {
+        topBtn.classList.remove('show');
+      }
+    });
+
+    // ============================================
+    // Other Resources: filterable card grid
+    // ============================================
+    var RESOURCE_CATEGORIES = [
+      { id: 'all',        label: 'Todos',                       icon: '📚' },
+      { id: 'general',    label: 'General',                   icon: '🌐' },
+      { id: 'rct',        label: 'Experimentos aleatorios',         icon: '🎲' },
+      { id: 'regression', label: 'Regresión',                icon: '📈' },
+      { id: 'iv',         label: 'Variables instrumentales',    icon: '🔧' },
+      { id: 'rd',         label: 'Regresión discontinua',  icon: '✂️' },
+      { id: 'did',        label: 'Diferencias en diferencias', icon: '⏳' },
+      { id: 'sc',         label: 'Control sintético',         icon: '🧪' },
+      { id: 'econ',       label: 'Python en economía',       icon: '🐍' }
+    ];
+
+    var RESOURCE_TYPES = {
+      video:   { label: 'Video',   action: 'Ver video' },
+      article: { label: 'Artículo', action: 'Leer artículo' },
+      website: { label: 'Sitio web', action: 'Visitar sitio' },
+      course:  { label: 'Curso',  action: 'Empezar a aprender' }
+    };
+
+    var RESOURCES = [
+      // General — foundational books, multi-method frameworks
+      { title: 'metricsAI',
+        description: "Guía de estudio de econometría con IA, de Carlos Mendez y A. Colin Cameron. Notebooks interactivos de Python, tutores de IA y pódcasts sobre el libro Analysis of Economics Data de Cameron.",
+        category: 'general', type: 'course', url: 'https://quarcs-lab.github.io/metricsai/', pinned: true },
+      { title: 'Causal Inference for The Brave and True',
+        description: 'Guía práctica de inferencia causal con Python, de Matheus Facure, que cubre los principales métodos econométricos y estadísticos con ejemplos reales.',
+        category: 'general', type: 'course', url: 'https://matheusfacure.github.io/python-causality-handbook/landing-page.html', pinned: true },
+      { title: 'Applied Causal Inference Powered by ML and AI',
+        description: 'Libro de texto de Chernozhukov, Hansen, Kallus, Spindler y Syrgkanis sobre inferencia causal potenciada con aprendizaje automático e IA: ML sin sesgo, efectos de tratamiento y variables instrumentales.',
+        category: 'general', type: 'course', url: 'https://causalml-book.org/', pinned: true },
+      { title: 'URFIE — Introductory Econometrics',
+        description: 'Libro de introducción a la econometría con ejemplos de código en R, Python y Julia.',
+        category: 'general', type: 'website', url: 'https://www.urfie.net/' },
+      { title: 'Causal Inference with DoWhy and the Lalonde Dataset',
+        description: "Estima el efecto causal de un programa de capacitación laboral sobre los ingresos con el marco de cuatro pasos de DoWhy en Python.",
+        category: 'general', type: 'article', url: 'https://carlos-mendez.org/post/python_dowhy/' },
+      { title: 'Causal Inference with Double Machine Learning',
+        description: 'Estima el efecto causal de un bono en efectivo sobre la duración del desempleo con Double Machine Learning en Python.',
+        category: 'general', type: 'article', url: 'https://carlos-mendez.org/post/python_doubleml/' },
+      { title: 'Introduction to Partial Identification',
+        description: 'Calcula cotas causales con confusión no medida usando las cotas de Manski y de Tian–Pearl en Python.',
+        category: 'general', type: 'article', url: 'https://carlos-mendez.org/post/python_partial_identification/' },
+
+      // Randomized Trials (RCT)
+      { title: 'Evaluating a Cash Transfer Program (RCT) with Panel Data in Stata',
+        description: 'Estima los efectos causales de una transferencia monetaria con ajuste por regresión, ponderación por probabilidad inversa, métodos doblemente robustos y DD.',
+        category: 'rct', type: 'article', url: 'https://carlos-mendez.org/post/stata_rct/' },
+
+      // Regression Discontinuity (RD)
+      { title: 'RDD in Stata: Evaluating a Tutoring Program',
+        description: "Estima el efecto causal de un programa de tutorías escolares sobre los puntajes del examen final con un diseño de regresión discontinua nítida en Stata.",
+        category: 'rd', type: 'article', url: 'https://carlos-mendez.org/post/stata_rd/' },
+
+      // Instrumental Variables (IV)
+      { title: 'IV Estimation with Panel Data: Economic Shocks and Civil Conflict',
+        description: 'Muestra la estimación de variables instrumentales por MC2E con datos de panel, usando la lluvia como instrumento de la actividad económica para estudiar los conflictos civiles en África (Stata).',
+        category: 'iv', type: 'article', url: 'https://carlos-mendez.org/post/stata_iv_panel/' },
+      { title: 'Do Institutions Cause Prosperity? An IV Tutorial in Python',
+        description: 'Replica a Acemoglu, Johnson y Robinson (2001) usando la mortalidad de los colonos como instrumento de la calidad institucional: MC2E, diagnóstico de instrumentos débiles y pruebas de sobreidentificación con pyfixest y linearmodels.',
+        category: 'iv', type: 'article', url: 'https://carlos-mendez.org/post/python_iv/' },
+      { title: 'Do Institutions Cause Prosperity? An IV Tutorial in Stata',
+        description: 'Replica a Acemoglu, Johnson y Robinson (2001) usando la mortalidad de los colonos como instrumento de la calidad institucional: MC2E con ivreg2, pruebas de robustez y pruebas de sobreidentificación J de Hansen en Stata.',
+        category: 'iv', type: 'article', url: 'https://carlos-mendez.org/post/stata_iv/' },
+
+      // Regression — Frisch–Waugh–Lovell theorem
+      { title: 'The FWL Theorem: Making Multivariate Regressions Intuitive',
+        description: 'Usa el teorema de Frisch–Waugh–Lovell para aislar relaciones causales eliminando el efecto de los confusores en datos simulados de tiendas minoristas (Python).',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/python_fwl/' },
+      { title: 'Visualizing Regression with FWL in R',
+        description: 'Guía práctica del paquete fwlplot: del teorema de Frisch–Waugh–Lovell y la confusión simulada a la visualización de efectos fijos en datos de panel reales.',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/r_fwlplot/' },
+      { title: 'Visualizing Regression with FWL in Stata',
+        description: 'Guía práctica del paquete scatterfit: del teorema de Frisch–Waugh–Lovell y la confusión simulada a la visualización de efectos fijos en datos de panel reales.',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/stata_fwl/' },
+      { title: 'TWFE Demystified: Manual Demeaning via the FWL Theorem',
+        description: 'Muestra, con el teorema de Frisch–Waugh–Lovell, que los efectos fijos de dos vías son simplemente MCO sobre datos centrados, con un panel práctico de convergencia de Barro en R.',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/r_demeaning_twfe/' },
+      { title: 'Introduction to Panel Data Methods in Python',
+        description: 'Implementa siete estimadores de panel clásicos —MCO agrupados, between, primeras diferencias, efectos fijos, TWFE, efectos aleatorios y Mundlak/CRE— con pyfixest y linearmodels en un panel real de salarios.',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/python_panel_intro/' },
+
+      // Differences-in-Differences (DiD)
+      { title: 'Introduction to Difference-in-Differences (DiD) in Python',
+        description: 'Guía completa de DD en Python con PyFixest: de los cálculos manuales 2x2 a la regresión TWFE y los diseños de estudio de eventos.',
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/python_did101', pinned: true },
+      { title: 'Introduction to Difference-in-Differences (DiD) in Stata',
+        description: 'Guía completa de DD con un caso de estudio de un programa de tutorías: de los cálculos manuales 2x2 a la regresión TWFE y los diseños de estudio de eventos.',
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/stata_did/' },
+      { title: 'Sensitivity Analysis for Parallel Trends in DiD (honestdid)',
+        description: 'Evalúa qué tan robustos son los resultados de diferencias en diferencias ante violaciones del supuesto de tendencias paralelas con el paquete honestdid en Stata.',
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/stata_honestdid/' },
+      { title: 'DiD for Policy Evaluation: A Tutorial in R',
+        description: "Guía práctica de diferencias en diferencias con tratamiento escalonado: de los problemas de TWFE al estimador de Callaway–Sant'Anna.",
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/r_did/' },
+      { title: 'Heterogeneous Treatment Effects via Two-Stage DiD',
+        description: 'Introducción a los efectos de tratamiento heterogéneos con el estimador de diferencias en diferencias en dos etapas en R.',
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/r_two_stage_did/' },
+
+      // Synthetic Control
+      { title: 'Six Ways to Evaluate a Policy: Comparative Case Studies of Proposition 99',
+        description: 'Tutorial imprescindible que compara seis métodos causales de evaluación de políticas —antes-después, DD, series de tiempo interrumpidas, RD en el tiempo, control sintético y series de tiempo estructurales bayesianas (CausalImpact)—, todos aplicados a la Proposición 99 de California en R.',
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/r_causalpolicy_workshop/', pinned: true },
+      { title: 'The Synthetic Control Method in Stata',
+        description: "Evalúa el programa contra el tabaco de la Proposición 99 de California con control sintético, pruebas placebo y pruebas de robustez dejando uno fuera en Stata.",
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/stata_sc/' },
+      { title: "Synthetic Control with Prediction Intervals: Germany's Reunification",
+        description: "Aplica control sintético con intervalos de predicción para cuantificar la incertidumbre del impacto de la reunificación alemana en el PIB.",
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/python_scpi/' },
+      { title: 'Causal Effects of a CO2 Tax',
+        description: 'Replica el artículo de la AEJ sobre los efectos causales de un impuesto al CO2 en Suecia con control sintético en R.',
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/r_causal_effects_of_co2_tax/' },
+      { title: 'Basic Synthetic Control',
+        description: "Tutorial básico de control sintético: cómo construir una unidad de control ponderada que se aproxime a la trayectoria previa al tratamiento de la unidad tratada.",
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/r_basic_synthetic_control/' },
+
+      // Python in Economics
+      { title: 'QuantEcon',
+        description: 'Clases de programación en Python para economía y finanzas, de Sargent y Stachurski.',
+        category: 'econ', type: 'website', url: 'https://quantecon.org/' },
+      { title: 'A First Course in Quantitative Economics',
+        description: 'Clases introductorias de economía cuantitativa con Python, simulación y visualización, de Sargent y Stachurski.',
+        category: 'econ', type: 'course', url: 'https://intro.quantecon.org/' },
+      { title: 'Intermediate Quantitative Economics with Python',
+        description: 'Clases intermedias de modelación económica cuantitativa y métodos computacionales, de Sargent y Stachurski.',
+        category: 'econ', type: 'course', url: 'https://python.quantecon.org/' },
+      { title: 'Quantitative Economics with JAX',
+        description: 'Modelación económica cuantitativa acelerada con GPU usando Google JAX, de Sargent y Stachurski.',
+        category: 'econ', type: 'course', url: 'https://jax.quantecon.org/' },
+      { title: 'Quantitative Economics with Julia',
+        description: 'Clases de modelación económica cuantitativa con Julia, de Perla, Sargent y Stachurski.',
+        category: 'econ', type: 'course', url: 'https://julia.quantecon.org/' },
+      { title: 'DS4DS — Data Science for Development',
+        description: 'Notebooks y aplicaciones de ciencia de datos computacional para estudios del desarrollo.',
+        category: 'econ', type: 'website', url: 'https://cmg777.github.io/ds4ds/' },
+      { title: 'DS4Bolivia',
+        description: 'Repositorio de ciencia de datos espaciales para analizar el desarrollo sostenible en Bolivia.',
+        category: 'econ', type: 'website', url: 'https://quarcs-lab.github.io/ds4bolivia/' }
+    ];
+
+    var currentResourceFilter = 'all';
+    var resourceShowAll = false;
+    var RESOURCE_INITIAL_COUNT = 9;
+
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function createResourceCard(r) {
+      var typeInfo = RESOURCE_TYPES[r.type] || RESOURCE_TYPES.website;
+      var titleEsc = escapeHtml(r.title);
+      var actionAttr = r.videoId
+        ? 'href="#" onclick="openVideo(\'' + r.videoId + '\', \'' + titleEsc.replace(/'/g, "\\'") + '\');return false;"'
+        : 'href="' + r.url + '" target="_blank" rel="noopener"';
+      var pinned = r.pinned
+        ? '<span class="resource-pinned-badge">&#9733; Imprescindible</span>'
+        : '';
+      return '<div class="resource-card hiding" data-category="' + r.category + '">'
+        + '<div class="flex items-center justify-between mb-3" style="gap:6px;">'
+        +   '<div class="flex items-center" style="gap:6px;flex-wrap:wrap;">'
+        +     '<span class="resource-type-badge type-' + r.type + '">' + typeInfo.label + '</span>'
+        +     pinned
+        +   '</div>'
+        +   '<span class="resource-cat-icon cat-' + r.category + '">'
+        +     (RESOURCE_CATEGORIES.find(function(c){return c.id===r.category;}) || {icon:''}).icon
+        +   '</span>'
+        + '</div>'
+        + '<h3 class="resource-title">' + titleEsc + '</h3>'
+        + '<p class="resource-desc line-clamp-2">' + escapeHtml(r.description) + '</p>'
+        + '<a ' + actionAttr + ' class="resource-link">'
+        +   typeInfo.action + ' <span class="arrow">&rarr;</span>'
+        + '</a>'
+        + '</div>';
+    }
+
+    function renderResourceFilters() {
+      var container = document.getElementById('resource-filters');
+      if (!container) return;
+      var focusedFilter = container.contains(document.activeElement) ? document.activeElement.getAttribute('data-filter') : null;
+      container.innerHTML = RESOURCE_CATEGORIES.map(function(cat) {
+        var count = cat.id === 'all'
+          ? RESOURCES.length
+          : RESOURCES.filter(function(r){return r.category === cat.id;}).length;
+        var active = currentResourceFilter === cat.id ? ' active' : '';
+        return '<button aria-pressed="' + (currentResourceFilter === cat.id) + '" class="filter-pill' + active + '" data-filter="' + cat.id + '" onclick="filterResources(\'' + cat.id + '\')">'
+          + '<span>' + cat.icon + '</span>'
+          + '<span>' + cat.label + '</span>'
+          + '<span class="pill-count">(' + count + ')</span>'
+          + '</button>';
+      }).join('');
+      if (focusedFilter) {
+        var replacement = Array.from(container.querySelectorAll('button')).find(function(button) { return button.getAttribute('data-filter') === focusedFilter; });
+        if (replacement) replacement.focus({preventScroll: true});
+      }
+    }
+
+    function renderResources() {
+      var grid = document.getElementById('resource-grid');
+      var empty = document.getElementById('resource-empty');
+      var moreContainer = document.getElementById('show-more-container');
+      var moreCount = document.getElementById('show-more-count');
+      if (!grid) return;
+
+      var filtered = currentResourceFilter === 'all'
+        ? RESOURCES.slice()
+        : RESOURCES.filter(function(r){return r.category === currentResourceFilter;});
+      filtered.sort(function(a, b){ return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0); });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        moreContainer.classList.add('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      var toShow = resourceShowAll ? filtered : filtered.slice(0, RESOURCE_INITIAL_COUNT);
+      var hasMore = filtered.length > RESOURCE_INITIAL_COUNT && !resourceShowAll;
+
+      grid.innerHTML = toShow.map(createResourceCard).join('');
+
+      if (hasMore) {
+        moreContainer.classList.remove('hidden');
+        moreCount.textContent = filtered.length - RESOURCE_INITIAL_COUNT;
+      } else {
+        moreContainer.classList.add('hidden');
+      }
+
+      requestAnimationFrame(function() {
+        grid.querySelectorAll('.resource-card').forEach(function(card, i) {
+          setTimeout(function() {
+            card.classList.remove('hiding');
+            card.classList.add('showing');
+          }, i * 40);
+        });
+      });
+    }
+
+    function filterResources(catId) {
+      currentResourceFilter = catId;
+      resourceShowAll = false;
+      renderResourceFilters();
+      renderResources();
+    }
+
+    function showMoreResources() {
+      resourceShowAll = true;
+      renderResources();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderResourceFilters();
+      renderResources();
+    });
+  </script>
+
+  <!-- Video Modal -->
+  <div id="video-modal" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;" onclick="if(event.target===this)closeVideo();">
+    <div style="width:95%;max-width:1400px;position:relative;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <p id="video-title" style="color:#e2e8f0;font-size:1rem;font-weight:600;margin:0;"></p>
+        <button onclick="closeVideo()" style="color:#94a3b8;font-size:1.5rem;background:none;border:none;cursor:pointer;line-height:1;" aria-label="Cerrar">&times;</button>
+      </div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
+        <iframe id="video-iframe" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="autoplay;encrypted-media" allowfullscreen></iframe>
+      </div>
+      <p id="video-credit" style="color:#64748b;font-size:0.75rem;margin-top:8px;text-align:center;">
+        Video de <a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color:#38bdf8;">Marginal Revolution University</a> &middot; Presiona Esc o haz clic fuera para cerrar
+      </p>
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div id="image-modal" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.9);align-items:center;justify-content:center;" onclick="if(event.target===this)closeImage();">
+    <div style="width:95%;max-width:1600px;position:relative;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <p id="image-modal-title" style="color:#e2e8f0;font-size:1rem;font-weight:600;margin:0;"></p>
+        <button onclick="closeImage()" style="color:#94a3b8;font-size:1.5rem;background:none;border:none;cursor:pointer;line-height:1;" aria-label="Cerrar">&times;</button>
+      </div>
+      <img id="image-modal-img" src="" alt="" style="width:100%;max-height:85vh;object-fit:contain;border-radius:12px;">
+      <p style="color:#64748b;font-size:0.75rem;margin-top:8px;text-align:center;">Presiona Esc o haz clic fuera para cerrar</p>
+    </div>
+  </div>
+</body>
+</html>

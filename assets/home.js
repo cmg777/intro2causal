@@ -9,6 +9,20 @@
     const playButton = showcase.querySelector('#showcase-play');
     const status = showcase.querySelector('#showcase-status');
     const count = showcase.querySelector('.showcase-count');
+    // Showcase copy for the English, Spanish and Japanese home pages.
+    const lang = document.documentElement.lang.slice(0, 2);
+    const copies = {
+      en: {pause: 'Pause', play: 'Play', pauseCycling: 'Pause automatic method cycling', startCycling: 'Start automatic method cycling',
+        choose: 'Choose a method, or press Play', hidden: 'Paused while the tab is hidden', away: 'Paused while out of view',
+        exploring: 'Paused while you explore', hovering: 'Paused while you hover', cycling: 'Changes every 10 seconds'},
+      es: {pause: 'Pausar', play: 'Reproducir', pauseCycling: 'Pausar el cambio automático de métodos', startCycling: 'Iniciar el cambio automático de métodos',
+        choose: 'Elige un método o presiona Reproducir', hidden: 'En pausa mientras la pestaña está oculta', away: 'En pausa mientras no está a la vista',
+        exploring: 'En pausa mientras exploras', hovering: 'En pausa mientras pasas el cursor', cycling: 'Cambia cada 10 segundos'},
+      ja: {pause: '一時停止', play: '再生', pauseCycling: '手法の自動切り替えを一時停止', startCycling: '手法の自動切り替えを開始',
+        choose: '手法を選ぶか、再生を押してください', hidden: 'タブが非表示のため一時停止中', away: '画面外のため一時停止中',
+        exploring: '操作中のため一時停止中', hovering: 'カーソルを合わせているため一時停止中', cycling: '10秒ごとに切り替わります'},
+    };
+    const copy = copies[lang] || copies.en;
     let current = 0;
     let playing = !reducedMotion.matches;
     let hovered = showcase.matches(':hover');
@@ -35,15 +49,15 @@
       const focused = showcase.contains(document.activeElement)
         && !(resumeFocused && document.activeElement === playButton);
       const hoverPaused = hovered && !resumeHovered;
-      playButton.querySelector('[data-playback-label]').textContent = playing ? 'Pause' : 'Play';
+      playButton.querySelector('[data-playback-label]').textContent = playing ? copy.pause : copy.play;
       playButton.querySelector('[data-playback-icon]').textContent = playing ? 'Ⅱ' : '▷';
-      playButton.setAttribute('aria-label', `${playing ? 'Pause' : 'Start'} automatic method cycling`);
-      status.textContent = !playing ? 'Choose a method, or press Play'
-        : document.hidden ? 'Paused while the tab is hidden'
-        : !inView ? 'Paused while out of view'
-        : focused ? 'Paused while you explore'
-        : hoverPaused ? 'Paused while you hover'
-        : 'Changes every 10 seconds';
+      playButton.setAttribute('aria-label', playing ? copy.pauseCycling : copy.startCycling);
+      status.textContent = !playing ? copy.choose
+        : document.hidden ? copy.hidden
+        : !inView ? copy.away
+        : focused ? copy.exploring
+        : hoverPaused ? copy.hovering
+        : copy.cycling;
       // Resume with a fresh interval; no queued transitions or catch-up jumps.
       if (playing && inView && !document.hidden && !hoverPaused && !focused) {
         timer = setTimeout(() => {

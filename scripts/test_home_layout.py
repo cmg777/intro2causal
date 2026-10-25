@@ -1,5 +1,7 @@
 """Check hero fit on laptops and unclipped, scrollable layouts on smaller screens.
 
+Runs against the English, Spanish and Japanese home pages.
+
 Run: uv run --with playwright python scripts/test_home_layout.py
 Optionally set PLAYWRIGHT_CHROMIUM_EXECUTABLE to an installed Chromium binary.
 """
@@ -59,7 +61,7 @@ def verify(browser, url):
                 assert target.evaluate('''el => {const r=el.getClientRects()[0];
                     return el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));}'''), f'{label}: {selector} obscured'
     page.close()
-    print(f'PASS: all five slides, credits, controls, and overflow at {len(VIEWPORTS)} sizes in both themes')
+    print(f'PASS {url.rsplit("/", 1)[-1] or "index.html"}: all five slides, credits, controls, and overflow at {len(VIEWPORTS)} sizes in both themes')
 
 
 if __name__ == '__main__':
@@ -70,7 +72,8 @@ if __name__ == '__main__':
             executable = os.environ.get('PLAYWRIGHT_CHROMIUM_EXECUTABLE')
             browser = playwright.chromium.launch(**({'executable_path': executable} if executable else {}))
             try:
-                verify(browser, f'http://127.0.0.1:{server.server_port}/')
+                for page_name in ['', 'index-es.html', 'index-ja.html']:
+                    verify(browser, f'http://127.0.0.1:{server.server_port}/{page_name}')
             finally:
                 browser.close()
     finally:

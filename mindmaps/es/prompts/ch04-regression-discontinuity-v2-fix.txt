@@ -1,0 +1,2 @@
+Use case: precise text correction. Edit the attached Spanish mind map (input image). Keep EVERYTHING else pixel-faithful: layout, illustrations, colors, diagrams, all other text, typography and size. Change ONLY the following:
+1. The lower-right green branch heading "Pon a prueba de diseño" must read exactly "Pon a prueba el diseño".

@@ -1,0 +1,2 @@
+Use case: precise text correction. Edit the attached Spanish mind map (input image). Keep EVERYTHING else pixel-faithful: layout, illustrations, colors, diagrams, all other text, typography and size. Change ONLY the following:
+1. In the lower part, the SECOND stack of books (between the "Escolaridad (S)" books and the five method boxes) has no label. Add the label "Escolaridad" directly below that second book stack, in the same white lettering style as "Escolaridad (S)". Do not move anything else.

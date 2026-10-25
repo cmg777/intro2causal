@@ -1,0 +1,42 @@
+CENTER: CAPÍTULO 6 / Los salarios de la escolaridad / ¿Más educación causa mayores ingresos?
+Keep the book, graduation cap, coins and rising arrow.
+UPPER LEFT cyan — Por qué engañan las brechas simples
+• ln W = α + ρS + e
+• La habilidad afecta la escolaridad y los salarios
+• El error de reporte puede sesgar las estimaciones hacia abajo
+• La ocupación es un mal control
+Labels: Habilidad / Escolaridad (S) / Ingresos (W) / Error de reporte
+MIDDLE LEFT purple — Comparaciones entre gemelos
+• Genes y crianza compartidos no implican habilidad no compartida idéntica
+• EF de gemelos: ~6% por año
+• Diferencias pequeñas amplifican el ruido
+• VI del gemelo: ~11%; requiere errores independientes
+• Pueden persistir diferencias no compartidas
+Papers: "Mi escolaridad" / "Tu escolaridad"; boxes "Medida con ruido" → "Corrección por VI"
+LOWER LEFT cyan — Instrumentos naturales
+• Trimestre de nacimiento + reglas de ingreso escolar
+• VI de trimestre de nacimiento: ~7% por año
+• VI de ley escolar: ~13%, incierto
+   • Primera etapa débil
+• Efectos para los cumplidores afectados
+Calendar "Trimestre de nacimiento": Q1 Ene–Mar, Q2 Abr–Jun, Q3 Jul–Sep, Q4 Oct–Dic. Document "Ley de escolaridad obligatoria". Labels "Escolaridad (S)"; brace "Ambos afectan los años de escolaridad"
+UPPER RIGHT purple — Umbral del diploma: RD difusa
+Local para estudiantes cerca del aprobado
+• Aprobar aumenta la obtención del diploma ~40 pp
+• Poco salto claro en los ingresos
+• Efecto del título ≠ retorno a la escolaridad
+• Aprobar no garantiza graduarse
+Chart: y-axis Pr(diploma) 0 to 1; x labels Debajo / Umbral / Arriba; label "Umbral de aprobación"; jump "~40 pp"; certificate "Diploma". Second small chart y-axis "Ingresos" flat, x labels Debajo / Umbral / Arriba.
+MIDDLE RIGHT green — Reforma de política: DD
+• Demostración sintética en el aula
+• Requiere tendencias paralelas
+• ρ ≈ DD ln(ingresos) ÷ DD escolaridad
+• La reforma afecta los ingresos solo vía la escolaridad
+Chart: y-axis "Log de ingresos"; x labels Pre / Post; calendar "Reforma de política"; lines "Tratados", "Contrafactual", "Control"
+LOWER RIGHT green — Compara diseños imperfectos
+• Lotería sintética: ECA + VI
+• Regresión, VI, RD y DD
+• Supuestos distintos, efectos distintos
+• Síntesis del capítulo: ~7–10% por año adicional
+• Porcentajes aproximados a partir de coeficientes logarítmicos
+Flow boxes: "ECA/VI (sintético)", "Regresión", "VI", "RD (diploma)", "DD (sintético)"; left label "Escolaridad"; right label "Ingresos (W)"

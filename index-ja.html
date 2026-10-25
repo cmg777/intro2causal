@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>因果推論の計量経済学</title>
+  <link rel="canonical" href="https://cmg777.github.io/intro2causal/index-ja.html">
+  <link rel="alternate" hreflang="en" href="https://cmg777.github.io/intro2causal/index.html">
+  <link rel="alternate" hreflang="es" href="https://cmg777.github.io/intro2causal/index-es.html">
+  <link rel="alternate" hreflang="ja" href="https://cmg777.github.io/intro2causal/index-ja.html">
+  <link rel="alternate" hreflang="x-default" href="https://cmg777.github.io/intro2causal/index.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/podcast-player.css?v=5">
+  <script src="assets/podcast-player.js?v=7" defer></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; }
+    code, .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Dark mode defaults */
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: background-color 0.3s, border-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    }
+    .card.pillar:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .text-blue { color: var(--blue); }
+    .text-purple { color: var(--purple); }
+    .text-green { color: var(--green); }
+    .text-muted { color: var(--text-muted); }
+    .bg-blue { background-color: var(--blue); }
+
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+    }
+    .btn-secondary {
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: border-color 0.2s, color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .pillar-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    /* Chapter resource links share a clear hover and keyboard-focus treatment. */
+    .chapter-card a:has(> img.h-8) {
+      display: inline-flex;
+      border-radius: 5px;
+      transition: transform .2s, filter .2s, box-shadow .2s;
+    }
+    .chapter-card a:has(> img.h-8):hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+      box-shadow: 0 3px 8px rgba(0,0,0,.18);
+    }
+    .chapter-card a:has(> img.h-8):focus-visible {
+      outline: 2px solid var(--text);
+      outline-offset: 4px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .chapter-card a:has(> img.h-8) { transition: none; }
+      .chapter-card a:has(> img.h-8):hover { transform: none; }
+    }
+
+    /* Chapter cards */
+    .chapter-card {
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-self: start;
+      gap: 0.75rem;
+    }
+    .chapter-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .chapter-thumb {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: var(--bg);
+    }
+    .chapter-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: zoom-in;
+      transition: transform 0.3s ease;
+    }
+    .chapter-thumb img:hover { transform: scale(1.03); }
+
+    /* AI notebooks video thumbnail */
+    .media-frame {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .media-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .media-frame .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.3);
+      transition: background 0.2s;
+    }
+    .media-frame:hover .play-overlay { background: rgba(0,0,0,0.4); }
+    .media-frame .play-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      padding-left: 6px;
+      transition: transform 0.2s;
+    }
+    .media-frame:hover .play-btn { transform: scale(1.1); }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.2s;
+      z-index: 50;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .back-to-top.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .back-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+    }
+
+    /* AI footer pills */
+    .ai-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .ai-pill:hover {
+      transform: translateY(-2px);
+      border-color: var(--blue);
+    }
+    .ai-pill img {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+
+    /* Scroll-triggered fade-in */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer author card */
+    .author-card {
+      display: inline-block;
+      padding: 24px 32px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background-color: var(--bg-card);
+    }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--green));
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* Gradient section divider */
+    .gradient-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--purple), transparent);
+      border: none;
+    }
+
+    /* ===== Other Resources section ===== */
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .filter-pill:hover {
+      color: var(--text);
+      border-color: var(--blue);
+    }
+    .filter-pill .pill-count {
+      font-size: 0.7rem;
+      opacity: 0.7;
+      font-weight: 500;
+    }
+    .filter-pill.active {
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+      border-color: transparent;
+    }
+    .filter-pill.active .pill-count { opacity: 0.85; }
+
+    .resource-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s, border-color 0.2s;
+    }
+    .resource-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--blue);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+    }
+    .resource-card.hiding {
+      opacity: 0;
+      transform: scale(0.96) translateY(8px);
+    }
+    .resource-card.showing {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .resource-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      background-color: var(--border);
+      color: var(--text);
+    }
+    .resource-type-badge.type-video    { background: rgba(239,68,68,0.15);  color: #f87171; }
+    .resource-type-badge.type-course   { background: rgba(167,139,250,0.15); color: var(--purple); }
+    .resource-type-badge.type-website  { background: rgba(148,163,184,0.18); color: var(--text-muted); }
+    .resource-type-badge.type-article  { background: rgba(56,189,248,0.15);  color: var(--blue); }
+
+    .resource-pinned-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: rgba(251,191,36,0.15);
+      color: #fbbf24;
+    }
+
+    .resource-cat-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .resource-cat-icon.cat-general    { background: rgba(56,189,248,0.15);  color: var(--blue); }
+    .resource-cat-icon.cat-rct        { background: rgba(52,211,153,0.15);  color: var(--green); }
+    .resource-cat-icon.cat-regression { background: rgba(34,211,238,0.15);  color: #22d3ee; }
+    .resource-cat-icon.cat-iv         { background: rgba(251,191,36,0.15);  color: #fbbf24; }
+    .resource-cat-icon.cat-rd         { background: rgba(248,113,113,0.15); color: #f87171; }
+    .resource-cat-icon.cat-did        { background: rgba(167,139,250,0.15); color: var(--purple); }
+    .resource-cat-icon.cat-sc         { background: rgba(251,146,60,0.15);  color: #fb923c; }
+    .resource-cat-icon.cat-econ       { background: rgba(52,211,153,0.15);  color: var(--green); }
+
+    .resource-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .resource-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--blue);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .resource-link:hover { color: var(--purple); }
+    .resource-link .arrow {
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    .resource-link:hover .arrow { transform: translateX(3px); }
+
+    .show-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s, color 0.2s;
+    }
+    .show-more-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      transform: translateY(-2px);
+    }
+  </style>
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/home.css?v=9">
+  <script src="assets/home.js?v=3" defer></script>
+  <meta name="description" content="相関と因果を見分ける力を身につけよう。6つのガイド付きの章、実データ、対話型のPythonノートブック、AIチューター、ポッドキャスト。">
+  <script>try{document.documentElement.classList.toggle('light',localStorage.getItem('theme')==='light')}catch(e){}</script>
+  <script src="assets/site.js?v=3" defer></script>
+  <noscript><style>.site-header .icon-button,.site-header .menu-button{display:none}@media(max-width:1100px){.site-header{position:relative}.site-header .mobile-nav[hidden]{display:block!important}}</style></noscript>
+</head>
+<body class="index-page">
+  <!-- Scroll Progress -->
+  <div id="scroll-progress" class="scroll-progress"></div>
+
+<a class="skip-link" href="#main">本文へ移動</a>
+<header class="site-header">
+  <nav class="site-nav" aria-label="メインナビゲーション">
+    <a class="brand" href="index-ja.html"><span class="brand-mark" aria-hidden="true">m<span>′</span></span> 因果推論の計量経済学</a>
+    <div class="nav-links" id="desktop-nav"><a href="index-ja.html" aria-current="page">ホーム</a><a href="book/_book/index.html">学習ガイド<span class="nav-lang-tag">（英語）</span></a><a href="podcasts-ja.html" hreflang="ja">AIポッドキャスト</a><a href="tutors.html">AIチューター<span class="nav-lang-tag">（英語）</span></a><a href="data-dictionary.html">データ辞典<span class="nav-lang-tag">（英語）</span></a><a href="cheatsheet.html">コード早見表<span class="nav-lang-tag">（英語）</span></a></div>
+    <div class="lang-switch" role="group" aria-label="言語"><a href="index.html" hreflang="en" lang="en" data-lang="en" title="English">EN</a><a href="index-es.html" hreflang="es" lang="es" data-lang="es" title="Español">ES</a><a href="index-ja.html" hreflang="ja" lang="ja" data-lang="ja" aria-current="true" title="日本語">JA</a></div>
+    <button id="site-theme" class="icon-button" type="button" aria-label="ライトテーマに切り替える" title="表示テーマを切り替える">☼</button>
+    <button id="site-menu" class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-nav">メニュー</button>
+  </nav>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="モバイルナビゲーション" hidden><a href="index-ja.html" aria-current="page">ホーム</a><a href="book/_book/index.html">学習ガイド<span class="nav-lang-tag">（英語）</span></a><a href="podcasts-ja.html" hreflang="ja">AIポッドキャスト</a><a href="tutors.html">AIチューター<span class="nav-lang-tag">（英語）</span></a><a href="data-dictionary.html">データ辞典<span class="nav-lang-tag">（英語）</span></a><a href="cheatsheet.html">コード早見表<span class="nav-lang-tag">（英語）</span></a><div class="lang-switch lang-switch-mobile" role="group" aria-label="言語"><a href="index.html" hreflang="en" lang="en" data-lang="en" title="English">EN</a><a href="index-es.html" hreflang="es" lang="es" data-lang="es" title="Español">ES</a><a href="index-ja.html" hreflang="ja" lang="ja" data-lang="ja" aria-current="true" title="日本語">JA</a></div></nav>
+</header>
+
+  <main id="main" tabindex="-1">
+
+  <section class="home-hero" aria-labelledby="page-title">
+    <div class="hero-orbit" aria-hidden="true"></div>
+    <div class="home-shell hero-stage">
+      <div class="home-hero-copy">
+        <p class="home-kicker"><span aria-hidden="true"></span> 原因と結果を見きわめるためのガイド</p>
+        <h1 id="page-title">因果推論の
+          <span class="hero-title-line"><span class="hero-title-accent">計量経済学</span></span></h1>
+        <p class="hero-hook">より良い問いを。<br>より公正な比較を。</p>
+        <p class="hero-summary">医療保険は健康を改善するのか。教育は所得を高めるのか。研究者が魅力的な問いから信頼できる証拠へとたどり着く方法を学びましょう。</p>
+        <div class="home-actions"><a class="home-button" href="book/_book/notebooks_quarto/01-randomized-trials.html">第1章から始める <span aria-hidden="true">↗</span></a><a class="home-text-link" href="#curriculum">すべての章を見る <span aria-hidden="true">↓</span></a></div>
+        <p class="hero-welcome">因果推論は初めてですか？ ここから始めましょう。</p>
+      </div>
+      <div class="hero-author">
+        <img src="https://github.com/cmg777.png" alt="Carlos Mendez" width="72" height="72">
+        <div>
+          <p>制作：<a href="https://carlos-mendez.org" target="_blank" rel="noopener">Carlos Mendez</a></p>
+          <p>原著：<a href="https://www.masteringmetrics.com/" target="_blank" rel="noopener"><em>Mastering ’Metrics</em></a><br>Joshua Angrist、Jörn-Steffen Pischke 著</p>
+        </div>
+      </div>
+      <section class="method-showcase" aria-label="因果推論の5つの手法">
+        <div class="showcase-heading"><span>5つの強力な手法</span><span class="showcase-count">01 / 05</span></div>
+        <div class="scene-deck">
+        <figure class="method-scene is-active" id="scene-rct" aria-labelledby="scene-title-rct">
+          <img class="scene-art" src="assets/homepage/rct-clinic.webp" srcset="assets/homepage/rct-clinic-small.webp 720w, assets/homepage/rct-clinic.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 1000px) min(680px, calc(100vw - 64px)), 600px" width="1200" height="800" alt="" fetchpriority="high">
+          <div class="scene-intro">
+            <p class="scene-method">無作為化比較試験</p>
+            <h2 id="scene-title-rct">医療保険は<br>健康を改善する？</h2>
+          </div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="rct-graph-title rct-graph-desc"><title id="rct-graph-title">RAND：高額医療のみの保険プランと比べた一般的な健康への効果</title><desc id="rct-graph-desc">第1章のモデルとデータで再計算しました。点は一般的な健康指数の単位で測った各プランの効果、線は家族単位でクラスター化した95%信頼区間です。3つの区間はすべて0を含みます。</desc><text class="plot-text graph-subtitle" x="24.00" y="22.00" text-anchor="start">一般的な健康 · 高額医療プランとの比較</text><path class="policy-marker" d="M305.00 40.00L305.00 187.00"/><text class="plot-text" x="24.00" y="71.00" text-anchor="start">無料の医療</text><g><title>無料の医療：-0.78、95%区間 -2.48〜0.92</title><path class="plot-line line-blue" d="M193.61 66.00L346.56 66.00"/><path class="plot-line line-blue" d="M193.61 61.00L193.61 71.00"/><path class="plot-line line-blue" d="M346.56 61.00L346.56 71.00"/><circle class="plot-dot" cx="270.08" cy="66" r="5"/></g><text class="plot-text" x="24.00" y="124.00" text-anchor="start">免責額あり</text><g><title>免責額あり：-0.87、95%区間 -2.76〜1.02</title><path class="plot-line line-purple" d="M180.89 119.00L350.86 119.00"/><path class="plot-line line-purple" d="M180.89 114.00L180.89 124.00"/><path class="plot-line line-purple" d="M350.86 114.00L350.86 124.00"/><circle class="dot-purple" cx="265.88" cy="119" r="5"/></g><text class="plot-text" x="24.00" y="177.00" text-anchor="start">自己負担率あり</text><g><title>自己負担率あり：0.61、95%区間 -1.16〜2.38</title><path class="plot-line line-purple" d="M252.90 172.00L412.17 172.00"/><path class="plot-line line-purple" d="M252.90 167.00L252.90 177.00"/><path class="plot-line line-purple" d="M412.17 167.00L412.17 177.00"/><circle class="dot-purple" cx="332.53" cy="172" r="5"/></g><path class="plot-axis" d="M170.00 198.00L440.00 198.00"/><text class="plot-text" x="170.00" y="219.00" text-anchor="middle">-3</text><text class="plot-text" x="305.00" y="219.00" text-anchor="middle">0</text><text class="plot-text" x="440.00" y="219.00" text-anchor="middle">+3</text><text class="plot-text graph-subtitle" x="305.00" y="242.00" text-anchor="middle">健康指数のポイント · 95%区間</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">一般的な健康に明確な改善は見られない。</p>
+            <p class="scene-explanation">RANDでは、無料の医療、免責額あり、自己負担率ありの各プランが一般的な健康に与える効果の95%区間は、いずれも0をまたいでいます。比較の相手は高額医療のみの保険であり、無保険ではありません。</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/01-randomized-trials.html">無作為化比較試験を学ぶ <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">再計算したRANDの結果 · 家族単位でクラスター化した区間。<br><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank" rel="noopener">Colabのソース ↗</a> · イラストはイメージです。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="method-scene" id="scene-regression" aria-labelledby="scene-title-regression" hidden>
+          <img class="scene-art" src="assets/homepage/regression-campus.webp" srcset="assets/homepage/regression-campus-small.webp 720w, assets/homepage/regression-campus.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 1000px) min(680px, calc(100vw - 64px)), 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">回帰分析</p><h2 id="scene-title-regression">学費の高い大学は<br>元が取れる？</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="regression-graph-title regression-graph-desc"><title id="regression-graph-title">私立大学プレミアム：ノートブックによる先行研究のまとめ</title><desc id="regression-graph-desc">第2章では、統制変数なしで約14%、選抜性を統制すると約7%、出願先を統制するとほぼ0と報告しています。これは先行研究のおおよその要約で、学生のミクロデータから再現した推定値ではありません。「ほぼ0」の正確な値は示されていません。</desc><text class="plot-text graph-subtitle" x="24.00" y="22.00" text-anchor="start">私立大学による所得プレミアム</text><path class="plot-grid" d="M24.00 84.00L456.00 84.00"/><text class="plot-text" x="24.00" y="65.00" text-anchor="start">統制変数なし</text><text class="plot-text label-blue result-value" x="448.00" y="65.00" text-anchor="end">~14%</text><path class="plot-grid" d="M24.00 139.00L456.00 139.00"/><text class="plot-text" x="24.00" y="120.00" text-anchor="start">選抜性を統制</text><text class="plot-text label-purple result-value" x="448.00" y="120.00" text-anchor="end">~7%</text><path class="plot-grid" d="M24.00 194.00L456.00 194.00"/><text class="plot-text" x="24.00" y="175.00" text-anchor="start">出願先を統制</text><text class="plot-text label-green result-value" x="448.00" y="175.00" text-anchor="end">ほぼ0</text><text class="plot-text graph-subtitle" x="240.00" y="230.00" text-anchor="middle">第2章で報告されたおおよその結果</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">統制変数を加えるとプレミアムは縮小する。</p>
+            <p class="scene-explanation">第2章は、統制変数を改善するにつれて私立大学プレミアムが約14%、7%、ほぼ0へと縮小することをまとめています。研究データはここでは利用できないため、これはノートブックによる先行研究のまとめです。</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/02-regression.html">回帰分析を学ぶ <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">ノートブックによる先行研究のまとめ · おおよその結果。<br><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" target="_blank" rel="noopener">Colabのソース ↗</a> · イラストはイメージです。</p>
+          </figcaption>
+        </figure>
+        <figure class="method-scene" id="scene-iv" aria-labelledby="scene-title-iv" hidden>
+          <img class="scene-art" src="assets/homepage/iv-lottery.webp" srcset="assets/homepage/iv-lottery-small.webp 720w, assets/homepage/iv-lottery.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 1000px) min(680px, calc(100vw - 64px)), 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">操作変数法</p><h2 id="scene-title-iv">学校の抽選で<br>学校の効果がわかる？</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="iv-graph-title iv-graph-desc"><title id="iv-graph-title">KIPP：第3章で報告された推定値</title><desc id="iv-graph-desc">ノートブックでは、第一段階が0.741、数学の点数への誘導形の効果が0.355標準偏差、遵守者に対する通学の操作変数推定値が0.48標準偏差と報告されています。これはノートブックで報告された推定値で、新たな再現ではありません。SDは標準偏差です。</desc><text class="plot-text graph-subtitle" x="240.00" y="25.00" text-anchor="middle">当選 → 通学：+74.1パーセントポイント</text><defs><marker id="iv-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#74ceff" stroke-width="1.5"/></marker></defs><rect class="graph-group treatment-group" x="8" y="65" width="134" height="82" rx="12"/><text class="plot-text label-blue" x="75.00" y="99.00" text-anchor="middle">抽選の</text><text class="plot-text label-blue" x="75.00" y="123.00" text-anchor="middle">当選</text><rect class="graph-group comparison-group" x="173" y="65" width="134" height="82" rx="12"/><text class="plot-text label-purple" x="240.00" y="99.00" text-anchor="middle">KIPP</text><text class="plot-text label-purple" x="240.00" y="123.00" text-anchor="middle">への通学</text><rect class="graph-group outcome-group" x="338" y="65" width="134" height="82" rx="12"/><text class="plot-text label-green" x="405.00" y="99.00" text-anchor="middle">数学の</text><text class="plot-text label-green" x="405.00" y="123.00" text-anchor="middle">点数</text><path class="plot-line line-blue" d="M146 106H166" marker-end="url(#iv-arrow)"/><path class="plot-line line-blue" d="M311 106H331" marker-end="url(#iv-arrow)"/><text class="plot-text" x="240.00" y="187.00" text-anchor="middle">当選 → 数学の点数：+0.355 SD</text><text class="plot-text label-green" x="240.00" y="220.00" text-anchor="middle">通学の効果：遵守者で+0.48 SD</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">抽選の遵守者にはプラスの効果。</p>
+            <p class="scene-explanation">第3章では、抽選の遵守者についてKIPPへの通学が数学の点数を+0.48標準偏差高めると報告しています。因果的に解釈するには、抽選が通学を通してのみ点数に影響する必要があります。</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/03-instrumental-variables.html">操作変数法を学ぶ <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">ノートブックで報告されたKIPPの推定値 · SD＝標準偏差。<br><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" target="_blank" rel="noopener">Colabのソース ↗</a> · イラストはイメージです。</p>
+          </figcaption>
+        </figure>
+        <figure class="method-scene" id="scene-rd" aria-labelledby="scene-title-rd" hidden>
+          <img class="scene-art" src="assets/homepage/rd-threshold.webp" srcset="assets/homepage/rd-threshold-small.webp 720w, assets/homepage/rd-threshold.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 1000px) min(680px, calc(100vw - 64px)), 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">回帰不連続デザイン</p><h2 id="scene-title-rd">お酒が飲めるようになると<br>健康リスクは変わる？</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="rd-graph-title rd-graph-desc"><title id="rd-graph-title">21歳前後の全死因死亡率：第4章を再現</title><desc id="rd-graph-desc">mlda_clean.csvの欠損のない48個の年齢区分の観測値をすべて描き、ノートブックのセル11と同じく閾値の両側で別々に線形回帰を当てはめています。死亡率は21歳で上に跳ね、閾値より上の当てはめた傾向は右下がりです。単位は10万人あたりの死亡数です。</desc><text class="plot-text graph-subtitle" x="60.00" y="22.00" text-anchor="start">10万人あたりの全死因死亡数</text><path class="plot-grid" d="M60.00 173.00L445.00 173.00"/><text class="plot-text" x="50.00" y="178.00" text-anchor="end">90</text><path class="plot-grid" d="M60.00 109.00L445.00 109.00"/><text class="plot-text" x="50.00" y="114.00" text-anchor="end">100</text><path class="plot-grid" d="M60.00 45.00L445.00 45.00"/><text class="plot-text" x="50.00" y="50.00" text-anchor="end">110</text><path class="plot-axis" d="M60.00 45.00L60.00 205.00"/><path class="plot-axis" d="M60.00 205.00L445.00 205.00"/><path class="policy-marker" d="M252.50 35.00L252.50 205.00"/><text class="plot-text" x="60.00" y="225.00" text-anchor="middle">19</text><text class="plot-text" x="156.25" y="225.00" text-anchor="middle">20</text><text class="plot-text label-green" x="252.50" y="225.00" text-anchor="middle">21</text><text class="plot-text" x="348.75" y="225.00" text-anchor="middle">22</text><text class="plot-text" x="445.00" y="225.00" text-anchor="middle">23</text><text class="plot-text graph-subtitle" x="252.00" y="245.00" text-anchor="middle">年齢（歳）</text><circle class="plot-dot" cx="66.59" cy="154.92" r="3"><title>19.068歳：10万人あたり92.825人の死亡</title></circle><circle class="plot-dot" cx="74.50" cy="140.36" r="3"><title>19.151歳：10万人あたり95.101人の死亡</title></circle><circle class="plot-dot" cx="82.41" cy="159.28" r="3"><title>19.233歳：10万人あたり92.144人の死亡</title></circle><circle class="plot-dot" cx="90.33" cy="183.06" r="3"><title>19.315歳：10万人あたり88.428人の死亡</title></circle><circle class="plot-dot" cx="98.24" cy="181.29" r="3"><title>19.397歳：10万人あたり88.705人の死亡</title></circle><circle class="plot-dot" cx="106.15" cy="171.77" r="3"><title>19.479歳：10万人あたり90.192人の死亡</title></circle><circle class="plot-dot" cx="114.06" cy="133.19" r="3"><title>19.562歳：10万人あたり96.220人の死亡</title></circle><circle class="plot-dot" cx="121.97" cy="175.46" r="3"><title>19.644歳：10万人あたり89.616人の死亡</title></circle><circle class="plot-dot" cx="129.88" cy="151.36" r="3"><title>19.726歳：10万人あたり93.382人の死亡</title></circle><circle class="plot-dot" cx="137.79" cy="167.51" r="3"><title>19.808歳：10万人あたり90.858人の死亡</title></circle><circle class="plot-dot" cx="145.70" cy="135.82" r="3"><title>19.890歳：10万人あたり95.810人の死亡</title></circle><circle class="plot-dot" cx="153.61" cy="146.39" r="3"><title>19.973歳：10万人あたり94.158人の死亡</title></circle><circle class="plot-dot" cx="161.52" cy="157.23" r="3"><title>20.055歳：10万人あたり92.465人の死亡</title></circle><circle class="plot-dot" cx="169.43" cy="120.23" r="3"><title>20.137歳：10万人あたり98.246人の死亡</title></circle><circle class="plot-dot" cx="177.35" cy="141.25" r="3"><title>20.219歳：10万人あたり94.960人の死亡</title></circle><circle class="plot-dot" cx="185.26" cy="151.33" r="3"><title>20.301歳：10万人あたり93.385人の死亡</title></circle><circle class="plot-dot" cx="193.17" cy="172.23" r="3"><title>20.384歳：10万人あたり90.121人の死亡</title></circle><circle class="plot-dot" cx="201.08" cy="157.60" r="3"><title>20.466歳：10万人あたり92.406人の死亡</title></circle><circle class="plot-dot" cx="208.99" cy="151.53" r="3"><title>20.548歳：10万人あたり93.354人の死亡</title></circle><circle class="plot-dot" cx="216.90" cy="158.74" r="3"><title>20.630歳：10万人あたり92.229人の死亡</title></circle><circle class="plot-dot" cx="224.81" cy="158.07" r="3"><title>20.712歳：10万人あたり92.332人の死亡</title></circle><circle class="plot-dot" cx="232.72" cy="155.93" r="3"><title>20.795歳：10万人あたり92.668人の死亡</title></circle><circle class="plot-dot" cx="240.63" cy="151.30" r="3"><title>20.877歳：10万人あたり93.390人の死亡</title></circle><circle class="plot-dot" cx="248.54" cy="145.67" r="3"><title>20.959歳：10万人あたり94.270人の死亡</title></circle><circle class="plot-dot dot-purple" cx="256.46" cy="75.28" r="3"><title>21.041歳：10万人あたり105.268人の死亡</title></circle><circle class="plot-dot dot-purple" cx="264.37" cy="102.17" r="3"><title>21.123歳：10万人あたり101.067人の死亡</title></circle><circle class="plot-dot dot-purple" cx="272.28" cy="128.41" r="3"><title>21.205歳：10万人あたり96.967人の死亡</title></circle><circle class="plot-dot dot-purple" cx="280.19" cy="90.91" r="3"><title>21.288歳：10万人あたり102.827人の死亡</title></circle><circle class="plot-dot dot-purple" cx="288.10" cy="102.73" r="3"><title>21.370歳：10万人あたり100.979人の死亡</title></circle><circle class="plot-dot dot-purple" cx="296.01" cy="101.08" r="3"><title>21.452歳：10万人あたり101.237人の死亡</title></circle><circle class="plot-dot dot-purple" cx="303.92" cy="112.22" r="3"><title>21.534歳：10万人あたり99.498人の死亡</title></circle><circle class="plot-dot dot-purple" cx="311.83" cy="139.71" r="3"><title>21.616歳：10万人あたり95.201人の死亡</title></circle><circle class="plot-dot dot-purple" cx="319.74" cy="126.55" r="3"><title>21.699歳：10万人あたり97.258人の死亡</title></circle><circle class="plot-dot dot-purple" cx="327.65" cy="115.86" r="3"><title>21.781歳：10万人あたり98.929人の死亡</title></circle><circle class="plot-dot dot-purple" cx="335.57" cy="94.52" r="3"><title>21.863歳：10万人あたり102.262人の死亡</title></circle><circle class="plot-dot dot-purple" cx="343.48" cy="129.27" r="3"><title>21.945歳：10万人あたり96.833人の死亡</title></circle><circle class="plot-dot dot-purple" cx="351.39" cy="112.19" r="3"><title>22.027歳：10万人あたり99.502人の死亡</title></circle><circle class="plot-dot dot-purple" cx="359.30" cy="134.14" r="3"><title>22.110歳：10万人あたり96.072人の死亡</title></circle><circle class="plot-dot dot-purple" cx="367.21" cy="134.80" r="3"><title>22.192歳：10万人あたり95.968人の死亡</title></circle><circle class="plot-dot dot-purple" cx="375.12" cy="117.89" r="3"><title>22.274歳：10万人あたり98.611人の死亡</title></circle><circle class="plot-dot dot-purple" cx="383.03" cy="122.10" r="3"><title>22.356歳：10万人あたり97.952人の死亡</title></circle><circle class="plot-dot dot-purple" cx="390.94" cy="125.56" r="3"><title>22.438歳：10万人あたり97.412人の死亡</title></circle><circle class="plot-dot dot-purple" cx="398.85" cy="124.94" r="3"><title>22.521歳：10万人あたり97.509人の死亡</title></circle><circle class="plot-dot dot-purple" cx="406.76" cy="137.40" r="3"><title>22.603歳：10万人あたり95.562人の死亡</title></circle><circle class="plot-dot dot-purple" cx="414.67" cy="128.05" r="3"><title>22.685歳：10万人あたり97.023人の死亡</title></circle><circle class="plot-dot dot-purple" cx="422.59" cy="113.00" r="3"><title>22.767歳：10万人あたり99.375人の死亡</title></circle><circle class="plot-dot dot-purple" cx="430.50" cy="145.38" r="3"><title>22.849歳：10万人あたり94.315人の死亡</title></circle><circle class="plot-dot dot-purple" cx="438.41" cy="125.66" r="3"><title>22.932歳：10万人あたり97.398人の死亡</title></circle><path class="plot-line line-blue" d="M66.59 160.07 L74.50 159.63 L82.41 159.20 L90.33 158.76 L98.24 158.33 L106.15 157.89 L114.06 157.46 L121.97 157.02 L129.88 156.59 L137.79 156.15 L145.70 155.72 L153.61 155.28 L161.52 154.85 L169.43 154.41 L177.35 153.98 L185.26 153.54 L193.17 153.11 L201.08 152.67 L208.99 152.24 L216.90 151.80 L224.81 151.37 L232.72 150.93 L240.63 150.49 L248.54 150.06"/><path class="plot-line line-purple" d="M256.46 101.53 L264.37 102.99 L272.28 104.45 L280.19 105.91 L288.10 107.37 L296.01 108.83 L303.92 110.29 L311.83 111.75 L319.74 113.21 L327.65 114.68 L335.57 116.14 L343.48 117.60 L351.39 119.06 L359.30 120.52 L367.21 121.98 L375.12 123.44 L383.03 124.90 L390.94 126.36 L398.85 127.82 L406.76 129.28 L414.67 130.74 L422.59 132.20 L430.50 133.66 L438.41 135.12"/></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">21歳で上方へのジャンプ。</p>
+            <p class="scene-explanation">これらの年齢区分ごとの死亡率と別々の線形の当てはめは第4章を再現したものです。死亡率は閾値で上昇します。因果的に解釈するには、ほかの要因が閾値でなめらかに変化する必要があります。</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/04-regression-discontinuity.html">回帰不連続デザインを学ぶ <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">観測された年齢区分と当てはめた直線 · 第4章。<br><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" target="_blank" rel="noopener">Colabのソース ↗</a> · イラストはイメージです。</p>
+          </figcaption>
+        </figure>
+        <figure class="method-scene" id="scene-did" aria-labelledby="scene-title-did" hidden>
+          <img class="scene-art" src="assets/homepage/did-banks.webp" srcset="assets/homepage/did-banks-small.webp 720w, assets/homepage/did-banks.webp 1200w" sizes="(max-width: 520px) calc(100vw - 40px), (max-width: 1000px) min(680px, calc(100vw - 64px)), 600px" width="1200" height="800" alt="" loading="lazy" decoding="async">
+          <div class="scene-intro"><p class="scene-method">差の差法</p><h2 id="scene-title-did">政策で銀行の<br>破綻は防げる？</h2></div>
+          <div class="scene-graph"><svg class="assignment-diagram method-plot" viewBox="0 0 480 246" role="img" aria-labelledby="did-graph-title did-graph-desc"><title id="did-graph-title">第5章を再現した銀行数と反実仮想</title><desc id="did-graph-desc">連邦準備制度の第6地区と第8地区における、1929〜1934年の毎年7月1日時点の銀行数です。どちらの地区でも銀行は減っています。第6地区の反実仮想（破線）はbanks_clean.csvからの値で、1930年を基準に比較群のその後の変化を当てはめています。1934年の第6地区の銀行数は102行で、反実仮想は79行です。</desc><text class="plot-text graph-subtitle" x="60.00" y="20.00" text-anchor="start">営業中の銀行数 · 7月1日時点</text><path class="plot-grid" d="M60.00 197.00L445.00 197.00"/><text class="plot-text" x="50.00" y="202.00" text-anchor="end">60</text><path class="plot-grid" d="M60.00 121.50L445.00 121.50"/><text class="plot-text" x="50.00" y="126.50" text-anchor="end">120</text><path class="plot-grid" d="M60.00 46.00L445.00 46.00"/><text class="plot-text" x="50.00" y="51.00" text-anchor="end">180</text><path class="plot-axis" d="M60.00 46.00L60.00 197.00"/><path class="plot-axis" d="M60.00 197.00L445.00 197.00"/><path class="policy-marker" d="M137.00 46.00L137.00 197.00"/><text class="plot-text graph-subtitle" x="137.00" y="39.00" text-anchor="middle">基準年</text><text class="plot-text graph-subtitle" x="60.00" y="218.00" text-anchor="middle">1929</text><text class="plot-text graph-subtitle" x="137.00" y="218.00" text-anchor="middle">1930</text><text class="plot-text graph-subtitle" x="214.00" y="218.00" text-anchor="middle">1931</text><text class="plot-text graph-subtitle" x="291.00" y="218.00" text-anchor="middle">1932</text><text class="plot-text graph-subtitle" x="368.00" y="218.00" text-anchor="middle">1933</text><text class="plot-text graph-subtitle" x="445.00" y="218.00" text-anchor="middle">1934</text><path class="plot-line line-green counterfactual" d="M60.00 95.07 L137.00 102.62 L214.00 144.15 L291.00 159.25 L368.00 170.57 L445.00 173.09"/><path class="plot-line line-blue" d="M60.00 95.07 L137.00 102.62 L214.00 120.24 L291.00 130.31 L368.00 144.15 L445.00 144.15"/><circle class="plot-dot" cx="60.00" cy="95.07" r="3"><title>第6地区、1929年：141行</title></circle><circle class="plot-dot" cx="137.00" cy="102.62" r="3"><title>第6地区、1930年：135行</title></circle><circle class="plot-dot" cx="214.00" cy="120.24" r="3"><title>第6地区、1931年：121行</title></circle><circle class="plot-dot" cx="291.00" cy="130.31" r="3"><title>第6地区、1932年：113行</title></circle><circle class="plot-dot" cx="368.00" cy="144.15" r="3"><title>第6地区、1933年：102行</title></circle><circle class="plot-dot" cx="445.00" cy="144.15" r="3"><title>第6地区、1934年：102行</title></circle><path class="plot-line line-purple" d="M60.00 59.84 L137.00 64.88 L214.00 106.40 L291.00 121.50 L368.00 132.82 L445.00 135.34"/><circle class="dot-purple" cx="60.00" cy="59.84" r="3"><title>第8地区、1929年：169行</title></circle><circle class="dot-purple" cx="137.00" cy="64.88" r="3"><title>第8地区、1930年：165行</title></circle><circle class="dot-purple" cx="214.00" cy="106.40" r="3"><title>第8地区、1931年：132行</title></circle><circle class="dot-purple" cx="291.00" cy="121.50" r="3"><title>第8地区、1932年：120行</title></circle><circle class="dot-purple" cx="368.00" cy="132.82" r="3"><title>第8地区、1933年：111行</title></circle><circle class="dot-purple" cx="445.00" cy="135.34" r="3"><title>第8地区、1934年：109行</title></circle><text class="plot-text label-blue graph-subtitle" x="62.00" y="243.00" text-anchor="start">第6地区（政策あり）</text><text class="plot-text label-purple graph-subtitle" x="195.00" y="243.00" text-anchor="start">第8地区</text><path class="plot-line line-green counterfactual" d="M253.00 237.00L281.00 237.00"/><text class="plot-text label-green graph-subtitle" x="288.00" y="243.00" text-anchor="start">第6地区の反実仮想</text></svg></div>
+          <figcaption class="scene-caption">
+            <p class="scene-takeaway">回復ではなく、減少が小さかった。</p>
+            <p class="scene-explanation">どちらの地区でも銀行数は減少しています。1934年、第6地区は102行で、反実仮想は79行です。この23行の差は平行トレンドの仮定に依存しています。</p>
+            <a class="scene-chapter" href="book/_book/notebooks_quarto/05-differences-in-differences.html">差の差法を学ぶ <span aria-hidden="true">↗</span></a>
+            <p class="scene-note">ノートブックの銀行データ · 破線は反実仮想。<br><a href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" target="_blank" rel="noopener">Colabのソース ↗</a> · イラストはイメージです。</p>
+          </figcaption>
+        </figure>
+        </div>
+        <div class="showcase-controls" hidden>
+          <div class="method-selectors" role="tablist" aria-label="因果推論の手法を選ぶ">
+            <button type="button" role="tab" id="tab-rct" aria-label="無作為化比較試験" aria-selected="true" aria-controls="scene-rct" tabindex="0" class="method-selector">RCT</button>
+            <button type="button" role="tab" id="tab-regression" aria-label="回帰分析" aria-selected="false" aria-controls="scene-regression" tabindex="-1" class="method-selector">回帰</button>
+            <button type="button" role="tab" id="tab-iv" aria-label="操作変数法" aria-selected="false" aria-controls="scene-iv" tabindex="-1" class="method-selector">IV</button>
+            <button type="button" role="tab" id="tab-rd" aria-label="回帰不連続デザイン" aria-selected="false" aria-controls="scene-rd" tabindex="-1" class="method-selector">RD</button>
+            <button type="button" role="tab" id="tab-did" aria-label="差の差法" aria-selected="false" aria-controls="scene-did" tabindex="-1" class="method-selector">DiD</button>
+          </div>
+          <div class="showcase-playback"><button type="button" id="showcase-play" aria-label="手法の自動切り替えを一時停止"><span data-playback-icon aria-hidden="true">Ⅱ</span><span data-playback-label>一時停止</span></button><p id="showcase-status">10秒ごとに切り替わります</p></div>
+        </div>
+      </section>
+    </div>
+    <div class="home-shell hero-bottom"><p><strong>6</strong> つの章 <span>/</span> <strong>5</strong> つの因果推論の手法 <span>/</span> 手を動かして学ぶ</p><a href="#learning-path">問いは、始まりにすぎない <span aria-hidden="true">↓</span></a></div>
+  </section>
+<section id="learning-path" class="home-shell learning-path" aria-labelledby="path-title">
+  <div class="section-heading-home"><p class="home-kicker">最初の一歩</p><h2 id="path-title">「もし〜なら？」から<br>「どうすればわかる？」へ</h2><p>始めるのに、すべての答えは必要ありません。<br>調べてみたい問いがひとつあれば十分です。</p></div>
+  <ol class="learning-steps">
+    <li><span class="step-number">01 / 読む</span><h3>問いを読む。</h3><p>医療保険から始めましょう。人々、問題、そして証拠の裏にある比較を知りましょう。</p><a href="book/_book/notebooks_quarto/01-randomized-trials.html">第1章を始める（英語） <span aria-hidden="true">↗</span></a></li>
+    <li><span class="step-number">02 / 探る</span><h3>証拠を探る。</h3><p>ガイド付きのノートブックを開いてグラフを描き、データからわかること、わからないことに気づきましょう。</p><a href="data-dictionary.html#ch1-rand-balance-csv">RANDのデータを見る（英語） <span aria-hidden="true">↗</span></a></li>
+    <li><span class="step-number">03 / 説明する</span><h3>自分の言葉にする。</h3><p>比較の考え方を自分の言葉で説明しましょう。疑問はAIチューターと一緒に考えましょう。</p><a href="tutors.html">チューターと考える（英語） <span aria-hidden="true">↗</span></a></li>
+  </ol>
+</section><section id="curriculum" class="home-curriculum" aria-labelledby="curriculum-title"><div class="home-shell">
+  <div class="section-heading-home curriculum-heading"><div><p class="home-kicker">6つの章、大切な問い。</p><h2 id="curriculum-title">原因を<br><span>新しい目で見る。</span></h2></div><p>章を順番に進めても、取り組んでいる問いに戻ってもかまいません。読む、コードを書く、観る、聴く。どの章にも入り口があります。マインドマップとポッドキャストは日本語、章の本文・ノートブック・スライド・動画は英語です。</p></div>
+  <section class="methods-overview" aria-labelledby="overview-title">
+    <div class="overview-heading"><span class="overview-mark" aria-hidden="true">✳</span><div><h2 id="overview-title" class="overview-title">5つの強力な手法</h2><small>手法を図で見渡す</small></div></div>
+    <div class="overview-content">
+      <p class="overview-intro">相関から因果を切り分ける<span>5つの手法。</span></p>
+      <div class="overview-grid">
+          <article class="overview-card overview-rct" aria-labelledby="overview-rct-title">
+            <div class="overview-card-heading"><span class="overview-number">01</span><h3 id="overview-rct-title">RCT</h3></div>
+            <p class="overview-method-name">無作為化比較試験</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="処置群と対照群の棒グラフ。処置群の棒の1本が高い。"><path class="overview-axis" d="M24 20V150H216"/><rect x="45" y="76" width="28" height="74" rx="4" fill="currentColor" opacity=".65"/><rect x="80" y="48" width="28" height="102" rx="4" fill="currentColor"/><rect x="139" y="76" width="28" height="74" rx="4" fill="currentColor" opacity=".35"/><rect x="174" y="76" width="28" height="74" rx="4" fill="currentColor" opacity=".35"/><text x="76" y="177">処置群</text><text x="170" y="177">対照群</text></svg>
+            <div class="overview-equation"><span>ATE = E[Y<sub>1</sub>] − E[Y<sub>0</sub>]</span></div>
+            <p class="overview-assumption">無作為割り当てが選択バイアスを取り除く</p>
+          </article>
+          <article class="overview-card overview-ols" aria-labelledby="overview-ols-title">
+            <div class="overview-card-heading"><span class="overview-number">02</span><h3 id="overview-ols-title">OLS</h3></div>
+            <p class="overview-method-name">回帰分析</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="右上がりの回帰直線を当てはめた散布図。"><path class="overview-axis" d="M24 20V150H216"/><path class="overview-stroke" d="M32 137L207 39"/><circle cx="43" cy="137" r="4.5" fill="currentColor" opacity=".75"/><circle cx="52" cy="111" r="4.5" fill="currentColor" opacity=".75"/><circle cx="66" cy="121" r="4.5" fill="currentColor" opacity=".75"/><circle cx="73" cy="97" r="4.5" fill="currentColor" opacity=".75"/><circle cx="85" cy="130" r="4.5" fill="currentColor" opacity=".75"/><circle cx="91" cy="109" r="4.5" fill="currentColor" opacity=".75"/><circle cx="103" cy="81" r="4.5" fill="currentColor" opacity=".75"/><circle cx="112" cy="95" r="4.5" fill="currentColor" opacity=".75"/><circle cx="122" cy="62" r="4.5" fill="currentColor" opacity=".75"/><circle cx="132" cy="86" r="4.5" fill="currentColor" opacity=".75"/><circle cx="144" cy="62" r="4.5" fill="currentColor" opacity=".75"/><circle cx="154" cy="72" r="4.5" fill="currentColor" opacity=".75"/><circle cx="166" cy="32" r="4.5" fill="currentColor" opacity=".75"/><circle cx="178" cy="64" r="4.5" fill="currentColor" opacity=".75"/><circle cx="192" cy="29" r="4.5" fill="currentColor" opacity=".75"/></svg>
+            <div class="overview-equation"><span>Y = α + βX + ε</span></div>
+            <p class="overview-assumption">すべての交絡要因が観測され、統制されている</p>
+          </article>
+          <article class="overview-card overview-iv" aria-labelledby="overview-iv-title">
+            <div class="overview-card-heading"><span class="overview-number">03</span><h3 id="overview-iv-title">IV</h3></div>
+            <p class="overview-method-name">操作変数法</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="ZがDに影響し、DがYに影響する。ZからYへの直接の経路には×印。"><path class="overview-stroke" d="M60 105H88M142 105H170"/><path fill="currentColor" d="M88 105l-9-5v10zM170 105l-9-5v10z"/><path class="overview-stroke overview-dashed" d="M38 76Q116 -9 196 76" opacity=".55"/><path class="overview-stroke" d="M108 28l20 20m0-20l-20 20"/><circle cx="34" cy="105" r="26" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="2"/><text class="overview-node" x="34" y="113">Z</text><circle cx="116" cy="105" r="26" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="2"/><text class="overview-node" x="116" y="113">D</text><circle cx="198" cy="105" r="26" fill="currentColor" fill-opacity=".14" stroke="currentColor" stroke-width="2"/><text class="overview-node" x="198" y="113">Y</text></svg>
+            <div class="overview-equation"><span>β<sub>IV</sub> = </span><span class="overview-fraction"><span>Cov(Y, Z)</span><span>Cov(D, Z)</span></span></div>
+            <p class="overview-assumption">操作変数はDを通してのみYに影響する</p>
+          </article>
+          <article class="overview-card overview-rd" aria-labelledby="overview-rd-title">
+            <div class="overview-card-heading"><span class="overview-number">04</span><h3 id="overview-rd-title">RD</h3></div>
+            <p class="overview-method-name">回帰不連続デザイン</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="割り当て変数の閾値で結果がジャンプする。"><path class="overview-axis" d="M24 20V150H216"/><path class="overview-stroke overview-dashed" opacity=".5" d="M120 20V150"/><circle cx="36" cy="121" r="4.5" fill="currentColor"/><circle cx="43" cy="136" r="4.5" fill="currentColor"/><circle cx="52" cy="125" r="4.5" fill="currentColor"/><circle cx="61" cy="112" r="4.5" fill="currentColor"/><circle cx="72" cy="118" r="4.5" fill="currentColor"/><circle cx="81" cy="132" r="4.5" fill="currentColor"/><circle cx="96" cy="108" r="4.5" fill="currentColor"/><circle cx="106" cy="121" r="4.5" fill="currentColor"/><circle cx="111" cy="101" r="4.5" fill="currentColor"/><circle cx="130" cy="57" r="4.5" fill="currentColor"/><circle cx="139" cy="70" r="4.5" fill="currentColor"/><circle cx="148" cy="43" r="4.5" fill="currentColor"/><circle cx="159" cy="62" r="4.5" fill="currentColor"/><circle cx="170" cy="37" r="4.5" fill="currentColor"/><circle cx="181" cy="52" r="4.5" fill="currentColor"/><circle cx="193" cy="26" r="4.5" fill="currentColor"/><circle cx="203" cy="40" r="4.5" fill="currentColor"/></svg>
+            <div class="overview-equation"><span>τ = <span class="overview-limit">lim<small>閾値</small></span> Y<sup>+</sup> − <span class="overview-limit">lim<small>閾値</small></span> Y<sup>−</sup></span></div>
+            <p class="overview-assumption">割り当て変数の操作がない</p>
+          </article>
+          <article class="overview-card overview-did" aria-labelledby="overview-did-title">
+            <div class="overview-card-heading"><span class="overview-number">05</span><h3 id="overview-did-title">DiD</h3></div>
+            <p class="overview-method-name">差の差法</p>
+            <svg class="overview-plot" viewBox="0 0 240 190" role="img" aria-label="処置前は平行なトレンド。処置後、処置群のトレンドが上へ離れていく。"><path class="overview-axis" d="M24 20V150H216"/><path class="overview-stroke overview-dashed" opacity=".5" d="M120 20V150"/><path class="overview-stroke" d="M25 118L120 83L213 23"/><path class="overview-stroke overview-dashed" opacity=".75" d="M25 139L120 104L213 70"/></svg>
+            <div class="overview-equation overview-equation-stacked"><span>δ = (Y<sub>T,post</sub> − Y<sub>T,pre</sub>)</span><span>− (Y<sub>C,post</sub> − Y<sub>C,pre</sub>)</span></div>
+            <p class="overview-assumption">処置がなければトレンドは平行</p>
+          </article>
+      </div>
+      <div class="overview-footer"><p>因果推論の計量経済学 <span>— AIを活用した学習ガイド</span></p><a href="cover.jpg" target="_blank" rel="noopener">元のイラストを見る <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+  <div class="chapter-grid"><article id="chapter-1" class="card chapter-card" aria-labelledby="chapter-title-1">
+      <div class="chapter-top"><span class="chapter-number">01</span><span class="chapter-method">無作為化比較試験</span><span class="chapter-tag">ここから</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-1">医療保険は人々を健康にする？</h3><p>大切な問いから始めましょう。RAND医療保険実験とオレゴン州の抽選が、公正な比較をどう可能にするのかを学びます。</p></div>
+      <button class="chapter-thumb" type="button" aria-label="第1章のマインドマップを拡大" onclick="openImage('assets/podcasts-ja/full/ch01-randomized-trials-v2.webp', '第1章のマインドマップ：無作為化比較試験')"><img src="assets/podcasts-ja/full/ch01-randomized-trials-v2.webp" alt="第1章のマインドマップ：無作為化比較試験" loading="lazy" width="1536" height="1024"><span class="art-caption">章のマインドマップを見る <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/01-randomized-trials.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>章を読む</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>AIノートブックを開く</a><a class="chapter-action chapter-action-secondary" href="slides/ch01/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>スライド</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('eGRd8jBdNYg','無作為化比較試験：理想的な武器（英語の動画）');return false;"><span aria-hidden="true">▷</span>動画を見る</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-1-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> ポッドキャストを聴く <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>第1章の音声プレーヤーを使うにはJavaScriptを有効にしてください。または、<a href="mindmaps-podcast/ja/transcripts/ch01-randomized-trials.html" rel="noopener" target="_blank">全文を開く（別タブ）</a>。</p></noscript>
+      <section id="chapter-1-podcast" class="podcast-player" data-podcast="mindmaps-podcast/ja/transcripts/ch01-randomized-trials.json" aria-label="第1章：無作為化比較試験の音声プレーヤー" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="無作為化比較試験のマインドマップを全画面で開く" onclick="openImage('assets/podcasts-ja/full/ch01-randomized-trials-v2.webp', '第1章のマインドマップ：無作為化比較試験')">
+                <img src="assets/podcasts-ja/full/ch01-randomized-trials-v2.webp" alt="無作為化比較試験のマインドマップ" loading="lazy">
+                <span>⊕ マインドマップ</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AIポッドキャスト · <span data-episode-minutes>54</span> 分</p>
+                  <h5>第1章 · 無作為化比較試験</h5>
+                  <p class="podcast-now" aria-live="polite">現在：オープニング</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="音声プレーヤーを閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="第1章の日本語音声">
+                  <source src="mindmaps-podcast/ja/audio/ch01-randomized-trials.mp3" type="audio/mpeg">
+                  お使いのブラウザーは音声再生に対応していません。下の文字起こしをお読みください。
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="再生位置">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>53:42</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="15秒戻る"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="再生" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="30秒進む"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="再生速度：1倍。選択して変更">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="エピソードの各節"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-1-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>文字起こしを表示</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/ja/transcripts/ch01-randomized-trials.html" target="_blank" rel="noopener" aria-label="全文を開く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>全文を開く</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/08VY5KT5rrAjQPif6eygXo" target="_blank" rel="noopener" aria-label="Spotifyで聴く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Spotifyで聴く</a>
+              </div>
+              <div id="chapter-1-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="文字起こし。文章を選ぶと、その位置へ移動します。" tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> 音声に合わせてスクロール</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article>
+<article id="chapter-2" class="card chapter-card" aria-labelledby="chapter-title-2">
+      <div class="chapter-top"><span class="chapter-number">02</span><span class="chapter-method">回帰分析</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-2">名門大学は高い学費に見合う？</h3><p>学生は異なる背景や意欲を持って入学します。回帰分析で考慮できること、そして見落としうることを探ります。</p></div>
+      <button class="chapter-thumb" type="button" aria-label="第2章のマインドマップを拡大" onclick="openImage('assets/podcasts-ja/full/ch02-regression-v1.webp', '第2章のマインドマップ：回帰分析')"><img src="assets/podcasts-ja/full/ch02-regression-v1.webp" alt="第2章のマインドマップ：回帰分析" loading="lazy" width="1536" height="1024"><span class="art-caption">章のマインドマップを見る <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/02-regression.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>章を読む</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/02-regression.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>AIノートブックを開く</a><a class="chapter-action chapter-action-secondary" href="slides/ch02/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>スライド</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('iPBV3BlV7jk','他の条件が同じなら：公立大学と私立大学（英語の動画）');return false;"><span aria-hidden="true">▷</span>動画を見る</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-2-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> ポッドキャストを聴く <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>第2章の音声プレーヤーを使うにはJavaScriptを有効にしてください。または、<a href="mindmaps-podcast/ja/transcripts/ch02-regression.html" rel="noopener" target="_blank">全文を開く（別タブ）</a>。</p></noscript>
+      <section id="chapter-2-podcast" class="podcast-player" data-podcast="mindmaps-podcast/ja/transcripts/ch02-regression.json" aria-label="第2章：回帰分析の音声プレーヤー" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="回帰分析のマインドマップを全画面で開く" onclick="openImage('assets/podcasts-ja/full/ch02-regression-v1.webp', '第2章のマインドマップ：回帰分析')">
+                <img src="assets/podcasts-ja/full/ch02-regression-v1.webp" alt="回帰分析のマインドマップ" loading="lazy">
+                <span>⊕ マインドマップ</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AIポッドキャスト · <span data-episode-minutes>54</span> 分</p>
+                  <h5>第2章 · 回帰分析</h5>
+                  <p class="podcast-now" aria-live="polite">現在：オープニング</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="音声プレーヤーを閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="第2章の日本語音声">
+                  <source src="mindmaps-podcast/ja/audio/ch02-regression.mp3" type="audio/mpeg">
+                  お使いのブラウザーは音声再生に対応していません。下の文字起こしをお読みください。
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="再生位置">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>54:25</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="15秒戻る"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="再生" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="30秒進む"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="再生速度：1倍。選択して変更">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="エピソードの各節"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-2-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>文字起こしを表示</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/ja/transcripts/ch02-regression.html" target="_blank" rel="noopener" aria-label="全文を開く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>全文を開く</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/2kp8R7AYWPngI6FXa9bzzm" target="_blank" rel="noopener" aria-label="Spotifyで聴く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Spotifyで聴く</a>
+              </div>
+              <div id="chapter-2-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="文字起こし。文章を選ぶと、その位置へ移動します。" tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> 音声に合わせてスクロール</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article>
+<article id="chapter-3" class="card chapter-card" aria-labelledby="chapter-title-3">
+      <div class="chapter-top"><span class="chapter-number">03</span><span class="chapter-method">操作変数法</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-3">割り当てられた処置に従わない人がいたら？</h3><p>抽選は人々の行動を決めずに、機会だけを変えられます。その変化をたどり、誰の因果効果がわかるのかを理解しましょう。</p></div>
+      <button class="chapter-thumb" type="button" aria-label="第3章のマインドマップを拡大" onclick="openImage('assets/podcasts-ja/full/ch03-instrumental-variables-v1.webp', '第3章のマインドマップ：操作変数法')"><img src="assets/podcasts-ja/full/ch03-instrumental-variables-v1.webp" alt="第3章のマインドマップ：操作変数法" loading="lazy" width="1536" height="1024"><span class="art-caption">章のマインドマップを見る <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/03-instrumental-variables.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>章を読む</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/03-instrumental-variables.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>AIノートブックを開く</a><a class="chapter-action chapter-action-secondary" href="slides/ch03/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>スライド</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('eoJUPd6104Q','操作変数法入門（英語の動画）');return false;"><span aria-hidden="true">▷</span>動画を見る</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('3rVPqTZGOis','操作変数法：AI動画（英語）','notebooklm');return false;"><span aria-hidden="true">▷</span>動画を見る 2</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-3-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> ポッドキャストを聴く <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>第3章の音声プレーヤーを使うにはJavaScriptを有効にしてください。または、<a href="mindmaps-podcast/ja/transcripts/ch03-instrumental-variables.html" rel="noopener" target="_blank">全文を開く（別タブ）</a>。</p></noscript>
+      <section id="chapter-3-podcast" class="podcast-player" data-podcast="mindmaps-podcast/ja/transcripts/ch03-instrumental-variables.json" aria-label="第3章：操作変数法の音声プレーヤー" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="操作変数法のマインドマップを全画面で開く" onclick="openImage('assets/podcasts-ja/full/ch03-instrumental-variables-v1.webp', '第3章のマインドマップ：操作変数法')">
+                <img src="assets/podcasts-ja/full/ch03-instrumental-variables-v1.webp" alt="操作変数法のマインドマップ" loading="lazy">
+                <span>⊕ マインドマップ</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AIポッドキャスト · <span data-episode-minutes>50</span> 分</p>
+                  <h5>第3章 · 操作変数法</h5>
+                  <p class="podcast-now" aria-live="polite">現在：オープニング</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="音声プレーヤーを閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="第3章の日本語音声">
+                  <source src="mindmaps-podcast/ja/audio/ch03-instrumental-variables.mp3" type="audio/mpeg">
+                  お使いのブラウザーは音声再生に対応していません。下の文字起こしをお読みください。
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="再生位置">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>50:04</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="15秒戻る"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="再生" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="30秒進む"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="再生速度：1倍。選択して変更">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="エピソードの各節"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-3-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>文字起こしを表示</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/ja/transcripts/ch03-instrumental-variables.html" target="_blank" rel="noopener" aria-label="全文を開く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>全文を開く</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/5uxEam7mYsbgcAaxGFxrLd" target="_blank" rel="noopener" aria-label="Spotifyで聴く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Spotifyで聴く</a>
+              </div>
+              <div id="chapter-3-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="文字起こし。文章を選ぶと、その位置へ移動します。" tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> 音声に合わせてスクロール</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article>
+<article id="chapter-4" class="card chapter-card" aria-labelledby="chapter-title-4">
+      <div class="chapter-top"><span class="chapter-number">04</span><span class="chapter-method">回帰不連続デザイン</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-4">誕生日でお酒の影響がわかる？</h3><p>21歳でルールが変わります。閾値のすぐ両側にいる人を比べると、局所的な因果効果がわかる仕組みを見てみましょう。</p></div>
+      <button class="chapter-thumb" type="button" aria-label="第4章のマインドマップを拡大" onclick="openImage('assets/podcasts-ja/full/ch04-regression-discontinuity-v1.webp', '第4章のマインドマップ：回帰不連続デザイン')"><img src="assets/podcasts-ja/full/ch04-regression-discontinuity-v1.webp" alt="第4章のマインドマップ：回帰不連続デザイン" loading="lazy" width="1536" height="1024"><span class="art-caption">章のマインドマップを見る <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/04-regression-discontinuity.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>章を読む</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/04-regression-discontinuity.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>AIノートブックを開く</a><a class="chapter-action chapter-action-secondary" href="slides/ch04/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>スライド</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('d4S2STNOHBk','回帰不連続デザイン：AI動画（英語）','notebooklm');return false;"><span aria-hidden="true">▷</span>動画を見る</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-4-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> ポッドキャストを聴く <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>第4章の音声プレーヤーを使うにはJavaScriptを有効にしてください。または、<a href="mindmaps-podcast/ja/transcripts/ch04-regression-discontinuity.html" rel="noopener" target="_blank">全文を開く（別タブ）</a>。</p></noscript>
+      <section id="chapter-4-podcast" class="podcast-player" data-podcast="mindmaps-podcast/ja/transcripts/ch04-regression-discontinuity.json" aria-label="第4章：回帰不連続デザインの音声プレーヤー" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="回帰不連続デザインのマインドマップを全画面で開く" onclick="openImage('assets/podcasts-ja/full/ch04-regression-discontinuity-v1.webp', '第4章のマインドマップ：回帰不連続デザイン')">
+                <img src="assets/podcasts-ja/full/ch04-regression-discontinuity-v1.webp" alt="回帰不連続デザインのマインドマップ" loading="lazy">
+                <span>⊕ マインドマップ</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AIポッドキャスト · <span data-episode-minutes>50</span> 分</p>
+                  <h5>第4章 · 回帰不連続デザイン</h5>
+                  <p class="podcast-now" aria-live="polite">現在：オープニング</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="音声プレーヤーを閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="第4章の日本語音声">
+                  <source src="mindmaps-podcast/ja/audio/ch04-regression-discontinuity.mp3" type="audio/mpeg">
+                  お使いのブラウザーは音声再生に対応していません。下の文字起こしをお読みください。
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="再生位置">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>49:45</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="15秒戻る"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="再生" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="30秒進む"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="再生速度：1倍。選択して変更">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="エピソードの各節"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-4-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>文字起こしを表示</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/ja/transcripts/ch04-regression-discontinuity.html" target="_blank" rel="noopener" aria-label="全文を開く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>全文を開く</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/4xwFwyWnEwKgpKMk1PtgWV" target="_blank" rel="noopener" aria-label="Spotifyで聴く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Spotifyで聴く</a>
+              </div>
+              <div id="chapter-4-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="文字起こし。文章を選ぶと、その位置へ移動します。" tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> 音声に合わせてスクロール</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article>
+<article id="chapter-5" class="card chapter-card" aria-labelledby="chapter-title-5">
+      <div class="chapter-top"><span class="chapter-number">05</span><span class="chapter-method">差の差法</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-5">緊急融資は銀行を救った？</h3><p>連邦準備制度の2つの地区が、同じ危機に異なる政策で対応しました。時間を通じた変化を比べ、その仮定を検討しましょう。</p></div>
+      <button class="chapter-thumb" type="button" aria-label="第5章のマインドマップを拡大" onclick="openImage('assets/podcasts-ja/full/ch05-differences-in-differences-v1.webp', '第5章のマインドマップ：差の差法')"><img src="assets/podcasts-ja/full/ch05-differences-in-differences-v1.webp" alt="第5章のマインドマップ：差の差法" loading="lazy" width="1536" height="1024"><span class="art-caption">章のマインドマップを見る <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/05-differences-in-differences.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>章を読む</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/05-differences-in-differences.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>AIノートブックを開く</a><a class="chapter-action chapter-action-secondary" href="slides/ch05/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>スライド</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('eiffOVbYvNc','差の差法入門（英語の動画）');return false;"><span aria-hidden="true">▷</span>動画を見る</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-5-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> ポッドキャストを聴く <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>第5章の音声プレーヤーを使うにはJavaScriptを有効にしてください。または、<a href="mindmaps-podcast/ja/transcripts/ch05-differences-in-differences.html" rel="noopener" target="_blank">全文を開く（別タブ）</a>。</p></noscript>
+      <section id="chapter-5-podcast" class="podcast-player" data-podcast="mindmaps-podcast/ja/transcripts/ch05-differences-in-differences.json" aria-label="第5章：差の差法の音声プレーヤー" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="差の差法のマインドマップを全画面で開く" onclick="openImage('assets/podcasts-ja/full/ch05-differences-in-differences-v1.webp', '第5章のマインドマップ：差の差法')">
+                <img src="assets/podcasts-ja/full/ch05-differences-in-differences-v1.webp" alt="差の差法のマインドマップ" loading="lazy">
+                <span>⊕ マインドマップ</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AIポッドキャスト · <span data-episode-minutes>47</span> 分</p>
+                  <h5>第5章 · 差の差法</h5>
+                  <p class="podcast-now" aria-live="polite">現在：オープニング</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="音声プレーヤーを閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="第5章の日本語音声">
+                  <source src="mindmaps-podcast/ja/audio/ch05-differences-in-differences.mp3" type="audio/mpeg">
+                  お使いのブラウザーは音声再生に対応していません。下の文字起こしをお読みください。
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="再生位置">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>46:36</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="15秒戻る"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="再生" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="30秒進む"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="再生速度：1倍。選択して変更">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="エピソードの各節"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-5-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>文字起こしを表示</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/ja/transcripts/ch05-differences-in-differences.html" target="_blank" rel="noopener" aria-label="全文を開く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>全文を開く</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/2d8ZC0e8QInEZ140JifVQp" target="_blank" rel="noopener" aria-label="Spotifyで聴く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Spotifyで聴く</a>
+              </div>
+              <div id="chapter-5-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="文字起こし。文章を選ぶと、その位置へ移動します。" tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> 音声に合わせてスクロール</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article>
+<article id="chapter-6" class="card chapter-card" aria-labelledby="chapter-title-6">
+      <div class="chapter-top"><span class="chapter-number">06</span><span class="chapter-method">教育と所得</span><span class="chapter-tag">総まとめ</span></div>
+      <div class="chapter-story"><h3 id="chapter-title-6">教育を受けるほど所得は上がる？</h3><p>これまでの手法を総動員します。双子、生まれた時期、政策の変化を手がかりに、教育、能力、学歴の影響を調べます。</p></div>
+      <button class="chapter-thumb" type="button" aria-label="第6章のマインドマップを拡大" onclick="openImage('assets/podcasts-ja/full/ch06-wages-of-schooling-v1.webp', '第6章のマインドマップ：教育と所得')"><img src="assets/podcasts-ja/full/ch06-wages-of-schooling-v1.webp" alt="第6章のマインドマップ：教育と所得" loading="lazy" width="1536" height="1024"><span class="art-caption">章のマインドマップを見る <span aria-hidden="true">↗</span></span></button>
+      <div class="chapter-actions"><a class="chapter-action chapter-action-primary" href="book/_book/notebooks_quarto/06-wages-of-schooling.html" rel="noopener" target="_blank"><span aria-hidden="true">↗</span>章を読む</a><a class="chapter-action chapter-action-secondary" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb" rel="noopener" target="_blank"><span aria-hidden="true">&lt;/&gt;</span>AIノートブックを開く</a><a class="chapter-action chapter-action-secondary" href="slides/ch06/index.html" rel="noopener" target="_blank"><span aria-hidden="true">▤</span>スライド</a><a class="chapter-action chapter-action-secondary" href="#" onclick="openVideo('sBYDNPNvt-I','教育と所得：AI動画（英語）','notebooklm');return false;"><span aria-hidden="true">▷</span>動画を見る</a></div>
+      <div class="podcast-launch-row"><button aria-controls="chapter-6-podcast" aria-expanded="false" class="podcast-launch chapter-listen" data-podcast-toggle="" type="button"><span aria-hidden="true">♫</span> ポッドキャストを聴く <span aria-hidden="true" class="listen-arrow">↓</span></button></div>
+      <noscript><p>第6章の音声プレーヤーを使うにはJavaScriptを有効にしてください。または、<a href="mindmaps-podcast/ja/transcripts/ch06-wages-of-schooling.html" rel="noopener" target="_blank">全文を開く（別タブ）</a>。</p></noscript>
+      <section id="chapter-6-podcast" class="podcast-player" data-podcast="mindmaps-podcast/ja/transcripts/ch06-wages-of-schooling.json" aria-label="第6章：教育と所得の音声プレーヤー" hidden>
+              <button type="button" class="podcast-mindmap" aria-label="教育と所得のマインドマップを全画面で開く" onclick="openImage('assets/podcasts-ja/full/ch06-wages-of-schooling-v1.webp', '第6章のマインドマップ：教育と所得')">
+                <img src="assets/podcasts-ja/full/ch06-wages-of-schooling-v1.webp" alt="教育と所得のマインドマップ" loading="lazy">
+                <span>⊕ マインドマップ</span>
+              </button>
+              <div class="podcast-heading">
+                <div>
+                  <p class="podcast-eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></svg> AIポッドキャスト · <span data-episode-minutes>65</span> 分</p>
+                  <h5>第6章 · 教育と所得</h5>
+                  <p class="podcast-now" aria-live="polite">現在：オープニング</p>
+                </div>
+                <button type="button" class="podcast-close" aria-label="音声プレーヤーを閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button>
+              </div>
+              <div class="podcast-playback">
+                <audio controls controlslist="nodownload" preload="none" aria-label="第6章の日本語音声">
+                  <source src="mindmaps-podcast/ja/audio/ch06-wages-of-schooling.mp3" type="audio/mpeg">
+                  お使いのブラウザーは音声再生に対応していません。下の文字起こしをお読みください。
+                </audio>
+                <div data-enhanced hidden>
+                  <div class="podcast-timeline">
+                    <div class="podcast-track" aria-hidden="true"><span data-buffer></span><span data-progress></span></div>
+                    <div class="podcast-cuts" aria-hidden="true"></div>
+                    <input data-seek type="range" min="0" max="1" value="0" step="0.1" aria-label="再生位置">
+                  </div>
+                  <div class="podcast-time"><span data-elapsed>00:00</span><span data-duration>64:38</span></div>
+                  <div class="podcast-controls">
+                    <div class="podcast-transport">
+                      <button type="button" class="podcast-skip" data-skip="-15" aria-label="15秒戻る"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7a11 11 0 1 1-4 10M10 3v7H3"/></svg><small>15</small></button>
+                      <button type="button" class="podcast-play" aria-label="再生" aria-pressed="false">
+                        <svg data-play-icon width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 4 12 8-12 8z"/></svg>
+                        <svg data-pause-icon hidden width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                      </button>
+                      <button type="button" class="podcast-skip" data-skip="30" aria-label="30秒進む"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 7a11 11 0 1 0 4 10M22 3v7h7"/></svg><small>30</small></button>
+                    </div>
+                    <button type="button" class="podcast-speed" data-speed aria-label="再生速度：1倍。選択して変更">1×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="podcast-chapters" data-enhanced hidden aria-label="エピソードの各節"></div>
+              <div class="podcast-transcript-actions">
+                <button type="button" class="podcast-transcript-toggle" data-enhanced hidden aria-expanded="false" aria-controls="chapter-6-transcript"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="1"/><path d="M6 8h12M6 11h12M6 14h8"/></svg><span>文字起こしを表示</span><svg class="podcast-transcript-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                <a class="podcast-action-link" href="mindmaps-podcast/ja/transcripts/ch06-wages-of-schooling.html" target="_blank" rel="noopener" aria-label="全文を開く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 3h7v7m0-7L10 14"/><path d="M10 3H3v18h18v-7"/></svg>全文を開く</a>
+                <a class="podcast-action-link" href="https://open.spotify.com/episode/7nXGE920jvQ9u8yZDBqaX9" target="_blank" rel="noopener" aria-label="Spotifyで聴く（別タブ）"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-2 8-1 12 1M7 12c3-1 6-1 10 1M8 15c3-1 5 0 8 1"/></svg>Spotifyで聴く</a>
+              </div>
+              <div id="chapter-6-transcript" class="podcast-transcript" hidden>
+                <div class="podcast-passages" role="region" aria-label="文字起こし。文章を選ぶと、その位置へ移動します。" tabindex="0"></div>
+                <label class="podcast-follow"><input data-follow type="checkbox" checked> 音声に合わせてスクロール</label>
+              </div>
+                <p class="podcast-status" role="status"></p>
+            </section>
+    </article></div>
+  <p class="curriculum-credit">ポッドキャストの音声：<a href="https://ai.google.dev/" target="_blank" rel="noopener">Gemini</a> · AI動画の生成：<a href="https://notebooklm.google/" target="_blank" rel="noopener">NotebookLM</a> · 講義動画：<a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" rel="noopener">Marginal Revolution University</a></p>
+</div></section><section id="ai-notebooks" class="home-shell home-practice" aria-labelledby="practice-title">
+  <div class="practice-copy"><p class="home-kicker">理解を実践へ</p><h2 id="practice-title">準備は少なく。<br><span>発見は多く。</span></h2><p>ブラウザーでそのままPythonノートブックを開けます。コードをたどり、実データを探り、それぞれの推定値をその裏にある比較と結びつけましょう。</p><p>Google ColabのAIツールが、コードやエラーの説明を手伝ってくれます。問いを立て、推論を確かめるのはあなたです。</p><a class="home-button" href="https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/01-randomized-trials.ipynb" target="_blank" rel="noopener">最初のノートブックを開く（英語） <span aria-hidden="true">↗</span></a><span class="practice-note">Google Colabで動作 · インストール不要</span></div>
+  <figure><button type="button" class="media-frame" aria-label="AIノートブックの動画を再生" onclick="openVideo('V7RXyqFUR98','AIツールを使ったColabでのプログラミング（英語の動画）','google')"><img src="images/ai-powered-colab.jpg" alt="AIツールを使ったColabでのプログラミング" loading="lazy"><span class="play-overlay"><span class="play-btn" aria-hidden="true">▷</span></span></button><figcaption>AIを活用したノートブックの使い方（英語の動画）。<br><span>動画：Julianne DeMars-Smith、Key Jung Lee · <a href="https://research.google/" target="_blank" rel="noopener">Google Research</a></span></figcaption></figure>
+</section>
+<nav class="home-shell toolkit-links" aria-label="ほかの学び方">
+ <a href="data-dictionary.html"><span class="toolkit-icon" aria-hidden="true">▦</span><span><small>好奇心を持とう</small><strong>データを知る</strong><span>実例をガイド付きで探る（英語）</span></span><span aria-hidden="true">↗</span></a>
+ <a href="tutors.html"><span class="toolkit-icon" aria-hidden="true">◎</span><span><small>より良い問いを立てよう</small><strong>対話で考える</strong><span>推論を助けるAIチューター（英語）</span></span><span aria-hidden="true">↗</span></a>
+ <a href="podcasts-ja.html" hreflang="ja"><span class="toolkit-icon" aria-hidden="true">♫</span><span><small>いつでもどこでも</small><strong>聴いて学ぶ</strong><span>6つの章、6つの日本語の対話</span></span><span aria-hidden="true">↗</span></a>
+</nav><section class="home-resources" id="resources" style="scroll-margin-top: 80px;">
+<div class="home-shell">
+<div class="text-center mb-8">
+<p class="home-kicker">好奇心のおもむくままに</p><h2 class="resources-title">学びはまだまだ続きます。</h2>
+<p class="text-muted">次の問いのための本、講座、実践ガイド。リソースは英語です。</p>
+</div>
+<noscript><p class="resource-fallback">リソース一覧を絞り込むにはJavaScriptを有効にしてください。<a href="https://www.masteringmetrics.com/">原著のリソースサイト</a>もご覧いただけます。</p></noscript>
+<div class="flex flex-wrap justify-center gap-2 mb-8" id="resource-filters"></div>
+<!-- Resource cards grid (rendered by JS) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="resource-grid"></div>
+<!-- Show more button -->
+<div class="text-center mt-8 hidden" id="show-more-container">
+<button class="show-more-btn" id="show-more-btn" onclick="showMoreResources()">
+<span>+</span> さらに <span id="show-more-count">0</span> 件を表示
+        </button>
+</div>
+<!-- Empty state -->
+<div class="hidden text-center py-12 text-muted" id="resource-empty">
+        このカテゴリーのリソースはまだありません。
+      </div>
+</div>
+</section></main><footer class="home-footer"><div class="home-shell">
+  <div class="footer-invitation"><p class="home-kicker">問いから始め、証拠で確かめる。</p><h2>はじめての公正な比較は、<br>ここから。</h2><a class="home-button" href="book/_book/notebooks_quarto/01-randomized-trials.html">第1章を始める（英語） <span aria-hidden="true">↗</span></a></div>
+  <div class="footer-details"><div class="footer-author"><img src="https://github.com/cmg777.png" alt="Carlos Mendez" width="48" height="48" loading="lazy"><div><p>制作：<a href="https://carlos-mendez.org" target="_blank" rel="noopener">Carlos Mendez</a></p><p>原著：<a href="https://www.masteringmetrics.com/" target="_blank" rel="noopener"><em>Mastering ’Metrics</em></a><br>Joshua Angrist、Jörn-Steffen Pischke 著</p></div></div><div class="footer-feedback"><strong>一緒に学べば、もっと良くなる。</strong><p>誤りや改善のアイデアを見つけましたか？</p><a href="https://github.com/cmg777/intro2causal/issues" target="_blank" rel="noopener">プロジェクトの改善に協力する ↗</a></div></div>
+  <div class="footer-credits"><span>因果推論の計量経済学</span><p>AIツールで制作 · 基盤とコンテンツ：<a href="https://claude.ai/code" target="_blank" rel="noopener">Claude Code</a> · AIチューター：<a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a></p><a href="#main">ページの先頭へ ↑</a></div>
+</div></footer>  <!-- Back to top -->
+  <button id="back-to-top" class="back-to-top" onclick="window.scrollTo({top:0})" aria-label="ページの先頭へ">&#8593;</button>
+
+  <script>
+    // Video modal
+    function openVideo(videoId, title, source) {
+      document.getElementById('video-title').textContent = title;
+      document.getElementById('video-iframe').src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+      var credit = document.getElementById('video-credit');
+      if (source === 'google') {
+        credit.innerHTML = '動画：Julianne DeMars-Smith、Key Jung Lee（<a href="https://research.google/" target="_blank" style="color:#38bdf8;">Google Research</a>） &middot; Escキーまたは外側をクリックして閉じる';
+      } else if (source === 'notebooklm') {
+        credit.innerHTML = '<a href="https://notebooklm.google/" target="_blank" style="color:#38bdf8;">NotebookLM</a>で章の要約から生成 &middot; Escキーまたは外側をクリックして閉じる';
+      } else {
+        credit.innerHTML = '動画：<a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color:#38bdf8;">Marginal Revolution University</a> &middot; Escキーまたは外側をクリックして閉じる';
+      }
+      var modal = document.getElementById('video-modal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideo() {
+      var modal = document.getElementById('video-modal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+      document.getElementById('video-iframe').src = '';
+      document.body.style.overflow = '';
+    }
+
+    // Image lightbox
+    function openImage(src, alt) {
+      var img = document.getElementById('image-modal-img');
+      img.src = src;
+      img.alt = alt;
+      document.getElementById('image-modal-title').textContent = alt;
+      var modal = document.getElementById('image-modal');
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImage() {
+      var modal = document.getElementById('image-modal');
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Close modals on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeVideo(); closeImage(); }
+    });
+
+    // Scroll progress bar + back to top
+    var topBtn = document.getElementById('back-to-top');
+    var scrollBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', function() {
+      // Progress bar
+      var scrollTop = window.scrollY;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = docHeight > 0 ? (scrollTop / docHeight * 100) : 0;
+      scrollBar.style.width = pct + '%';
+      // Back to top
+      if (scrollTop > 400) {
+        topBtn.classList.add('show');
+      } else {
+        topBtn.classList.remove('show');
+      }
+    });
+
+    // ============================================
+    // Other Resources: filterable card grid
+    // ============================================
+    var RESOURCE_CATEGORIES = [
+      { id: 'all',        label: 'すべて',                       icon: '📚' },
+      { id: 'general',    label: '総合',                   icon: '🌐' },
+      { id: 'rct',        label: '無作為化比較試験',         icon: '🎲' },
+      { id: 'regression', label: '回帰分析',                icon: '📈' },
+      { id: 'iv',         label: '操作変数法',    icon: '🔧' },
+      { id: 'rd',         label: '回帰不連続デザイン',  icon: '✂️' },
+      { id: 'did',        label: '差の差法', icon: '⏳' },
+      { id: 'sc',         label: '合成コントロール法',         icon: '🧪' },
+      { id: 'econ',       label: '経済学のためのPython',       icon: '🐍' }
+    ];
+
+    var RESOURCE_TYPES = {
+      video:   { label: '動画',   action: '動画を見る' },
+      article: { label: '記事', action: '記事を読む' },
+      website: { label: 'ウェブサイト', action: 'サイトを見る' },
+      course:  { label: '講座',  action: '学び始める' }
+    };
+
+    var RESOURCES = [
+      // General — foundational books, multi-method frameworks
+      { title: 'metricsAI',
+        description: "Carlos MendezとA. Colin CameronによるAIを活用した計量経済学の学習ガイド。CameronのAnalysis of Economics Dataに沿った対話型のPythonノートブック、AIチューター、ポッドキャスト。",
+        category: 'general', type: 'course', url: 'https://quarcs-lab.github.io/metricsai/', pinned: true },
+      { title: 'Causal Inference for The Brave and True',
+        description: 'Matheus FacureによるPythonを使った因果推論の実践ガイド。主要な計量経済学・統計学の手法を実例とともに解説。',
+        category: 'general', type: 'course', url: 'https://matheusfacure.github.io/python-causality-handbook/landing-page.html', pinned: true },
+      { title: 'Applied Causal Inference Powered by ML and AI',
+        description: 'Chernozhukov、Hansen、Kallus、Spindler、Syrgkanisによる、機械学習とAIで強化した因果推論の教科書。バイアス除去ML、処置効果、操作変数法を扱う。',
+        category: 'general', type: 'course', url: 'https://causalml-book.org/', pinned: true },
+      { title: 'URFIE — Introductory Econometrics',
+        description: 'R、Python、Juliaのコード例付きの計量経済学入門書。',
+        category: 'general', type: 'website', url: 'https://www.urfie.net/' },
+      { title: 'Causal Inference with DoWhy and the Lalonde Dataset',
+        description: "PythonのDoWhyの4ステップの枠組みで、職業訓練プログラムが所得に与える因果効果を推定する。",
+        category: 'general', type: 'article', url: 'https://carlos-mendez.org/post/python_dowhy/' },
+      { title: 'Causal Inference with Double Machine Learning',
+        description: 'PythonのDouble Machine Learningで、現金ボーナスが失業期間に与える因果効果を推定する。',
+        category: 'general', type: 'article', url: 'https://carlos-mendez.org/post/python_doubleml/' },
+      { title: 'Introduction to Partial Identification',
+        description: 'Pythonで、ManskiとTian–Pearlの限界を用いて、測定されていない交絡要因がある場合の因果効果の範囲を計算する。',
+        category: 'general', type: 'article', url: 'https://carlos-mendez.org/post/python_partial_identification/' },
+
+      // Randomized Trials (RCT)
+      { title: 'Evaluating a Cash Transfer Program (RCT) with Panel Data in Stata',
+        description: '回帰調整、逆確率重み付け、二重頑健法、差の差法で、現金給付の因果効果を推定する。',
+        category: 'rct', type: 'article', url: 'https://carlos-mendez.org/post/stata_rct/' },
+
+      // Regression Discontinuity (RD)
+      { title: 'RDD in Stata: Evaluating a Tutoring Program',
+        description: "Stataのシャープな回帰不連続デザインで、学校の補習プログラムが卒業試験の点数に与える因果効果を推定する。",
+        category: 'rd', type: 'article', url: 'https://carlos-mendez.org/post/stata_rd/' },
+
+      // Instrumental Variables (IV)
+      { title: 'IV Estimation with Panel Data: Economic Shocks and Civil Conflict',
+        description: 'パネルデータによる二段階最小二乗法の実演。降水量を経済活動の操作変数として、アフリカの内戦を分析する（Stata）。',
+        category: 'iv', type: 'article', url: 'https://carlos-mendez.org/post/stata_iv_panel/' },
+      { title: 'Do Institutions Cause Prosperity? An IV Tutorial in Python',
+        description: '入植者の死亡率を制度の質の操作変数として、Acemoglu、Johnson、Robinson（2001）を再現する。pyfixestとlinearmodelsによる二段階最小二乗法、弱い操作変数の診断、過剰識別検定。',
+        category: 'iv', type: 'article', url: 'https://carlos-mendez.org/post/python_iv/' },
+      { title: 'Do Institutions Cause Prosperity? An IV Tutorial in Stata',
+        description: '入植者の死亡率を制度の質の操作変数として、Acemoglu、Johnson、Robinson（2001）を再現する。Stataのivreg2による二段階最小二乗法、頑健性の確認、HansenのJ過剰識別検定。',
+        category: 'iv', type: 'article', url: 'https://carlos-mendez.org/post/stata_iv/' },
+
+      // Regression — Frisch–Waugh–Lovell theorem
+      { title: 'The FWL Theorem: Making Multivariate Regressions Intuitive',
+        description: 'Frisch–Waugh–Lovellの定理を使い、小売店のシミュレーションデータで交絡要因を取り除いて因果関係を取り出す（Python）。',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/python_fwl/' },
+      { title: 'Visualizing Regression with FWL in R',
+        description: 'fwlplotパッケージの実践ガイド。Frisch–Waugh–Lovellの定理からシミュレーションによる交絡、実際のパネルデータでの固定効果の可視化まで。',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/r_fwlplot/' },
+      { title: 'Visualizing Regression with FWL in Stata',
+        description: 'scatterfitパッケージの実践ガイド。Frisch–Waugh–Lovellの定理からシミュレーションによる交絡、実際のパネルデータでの固定効果の可視化まで。',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/stata_fwl/' },
+      { title: 'TWFE Demystified: Manual Demeaning via the FWL Theorem',
+        description: 'Frisch–Waugh–Lovellの定理により、二方向固定効果が平均を除いたデータへのOLSにすぎないことを、Rのバローの収束パネルで確かめる。',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/r_demeaning_twfe/' },
+      { title: 'Introduction to Panel Data Methods in Python',
+        description: 'pyfixestとlinearmodelsを使い、実際の賃金パネルで7つの代表的なパネル推定量（プールOLS、between、一階差分、固定効果、TWFE、変量効果、Mundlak/CRE）を実装する。',
+        category: 'regression', type: 'article', url: 'https://carlos-mendez.org/post/python_panel_intro/' },
+
+      // Differences-in-Differences (DiD)
+      { title: 'Introduction to Difference-in-Differences (DiD) in Python',
+        description: 'PyFixestを使ったPythonによる差の差法の総合ガイド。手計算の2x2からTWFE回帰、イベントスタディまで。',
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/python_did101', pinned: true },
+      { title: 'Introduction to Difference-in-Differences (DiD) in Stata',
+        description: '補習プログラムの事例による差の差法の総合ガイド。手計算の2x2からTWFE回帰、イベントスタディまで。',
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/stata_did/' },
+      { title: 'Sensitivity Analysis for Parallel Trends in DiD (honestdid)',
+        description: 'Stataのhonestdidパッケージで、平行トレンドの仮定が崩れた場合に差の差法の結果がどれだけ頑健かを評価する。',
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/stata_honestdid/' },
+      { title: 'DiD for Policy Evaluation: A Tutorial in R',
+        description: "処置のタイミングが異なる差の差法の実践ガイド。TWFEの落とし穴からCallaway–Sant'Anna推定量まで。",
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/r_did/' },
+      { title: 'Heterogeneous Treatment Effects via Two-Stage DiD',
+        description: 'Rの二段階差の差推定量による、異質な処置効果の入門。',
+        category: 'did', type: 'article', url: 'https://carlos-mendez.org/post/r_two_stage_did/' },
+
+      // Synthetic Control
+      { title: 'Six Ways to Evaluate a Policy: Comparative Case Studies of Proposition 99',
+        description: '必見のチュートリアル。前後比較、差の差法、分断時系列、時間による回帰不連続、合成コントロール法、ベイズ構造時系列（CausalImpact）の6つの政策評価手法を、カリフォルニア州のProposition 99にRで適用して比較する。',
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/r_causalpolicy_workshop/', pinned: true },
+      { title: 'The Synthetic Control Method in Stata',
+        description: "Stataで合成コントロール法、プラセボ検定、leave-one-outによる頑健性の確認を用いて、カリフォルニア州のたばこ対策Proposition 99を評価する。",
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/stata_sc/' },
+      { title: "Synthetic Control with Prediction Intervals: Germany's Reunification",
+        description: "予測区間付きの合成コントロール法で、ドイツ再統一がGDPに与えた影響の不確実性を定量化する。",
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/python_scpi/' },
+      { title: 'Causal Effects of a CO2 Tax',
+        description: 'Rの合成コントロール法で、スウェーデンのCO2税の因果効果に関するAEJ論文を再現する。',
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/r_causal_effects_of_co2_tax/' },
+      { title: 'Basic Synthetic Control',
+        description: "合成コントロール法の基礎チュートリアル。処置を受けた単位の処置前の推移に近づくよう、重み付けした対照単位を作る。",
+        category: 'sc', type: 'article', url: 'https://carlos-mendez.org/post/r_basic_synthetic_control/' },
+
+      // Python in Economics
+      { title: 'QuantEcon',
+        description: 'SargentとStachurskiによる、経済学とファイナンスのためのPythonプログラミング講義。',
+        category: 'econ', type: 'website', url: 'https://quantecon.org/' },
+      { title: 'A First Course in Quantitative Economics',
+        description: 'SargentとStachurskiによる、Pythonでのシミュレーションと可視化を用いた定量経済学の入門講義。',
+        category: 'econ', type: 'course', url: 'https://intro.quantecon.org/' },
+      { title: 'Intermediate Quantitative Economics with Python',
+        description: 'SargentとStachurskiによる、定量的な経済モデルと計算手法の中級講義。',
+        category: 'econ', type: 'course', url: 'https://python.quantecon.org/' },
+      { title: 'Quantitative Economics with JAX',
+        description: 'SargentとStachurskiによる、Google JAXを使ったGPU高速化による定量経済モデル。',
+        category: 'econ', type: 'course', url: 'https://jax.quantecon.org/' },
+      { title: 'Quantitative Economics with Julia',
+        description: 'Perla、Sargent、StachurskiによるJuliaを使った定量経済モデルの講義。',
+        category: 'econ', type: 'course', url: 'https://julia.quantecon.org/' },
+      { title: 'DS4DS — Data Science for Development',
+        description: '開発研究のための計算データサイエンスのノートブックとアプリ。',
+        category: 'econ', type: 'website', url: 'https://cmg777.github.io/ds4ds/' },
+      { title: 'DS4Bolivia',
+        description: 'ボリビアの持続可能な開発を分析するための空間データサイエンスのリポジトリ。',
+        category: 'econ', type: 'website', url: 'https://quarcs-lab.github.io/ds4bolivia/' }
+    ];
+
+    var currentResourceFilter = 'all';
+    var resourceShowAll = false;
+    var RESOURCE_INITIAL_COUNT = 9;
+
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function createResourceCard(r) {
+      var typeInfo = RESOURCE_TYPES[r.type] || RESOURCE_TYPES.website;
+      var titleEsc = escapeHtml(r.title);
+      var actionAttr = r.videoId
+        ? 'href="#" onclick="openVideo(\'' + r.videoId + '\', \'' + titleEsc.replace(/'/g, "\\'") + '\');return false;"'
+        : 'href="' + r.url + '" target="_blank" rel="noopener"';
+      var pinned = r.pinned
+        ? '<span class="resource-pinned-badge">&#9733; 必見</span>'
+        : '';
+      return '<div class="resource-card hiding" data-category="' + r.category + '">'
+        + '<div class="flex items-center justify-between mb-3" style="gap:6px;">'
+        +   '<div class="flex items-center" style="gap:6px;flex-wrap:wrap;">'
+        +     '<span class="resource-type-badge type-' + r.type + '">' + typeInfo.label + '</span>'
+        +     pinned
+        +   '</div>'
+        +   '<span class="resource-cat-icon cat-' + r.category + '">'
+        +     (RESOURCE_CATEGORIES.find(function(c){return c.id===r.category;}) || {icon:''}).icon
+        +   '</span>'
+        + '</div>'
+        + '<h3 class="resource-title">' + titleEsc + '</h3>'
+        + '<p class="resource-desc line-clamp-2">' + escapeHtml(r.description) + '</p>'
+        + '<a ' + actionAttr + ' class="resource-link">'
+        +   typeInfo.action + ' <span class="arrow">&rarr;</span>'
+        + '</a>'
+        + '</div>';
+    }
+
+    function renderResourceFilters() {
+      var container = document.getElementById('resource-filters');
+      if (!container) return;
+      var focusedFilter = container.contains(document.activeElement) ? document.activeElement.getAttribute('data-filter') : null;
+      container.innerHTML = RESOURCE_CATEGORIES.map(function(cat) {
+        var count = cat.id === 'all'
+          ? RESOURCES.length
+          : RESOURCES.filter(function(r){return r.category === cat.id;}).length;
+        var active = currentResourceFilter === cat.id ? ' active' : '';
+        return '<button aria-pressed="' + (currentResourceFilter === cat.id) + '" class="filter-pill' + active + '" data-filter="' + cat.id + '" onclick="filterResources(\'' + cat.id + '\')">'
+          + '<span>' + cat.icon + '</span>'
+          + '<span>' + cat.label + '</span>'
+          + '<span class="pill-count">(' + count + ')</span>'
+          + '</button>';
+      }).join('');
+      if (focusedFilter) {
+        var replacement = Array.from(container.querySelectorAll('button')).find(function(button) { return button.getAttribute('data-filter') === focusedFilter; });
+        if (replacement) replacement.focus({preventScroll: true});
+      }
+    }
+
+    function renderResources() {
+      var grid = document.getElementById('resource-grid');
+      var empty = document.getElementById('resource-empty');
+      var moreContainer = document.getElementById('show-more-container');
+      var moreCount = document.getElementById('show-more-count');
+      if (!grid) return;
+
+      var filtered = currentResourceFilter === 'all'
+        ? RESOURCES.slice()
+        : RESOURCES.filter(function(r){return r.category === currentResourceFilter;});
+      filtered.sort(function(a, b){ return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0); });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        moreContainer.classList.add('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      var toShow = resourceShowAll ? filtered : filtered.slice(0, RESOURCE_INITIAL_COUNT);
+      var hasMore = filtered.length > RESOURCE_INITIAL_COUNT && !resourceShowAll;
+
+      grid.innerHTML = toShow.map(createResourceCard).join('');
+
+      if (hasMore) {
+        moreContainer.classList.remove('hidden');
+        moreCount.textContent = filtered.length - RESOURCE_INITIAL_COUNT;
+      } else {
+        moreContainer.classList.add('hidden');
+      }
+
+      requestAnimationFrame(function() {
+        grid.querySelectorAll('.resource-card').forEach(function(card, i) {
+          setTimeout(function() {
+            card.classList.remove('hiding');
+            card.classList.add('showing');
+          }, i * 40);
+        });
+      });
+    }
+
+    function filterResources(catId) {
+      currentResourceFilter = catId;
+      resourceShowAll = false;
+      renderResourceFilters();
+      renderResources();
+    }
+
+    function showMoreResources() {
+      resourceShowAll = true;
+      renderResources();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderResourceFilters();
+      renderResources();
+    });
+  </script>
+
+  <!-- Video Modal -->
+  <div id="video-modal" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;" onclick="if(event.target===this)closeVideo();">
+    <div style="width:95%;max-width:1400px;position:relative;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <p id="video-title" style="color:#e2e8f0;font-size:1rem;font-weight:600;margin:0;"></p>
+        <button onclick="closeVideo()" style="color:#94a3b8;font-size:1.5rem;background:none;border:none;cursor:pointer;line-height:1;" aria-label="閉じる">&times;</button>
+      </div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
+        <iframe id="video-iframe" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allow="autoplay;encrypted-media" allowfullscreen></iframe>
+      </div>
+      <p id="video-credit" style="color:#64748b;font-size:0.75rem;margin-top:8px;text-align:center;">
+        動画：<a href="https://mru.org/mastering-econometrics-joshua-angrist" target="_blank" style="color:#38bdf8;">Marginal Revolution University</a> &middot; Escキーまたは外側をクリックして閉じる
+      </p>
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div id="image-modal" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.9);align-items:center;justify-content:center;" onclick="if(event.target===this)closeImage();">
+    <div style="width:95%;max-width:1600px;position:relative;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <p id="image-modal-title" style="color:#e2e8f0;font-size:1rem;font-weight:600;margin:0;"></p>
+        <button onclick="closeImage()" style="color:#94a3b8;font-size:1.5rem;background:none;border:none;cursor:pointer;line-height:1;" aria-label="閉じる">&times;</button>
+      </div>
+      <img id="image-modal-img" src="" alt="" style="width:100%;max-height:85vh;object-fit:contain;border-radius:12px;">
+      <p style="color:#64748b;font-size:0.75rem;margin-top:8px;text-align:center;">Escキーまたは外側をクリックして閉じる</p>
+    </div>
+  </div>
+</body>
+</html>

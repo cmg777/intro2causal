@@ -1,8 +1,9 @@
 /* Offline-generated transcript; the player needs no third-party service. */
 (() => {
   const japanese = document.documentElement.lang.startsWith('ja');
-  const text = (english, translated) => japanese ? translated : english;
-  const playError = text('Audio could not play.', '音声を再生できませんでした。');
+  const spanish = document.documentElement.lang.startsWith('es');
+  const text = (english, translated, spanishText) => japanese ? translated : spanish && spanishText ? spanishText : english;
+  const playError = text('Audio could not play.', '音声を再生できませんでした。', 'No se pudo reproducir el audio.');
   async function startPlayback(audio, status) {
     document.querySelectorAll('.podcast-player audio, .episode-pending audio').forEach(other => { if (other !== audio) other.pause(); });
     try {
@@ -12,7 +13,7 @@
     } catch (error) {
       // Closing or switching players can cancel a pending playback request.
       if (error.name !== 'AbortError') {
-        status.textContent = text('Audio could not play. Please try again. You can also read the transcript.', '音声を再生できませんでした。もう一度お試しください。文字起こしもご利用いただけます。');
+        status.textContent = text('Audio could not play. Please try again. You can also read the transcript.', '音声を再生できませんでした。もう一度お試しください。文字起こしもご利用いただけます。', 'No se pudo reproducir el audio. Inténtalo de nuevo. También puedes leer la transcripción.');
       }
     }
   }
@@ -27,7 +28,7 @@
       document.querySelectorAll('.podcast-player audio, .episode-pending audio').forEach(other => { if (other !== audio) other.pause(); });
     });
     audio.addEventListener('playing', () => { status.textContent = ''; });
-    audio.addEventListener('error', () => { status.textContent = text('Audio is unavailable. Please try again later, or use the Spotify link.', '音声を読み込めません。後でもう一度お試しいただくか、Spotifyのリンクをご利用ください。'); });
+    audio.addEventListener('error', () => { status.textContent = text('Audio is unavailable. Please try again later, or use the Spotify link.', '音声を読み込めません。後でもう一度お試しいただくか、Spotifyのリンクをご利用ください。', 'El audio no está disponible. Inténtalo más tarde o usa el enlace de Spotify.'); });
   });
   document.querySelectorAll('.episode-pending audio').forEach(audio => {
     audio.addEventListener('play', () => {
@@ -91,7 +92,7 @@
       let currentSection = -1;
       let pendingSeek = null;
       let following = follow.checked;
-      const sectionName = (section, index) => !japanese && index > 0 && index < episode.sections.length - 1 ? `Part ${index} · ${section.title}` : section.title;
+      const sectionName = (section, index) => !japanese && index > 0 && index < episode.sections.length - 1 ? `${spanish ? 'Parte' : 'Part'} ${index} · ${section.title}` : section.title;
       const chapterButtons = episode.sections.map((section, index) => {
         const button = document.createElement('button');
         button.type = 'button';
@@ -145,7 +146,7 @@
         const total = Number.isFinite(audio.duration) ? audio.duration : episode.duration;
         seek.max = total;
         seek.value = time;
-        seek.setAttribute('aria-valuetext', text(`${formatTime(time)} of ${formatTime(total)}`, `${formatTime(total)}中 ${formatTime(time)}`));
+        seek.setAttribute('aria-valuetext', text(`${formatTime(time)} of ${formatTime(total)}`, `${formatTime(total)}中 ${formatTime(time)}`, `${formatTime(time)} de ${formatTime(total)}`));
         elapsed.textContent = formatTime(time);
         duration.textContent = formatTime(total);
         player.querySelector('[data-progress]').style.width = `${100 * time / total}%`;
@@ -154,7 +155,7 @@
         if (s !== currentSection) {
           chapterButtons[currentSection]?.removeAttribute('aria-current');
           chapterButtons[s]?.setAttribute('aria-current', 'true');
-          player.querySelector('.podcast-now').textContent = `${text('Now: ', '現在：')}${sectionName(episode.sections[s], s)}`;
+          player.querySelector('.podcast-now').textContent = `${text('Now: ', '現在：', 'Ahora: ')}${sectionName(episode.sections[s], s)}`;
           currentSection = s;
         }
         const p = episode.segments.findLastIndex(segment => segment.start <= time);
@@ -185,7 +186,7 @@
         const opening = transcriptPanel.hidden;
         transcriptPanel.hidden = !opening;
         transcriptToggle.setAttribute('aria-expanded', String(opening));
-        transcriptToggle.querySelector('span').textContent = opening ? text('Hide transcript', '文字起こしを閉じる') : text('Read along', '文字起こしを表示');
+        transcriptToggle.querySelector('span').textContent = opening ? text('Hide transcript', '文字起こしを閉じる', 'Ocultar transcripción') : text('Read along', '文字起こしを表示', 'Leer en paralelo');
         if (opening) scrollToPassage();
       });
       play.addEventListener('click', () => {
@@ -194,7 +195,7 @@
       });
       function updatePlay() {
         const playing = !audio.paused;
-        play.setAttribute('aria-label', playing ? text('Pause podcast', '一時停止') : text('Play podcast', '再生'));
+        play.setAttribute('aria-label', playing ? text('Pause podcast', '一時停止', 'Pausar pódcast') : text('Play podcast', '再生', 'Reproducir pódcast'));
         play.setAttribute('aria-pressed', String(playing));
         // SVG elements do not reliably reflect the HTML `hidden` property.
         play.querySelector('[data-play-icon]').toggleAttribute('hidden', playing);
@@ -219,7 +220,7 @@
         const speed = speeds[(speeds.indexOf(audio.playbackRate) + 1) % speeds.length];
         audio.playbackRate = speed;
         event.currentTarget.textContent = `${speed}×`;
-        event.currentTarget.setAttribute('aria-label', text(`Playback speed: ${speed}×. Click to change`, `再生速度：${speed}倍。選択して変更`));
+        event.currentTarget.setAttribute('aria-label', text(`Playback speed: ${speed}×. Click to change`, `再生速度：${speed}倍。選択して変更`, `Velocidad de reproducción: ${speed}×. Haz clic para cambiarla`));
       });
       player.querySelectorAll('[data-enhanced]').forEach(element => { element.hidden = false; });
       player.classList.add('enhanced');
@@ -227,7 +228,7 @@
       updatePlay();
       update();
     } catch (error) {
-      status.textContent = text('Interactive transcript unavailable. You can still listen, open the transcript, or listen on Spotify using the episode links.', '同期する文字起こしを読み込めません。音声の再生、全文を開くリンク、Spotifyは引き続きご利用いただけます。');
+      status.textContent = text('Interactive transcript unavailable. You can still listen, open the transcript, or listen on Spotify using the episode links.', '同期する文字起こしを読み込めません。音声の再生、全文を開くリンク、Spotifyは引き続きご利用いただけます。', 'La transcripción interactiva no está disponible. Aún puedes escuchar, abrir la transcripción o escuchar en Spotify con los enlaces del episodio.');
     }
   });
 })();
