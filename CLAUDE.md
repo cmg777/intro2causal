@@ -20,7 +20,8 @@ This is a **pedagogical causal inference project** built around *Mastering 'Metr
 | `code/python/chN/prepare_data.py` | Data prep scripts: raw `.dta` → clean `.csv`. |
 | `code/python/chN/*.py` | Standalone Python replication scripts (one per table/figure). |
 | `code/stata/chN/*.do` | Original Stata do files from the book's website. |
-| `original-book/*.md` | Chapter text in markdown (reference material — **not currently in the repo**; use the study guides as the source). |
+| `latex-original-book/` | **Local-only copyrighted original book**, including LaTeX and images. Authoritative reference for accuracy and completeness of all generated materials; ignored by git, never commit or push. |
+| `original-book/*.md` | Optional local-only Markdown references; also ignored by git. |
 | `index.html` | Project website landing page (GitHub Pages). |
 | `tutors.html` | AI tutors page. |
 | `tutors/*.md` | AI tutor system prompts for Google Gemini Gems. |
@@ -70,6 +71,7 @@ for f in notebooks_quarto/*.qmd; do uv run quarto render "$f"; done
 - **Equations**: Use standard math notation ($Y$, $D$, $\rho$) with an explicit bridge to the code variable names in surrounding text (e.g., "where $Y_{st}$ is the death rate (`mrate`)").
 - **Regression**: Use `pf.feols()` for all regressions (OLS, WLS, IV/2SLS, panel FE). Always specify `vcov=` for robust (`"hetero"`) or clustered (`{"CRV1": "var"}`) SEs. Use `| fe_var` for absorbed fixed effects. Use `| endogenous ~ instrument` for IV.
 - **Copyright**: All text must be original paraphrases — never copy from the book. Create new examples instead of using the book's character names.
+- **Source authority**: Use the original book in `latex-original-book/` as the ultimate reference for the correctness and completeness of generated materials. Maps and study guides organize the presentation; verify their claims and coverage against the relevant original chapter, including assumptions and caveats. Explain legitimate replication differences and flag inconsistencies. Keep the source LaTeX, images and extracted copies local; never stage them, force-add ignored source files, or push them to GitHub.
 
 ### Mermaid Diagrams (critical rules)
 
@@ -137,6 +139,34 @@ cd slides/ch01 && uv run quarto render slides.qmd
 # Publish new/updated mind-map images (mindmaps/images/) to every deck + book chapter:
 # WebP copies, old concept cards deleted, decks + book re-rendered, smoke test. Then commit.
 uv run python .claude/skills/write-slides/scripts/sync_mindmap_images.py   # --dry-run to preview
+```
+
+### `/write-podcast-script4mindmaps [audit] <chapter-or-selection> [--force]`
+
+Writes approximately 20-minute HOST/ECONOMIST dialogues following the six chapter mind maps, with
+numerical evidence, coverage records, and independent content/pedagogy/listening audits. Uses local study
+guides, Colab notebook outputs, and slides for students new to econometrics. Optional Gemini audio is
+generated only when requested, after lint and audit pass. Outputs go in `mindmaps-podcast/`; audio and
+caches are ignored by git. No automatic commits, pushes, or website integration. See
+`.claude/skills/write-podcast-script4mindmaps/SKILL.md`.
+
+```text
+/write-podcast-script4mindmaps 1
+/write-podcast-script4mindmaps 2-5
+/write-podcast-script4mindmaps audit ch03
+```
+
+### `/write-japanese-lesson <chapter-or-selection> [--force]`
+
+Builds a six-step Japanese lesson (JLPT N2→N1: vocabulary, listening, shadowing with turn clips of the
+existing MP3, grammar, N1 reading, comprehension and speaking) for a chapter of the Japanese podcast.
+The lesson page `mindmaps-podcast/ja/study/chNN-<slug>.html` sits beside the reading page and is linked
+from it, from `mindmaps-podcast/ja/index.html` and from `podcasts-ja.html`. Never edits scripts, transcripts
+or audio. Local skill (`.claude/` is gitignored); see `.claude/skills/write-japanese-lesson/SKILL.md`.
+
+```text
+/write-japanese-lesson 1
+/write-japanese-lesson 2-6
 ```
 
 ## Data Flow

@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "project_id": "intro2causal",
+  "show": {
+    "title": "Mastering Causal Metrics",
+    "creator": "Carlos Mendez",
+    "language": "English",
+    "category": "Courses",
+    "explicit": false,
+    "website": "https://cmg777.github.io/intro2causal/",
+    "artwork": "publishing/spotify/cover.png",
+    "description": "Explore causal inference through six student-friendly conversations on randomized trials, regression, instrumental variables, regression discontinuity, differences-in-differences, and the returns to schooling. An independent study companion to Mastering ’Metrics by Joshua D. Angrist and Jörn-Steffen Pischke (2015), with original scripts and AI-generated narration. Created by Carlos Mendez. Study guides and transcripts: https://cmg777.github.io/intro2causal/"
+  },
+  "episodes": [
+    {
+      "id": "ch01-randomized-trials",
+      "number": 1,
+      "title": "Chapter 1: Randomized Trials",
+      "type": "full",
+      "explicit": false,
+      "audio": "mindmaps-podcast/audio/ch01-randomized-trials.mp3",
+      "transcript": "mindmaps-podcast/transcripts/ch01-randomized-trials.vtt",
+      "alignment": "mindmaps-podcast/transcripts/ch01-randomized-trials.json",
+      "transcript_url": "https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch01-randomized-trials.txt",
+      "description": "Why do insured and uninsured people have different health outcomes? Explore selection bias, potential outcomes, and randomized assignment through the RAND Health Insurance Experiment and the Oregon Health Insurance Experiment. Learn why more healthcare use need not imply large average physical-health gains.\n\nRead the transcript: https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch01-randomized-trials.txt\nStudy guides and read-along audio: https://cmg777.github.io/intro2causal/\n\nAn independent study companion to Mastering ’Metrics by Joshua D. Angrist and Jörn-Steffen Pischke (2015). AI-generated narration from an original educational script; not an official audiobook. Transcript timing is approximate.",
+      "artwork": "publishing/spotify/episode-art/ch01-randomized-trials.png"
+    },
+    {
+      "id": "ch02-regression",
+      "number": 2,
+      "title": "Chapter 2: Regression",
+      "type": "full",
+      "explicit": false,
+      "audio": "mindmaps-podcast/audio/ch02-regression.mp3",
+      "transcript": "mindmaps-podcast/transcripts/ch02-regression.vtt",
+      "alignment": "mindmaps-podcast/transcripts/ch02-regression.json",
+      "transcript_url": "https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch02-regression.txt",
+      "description": "Can regression reveal the payoff to attending a selective college? Explore omitted-variable bias, conditional comparisons, and bad controls through the college earnings question and the Dale–Krueger studies. Learn what regression can establish and which assumptions carry the causal argument.\n\nRead the transcript: https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch02-regression.txt\nStudy guides and read-along audio: https://cmg777.github.io/intro2causal/\n\nAn independent study companion to Mastering ’Metrics by Joshua D. Angrist and Jörn-Steffen Pischke (2015). AI-generated narration from an original educational script; not an official audiobook. Transcript timing is approximate.",
+      "artwork": "publishing/spotify/episode-art/ch02-regression.png"
+    },
+    {
+      "id": "ch03-instrumental-variables",
+      "number": 3,
+      "title": "Chapter 3: Instrumental Variables",
+      "type": "full",
+      "explicit": false,
+      "audio": "mindmaps-podcast/audio/ch03-instrumental-variables.mp3",
+      "transcript": "mindmaps-podcast/transcripts/ch03-instrumental-variables.vtt",
+      "alignment": "mindmaps-podcast/transcripts/ch03-instrumental-variables.json",
+      "transcript_url": "https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch03-instrumental-variables.txt",
+      "description": "How can an instrument uncover a causal effect when treatment is not randomly assigned? Explore relevance, independence, exclusion, and monotonicity through policing, KIPP charter-school lotteries, and family-size examples. Learn why instrumental-variable estimates often describe effects for compliers.\n\nRead the transcript: https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch03-instrumental-variables.txt\nStudy guides and read-along audio: https://cmg777.github.io/intro2causal/\n\nAn independent study companion to Mastering ’Metrics by Joshua D. Angrist and Jörn-Steffen Pischke (2015). AI-generated narration from an original educational script; not an official audiobook. Transcript timing is approximate.",
+      "artwork": "publishing/spotify/episode-art/ch03-instrumental-variables.png"
+    },
+    {
+      "id": "ch04-regression-discontinuity",
+      "number": 4,
+      "title": "Chapter 4: Regression Discontinuity",
+      "type": "full",
+      "explicit": false,
+      "audio": "mindmaps-podcast/audio/ch04-regression-discontinuity.mp3",
+      "transcript": "mindmaps-podcast/transcripts/ch04-regression-discontinuity.vtt",
+      "alignment": "mindmaps-podcast/transcripts/ch04-regression-discontinuity.json",
+      "transcript_url": "https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch04-regression-discontinuity.txt",
+      "description": "What can a sharp policy cutoff teach us about cause and effect? Explore regression discontinuity through the minimum legal drinking age and Boston exam-school admissions. Learn how local comparisons work, why bandwidth and continuity matter, and why results near a cutoff may not generalize.\n\nRead the transcript: https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch04-regression-discontinuity.txt\nStudy guides and read-along audio: https://cmg777.github.io/intro2causal/\n\nAn independent study companion to Mastering ’Metrics by Joshua D. Angrist and Jörn-Steffen Pischke (2015). AI-generated narration from an original educational script; not an official audiobook. Transcript timing is approximate.",
+      "artwork": "publishing/spotify/episode-art/ch04-regression-discontinuity.png"
+    },
+    {
+      "id": "ch05-differences-in-differences",
+      "number": 5,
+      "title": "Chapter 5: Differences-in-Differences",
+      "type": "full",
+      "explicit": false,
+      "audio": "mindmaps-podcast/audio/ch05-differences-in-differences.mp3",
+      "transcript": "mindmaps-podcast/transcripts/ch05-differences-in-differences.vtt",
+      "alignment": "mindmaps-podcast/transcripts/ch05-differences-in-differences.json",
+      "transcript_url": "https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch05-differences-in-differences.txt",
+      "description": "Can changes over time reveal a policy effect? Explore differences-in-differences through banking during the Great Depression and minimum legal drinking-age policies. Learn the parallel-trends assumption, the role of comparison groups, and the limits of before-and-after evidence.\n\nRead the transcript: https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch05-differences-in-differences.txt\nStudy guides and read-along audio: https://cmg777.github.io/intro2causal/\n\nAn independent study companion to Mastering ’Metrics by Joshua D. Angrist and Jörn-Steffen Pischke (2015). AI-generated narration from an original educational script; not an official audiobook. Transcript timing is approximate.",
+      "artwork": "publishing/spotify/episode-art/ch05-differences-in-differences.png"
+    },
+    {
+      "id": "ch06-wages-of-schooling",
+      "number": 6,
+      "title": "Chapter 6: The Wages of Schooling",
+      "type": "full",
+      "explicit": false,
+      "audio": "mindmaps-podcast/audio/ch06-wages-of-schooling.mp3",
+      "transcript": "mindmaps-podcast/transcripts/ch06-wages-of-schooling.vtt",
+      "alignment": "mindmaps-podcast/transcripts/ch06-wages-of-schooling.json",
+      "transcript_url": "https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch06-wages-of-schooling.txt",
+      "description": "How much does schooling increase earnings? Bring the causal toolkit together through twins, quarter-of-birth instruments, and diploma effects. Compare regression, fixed effects, instrumental variables, and regression discontinuity, with attention to assumptions and the populations each estimate describes.\n\nRead the transcript: https://cmg777.github.io/intro2causal/mindmaps-podcast/transcripts/ch06-wages-of-schooling.txt\nStudy guides and read-along audio: https://cmg777.github.io/intro2causal/\n\nAn independent study companion to Mastering ’Metrics by Joshua D. Angrist and Jörn-Steffen Pischke (2015). AI-generated narration from an original educational script; not an official audiobook. Transcript timing is approximate.",
+      "artwork": "publishing/spotify/episode-art/ch06-wages-of-schooling.png"
+    }
+  ]
+}

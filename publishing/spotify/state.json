@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "project_id": "intro2causal",
+  "show_id": "4eleEMEYrSr7pFwOeMuI0r",
+  "show_url": "https://open.spotify.com/show/4eleEMEYrSr7pFwOeMuI0r",
+  "episodes": {
+    "ch01-randomized-trials": {
+      "spotify_id": "3O60EvgThQMkkdb9Y3qonF",
+      "creator_url": "https://creators.spotify.com/pod/show/4eleEMEYrSr7pFwOeMuI0r/episode/3O60EvgThQMkkdb9Y3qonF/wizard",
+      "status": "published",
+      "audio_sha256": "3b9d630b14ce664b956d8db6de8bfec255c4eaca91a30b67e38c869abeadc7ed",
+      "transcript_sha256": "9a295198546f930abe7c85c1e37e2d67b1963c901601c1901206de51d36bd09e",
+      "transcript_mode": "linked_txt",
+      "transcript_note": "Published Chapter 1 details explicitly state: Transcripts are not available for this podcast.",
+      "url": "https://open.spotify.com/episode/3O60EvgThQMkkdb9Y3qonF",
+      "published_on": "2026-10-23",
+      "publication_observed_at": "2026-10-22T23:36:18.958435+00:00",
+      "verified": {
+        "creator_published_status": true,
+        "public_page": true,
+        "playback": true,
+        "transcript_link": true
+      },
+      "verification_note": "Public title, description, cover and linked TXT visible. Playback clock advanced at 0:03\u20130:09, 19:28\u201319:32, and 38:13\u201338:15. Audio quality not independently auditioned.",
+      "artwork": "publishing/spotify/episode-art/ch01-randomized-trials.png",
+      "artwork_sha256": "5a9ce3e38b146b2abbcacfb06b9f4ecdd40a35a0fd187e19360c40e289f5fb16",
+      "artwork_saved_at": "2026-10-22T23:57:11.821Z",
+      "artwork_remote_url": "https://s3-us-west-2.amazonaws.com/anchor-generated-image-bank/staging/podcast_uploaded_episode400/47041000/47041000-1792713331364-bb23214cb2b96.jpg",
+      "artwork_verified_in_creator": true
+    },
+    "ch02-regression": {
+      "spotify_id": "2gE66Q3fTts4fnU19mctyo",
+      "status": "published",
+      "audio_sha256": "38ad02315647c69b2e11731514644e43d74bcb99fe97ae443b2ef514d49ab8c4",
+      "transcript_sha256": "0c19c0bf04b6551f06bdd1f0194c7fe7f2378f9daf4a384fc22d200fcf6b6bf3",
+      "creator_url": "https://creators.spotify.com/pod/show/4eleEMEYrSr7pFwOeMuI0r/episodes",
+      "transcript_mode": "linked_txt",
+      "transcript_note": "Published Chapter 1 details explicitly state: Transcripts are not available for this podcast.",
+      "url": "https://open.spotify.com/episode/2gE66Q3fTts4fnU19mctyo",
+      "publication_observed_at": "2026-10-22T23:40:52.605Z",
+      "verified": {
+        "creator_published_status": true,
+        "public_page": true,
+        "playback": true,
+        "transcript_link": true
+      },
+      "artwork": "publishing/spotify/episode-art/ch02-regression.png",
+      "artwork_sha256": "6e88630bfb38801f13673c8bd2f9c085587dfb222992270930695f364ef24927",
+      "artwork_saved_at": "2026-10-23T00:06:53.442Z",
+      "artwork_remote_url": "https://s3-us-west-2.amazonaws.com/anchor-generated-image-bank/staging/podcast_uploaded_episode400/47041000/47041000-1792713472774-e1375afc3814a.jpg",
+      "artwork_verified_in_creator": true
+    },
+    "ch03-instrumental-variables": {
+      "spotify_id": "2VnEMA9PTdX9x1zRnl0h56",
+      "status": "published",
+      "audio_sha256": "6d7cf0fd171658280241c5e1b6e0e5749b9fff785bd078baf3d05aa2cf08acc0",
+      "transcript_sha256": "178c58602fc9e42dc4520edd1b35920e8db881ab4e6614516b33f3daee9cd857",
+      "creator_url": "https://creators.spotify.com/pod/show/4eleEMEYrSr7pFwOeMuI0r/episodes",
+      "transcript_mode": "linked_txt",
+      "transcript_note": "Published Chapter 1 details explicitly state: Transcripts are not available for this podcast.",
+      "url": "https://open.spotify.com/episode/2VnEMA9PTdX9x1zRnl0h56",
+      "publication_observed_at": "2026-10-22T23:42:36.444Z",
+      "verified": {
+        "creator_published_status": true,
+        "public_page": true,
+        "playback": true,
+        "transcript_link": true
+      },
+      "artwork": "publishing/spotify/episode-art/ch03-instrumental-variables.png",
+      "artwork_sha256": "05aec1f6db4cf3a66fdc88f9362b7ec1efef90258aee657390316094024b1158",
+      "artwork_saved_at": "2026-10-22T23:59:55.497Z",
+      "artwork_remote_url": "https://s3-us-west-2.amazonaws.com/anchor-generated-image-bank/staging/podcast_uploaded_episode400/47041000/47041000-1792713571191-2bd3c0a843e59.jpg",
+      "artwork_verified_in_creator": true
+    },
+    "ch04-regression-discontinuity": {
+      "spotify_id": "39cBXhzM2tEQ6Iy0IPHAxP",
+      "status": "published",
+      "audio_sha256": "89e1b89beb6cd7abaf7399671a8c5c37deb6bc881de4403f1146f088751823d2",
+      "transcript_sha256": "0db3e5dacf6cac33fc5321610c7c123c5d71e517fa64a7cd773f241156eba639",
+      "creator_url": "https://creators.spotify.com/pod/show/4eleEMEYrSr7pFwOeMuI0r/episodes",
+      "transcript_mode": "linked_txt",
+      "transcript_note": "Published Chapter 1 details explicitly state: Transcripts are not available for this podcast.",
+      "url": "https://open.spotify.com/episode/39cBXhzM2tEQ6Iy0IPHAxP",
+      "publication_observed_at": "2026-10-22T23:44:13.731Z",
+      "verified": {
+        "creator_published_status": true,
+        "public_page": true,
+        "playback": true,
+        "transcript_link": true
+      },
+      "artwork": "publishing/spotify/episode-art/ch04-regression-discontinuity.png",
+      "artwork_sha256": "9c25af265386fc4354b72985ad6957504b76c180dc3f036db80f56f48ab3be42",
+      "artwork_saved_at": "2026-10-23T00:01:44.480Z",
+      "artwork_remote_url": "https://s3-us-west-2.amazonaws.com/anchor-generated-image-bank/staging/podcast_uploaded_episode400/47041000/47041000-1792713685301-19ac8bf81077f.jpg",
+      "artwork_verified_in_creator": true
+    },
+    "ch05-differences-in-differences": {
+      "spotify_id": "097YUmXOFyuwCr6xKKPyyB",
+      "status": "published",
+      "audio_sha256": "a86b0adb7b149e80826faedb7966e7f5f7d640f5499f6fe14a9166d6ed39e9fc",
+      "transcript_sha256": "cf5ed1a10382a803cf94f04bdc6c11aab71b4ff6e835f7e3f1880baaca6227ec",
+      "creator_url": "https://creators.spotify.com/pod/show/4eleEMEYrSr7pFwOeMuI0r/episodes",
+      "transcript_mode": "linked_txt",
+      "transcript_note": "Published Chapter 1 details explicitly state: Transcripts are not available for this podcast.",
+      "url": "https://open.spotify.com/episode/097YUmXOFyuwCr6xKKPyyB",
+      "publication_observed_at": "2026-10-22T23:45:59.896Z",
+      "verified": {
+        "creator_published_status": true,
+        "public_page": true,
+        "playback": true,
+        "transcript_link": true
+      },
+      "artwork": "publishing/spotify/episode-art/ch05-differences-in-differences.png",
+      "artwork_sha256": "b6744878b04e02b9c748903b8fc8ceb4715bfcf0713766289d08b9f0f9eba372",
+      "artwork_saved_at": "2026-10-23T00:03:49.252Z",
+      "artwork_remote_url": "https://s3-us-west-2.amazonaws.com/anchor-generated-image-bank/staging/podcast_uploaded_episode400/47041000/47041000-1792713797923-fd247184f7c82.jpg",
+      "artwork_verified_in_creator": true
+    },
+    "ch06-wages-of-schooling": {
+      "spotify_id": "7Ai11CxTsj9yoVtL68UcvV",
+      "status": "published",
+      "audio_sha256": "0d7d92817c28d2169c89b0e74194cb86b3b912f50484d9733a18b5462a2bc69c",
+      "transcript_sha256": "4edcc49c5f97e6a901ebe62aa9598595dca9a25c4c9ca7b91bdd369df1ccc700",
+      "creator_url": "https://creators.spotify.com/pod/show/4eleEMEYrSr7pFwOeMuI0r/episodes",
+      "transcript_mode": "linked_txt",
+      "transcript_note": "Published Chapter 1 details explicitly state: Transcripts are not available for this podcast.",
+      "url": "https://open.spotify.com/episode/7Ai11CxTsj9yoVtL68UcvV",
+      "publication_observed_at": "2026-10-22T23:47:40.093Z",
+      "verified": {
+        "creator_published_status": true,
+        "public_page": true,
+        "playback": true,
+        "transcript_link": true
+      },
+      "artwork": "publishing/spotify/episode-art/ch06-wages-of-schooling.png",
+      "artwork_sha256": "b8bf92a00d7d3ed1ab5540ea0b0921aee904664407c68f47a8155bb1e91a01eb",
+      "artwork_saved_at": "2026-10-23T00:06:19.757Z",
+      "artwork_remote_url": "https://s3-us-west-2.amazonaws.com/anchor-generated-image-bank/staging/podcast_uploaded_episode400/47041000/47041000-1792713952164-4df0770b55ef9.jpg",
+      "artwork_verified_in_creator": true
+    }
+  },
+  "approval": {
+    "materials": "approved",
+    "cover_resize": "approved",
+    "release": "Chapter 1 pilot, then Chapters 2\u20136 after successful verification",
+    "approved_on": "2026-10-23"
+  },
+  "creator_url": "https://creators.spotify.com/home/show/4eleEMEYrSr7pFwOeMuI0r",
+  "show_status": "published",
+  "transcript_eligibility": "unavailable",
+  "transcript_note": "Published Chapter 1 details explicitly state: Transcripts are not available for this podcast.",
+  "completion": {
+    "status": "published_and_verified",
+    "verified_at": "2026-10-22T23:50:12.683Z",
+    "note": "All six public pages and transcript links verified; playback clocks advance for each episode. Pilot also tested at midpoint and near end. Audio quality was not independently auditioned.",
+    "artwork": "Six distinct simplified square mind maps saved and verified in Spotify for Creators."
+  }
+}

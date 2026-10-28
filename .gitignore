@@ -56,6 +56,9 @@ mindmaps-podcast/audio/*
 !mindmaps-podcast/audio/ch06-wages-of-schooling.opus
 .work/podcast/
 
+# Local Spotify upload manifests contain absolute filesystem paths.
+publishing/spotify/manifest.json
+
 # Japanese-edition generation caches and unpublished recordings
 .work/podcast-ja/
 mindmaps-podcast/ja/audio/

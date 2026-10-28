@@ -1,0 +1,10 @@
+Use case: ads-marketing. Asset type: square podcast cover, 2048x2048 or larger square. Create polished original editorial artwork for an educational causal inference podcast. Dark navy background, luminous causal blue #3498db and method purple #8e44ad, restrained emerald accents. A striking abstract network of cause-and-effect nodes and directional paths with a subtle audio waveform, elegant scientific editorial illustration, clear uncluttered composition. Large exceptionally legible white typography, exact title on three lines: "MASTERING" "CAUSAL" "METRICS". Small subtitle "A STUDY COMPANION". Bottom credit "CARLOS MENDEZ". Strong thumbnail readability, ample margins. No other text, no logos, no imitation of any book cover, no university seals. Opaque background. Save a local output and return its path.
+
+Tool: built-in image_gen (not CLI).
+Initial output: exec-ebab0e02-7462-4d7f-a1d7-203d27383505.png, 1254 x 1254 RGB.
+Selected project asset: cover.png.
+
+Higher-resolution retry prompt:
+Preserve this exact cover design, all text and composition. Produce a higher-resolution square version at 2048 by 2048 pixels, minimum 1400 pixels per side. This is podcast show artwork and must meet the minimum 1400x1400 size. Do not change any words, colors, layout, or credit.
+
+The retry also returned 1254 x 1254. The original remains selected; the user approved local resizing; cover.png was resized to 2048 x 2048 RGB using Pillow Lanczos on 2026-10-23.
