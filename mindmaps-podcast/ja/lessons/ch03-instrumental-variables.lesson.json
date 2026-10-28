@@ -1,0 +1,568 @@
+{
+  "chapter": 3,
+  "script_sha256": "6135bc0d0aededd035cdad0f35caf5b21debe798b29d01eecc41811d9f7b259b",
+  "goal_ja": "この課では、学校のくじ引き、警察の実験、家族の規模を例に、操作変数法の考え方を日本語で聞きます。第一段階と誘導形の比率がなぜ遵守者の効果を表すのか、どんな仮定が必要なのかを説明する表現をシャドーイングで身につけ、同じ内容をN1レベルの書き言葉で読み、最後に自分の言葉で説明します。",
+  "goal_en": "Hear instrumental variables explained in Japanese through a school lottery, a police experiment and family size, shadow how the ratio of reduced form to first stage reveals an effect for compliers and which assumptions it needs, read the same ideas in N1-level written Japanese, then explain them yourself.",
+  "vocab": [
+    {
+      "term": "依然として",
+      "reading": "いぜんとして",
+      "meaning": "still; as before",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t002",
+      "example": "いえ、依然として価値のある情報が得られます。"
+    },
+    {
+      "term": "拒む",
+      "reading": "こばむ",
+      "meaning": "to refuse; to decline",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t007",
+      "example": "患者が薬を拒むこともあれば、くじに当たった人が別の学校を選ぶこともあり、警察官が予定されていた対応を変更することもあります。"
+    },
+    {
+      "term": "並外れる",
+      "reading": "なみはずれる",
+      "meaning": "to be extraordinary; unusually",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t010",
+      "example": "ある家族が学校からの提示を受け入れたのは、並外れて大きな恩恵を期待したからかもしれません。",
+      "surface": "並外れて"
+    },
+    {
+      "term": "踏み切る",
+      "reading": "ふみきる",
+      "meaning": "to go ahead with (a decision)",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t010",
+      "example": "警察官が指示に反して逮捕に踏み切ったのは、その現場が非常に危険だと感じられたからかもしれません。",
+      "surface": "踏み切っ"
+    },
+    {
+      "term": "誘導形",
+      "reading": "ゆうどうけい",
+      "meaning": "reduced form",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch03-t018",
+      "example": "これに対して誘導形は、操作変数が最終的な結果をどれだけ変えるかを測ります。"
+    },
+    {
+      "term": "遵守者",
+      "reading": "じゅんしゅしゃ",
+      "meaning": "complier",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch03-t020",
+      "example": "私たちは彼らを遵守者と呼びます。"
+    },
+    {
+      "term": "抵抗者",
+      "reading": "ていこうしゃ",
+      "meaning": "defier",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch03-t020",
+      "example": "常に処置を受ける人はどちらにしても処置を受け、決して処置を受けない人はどちらにしても受けず、抵抗者は提示とは逆の行動をとります。"
+    },
+    {
+      "term": "軽罪",
+      "reading": "けいざい",
+      "meaning": "misdemeanor",
+      "level": "超N1",
+      "kind": "general",
+      "turn": "ch03-t024",
+      "example": "参加した警察官は、軽罪に相当する家庭内暴力が疑われる対象事案に対応しました。"
+    },
+    {
+      "term": "調停",
+      "reading": "ちょうてい",
+      "meaning": "mediation",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t024",
+      "example": "助言には調停が含まれることもありました。"
+    },
+    {
+      "term": "連鎖",
+      "reading": "れんさ",
+      "meaning": "chain; chain reaction",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t029",
+      "example": "では、その道具である因果の連鎖反応について見ていきましょう。"
+    },
+    {
+      "term": "識別",
+      "reading": "しきべつ",
+      "meaning": "identification (of an effect)",
+      "level": "N1",
+      "kind": "economics",
+      "turn": "ch03-t036",
+      "example": "そこで識別仮定の話になります。"
+    },
+    {
+      "term": "共変量",
+      "reading": "きょうへんりょう",
+      "meaning": "covariate",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch03-t038",
+      "example": "事前の共変量のバランスを確認することで問題を発見できますが、観察された変数がそろっているからといって独立性が証明されるわけではありません。"
+    },
+    {
+      "term": "除外制約",
+      "reading": "じょがいせいやく",
+      "meaning": "exclusion restriction",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch03-t039",
+      "example": "そして除外制約は、提示が通学を通じてのみ点数に影響することを求めています。"
+    },
+    {
+      "term": "脅かす",
+      "reading": "おびやかす",
+      "meaning": "to threaten",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t040",
+      "example": "そうした想定される経路は、定められた処置の枠外で結果を変えてしまうため、除外制約を脅かします。",
+      "surface": "脅かし"
+    },
+    {
+      "term": "波及効果",
+      "reading": "はきゅうこうか",
+      "meaning": "spillover effect",
+      "level": "N1",
+      "kind": "economics",
+      "turn": "ch03-t042",
+      "example": "ある応募者への提示が、モデル化されていない波及効果を通じて別の応募者の学習に影響を与える場合、単純な連鎖だけでは足りなくなります。"
+    },
+    {
+      "term": "代弁",
+      "reading": "だいべん",
+      "meaning": "speaking for; representing",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t043",
+      "example": "局所平均処置効果が誰を代弁しているのかが次の問題です。"
+    },
+    {
+      "term": "単調性",
+      "reading": "たんちょうせい",
+      "meaning": "monotonicity",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch03-t046",
+      "example": "単調性の仮定は、そうした逆方向の反応を排除します。"
+    },
+    {
+      "term": "鉄則",
+      "reading": "てっそく",
+      "meaning": "iron rule; firm principle",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t070",
+      "example": "これは一般的な鉄則です。"
+    },
+    {
+      "term": "見当違い",
+      "reading": "けんとうちがい",
+      "meaning": "misdirected; beside the point",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t070",
+      "example": "そうでなければ、計算自体は正しくても、見当違いの問いに答えることになってしまいます。"
+    },
+    {
+      "term": "外的妥当性",
+      "reading": "がいてきだとうせい",
+      "meaning": "external validity",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch03-t072",
+      "example": "それが外的妥当性の問題です。"
+    },
+    {
+      "term": "過信",
+      "reading": "かしん",
+      "meaning": "overconfidence; trusting too much",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t081",
+      "example": "除外制約を直接検証できると過信することなく、何かを知る手立てはあるでしょうか。"
+    },
+    {
+      "term": "手立て",
+      "reading": "てだて",
+      "meaning": "means; way (to do something)",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t081",
+      "example": "除外制約を直接検証できると過信することなく、何かを知る手立てはあるでしょうか。"
+    },
+    {
+      "term": "懸念",
+      "reading": "けねん",
+      "meaning": "concern; worry",
+      "level": "N2",
+      "kind": "general",
+      "turn": "ch03-t082",
+      "example": "処置の動きがないのに結果が反応していれば、別の経路が存在するという懸念が生じます。"
+    },
+    {
+      "term": "補強",
+      "reading": "ほきょう",
+      "meaning": "reinforcement; to strengthen",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t082",
+      "example": "それは主張を補強しますが、特に推定の精度が高くない場合、除外制約を完全に証明できるわけではありません。"
+    },
+    {
+      "term": "過剰適合",
+      "reading": "かじょうてきごう",
+      "meaning": "overfitting",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch03-t094",
+      "example": "多数の弱い操作変数を使うと、第一段階で過剰適合が起きる可能性があります。"
+    },
+    {
+      "term": "脆弱性",
+      "reading": "ぜいじゃくせい",
+      "meaning": "fragility; vulnerability",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch03-t094",
+      "example": "推定値を比較し、誘導形を精査することで脆弱性を見抜くことができますが、いかなる推定量であっても、誤った除外制約を修正することはできません。"
+    },
+    {
+      "term": "見抜く",
+      "reading": "みぬく",
+      "meaning": "to see through; to detect",
+      "level": "N2",
+      "kind": "general",
+      "turn": "ch03-t094",
+      "example": "推定値を比較し、誘導形を精査することで脆弱性を見抜くことができますが、いかなる推定量であっても、誤った除外制約を修正することはできません。"
+    }
+  ],
+  "grammar": [
+    {
+      "pattern": "〜ことなく",
+      "level": "N1",
+      "meaning_ja": "「〜しないで」の硬い言い方。ある行為をしないまま、次のことをする。書き言葉や改まった話で使う。",
+      "meaning_en": "'without doing ~' (formal).",
+      "example": "警察官が無作為に判断したと偽ることなく、操作変数はこの連鎖をどのように利用するのでしょうか。",
+      "source": "ch03-t029",
+      "extra": "研究者は、データを見て結論を変えることなく、事前に決めた方法で分析した。",
+      "extra_en": "The researchers analyzed the data with the method fixed in advance, without changing their conclusion after seeing it."
+    },
+    {
+      "pattern": "〜ようと〜ようと",
+      "level": "N1",
+      "meaning_ja": "「〜しても、〜しても」。どんな場合でも後ろの結果は変わらないことを強く言う。疑問詞（どれほど、いくら）と一緒に使うことが多い。",
+      "meaning_en": "'no matter whether ~ or ~; however much ~'.",
+      "example": "第一段階をどれほど強めようと、標本をどれほど大きくしようと、その除外制約の破綻を修復することはできません。",
+      "source": "ch03-t112",
+      "extra": "観察数をいくら増やそうと、統制変数をいくら加えようと、測定されていない意欲の違いは消えない。",
+      "extra_en": "However many observations we add and however many controls we include, unmeasured differences in motivation do not disappear."
+    },
+    {
+      "pattern": "〜に足る",
+      "level": "N1",
+      "meaning_ja": "「〜するのに十分な価値や条件がある」。「信頼に足る」「信じるに足る」「検討に足る」の形が多い書き言葉。",
+      "meaning_en": "'worthy of ~; sufficient to ~' (formal).",
+      "example": "そして、操作変数と不確実性の計算が信頼に足るものかどうかを問いかけることができます。",
+      "source": "ch03-t109",
+      "extra": "第一段階が弱すぎると、推定値は政策を判断するに足る精度を持たない。",
+      "extra_en": "If the first stage is too weak, the estimate is not precise enough to support a policy judgment."
+    },
+    {
+      "pattern": "〜にほかならない",
+      "level": "N1",
+      "meaning_ja": "「まさに〜である」「〜以外のものではない」。ある物事の本質を断定的に言う書き言葉。",
+      "meaning_en": "'is nothing other than ~; is precisely ~'.",
+      "example": "実際に受けた処置で人々を分類することは、無作為割り当てが守っていた前提を崩すことにほかならない。",
+      "source": "passage",
+      "extra": "誘導形を第一段階で割ることは、後押しの強さで結果の変化を調整することにほかならない。",
+      "extra_en": "Dividing the reduced form by the first stage is nothing other than scaling the change in outcomes by the strength of the nudge."
+    },
+    {
+      "pattern": "〜いかんで",
+      "level": "N1",
+      "meaning_ja": "「〜がどうであるかによって」。名詞＋（の）いかんで の形で、あることの内容や状態しだいで結果が変わることを表す硬い言い方。",
+      "meaning_en": "'depending on ~' (formal).",
+      "example": "もっとも、この比率が因果的な意味を持つかどうかは、仮定のいかんで決まる。",
+      "source": "passage",
+      "extra": "処置の定義いかんで、推定される効果の符号は逆になりうる。",
+      "extra_en": "Depending on how the treatment is defined, the sign of the estimated effect can be reversed."
+    },
+    {
+      "pattern": "〜とあって",
+      "level": "N1",
+      "meaning_ja": "「〜という特別な事情なので（当然）」。ふつうとは違う状況を理由に挙げ、それに見合う結果や様子を述べる。",
+      "meaning_en": "'since (it is the special case that) ~; given that ~'.",
+      "example": "家族の規模の研究が用いた双子の出産やきょうだいの性別の組み合わせは、くじではなく自然に生じる影響とあって、仮定がとりわけ厳密に問われる。",
+      "source": "passage",
+      "extra": "応募者が定員を大きく上回ったとあって、その学校は入学者をくじ引きで決めることになった。",
+      "extra_en": "Since applicants far outnumbered the available places, the school ended up choosing its students by lottery."
+    }
+  ],
+  "passage": {
+    "title": "無作為な後押しを読み解く",
+    "text": "無作為な実験であっても、人々が割り当てに従うとは限らない。くじに当たった家族が別の学校を選ぶこともあれば、警察官が予定とは異なる対応をとることもある。そこで、指示に従った人だけを残せば純粋な比較になると考えたくなる。しかし、指示に従うかどうか自体が、結果に関係する選択でありうる。実際に受けた処置で人々を分類することは、無作為割り当てが守っていた前提を崩すことにほかならない。\n\n操作変数法は、割り当てそのものに立ち返ることでこの問題を乗り越える。まず、割り当てが処置をどれだけ変えたかを第一段階として、次に、結果をどれだけ変えたかを誘導形として測り、誘導形を第一段階で割るのである。ミネアポリスの家庭内暴力の実験では、第一段階は0.786、誘導形は0.114であり、比率は約14.5パーセントポイントとなる。すなわち、遵守者の事案では、非逮捕の対応が再発暴力の確率をそれだけ高めたことになる。実際に受けた処置による素朴な差が8.7パーセントポイントしかなかったのは、警察官が特に攻撃的な容疑者を逮捕する傾向にあったためだと考えられる。\n\nもっとも、この比率が因果的な意味を持つかどうかは、仮定のいかんで決まる。操作変数は処置を動かし、潜在的な結果とは無関係でなければならない。さらに、処置を通じてのみ結果に影響するという除外制約と、逆方向に反応する人はいないという単調性も求められる。当選しただけで親が個別指導を買うようになれば、第一段階をどれほど強めようと、標本をどれほど大きくしようと、その破綻は修復できない。家族の規模の研究が用いた双子の出産やきょうだいの性別の組み合わせは、くじではなく自然に生じる影響とあって、仮定がとりわけ厳密に問われる。その推定値は、きょうだいの増加が就学の不利を引き起こすという主張を弱めたが、すべての家族にとって無害であることの証明ではない。\n\n最後に、推定値が誰についての答えなのかを忘れてはならない。操作変数が明らかにするのは、それによって処置が変わった遵守者の平均効果である。あるチャータースクールのくじでは、遵守者について数学で約0.48標準偏差の伸びが得られたが、これをすべての子どもに対する効果とみなすことはできない。標本を大きくすれば精度は高まるが、誰の処置が反応するかは変わらない。精度高く推定された遵守者効果は、どこまでいっても遵守者効果なのである。"
+  },
+  "passage_questions": [
+    {
+      "question": "第1段落で、指示に従った人だけを残して比べることについて、筆者はどう考えているか。",
+      "options": [
+        "標本が小さくなるので、偶然のばらつきが問題になる",
+        "警察官の判断が無作為になるので、むしろ望ましい",
+        "指示に従うかどうかが結果に関係する選択でありうるため、無作為割り当ての前提を崩してしまう",
+        "指示に従った人は少ないので、計算ができなくなる"
+      ],
+      "answer": 2,
+      "explanation": "第1段落で、指示に従うかどうか自体が結果に関係する選択でありうるとし、実際に受けた処置で分類することは「前提を崩すことにほかならない」と述べている。"
+    },
+    {
+      "question": "第2段落の「それだけ高めた」の「それだけ」とは、どの大きさを指すか。",
+      "options": [
+        "0.114",
+        "8.7パーセントポイント",
+        "0.786",
+        "約14.5パーセントポイント"
+      ],
+      "answer": 3,
+      "explanation": "直前の文で、第一段階0.786と誘導形0.114から、比率は約14.5パーセントポイントになると述べている。遵守者の事案で再発暴力の確率が高まった大きさがこれである。"
+    },
+    {
+      "question": "筆者によると、実際に受けた処置による素朴な差が小さかったのはなぜか。",
+      "options": [
+        "警察官が特に攻撃的な容疑者を逮捕する傾向にあったため",
+        "非逮捕の対応がほとんどとられなかったため",
+        "第一段階が小さかったため",
+        "再発暴力の測定が不正確だったため"
+      ],
+      "answer": 0,
+      "explanation": "第2段落の最後に、素朴な差が8.7パーセントポイントしかなかったのは、警察官が特に攻撃的な容疑者を逮捕する傾向にあったためだと考えられる、とある。"
+    },
+    {
+      "question": "第3段落の内容と合うものはどれか。",
+      "options": [
+        "自然に生じる影響を操作変数にすれば、仮定を検討する必要はない",
+        "当選が個別指導という別の経路を生む場合、標本を大きくしても問題は修復できない",
+        "家族の規模の研究は、きょうだいが増えると就学年数が増えることを証明した",
+        "単調性は、全員が処置を受けることを求める仮定である"
+      ],
+      "answer": 1,
+      "explanation": "「第一段階をどれほど強めようと、標本をどれほど大きくしようと、その破綻は修復できない」とある。家族の規模の研究は主張を弱めたが、何かを証明したわけではない。"
+    },
+    {
+      "question": "最終段落で、筆者が最も言いたいことは何か。",
+      "options": [
+        "チャータースクールは、すべての子どもの数学の成績を伸ばす",
+        "標本を大きくすれば、推定値はやがて全員に当てはまるようになる",
+        "操作変数の推定値は遵守者についての答えであり、精度が上がっても対象は広がらない",
+        "遵守者の効果は精度が低いので、政策には使えない"
+      ],
+      "answer": 2,
+      "explanation": "推定値は「処置が変わった遵守者の平均効果」であり、標本を大きくしても「誰の処置が反応するかは変わらない」と述べている。"
+    }
+  ],
+  "comprehension": [
+    {
+      "type": "mc",
+      "question": "指示に従った人だけを残せば純粋な比較ができる、という予想が成り立たないのはなぜですか。",
+      "options": [
+        "指示に従った人は人数が少なすぎるから",
+        "指示に従うかどうか自体が、結果に関係する選択である可能性があるから",
+        "研究者が指示を無作為に決めていなかったから",
+        "指示に従わなかった人は結果が測定されていないから"
+      ],
+      "answer": 1,
+      "turns": [
+        "ch03-t009",
+        "ch03-t010"
+      ],
+      "explanation": "学校の提示を受け入れた家族は大きな恩恵を期待していたかもしれず、指示に反して逮捕した警察官は現場が危険だと感じたのかもしれません。そうした選択を除くと、無作為割り当ての前提が崩れます。"
+    },
+    {
+      "type": "mc",
+      "question": "学校のくじの例で、操作変数、処置、結果の正しい組み合わせはどれですか。",
+      "options": [
+        "操作変数は学校に通うこと、処置は提示を受けること、結果は試験の点数",
+        "操作変数は試験の点数、処置は学校に通うこと、結果は提示を受けること",
+        "操作変数は家庭の所得、処置は学校に通うこと、結果は試験の点数",
+        "操作変数は提示を受けること、処置は学校に通うこと、結果はその後の試験の点数"
+      ],
+      "answer": 3,
+      "turns": [
+        "ch03-t016"
+      ],
+      "explanation": "当選の提示を受けることが操作変数、その学校に通うことが処置、その後の試験の点数が結果です。"
+    },
+    {
+      "type": "mc",
+      "question": "ミネアポリスの実験で、逮捕を割り当てられたケースのうち、実際に逮捕されたのは約何パーセントでしたか。",
+      "options": [
+        "約99パーセント",
+        "約78パーセント",
+        "約73パーセント",
+        "約79パーセント"
+      ],
+      "answer": 0,
+      "turns": [
+        "ch03-t026"
+      ],
+      "explanation": "逮捕の割り当ては約99パーセントが実際の逮捕になりました。約78パーセントは助言、約73パーセントは別居の割り当てで指示通りの対応がとられた割合です。"
+    },
+    {
+      "type": "short",
+      "question": "除外制約とはどのような条件ですか。また、提示を無作為に割り当てても、それだけでは満たされないのはなぜですか。",
+      "answer": "提示が通学を通じてのみ点数に影響する、という条件です。当選によって親が学校外での教育にお金をかけるような別の経路があれば、提示が無作為でもその問題は消えないからです。",
+      "turns": [
+        "ch03-t039",
+        "ch03-t040"
+      ]
+    },
+    {
+      "type": "mc",
+      "question": "当選者が入学したのを見ただけでは、何が分からないのですか。",
+      "options": [
+        "その子が当選したかどうか",
+        "その子がその後の試験を受けたかどうか",
+        "その子が遵守者なのか、常に処置を受ける人なのか",
+        "その子の家族が応募したかどうか"
+      ],
+      "answer": 2,
+      "turns": [
+        "ch03-t044"
+      ],
+      "explanation": "遵守者は二つの潜在的な反応で定義されますが、どの子どもについても片方しか観察できません。そのため、入学した当選者が遵守者か常に処置を受ける人かは見分けられません。"
+    },
+    {
+      "type": "mc",
+      "question": "ミネアポリスの事例で得られた14.5パーセントポイントについて、正しい説明はどれですか。",
+      "options": [
+        "非逮捕の対応を受けた全員の再発暴力が14.5パーセント増えた",
+        "第一段階の大きさを表している",
+        "実際に受けた処置による素朴な差である",
+        "遵守者の事案における再発暴力の確率の差であり、14.5パーセントの相対的な増加ではない"
+      ],
+      "answer": 3,
+      "turns": [
+        "ch03-t055",
+        "ch03-t056"
+      ],
+      "explanation": "0.114を0.786で割った約0.145は確率の差、つまりパーセントポイントです。素朴な差は8.7パーセントポイントでした。"
+    },
+    {
+      "type": "mc",
+      "question": "第2子での双子の誕生を操作変数にしたとき、第一段階が約0.32人と1人分に満たないのはなぜですか。",
+      "options": [
+        "双子の出産はとてもまれだから",
+        "統制変数を入れたから",
+        "もともと次の子どもを持とうとしていた家庭が多いから",
+        "双子のうち一人しか数えていないから"
+      ],
+      "answer": 2,
+      "turns": [
+        "ch03-t076"
+      ],
+      "explanation": "双子が生まれればその瞬間に子どもは2人増えますが、多くの家庭はもともと次の子どもを持つつもりだったので、最終的な家族の規模が変わるのは一部の家庭だけです。"
+    },
+    {
+      "type": "short",
+      "question": "最後の問いで、当選しただけで親が個別指導を買うようになる場合、通常の操作変数の比率を学校に通った効果と解釈できますか。理由も答えてください。",
+      "answer": "解釈できません。個別指導という通学以外の経路で結果が変わるので比率に別の経路の影響が混ざり、第一段階を強めても標本を大きくしても、この除外制約の破綻は修復できないからです。",
+      "turns": [
+        "ch03-t111",
+        "ch03-t112"
+      ]
+    }
+  ],
+  "dictation": [
+    {
+      "turn": "ch03-t037"
+    },
+    {
+      "turn": "ch03-t077"
+    }
+  ],
+  "speaking": [
+    {
+      "prompt_ja": "ミネアポリスの実験を例に、実際に受けた処置で比べると選択バイアスが復活してしまう理由を説明してください。",
+      "prompt_en": "Using the Minneapolis experiment, explain why comparing by treatment actually received brings selection bias back.",
+      "expressions": [
+        {
+          "ja": "〜ことがありました",
+          "en": "it sometimes happened that ~"
+        },
+        {
+          "ja": "もともと〜かもしれません",
+          "en": "may have been ~ from the start"
+        },
+        {
+          "ja": "〜と〜が混ざってしまいます",
+          "en": "~ and ~ get mixed together"
+        },
+        {
+          "ja": "その結果、〜",
+          "en": "as a result, ~"
+        }
+      ],
+      "model_answer": "この実験では、警察官は別の指示が出ていても、特に攻撃的な容疑者を逮捕することがありました。そうして逮捕された事案は、もともと再発暴力のリスクが高かったかもしれません。実際に受けた処置で比べると、こうしたもともとの違いと逮捕の効果が混ざってしまいます。その結果、素朴な差は8.7パーセントポイントしかなく、逮捕の予防効果が低く見えてしまいます。だから、無作為な割り当てに基づいて比べる必要があるのです。"
+    },
+    {
+      "prompt_ja": "第一段階と誘導形という言葉を使って、操作変数の比率をどう計算し、何を意味するのかを、ミネアポリスの数字で説明してください。",
+      "prompt_en": "Using the terms first stage and reduced form, explain with the Minneapolis numbers how the IV ratio is calculated and what it means.",
+      "expressions": [
+        {
+          "ja": "まず、〜を測ります",
+          "en": "first, we measure ~"
+        },
+        {
+          "ja": "これが〜です",
+          "en": "this is ~"
+        },
+        {
+          "ja": "〜を〜で割ると、〜になります",
+          "en": "dividing ~ by ~ gives ~"
+        },
+        {
+          "ja": "つまり、〜",
+          "en": "in other words, ~"
+        }
+      ],
+      "model_answer": "まず、割り当てによって処置がどれだけ変わったかを測ります。これが第一段階で、非逮捕の対応を受ける確率は0.797と0.011なので、差は0.786です。次に、割り当てによって結果がどれだけ変わったかを測ります。これが誘導形で、0.114でした。誘導形を第一段階で割ると約0.145、つまり14.5パーセントポイントになります。これは、遵守者の事案で非逮捕の対応が再発暴力の確率を高めた大きさです。"
+    },
+    {
+      "prompt_ja": "局所平均処置効果は誰についての効果なのか、また標本を大きくしてもそれを全員に一般化できないのはなぜかを、チャータースクールのくじの例で説明してください。",
+      "prompt_en": "Using the charter school lottery, explain whose effect LATE describes and why a larger sample does not let us generalize it to everyone.",
+      "expressions": [
+        {
+          "ja": "〜における平均効果です",
+          "en": "it is the average effect among ~"
+        },
+        {
+          "ja": "例えば、〜",
+          "en": "for example, ~"
+        },
+        {
+          "ja": "〜とは限りません",
+          "en": "it is not necessarily ~"
+        },
+        {
+          "ja": "〜には別の証拠が必要です",
+          "en": "~ needs separate evidence"
+        }
+      ],
+      "model_answer": "局所平均処置効果は、操作変数によって処置が変わる遵守者における平均効果です。例えば、あるチャータースクールのくじでは、提示によって通学が変わった応募者について、数学で約0.48標準偏差の伸びが推定されました。しかし、結果に関係なく通う子どもや、決して応募しない家庭の子どもに、同じ効果があるとは限りません。標本を大きくすれば精度は高まりますが、誰の処置が反応するかは変わらないので、一般化には別の証拠が必要です。"
+    }
+  ]
+}

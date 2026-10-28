@@ -1,0 +1,919 @@
+{
+  "chapter": 3,
+  "slug": "ch03-instrumental-variables",
+  "script_sha256": "6135bc0d0aededd035cdad0f35caf5b21debe798b29d01eecc41811d9f7b259b",
+  "passages": [
+    {
+      "id": "ch03-t001",
+      "speaker": "HOST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "おかえりなさい。本日のテーマは操作変数です。ある学校が、くじ引きによって子どもに入学の権利を提供したとします。家族は大喜びしたものの、結局は別の学校を選びました。一方で、くじに外れた応募者が、最終的に枠を見つけて入学することもあります。このような場合、その学校に通うことに効果があるかどうかを調べる上で、くじ引きは役に立たなくなってしまうのでしょうか。",
+      "en": "Welcome back. Today we are on instrumental variables. A school offers a child a place through a lottery. The family celebrates, then chooses another school. Meanwhile, a losing applicant eventually finds a place. Has the lottery become useless for learning whether the school helps?"
+    },
+    {
+      "id": "ch03-t002",
+      "speaker": "ECONOMIST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "いえ、依然として価値のある情報が得られます。それは、くじによる無作為な入学の提示です。提示を受けることと、実際に通うことは異なる出来事です。この区別を保つことで、人々が指示通りに完全には従わない実験からでも、多くのことを学べます。今回は、警察の実験や家族の規模に関する研究も取り上げます。いずれも、無作為な影響を活用して処置効果をどのように明らかにするかを問いかけるものです。",
+      "en": "It still gives us something valuable: a random offer. An offer and attendance are different events. Keeping that distinction lets us learn from an experiment that people do not follow perfectly. We will also visit a police experiment and a study of family size. Each asks how a random influence can reveal a treatment effect."
+    },
+    {
+      "id": "ch03-t003",
+      "speaker": "HOST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "もし人々が割り当てられた処置を無視したらどうなるでしょうか。人々が実際にどう選んだかを考慮した答えを知りたいです。すべての学校の提示がそのまま実際の通学になったかのように見せかけることはできません。それに、途中で考えを変えた人たちを分析から除外してしまうのも、怪しい気がします。",
+      "en": "What if people ignore their assigned treatment? I want an answer that respects their choices. We cannot simply pretend every school offer became attendance. And dropping the people who changed their minds sounds suspicious."
+    },
+    {
+      "id": "ch03-t004",
+      "speaker": "ECONOMIST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "この回を聴き終えるころには、実際に受けた処置で単純に比較すると、なぜ選択バイアスが再び生じてしまうのかを説明できるようになっているはずです。また、操作変数推定値をどのように解釈し、それが誰に対する効果を測定しているのかも理解できます。最後に、仮定をどのように検証し、この手法を責任を持って使うべきかも分かるようになります。",
+      "en": "By the end of this episode, you should be able to explain why comparing treatment received can restore selection bias. You should also be able to interpret an instrumental variables estimate, including whose effect it measures. Finally, you should know how to check the assumptions and use the method responsibly."
+    },
+    {
+      "id": "ch03-t005",
+      "speaker": "HOST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "今回の思考マップは、「問い」「検証」「解決」という順序で進みます。これらを手がかりとなる言葉として使っていきましょう。警察の事例を学校の計算の前に扱い、その後に家族の規模の事例へと進んで、形式的なくじ引きを超えた設定を考えます。",
+      "en": "Our mind map follows The Question, The Investigation, and The Resolution. We will keep those names as spoken signposts. The police case comes before the school calculation, then family size takes us beyond a formal lottery."
+    },
+    {
+      "id": "ch03-t006",
+      "speaker": "ECONOMIST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "理解するのに図や数式は必要ありません。繰り返される一連の流れに耳を傾けてみてください。無作為な影響が処置を変え、その処置が結果を変えます。私たちはその一つひとつのつながりを測定し、何がその関係を壊しうるのかを問い、証拠が支えている以上の主張をしないように注意深く進めます。",
+      "en": "You need no diagram or algebra to follow. Listen for a repeating sequence: a random influence changes treatment, and treatment changes an outcome. We will measure each link, ask what could break it, and avoid claiming more than the evidence supports."
+    },
+    {
+      "id": "ch03-t007",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "「問い」は、実践的な問題から始まります。人々は割り当てに対して自由に行動を選べます。患者が薬を拒むこともあれば、くじに当たった人が別の学校を選ぶこともあり、警察官が予定されていた対応を変更することもあります。これが単なる事務上の手続き以上の問題であるのはなぜでしょうか。",
+      "en": "The Question begins with a practical problem. People are free to respond to an assignment. A patient might decline medicine, a lottery winner might choose another school, or an officer might change a planned response. Why is that more than an administrative detail?"
+    },
+    {
+      "id": "ch03-t008",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "割り当てとは、誰かが受け取った機会や指示のことです。実際に受けた処置とは、現実に起きた行動のことです。これらが異なる場合でも、実験によって割り当てそのものの効果を明らかにすることはできます。しかし、その効果が処置を実際に受けた効果と等しいとは限りません。誰も受け入れない提示からは、その学校に通うことで何が起きるかを知ることはできないのです。",
+      "en": "Assignment describes the opportunity or instruction someone receives. Received treatment describes what actually happens. If those differ, an experiment still identifies the effect of assignment. But that effect need not equal the effect of receiving treatment. An offer that nobody accepts cannot tell us what attending the school would do."
+    },
+    {
+      "id": "ch03-t009",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "私の予想では、指示に従った人たちだけを残せば、実験を救い出せる気がします。彼らは研究者が意図した通りの処置を正確に受けたわけです。そうすれば、より純粋な比較ができるのではないでしょうか。",
+      "en": "My prediction is that we can rescue the experiment by keeping only people who followed instructions. They received exactly what researchers intended. Would that leave a cleaner comparison?"
+    },
+    {
+      "id": "ch03-t010",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "その予想は成り立ちません。なぜなら、指示に従うかどうか自体が、結果に関係する選択である可能性があるからです。ある家族が学校からの提示を受け入れたのは、並外れて大きな恩恵を期待したからかもしれません。警察官が指示に反して逮捕に踏み切ったのは、その現場が非常に危険だと感じられたからかもしれません。そうした決定をデータから除外してしまうと、無作為割り当てによって守られていた前提が崩れてしまいます。",
+      "en": "That prediction fails because following instructions can be a choice related to outcomes. A family may accept a school offer because it expects unusually large benefits. An officer may reject advice and make an arrest because the incident seems dangerous. Removing those decisions from the data removes the protection supplied by random assignment."
+    },
+    {
+      "id": "ch03-t011",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "つまり、素朴な比較は、実際に何を受けたかによって人々を分類してしまうわけですね。入学した生徒と、入学しなかった生徒を比較するようなものです。その結果生じる差が、なぜ選択バイアスになってしまうのでしょうか。",
+      "en": "So the naive comparison sorts people by what they received. It might compare students who enrolled with students who stayed away. What makes the resulting difference selection bias?"
+    },
+    {
+      "id": "ch03-t012",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "選択バイアスとは、同じ処置を受けたとしても、グループ間にあらかじめ違いがあったことを意味します。学習意欲の高い家族は、学校に関係なく子どもの学びを支えるかもしれません。危険性の高い現場では、警察の対応に関係なく再び暴力が起きるかもしれません。実際に受けた処置のグループ間で差を取ると、そうしたもともとの違いと、実際の処置効果とが混ざり合ってしまうのです。",
+      "en": "Selection bias means the groups would have differed even under the same treatment. More motivated families might support learning regardless of school. More dangerous incidents might produce repeated violence regardless of police action. A difference between received-treatment groups mixes those preexisting differences with any actual treatment effect."
+    },
+    {
+      "id": "ch03-t013",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "観察できるすべての要因を統制変数として加えることで、それを修正できないのでしょうか。以前、記録された特徴が似ている人たちを比べる方法として回帰分析を取り上げました。なぜ別の手法を導入する必要があるのですか。",
+      "en": "Could we fix that by controlling for everything we observe? We have already discussed regression as a way to compare people with similar recorded characteristics. Why introduce another method?"
+    },
+    {
+      "id": "ch03-t014",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "回帰分析は、重要な交絡要因が観察されており、適切に処理できる場合には役立ちます。しかし、意欲や期待、あるいは事件の危険性の程度などは、部分的に測定されないまま残ることがあります。操作変数は異なる道筋をたどります。仮定が満たされていれば、そうした隠れた違いを含まない、処置のばらつきだけを切り出すことができるのです。",
+      "en": "Regression can help when the important confounding differences are observed and handled appropriately. But motivation, expectations, and incident severity can remain partly unmeasured. Instrumental variables uses a different route. It isolates a source of treatment variation that does not share those hidden differences, if its assumptions hold."
+    },
+    {
+      "id": "ch03-t015",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "計算に入る前に用語を整理しておきましょう。操作変数とは何であり、処置や結果とどう違うのでしょうか。学校の例を使ってそれぞれの用語を説明してください。",
+      "en": "Let us build the vocabulary before calculating. What is the instrument, and how is it different from treatment or outcome? I would like to keep the school example attached to each term."
+    },
+    {
+      "id": "ch03-t016",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "操作変数とは、処置を動かすために私たちが利用する外部からの影響のことです。学校のくじ引きの例では、当選の提示を受けることがそれにあたります。処置はその学校に通うことです。結果はその後の試験の点数です。英語でIVと略される操作変数は、通学状況のすべての差を見るのではなく、提示によって生じた通学の変化だけを利用します。",
+      "en": "The instrument is the outside influence we use to move treatment. In a school lottery, it is receiving an offer. Treatment is attending the school. The outcome is the later test score. Instrumental variables, shortened to IV, uses offer-driven attendance changes rather than all differences in attendance."
+    },
+    {
+      "id": "ch03-t017",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "そして第一段階というのは、そのプロセスにおける初期の段階のように聞こえます。これは学校が点数を伸ばすことですか、それとも提示が通学を変えることですか。",
+      "en": "And the first stage sounds like an early step in that process. Does it describe the school improving scores, or the offer changing school attendance?"
+    },
+    {
+      "id": "ch03-t018",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "第一段階は、操作変数が処置をどれだけ変えるかを測るものです。ここでは、提示の有無による通学率の違いを比較します。これに対して誘導形は、操作変数が最終的な結果をどれだけ変えるかを測ります。ここでは、提示の有無によるその後の点数の違いを比較します。どちらの比較もくじ引きの無作為性を保っており、生徒自身の入学の選択によって分類しているわけではありません。",
+      "en": "The first stage measures how much the instrument changes treatment. Here, it compares attendance rates by offer status. The reduced form instead measures how much the instrument changes the outcome. Here, it compares later scores by offer status. Those comparisons both preserve the lottery; neither sorts students by their enrollment choices."
+    },
+    {
+      "id": "ch03-t019",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "その上で、結果の変化を処置の変化で割るわけですね。その答えを何と呼ぶべきでしょうか。また、思考マップに様々な種類の人々が登場するのはなぜですか。",
+      "en": "Then we will divide an outcome change by a treatment change. What should I call the answer? And why does the map introduce different kinds of people?"
+    },
+    {
+      "id": "ch03-t020",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "その答えは局所平均処置効果、略してLATEと呼ばれるものになり得ます。局所的というのは、この操作変数によって処置が変わる人々を対象にしているという意味です。私たちは彼らを遵守者と呼びます。常に処置を受ける人はどちらにしても処置を受け、決して処置を受けない人はどちらにしても受けず、抵抗者は提示とは逆の行動をとります。これらの可能性を慎重に見ていきましょう。",
+      "en": "The answer can be a local average treatment effect, shortened to LATE. Local means it describes people whose treatment changes because of this instrument. We call them compliers. Always-takers receive treatment either way, never-takers receive it neither way, and defiers respond in the opposite direction. We will unpack those possibilities carefully."
+    },
+    {
+      "id": "ch03-t021",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "「問い」をまとめてみます。実際に受けた処置が無作為でなくても、割り当て自体は無作為であり得ます。実際に受けた人たちを比較すると、隠れた違いが再び混ざり込んでしまいます。だからこそ、無作為な影響を保ち、それがどれほど強く処置を変えるかを知る必要があるのですね。",
+      "en": "Let me recap The Question. An assignment can be random even when treatment received is not. Comparing actual recipients can bring hidden differences back. We need to keep the random influence and learn how strongly it changes treatment."
+    },
+    {
+      "id": "ch03-t022",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "その通りです。略語を覚える前に、まず最初の区別を覚えておいてください。誰に何が提示されたのか、実際に何を受けたのか、そしてその後に何が起きたのかという区別です。第一段階と誘導形がそれらの出来事をつなぎます。それらが因果関係としての意味を持つかどうかは、これから検証する仮定にかかっています。",
+      "en": "Exactly. Remember the first distinction before remembering any abbreviation: what someone was offered, what they received, and what happened afterward. The first stage and reduced form connect those events. Their causal meaning depends on assumptions we are about to investigate."
+    },
+    {
+      "id": "ch03-t023",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "「検証」は、ミネアポリスにおける不遵守の事例から始まります。これは深刻な場面、つまり家庭内暴力に対する警察の対応に関するものです。この実験ではどのような判断が研究対象となり、何が範囲から除外されたのでしょうか。",
+      "en": "The Investigation starts with non-compliance in Minneapolis. This is a serious setting: police responses to domestic violence. What decisions did the experiment study, and what did it leave outside its scope?"
+    },
+    {
+      "id": "ch03-t024",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "参加した警察官は、軽罪に相当する家庭内暴力が疑われる対象事案に対応しました。重傷や命に関わる負傷のケースは実験から除外されました。容疑者と被害者の双方が現場にいなければなりませんでした。無作為に用意された報告用紙によって、警察官は逮捕するか、助言を与えるか、あるいは別居させるかを指示されました。別居とは、容疑者を一時的に立ち去らせることです。助言には調停が含まれることもありました。",
+      "en": "Participating officers encountered eligible suspected misdemeanor domestic assaults. The experiment excluded severe or life-threatening injury cases. Both the suspect and victim had to be present. A randomly prepared report form instructed the officer to arrest, advise, or separate. Separation meant ordering the suspect away temporarily. Advice could include mediation."
+    },
+    {
+      "id": "ch03-t025",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "つまり、逮捕の指示は、実際の逮捕と完全に同じではなかったわけですね。私の予想では、警察官は誰かに危険が残っていると判断したとき、穏やかな指示を無視する傾向が強かったのではないでしょうか。そのような傾向が見られましたか。",
+      "en": "So an arrest instruction was not the same thing as an arrest. I predict officers were more willing to override the gentler instructions when they thought someone remained at risk. Is that the pattern?"
+    },
+    {
+      "id": "ch03-t026",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その予想は報告された傾向と一致しています。逮捕を割り当てられたケースの約99パーセントが実際に逮捕されました。指示通りの対応がとられたのは、助言の割り当てでは約78パーセント、別居の割り当てでは約73パーセントでした。警察官は、容疑者が攻撃的になった場合など、別の指示があっても逮捕することがありました。その結果、実際の対応には意図的な判断が部分的に混ざり込むことになりました。",
+      "en": "That prediction matches the reported pattern. About 99 percent of arrest assignments led to arrest. The matching response occurred in about 78 percent of advice assignments and 73 percent of separation assignments. Officers sometimes arrested despite another instruction, including when a suspect became aggressive. That made actual response partly a selected decision."
+    },
+    {
+      "id": "ch03-t027",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その場の判断として合理的であったとしても、指示からのずれは重要ですね。無作為割り当てだからといって、警察官に危険を無視するよう求めたわけではありません。しかし分析においては、逮捕へと変更された事案には、最初から状況が悪化しやすい要因があったかもしれないと認識しなければなりません。",
+      "en": "The deviations matter even if they were sensible in the moment. Random assignment did not require officers to ignore danger. But the analysis must recognize that the cases moved into arrest could already have had worse prospects."
+    },
+    {
+      "id": "ch03-t028",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その通りです。研究手順が完全には守られなかったからといって、無意味な研究だと片付けてはいけません。無作為な指示という情報は依然として手元にあります。結果として調べられたのは、同じ住所でその後6か月以内に家庭内暴力の疑いが生じたかどうかでした。指示が警察の対応を変えたことを通じて、その結果を変えたのかどうかを問いかけていきます。",
+      "en": "Right. We should not confuse an imperfectly followed research protocol with a useless study. The random instruction remains available. The outcome was a later suspected domestic assault at the same address within six months. We will ask whether the instruction changed that outcome through its effect on police response."
+    },
+    {
+      "id": "ch03-t029",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "では、その道具である因果の連鎖反応について見ていきましょう。割り当てがあり、次に行動があり、最後に結果があります。警察官が無作為に判断したと偽ることなく、操作変数はこの連鎖をどのように利用するのでしょうか。",
+      "en": "Now for the tool: a causal chain reaction. We have an assignment, then an action, then an outcome. How does IV use that sequence without pretending that officers made random decisions?"
+    },
+    {
+      "id": "ch03-t030",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "まず、全員を割り当てに基づいて比較することから始めます。第一に、割り当てが処置を受ける確率をどれだけ変えるかを測定します。第二に、割り当てが結果をどれだけ変えるかを測定します。もし操作変数が処置を変えることによってのみ結果に影響を与えるなら、二つ目の比較は一つ目の比較を通じて起きたことになります。割り算を行うことで、後押しの強さから処置自体の効果を切り分けることができるのです。",
+      "en": "It begins by comparing everyone according to assignment. First, measure how much assignment changes the chance of receiving treatment. Next, measure how much assignment changes the outcome. If the instrument affects the outcome only by changing treatment, the second comparison runs through the first. Dividing separates the treatment effect from the strength of the nudge."
+    },
+    {
+      "id": "ch03-t031",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その割り算は、ウォルド比と呼ばれることもありますね。割る向きをはっきりさせておきたいです。誘導形を第一段階で割るのですね。特定の指示にたまたま従った人の割合で割るわけではありません。",
+      "en": "That division is sometimes called the Wald ratio. I want the direction clear. We divide the reduced form by the first stage. We do not divide by the share of people who happened to obey a particular instruction."
+    },
+    {
+      "id": "ch03-t032",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "正解です。第一段階とは、操作変数のグループ間における処置の受給率の差のことです。対照群で処置を受けた人が一人もいなければ、その差は提示を受けた群の利用率と一致します。しかし、双方向の乗り換えがある場合は一致しません。提示がなくても処置を受ける人がいるため、引き算をすることが重要になります。",
+      "en": "Correct. The first stage is a difference in treatment rates across instrument groups. With no treatment recipients in the control group, that difference equals uptake in the offered group. With crossover in both directions, it does not. The subtraction matters because some people would receive treatment without the offer."
+    },
+    {
+      "id": "ch03-t033",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "思考マップには、需要と供給を切り分けるという昔からの問題も挙げられています。それがどのようにこの手法につながったのでしょうか。",
+      "en": "The map also mentions an older problem: separating supply from demand. How did that lead to this method?"
+    },
+    {
+      "id": "ch03-t034",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "フィリップ・ライトが1928年に発表した研究の中で操作変数を考案しました。市場の価格と取引量は、需要と供給が連動して動くことを反映しています。需要を直接動かさずに供給だけを動かす要因があれば、需要曲線をたどることができます。この初期の着想も根底にある論理は同じです。筋の通った単一の経路を持つ外部の変化を見つけるということです。",
+      "en": "Philip Wright developed IV in work published in 1928. Market prices and quantities reflect both supply and demand moving together. A supply shifter that does not directly shift demand can help trace demand. That early insight has the same core logic: find an outside change with a defensible single channel."
+    },
+    {
+      "id": "ch03-t035",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その経路が妥当だと言える根拠は何でしょうか。処置を予測する変数を見つけるだけなら簡単です。家庭の所得は学校への通学を非常によく予測するかもしれませんが、試験の点数とも他の多くの経路で関係しています。",
+      "en": "What makes that channel defensible? A variable that predicts treatment is easy to find. Family income might predict school attendance very well, yet it also relates to test scores in many other ways."
+    },
+    {
+      "id": "ch03-t036",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "そこで識別仮定の話になります。識別とは、観察された比較を私たちが知りたい因果効果と結びつけることです。まず重要なのが関連性です。操作変数は処置を変えなければなりません。実際の処置の動きを伴わない関係からは、効果を識別することはできません。しかし、関連性があるだけでは、その動きが因果関係を調べる上で有用かどうかは何もわかりません。",
+      "en": "That brings us to identifying assumptions. Identification means connecting an observed comparison to the causal effect we want. Relevance comes first: the instrument must change treatment. A relationship with no real treatment movement cannot identify the effect. But relevance alone says nothing about whether the movement is causally useful."
+    },
+    {
+      "id": "ch03-t037",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "次に独立性という条件があります。無作為割り当てがあれば自動的に満たされるのでしょうか、それとも確認すべき点がありますか。",
+      "en": "Independence is the next condition. Does random assignment supply it automatically, or are there details we still need to check?"
+    },
+    {
+      "id": "ch03-t038",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "独立性とは、適切な統制変数を加えた上で、操作変数が比較される潜在的な結果と無関係であることを意味します。適切に実施されたくじ引きは、その無作為化グループの中でこの条件を満たします。応募グループごとに当選確率が異なる場合は、似たグループ同士を比べるか、グループの違いを統制します。事前の共変量のバランスを確認することで問題を発見できますが、観察された変数がそろっているからといって独立性が証明されるわけではありません。",
+      "en": "Independence means the instrument is unrelated to the potential outcomes being compared, possibly after suitable controls. A properly run lottery supports that condition within its randomization groups. If different applicant groups face different winning chances, compare like groups or control for those groups. Checking baseline balance can reveal problems, but balanced observables do not prove independence."
+    },
+    {
+      "id": "ch03-t039",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "そして除外制約は、提示が通学を通じてのみ点数に影響することを求めています。もし当選したことで、子どもが通学しなかったとしても親が学校外での教育にお金をかけるようになったとすれば、それは第二の経路になってしまいますね。",
+      "en": "And exclusion requires the offer to affect scores only through attendance. Suppose winning also changes what parents do outside school, even when the child never attends. That would be a second route."
+    },
+    {
+      "id": "ch03-t040",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その通りです。そうした想定される経路は、定められた処置の枠外で結果を変えてしまうため、除外制約を脅かします。提示が無作為に割り当てられていたとしても、その問題は解消されません。無作為割り当てによって提示の効果は信頼できますが、比率で調整した結果を通学の効果と呼ぶには、経路に関する追加の仮定が必要です。除外制約を完全に確認できる統計的検定は存在しません。",
+      "en": "Yes. That hypothetical route would threaten exclusion if it changed outcomes outside the defined treatment. Random assignment of an offer does not eliminate that problem. It makes the offer effect credible, but calling the scaled result an attendance effect requires the additional channel assumption. No universal statistical test can establish exclusion."
+    },
+    {
+      "id": "ch03-t041",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "一人の生徒が他の生徒に影響を与えたり、人によってまったく異なる内容の処置を受けたりすることについても心配すべきでしょうか。学校での経験には多くの要素が含まれます。",
+      "en": "Should we also worry about one student affecting another student, or different people receiving very different versions of treatment? The school experience could involve many ingredients."
+    },
+    {
+      "id": "ch03-t042",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "処置の明確な定義と、安定した比較が必要です。ある応募者への提示が、モデル化されていない波及効果を通じて別の応募者の学習に影響を与える場合、単純な連鎖だけでは足りなくなります。学校に通う効果には、通常のカリキュラムや教育環境が含まれ得ます。その学校というパッケージに含まれる個々の要素の貢献度を、別々に識別しているわけではありません。",
+      "en": "We need a clear treatment definition and a stable comparison. If one applicant's offer changes another applicant's learning through an unmodeled spillover, the simple chain needs more work. A school attendance effect can include its normal curriculum and environment. It does not separately identify the contribution of each ingredient in that school package."
+    },
+    {
+      "id": "ch03-t043",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "局所平均処置効果が誰を代弁しているのかが次の問題です。遵守者というと、指示に従ったかどうかを確認すれば特定できる人のように聞こえます。その分類は本当にそんなに単純なのでしょうか。",
+      "en": "Who LATE speaks for is the next question. A complier sounds like someone we can identify by checking whether they obeyed. Is the label really that simple?"
+    },
+    {
+      "id": "ch03-t044",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "いいえ。遵守者は、操作変数に対する二つの潜在的な反応によって定義されます。席が提示されれば通学し、提示されなければ通学しないという子どもです。しかし、私たちはどの子どもについても、そのうち一方の可能性しか観察できません。したがって、当選者が入学したのを見ても、その子が遵守者なのか、それとも常に処置を受ける人なのかは見分けられないのです。",
+      "en": "No. A complier is defined by two possible responses to the instrument. The child would attend when offered a seat and would not attend without one. We only observe one of those possibilities for any child. Therefore, observing a winner enroll does not reveal whether that child is a complier or an always-taker."
+    },
+    {
+      "id": "ch03-t045",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "他のタイプについても確認させてください。常に処置を受ける人は、くじの当たり外れに関係なく通う枠を見つけます。決して処置を受けない人は、どちらにしても通いません。抵抗者とは正確にはどのような人ですか。",
+      "en": "Let me try the other types. An always-taker would find a place whether the lottery offers one or not. A never-taker would stay away either way. What exactly is a defier?"
+    },
+    {
+      "id": "ch03-t046",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "抵抗者とは、提示がなければ通学するのに、提示があったために通学をやめてしまう人のことです。単調性の仮定は、そうした逆方向の反応を排除します。操作変数によって行動が変わらない人がいることは認めますが、操作変数が処置を変える場合には、全員を同じ方向に後押しすることを求めます。これは反実仮想の反応に関するものであり、道徳的な性格のことではありません。",
+      "en": "A defier would attend without an offer but stay away because an offer arrived. The monotonicity assumption rules out that opposite response. It allows the instrument to leave some people unchanged. It requires that, when the instrument changes treatment, it pushes in a common direction. It is about counterfactual responses, not moral character."
+    },
+    {
+      "id": "ch03-t047",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "観察された乗り換えから、抵抗者の存在を証明することはできるでしょうか。外れたのに入学した応募者は、割り当てと逆のことをしているように見えます。",
+      "en": "Could observed crossovers prove that defiers exist? A losing applicant who enrolls looks as if they are doing the opposite of assignment."
+    },
+    {
+      "id": "ch03-t048",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その人は、常に処置を受ける人である可能性があります。抵抗者であるためには、席が提示された場合には逆に通学を拒否しなければなりません。そのもう一つの可能性を私たちは観察できません。乗り換えのパターンから判断の手がかりは得られますが、全員のタイプを特定することはできません。独立性と単調性のもとでは、二値の処置において第一段階の処置率の差が遵守者の割合を表します。",
+      "en": "That person could instead be an always-taker. To be a defier, they would also have to refuse attendance if offered a seat. We cannot observe that alternative. Crossover patterns can inform our judgment, but they cannot reveal everyone's type. Under independence and monotonicity, the first-stage treatment difference gives the complier share for a binary treatment."
+    },
+    {
+      "id": "ch03-t049",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "なぜこの比率は、通学したすべての人ではなく遵守者だけを抜き出すのでしょうか。操作変数が彼らを動かしているのは分かりますが、変わらなかったグループはどのようにして消えるのですか。",
+      "en": "Why does the ratio single out compliers rather than everyone who attends? I understand that the instrument moves them, but how do the unchanged groups disappear?"
+    },
+    {
+      "id": "ch03-t050",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "常に処置を受ける人と決して処置を受けない人は、どちらの割り当てでも同じ処置を受けます。したがって除外制約のもとでは、割り当てによって彼らの結果が変わることはありません。誘導形の変化は、遵守者の処置の変化から生じます。それを遵守者の割合で割ることで、結果全体の変化が彼らの平均処置効果へと変換されます。単調性がないと、逆方向の反応が混ざり合い、この単純な解釈が成り立たなくなります。",
+      "en": "Always-takers and never-takers receive the same treatment under either assignment. With exclusion, their outcomes therefore do not change because of assignment. The reduced form comes from compliers' treatment changes. Dividing by their share turns that overall outcome change into their average treatment effect. Without monotonicity, opposite responses can spoil this simple interpretation."
+    },
+    {
+      "id": "ch03-t051",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ミネアポリスの事例に戻りましょう。思考マップでは、逮捕以外の対応をまとめたものを甘やかしと呼んでいます。これは強い意味を持つ言葉ですが、この計算では何を意味しているのですか。",
+      "en": "Now return to the Minneapolis case study. The map calls the combined non-arrest response coddling. That is a loaded word. What does it mean in this calculation?"
+    },
+    {
+      "id": "ch03-t052",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ここでは単に、助言と別居を合わせたものを指す研究上の略称にすぎません。非逮捕の対応とも呼びましょう。処置はその組み合わされた対応を意味し、比較の対象は逮捕です。操作変数は、逮捕ではなく非逮捕の対応への割り当てです。処置の符号を逆にすれば効果の符号も逆になるため、この定義を固定しておきます。",
+      "en": "Here it is only the study's shorthand for advice or separation together. We will say non-arrest response as well. Treatment means that combined response, and the comparison is arrest. The instrument is assignment to the combined response rather than assignment to arrest. Reversing the treatment coding would reverse the sign, so keep this definition fixed."
+    },
+    {
+      "id": "ch03-t053",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "非逮捕への割り当てによって、実際の非逮捕の割合は約79パーセントポイント上昇しました。これは強力に見えます。再発の暴力を調べる前に、四捨五入する前の数値はどうなっていますか。",
+      "en": "Assignment to non-arrest increased actual non-arrest by about 79 percentage points. That sounds strong. What are the less rounded inputs before we examine repeat violence?"
+    },
+    {
+      "id": "ch03-t054",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "非逮捕の対応を割り当てられたときに、実際にその対応を受ける確率は0.797でした。逮捕を割り当てられたときは0.011でした。この引き算により、第一段階は0.786となります。これらは確率ですので、この差は処置の動きを表しています。まだ再発暴力の差ではありません。",
+      "en": "The probability of a non-arrest response was 0.797 when assigned to that response. It was 0.011 when assigned to arrest. Subtracting gives a first stage of 0.786. Those are probabilities, so the difference describes treatment movement. It is not yet a difference in repeat violence."
+    },
+    {
+      "id": "ch03-t055",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "計算を進めると、誘導形は0.114でした。非逮捕の割り当てによって、その後の暴力の疑いが生じる確率がこれだけ上昇したということです。ここで0.114を0.786で割ります。この結果は何を意味しますか。",
+      "en": "For the worked calculation, the reduced form is 0.114: assignment to non-arrest raised the probability of a later suspected assault by that amount. We now divide 0.114 by 0.786. What should the result mean?"
+    },
+    {
+      "id": "ch03-t056",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その比率は約0.145、つまり14.5パーセントポイントです。独立性、除外制約、単調性のもとで、非逮捕の対応を受けることは、遵守者の事案において再発暴力をそれだけ増加させたことになります。裏を返せば、これらの事案では、組み合わされた代替策と比べて逮捕が再発を減らしたということです。これは確率の差であり、14.5パーセントの相対的な増加ではありません。",
+      "en": "The ratio is about 0.145, or 14.5 percentage points. Under independence, exclusion, and monotonicity, receiving the non-arrest response increased repeat violence by that amount for complier incidents. Equivalently, arrest reduced it relative to that combined alternative for these incidents. This is a difference in probabilities, not a 14.5 percent relative increase."
+    },
+    {
+      "id": "ch03-t057",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "実際に受けた処置による素朴な差が、なぜ8.7パーセントポイントにしかならないのでしょうか。同じ大まかな対応を比較しているわけですから、単にばらつきが大きくなっただけの同じ答えを予想していました。",
+      "en": "Why is the naive received-treatment gap only 8.7 percentage points? It compares the same broad responses. I would have expected merely a noisier version of the same answer."
+    },
+    {
+      "id": "ch03-t058",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "処置の前にグループが異なっているからです。警察官は、別の指示が出ていても、特に攻撃的な容疑者を逮捕する傾向がありました。そうして逮捕された事案は、もともと再発暴力のリスクが高かった可能性があります。この選択バイアスにより、素朴な比較では逮捕の予防効果が低く見えてしまいます。操作変数の仮定が満たされていれば、無作為割り当てを用いることで、この特定の選択の仕組みを取り除くことができます。",
+      "en": "The groups differ before treatment. Officers were more likely to arrest especially aggressive suspects even when assignment called for another response. Those arrested cases could have higher repeat-violence risk anyway. That selection makes arrest look less protective in the naive comparison. Using random assignment removes this particular selection mechanism, subject to the IV assumptions."
+    },
+    {
+      "id": "ch03-t059",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "この局所的な効果は、非逮捕の対応を受けた全員に対する効果と等しいのでしょうか。処置を提示された人だけがそれを受けられる実験に近そうに見えます。",
+      "en": "Does the local effect equal the effect on everyone who received the non-arrest response? This seems close to an experiment where only people offered treatment could receive it."
+    },
+    {
+      "id": "ch03-t060",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ほぼ近いです。逮捕を割り当てられた事案の中で非逮捕の対応がとられたケースはごくわずかだったため、非逮捕処置を常に受ける人はほとんどいませんでした。常に受ける人が全くいない場合、処置を受けた人は遵守者となり、局所平均処置効果は処置群における平均効果と等しくなります。ここではそれは近似にすぎません。警察官がどちらの割り当てでも逮捕したであろう事案に対する効果を識別しているわけではありません。",
+      "en": "Almost. There were very few non-arrest responses among cases assigned to arrest, so there were almost no always-takers of the non-arrest treatment. With exactly no always-takers, treated people are compliers, and LATE equals the average effect on the treated. Here that is an approximation. It does not identify the effect for incidents officers would arrest under either assignment."
+    },
+    {
+      "id": "ch03-t061",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "政策的な示唆は重要ですが、適用範囲には限りがありますね。この研究は逮捕を真剣に検討することを支持しました。あらゆる種類の家庭内暴力について、考えられるすべての警察の対応を無作為に比較したわけではありません。",
+      "en": "The policy implication seems important but bounded. This study supported taking arrest seriously. It did not randomly compare every possible police response for every kind of domestic violence."
+    },
+    {
+      "id": "ch03-t062",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その通りです。分析結果は、条件を満たした事案、参加した警察官、追跡調査で測定された結果、そして逮捕に対する特定の代替策に関するものです。重傷のケースは実験の対象外でした。異なる地域や異なる運用に一般化するには、証拠と判断が必要です。信頼できる局所的な効果が識別できたとしても、あらゆる政策上の問いが自動的に解決するわけではありません。",
+      "en": "Exactly. The findings concern eligible incidents, participating officers, the measured follow-up outcome, and the combined alternative to arrest. Serious injuries were outside the experiment. Generalizing to different places or practices needs evidence and judgment. Identifying a credible local effect does not automatically settle every policy question."
+    },
+    {
+      "id": "ch03-t063",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "次はKIPPリンというチャータースクールのくじ引きです。KIPPはKnowledge Is Power Programの略ですね。家族が通いたいと望んでいたこと以外に、因果推論を学ぶ上でこの学校が有用だった理由は何ですか。",
+      "en": "Next comes the KIPP Lynn charter lottery. KIPP means Knowledge Is Power Program. What made this school useful for causal learning, beyond the fact that families wanted to attend?"
+    },
+    {
+      "id": "ch03-t064",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "KIPPリンは、規律ある環境と長時間の授業を特徴とする公立のチャータースクールでした。チャータースクールは、公費で運営され、運営に一定の自由が認められた学校です。2005年以降は需要が定員を上回り、入学のくじ引きによって無作為な提示が提供されました。KIPPの生徒と近隣のすべての子どもを比べるのではなく、くじに当選した応募者と落選した応募者を比較します。事前の特徴やそれまでの点数は、提示の有無によっておおむねバランスが取れていました。教育熱心な家族に選ばれる学校であっても、応募者の集団の中での提示の比較は有用でした。",
+      "en": "KIPP Lynn was a public charter school with a structured environment and extended instruction time. Demand exceeded available places after 2005, and admissions lotteries supplied random offers. Compare applicants who won and lost, rather than comparing KIPP students with all nearby children. Baseline characteristics and earlier scores looked reasonably balanced by offer status. The school could be chosen by motivated families, yet the offer comparison within the applicant pool remained useful."
+    },
+    {
+      "id": "ch03-t065",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "第一段階は0.741です。提示によって通学率が74.1パーセントポイント上昇したことを意味します。数学の誘導形は0.355標準偏差です。標準偏差という単位を使うことで、解釈に何が加わりますか。",
+      "en": "The first stage is 0.741. That means an offer raised attendance by 74.1 percentage points. The reduced form for math is 0.355 standard deviations. What does a standard deviation add to our interpretation?"
+    },
+    {
+      "id": "ch03-t066",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "標準偏差は、基準となる集団における点数のばらつきの大きさを表します。その単位で伸びを表現することで、異なるテストの尺度を同じ基準で比較できます。正答した問題のパーセントを意味するわけではありません。数学の提示効果を通学の第一段階で割ると、くじの遵守者について約0.48標準偏差となります。",
+      "en": "A standard deviation measures the spread of scores in the reference population. Expressing a gain in those units puts different test scales on a common footing. It does not mean a percentage of questions answered correctly. Dividing the math offer effect by the attendance first stage gives about 0.48 standard deviations for lottery compliers."
+    },
+    {
+      "id": "ch03-t067",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "1学年間での数学の伸びとしては大きいですね。これをすべてのKIPPの生徒に対する効果、あるいは任意のチャータースクールに通うかもしれないすべての子どもに対する効果として説明すべきでしょうか。",
+      "en": "That is a large math gain over one school year. Should we describe it as the effect on all KIPP children, or on any child who might be placed in any charter school?"
+    },
+    {
+      "id": "ch03-t068",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "この研究デザインからはどちらも言えません。これは、KIPPリンの提示によって入学状況が変わった応募者における通学効果です。この分析は、当選確率が同等のくじグループを条件付けし、必要なテストデータがそろっている応募者を用いています。当選者と落選者の間でデータ完備率が同程度であることが、この比較を裏付けています。読解の結果は精度が低く、明確な向上は確認されませんでした。",
+      "en": "Neither follows from this design. It is an attendance effect for applicants whose enrollment changed with the KIPP Lynn offer. The analysis conditions on lottery groups with comparable offer chances, and uses applicants with the necessary test data. Similar rates of complete data across winners and losers support the comparison. The reading result was less precise and did not establish a clear gain."
+    },
+    {
+      "id": "ch03-t069",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "また、生の入学データから、特定の分析用標本へと移行していますね。ですから、発表された入学者数の総数と、点数の推定に用いられた調整後の第一段階とを混同してはいけません。",
+      "en": "We have also moved from the raw admissions story to a particular analysis sample. So we should not mix headline enrollment counts with the adjusted first stage used for the score estimate."
+    },
+    {
+      "id": "ch03-t070",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その通りです。公表された試験の点数の比較では、年度や学年、きょうだいの有無による当選確率の違いなど、応募グループが考慮されています。その第一段階は、それに対応する誘導形とセットで用いる必要があります。これは一般的な鉄則です。操作変数の比率を計算する際は、結果、標本、統制変数、処置の定義をすべてそろえておかなければなりません。そうでなければ、計算自体は正しくても、見当違いの問いに答えることになってしまいます。",
+      "en": "Right. The published score comparison accounts for application groups, including year, grade, and sibling-related differences in offer chances. Its first stage belongs with its reduced form. This is a general habit: keep the outcome, sample, controls, and treatment definition aligned when taking an IV ratio. Otherwise a correct division can still answer the wrong question."
+    },
+    {
+      "id": "ch03-t071",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "学校の政策としては、くじの遵守者は定員を増やす議論にとって重要に思えます。しかし、決して応募しないような家庭の生徒や、結果に関係なく通う子どもたちと似ているとは限りませんね。",
+      "en": "For school policy, lottery compliers sound relevant to offering more places. But they need not resemble students whose families would never apply or children who would attend regardless."
+    },
+    {
+      "id": "ch03-t072",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それが外的妥当性の問題です。推定値が他の人々や環境にも当てはまるかということです。遵守者は操作変数に依存し、効果は生徒によって異なる可能性があります。くじの結果からは、授業時間の長さの効果と、規律や指導法による効果とを切り離すことはできません。異なる集団で同様のデザインを比較することで、通学効果全体が他の場所でも通用するかどうかを判断する助けになります。",
+      "en": "That is the external validity question: will an estimate travel to other people or settings? Compliers depend on the instrument, and effects can differ across students. The lottery result does not isolate longer hours from discipline or teaching practices. Comparing similar designs across populations can help judge whether the overall attendance effect travels."
+    },
+    {
+      "id": "ch03-t073",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "最後の事例研究では、きょうだいが増えることで子どもの就学年数が減るかどうかを問います。家族が増えると、親は時間とお金をより薄く分散させるかもしれません。ここでの質と量のトレードオフの議論とは何ですか。",
+      "en": "Our final case study asks whether extra siblings reduce children's schooling. Parents might spread time and money more thinly as families grow. What is the quantity-quality argument here?"
+    },
+    {
+      "id": "ch03-t074",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その表現は、子どもの数と各子どもへの投資との間に生じうるトレードオフを表しています。ここでの質とは就学年数などの結果を指し、個人の人間的価値を評価するものではありません。単に負の相関があるだけでは不十分です。人数の多い家族を選ぶ親は、教育水準や資源、選好も異なっており、それが子どもに独自の影響を与えている可能性があるからです。",
+      "en": "The phrase describes a possible tradeoff between the number of children and investment in each child. Quality here means outcomes such as schooling, not a judgment about anyone's value. A negative association is not enough. Parents choosing larger families also differ in education, resources, and preferences, which may affect their children independently."
+    },
+    {
+      "id": "ch03-t075",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "このイスラエルの研究は、子どもが2人以上いる家庭のユダヤ人の長男・長女を追跡しています。通常の最小二乗法、すなわちOLSでは、変数を統制すると、きょうだいが1人多い家庭では、就学年数が平均して約0.15年短いという相関が見られます。どのようなばらつきを利用すれば、その相関関係を因果関係として読むことに疑問を投げかけられるでしょうか。",
+      "en": "The Israeli study follows Jewish adult firstborns from families with at least two children. Ordinary least squares, or OLS, finds about minus 0.15 years of schooling per extra sibling with controls. What variation can challenge a causal reading of that association?"
+    },
+    {
+      "id": "ch03-t076",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "一つの操作変数は、第2子での双子の誕生です。双子の出産は、最終的な家族の規模を予期せず増加させます。統制変数を入れない場合、第一段階は約0.32人です。1人分に満たないのは、もともと次の子どもを持とうとしていた家庭が多いからです。双子が生まれればその瞬間に子どもは2人増えますが、この操作変数が最終的な家族の規模を変えるのは一部の家庭においてのみです。",
+      "en": "One instrument is twins at the second birth. A twin birth can unexpectedly increase completed family size. Without controls, the first stage is about 0.32 children. It is less than a whole child because many families would have had another birth anyway. The instrument changes eventual family size only for some families, even though every twin birth adds two babies immediately."
+    },
+    {
+      "id": "ch03-t077",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "もう一つの操作変数は、最初の2人の子どもの性別です。親が男女両方を望む場合、同性の組み合わせは次の出産を促すことがあります。その変化はどれくらいの大きさですか。",
+      "en": "The other instrument uses the sex of the first two children. If parents prefer a mixture, a same-sex pair can encourage another birth. How large is that shift?"
+    },
+    {
+      "id": "ch03-t078",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "調整前の第一段階は約0.08人です。したがって、男女のきょうだいを持った長子に比べて、同性のきょうだいを持った長子は、平均してわずかに人数の多い家庭で育ちました。それに対応する就学年数の差はほぼゼロでした。これは通常の回帰分析における負の相関とは対照的ですが、推定値がほぼゼロだからといって、効果が完全に存在しない証拠にはなりません。",
+      "en": "The unadjusted first stage is about 0.08 children. Firstborns with same-sex rather than mixed-sex siblings therefore came from slightly larger families on average. The corresponding schooling differences were close to zero. That contrasts with the negative ordinary regression association, but a near-zero estimate is not proof that effects are exactly absent."
+    },
+    {
+      "id": "ch03-t079",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "これらは研究者がくじ引きで決めた提示ではなく、自然に生じる影響ですね。どちらかを有用な操作変数として扱う前に、どのような仮定を特に厳密に検討すべきでしょうか。",
+      "en": "These are naturally occurring influences rather than offers drawn by researchers. What assumptions deserve special scrutiny before we treat either one as a useful instrument?"
+    },
+    {
+      "id": "ch03-t080",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "双子の出産は、母親の年齢やその他の特徴と関係しています。他の標本では、不妊治療の影響が解釈を複雑にすることもあります。統制変数によって観察された違いに対処することはできますが、独立性が保証されるわけではありません。きょうだいの性別の組み合わせについては、部屋の共有など他の家庭環境が子どもの就学に直接影響する場合、除外制約が崩れる可能性があります。自然な操作変数と呼んだからといって、その経路が自動的に妥当になるわけではないのです。",
+      "en": "Twinning is related to maternal age and other characteristics. Fertility treatment can complicate its interpretation in other samples too. Controls can address observed differences; they do not guarantee independence. For sibling sex composition, exclusion could fail if bedroom sharing or other household arrangements change schooling directly. Calling an instrument natural does not make its channel automatically valid."
+    },
+    {
+      "id": "ch03-t081",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "除外制約を直接検証できると過信することなく、何かを知る手立てはあるでしょうか。元の議論では、家族の規模が操作変数にほとんど反応しないグループに着目しています。",
+      "en": "Can we learn anything about exclusion without pretending to test it directly? The original discussion looks at groups whose family size barely responds to the instruments."
+    },
+    {
+      "id": "ch03-t082",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "はい。あるグループにおいて第一段階が事実上存在しないなら、提案された家族規模の経路からは、そこでの誘導形も事実上ゼロになると予測されます。処置の動きがないのに結果が反応していれば、別の経路が存在するという懸念が生じます。この研究の確認作業では、そのような明らかな警告は見られませんでした。それは主張を補強しますが、特に推定の精度が高くない場合、除外制約を完全に証明できるわけではありません。",
+      "en": "Yes. If there is essentially no first stage in a group, the proposed family-size channel predicts essentially no reduced form there. An outcome response without treatment movement would raise concern about another channel. The study found no clear such warning in its checks. That supports the argument but cannot prove exclusion, particularly when estimates are imprecise."
+    },
+    {
+      "id": "ch03-t083",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "この研究が統制変数を加えて操作変数を組み合わせたとき、就学年数の推定値はきょうだい1人あたり約0.24年となり、標準誤差は0.13でした。リスナーはこのプラスの推定値をどのように解釈すべきでしょうか。",
+      "en": "When the study combines instruments with controls, the schooling estimate is about 0.24 years per extra sibling, with a standard error of 0.13. How should a listener interpret that positive estimate?"
+    },
+    {
+      "id": "ch03-t084",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "標準誤差は標本の不確実性を表します。この推定値は、一般的な基準において、プラスの就学効果があると判断できるほど精密ではありません。とはいえ、その不確実性を考慮しても、通常の回帰分析による非常に精度の高いマイナスの推定値と一致させることは困難です。この証拠は、この集団において観察された就学年数の不利がきょうだいの増加によって引き起こされているという主張を弱めます。ただし、すべての人において完全に無害であることを証明するものではありません。",
+      "en": "A standard error describes sampling uncertainty. The estimate is not precise enough to establish a positive schooling effect by conventional standards. Its uncertainty is nevertheless hard to reconcile with the very precise negative ordinary regression estimate. The evidence weakens the claim that extra siblings cause the observed schooling disadvantage in this population. It does not prove universal harmlessness."
+    },
+    {
+      "id": "ch03-t085",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "また、家族の規模は、処置の単なるオンとオフの切り替えではなく子どもの数を数えるものです。操作変数が家族の規模を変える場合でも、局所的という言葉には意味がありますか。",
+      "en": "And family size counts children instead of switching a treatment simply on or off. Does local still mean something when the instrument changes the size of a family?"
+    },
+    {
+      "id": "ch03-t086",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "はい、より詳細な解釈を伴って意味を持ちます。この推定値は、これらの操作変数によって引き起こされた家族規模の変化がもたらす効果を、影響を受けた家族ときょうだいの人数の変化の範囲にわたって平均したものです。あらゆる世帯におけるすべての追加のきょうだいを代表している必要はありません。双子と同性の組み合わせは、それぞれ異なる家庭を動かす可能性があります。それらを統合することは、別々に得られた結果が矛盾のない物語を語っているときに最も説得力を持ちます。",
+      "en": "Yes, with a more detailed interpretation. The estimate averages effects of family-size changes induced by these instruments, across affected families and child-number margins. It need not represent every possible extra sibling in every household. Twins and sex composition can move different families. Pooling them is most persuasive when their separate findings tell a compatible story."
+    },
+    {
+      "id": "ch03-t087",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "分析の手法として、この計算には二段階最小二乗法という名前がついています。私たちはこれまで効果の割り算を行ってきました。統制変数や複数の操作変数が加わったとき、二つの回帰分析は何を行うのでしょうか。",
+      "en": "The inference toolkit now gives the computation a name: two-stage least squares. We have been dividing effects. What do the two regressions do, especially when controls or multiple instruments enter?"
+    },
+    {
+      "id": "ch03-t088",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "第一段階では、操作変数と選択した統制変数から処置を予測します。第二段階では、同じ統制変数を保持したまま、その予測された処置と結果を関係付けます。操作変数が一つの場合、結果は統制変数を調整した誘導形を、調整した第一段階で割ったものと一致します。複数の操作変数は、それらの因果的な解釈に矛盾がない場合、有用な処置のばらつきを組み合わせて精度を高めることができます。",
+      "en": "In the first stage, predict treatment from the instruments and the chosen controls. In the second stage, relate the outcome to that predicted treatment, keeping the same controls. With one instrument, the result matches the covariate-adjusted reduced form divided by the adjusted first stage. Multiple instruments can combine useful treatment variation and improve precision when their causal interpretations are compatible."
+    },
+    {
+      "id": "ch03-t089",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "つまり、予測値を作ること自体が機械学習のような目的ではないわけですね。統制変数を考慮した上で、操作変数と結びついた処置のばらつきの部分だけを取り出しているわけです。両方の回帰を手動で別々に行うと、何が問題になるのでしょうか。",
+      "en": "So the predictions are not a machine learning goal in themselves. They select the part of treatment variation tied to the instruments, after accounting for the controls. What can go wrong with doing both regressions manually?"
+    },
+    {
+      "id": "ch03-t090",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "係数自体は正しくても、表示される標準誤差が間違ってしまうことがあります。通常の第二段階の回帰は、当てはめられた処置の予測値を、あたかも実際の処置であるかのように扱ってしまいます。適切な操作変数用ソフトウェアは、当てはめられた処置だけでなく、実際の処置を用いて予測誤差を計算します。予測誤差とは、観察された結果からモデルの予測値を引いたものです。そのため、不確実性の計算は通常の第二段階の回帰とは異なります。付属のノートブックで用いられているような、専用の操作変数ソフトウェアが必要になります。",
+      "en": "The coefficient can be correct while the reported standard error is wrong. Ordinary second-stage regression treats the fitted treatment as if it were the observed treatment. Proper IV software calculates prediction errors using actual treatment, rather than fitted treatment alone. A prediction error is the observed outcome minus the model's prediction. The uncertainty calculation therefore differs from an ordinary second-stage regression. You do need dedicated IV software, such as the estimator used in the companion notebook."
+    },
+    {
+      "id": "ch03-t091",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "弱い操作変数とは何ですか。第一段階が小さいというだけで、すべてを診断したかのように話すのを耳にします。しかし、大規模な研究であれば、わずかな処置の変化であっても非常に正確に測定されることがありますよね。",
+      "en": "What is a weak instrument? I hear people use small first stage as if it were a complete diagnosis. But a small treatment shift might be measured very precisely in a large study."
+    },
+    {
+      "id": "ch03-t092",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "弱さとは、よく知られた単位での大きさの問題ではなく、データが処置の動きをどれだけノイズと明確に区別できているかという問題です。第一段階のF統計量は、統制変数を条件付けた上で、操作変数が処置をどれだけ予測できているかという証拠を要約したものです。10を下回ると注意が必要だというのが伝統的な目安であり、特に多数の弱い操作変数に関する議論で重視されます。10を超えていれば万全というわけではありません。",
+      "en": "Weakness concerns how clearly the data distinguish the treatment movement from noise, not merely its size in familiar units. The first-stage F-statistic summarizes evidence that the instruments predict treatment, conditional on controls. Below 10 is a traditional warning rule, especially in the chapter's discussion of many weak instruments. Above 10 is not a universal guarantee."
+    },
+    {
+      "id": "ch03-t093",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "弱い操作変数をたくさん集めると、なぜ結果が通常の回帰分析と安心するほど似てしまうのでしょうか。一致しているなら歓迎すべきことのように思えますが。",
+      "en": "Why might collecting many weak instruments make the answer look reassuringly similar to ordinary regression? That sounds like agreement, which I usually welcome."
+    },
+    {
+      "id": "ch03-t094",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "多数の弱い操作変数を使うと、第一段階で過剰適合が起きる可能性があります。限られた標本サイズでは、これによって二段階推定値が通常の回帰分析の結果へと引き寄せられてしまうことがあります。その場合の一致は、選択バイアスがなかったことを示すものではありません。限定情報最尤法と呼ばれる代替手法は、この多数の操作変数によるバイアスに対して比較的頑健です。推定値を比較し、誘導形を精査することで脆弱性を見抜くことができますが、いかなる推定量であっても、誤った除外制約を修正することはできません。",
+      "en": "Many weak instruments can overfit the first stage. In finite samples, this can pull two-stage estimates toward the ordinary regression result. Agreement then does not show that selection bias was absent. An alternative called limited information maximum likelihood is less vulnerable to this many-instrument bias. Comparing estimates and inspecting reduced forms can reveal fragility; no estimator repairs a false exclusion assumption."
+    },
+    {
+      "id": "ch03-t095",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "「検証」を振り返ってみます。無作為な影響を保持し、それがどれだけ処置を動かしたかを確認し、結果に対する効果をその比率で調整します。警察の対応、学校への通学、家族の規模のいずれもその論理を用いていますが、信頼できる対象集団や不確実性はそれぞれ異なります。",
+      "en": "Let me recap The Investigation. We retain the random influence, check its treatment movement, and scale its outcome effect. Police response, school attendance, and family size all use that reasoning, while the credible population and uncertainty differ."
+    },
+    {
+      "id": "ch03-t096",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "そして、ソフトウェアを選ぶ前に研究デザインを選ぶことが先決です。適切に実施された無作為化比較試験は割り当ての効果を識別し、完全な遵守のもとでは対象集団における処置効果を識別できます。通常の回帰分析は、観察された統制変数をそろえた上で、妥当な比較ができることを必要とします。操作変数は妥当な外部のばらつきを必要とし、通常は局所的な効果を識別します。手法の名前だけで、その前提となる仮定を省略することはできません。",
+      "en": "And choosing a design comes before choosing software. A well-run randomized trial identifies an assignment effect, and under full compliance can identify the treatment effect for its study population. Ordinary regression needs a defensible treatment comparison after observed controls. IV needs valid outside variation and usually identifies a local effect. The method's name never replaces its assumptions."
+    },
+    {
+      "id": "ch03-t097",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "「解決」は、あえて疑いの目を向ける反論から始めましょう。無作為な操作変数さえあれば、得られた処置効果は当然すべての人に当てはまるはずだという主張です。標本サイズを大きくしていけば、いずれその一般化は妥当になるというのが私の予想です。",
+      "en": "The Resolution begins with a devil's advocate claim. Once we have a random instrument, surely the resulting treatment effect belongs to everyone. My prediction is that a larger sample will eventually make that generalization valid."
+    },
+    {
+      "id": "ch03-t098",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "その予想は、推定の精度と、対象となる集団の範囲とを混同しています。観察数を増やせば局所的な推定値の精度は高まりますが、誰の処置が反応しているか自体が変わるわけではありません。常に受ける人と決して受けない人からは、依然として操作変数による処置の変化は得られません。彼らにまで効果を拡張するには、追加の仮定や証拠が必要です。精度高く推定された遵守者効果は、どこまでいっても遵守者効果のままです。",
+      "en": "That prediction confuses precision with population coverage. More observations can sharpen the local estimate without changing whose treatment responds. Always-takers and never-takers still supply no instrument-driven treatment changes. Extending the estimate to them requires additional assumptions or evidence. A precisely estimated complier effect remains a complier effect."
+    },
+    {
+      "id": "ch03-t099",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "二つ目の主張は、膨大な標本があれば弱い操作変数の問題は解決するというものです。私たちの思考マップはその安心感に警告を発しています。標本サイズが無意味であるかのように聞こえないようにしつつ、どのように警告すればよいでしょうか。",
+      "en": "The second claim is that a huge sample cures a weak instrument. Our map warns against that reassurance. How should we state the warning without making sample size sound irrelevant?"
+    },
+    {
+      "id": "ch03-t100",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "標本が大きいからといって、強力なデザインであるとは限りません。多数の弱い操作変数が存在する場合、標本サイズに起因するバイアスは深刻なまま残ることがあります。処置に対する効果がゼロではない一定の大きさを持つ妥当な操作変数であれば、標本が増えるにつれて得られる情報は増えていきます。ですから、標本の大きさが全く役に立たないと言うのは極端です。観察数だけを信頼するのではなく、実際の第一段階の強さと推論の手順を精査してください。",
+      "en": "A large sample does not guarantee a strong design. With many weak instruments, finite-sample bias can remain serious. A valid instrument with a fixed, nonzero treatment effect can become more informative as the sample grows. So it is too strong to say that size can never help. Inspect the actual first-stage strength and the inference procedure rather than trusting the observation count."
+    },
+    {
+      "id": "ch03-t101",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "誘導形が小さい場合も注意が必要ですね。処置にほとんど効果がないことを意味する場合もあれば、第一段階が小さいことを反映しているだけの場合もあります。比率が何を意味しているかを判断する前に、両方のつながりを確認する必要があります。",
+      "en": "A small reduced form also needs care. It might mean the treatment has little effect, or it might reflect a small first stage. We need both links before deciding what the ratio says."
+    },
+    {
+      "id": "ch03-t102",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "その通りです。第一段階と誘導形を別々に確認してください。処置がほとんど動いていない場合、比率は不安定になり、通常の信頼区間は誤解を招くものになります。処置が明確に動いているにもかかわらず結果がほとんど反応しないのであれば、その状況において大きな処置効果があるという見方はより直接的に疑われます。その場合でも、完全にゼロだと断定する前に不確実性を評価してください。",
+      "en": "Exactly. Read the first stage and reduced form separately. If treatment barely moves, the ratio can be unstable and ordinary confidence intervals misleading. If treatment clearly moves but outcomes hardly respond, the evidence more directly challenges a large treatment effect in that setting. Even then, assess the uncertainty before declaring an exact zero."
+    },
+    {
+      "id": "ch03-t103",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "思考マップの順序に沿ってポイントを整理しましょう。実際に受けた処置で比較すると選択バイアスが復活してしまいます。操作変数の比率は、誘導形を第一段階で割ります。また、おなじみの局所的な解釈を行うには、関連性、独立性、除外制約、単調性が必要です。",
+      "en": "Let us collect the takeaways in the map's order. Comparing treatment received can revive selection bias. The IV ratio divides the reduced form by the first stage. We also need relevance, independence, exclusion, and monotonicity for the familiar local interpretation."
+    },
+    {
+      "id": "ch03-t104",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "適切な操作変数用ソフトウェアを使って二段階最小二乗法を実行し、第一段階の診断統計量を確認してください。KIPPリンの事例では、くじの遵守者に対して数学の大幅な学力向上の証拠が得られました。家族の規模に関する実験は、就学年数の差を強い負の因果関係で説明する見方に疑問を投げかけました。その結論は、これらの比較において明確な就学上の悪影響は見出せなかったということであり、不確実性や局所的な限界を含んだものであって、すべての家族に対する完全な無害の証明ではありません。",
+      "en": "Use two-stage least squares through proper IV software, and examine the first-stage diagnostic. KIPP Lynn provided evidence of substantial math gains for lottery compliers. The family-size experiments challenged a strong negative causal account of schooling differences. Their conclusion is absence of convincing schooling harm in those comparisons, with uncertainty and local limits, rather than proof for all families."
+    },
+    {
+      "id": "ch03-t105",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "今回の主眼は、心に留めておくべき有益な言葉です。「無作為な後押しを、それが処置を動かした幅で調整することで、動かされた人たちに対する因果効果が明らかになる」。これを口にする前に、どのような条件を頭に思い浮かべておくべきでしょうか。",
+      "en": "The thesis is a useful sentence to carry away: a random nudge, scaled by how far it moves treatment, reveals the causal effect for those it moves. What condition should I mentally attach before repeating it?"
+    },
+    {
+      "id": "ch03-t106",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "仮定を思い浮かべてください。その無作為な後押しは、潜在的な結果の違いと無関係であり、処置を動かし、処置を通じてのみ結果に影響を与える必要があります。標準的な遵守者の解釈をするためには、一部の人を逆方向に押し出さないことも求められます。この言葉は正当な因果の連鎖を表すものであり、都合の良い相関関係からの近道ではありません。",
+      "en": "Attach the assumptions. The nudge must be independent of the underlying outcome differences, move treatment, and affect the outcome only through treatment. For the standard complier interpretation, it must not push some people the opposite way. That sentence describes a justified causal chain, not a shortcut from any convenient correlation."
+    },
+    {
+      "id": "ch03-t107",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "「解決」を振り返ると、局所的というのは私たちが誰について学んだのかを表す記述であり、研究の言い訳ではありません。印象的な標本サイズよりも、強固な第一段階と信頼できる経路のほうが重要です。あらゆる実践的な結論には、誠実な不確実性の評価が不可欠です。",
+      "en": "To recap The Resolution, local is a description of who we learned about, not an apology for the study. Strong first stages and credible channels matter more than an impressive sample count. Honest uncertainty belongs in every practical conclusion."
+    },
+    {
+      "id": "ch03-t108",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "そして、政策的に有用な答えは、局所的なものであっても成り立ちます。実際の提示や割り当てによって影響を受けた人々に何が起きたのかを私たちは知ることができます。次の課題は、それらの人々とその処置が、検討されている政策と合致するかどうかを問うことです。一般化できるかどうかは探求すべき別の問いであり、因果効果が推定できたからといって自動的に手に入る報酬ではありません。",
+      "en": "And a useful policy answer can still be local. We learn what changed for the people affected by a real offer or assignment. The next task is to ask whether those people and that treatment match the policy under consideration. Generalization is another question to investigate, not an automatic reward for obtaining a causal estimate."
+    },
+    {
+      "id": "ch03-t109",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "学習目標に戻りましょう。実際に受けた処置での比較がなぜ選択バイアスを復活させてしまうのかを説明できるようになりました。比率を解釈し、それがどの遵守者集団を表しているのかを特定できます。そして、操作変数と不確実性の計算が信頼に足るものかどうかを問いかけることができます。",
+      "en": "Return to our learning goals. I can now explain why received-treatment comparisons can restore selection bias. I can interpret the ratio and identify its complier population. And I can ask whether the instrument and the uncertainty calculation deserve trust."
+    },
+    {
+      "id": "ch03-t110",
+      "speaker": "ECONOMIST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "核心となる主張をもう一度確認します。仮定が満たされているとき、無作為な後押しを処置の動きで調整することで、動かされた人々における平均効果が識別されます。割り当てと実際の受給は異なります。第一段階がそれらをつなぎ、誘導形が割り当てと結果をつなぎます。この比率が役に立つのは、割り算が難しいからではなく、因果関係の論理によってそれが正当化されるからです。",
+      "en": "The core thesis returns: a random nudge, scaled by its treatment movement, identifies an average effect among those moved, when the assumptions hold. Assignment and receipt are different. The first stage links them, and the reduced form links assignment to outcomes. The ratio is useful because the causal argument earns it, not because division is difficult."
+    },
+    {
+      "id": "ch03-t111",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "最後に考えていただく問いを出します。新しい学校のくじ引きによって通学率が上がったとします。しかし、単に当選したことだけで、子どもがその学校に通わなかったとしても、親が個別指導を購入するようになったとします。このとき、通常の操作変数の比率を、学校に通った効果として解釈できるでしょうか。音声を一度止めて考えてみてください。",
+      "en": "Here is our closing think question. A new school lottery raises attendance, but merely winning also causes families to buy tutoring even if their children never attend. Can we interpret the usual IV ratio as the effect of school attendance? Pause the episode and think before continuing."
+    },
+    {
+      "id": "ch03-t112",
+      "speaker": "ECONOMIST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "解釈できません。個別指導という反応によって、学校への通学以外の経路で結果に影響が生じてしまいます。提示の比較自体は、くじに当選したこと自体の効果を依然として識別できるかもしれません。しかし、当選が結果に与えた効果を、当選による通学率の上昇幅、つまり第一段階で割っても、そこには個別指導という別の経路の影響が混ざっています。そのため、通学だけの効果とは言えません。第一段階をどれほど強めようと、標本をどれほど大きくしようと、その除外制約の破綻を修復することはできません。",
+      "en": "No. The tutoring response creates an outcome channel outside school attendance. The offer comparison can still identify the effect of winning the lottery. But its ratio to the attendance effect mixes channels and need not identify an attendance effect. A stronger first stage or a larger sample cannot repair that exclusion failure."
+    },
+    {
+      "id": "ch03-t113",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "練習として、Colabノートブックと講義スライドを開いてみてください。割り当てと実際の行動を区別しながら、警察の事例の第一段階と比率を再現してみましょう。そして学校の事例と家族の規模の仮定を比較してみてください。どの経路を信じるか、そしてそれぞれの推定値がどの集団を表しているのかを考えてみてください。",
+      "en": "For practice, open the Colab notebook and the lecture slides. Rebuild the police first stage and the ratio, keeping assignment separate from action. Then compare the school and family-size assumptions. Ask which channel you believe and which population each estimate describes."
+    },
+    {
+      "id": "ch03-t114",
+      "speaker": "ECONOMIST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "第4章の回帰不連続デザインでは、アルコールを合法的に購入できる年齢に達することで死亡率が上がるかどうかを考えます。政策的な境界線が、信頼できる比較を組み立てるための新たな方法を提供してくれます。何が変化し、なぜその変化によって因果関係が明らかになるのかをまず理解するという、今日身につけた姿勢を次回も持ち続けてください。ご視聴ありがとうございました。それではまた。",
+      "en": "In Chapter 4, Regression Discontinuity Designs, the next question is whether legal access to alcohol raises death rates. A policy threshold will provide a new way to construct a credible comparison. Keep today's habit: first understand what changes, then ask why that change can reveal causation. Thank you for listening, and goodbye."
+    }
+  ]
+}

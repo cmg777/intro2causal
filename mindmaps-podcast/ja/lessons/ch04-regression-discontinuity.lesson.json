@@ -1,0 +1,560 @@
+{
+  "chapter": 4,
+  "script_sha256": "ce11f606d5868b7e0ac3cbcb1a6e42173343e6951ea50759cb7928dd250811ba",
+  "goal_ja": "この課では、21歳の法定飲酒年齢とボストンの選抜制学校を例に、回帰不連続デザインの考え方を日本語で聞きます。境界、段差、外挿、頑健性を説明する表現をシャドーイングで身につけ、同じ内容をN1レベルの書き言葉で読み、最後に自分の言葉で説明します。",
+  "goal_en": "Hear regression discontinuity explained in Japanese through the legal drinking age and Boston's exam schools, shadow the language of cutoffs, jumps, extrapolation and robustness, read the same ideas in N1-level written Japanese, then explain them yourself.",
+  "vocab": [
+    {
+      "term": "切り替わる",
+      "reading": "きりかわる",
+      "meaning": "to switch over",
+      "level": "N2",
+      "kind": "general",
+      "turn": "ch04-t001",
+      "example": "飲酒が法的に認められるかどうかは、特定の年齢で突然切り替わります。",
+      "surface": "切り替わり"
+    },
+    {
+      "term": "法定",
+      "reading": "ほうてい",
+      "meaning": "statutory; prescribed by law",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t002",
+      "example": "アメリカの死亡率を調べた研究者たちは、法定飲酒年齢の誕生日の前後で、明らかな死亡率の上昇を発見しました。"
+    },
+    {
+      "term": "段差",
+      "reading": "だんさ",
+      "meaning": "jump; step (difference in level)",
+      "level": "N2",
+      "kind": "general",
+      "turn": "ch04-t004",
+      "example": "最後に、推定された段差の仮定と限界を評価できるようになります。"
+    },
+    {
+      "term": "受給資格",
+      "reading": "じゅきゅうしかく",
+      "meaning": "eligibility (for a benefit)",
+      "level": "N1",
+      "kind": "economics",
+      "turn": "ch04-t009",
+      "example": "他の受給資格や権利のルールも同じ構造を持っていますね。"
+    },
+    {
+      "term": "着眼点",
+      "reading": "ちゃくがんてん",
+      "meaning": "point to focus on; angle",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t009",
+      "example": "有望な着眼点のように聞こえます。"
+    },
+    {
+      "term": "閾値",
+      "reading": "いきち",
+      "meaning": "threshold; cutoff",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch04-t010",
+      "example": "それらは閾値の例であって、因果関係の研究が完成しているわけではありません。"
+    },
+    {
+      "term": "一過性",
+      "reading": "いっかせい",
+      "meaning": "transient; passing",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t012",
+      "example": "しかし、この増加が一過性のお祝いを超えて持続するかどうかには、まだ答えていません。"
+    },
+    {
+      "term": "際立つ",
+      "reading": "きわだつ",
+      "meaning": "to stand out",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t012",
+      "example": "前後の誕生日では、これほど際立ったパターンは見られません。",
+      "surface": "際立っ"
+    },
+    {
+      "term": "断絶",
+      "reading": "だんぜつ",
+      "meaning": "break; rupture",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t016",
+      "example": "要件は、まさにその境界で突然の断絶がないことです。"
+    },
+    {
+      "term": "併せ持つ",
+      "reading": "あわせもつ",
+      "meaning": "to have both at once",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t027",
+      "example": "データの中には、両方の法的条件を併せ持つ正確な年齢は存在しません。"
+    },
+    {
+      "term": "共存",
+      "reading": "きょうぞん",
+      "meaning": "coexistence; to coexist",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t032",
+      "example": "背景にある低下傾向と、政策による有害な効果は共存できます。"
+    },
+    {
+      "term": "見栄え",
+      "reading": "みばえ",
+      "meaning": "appearance; looking good",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t034",
+      "example": "見栄えの良い係数があっても、データの当てはまりの悪さを修復することはできません。"
+    },
+    {
+      "term": "外挿",
+      "reading": "がいそう",
+      "meaning": "extrapolation",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch04-t036",
+      "example": "そこから遠く離れた場所での高さを比較するには、さらなる外挿が必要になってしまいます。"
+    },
+    {
+      "term": "寄与",
+      "reading": "きよ",
+      "meaning": "contribution",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t044",
+      "example": "直接の急性アルコール中毒の寄与は比較的小さいです。"
+    },
+    {
+      "term": "外因",
+      "reading": "がいいん",
+      "meaning": "external cause",
+      "level": "超N1",
+      "kind": "general",
+      "turn": "ch04-t044",
+      "example": "また、自殺やその他の外因による死亡の増加も示唆されています。"
+    },
+    {
+      "term": "内因性",
+      "reading": "ないいんせい",
+      "meaning": "internal (disease-related) cause",
+      "level": "超N1",
+      "kind": "general",
+      "turn": "ch04-t045",
+      "example": "そうした体質的・内因性の原因は、実際に変化していないのでしょうか。"
+    },
+    {
+      "term": "台無し",
+      "reading": "だいなし",
+      "meaning": "ruined; spoiled",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t047",
+      "example": "その例外によって研究全体が台無しになるのでしょうか、それとも証拠をどれくらい自信を持って説明すべきかが変わるだけでしょうか。"
+    },
+    {
+      "term": "破綻",
+      "reading": "はたん",
+      "meaning": "breakdown; failure",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t048",
+      "example": "偶然によって単発の結果が出ることもありますが、系統的な破綻であればより問題になります。"
+    },
+    {
+      "term": "分散",
+      "reading": "ぶんさん",
+      "meaning": "variance",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch04-t056",
+      "example": "これがバイアスと分散のトレードオフです。"
+    },
+    {
+      "term": "近傍",
+      "reading": "きんぼう",
+      "meaning": "neighborhood (near the boundary)",
+      "level": "超N1",
+      "kind": "general",
+      "turn": "ch04-t058",
+      "example": "ノンパラメトリックなRDは近傍に焦点を当て、多くの場合、局所的な直線を当てはめます。"
+    },
+    {
+      "term": "換算",
+      "reading": "かんさん",
+      "meaning": "conversion; scaling",
+      "level": "N1",
+      "kind": "economics",
+      "turn": "ch04-t060",
+      "example": "結果の段差を処置の段差で割ることで、受給資格の効果を処置そのものの効果へと換算します。"
+    },
+    {
+      "term": "標準偏差",
+      "reading": "ひょうじゅんへんさ",
+      "meaning": "standard deviation",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch04-t070",
+      "example": "推定される段差は約0.8標準偏差です。"
+    },
+    {
+      "term": "断言",
+      "reading": "だんげん",
+      "meaning": "to assert; flat statement",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t072",
+      "example": "真の効果が完全にゼロだと断言するのではなく、明確な学力向上は検出されなかった、と言うべきです。"
+    },
+    {
+      "term": "含意",
+      "reading": "がんい",
+      "meaning": "implication",
+      "level": "超N1",
+      "kind": "general",
+      "turn": "ch04-t077",
+      "example": "学校選択に関する責任ある政策的含意とはどのようなものでしょうか。"
+    },
+    {
+      "term": "開示",
+      "reading": "かいじ",
+      "meaning": "disclosure",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t092",
+      "example": "内因性の死亡における例外はきちんと開示すべきです。"
+    },
+    {
+      "term": "吟味",
+      "reading": "ぎんみ",
+      "meaning": "careful examination; scrutiny",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch04-t100",
+      "example": "どちらの結果も、新しい環境を吟味することなく一般化してよいという許可を与えているわけではありません。"
+    }
+  ],
+  "grammar": [
+    {
+      "pattern": "〜からこそ",
+      "level": "N2",
+      "meaning_ja": "理由を強く取り立てて、「ほかでもなく、その理由があるので」と強調する。",
+      "meaning_en": "'precisely because ~'.",
+      "example": "ルールが急激に変化するからこそ、比較が興味深くなるわけですね。",
+      "source": "ch04-t013",
+      "extra": "処置の強さが連続的に変わるからこそ、換算した効果の解釈には注意が必要だ。",
+      "extra_en": "Precisely because the intensity of treatment varies continuously, the scaled effect must be interpreted with care."
+    },
+    {
+      "pattern": "〜に値する",
+      "level": "N1",
+      "meaning_ja": "「〜するだけの価値がある」「〜するのにふさわしい」。名詞や動詞の辞書形につく硬い言い方。",
+      "meaning_en": "'to deserve ~; to be worth ~'.",
+      "example": "境界のすぐ近くの人たちを比較し、入手の権利と実際の飲酒を区別し、段差が因果関係としての解釈に値するかどうかを検証していきます。",
+      "source": "ch04-t023",
+      "extra": "出願者自身の以前の点数に境界で段差が見られないことは、注目に値する。",
+      "extra_en": "It is worth noting that applicants' own earlier scores show no jump at the boundary."
+    },
+    {
+      "pattern": "〜とは限らない",
+      "level": "N2",
+      "meaning_ja": "「いつも〜というわけではない」。例外がありうることを示す。「必ずしも〜とは限らない」の形も多い。",
+      "meaning_en": "'is not necessarily ~'.",
+      "example": "成功の目に見える証拠と将来の結果に関連があったとしても、その証拠が結果の原因になっているとは限らないのです。",
+      "source": "ch04-t082",
+      "extra": "境界の近くで差が見つかっても、境界から遠い人に同じ効果があるとは限らない。",
+      "extra_en": "Even if a gap is found near the cutoff, the same effect does not necessarily hold for people far from it."
+    },
+    {
+      "pattern": "〜を境に",
+      "level": "N1",
+      "meaning_ja": "「〜を区切りとして、その前と後で状態が大きく変わる」。時点や数値の境目を表す。",
+      "meaning_en": "'with ~ as the dividing line; from ~ on'.",
+      "example": "アメリカでは、21歳の誕生日を境に、酒を合法的に手に入れる資格が与えられる。",
+      "source": "passage",
+      "extra": "合格最低点を境に、その学校に入学する確率は大きく跳ね上がる。",
+      "extra_en": "At the admissions cutoff, the probability of enrolling at that school jumps sharply."
+    },
+    {
+      "pattern": "〜ないまでも",
+      "level": "N1",
+      "meaning_ja": "「〜というところまでは行かなくても、それに近い程度には」。完全ではないが、ある程度は言えることを表す。",
+      "meaning_en": "'even if not ~; while not quite ~'.",
+      "example": "あらゆるバイアスに対する絶対的な証明とは言えないまでも、同じ方向を向き、規模も似通った結果は心強い材料である。",
+      "source": "passage",
+      "extra": "推定値が完全に一致しないまでも、異なる帯域幅で似た大きさが得られれば、結論はある程度信頼できる。",
+      "extra_en": "Even if the estimates do not match exactly, similar sizes across bandwidths make the conclusion fairly credible."
+    },
+    {
+      "pattern": "〜たりとも",
+      "level": "N1",
+      "meaning_ja": "「一（いち）＋助数詞＋たりとも〜ない」の形で、「わずか一つでも〜ない」と強く否定する書き言葉。",
+      "meaning_en": "'not even one ~' (strong negation, written).",
+      "example": "境界で同時に起きる他の変化からは、一瞬たりとも目を離してはならないのである。",
+      "source": "passage",
+      "extra": "プラセボ検定で見つかった例外は、一つたりとも報告から外してはならない。",
+      "extra_en": "Not even one exception found in a placebo test should be left out of the report."
+    }
+  ],
+  "passage": {
+    "title": "境界が生む比較",
+    "text": "アメリカでは、21歳の誕生日を境に、酒を合法的に手に入れる資格が与えられる。しかし、人間の身体がその日を境に突然変わるわけではない。回帰不連続デザインは、この対比に着目する手法である。境界のすぐ手前の人とすぐ後の人は、年齢はほとんど同じでありながら、法的な扱いだけが異なる。したがって、処置がなかった場合に期待される結果が境界の前後で滑らかにつながると考えられるなら、結果の突然の段差を処置の効果として読むことができる。\n\nもっとも、ここで言う処置とは飲酒そのものではなく、合法的な入手資格である。ある正確な年齢では全員が同じ規則に従うため、処置を受けていない比較対象は存在しない。そこで、境界の両側で結果の傾向を推定し、それぞれを境界まで延ばして予測値を比べる。すなわち、外挿に頼るのである。月齢ごとにまとめた死亡データに単純な線形モデルを当てはめると、境界付近で人口100,000人あたり年間約7.7人の死亡が追加される。平均死亡率をおよそ95人とすれば、約8.1パーセントの増加にあたる。その多くを占めるのは自動車事故による死亡である。\n\nこの推定値は、分析の設定を変えても大きくは揺らがない。線形モデルと柔軟なモデル、広い分析範囲と狭い分析範囲のいずれを通じても、段差はおおむね人口100,000人あたり約7人から10人である。あらゆるバイアスに対する絶対的な証明とは言えないまでも、同じ方向を向き、規模も似通った結果は心強い材料である。また、病気による内因性の死亡を用いたプラセボ検定でも、広い標本では推定値が小さく、統計的にも不確実であった。ただし、より狭い範囲を用いた一つの設定では、ゼロと区別できる推定値も得られており、この例外は開示されるべきである。\n\nさらに、境界の比較には、推定がどれほど精密であっても解決できない問題がある。もし同じ誕生日に別の政策も始まるなら、段差だけではどちらが原因かを判断できない。境界で同時に起きる他の変化からは、一瞬たりとも目を離してはならないのである。しかも、効果はあくまで局所的なものだ。ボストンの選抜制学校の事例では、合格によって出会う同級生の過去の学力が約0.8標準偏差高くなったが、その後の数学の成績に明確な向上は検出されなかった。閾値は比較の機会を与えてくれるが、その機会を因果的な答えに変えるのは、丁寧なデザインと慎重な解釈なのである。"
+  },
+  "passage_questions": [
+    {
+      "question": "第一段落によると、結果の突然の段差を処置の効果として読めるのは、どのような場合か。",
+      "options": [
+        "境界の前後の人が、あらゆる面で全く同一である場合",
+        "処置がなかった場合に期待される結果が、境界の前後で滑らかにつながると考えられる場合",
+        "死亡率が年齢を重ねても一定のままである場合",
+        "21歳になった全員が、実際に酒を飲み始める場合"
+      ],
+      "answer": 1,
+      "explanation": "第一段落の最後に「処置がなかった場合に期待される結果が境界の前後で滑らかにつながると考えられるなら」段差を処置の効果として読める、とある。同一である必要はない。"
+    },
+    {
+      "question": "第二段落で、筆者が「外挿に頼る」必要があるとしているのはなぜか。",
+      "options": [
+        "標本が小さく、偶然のばらつきが大きいから",
+        "月齢ごとにまとめたデータしかないから",
+        "ある正確な年齢では、処置を受けていない比較対象が存在しないから",
+        "死亡率が年齢とともに低下しているから"
+      ],
+      "answer": 2,
+      "explanation": "正確な年齢では全員が同じ規則に従うため、処置を受けていない比較対象がない。そのため、両側の傾向を境界まで延ばして比べるしかない。"
+    },
+    {
+      "question": "第二段落の「約8.1パーセント」は何を表しているか。",
+      "options": [
+        "およそ95人という平均死亡率に対する、追加の死亡率の大きさ",
+        "入手資格が原因で死亡する若者全体の割合",
+        "追加の死亡のうち、自動車事故が占める割合",
+        "21歳で飲酒を始める人の割合"
+      ],
+      "answer": 0,
+      "explanation": "年間約7.7人の追加死亡を、平均死亡率およそ95人と比べた相対的な大きさである。若者全体のうち死亡する割合ではない。"
+    },
+    {
+      "question": "第三段落の内容と合うものはどれか。",
+      "options": [
+        "プラセボ検定では、どの設定でも内因性の死亡に段差は見られなかった",
+        "分析の設定によって、段差の方向が逆になることがある",
+        "推定値が安定していることは、あらゆるバイアスがないことの証明になる",
+        "内因性の死亡について、一つの設定でゼロと区別できる推定値があり、それは開示すべきである"
+      ],
+      "answer": 3,
+      "explanation": "「より狭い範囲を用いた一つの設定では、ゼロと区別できる推定値も得られており、この例外は開示されるべきである」とある。安定性は絶対的な証明ではないと述べている。"
+    },
+    {
+      "question": "最終段落で、筆者が最も言いたいことは何か。",
+      "options": [
+        "推定値を十分に精密にすれば、どの原因による段差かが分かる",
+        "閾値は比較の機会を与えるが、因果的な答えを得るには丁寧なデザインと慎重な解釈が必要だ",
+        "ボストンの選抜制学校には、教育的な価値がまったくない",
+        "境界から遠い人についても、同じ効果がそのまま当てはまる"
+      ],
+      "answer": 1,
+      "explanation": "精度では同時に起きる別の変化の問題は解決できず、効果も局所的だと述べたうえで、最後の文で「丁寧なデザインと慎重な解釈」が必要だとまとめている。"
+    }
+  ],
+  "comprehension": [
+    {
+      "type": "mc",
+      "question": "最初のデザインにおける処置とは何ですか。",
+      "options": [
+        "決まった量のアルコールを飲むこと",
+        "お酒を合法的に手に入れる許可",
+        "誕生日のお祝いをすること",
+        "実際に飲酒を始めること"
+      ],
+      "answer": 1,
+      "turns": [
+        "ch04-t008"
+      ],
+      "explanation": "処置は合法的に手に入れる許可です。全員が飲み始めるという意味ではなく、生物学的な飲酒の効果でもありません。"
+    },
+    {
+      "type": "short",
+      "question": "ここでの「滑らか」とは、どういう意味ですか。",
+      "answer": "一定という意味ではありません。死亡率は年齢とともに上がっても下がっても曲がってもよく、まさに境界で突然の断絶がないことが求められます。",
+      "turns": [
+        "ch04-t015",
+        "ch04-t016"
+      ]
+    },
+    {
+      "type": "mc",
+      "question": "単純な線形モデルで推定された追加の死亡と、その平均に対する大きさはどれですか。",
+      "options": [
+        "人口100,000人あたり年間約95人、約7.7パーセント",
+        "人口100,000人あたり年間約8.1人、約7.7パーセント",
+        "人口100,000人あたり年間約7.7人、約8.1パーセント",
+        "人口100,000人あたり年間約9.5人、約10パーセント"
+      ],
+      "answer": 2,
+      "turns": [
+        "ch04-t040",
+        "ch04-t041",
+        "ch04-t042"
+      ],
+      "explanation": "追加の死亡は約7.7人で、平均およそ95人で割って100を掛けると約8.1パーセントです。9.5は柔軟な広い標本での推定値です。"
+    },
+    {
+      "type": "mc",
+      "question": "追加の死亡の多くを占めているのは、どの種類の死亡ですか。",
+      "options": [
+        "直接の急性アルコール中毒",
+        "がんや心臓病",
+        "自殺だけ",
+        "自動車事故"
+      ],
+      "answer": 3,
+      "turns": [
+        "ch04-t044"
+      ],
+      "explanation": "自動車事故による死亡が多くを占め、おおむね年間約4人から6人の増加です。急性アルコール中毒の寄与は比較的小さいとされています。"
+    },
+    {
+      "type": "mc",
+      "question": "内因性の原因による死亡を使ったプラセボ検定の結果は、どうでしたか。",
+      "options": [
+        "どの設定でも、段差はまったくなかった",
+        "広い標本では小さく不確実だったが、狭い範囲の一つの設定ではゼロと区別できる推定値もあった",
+        "大きく跳ね上がり、研究全体が台無しになった",
+        "病気による死亡は、自動車事故より大きく増えた"
+      ],
+      "answer": 1,
+      "turns": [
+        "ch04-t046",
+        "ch04-t048"
+      ],
+      "explanation": "検証は全体として支持的ですが、あらゆるバージョンで完璧ではありません。例外を報告し、全体のパターンを考えるべきだとされています。"
+    },
+    {
+      "type": "mc",
+      "question": "分析範囲を狭くすると、どうなりますか。",
+      "options": [
+        "傾向のバイアスは減らせるが、雑音が増える",
+        "バイアスも雑音も、両方とも減る",
+        "バイアスが増えるが、雑音は減る",
+        "推定の結果は何も変わらない"
+      ],
+      "answer": 0,
+      "turns": [
+        "ch04-t056"
+      ],
+      "explanation": "これがバイアスと分散のトレードオフです。データ数が減るため、推定の精度は低くなります。"
+    },
+    {
+      "type": "mc",
+      "question": "ボストン・ラテン・スクールの合格の境界で、はっきりと変化したものはどれですか。",
+      "options": [
+        "出願者自身の以前の点数",
+        "その後の数学のテストの点数",
+        "入学時点の同級生の過去の学力",
+        "出願者の測定された背景属性"
+      ],
+      "answer": 2,
+      "turns": [
+        "ch04-t070",
+        "ch04-t072"
+      ],
+      "explanation": "同級生の過去の学力は約0.8標準偏差跳ね上がりました。出願者自身の以前の点数や背景属性に段差はなく、その後の数学の点数にも明確な上昇は見られませんでした。"
+    },
+    {
+      "type": "short",
+      "question": "境界の近くでの納得のいく比較が、境界から遠く離れた人たちについてあまり多くを教えてくれないのはなぜですか。",
+      "answer": "遠く離れた人たちの処置を受けない場合の結果を知るには、はるかに長い外挿が必要になるからです。当てはめた曲線は遠くまで伸ばせても、因果関係への確信は同じようには伸ばせません。",
+      "turns": [
+        "ch04-t079",
+        "ch04-t080"
+      ]
+    }
+  ],
+  "dictation": [
+    {
+      "turn": "ch04-t003"
+    },
+    {
+      "turn": "ch04-t019"
+    }
+  ],
+  "speaking": [
+    {
+      "prompt_ja": "21歳の誕生日という境界を使って、飲酒の入手資格が死亡率に与える効果をどのように推定するのか、説明してください。",
+      "prompt_en": "Explain how the 21st-birthday boundary is used to estimate the effect of legal access to alcohol on mortality.",
+      "expressions": [
+        {
+          "ja": "〜が突然切り替わります",
+          "en": "~ switches suddenly"
+        },
+        {
+          "ja": "一方で、〜は徐々にしか変わりません",
+          "en": "meanwhile, ~ changes only gradually"
+        },
+        {
+          "ja": "そこで、〜して比べます",
+          "en": "so we ~ and compare"
+        },
+        {
+          "ja": "〜と考えられるなら、〜",
+          "en": "if we can assume ~, then ~"
+        }
+      ],
+      "model_answer": "アメリカでは、21歳の誕生日に、お酒を合法的に手に入れる資格が突然切り替わります。一方で、年齢に伴う普通のリスクは徐々にしか変わらないはずです。そこで、境界の両側で死亡率の傾向を推定し、境界まで延ばして比べます。法的な変化がなければ結果が滑らかにつながると考えられるなら、境界での段差を入手資格の効果と見なせます。推定では、人口100,000人あたり年間約7.7人の死亡が増えました。"
+    },
+    {
+      "prompt_ja": "シャープなRDとファジーなRDの違いと、ファジーな場合に処置の効果をどう求めるのかを説明してください。",
+      "prompt_en": "Explain the difference between sharp and fuzzy RD, and how the treatment effect is obtained in the fuzzy case.",
+      "expressions": [
+        {
+          "ja": "〜では、〜が完全に切り替わります",
+          "en": "in ~, ~ switches completely"
+        },
+        {
+          "ja": "たとえば、〜",
+          "en": "for example, ~"
+        },
+        {
+          "ja": "〜を〜で割って、〜に換算します",
+          "en": "divide ~ by ~ to scale it into ~"
+        },
+        {
+          "ja": "ただし、〜が必要です",
+          "en": "however, ~ is required"
+        }
+      ],
+      "model_answer": "シャープなRDでは、調べたい処置が閾値で完全に切り替わります。ファジーなRDでは、処置を受ける確率や強さが変わるだけです。たとえば、学校の合格通知は入学する確率を高めますが、入学を完全には決めません。ファジーな場合は、結果の段差を処置の段差で割って、処置の効果に換算します。ただし、第一段階が意味のある大きさであることと、境界を越えることが処置を通じてだけ結果に影響するという除外制約が必要です。"
+    },
+    {
+      "prompt_ja": "選抜校の合否の境界でその後の点数に明確な段差がなかったとき、「選抜校にはどこでも価値がない」と結論できない理由を説明してください。",
+      "prompt_en": "When later scores show no clear jump at a selective school's cutoff, explain why we cannot conclude that selective schools have no value anywhere.",
+      "expressions": [
+        {
+          "ja": "〜と結論づけることはできません",
+          "en": "we cannot conclude that ~"
+        },
+        {
+          "ja": "分かるのは、〜だけです",
+          "en": "all we learn is ~"
+        },
+        {
+          "ja": "しかも、〜",
+          "en": "moreover, ~"
+        },
+        {
+          "ja": "〜なら、違う答えになる可能性があります",
+          "en": "with ~, the answer could differ"
+        }
+      ],
+      "model_answer": "いいえ、そう結論づけることはできません。分かるのは、その合格最低点の近くにいる出願者について、測定されたテストの点数に対する合格の効果だけです。しかも、ボストンでは、合格点にわずかに届かなかった出願者の大半も、別の選抜制学校に通っています。推定値の不確実性も残りますし、別の生徒や別の結果、別の学校との比較なら、違う答えになる可能性があります。"
+    }
+  ]
+}

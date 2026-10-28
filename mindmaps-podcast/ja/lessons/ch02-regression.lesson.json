@@ -1,0 +1,577 @@
+{
+  "chapter": 2,
+  "script_sha256": "40fda90a2d578d144c407f4a6e36ebc60fb192050e2e04a42ebed6e876eeada8",
+  "goal_ja": "この課では、私立大学と州立大学の選択を例に、統制変数を含めた回帰分析と欠落変数による偏りの考え方を日本語で聞きます。シャドーイングで条件をそろえた比較を説明する表現を身につけ、同じ内容をN1レベルの書き言葉で読み、最後に自分の言葉で説明します。",
+  "goal_en": "Hear regression with control variables and omitted-variable bias explained in Japanese through the private-versus-public college choice, shadow the explanations, read the same ideas in N1-level written Japanese, then explain them yourself.",
+  "vocab": [
+    {
+      "term": "見合う",
+      "reading": "みあう",
+      "meaning": "to be worth; to match (a cost)",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t003",
+      "example": "名門私立大学には、高い授業料に見合う価値があるのでしょうか。"
+    },
+    {
+      "term": "名門",
+      "reading": "めいもん",
+      "meaning": "prestigious (school, family)",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t003",
+      "example": "名門私立大学には、高い授業料に見合う価値があるのでしょうか。"
+    },
+    {
+      "term": "人脈",
+      "reading": "じんみゃく",
+      "meaning": "network of contacts",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t007",
+      "example": "高いお金を払えば、少人数授業や役立つ人脈、異なる学習環境が手に入るかもしれません。"
+    },
+    {
+      "term": "採算",
+      "reading": "さいさん",
+      "meaning": "profitability; whether it pays off",
+      "level": "N1",
+      "kind": "economics",
+      "turn": "ch02-t012",
+      "example": "金銭的な採算を計算する前に、信頼できる所得への効果を知る必要があります。"
+    },
+    {
+      "term": "突破",
+      "reading": "とっぱ",
+      "meaning": "breaking through; getting past",
+      "level": "N2",
+      "kind": "general",
+      "turn": "ch02-t013",
+      "example": "しかし、そうした学生はすでに入学審査を突破しています。"
+    },
+    {
+      "term": "均す",
+      "reading": "ならす",
+      "meaning": "to even out; to level",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t014",
+      "example": "今回の検証には、そうした違いをすべて均等に均してくれるような入試のくじ引きはありません。",
+      "surface": "均して"
+    },
+    {
+      "term": "統制変数",
+      "reading": "とうせいへんすう",
+      "meaning": "control variable",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch02-t004",
+      "example": "そして、ある統制変数が因果推論の主張を強めるのか、それとも損なうのかを判断できるようになります。"
+    },
+    {
+      "term": "事後的",
+      "reading": "じごてき",
+      "meaning": "after the fact; ex post",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t017",
+      "example": "彼らは明らかに、卒業生の家庭環境を事後的に変えることはできません。"
+    },
+    {
+      "term": "条件付き独立性",
+      "reading": "じょうけんつきどくりつせい",
+      "meaning": "conditional independence",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch02-t021",
+      "example": "しかし、なぜ条件付き独立性という正式な用語を使うのでしょうか。"
+    },
+    {
+      "term": "的確",
+      "reading": "てきかく",
+      "meaning": "precise; on target",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t024",
+      "example": "そのまとめは課題を的確に捉えています。"
+    },
+    {
+      "term": "重なり合い",
+      "reading": "かさなりあい",
+      "meaning": "overlap",
+      "level": "N2",
+      "kind": "general",
+      "turn": "ch02-t028",
+      "example": "それぞれの道を進む比較可能な学生が両方存在する、重なり合いが必要です。"
+    },
+    {
+      "term": "残差",
+      "reading": "ざんさ",
+      "meaning": "residual",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch02-t032",
+      "example": "残差とは実際の所得から予測された所得を引いたもので、当てはめた予測が捉えきれなかった部分のことです。"
+    },
+    {
+      "term": "打ち消す",
+      "reading": "うちけす",
+      "meaning": "to cancel out",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t033",
+      "example": "高すぎる予測と低すぎる予測がある場合、それらの誤差が互いに打ち消し合ってしまうことはないのでしょうか。",
+      "surface": "打ち消し"
+    },
+    {
+      "term": "近似",
+      "reading": "きんじ",
+      "meaning": "approximation",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t038",
+      "example": "そうでなければ、当てはめた直線は最小二乗法による近似となり、重要な特徴を見落とすことがあります。"
+    },
+    {
+      "term": "共分散",
+      "reading": "きょうぶんさん",
+      "meaning": "covariance",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch02-t042",
+      "example": "共分散は二つの量がどのように連動して動くかを測ります。"
+    },
+    {
+      "term": "交絡要因",
+      "reading": "こうらくよういん",
+      "meaning": "confounder",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch02-t046",
+      "example": "ここで正しい交絡要因を含めることが機能したのは、残された私立の選択が所得のノイズと無関係になるようにデータが設計されていたからです。"
+    },
+    {
+      "term": "推定量",
+      "reading": "すいていりょう",
+      "meaning": "estimator",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch02-t048",
+      "example": "適切に設計された推定量であっても、真の値の周りで変動します。"
+    },
+    {
+      "term": "補助回帰",
+      "reading": "ほじょかいき",
+      "meaning": "auxiliary regression",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch02-t052",
+      "example": "補助回帰は、処置を使ってその省かれた変数を予測することで、その関係を測定します。"
+    },
+    {
+      "term": "恒等式",
+      "reading": "こうとうしき",
+      "meaning": "identity (in mathematics)",
+      "level": "超N1",
+      "kind": "general",
+      "turn": "ch02-t056",
+      "example": "この恒等式は、同じ標本におけるこれらの最小二乗モデルにおいて厳密に成り立ちます。"
+    },
+    {
+      "term": "欠損値",
+      "reading": "けっそんち",
+      "meaning": "missing value",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch02-t056",
+      "example": "新しい統制変数を追加したときに、欠損値によって標本が変わってしまうことがあります。"
+    },
+    {
+      "term": "同一視",
+      "reading": "どういつし",
+      "meaning": "treating as the same; equating",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t059",
+      "example": "その推論を直接の検証と同一視してはいけませんね。"
+    },
+    {
+      "term": "税引前",
+      "reading": "ぜいびきまえ",
+      "meaning": "before tax; pre-tax",
+      "level": "N1",
+      "kind": "economics",
+      "turn": "ch02-t062",
+      "example": "結果となる変数は税引前の年間所得です。"
+    },
+    {
+      "term": "選抜性",
+      "reading": "せんばつせい",
+      "meaning": "selectivity",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t064",
+      "example": "実際の分析では、より多くの学生を比較できるように、バロンズの選抜性カテゴリーを使って大学をグループ分けしています。"
+    },
+    {
+      "term": "対数",
+      "reading": "たいすう",
+      "meaning": "logarithm",
+      "level": "超N1",
+      "kind": "general",
+      "turn": "ch02-t068",
+      "example": "対数所得を用いた回帰分析から得られる、おおよその比率の差です。"
+    },
+    {
+      "term": "頑健",
+      "reading": "がんけん",
+      "meaning": "robust",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch02-t080",
+      "example": "不均一分散に頑健な標準誤差は、人によって予測のノイズが異なることを許容します。"
+    },
+    {
+      "term": "遮断",
+      "reading": "しゃだん",
+      "meaning": "blocking; cutting off",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t082",
+      "example": "それを一定に保つと、その経路を遮断してしまいます。"
+    },
+    {
+      "term": "小細工",
+      "reading": "こざいく",
+      "meaning": "petty trick; sleight of hand",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t091",
+      "example": "条件をそろえた結果を提示すると、統計的な小細工で明らかな恩恵を隠しているだけだと反論されるかもしれません。"
+    },
+    {
+      "term": "擁護",
+      "reading": "ようご",
+      "meaning": "defending; standing up for",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch02-t092",
+      "example": "回帰分析が専門的な手法だからという理由で擁護するのではなく、その比較と仮定の妥当性を擁護すべきです。"
+    }
+  ],
+  "grammar": [
+    {
+      "pattern": "〜からといって、〜わけではない",
+      "level": "N2",
+      "meaning_ja": "「〜という理由だけで、必ず〜になるとは言えない」。理由から当然に思える結論を否定するときに使う。",
+      "meaning_en": "'just because ~ does not mean ~'.",
+      "example": "それでも、同じ大学に合格したからといって、人々が完全に同一になるわけではありません。",
+      "source": "ch02-t016",
+      "extra": "統制変数を増やしたからといって、選択バイアスがなくなるわけではない。",
+      "extra_en": "Just because you add more control variables does not mean selection bias disappears."
+    },
+    {
+      "pattern": "〜て初めて",
+      "level": "N2",
+      "meaning_ja": "「〜して、そのときにやっと」。ある条件が満たされたあとで、ようやく何かが成り立つことを表す。",
+      "meaning_en": "'only when ~ (is it the case that) ~; not until ~'.",
+      "example": "有用な統制変数、重なり合い、適切なモデル化、そして信頼できる選択の仮定がそろって初めて、比較に説得力が生まれます。",
+      "source": "ch02-t090",
+      "extra": "比較できる学生が両方の進学先にいて初めて、グループ内の対比が計算できる。",
+      "extra_en": "Only when comparable students are found at both kinds of college can a within-group contrast be computed."
+    },
+    {
+      "pattern": "〜かねない",
+      "level": "N2",
+      "meaning_ja": "「〜という悪い結果になる可能性がある」。好ましくないことが起こりそうだと警告するときに使う。",
+      "meaning_en": "'could well ~; there is a risk of ~' (for bad outcomes).",
+      "example": "しかし、単に似たような統制変数をたくさん集めるだけでは、誤った安心感を生むことになりかねません。",
+      "source": "ch02-t099",
+      "extra": "処置のあとに決まる変数を統制すると、新たな選択バイアスを生みかねない。",
+      "extra_en": "Controlling for a variable determined after treatment could well create new selection bias."
+    },
+    {
+      "pattern": "〜ならいざしらず",
+      "level": "N1",
+      "meaning_ja": "「〜ならともかく、（後に述べる場合は）そうはいかない」。前の場合を例外として脇に置き、後の場合を強調する硬い言い方。",
+      "meaning_en": "'it may be different for ~, but ...; ~ aside' (formal).",
+      "example": "無作為割り当てによる実験ならいざしらず、学生自身が進学先を選ぶ観察データでは、この仮定を直接確かめることはできない。",
+      "source": "passage",
+      "extra": "架空の学生のシミュレーションならいざしらず、現実の調査では能力を完全に測定することはできない。",
+      "extra_en": "It may be different in a simulation with made-up students, but in a real survey ability cannot be fully measured."
+    },
+    {
+      "pattern": "〜を余儀なくされる",
+      "level": "N1",
+      "meaning_ja": "「自分の意思ではなく、状況のためにしかたなく〜することになる」。書き言葉で使う。",
+      "meaning_en": "'to be forced to ~; to have no choice but to ~' (formal).",
+      "example": "しかも、あるグループの全員が私立を選んでいれば、そのグループの中では比較そのものを断念することを余儀なくされる。",
+      "source": "passage",
+      "extra": "データに欠損値が多い場合、研究者は標本を小さくすることを余儀なくされる。",
+      "extra_en": "When the data have many missing values, researchers are forced to shrink the sample."
+    },
+    {
+      "pattern": "〜ともなると",
+      "level": "N1",
+      "meaning_ja": "「〜という（より高い・特別な）段階や立場になると」。その場合には事情が大きく変わることを表す。",
+      "meaning_en": "'when it comes to ~; once it is a matter of ~'.",
+      "example": "まして個々の家庭の大学選びともなると、奨学金や専攻、友人関係といった所得以外の要素も重みを持つ。",
+      "source": "passage",
+      "extra": "全国の政策評価ともなると、一つの大学の事例だけで結論を出すわけにはいかない。",
+      "extra_en": "When it comes to evaluating a national policy, one cannot draw conclusions from a single college's case."
+    }
+  ],
+  "passage": {
+    "title": "条件をそろえた比較の限界",
+    "text": "名門私立大学の卒業生は、州立大学の卒業生よりも平均して高い所得を得ている。この格差は、当時年間でおよそ20,000ドル多くかかった授業料に見合う価値の証拠に見える。しかし、私立大学に進む学生は、入学前から意欲や家庭環境に恵まれていた可能性がある。単純な格差には、大学の効果と、学生がもともと持っていた強み、すなわち選択バイアスとが混ざり合っているのである。\n\nそこで用いられるのが、統制変数を含めた回帰分析である。これは、測定された特徴が似ていながら異なる種類の大学に進んだ学生同士を比べる、いわば自動化されたマッチングの手順だ。もっとも、その係数が因果効果を表すのは、統制変数で定義されたグループの中で、大学の選択が潜在的な所得と無関係である場合に限られる。無作為割り当てによる実験ならいざしらず、学生自身が進学先を選ぶ観察データでは、この仮定を直接確かめることはできない。しかも、あるグループの全員が私立を選んでいれば、そのグループの中では比較そのものを断念することを余儀なくされる。\n\n統制変数を加えたときの係数の変化は、欠落変数の公式で説明できる。教育用の架空の例では、私立進学の係数は、出願グループを統制しない短い回帰で20,000ドル、統制した長い回帰で10,000ドルであった。省かれたグループに属する割合は私立の学生で3分の2、公立の学生で2分の1であり、その差は6分の1である。長い回帰におけるそのグループの係数は60,000ドルなので、6分の1に60,000を掛けると10,000ドルとなり、二つの回帰の差と一致する。省かれた特徴が処置とともに動き、かつ結果を予測するとき、偏りが生じるのだ。\n\n現実のデータでは、デールとクルーガーが、出願先と合格先の選抜性が似た学生同士を比べた。5,583人のマッチング標本では、約14パーセントあった単純な私立の賃金プレミアムが、統制変数を加えると約0.7パーセントとなり、ほぼゼロになった。14,238人を用いた別のモデルでも、推定値は約3パーセントと小さく、統計的に有意ではなかった。ただし、有意でないことは効果が厳密にゼロであることの証明ではない。まして個々の家庭の大学選びともなると、奨学金や専攻、友人関係といった所得以外の要素も重みを持つ。この証拠は私立大学の大きな所得優位性に疑問を投げかけるものであって、大学選びの答えを決めるものではない。"
+  },
+  "passage_questions": [
+    {
+      "question": "第1段落で、筆者は私立大学の卒業生の高い所得をどのように見ているか。",
+      "options": [
+        "高い授業料に見合う価値があることの確かな証拠だ",
+        "大学の効果と、学生がもともと持っていた強みが混ざったものだ",
+        "学生がもともと持っていた強みだけによるものだ",
+        "州立大学の教育の質が低いことを示すものだ"
+      ],
+      "answer": 1,
+      "explanation": "第1段落の最後に、単純な格差には「大学の効果と、学生がもともと持っていた強み、すなわち選択バイアスとが混ざり合っている」とある。"
+    },
+    {
+      "question": "第2段落の「この仮定」とは何か。",
+      "options": [
+        "回帰分析が自動化されたマッチングの手順であること",
+        "あるグループの全員が私立大学を選んでいること",
+        "測定された特徴がすべての学生で同じであること",
+        "統制変数で定義されたグループの中で、大学の選択が潜在的な所得と無関係であること"
+      ],
+      "answer": 3,
+      "explanation": "直前の文で、係数が因果効果を表す条件として「グループの中で、大学の選択が潜在的な所得と無関係である場合」を挙げている。これを指している。"
+    },
+    {
+      "question": "第3段落の例で、二つの回帰の差である10,000ドルはどのように説明されているか。",
+      "options": [
+        "所属する割合の差である6分の1に、長い回帰におけるグループの係数60,000ドルを掛けたもの",
+        "短い回帰の20,000ドルを2で割ったもの",
+        "私立の学生の割合である3分の2に、60,000ドルを掛けたもの",
+        "公立の学生の割合である2分の1に、20,000ドルを掛けたもの"
+      ],
+      "answer": 0,
+      "explanation": "「6分の1に60,000を掛けると10,000ドルとなり、二つの回帰の差と一致する」とある。二つの関係の積で説明している。"
+    },
+    {
+      "question": "最終段落の内容と合うものはどれか。",
+      "options": [
+        "統制変数を加えても、マッチング標本の賃金プレミアムは約14パーセントのままだった",
+        "別のモデルでは、私立大学の効果が約3パーセントで統計的に有意だった",
+        "統制変数を加えると、マッチング標本の推定値は約0.7パーセントとなり、ほぼゼロになった",
+        "有意でない結果は、効果が厳密にゼロであることを証明した"
+      ],
+      "answer": 2,
+      "explanation": "「約14パーセントあった単純な私立の賃金プレミアムが、統制変数を加えると約0.7パーセントとなり、ほぼゼロになった」とある。別のモデルの約3パーセントは有意ではなかった。"
+    },
+    {
+      "question": "この文章で筆者が最も言いたいことは何か。",
+      "options": [
+        "私立大学は高い授業料に見合わないので、選ぶべきではない",
+        "回帰分析は、条件をそろえた比較であり、その仮定と限界を踏まえて結果を読む必要がある",
+        "統制変数を加えれば、どんな観察データでも因果効果が分かる",
+        "欠落変数の公式を使えば、実験は必要なくなる"
+      ],
+      "answer": 1,
+      "explanation": "回帰分析を条件をそろえた比較として説明したうえで、確かめられない仮定や重なり合いの必要性、有意でないことの意味、所得以外の要素といった限界を指摘している。私立大学が悪い選択だとは述べていない。"
+    }
+  ],
+  "comprehension": [
+    {
+      "type": "mc",
+      "question": "元の研究の議論によると、当時の私立大学は州内の公立大学より年間でおよそいくら多くかかっていましたか。",
+      "options": [
+        "約5,000ドル",
+        "約10,000ドル",
+        "約20,000ドル",
+        "約60,000ドル"
+      ],
+      "answer": 2,
+      "turns": [
+        "ch02-t008"
+      ],
+      "explanation": "年間でおよそ20,000ドル多くかかっていました。これは当時の比較で、現在の学費ではありません。"
+    },
+    {
+      "type": "mc",
+      "question": "「短い回帰」と「長い回帰」の「短い」「長い」は、何を指していますか。",
+      "options": [
+        "計算にかかる時間",
+        "統制変数のリストの相対的な長さ",
+        "コンピューターのプログラムの行数",
+        "データに含まれる学生の人数"
+      ],
+      "answer": 1,
+      "turns": [
+        "ch02-t019",
+        "ch02-t020"
+      ],
+      "explanation": "統制変数のリストの長さです。長い回帰は、短い回帰の変数に、さらに他の変数を加えたものです。"
+    },
+    {
+      "type": "short",
+      "question": "通常の最小二乗法は、高すぎる予測と低すぎる予測の誤差が打ち消し合うのをどのように防いでいますか。",
+      "answer": "各残差を二乗してから足し合わせ、その合計をできる限り小さくする係数を選ぶことで防いでいます。",
+      "turns": [
+        "ch02-t033",
+        "ch02-t034"
+      ]
+    },
+    {
+      "type": "mc",
+      "question": "シミュレーション実習で、能力を統制変数として加えた長い回帰の推定値はどうなりましたか。",
+      "options": [
+        "短い回帰の推定値よりも大きくなった",
+        "ちょうどゼロになった",
+        "1,000ドル近くに移動した",
+        "組み込まれた効果である5,000ドル近くに移動した"
+      ],
+      "answer": 3,
+      "turns": [
+        "ch02-t044",
+        "ch02-t046"
+      ],
+      "explanation": "長い回帰の推定値は5,000ドル近くに移動しました。ランダムなノイズがあるため、完全に一致するとは限りません。"
+    },
+    {
+      "type": "mc",
+      "question": "教育用の例で、欠落変数による偏りの10,000ドルは、どの二つの関係の積として説明されましたか。",
+      "options": [
+        "グループに属する割合の差である6分の1と、長い回帰におけるグループの係数60,000ドル",
+        "短い回帰の係数20,000ドルと、2分の1",
+        "私立の学生の割合3分の2と、長い回帰の係数10,000ドル",
+        "公立の学生の割合2分の1と、60,000ドル"
+      ],
+      "answer": 0,
+      "turns": [
+        "ch02-t052",
+        "ch02-t054"
+      ],
+      "explanation": "6分の1に60,000を掛けると10,000ドルになり、短い回帰と長い回帰の差と一致します。"
+    },
+    {
+      "type": "mc",
+      "question": "家族の人数の例で、私立の学生のほうが家族の人数が少なく、家族の人数が多いほど所得が低いと仮定すると、短い回帰の係数はどうなりますか。",
+      "options": [
+        "下向きに偏る",
+        "上向きに押し上げられる",
+        "まったく偏らない",
+        "偏りの向きは決められない"
+      ],
+      "answer": 1,
+      "turns": [
+        "ch02-t058"
+      ],
+      "explanation": "二つの要素がどちらも負なので、その積は正になり、短い回帰の係数は上向きに押し上げられます。ただし、これらはあり得る関係で、確認された事実ではありません。"
+    },
+    {
+      "type": "mc",
+      "question": "マッチングされた標本で、出願者の選抜性グループの統制変数を加えると、私立の賃金プレミアムはどう変わりましたか。",
+      "options": [
+        "約3パーセントから約14パーセントに増えた",
+        "約14パーセントのまま変わらなかった",
+        "約0.7パーセントから約3パーセントに増えた",
+        "約14パーセントから約0.7パーセントになり、ほぼゼロになった"
+      ],
+      "answer": 3,
+      "turns": [
+        "ch02-t066"
+      ],
+      "explanation": "単純なプレミアムは約14パーセントでしたが、統制変数を加えると約0.7パーセントとなり、ほぼゼロになりました。"
+    },
+    {
+      "type": "short",
+      "question": "私立進学の所得全体への効果を知りたいとき、卒業生の最終的な職業を統制変数に加えるべきでないのはなぜですか。",
+      "answer": "職業は大学の選択によって変わりうる結果なので、それを一定に保つと所得への経路を一つ遮断してしまいます。また、新たな選択バイアスを生み出す恐れもあるからです。",
+      "turns": [
+        "ch02-t082",
+        "ch02-t107"
+      ]
+    }
+  ],
+  "dictation": [
+    {
+      "turn": "ch02-t041"
+    },
+    {
+      "turn": "ch02-t061"
+    }
+  ],
+  "speaking": [
+    {
+      "prompt_ja": "統制変数を含めた回帰分析を「自動化されたマッチング」として説明し、それが因果効果を表すために何が必要かを説明してください。",
+      "prompt_en": "Explain regression with control variables as 'automated matching', and what it needs in order to capture a causal effect.",
+      "expressions": [
+        {
+          "ja": "〜と考えることができます",
+          "en": "one can think of it as ~"
+        },
+        {
+          "ja": "〜同士を比べます",
+          "en": "it compares ~ with each other"
+        },
+        {
+          "ja": "ただし、〜場合に限られます",
+          "en": "however, only when ~"
+        },
+        {
+          "ja": "〜がなければ、〜できません",
+          "en": "without ~, one cannot ~"
+        }
+      ],
+      "model_answer": "回帰分析は、自動化されたマッチングの手順と考えることができます。入試の点数や出願先など、測定された特徴が似ていて、異なる種類の大学に進んだ学生同士を比べます。ただし、係数が因果効果を表すのは、同じ統制変数を持つ学生の間で、大学の選択が潜在的な所得と関係していない場合に限られます。これが条件付き独立性です。また、私立と公立の両方の学生がいる重なり合いがなければ、比較はできません。"
+    },
+    {
+      "prompt_ja": "欠落変数の公式を使って、省かれた特徴が短い回帰の係数をどちらの向きに歪めるかを予測する方法を説明してください。",
+      "prompt_en": "Using the omitted-variable formula, explain how to predict which way an omitted trait biases the short-regression coefficient.",
+      "expressions": [
+        {
+          "ja": "二つの関係が必要です",
+          "en": "two relationships are needed"
+        },
+        {
+          "ja": "第一に、〜。第二に、〜",
+          "en": "first, ~; second, ~"
+        },
+        {
+          "ja": "〜の積が〜を説明します",
+          "en": "the product of ~ explains ~"
+        },
+        {
+          "ja": "符号が逆であれば、〜",
+          "en": "if the signs are opposite, ~"
+        }
+      ],
+      "model_answer": "二つの関係が必要です。第一に、省かれた特徴が、私立と公立の学生でどれくらい違うかです。第二に、長い回帰で、その特徴が所得をどれくらい予測するかです。この二つの積が、短い回帰と長い回帰の係数の差を説明します。たとえば能力は、どちらの関係も正なので、私立の係数を上向きに押し上げます。両方が負でも上向きになり、符号が逆であれば下向きの偏りになります。"
+    },
+    {
+      "prompt_ja": "デールとクルーガーの研究から何が言えて、何が言えないのかを説明してください。",
+      "prompt_en": "Explain what the Dale and Krueger study does and does not tell us.",
+      "expressions": [
+        {
+          "ja": "〜を使って、〜同士を比べました",
+          "en": "they used ~ to compare ~"
+        },
+        {
+          "ja": "〜とほぼゼロになりました",
+          "en": "it fell to ~, close to zero"
+        },
+        {
+          "ja": "〜に疑問を投げかけています",
+          "en": "it casts doubt on ~"
+        },
+        {
+          "ja": "〜を証明するわけではありません",
+          "en": "it does not prove ~"
+        }
+      ],
+      "model_answer": "デールとクルーガーは、出願先と合格先の選抜性を使って、似た選択肢を持つ学生同士を比べました。マッチングされた標本では、約14パーセントあった私立の賃金プレミアムが、統制変数を加えると約0.7パーセントとほぼゼロになりました。この結果は、私立大学に大きな所得の優位性があるという見方に疑問を投げかけています。ただし、効果が厳密にゼロであることを証明するわけではなく、所得以外の恩恵も残ります。"
+    }
+  ]
+}

@@ -1,0 +1,863 @@
+{
+  "chapter": 5,
+  "slug": "ch05-differences-in-differences",
+  "script_sha256": "030314a2e1592f2d877530a6e9e5a9ad7df315b7510630b81d5b685f3703cd63",
+  "passages": [
+    {
+      "id": "ch05-t001",
+      "speaker": "HOST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "皆さん、お帰りなさい。今回は、政策変更から因果関係を学ぶ手法である差の差法（difference-in-differences）を取り上げます。価値ある融資資産を持ちながらも、今日の預金引き出しに応じられない銀行を想像してみてください。もし不安になった預金者が一斉に押し寄せた場合、緊急融資によって、本来なら避けられたはずの破綻を防ぐことはできるでしょうか。",
+      "en": "Welcome back. Today we are on differences-in-differences, a way to learn from policy changes. Imagine a bank that owns valuable loans but cannot meet today's withdrawals. If frightened customers arrive together, could emergency lending stop an otherwise avoidable failure?"
+    },
+    {
+      "id": "ch05-t002",
+      "speaker": "ECONOMIST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "その問いは、世界恐慌のさなかに切実な問題となりました。ミシシッピ州の銀行は共通の金融パニックに直面していましたが、地域ごとの連邦準備銀行によって対応が異なっていたのです。一部の銀行は、はるかに手厚い緊急信用の約束を受けました。興味深い比較は、それらの異なる政策の下で、銀行の存続に何が起きたかということです。",
+      "en": "That question became urgent during the Great Depression. Mississippi banks faced a common financial panic, but different regional central banks offered different responses. Some banks received a much stronger promise of emergency credit. The interesting comparison is what happened to bank survival under those different policies."
+    },
+    {
+      "id": "ch05-t003",
+      "speaker": "HOST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "世界恐慌において、連邦準備制度（Fed）は銀行を救ったのでしょうか。救済と聞くと効果がありそうに思えます。しかし、支援を受けた銀行はもともと経営基盤が強かったのかもしれません。あるいは逆に、政策当局が最も脆弱な銀行を支援したのかもしれません。どちらのシナリオであっても、支援を受けた銀行と受けなかった銀行の比較を混乱させてしまう可能性があります。",
+      "en": "Did the Fed save banks in the Great Depression? A rescue sounds helpful. But perhaps the supported banks were already stronger. Or perhaps officials supported the weakest banks. Either story could confuse a comparison between banks that received help and banks that did not."
+    },
+    {
+      "id": "ch05-t004",
+      "speaker": "ECONOMIST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "このエピソードを聴き終えるころには、対照群の変化を使い、政策がなかった場合の結果を推定できるようになります。また、平行トレンドを説明し、固定効果や不確実性の検証を用いて政策に関する証拠を評価できるようになるでしょう。まずは銀行危機の事例を通じて、続いて飲酒年齢に関する法律を通じて、そうしたスキルを身につけていきます。",
+      "en": "By the end of this episode, you should be able to construct a missing policy outcome using changes in a comparison group. You should also explain parallel trends, and judge policy evidence using fixed effects and uncertainty checks. We will build those skills through the banking case, then drinking-age laws."
+    },
+    {
+      "id": "ch05-t005",
+      "speaker": "HOST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "つまり、単なる救済の美談以上のものが必要なのですね。その政策を、周囲で起きている他のすべての出来事から切り離す方法が求められます。また、結果が依然として悪化している場合でも、なぜ政策が効果を発揮したと言えるのかについても理解したいところです。",
+      "en": "So we need more than a good rescue story. We need a way to separate the policy from everything else happening around it. I also want to understand why a policy can help even when the outcome still gets worse."
+    },
+    {
+      "id": "ch05-t006",
+      "speaker": "ECONOMIST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "マインドマップの3つの幕、すなわち問い、検証、そして結論を意識してください。第1幕で問題を設定します。第2幕では比較とその仮定を追っていきます。最後の第3幕で異論に答え、結論を導き出します。音声だけでも理解できるように、計算の前には必ず論理的な説明を挟みます。",
+      "en": "Keep the mind map's three acts in mind: The Question, The Investigation, and The Resolution. The first establishes the problem. The second follows the comparisons and their assumptions. The last answers objections and draws conclusions. You can follow by listening alone; the reasoning will always come before the calculation."
+    },
+    {
+      "id": "ch05-t007",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "問いは、銀行パニックそのものから始まります。なぜ健全に見える銀行が破綻してしまうのでしょうか。価値ある資産を保有している銀行なら、単にその資産を使って預金者に払い戻せばよいのではないかと思ってしまいます。",
+      "en": "The Question begins with the banking panic itself. Why could a healthy-looking bank fail? I might think a bank holding valuable assets should simply use those assets to pay its customers."
+    },
+    {
+      "id": "ch05-t008",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "コールドウェルの破綻から考えてみましょう。1930年、コールドウェル商会の破綻により、アメリカ南部全体で信用不安が広がりました。銀行は通常、預金者から預かった資金の多くを融資に回しています。それらの融資は後になって返済されますが、預金者は今日にでも現金の引き出しを求めることができます。この返済期日のズレが、脆弱性を生み出すのです。",
+      "en": "Start with the Caldwell collapse. In 1930, Caldwell and Company failed, shaking confidence across the American South. A bank normally lends much of its depositors' money. Those loans may be repaid later, while depositors can ask for cash today. That gap between payment dates creates vulnerability."
+    },
+    {
+      "id": "ch05-t009",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "そうすると、たとえ多くの借り手が最終的には返済するとしても、銀行が閉鎖に追い込まれる可能性があると予想できますね。融資債権を急いで売却しようとすれば、わずかな現金にしかならないかもしれません。他の誰もが預金を引き出すと予想されるなら、じっと待っていても手元に何も残らない恐れがあります。そのようにしてパニックが広がるのでしょうか。",
+      "en": "I predict that a bank could then close even if many borrowers would eventually repay. Selling loans quickly might bring in too little cash. If I expect everyone else to withdraw, waiting patiently could leave me with nothing. Is that how the panic spreads?"
+    },
+    {
+      "id": "ch05-t010",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "その通りです。その予測は流動性危機を的確にとらえています。流動性とは、支払期日にお金を用意できる状態を意味します。不安が高まると、通常の引き出しが取り付け騒ぎへと発展しかねません。中央銀行による緊急融資は時間を稼ぎ、破綻を防ぐことができます。しかし、流動性の問題は、銀行の資産が負債をまかなえなくなる債務超過とは異なります。",
+      "en": "Yes, your prediction captures a liquidity crisis. Liquidity means having money available when payment is due. Fear can turn ordinary withdrawals into a bank run. Emergency central-bank lending may buy time and prevent failure. But liquidity trouble differs from insolvency, when the bank's assets cannot cover its debts."
+    },
+    {
+      "id": "ch05-t011",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "それなら、すべての銀行を救済するのは誤りかもしれませんね。一時的な現金を必要としている銀行もあれば、取り返しのつかない損失を抱えている銀行もあります。また、経営者がいつでも救済されると期待してしまえば、慎重さを欠くようになる恐れもあります。",
+      "en": "Then rescuing every bank might be a mistake. Some banks need temporary cash, while others have made losses they cannot recover. And if managers expect rescue every time, they might become less careful."
+    },
+    {
+      "id": "ch05-t012",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "その危険性はモラルハザードと呼ばれ、保護されることがリスクテイクを助長しかねません。ここでの当面の経験的な問いは、もっと限定的なものです。このパニックの間、信用枠の緩和によって銀行は存続できたのでしょうか。正の存続効果があったとしても、すべての救済が賢明であるとか、融資があらゆる銀行のバランスシートを修復できると示されるわけではありません。",
+      "en": "That danger is called moral hazard: protection can encourage risk-taking. The immediate empirical question is narrower. Did easier credit keep banks operating during this panic? A positive survival effect would not show that every rescue is wise, or that lending can repair every bank's balance sheet."
+    },
+    {
+      "id": "ch05-t013",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "自然実験はどこで登場するのでしょうか。寛大な融資を選んだ地域は、産業構造や政治状況、あるいは不況へのさらされやすさの面でも異なっていたのではないかと心配になります。",
+      "en": "Where does the natural experiment enter? I would worry that places choosing generous lending were also different in their industries, politics, or exposure to the downturn."
+    },
+    {
+      "id": "ch05-t014",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "都合の良い境界線がミシシッピ州を通っていました。第6連邦準備地区はアトランタ連銀の管轄で、そこの指導者たちは危機に陥った銀行への融資に積極的でした。第8地区はセントルイス連銀の管轄で、そこの指導者たちは、真正手形学説に従いました。教科書では、景気後退期には中央銀行が信用の供給を抑えるべきだ、という考え方として紹介されています。その立場から、融資を厳しく制限しました。そのため、同一の州内で異なる政策方針が運用されていたのです。",
+      "en": "The useful border ran through Mississippi. The Sixth Federal Reserve District answered to Atlanta, whose leaders favored lending to banks in trouble. The Eighth answered to St. Louis, whose leaders favored restrictive credit under the Real Bills Doctrine. Different policy authorities therefore operated within the same state."
+    },
+    {
+      "id": "ch05-t015",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "つまり、処置とは融資を緩和したアトランタの方針を指し、対照とはセントルイスのアプローチを指すのですね。対照群もやはり世界恐慌を経験していました。経済的なショックが全くないグループというわけではなかったのですね。",
+      "en": "So treatment means the Atlanta policy of easier credit, and control means the St. Louis approach. The control group was still living through the Depression. It was not a group with no economic shock at all."
+    },
+    {
+      "id": "ch05-t016",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "全く異なる状況にある遠く離れた地域同士を比べるよりも、共通の経済環境を仮定するほうが妥当性が高くなります。だからといって、両地区が同一であるとか、無作為割り当てされたということにはなりません。この境界線は有望な比較の枠組みを与えてくれますが、同じ政策の下で両者の結果がどう変化したはずかについて、依然として仮定を必要とします。",
+      "en": "It makes a shared economic environment more plausible than comparing distant regions with entirely different circumstances. It does not make the districts identical or randomly assigned. The border gives us a promising comparison. We still need an assumption about how their outcomes would have changed under the same policy."
+    },
+    {
+      "id": "ch05-t017",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "その仮定を検証する前に、用語を整理しておきましょう。処置と対照は、政策の比較対象を表していますね。反実仮想（counterfactual）とはどういう意味ですか。",
+      "en": "Before we investigate that assumption, let us establish the vocabulary. Treatment and control describe the policy comparison. What do you mean by a counterfactual?"
+    },
+    {
+      "id": "ch05-t018",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "反実仮想とは、もし処置を受けていなければ処置群が経験したであろう結果のことです。ここでの意味は、融資緩和策がなかった場合のアトランタ管轄ミシシッピ地区における銀行の存続状況です。私たちはその政策があった場合の存続を観察しています。同じ危機の最中に、同じ地区で起きたかもしれない別の歴史を観察することはできません。",
+      "en": "A counterfactual is the outcome the treated group would have experienced without the treatment. Here, it means bank survival in Atlanta's Mississippi district without its easier-credit response. We observe survival with that response. We cannot observe the alternative history for the same district during the same crisis."
+    },
+    {
+      "id": "ch05-t019",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "そして平行トレンドとは、対照群の変化を利用すれば、その失われた歴史を再現できるという仮定ですね。両方の地域が同じ銀行数で始まったと言っているわけではありません。対照群の最終的な銀行数をそのまま借りるのではなく、その変化量を借りてくるわけですね。",
+      "en": "And parallel trends says that the control group's change can help construct that missing history. It does not say that both places start with the same number of banks. We are borrowing a change, rather than borrowing the control group's final bank count."
+    },
+    {
+      "id": "ch05-t020",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "まさにその通りです。パネルデータは、繰り返し観察される州のように、時間の経過に沿って同じ対象を追跡します。固定効果（fixed effects）は、それらの対象間の永続的な違いを調整するための項です。もう一つの用語は、処置群に対する平均処置効果、すなわちATTです。実際に処置を受けた人々において、処置が結果をどのように変えたかを問うものです。",
+      "en": "Exactly. Panel data follow the same units across time, such as states observed repeatedly. Fixed effects are adjustments for persistent differences between those units. Another term is the average treatment effect on the treated, or ATT. It asks how treatment changed outcomes for those who actually received it."
+    },
+    {
+      "id": "ch05-t021",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "これらの名前を知ることで、識別が達成できるのでしょうか。ここでいう識別とは、観察された比較と因果効果を結びつける論理的な筋道のことです。",
+      "en": "Does learning these names give us identification? By identification, I mean a defensible way to connect the observed comparison with a causal effect."
+    },
+    {
+      "id": "ch05-t022",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "それが最初のまとめになります。問いとは、観察された結果と、観察できない別の可能性を区別することです。ミシシッピ州の境界線は処置群と対照群を提供してくれますが、それだけで保証になるわけではありません。平行トレンドの仮定が両者を結びつけます。パネルデータと固定効果はその比較を実行するのに役立ちますが、因果関係の正当化を自動的に与えてくれるわけではありません。",
+      "en": "That is our first recap: The Question separates the observed outcome from its missing alternative. The Mississippi border offers treatment and control groups, not a guarantee. Parallel trends will connect them. Panel data and fixed effects help implement the comparison; they cannot make its causal justification automatic."
+    },
+    {
+      "id": "ch05-t023",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "検証は、もっともらしく見えながらも誤解を招く比較から始まります。もし緊急融資の後に営業している銀行の数が融資前より減っていたら、その融資は失敗だったと言ってしまうかもしれません。しかし、世界恐慌によって銀行はどのみち破綻へと向かっていました。その政策が被害を減らしたのかどうかを、どうすれば見分けることができるでしょうか。",
+      "en": "The Investigation starts with comparisons that seem sensible but mislead. If fewer banks operate after emergency lending than before, I might call the lending a failure. Yet the Depression was pushing banks toward failure anyway. How can we tell whether the policy reduced the damage?"
+    },
+    {
+      "id": "ch05-t024",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "前後比較を行うと、政策の効果と周囲の不況とが混ざり合ってしまいます。その一方で、事後の地区同士だけを比較することにも別の問題があります。両地区は最初の銀行数が異なっていたからです。処置群が厳しい状況に直面していること、そして異なる初期水準から始まっていることを考慮できる比較が必要です。",
+      "en": "A before-and-after comparison mixes policy effects with the surrounding downturn. Comparing only the districts afterward creates another problem: they had different starting bank counts. We need a comparison that allows the treated group to face bad conditions and to begin at a different level."
+    },
+    {
+      "id": "ch05-t025",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "副教材には、休暇中の架空のダイエットの例が載っていますね。ある人がダイエット中に体重が2ポンド増え、友人はダイエットをせずに7ポンド増えました。ダイエットは依然として効果があったと予想できます。ただしそれは、もし自分がダイエットをしなかった場合の体重変化を知る上で、その友人が良い基準になるかどうかにかかっています。",
+      "en": "The companion materials use a hypothetical holiday diet. Someone gains 2 pounds while dieting, and a friend gains 7 without dieting. I predict the diet could still help. But that would depend on whether the friend provides a good guide to the dieter's untreated weight change."
+    },
+    {
+      "id": "ch05-t026",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "もし何もしなかった場合の変化が一致していたなら、5ポンド分の体重増加を抑えられたという効果が示唆されます。これはあくまで理解を助けるための架空の例であり、実際の研究ではありません。運動習慣の違いや病気によって、比較が成り立たなくなることもあります。有益な教訓は、別の選択肢と比べた改善が、必ずしも昨日と比べた改善を意味するとは限らないということです。",
+      "en": "The implied benefit is 5 pounds less weight gained, provided their untreated changes would have matched. That is a hypothetical explanation, not a diet study. Different exercise habits or illnesses could break the comparison. The useful lesson is that improvement relative to an alternative need not mean improvement relative to yesterday."
+    },
+    {
+      "id": "ch05-t027",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "では、この手法の正式な名称を教えてください。",
+      "en": "Now give the method its full name."
+    },
+    {
+      "id": "ch05-t028",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "差の差法（difference-in-differences）は、処置群の変化と対照群の変化を比較します。まず、それぞれの群について処置後の結果から処置前の結果を引きます。次に、処置群の変化から対照群の変化を引きます。この手法はしばしばDDと略されます。結果として得られるのは、別の変化と比べた相対的な変化です。",
+      "en": "Difference-in-differences compares the treated group's change with the control group's change. First find each group's outcome after treatment minus its outcome before treatment. Then subtract the control change from the treated change. We often shorten the method's name to DD. The result is a change relative to another change."
+    },
+    {
+      "id": "ch05-t029",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "最初の差は、各グループ内の永続的な初期の差を取り除きます。2番目の差は、両者が共有していたはずの変化を取り除きます。しかし、その2番目のステップは、私たちがまさに突き止めようとしていること、つまり処置がなかったら処置群はどう変化していたかという前提そのものを仮定しているように思えます。",
+      "en": "The first difference removes a permanent starting gap within each group. The second removes the change they would have shared. But that second step seems to assume exactly what we are trying to establish: how the treated group would have changed without treatment."
+    },
+    {
+      "id": "ch05-t030",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それこそが識別のための仮定である平行トレンドです。もし処置がなかったら、比較する期間において平均的な変化は一致していたはずだという仮定です。これは処置のない場合の別の可能性についての仮定であり、効果的な処置が行われた後に観察される軌跡が平行のままであるかどうかを指すのではありません。効果が実際に発揮されれば、観察される軌跡は乖離していく可能性があります。",
+      "en": "That is the identifying assumption: parallel trends. Without treatment, the average changes would have matched over the period we compare. It is about the untreated alternative, not whether the observed paths remain parallel after an effective treatment. A successful treatment can make the observed paths diverge."
+    },
+    {
+      "id": "ch05-t031",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "初期の銀行数を見ると、その違いが具体的にわかります。アトランタ管轄のミシシッピ地区は135行から始まり、セントルイス管轄は165行から始まりました。それらの水準の違いは、自動的に差の差法を無効にするわけではありません。私たちが仮定しているのは、銀行数で測った損失が等しいということでしょうか、それとも損失のパーセントが等しいということでしょうか。",
+      "en": "The initial bank counts make that distinction concrete. Atlanta's Mississippi district started with 135 banks, and St. Louis's with 165. Those unequal levels do not automatically invalidate DD. Are we assuming equal losses measured in bank counts, or equal percentage losses?"
+    },
+    {
+      "id": "ch05-t032",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "比較されている結果が銀行数であるため、銀行数の変化が等しいという仮定になります。パーセントの変化が等しいと仮定することとは異なります。結果をどのような尺度で測るかが重要です。水準の永続的な違いは相殺できますが、銀行数そのものの基底にあるトレンドの違いは相殺できません。妥当な尺度を選ぶことも分析設計の一部です。",
+      "en": "Equal changes in bank counts, because bank counts are the outcome being compared. That is different from assuming equal percentage changes. The outcome's scale matters. A persistent difference in levels can cancel; a different underlying trend in counts cannot. Choosing a plausible scale belongs to the design."
+    },
+    {
+      "id": "ch05-t033",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その仮定を評価するために、それ以前の過去の年を調べることはできますか。過去の変化が似ていたとしても、次の危機を予測できるとは限らないかもしれませんが。",
+      "en": "Can we inspect earlier years to assess the assumption? Similar past changes might still fail to predict the next crisis."
+    },
+    {
+      "id": "ch05-t034",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "過去の動きが似ていることは裏付けの証拠にはなりますが、証明にはなりません。政策が始まった瞬間に、処置地区だけに影響を与える新たな地域ショックが発生する可能性もあります。また、処置の前に人々の行動が変わってしまう事前行動や、処置が対照群の結果にも影響を与えてしまう波及効果も考慮しなければなりません。どちらも意図した比較を台無しにしてしまう可能性があります。",
+      "en": "Earlier similarity provides supporting evidence, not proof. A new regional shock could affect only the treatment district when the policy begins. We also need to consider anticipation, when behavior changes before treatment, and spillovers, when treatment changes the control group's outcome. Either can spoil the intended comparison."
+    },
+    {
+      "id": "ch05-t035",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ミシシッピ州の実際の銀行数を使って計算してみましょう。まずは単純な比較からお願いします。",
+      "en": "Let us work through Mississippi's actual bank counts. Use the simple comparison first."
+    },
+    {
+      "id": "ch05-t036",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "この銀行の計算では7月時点の数字を用います。1930年、アトランタ地区には135行の銀行がありました。翌年の7月には121行になっていました。減少幅は14行です。この減少幅を覚えておいてください。これは信用緩和策の下で観察された変化であり、まだ政策効果の推定値ではありません。",
+      "en": "Our bank calculation uses July counts. In 1930, Atlanta's district had 135 banks. The following July, it had 121. The decline was 14 banks. Keep that loss in mind. It is the observed change under the easier-credit policy, not yet an estimate of its effect."
+    },
+    {
+      "id": "ch05-t037",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "セントルイス地区は165行で始まり、132行で終わりました。つまり33行を失ったわけですね。どちらの地区も悪化しましたが、アトランタ地区のほうが失われた銀行が少なかったことになります。",
+      "en": "St. Louis started with 165 banks and ended with 132. That means it lost 33 banks. So both districts worsened, but Atlanta's district lost fewer."
+    },
+    {
+      "id": "ch05-t038",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "変化を符号付きで表すと、アトランタはマイナス14行、セントルイスはマイナス33行です。マイナス14からマイナス33を引くので、差はプラス19行です。処置がなかった場合のトレンドが平行であったという仮定の下では、これが救済効果の推定値となります。政策が役に立ったと言えるために、すべての倒産を防ぐ必要はありません。もし政策がなかった場合よりも多くの銀行を存続させることができればよいのです。",
+      "en": "Subtracting a loss of 33 from a loss of 14 gives a positive difference of 19 banks. Under parallel untreated trends, that is the estimated rescue effect. The policy need not prevent every closure to help. It can leave more banks operating than would otherwise have survived."
+    },
+    {
+      "id": "ch05-t039",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "失われた結果を直接組み立てることもできますね。アトランタは135行から始まりました。もしセントルイスのように33行を失っていたら、102行になっていたはずです。しかし実際には121行が残りました。その差が同じ推定値であり、別の歴史として表現されたものですね。",
+      "en": "We can also build the missing outcome directly. Atlanta began with 135. If it had lost 33 banks, like St. Louis, it would have ended with 102. Instead, 121 remained. That gap is the same estimate, expressed as an alternative history."
+    },
+    {
+      "id": "ch05-t040",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "これで計算の意味が完結します。観察された存続数は、反実仮想として構築された数値を19行上回りました。この別の歴史は推定されたものであり、観察されたものではありません。結果には常に仮定を添えて述べる必要があります。もしアトランタ地区だけに特有の別の要因が銀行の存続に影響していたとすれば、その差の一部は信用政策とは無関係ということになります。",
+      "en": "That completes the calculation's meaning: observed survival exceeded the constructed counterfactual by 19 banks. The alternative history is estimated, not observed. We should always attach the assumption to the result. Another Atlanta-specific influence on bank survival could make part of that gap unrelated to credit policy."
+    },
+    {
+      "id": "ch05-t041",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "マップはこの銀行の事例を1934年まで追跡し、およそ19行から23行の銀行が救われたと説明しています。これは統計的な信頼区間ですか、それとも時期ごとの異なる比較をまとめたものですか。",
+      "en": "The map extends the banking case through 1934 and describes roughly 19 to 23 banks saved. Is that a statistical interval, or does it summarize different comparisons over time?"
+    },
+    {
+      "id": "ch05-t042",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それは危機前の基準時点を用いた年ごとの推定値をまとめたものであり、信頼区間ではありません。一方、信頼区間は設定された仮定の下での統計的な不確実性を表します。長期の記録は存続数の差が持続したことを支持しています。ただし、推定された効果が毎年完全に一致していたことを示すものではありません。",
+      "en": "It summarizes year-by-year estimates using the same pre-crisis baseline, not a confidence interval. A confidence interval instead describes statistical uncertainty under stated assumptions. The longer record supports a lasting survival gap. It does not show that the estimated effect was exactly identical each year."
+    },
+    {
+      "id": "ch05-t043",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "セントルイスはその後の数年間もずっと制限的なアプローチを維持したのでしょうか。もし政策が再び変わったのだとすれば、アトランタをずっと処置地区と呼び続けることは、重要な側面を見落とすことになりませんか。政策の違いが小さくなった後でも、なぜ初期の緊急支援が影響を持ち続けるのでしょうか。",
+      "en": "Did St. Louis keep its restrictive approach throughout those later years? If policy changed again, calling Atlanta the treated district forever might hide an important part of the story. Why should earlier emergency help still matter after policies become more alike?"
+    },
+    {
+      "id": "ch05-t044",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "セントルイスは1931年に融資を積極化させ始めました。初期の差が持続し得るのは、後から信用を供給しても、すでに閉鎖された銀行を復活させることはできないからです。この比較は、初期の危機対応が残した持続的な結果を追跡しています。アトランタだけがその後のすべての期間において寛大であり続けたことを必要とするわけではありません。",
+      "en": "St. Louis began lending more freely in 1931. The earlier gap could persist because later credit cannot bring closed banks back into operation. The comparison tracks a lasting consequence of the initial crisis response. It does not require Atlanta alone to remain generous in every later period."
+    },
+    {
+      "id": "ch05-t045",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "銀行を救うことが重要な理由の一つは、人や企業が銀行に依存しているからです。この章では、実体経済の活動についても検証しているのでしょうか。",
+      "en": "Saving banks matters partly because people and businesses rely on them. Does the chapter examine real economic activity as well?"
+    },
+    {
+      "id": "ch05-t046",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "在庫資金を調達するために銀行融資に頼っていた卸売業者を検証しています。企業数と売上高の減少は、セントルイス地区よりもアトランタ地区のほうが小幅でした。その傾向は、より広範な経済的利益があったことを支持しています。ただし、これらの比較に用いられたデータは非常に限られているため、この章では銀行の分析よりも確証度の低い証拠として扱われています。",
+      "en": "It examines wholesalers, businesses that depended on bank credit to finance inventories. Firm numbers and sales fell less in Atlanta's district than in St. Louis's. That pattern supports a broader economic benefit. Those comparisons use very sparse data, however, so the chapter treats them as weaker evidence than the banking analysis."
+    },
+    {
+      "id": "ch05-t047",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それでは、手計算から固定効果を用いた回帰分析の差の差法へと進みましょう。",
+      "en": "Now we move from hand calculations to regression DD with fixed effects."
+    },
+    {
+      "id": "ch05-t048",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "これは、結果と政策への露出を関連づけながら、安定したグループ間の違いと共通の時間変化を調整する方法です。グループ固定効果は各グループに固有の基準値を与えます。時間固定効果は共通の環境変化を許容します。処置群、対照群、そして前後2つの期間しかない場合、回帰分析は単純な差の差法の結果をそのまま再現します。",
+      "en": "It adjusts for stable group differences and shared time changes while relating outcomes to policy exposure. Group fixed effects give each group its own baseline. Time fixed effects allow the common environment to change. With only a treated group, a control group, and before-and-after periods, regression reproduces our simple DD."
+    },
+    {
+      "id": "ch05-t049",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "例えば、地方の州では交通事故死の割合が一貫して高いとします。州の調整はその安定した差を吸収します。また、安全な車両の普及によって死亡率が全国的に低下したとします。年の調整はその共通の変化を吸収しますね。",
+      "en": "Suppose rural states have persistently higher road death rates. A state adjustment would absorb that stable difference. Suppose safer vehicles lower death rates everywhere. A year adjustment would absorb that shared change."
+    },
+    {
+      "id": "ch05-t050",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "残る脅威の一つは、法律の変更と同時に特定の州だけで発生し、死亡率にも影響を与える変化です。固定効果は、変化するあらゆる影響を取り除けるわけではありません。回帰分析の因果的な解釈には、調整を行った後でも処置のない場合のトレンドが妥当である必要があります。法改正を行った州だけで新たな交通安全キャンペーンが実施されたりすれば、それは依然として深刻な交絡要因になり得ます。",
+      "en": "One remaining threat is a state-specific change that occurs alongside the law and also affects deaths. Fixed effects do not remove every changing influence. The regression's causal interpretation still requires credible untreated trends after its adjustments. A new safety campaign in just the changing-policy states could remain a serious confounder."
+    },
+    {
+      "id": "ch05-t051",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "回帰分析の結果を信頼する前に、不確実性についてはどうでしょうか。ある州の道路が今年危険だったとすれば、翌年の道路も危険である可能性が高いですよね。",
+      "en": "Before we trust regression results, what about uncertainty? If a state has dangerous roads this year, next year's roads may also be dangerous."
+    },
+    {
+      "id": "ch05-t052",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その持続性は系列相関と呼ばれ、同一単位内の時間的に近い観察値同士は連動しやすい傾向があります。標準誤差は推定値の周りの不確実性を測る尺度です。州内の依存関係を無視すると、標準誤差が小さくなりすぎてしまう恐れがあります。クラスター頑健標準誤差を用いれば、推論のために十分な数の独立したクラスターが存在することを前提として、各州内の観察値が相関することを許容できます。",
+      "en": "That persistence is serial correlation: nearby observations within a unit tend to move together. Standard errors measure uncertainty around estimates. Ignoring within-state dependence can make those errors too small. Clustered standard errors allow observations inside each state to be related while relying on enough independent clusters for inference."
+    },
+    {
+      "id": "ch05-t053",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "つまり、クラスター化は不確実性の計算を変えるものであり、推定された効果そのものを変えるわけではないのですね。また、偏りのある処置の比較を補正するわけでもありません。銀行の事例には十分な数のクラスターがあるのでしょうか。複数年の観察値はありますが、政策地区の数はごくわずかです。",
+      "en": "So clustering changes our uncertainty calculation, not the estimated effect itself. It also does not correct biased treatment comparisons. Does the banking case have enough clusters? We have several annual observations, but only a small number of policy districts."
+    },
+    {
+      "id": "ch05-t054",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それは章の付録で指摘されている重要な限界です。ミシシッピ州のデータには2つの地区クラスターしかありません。年数を重ねても、独立した地区の数が増えるわけではありません。回帰分析による推定値は約21行の救済となっていますが、地区内の誤差が持続する場合、信頼性の高い推論を行うことは困難です。銀行の分析結果は、大きな不確実性を伴う示唆的なものとして表現すべきです。",
+      "en": "That is an important limitation from the chapter appendix. Mississippi provides only two district clusters. Repeated years do not create many independent districts. The regression estimate is about 21 banks saved, but reliable inference is difficult if within-district errors persist. We should describe the banking result as suggestive, with substantial uncertainty."
+    },
+    {
+      "id": "ch05-t055",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "次の事例では、法定最低飲酒年齢（MLDA）を研究しています。州によって法律を改定した時期が異なっていますね。",
+      "en": "The next case studies the minimum legal drinking age, which we will call MLDA. States changed their laws at different dates."
+    },
+    {
+      "id": "ch05-t056",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "この政策パネルデータには、コロンビア特別区を含む51の地域が含まれており、14年間にわたって観察されています。期間は1970年から1983年までです。各州は異なる時期に飲酒年齢を引き下げたり、改定したりしました。州効果と年効果を用いることで、研究者は州内の死亡率の変化を他地域の変化と比較することができます。",
+      "en": "The policy panel contains 51 jurisdictions, including the District of Columbia, observed over 14 years. The period runs from 1970 to 1983. States lowered or otherwise changed drinking-age rules at different times. State and year effects let researchers compare within-state mortality changes against changes elsewhere."
+    },
+    {
+      "id": "ch05-t057",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "結果において、具体的に誰が対象としてカウントされているのでしょうか。もし法律の影響が若者の年齢によって異なる場合、単一の法的権利指標では誤解を招く可能性があります。また、酒類を購入する権利と、実際に飲酒することとを区別する必要もあります。",
+      "en": "Who exactly counts in the outcome? If the law affects young adults differently by age, a single legal-access indicator might be misleading. We also need to distinguish the right to buy alcohol from actually drinking it."
+    },
+    {
+      "id": "ch05-t058",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "結果となるのは、18歳から20歳の人々の年間死亡率です。処置は、その年齢層の中で法的に飲酒が認められている割合として測定されます。これは政策上の権利であって、各個人のアルコール消費量そのものではありません。法定年齢の引き下げは、その年齢層全体に適用されることもあれば、一部だけに適用されることもあります。",
+      "en": "The outcomes are annual death rates for people aged 18 to 20. Treatment measures the share of that age group legally permitted to drink. It is policy access, not each person's alcohol consumption. A lower legal age can expose the entire group or only part of it."
+    },
+    {
+      "id": "ch05-t059",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "さらに、法律は年の途中で施行されることもあります。したがって、政策への露出度を測る尺度は、誰が対象になったかと、その法律がどれだけの期間機能したかの両方を反映しなければなりません。処置が単純なオン・オフではなく割合である場合、回帰係数は何を意味するのでしょうか。",
+      "en": "And a law can change partway through a year. So the exposure measure has to reflect both who becomes eligible and how long the law operates. What does a regression coefficient mean when the treatment is a share rather than a simple switch?"
+    },
+    {
+      "id": "ch05-t060",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それは、その年齢層において法的権利が全くない状態から完全にある状態へと変化した場合のモデル上の変化を表します。その仕様の下では、中間の変化に対しては比例した効果が割り当てられます。これには用量と反応に関するモデル化の仮定が加わっています。この係数を、ある特定の量のアルコールを個人的に飲んだ効果として説明すべきではありません。",
+      "en": "It describes the modeled change from no legal access to full access for the age group. Intermediate changes receive proportionate effects under that specification. This adds a modeling assumption about dose and response. We should not describe the coefficient as the effect of personally drinking a particular amount of alcohol."
+    },
+    {
+      "id": "ch05-t061",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "推定された死亡率は何を示していますか。まずは全体的な規模から教えてください。",
+      "en": "What do the estimated death rates say? Please give the overall scale first."
+    },
+    {
+      "id": "ch05-t062",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "この章の主要な推定モデル全体を通じて、完全な法的権利の付与は、若者100,000人あたり年間約8人から12人の追加的な死亡と関連しています。基準となる推定値は約11人です。信頼できる研究設計の下では、これらが推定された政策効果となります。これらは死亡率の変化であり、すべての人の死亡確率がパーセントポイント単位で変化したという意味ではありません。",
+      "en": "Across the chapter's main specifications, full legal access is associated with about 8 to 12 additional annual deaths per 100,000 young adults. The baseline estimate is near 11. With a credible design, these become estimated policy effects. They are changes in a death rate, not percentage-point changes in everyone's probability of dying."
+    },
+    {
+      "id": "ch05-t063",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "そして、その増加の大部分を交通事故死が占めているのですね。アクセスが容易になることで危険な運転が増えるというメカニズムと合致します。ただし、死因が特定できたとしても、個人の飲酒の決定や、政策と事故を結ぶあらゆるステップを私たちが観察できているわけではありませんよね。",
+      "en": "And road deaths account for much of that increase? That would fit a mechanism in which easier access increases dangerous driving. But identifying the cause of death still would not mean we observe every individual's drinking decision or every step linking policy to a crash."
+    },
+    {
+      "id": "ch05-t064",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "完全な法的権利の下では、自動車事故が100,000人あたり約7人から8人の追加的な死亡を占めています。その傾向は、飲酒運転という説明を支持しています。だからといって、超過死亡の全員について個人の飲酒歴が観察されているという意味ではありません。因果関係の主張は、集団の死亡率に対する政策の効果に関するものです。",
+      "en": "Motor-vehicle accidents account for roughly 7 to 8 additional deaths per 100,000 under full legal access. That pattern supports the drinking-and-driving explanation. It does not mean every excess death has a personally observed alcohol history. The causal claim concerns the policy's effect on population death rates."
+    },
+    {
+      "id": "ch05-t065",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "病気などの内因性の死因についてはどうでしょうか。マインドマップでは、効果が見られないことをプラセボ結果と呼んでいます。効果がないと言うと、推定された効果が不確実性に比べて小さいと言っている以上の強い主張に聞こえてしまうのではないかと心配です。",
+      "en": "What about internal causes, such as deaths from disease? The mind map describes no effect as a placebo result. I worry that saying no effect sounds stronger than saying the estimated effect is small relative to its uncertainty."
+    },
+    {
+      "id": "ch05-t066",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "慎重な言い方をするなら、内因性の死亡に対して短期的な影響があったという明確な証拠は乏しい、ということになります。プラセボ結果とは、関連する期間において政策が意味のある影響を与えるとは予想されない結果のことです。この結果は安心材料にはなりますが、分析設計の妥当性を証明するものではありません。自殺はアルコールの影響を受ける可能性があるため、プラセボとしてはそれほど明確ではありません。",
+      "en": "The careful statement is little clear evidence of a short-run effect on internal-cause deaths. A placebo outcome is one the policy is not expected to affect meaningfully over the relevant horizon. This result is reassuring, but cannot prove the design valid. Suicide is less clean as a placebo because alcohol could affect it."
+    },
+    {
+      "id": "ch05-t067",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "次は頑健性の検証ツールですね。頑健性とは、分析方法を妥当な範囲で変更しても結論が揺らがないかどうかを確かめることです。まずは州ごとのトレンドから始めましょう。平行トレンドがこの手法の中心的な仮定であるはずなのに、なぜ州ごとの個別のトレンドを許容するのでしょうか。",
+      "en": "The robustness toolkit comes next. Robustness means checking whether the conclusion survives reasonable changes in the analysis. Start with state-specific trends. Why allow separate trends if parallel trends was supposed to be the method's central assumption?"
+    },
+    {
+      "id": "ch05-t068",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "線形トレンドを含めることで、処置がない場合の結果が各州固有の一定のペースで推移することを許容できます。その場合、政策効果は、そうした予測された軌道を超えて政策変更の前後に生じた乖離から捉えられます。これにより、ある仮定が別の仮定に置き換わります。つまり、選ばれたトレンドが処置のない場合の推移を十分に説明できているという仮定です。仮定をなくしたわけではありません。",
+      "en": "A linear trend lets each state's untreated outcome drift along its own steady path. The policy effect then comes from departures around policy changes, beyond those predicted paths. We replace one assumption with another: the chosen trends must describe the untreated evolution well enough. We have not eliminated assumptions."
+    },
+    {
+      "id": "ch05-t069",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "もし後に法律を緩和した州で、もともと死亡率の上昇ペースが他より速かったとすれば、単純な差の差法はその推移を法律の効果と見誤ってしまう可能性があります。トレンドを追加すれば、そうした一定の差に対処できますね。では、政策効果が徐々に拡大していくような場合は、別の問題が生じますか。",
+      "en": "If deaths were already rising faster in states that later loosened their laws, simple DD could mistake that drift for a law effect. Adding trends would help with a steady difference. Could a gradually growing policy effect create a different problem?"
+    },
+    {
+      "id": "ch05-t070",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "はい。政策の効果そのものが徐々に大きくなる場合、当てはめたトレンドがその拡大する効果の一部を吸収してしまう可能性があります。その結果、処置効果と進行中のトレンドの区別がつかなくなる恐れがあります。また、トレンドモデルは推定の精度を下げることもあります。この章では、トレンドを追加した後でも、飲酒年齢に関する主要な推定値は概ね同様の結果を維持しています。いくつかの推定値の精度は落ちるものの、これは結果を支持する材料となります。",
+      "en": "Yes. If the policy's effect itself grows gradually, a fitted trend might absorb some of that growing effect. We could then struggle to distinguish the treatment effect from ongoing drift. Trend models can also reduce precision. In this chapter, the main drinking-age estimates remain broadly similar after adding trends. That is supportive, while some estimates become less precise."
+    },
+    {
+      "id": "ch05-t071",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "次に人口による重み付けについてです。小さな州と大きな州は、どちらも1つの州・年のデータとして寄与しますが、若者の数は大きく異なります。より大きな州の影響力を高めることで、同じ問いにより正確に答えることができるのでしょうか。",
+      "en": "Now population weighting. A small state and a large state each contribute a state-year record, but they contain very different numbers of young people. Does giving larger states more influence answer the same question more accurately?"
+    },
+    {
+      "id": "ch05-t072",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "重み付けを行うと、誰の結果が推定値に最も強く影響するかが変わります。人口の重み付けはより大きな若者人口を重視し、均等な重み付けは各州・年の比較をより均等に扱います。適切な条件下では重み付けによって精度が向上することもありますが、自動的にそうなるわけではありません。どちらの選択でも同様の結論が得られることは心強い材料です。ただし、どちらか一方を選んだだけで単純な平均因果効果が保証されるわけではありません。",
+      "en": "Weighting changes whose outcomes influence the estimate most. Population weights emphasize larger young-adult populations; equal row weights emphasize state-year comparisons more evenly. Weighting may improve precision under suitable conditions, but not automatically. Similar conclusions under both choices are reassuring. Neither choice alone guarantees a simple average causal effect."
+    },
+    {
+      "id": "ch05-t073",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "最後の頑健性チェックは、ビール税の追加です。州効果と年効果はすでに組み込まれていますが、変化する税率を追加することでどのような懸念に対処できるのか理解したいです。",
+      "en": "The final robustness check adds beer taxes. State and year effects are already present, so I want to understand what extra concern a changing tax introduces."
+    },
+    {
+      "id": "ch05-t074",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ある州が、飲酒年齢のルールとアルコールへの課税を同時に変更する可能性があります。価格の変化は飲酒と死亡率に影響を与え、法的権利の効果と交絡するかもしれません。ビール税を統制変数として加えても、ここでの飲酒年齢の推定効果は概ね同様のままです。税そのものの効果は精度が低く推定されています。これは、アルコール税が死亡率に決して影響を与えないという証拠ではありません。",
+      "en": "A state might change drinking-age rules and alcohol taxes together. Price changes could affect drinking and deaths, confounding the legal-access effect. Controlling for beer taxes leaves the estimated drinking-age effect broadly similar here. The tax effects themselves are imprecise. That is not evidence that alcohol taxes never affect mortality."
+    },
+    {
+      "id": "ch05-t075",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "政策担当者はこれらの検証から何をくみ取るべきでしょうか。交通事故死に関する結果はいくつかの分析の選択を経ても維持されていますが、比較自体は観察データに基づいています。",
+      "en": "What should a policymaker take away from these checks? The road-death result survives several choices, yet the comparisons are observational."
+    },
+    {
+      "id": "ch05-t076",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "政策的な示唆としては、法的権利の拡大は若者にとって、特に道路上において無視できない死亡リスクの代償を伴う可能性があるということです。トレンド、重み付け、税の統制、そしてプラセボ結果が一致して同じ方向を示すとき、その主張は強固になります。ただし、それらによってあらゆる交絡要因が排除されるわけではありませんし、飲酒年齢に関する法律をめぐる社会的なバランスのすべてが決定されるわけでもありません。",
+      "en": "A policy implication is that expanding legal access can carry meaningful mortality costs for young adults, particularly on the road. Trends, weighting, tax controls, and placebo outcomes strengthen the case when they agree. They do not remove every possible confounder or determine the whole social balance of a drinking-age law."
+    },
+    {
+      "id": "ch05-t077",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "差の差法を、より広い因果推論のツールキットの中に位置づけてみましょう。これまでのエピソードでは、無作為割り当て、操作変数、年齢の閾値などを扱ってきましたね。",
+      "en": "Place DD in the wider causal toolkit. We have random assignment, instruments, and age cutoffs from earlier episodes."
+    },
+    {
+      "id": "ch05-t078",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "無作為化比較試験は、その研究対象集団における平均効果を推定できます。操作変数は、その仮定の下で、操作変数によって処置の受け方が変わる人たちに対する局所平均処置効果を識別できます。回帰不連続デザインは、境界値の近傍における局所的な効果を推定します。これらは互いに関連する問いではありますが、自動的に置き換え可能な答えというわけではありません。",
+      "en": "A randomized controlled trial can estimate an average effect for its study population. Instrumental variables can identify a local average effect for people whose treatment changes with the instrument, under its assumptions. Regression discontinuity estimates a local effect near a cutoff. These are related questions, not automatically interchangeable answers."
+    },
+    {
+      "id": "ch05-t079",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "単純な差の差法では、処置群に対する平均処置効果を求めることがよくあります。しかし、飲酒年齢の分析では多数の州が存在し、露出度も変化し、政策変更の時期も異なっています。深く考えることなしに、固定効果の係数に同じラベルを当てはめてよいのでしょうか。",
+      "en": "In a simple DD design, we often seek the average treatment effect on the treated. But our drinking-age analysis has many states, changing exposure, and different policy dates. Can we attach that same label to any fixed-effects coefficient without further thought?"
+    },
+    {
+      "id": "ch05-t080",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "いいえ。単純なデザインであれば、処置のない場合の平行トレンドなどの比較条件によって、処置群の効果を識別できます。しかし、政策変更の時期がまちまちである場合、固定効果は多数の比較を組み合わせてしまいます。もし効果がグループ間で異なっていたり、時間の経過とともに変化したりする場合、解釈には特別な注意が必要です。回帰係数が、処置を受けた全員に対する平均効果であるとは自動的には言えません。",
+      "en": "No. In the simple design, parallel untreated trends and other comparison conditions can identify that treated-group effect. With staggered changes, fixed effects combine many comparisons. If effects differ across groups or evolve over time, interpretation needs extra care. The regression coefficient is not automatically the average effect for everyone treated."
+    },
+    {
+      "id": "ch05-t081",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "飲酒年齢の問いは、第4章でも年齢の閾値を用いて登場しました。ここ第5章での変動は、州ごとの政策時期の違いです。サンプルや対象期間、そして問題となる効果が完全に一致する必要がないとしても、結果が一致することにどのような価値があるのでしょうか。",
+      "en": "The drinking-age question also appeared in Chapter four using an age cutoff. Here in Chapter five, the variation is policy timing across states. Why is agreement useful if the samples, historical periods, and relevant effects need not match exactly?"
+    },
+    {
+      "id": "ch05-t082",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それぞれのデザインが直面する脅威が異なるからです。年齢の閾値を用いた研究は法的な誕生日の前後の人々を比較しますが、政策パネルは法改正の前後の州の結果を比較します。識別のための仮定が異なるため、結論が似ていれば、より広い主張の説得力が増します。期待すべきは大筋での一貫性であり、すべての数値推定値が完全に一致することを要求すべきではありません。",
+      "en": "The designs face different threats. An age-cutoff study compares people near the legal birthday, while the policy panel compares state outcomes around legal changes. Similar conclusions strengthen the broader argument because the identifying assumptions differ. We should expect broad consistency, not insist that all numerical estimates must be identical."
+    },
+    {
+      "id": "ch05-t083",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "歴史的な起源をたどると、ジョン・スノーとコレラの話に行き着きます。給水ポンプのハンドルを外した有名な逸話は知っています。あれが差の差法の主な比較だったのでしょうか、それともこの手法をよりよく示す別の比較があるのでしょうか。",
+      "en": "Historical roots take us to John Snow and cholera. I know the famous story about removing a pump handle. Was that the main DD comparison, or is there another comparison that better demonstrates the method?"
+    },
+    {
+      "id": "ch05-t084",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "スノーによる水道会社の比較のほうが、より明確な例です。ランベス社は1852年に取水場所を上流に移しました。サザーク・アンド・ヴォックスホール社は、テムズ川の汚染された流域を使い続けました。スノーは水道供給区域ごとに地域を区別し、それ以前のコレラ死亡率と1854年の死亡率の変化を比較したのです。",
+      "en": "Snow's water-company comparison is the clearer example. Lambeth moved its water intake upstream in 1852. Southwark and Vauxhall continued using a contaminated stretch of the Thames. Snow compared changes between earlier cholera mortality and mortality in 1854, distinguishing areas by their water supply."
+    },
+    {
+      "id": "ch05-t085",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ランベス社から供給を受けていた地域では改善が見られた一方で、もう一方の会社の地域では同様の改善が見られませんでした。このことは、悪臭説ではなく水系感染説を支持しています。しかし、どちらの会社も顧客を無作為に割り当てたわけではありません。それぞれの地域の間で、他にどのような違いが生じていたかを問う必要は依然としてありますよね。",
+      "en": "The Lambeth-served areas improved while the other company's areas did not show the same improvement. That supports waterborne transmission rather than bad air. But neither company randomized its customers. Would we still need to ask what else changed differently across their areas?"
+    },
+    {
+      "id": "ch05-t086",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その通りです。前後比較は対照群を設けることで説得力が増しますが、それでも信頼できる反実仮想を必要とします。ポンプのハンドルの話は、別の明確な教訓を与えてくれます。死亡数はハンドルを外す前からすでに減少傾向にあったのです。その後のすべてをその介入のおかげだと単純に考えるのは、前後比較の誤りを繰り返すことになります。",
+      "en": "Yes. The before-and-after contrast becomes stronger with a comparison group, but still needs a credible alternative history. The pump-handle episode makes a separate caution vivid: deaths were already declining before removal. Simply crediting everything afterward to the intervention would repeat the before-and-after mistake."
+    },
+    {
+      "id": "ch05-t087",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "検証のまとめとしては、変化同士を比較し、仮定を明確にし、その弱点を検証することですね。銀行の例は、減少幅が小さいことが恩恵を意味し得る理由を示しています。飲酒年齢の法律は、多数の政策変更がどのようにパネルデータに収まるかを示しています。スノーの例は、時期の一致だけでは因果関係を確立できないことを思い出させてくれます。",
+      "en": "My investigation recap is to compare changes, name the assumption, then test its weak points. Banking shows why a smaller decline can mean a benefit. Drinking-age laws show how many policy changes fit into a panel. Snow reminds us that timing alone cannot establish causation."
+    },
+    {
+      "id": "ch05-t088",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "そして不確実性もその論理の中に位置づけられます。固定効果は、グループ間の永続的な格差や共通の時間ショックを取り除きます。クラスター標準誤差は相関のある観察値に対応するものであり、交絡を解消するものではありません。頑健性の検証は特定の脅威を探ります。最も説得力のある説明とは、報告されたすべての効果を、その対象集団、政策への露出、反実仮想、そして残された限界と結びつけるものです。",
+      "en": "And uncertainty belongs inside that reasoning. Fixed effects remove persistent group gaps and shared time shocks. Clustered errors address related observations, not confounding. Robustness checks probe specific threats. The strongest explanation connects every reported effect to its population, policy exposure, counterfactual, and remaining limits."
+    },
+    {
+      "id": "ch05-t089",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "結論は、あえて疑いの目を向ける反論から始めましょう。開始時点の水準が大きく異なるグループ同士は、いかなる因果比較にも適さないはずだと予想します。もしアトランタのほうが少ない銀行数で始まっているなら、変化を引き算したところで、両地域が異なっているという事実を覆い隠しているに過ぎないのではないでしょうか。",
+      "en": "The Resolution starts with a devil's advocate. I predict that groups starting at very different levels must be unsuitable for any causal comparison. If Atlanta begins with fewer banks, surely subtracting changes just hides the fact that the places are different."
+    },
+    {
+      "id": "ch05-t090",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "その予測は、水準と変化を混同しています。安定した初期の差は、各グループを時間の経過に沿って自分自身と比較することで相殺できます。重要な問題は、処置がなかった場合に結果がどう変化したはずかということです。初期水準の違いは有益な問いを投げかけるきっかけにはなりますが、それ自体が処置のない場合の平行トレンドを否定するわけではありません。",
+      "en": "The prediction confuses levels with changes. A stable starting gap can disappear when each group is compared with itself over time. The key issue is how outcomes would have changed without treatment. Different initial levels may prompt useful questions, but they do not by themselves refute parallel untreated trends."
+    },
+    {
+      "id": "ch05-t091",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "では、逆の異論を試してみます。もし固定効果が永続的な違いと全国的なショックを統制してくれるなら、統制されていない重要なものは何も残らないのではないでしょうか。単に回帰分析を実行し、誤差をクラスター化して、得られた係数を因果関係と見なすことはできませんか。",
+      "en": "Let me try the opposite objection. If fixed effects control for permanent differences and national shocks, perhaps nothing important remains uncontrolled. Could we simply run the regression, cluster the errors, and regard the coefficient as causal?"
+    },
+    {
+      "id": "ch05-t092",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "それが、陥りがちな2つ目の誤解です。飲酒法が改正されたまさにその瞬間に、特定の州だけで新たな交通安全への取り組みが行われれば、死亡率が変わる可能性があります。州効果はそのような新たな出来事を取り除くことはできません。年効果も、一部の州だけに限定された出来事を取り除くことはできません。クラスター化は不確実性を変えるだけであり、比較の偏りの原因を取り除くわけではありません。",
+      "en": "That is the second tempting misconception. A new state-specific road-safety effort can change mortality exactly when the drinking law changes. State effects cannot remove that new event. Year effects cannot remove an event confined to some states. Clustering changes uncertainty, not the source of the comparison's bias."
+    },
+    {
+      "id": "ch05-t093",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "つまり説得力のある分析とは、なぜ対照群の変化が処置群の失われた変化の身代わりになり得るのかを説明すべきなのですね。過去の結果や同時に進行した政策を検証すべきです。また、人々が事前に反応したり、州境を越えたりして、どのグループが実際に政策の影響を受けたかが変わっていないかも考慮する必要があります。",
+      "en": "So a convincing analysis should explain why the control change represents the treatment group's missing change. It should examine earlier outcomes and simultaneous policies. It should also consider whether people react early or cross borders, changing which group really receives the policy exposure."
+    },
+    {
+      "id": "ch05-t094",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "それらは、係数を解釈する前に問う価値のある設計上の問題です。過去の結果を見ることで、提案されたトレンドの仮定に疑問を投げかけることができます。過去の記録に問題がないように見えても、その後のあらゆる問題を排除できるわけではありません。関連する脅威を検証することのほうが、回帰分析の長い一覧表を因果関係の証明書のように扱うことよりも、はるかに多くの情報を与えてくれます。",
+      "en": "Those are design questions worth asking before interpreting any coefficient. Earlier outcomes can challenge a proposed trend assumption. A clean-looking earlier record cannot rule out every later problem. Checking the relevant threats is more informative than treating a long list of regressions as a certificate of causal truth."
+    },
+    {
+      "id": "ch05-t095",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "新たな表を追加することなく、主要なポイントを教えてください。銀行、水道会社、飲酒法の詳細が記憶から薄れた後でも、リスナーの心に残るべきことは何でしょうか。",
+      "en": "Give us the main takeaways without adding another table. What should remain in a listener's mind after the details of banks, water companies, and drinking-age laws have faded?"
+    },
+    {
+      "id": "ch05-t096",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "処置群の変化から始め、対照群の変化を差し引くということです。モデルによる調整を考慮した上で、なぜ処置のない場合のトレンドが一致するはずなのかを説明してください。固定効果を用いて、グループ間および時間を通じた比較を実行します。不確実性を評価する際には、相関のある観察値を考慮に入れます。そして、その研究設計が実際に何を識別しているのかを、残された限界とともに報告することです。",
+      "en": "Begin with the treated change and subtract the comparison change. Explain why untreated trends should match, allowing for the model's adjustments. Use fixed effects to implement the comparison across groups and time. Account for dependent observations when assessing uncertainty. Report what the design actually identifies, with the limits that remain."
+    },
+    {
+      "id": "ch05-t097",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "銀行の例では、その後の比較を通じて、およそ19行から23行多くの金融機関が存続したとまとめられています。ただし、これは限られた証拠と困難な推論の下での推定された差を説明したものであることを忘れてはなりません。飲酒年齢法については、主な死亡コストは道路上で発生しており、複数の検証がその傾向を支持しています。",
+      "en": "For banks, the map summarizes about 19 to 23 more surviving institutions across the later comparisons. We must remember that this describes estimated gaps, with sparse evidence and difficult inference. For drinking-age laws, the main mortality cost appears on the road, and multiple checks support that pattern."
+    },
+    {
+      "id": "ch05-t098",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "政策的な教訓には境界線があります。一時的な流動性は取り付け騒ぎに直面した銀行を救うことができますが、存続したという事実だけであらゆる救済が正当化されるわけではありません。合法的な飲酒の機会は若者の死亡率に影響を与える可能性がありますが、その発見があらゆる政策判断のトレードオフを解決するわけではありません。優れた因果推論の研究は、あらゆる価値判断まで提供できるかのように装うことなく、意思決定のための証拠を研ぎ澄ましてくれるのです。",
+      "en": "The policy lesson has boundaries. Temporary liquidity can help banks facing runs, but survival alone does not justify every bailout. Legal alcohol access can affect young-adult mortality, but that finding does not settle every policy tradeoff. Good causal work sharpens a decision's evidence without pretending to supply every value judgment."
+    },
+    {
+      "id": "ch05-t099",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "中心命題をまとめる準備が整いました。政策が一部のグループに対してのみ変更された場合、影響を受けなかったグループの変化が、失われた結果を補うことができます。しかし、できるという言葉が重要です。その比較は、処置のない場合のトレンドや政策の状況と合致していなければなりません。",
+      "en": "We are ready for the thesis. When a policy changes for only some groups, the unaffected group's change can supply a missing outcome. Yet the word can matters: the comparison has to fit the untreated trends and the policy setting."
+    },
+    {
+      "id": "ch05-t100",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "私たちの中心命題には条件がつきます。政策が一部のグループで変更され、他のグループでは変更されない場合、識別のための仮定が満たされていれば、処置を受けなかったグループの変化が、処置群の失われた反実仮想を補ってくれます。これが結論のまとめです。このデザインの力は時間を通じた有益な比較から生まれますが、その信頼性は、その比較の妥当性を論証することから生まれます。",
+      "en": "Our thesis is conditional: when a policy shifts for some groups but not others, the untreated group's change supplies the treated group's missing counterfactual, if the identifying assumptions hold. That is the resolution recap. The design's power comes from a useful comparison over time; its credibility comes from defending that comparison."
+    },
+    {
+      "id": "ch05-t101",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "学習目標を振り返りましょう。私たちは今や、対照群の変化を用いて反実仮想を構築できます。平行トレンドを、処置のない場合の推移に関する主張として説明できます。そして、頑健性の検証と適切な不確実性を用いて、固定効果の証拠を評価することができます。計算自体は短いものですが、その解釈を論証するには細心の注意が必要です。",
+      "en": "Return to our learning goals. We can now construct a counterfactual using a comparison group's change. We can explain parallel trends as a claim about untreated changes. And we can judge fixed-effects evidence using robustness checks and appropriate uncertainty. The arithmetic is short; defending its interpretation takes care."
+    },
+    {
+      "id": "ch05-t102",
+      "speaker": "ECONOMIST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "条件付きの中心命題を常に忘れないでください。対照群の変化が処置群の失われた変化の代わりになるのは、研究設計によってその置き換えが信頼できると判断される場合に限られます。観察された悪化が失敗を証明するわけではありません。初期水準の安定した格差が差の差法を破綻させるわけではありません。回帰係数がそれ自身の正当性を自動的に証明してくれるわけでもないのです。",
+      "en": "Keep the central thesis with its condition: the comparison group's change stands in for the treated group's missing change only when the design makes that substitution credible. An observed decline does not prove failure. A stable starting gap does not defeat DD. A regression coefficient does not validate itself."
+    },
+    {
+      "id": "ch05-t103",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "最後の思考問題です。ある州で飲酒の権利が拡大されたまさにその時、その州で大規模な交通安全キャンペーンが始まったとします。他の州ではどちらも行われませんでした。州効果、年効果、そしてクラスター頑健標準誤差を用いれば、法律の効果とキャンペーンの効果を自動的に切り離すことができるでしょうか。",
+      "en": "Here is our closing think question. Suppose legal drinking access expands in a state just as that state begins a major road-safety campaign. Other states do neither. Would state effects, year effects, and clustered standard errors automatically separate the law's effect from the campaign's effect?"
+    },
+    {
+      "id": "ch05-t104",
+      "speaker": "ECONOMIST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "音声を一度止めて考えてみてください。何が州ごとに異なり、何が時間とともに変化するのかを考えてみましょう。安全キャンペーンは州の永続的な特性なのか、共通の毎年の出来事なのか、それとも処置を受けた州特有の新たな影響なのかを問うてみてください。",
+      "en": "Pause the episode and think about what varies across states and over time. Ask whether the safety campaign is a permanent state characteristic, a shared yearly event, or a new influence specific to the treatment state."
+    },
+    {
+      "id": "ch05-t105",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "それは州特有の新たな影響だと考えます。比較の期間中に、しかも法律を変更した州だけで変化しています。普段の調整を行っても、飲酒を認める法改正の効果と、キャンペーンの効果が混ざったままなのではないかと思います。慎重になる理由として、それは正しいでしょうか。",
+      "en": "I would call it a new state-specific influence. It changes during the comparison period, and only in the state changing its law. I suspect our usual adjustments leave it entangled with legal access. Is that the right reason to hesitate?"
+    },
+    {
+      "id": "ch05-t106",
+      "speaker": "ECONOMIST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "その答えは、これらの調整を行っても効果を自動的に切り離すことはできない、ということです。より適切な比較対象や、追加の信頼できる変動、あるいはキャンペーンに対する正当な統制変数が必要になります。クラスター化によってその識別問題を修復することはできません。プロジェクトのColabノートブックと講義スライドを使えば、銀行の計算を復習し、飲酒年齢の様々な分析モデルを比較することができます。",
+      "en": "The answer is that these adjustments do not automatically separate the effects. We would need a better comparison, additional credible variation, or defensible controls for the campaign. Clustering cannot repair that identification problem. The project Colab notebook and lecture slides let you revisit the bank arithmetic and compare drinking-age specifications."
+    },
+    {
+      "id": "ch05-t107",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "次回、第6章の「学校教育の収益」では、教育をより多く受けることで所得が増えるのかどうかを問います。因果推論の様々なデザインをその問いに結びつけ、なぜ異なる比較が異なる答えを生み出すのかを考えていきます。ご清聴ありがとうございました。それでは、また。",
+      "en": "Next, Chapter six, The Wages of Schooling, asks whether more education causes higher earnings. We will connect the causal designs to that question and consider why different comparisons can yield different answers. Thank you for listening, and goodbye."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "chapter": 3,
+  "errors": [],
+  "warnings": [],
+  "counts": {
+    "vocab": 27,
+    "grammar": 6,
+    "passage_chars": 996,
+    "passage_questions": 5,
+    "comprehension": 8,
+    "dictation": 2,
+    "speaking": 3
+  }
+}

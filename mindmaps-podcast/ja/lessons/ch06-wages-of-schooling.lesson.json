@@ -1,0 +1,523 @@
+{
+  "chapter": 6,
+  "script_sha256": "0362640ba824a255ecec649133367e9c9a3906683cc879bcfadbc66ff1d693aa",
+  "goal_ja": "この課では、教育と賃金を例に、能力バイアスや測定誤差、双子、生まれ四半期、試験の閾値といった比較の考え方を日本語で聞きます。シャドーイングで推計値と仮定を区別して説明する表現を身につけ、同じ内容をN1レベルの書き言葉で読み、最後に自分の言葉で説明します。",
+  "goal_en": "Hear ability bias, measurement error and the twin, birth-quarter and exam-cutoff comparisons explained in Japanese through the returns to schooling, shadow the explanations, read the same ideas in N1-level written Japanese, then explain them yourself.",
+  "vocab": [
+    {
+      "term": "向上心",
+      "reading": "こうじょうしん",
+      "meaning": "ambition; drive to improve",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t002",
+      "example": "同じくらいの向上心を持つ二人の人物を考えてみてください。"
+    },
+    {
+      "term": "後押し",
+      "reading": "あとおし",
+      "meaning": "backing; support",
+      "level": "N2",
+      "kind": "general",
+      "turn": "ch06-t002",
+      "example": "あるいは、家庭の経済力が教育と仕事の両方を後押ししているのかもしれません。"
+    },
+    {
+      "term": "総ざらい",
+      "reading": "そうざらい",
+      "meaning": "a complete review",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t007",
+      "example": "講義全体を総ざらいするような内容ですね。"
+    },
+    {
+      "term": "膨大",
+      "reading": "ぼうだい",
+      "meaning": "enormous; vast",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t015",
+      "example": "私の予想では、サンプルサイズが膨大であれば疑問は解決すると思います。"
+    },
+    {
+      "term": "収益率",
+      "reading": "しゅうえきりつ",
+      "meaning": "rate of return",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch06-t023",
+      "example": "ここでいう教育の収益率とは何を意味しているのでしょうか。"
+    },
+    {
+      "term": "自然対数",
+      "reading": "しぜんたいすう",
+      "meaning": "natural logarithm",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch06-t024",
+      "example": "モデルでは賃金の自然対数を使うことがよくあります。"
+    },
+    {
+      "term": "培う",
+      "reading": "つちかう",
+      "meaning": "to cultivate; to build up",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t028",
+      "example": "人的資本とは、教育を通じて培われる生産的なスキルのことです。",
+      "surface": "培わ"
+    },
+    {
+      "term": "羊皮紙効果",
+      "reading": "ようひしこうか",
+      "meaning": "sheepskin effect (payoff of the credential itself)",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch06-t028",
+      "example": "羊皮紙効果とは、学位そのものから得られる追加の報酬のことです。"
+    },
+    {
+      "term": "中退",
+      "reading": "ちゅうたい",
+      "meaning": "dropping out (of school)",
+      "level": "N2",
+      "kind": "general",
+      "turn": "ch06-t033",
+      "example": "しかし、才能のある人が並外れて良いキャリアの機会を得たために学校を中退することもありますよね。"
+    },
+    {
+      "term": "倫理的",
+      "reading": "りんりてき",
+      "meaning": "ethical",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t052",
+      "example": "子どもの教育課程全体を強制的に決めることは、倫理的にも実務的にも問題があります。"
+    },
+    {
+      "term": "抽選",
+      "reading": "ちゅうせん",
+      "meaning": "lottery; drawing lots",
+      "level": "N2",
+      "kind": "general",
+      "turn": "ch06-t053",
+      "example": "付属教材の奨学金抽選の例は人工的なデータですね。"
+    },
+    {
+      "term": "一卵性双生児",
+      "reading": "いちらんせいそうせいじ",
+      "meaning": "identical twins",
+      "level": "超N1",
+      "kind": "general",
+      "turn": "ch06-t058",
+      "example": "研究者たちはツインズバーグのお祭りで、一卵性双生児から教育と賃金の情報を集めました。"
+    },
+    {
+      "term": "四捨五入",
+      "reading": "ししゃごにゅう",
+      "meaning": "rounding (to the nearest)",
+      "level": "N2",
+      "kind": "general",
+      "turn": "ch06-t063",
+      "example": "教育年数を四捨五入して多めや少なめに答えたとしても、人々の間で誤差は相殺されないのですか。"
+    },
+    {
+      "term": "減衰バイアス",
+      "reading": "げんすいばいあす",
+      "meaning": "attenuation bias",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch06-t064",
+      "example": "平均して相殺されたとしても、減衰バイアスは消えません。"
+    },
+    {
+      "term": "誇張",
+      "reading": "こちょう",
+      "meaning": "exaggeration",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t065",
+      "example": "賃金に関連した意図的な誇張であれば、異なる動きをするかもしれません。"
+    },
+    {
+      "term": "四半期",
+      "reading": "しはんき",
+      "meaning": "quarter (of a year)",
+      "level": "N1",
+      "kind": "economics",
+      "turn": "ch06-t079",
+      "example": "生まれ四半期の操作変数に移りましょう。"
+    },
+    {
+      "term": "加重平均",
+      "reading": "かじゅうへいきん",
+      "meaning": "weighted average",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch06-t096",
+      "example": "教育年数の場合、効果は影響を受けた教育の段階全体で加重平均されることがあります。"
+    },
+    {
+      "term": "見誤る",
+      "reading": "みあやまる",
+      "meaning": "to mistake (A for B); to misjudge",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t099",
+      "example": "アセモグルとアングリストは、地域ごとの賃金格差がそうした法律の効果と見誤られないように、どのように工夫したのでしょうか。",
+      "surface": "見誤ら"
+    },
+    {
+      "term": "踏み込む",
+      "reading": "ふみこむ",
+      "meaning": "to go further; to step into",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t104",
+      "example": "元の章ではさらに踏み込んで、州ごとに出生コホート全体にわたる異なる潜在的トレンドを許容しています。",
+      "surface": "踏み込ん"
+    },
+    {
+      "term": "織り込む",
+      "reading": "おりこむ",
+      "meaning": "to factor in; to build into",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t106",
+      "example": "州固有のトレンドを考慮することで、そうした追加のパターンを織り込もうとするのです。",
+      "surface": "織り込も"
+    },
+    {
+      "term": "拭い去る",
+      "reading": "ぬぐいさる",
+      "meaning": "to wipe away; to dispel",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t150",
+      "example": "大まかな7から10パーセントというまとめだけで、そうした懸念を拭い去ることはできません。"
+    },
+    {
+      "term": "暴く",
+      "reading": "あばく",
+      "meaning": "to expose; to lay bare",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch06-t160",
+      "example": "デザインは議論を補強することもあれば、誤りを暴くことも、異なる処置を明らかにすることもあります。"
+    }
+  ],
+  "grammar": [
+    {
+      "pattern": "〜ものの",
+      "level": "N2",
+      "meaning_ja": "「〜けれども」の硬い言い方。前の事実を認めたうえで、それと合わない内容を続ける。",
+      "meaning_en": "'although ~' (formal).",
+      "example": "この局所的な卒業証書効果の点推計値は小さいものの、不確実であると説明してください。",
+      "source": "ch06-t148",
+      "extra": "教育の収益率は推計できたものの、その解釈にはいくつかの仮定が必要だった。",
+      "extra_en": "Although the return to schooling could be estimated, interpreting it required several assumptions."
+    },
+    {
+      "pattern": "〜つつ（も）",
+      "level": "N2",
+      "meaning_ja": "「〜ながら（も）」の硬い言い方。二つのことが同時に成り立つことを表し、「つつも」は逆接になる。",
+      "meaning_en": "'while ~ (also)'; with も, 'while ~, nevertheless'.",
+      "example": "兄弟姉妹による回答は、真の教育を反映しつつも、本人とは異なる誤差を持つと考えられます。",
+      "source": "ch06-t072",
+      "extra": "その推計値は教育の効果を反映しつつも、測定の誤差の影響を受けている。",
+      "extra_en": "While the estimate reflects the effect of schooling, it is also affected by measurement error."
+    },
+    {
+      "pattern": "〜をものともせず",
+      "level": "N1",
+      "meaning_ja": "「困難や障害を問題にせず、気にしないで」。人が困難に立ち向かう様子をほめる書き言葉。自分自身のことにはあまり使わない。",
+      "meaning_en": "'in defiance of ~; undeterred by ~' (written).",
+      "example": "研究者たちはこの制約をものともせず、双子、生まれた時期、政策変更、試験の閾値といった比較を探し出してきた。",
+      "source": "passage",
+      "extra": "その研究チームは、データ不足をものともせず、州ごとの政策変更を一つずつ記録していった。",
+      "extra_en": "Undeterred by the lack of data, the research team recorded each state's policy changes one by one."
+    },
+    {
+      "pattern": "〜ゆえ（に）",
+      "level": "N1",
+      "meaning_ja": "「〜という理由で」「〜だから」。硬い書き言葉。名詞＋ゆえに、動詞・形容詞の普通形＋がゆえに の形が多い。",
+      "meaning_en": "'because of ~; owing to ~' (formal, written).",
+      "example": "双子は教育年数が似ているがゆえに、ペア内に残る真の違いは小さく、回答の誤りの比重が大きくなる。",
+      "source": "passage",
+      "extra": "閾値のすぐ近くの生徒だけを比べるがゆえに、その結果は局所的な効果として解釈する必要がある。",
+      "extra_en": "Because only students right around the cutoff are compared, the result has to be interpreted as a local effect."
+    },
+    {
+      "pattern": "〜とあいまって",
+      "level": "N1",
+      "meaning_ja": "「〜と一緒になって、互いに作用して」。二つ以上の要因が重なって、ある結果を強めることを表す。",
+      "meaning_en": "'combined with ~; in conjunction with ~' (factors reinforcing each other).",
+      "example": "古典的な仮定の下では、こうした測定ノイズは、共有された違いを取り除く操作とあいまって、推計値をゼロの方向へ引き下げる。",
+      "source": "passage",
+      "extra": "経済の急成長は、法律の改正とあいまって、その州の賃金を大きく押し上げた可能性がある。",
+      "extra_en": "Rapid economic growth, combined with changes in the law, may have pushed that state's wages up sharply."
+    },
+    {
+      "pattern": "〜に至っては",
+      "level": "N1",
+      "meaning_ja": "「（いくつかの例の中で）〜の場合は、さらに極端で」。程度が特にひどい例を取り上げて述べる。",
+      "meaning_en": "'as for ~ (the most extreme case)'; 'when it comes to ~, even worse'.",
+      "example": "どのデザインも仮定に依存するが、児童労働法を用いたデザインに至っては、州ごとのトレンドを考慮すると第一段階がはるかに小さくなり、主要な検証に失敗している。",
+      "source": "passage",
+      "extra": "多くの推計値は不確実だが、ある小さな調査に至っては、符号さえ定まらなかった。",
+      "extra_en": "Many estimates are uncertain, and as for one small survey, even the sign could not be pinned down."
+    }
+  ],
+  "passage": {
+    "title": "推計値より先に仮定を比べる",
+    "text": "1980年の国勢調査を用いた単純な回帰分析では、教育年数が1年増えるごとに週給が約7パーセント高いという関連が見られる。標本は膨大で、関連は正確に測定されている。だが、精度と因果関係としての妥当性は別の問題である。能力の高い人ほど長く学校に通い、高い賃金も得ているなら、教育の係数は能力の効果まで吸収しかねない。かといって、教育を無作為に割り当てる実験は、倫理的にも実務的にも難しい。研究者たちはこの制約をものともせず、双子、生まれた時期、政策変更、試験の閾値といった比較を探し出してきた。\n\n双子の比較は、遺伝子や育ちといったペアに共通する要因を取り除く。340組の一卵性双生児のデータでは、推計値は約11パーセントから約6パーセントへと低下する。この低下を能力バイアスが除かれた証拠とみなすのは早計である。双子は教育年数が似ているがゆえに、ペア内に残る真の違いは小さく、回答の誤りの比重が大きくなる。古典的な仮定の下では、こうした測定ノイズは、共有された違いを取り除く操作とあいまって、推計値をゼロの方向へ引き下げる。兄弟姉妹の回答を操作変数に用いると、ペア内の差による推計値は約11パーセントとなる。これは、能力バイアスだけで低下のすべてを説明する見方を弱めるが、能力バイアスの不在を証明するものではない。\n\n生まれ四半期の操作変数は、第4四半期生まれの男性とそれ以前の四半期生まれの男性を比べる。教育年数の差はわずかだが、賃金の差をその差で割ることで、1年あたりの効果は約7.4パーセントと計算される。どのデザインも仮定に依存するが、児童労働法を用いたデザインに至っては、州ごとのトレンドを考慮すると第一段階がはるかに小さくなり、主要な検証に失敗している。テキサス州の卒業試験の閾値を用いた研究は、教育年数ではなく資格そのものの効果を推定する。卒業証書の効果の点推計値は52ドルと小さいが、標準誤差は約630ドルに及び、効果がまったくないことを証明するものではない。\n\nしたがって、元の章が要約する1年あたり約7から10パーセントという数値は、独立した五つの実験が一致した結果ではない。それは教育に関する証拠、とりわけ生まれ四半期の結果を統合したものであり、普遍的な定数でもない。低い値ほど真の効果に近いとは限らない。推計値を比べる前に、それぞれのデザインの仮定を比べるべきなのである。"
+  },
+  "passage_questions": [
+    {
+      "question": "筆者がこの文章で最も言いたいことは何か。",
+      "options": [
+        "双子の比較が最もバイアスの少ない方法である",
+        "教育の効果は普遍的に約7から10パーセントである",
+        "卒業証書には経済的な価値がない",
+        "推計値を比べる前に、各デザインの仮定を比べるべきだ"
+      ],
+      "answer": 3,
+      "explanation": "最終段落の最後に「推計値を比べる前に、それぞれのデザインの仮定を比べるべきなのである」とあり、文章全体がこの主張に向かっている。"
+    },
+    {
+      "question": "第1段落の「この制約」とは何を指すか。",
+      "options": [
+        "教育を無作為に割り当てる実験が、倫理的にも実務的にも難しいこと",
+        "国勢調査の標本が小さすぎること",
+        "能力を測定する検査がないこと",
+        "週給しか分からず、年収が分からないこと"
+      ],
+      "answer": 0,
+      "explanation": "直前の文で「教育を無作為に割り当てる実験は、倫理的にも実務的にも難しい」と述べている。標本はむしろ膨大である。"
+    },
+    {
+      "question": "第2段落によると、双子の推計値が約6パーセントに下がったことを能力バイアスが除かれた証拠とみなすのが「早計」なのはなぜか。",
+      "options": [
+        "340組では標本が小さすぎるから",
+        "お祭りの参加者は一般の労働者と違うから",
+        "双子は教育年数が似ているため、残る違いの中で回答の誤りの比重が大きくなるから",
+        "兄弟姉妹の回答がいつも正確だから"
+      ],
+      "answer": 2,
+      "explanation": "「双子は教育年数が似ているがゆえに、ペア内に残る真の違いは小さく、回答の誤りの比重が大きくなる」とあり、測定ノイズが推計値をゼロの方向へ引き下げると説明している。"
+    },
+    {
+      "question": "テキサス州の研究について、本文の内容と合うものはどれか。",
+      "options": [
+        "教育年数が1年増えたときの効果を推定している",
+        "点推計値は小さいが、効果がまったくないことを証明してはいない",
+        "標準誤差が小さく、効果がゼロだと分かった",
+        "卒業証書の効果は約630ドルと推定された"
+      ],
+      "answer": 1,
+      "explanation": "第3段落で、資格そのものの効果を推定しており、点推計値は52ドルと小さいが標準誤差は約630ドルで、「効果がまったくないことを証明するものではない」と述べている。630ドルは標準誤差である。"
+    },
+    {
+      "question": "第4段落の「それは」の「それ」とは何を指すか。",
+      "options": [
+        "独立した五つの実験",
+        "生まれ四半期の結果",
+        "1年あたり約7から10パーセントという数値",
+        "推計値の大小"
+      ],
+      "answer": 2,
+      "explanation": "直前の文の主題である「1年あたり約7から10パーセントという数値」を受けて、それが教育に関する証拠を統合したものだと説明している。"
+    }
+  ],
+  "comprehension": [
+    {
+      "type": "mc",
+      "question": "1980年の国勢調査サンプルの単純な回帰分析では、教育年数が1年増えるごとに何がどれくらい高いという関連が見られましたか。",
+      "options": [
+        "年収が約7パーセント",
+        "週給が約7パーセント",
+        "時給が約11パーセント",
+        "週給がほぼ2倍"
+      ],
+      "answer": 1,
+      "turns": [
+        "ch06-t014"
+      ],
+      "explanation": "結果変数は週給で、約7パーセントです。ほぼ2倍は大卒者と高卒者の賃金の比較です。"
+    },
+    {
+      "type": "short",
+      "question": "ここでの「教育の収益率」が授業料に対する年利のような完全な投資の計算ではないのはなぜですか。",
+      "answer": "教育年数が1年増えることによる賃金の上昇分を指すだけだからです。投資として比べるには、教育費用、得られなかった賃金、その後の生涯賃金、時期も考える必要があります。",
+      "turns": [
+        "ch06-t026"
+      ]
+    },
+    {
+      "type": "mc",
+      "question": "教育の総合的な効果を知りたいとき、職業が不適切な統制変数になる主な理由は何ですか。",
+      "options": [
+        "職業は賃金と関係がないから",
+        "職業は教育より前に決まるから",
+        "職業を固定すると、教育が給料の良い仕事への道を開くという実際の経路が消えてしまうから",
+        "職業のデータは回答誤差が大きいから"
+      ],
+      "answer": 2,
+      "turns": [
+        "ch06-t046"
+      ],
+      "explanation": "教育はより給料の良い仕事に就く道を開くかもしれず、職業を固定するとその経路が消えます。同じ職業内でおかしな比較も生まれます。"
+    },
+    {
+      "type": "mc",
+      "question": "ツインズバーグの双子で、ペア内の差を使うと推計値はどうなりましたか。",
+      "options": [
+        "約11パーセントのまま変わらなかった",
+        "約12パーセントに上がった",
+        "約7.4パーセントになった",
+        "約6パーセントに下がった"
+      ],
+      "answer": 3,
+      "turns": [
+        "ch06-t060"
+      ],
+      "explanation": "実際に約6パーセントへ低下します。ただし、低下したという事実だけでは理由は分かりません。"
+    },
+    {
+      "type": "mc",
+      "question": "双子間の差をとると、回答誤差の問題が特に深刻になるのはなぜですか。",
+      "options": [
+        "家族間の本物のばらつきが取り除かれ、残る真の違いが小さくなる一方、回答の誤りは小さくならないから",
+        "引き算によって、一人ひとりの回答が不正確になるから",
+        "双子はわざと教育年数を多めに答えるから",
+        "双子のペアの数が少ないから"
+      ],
+      "answer": 0,
+      "turns": [
+        "ch06-t067",
+        "ch06-t068"
+      ],
+      "explanation": "残ったシグナルに対してノイズの比率が大きくなるためです。個々の回答の正確さが落ちたわけではありません。"
+    },
+    {
+      "type": "short",
+      "question": "生まれ四半期の操作変数で、1年あたり約7.4パーセントという数値はどのように計算されますか。",
+      "answer": "誘導形の週給の対数の差0.0068を、第一段階の教育年数の差0.0921で割ると約0.074になります。これに100を掛けると、1年あたり約7.4パーセントです。",
+      "turns": [
+        "ch06-t086",
+        "ch06-t087"
+      ]
+    },
+    {
+      "type": "mc",
+      "question": "児童労働法の研究で、7、8、9という数字は何を指していますか。",
+      "options": [
+        "学校に通い始めなければならなかった年齢",
+        "就労が許可されるまでに義務付けられていた教育年数",
+        "退学が認められた年齢",
+        "州ごとのトレンドの数"
+      ],
+      "answer": 1,
+      "turns": [
+        "ch06-t098"
+      ],
+      "explanation": "マップの「入学年齢」という呼び方は訂正が必要で、就労が許可されるまでに必要な教育年数を指します。"
+    },
+    {
+      "type": "mc",
+      "question": "テキサス州の研究で、テキストに示された卒業証書の効果の推計値と標準誤差はどれですか。",
+      "options": [
+        "推計値約630ドル、標準誤差52ドル",
+        "推計値約13,000ドル、標準誤差約630ドル",
+        "推計値52ドル、標準誤差約630ドル",
+        "推計値約40パーセントポイント、標準誤差52ドル"
+      ],
+      "answer": 2,
+      "turns": [
+        "ch06-t122",
+        "ch06-t123"
+      ],
+      "explanation": "推計値は52ドル、標準誤差は約630ドルです。約13,000ドルは平均年収、約40パーセントポイントは合格による卒業証書受領の跳びです。"
+    }
+  ],
+  "dictation": [
+    {
+      "turn": "ch06-t017"
+    },
+    {
+      "turn": "ch06-t101"
+    }
+  ],
+  "speaking": [
+    {
+      "prompt_ja": "双子の比較で推計値が下がったとき、「最も低い推計値が一番安全だ」と言えないのはなぜか、測定誤差という言葉を使って説明してください。",
+      "prompt_en": "Using the term measurement error, explain why the lowest twin estimate is not necessarily the safest.",
+      "expressions": [
+        {
+          "ja": "〜を取り除くことができます",
+          "en": "~ can be removed"
+        },
+        {
+          "ja": "一方で、〜",
+          "en": "on the other hand, ~"
+        },
+        {
+          "ja": "〜に向かって引っ張られます",
+          "en": "is pulled toward ~"
+        },
+        {
+          "ja": "〜からといって、〜とは限りません",
+          "en": "just because ~, it is not necessarily ~"
+        }
+      ],
+      "model_answer": "双子の比較では、遺伝子や育ちのようにペアで共有されている要因を取り除くことができます。一方で、双子は教育年数が似ているので、ペア内に残る本物の違いは小さくなります。回答の誤りはそれに合わせて小さくならないため、ノイズの割合が大きくなり、推計値はゼロに向かって引っ張られます。ですから、値が低いからといって、本当の因果効果に近いとは限りません。"
+    },
+    {
+      "prompt_ja": "生まれ四半期の操作変数がどのように教育年数を変えるのか、そしてその結果が誰についての効果なのかを説明してください。",
+      "prompt_en": "Explain how quarter of birth changes schooling, and whose effect the result describes.",
+      "expressions": [
+        {
+          "ja": "〜と〜を組み合わせて",
+          "en": "combining ~ and ~"
+        },
+        {
+          "ja": "〜までに",
+          "en": "by the time ~"
+        },
+        {
+          "ja": "〜に関する効果です",
+          "en": "it is an effect concerning ~"
+        },
+        {
+          "ja": "〜ではなく、〜です",
+          "en": "not ~ but ~"
+        }
+      ],
+      "model_answer": "アングリストとクルーガーは、学校の入学規則と義務教育の法律を組み合わせて利用しました。年の遅い時期に生まれた子どもは若い年齢で入学できたので、16歳で退学できる年齢になるまでに、より多くの教育を修了しました。この比較から分かるのは、すべての生徒に共通する収益ではなく、教育年数が変化した中退予備軍の人たちに関する局所的な効果です。"
+    },
+    {
+      "prompt_ja": "テキサス州の卒業試験の研究から「教育には価値がない」と結論づけられないのはなぜか、処置の違いと不確実性に触れながら説明してください。",
+      "prompt_en": "Explain why the Texas exit-exam study does not show that education is worthless, mentioning the difference in treatments and uncertainty.",
+      "expressions": [
+        {
+          "ja": "〜を混同しています",
+          "en": "it confuses ~"
+        },
+        {
+          "ja": "すでに〜を修了しています",
+          "en": "have already completed ~"
+        },
+        {
+          "ja": "〜の余地が残されています",
+          "en": "there is still room for ~"
+        },
+        {
+          "ja": "〜とは言えません",
+          "en": "we cannot say that ~"
+        }
+      ],
+      "model_answer": "その主張は異なる処置を混同しています。合格ライン付近の生徒たちは、すでに同じような授業を修了しているので、この研究が測っているのは資格そのものの効果で、もう1年授業を受ける効果ではありません。また、点推計値は52ドルと小さいものの、標準誤差は約630ドルと大きく、意味のある資格の恩恵がある余地も残されています。ですから、効果がゼロだとは言えません。"
+    }
+  ]
+}

@@ -1,0 +1,555 @@
+{
+  "chapter": 5,
+  "script_sha256": "030314a2e1592f2d877530a6e9e5a9ad7df315b7510630b81d5b685f3703cd63",
+  "goal_ja": "この課では、世界恐慌期の銀行救済と飲酒年齢の法律を例に、差の差法の考え方を日本語で聞きます。変化どうしを比べる計算と、平行トレンドという仮定を説明する表現をシャドーイングで身につけ、同じ内容をN1レベルの書き言葉で読み、最後に自分の言葉で説明します。",
+  "goal_en": "Hear difference-in-differences explained in Japanese through Depression-era bank rescues and drinking-age laws, shadow the language for comparing changes and stating parallel trends, read the same ideas in N1-level written Japanese, then explain them yourself.",
+  "vocab": [
+    {
+      "term": "融資",
+      "reading": "ゆうし",
+      "meaning": "loan; lending",
+      "level": "N1",
+      "kind": "economics",
+      "turn": "ch05-t001",
+      "example": "価値ある融資資産を持ちながらも、今日の預金引き出しに応じられない銀行を想像してみてください。"
+    },
+    {
+      "term": "切実",
+      "reading": "せつじつ",
+      "meaning": "pressing; acute",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t002",
+      "example": "その問いは、世界恐慌のさなかに切実な問題となりました。"
+    },
+    {
+      "term": "美談",
+      "reading": "びだん",
+      "meaning": "feel-good story; tale of a noble deed",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t005",
+      "example": "つまり、単なる救済の美談以上のものが必要なのですね。"
+    },
+    {
+      "term": "流動性",
+      "reading": "りゅうどうせい",
+      "meaning": "liquidity",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch05-t010",
+      "example": "その予測は流動性危機を的確にとらえています。"
+    },
+    {
+      "term": "取り付け騒ぎ",
+      "reading": "とりつけさわぎ",
+      "meaning": "bank run",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch05-t010",
+      "example": "不安が高まると、通常の引き出しが取り付け騒ぎへと発展しかねません。"
+    },
+    {
+      "term": "債務超過",
+      "reading": "さいむちょうか",
+      "meaning": "insolvency (debts exceed assets)",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch05-t010",
+      "example": "しかし、流動性の問題は、銀行の資産が負債をまかなえなくなる債務超過とは異なります。"
+    },
+    {
+      "term": "助長",
+      "reading": "じょちょう",
+      "meaning": "encouraging (something undesirable)",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t012",
+      "example": "その危険性はモラルハザードと呼ばれ、保護されることがリスクテイクを助長しかねません。"
+    },
+    {
+      "term": "管轄",
+      "reading": "かんかつ",
+      "meaning": "jurisdiction; being in charge of",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t014",
+      "example": "第6連邦準備地区はアトランタ連銀の管轄で、そこの指導者たちは危機に陥った銀行への融資に積極的でした。"
+    },
+    {
+      "term": "陥る",
+      "reading": "おちいる",
+      "meaning": "to fall into (a crisis, a trap)",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t014",
+      "example": "第6連邦準備地区はアトランタ連銀の管轄で、そこの指導者たちは危機に陥った銀行への融資に積極的でした。",
+      "surface": "陥っ"
+    },
+    {
+      "term": "妥当性",
+      "reading": "だとうせい",
+      "meaning": "validity; plausibility",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t016",
+      "example": "全く異なる状況にある遠く離れた地域同士を比べるよりも、共通の経済環境を仮定するほうが妥当性が高くなります。"
+    },
+    {
+      "term": "示唆",
+      "reading": "しさ",
+      "meaning": "suggestion; implication",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t026",
+      "example": "もし何もしなかった場合の変化が一致していたなら、5ポンド分の体重増加を抑えられたという効果が示唆されます。"
+    },
+    {
+      "term": "軌跡",
+      "reading": "きせき",
+      "meaning": "path; trajectory",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t030",
+      "example": "これは処置のない場合の別の可能性についての仮定であり、効果的な処置が行われた後に観察される軌跡が平行のままであるかどうかを指すのではありません。"
+    },
+    {
+      "term": "乖離",
+      "reading": "かいり",
+      "meaning": "divergence; gap",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t030",
+      "example": "効果が実際に発揮されれば、観察される軌跡は乖離していく可能性があります。"
+    },
+    {
+      "term": "相殺",
+      "reading": "そうさい",
+      "meaning": "offsetting; cancelling out",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t032",
+      "example": "水準の永続的な違いは相殺できますが、銀行数そのものの基底にあるトレンドの違いは相殺できません。"
+    },
+    {
+      "term": "裏付け",
+      "reading": "うらづけ",
+      "meaning": "backing; supporting evidence",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t034",
+      "example": "過去の動きが似ていることは裏付けの証拠にはなりますが、証明にはなりません。"
+    },
+    {
+      "term": "卸売業者",
+      "reading": "おろしうりぎょうしゃ",
+      "meaning": "wholesaler",
+      "level": "N1",
+      "kind": "economics",
+      "turn": "ch05-t046",
+      "example": "在庫資金を調達するために銀行融資に頼っていた卸売業者を検証しています。"
+    },
+    {
+      "term": "系列相関",
+      "reading": "けいれつそうかん",
+      "meaning": "serial correlation",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch05-t052",
+      "example": "その持続性は系列相関と呼ばれ、同一単位内の時間的に近い観察値同士は連動しやすい傾向があります。"
+    },
+    {
+      "term": "施行",
+      "reading": "しこう",
+      "meaning": "coming into force (of a law)",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t059",
+      "example": "さらに、法律は年の途中で施行されることもあります。"
+    },
+    {
+      "term": "揺らぐ",
+      "reading": "ゆらぐ",
+      "meaning": "to waver; to be shaken",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t067",
+      "example": "頑健性とは、分析方法を妥当な範囲で変更しても結論が揺らがないかどうかを確かめることです。",
+      "surface": "揺らが"
+    },
+    {
+      "term": "重み付け",
+      "reading": "おもみづけ",
+      "meaning": "weighting",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch05-t071",
+      "example": "次に人口による重み付けについてです。"
+    },
+    {
+      "term": "逸話",
+      "reading": "いつわ",
+      "meaning": "anecdote",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t083",
+      "example": "給水ポンプのハンドルを外した有名な逸話は知っています。"
+    },
+    {
+      "term": "覆い隠す",
+      "reading": "おおいかくす",
+      "meaning": "to cover up; to conceal",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t089",
+      "example": "もしアトランタのほうが少ない銀行数で始まっているなら、変化を引き算したところで、両地域が異なっているという事実を覆い隠しているに過ぎないのではないでしょうか。",
+      "surface": "覆い隠して"
+    },
+    {
+      "term": "身代わり",
+      "reading": "みがわり",
+      "meaning": "stand-in; substitute",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t093",
+      "example": "つまり説得力のある分析とは、なぜ対照群の変化が処置群の失われた変化の身代わりになり得るのかを説明すべきなのですね。"
+    },
+    {
+      "term": "研ぎ澄ます",
+      "reading": "とぎすます",
+      "meaning": "to sharpen; to hone",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t098",
+      "example": "優れた因果推論の研究は、あらゆる価値判断まで提供できるかのように装うことなく、意思決定のための証拠を研ぎ澄ましてくれるのです。",
+      "surface": "研ぎ澄まして"
+    },
+    {
+      "term": "細心",
+      "reading": "さいしん",
+      "meaning": "meticulous (care)",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch05-t101",
+      "example": "計算自体は短いものですが、その解釈を論証するには細心の注意が必要です。"
+    }
+  ],
+  "grammar": [
+    {
+      "pattern": "〜のさなか（に）",
+      "level": "N1",
+      "meaning_ja": "ある出来事がいちばん盛んに起きている、ちょうどその時に。「〜の最中に」の硬い言い方。",
+      "meaning_en": "'right in the middle of ~' (formal).",
+      "example": "その問いは、世界恐慌のさなかに切実な問題となりました。",
+      "source": "ch05-t002",
+      "extra": "金融危機のさなかに行われた緊急融資の効果は、平時のデータだけでは評価しにくい。",
+      "extra_en": "The effect of emergency lending carried out in the middle of a financial crisis is hard to assess with peacetime data alone."
+    },
+    {
+      "pattern": "〜をめぐる／〜をめぐって",
+      "level": "N2",
+      "meaning_ja": "「〜について（いろいろな意見や争いがある）」。議論・対立・問題の中心になっている事柄を示す。",
+      "meaning_en": "'surrounding / concerning ~' (a debate or issue).",
+      "example": "ただし、それらによってあらゆる交絡要因が排除されるわけではありませんし、飲酒年齢に関する法律をめぐる社会的なバランスのすべてが決定されるわけでもありません。",
+      "source": "ch05-t076",
+      "extra": "中央銀行の緊急融資をめぐって、経済学者の意見は分かれた。",
+      "extra_en": "Economists were divided over the central bank's emergency lending."
+    },
+    {
+      "pattern": "〜を機に",
+      "level": "N1",
+      "meaning_ja": "ある出来事をきっかけにして、新しいことが始まったり状況が変わったりすることを表す。",
+      "meaning_en": "'taking ~ as the occasion; triggered by ~'.",
+      "example": "1930年、コールドウェル商会の破綻を機に、アメリカ南部では信用不安が広がった。",
+      "source": "passage",
+      "extra": "銀行危機を機に、中央銀行による緊急融資の役割が改めて議論されるようになった。",
+      "extra_en": "The banking crisis became the occasion for renewed debate about the role of emergency lending by central banks."
+    },
+    {
+      "pattern": "〜にひきかえ",
+      "level": "N1",
+      "meaning_ja": "二つのものを比べて、正反対であることを強調する。「〜とは反対に」。書き言葉で、評価の違いを含むことが多い。",
+      "meaning_en": "'in contrast to ~; whereas ~' (written).",
+      "example": "アトランタ連銀の管轄する第6地区が危機に陥った銀行への融資に積極的であったのにひきかえ、セントルイス連銀の第8地区は融資を厳しく制限したのである。",
+      "source": "passage",
+      "extra": "処置群の死亡率が上がったのにひきかえ、対照群の死亡率はほとんど変わらなかった。",
+      "extra_en": "Whereas the death rate of the treatment group rose, that of the control group hardly changed."
+    },
+    {
+      "pattern": "〜であれ〜であれ",
+      "level": "N1",
+      "meaning_ja": "「〜でも〜でも、どの場合でも」。いくつかの例を挙げて、どれでも結果は同じだと言う。",
+      "meaning_en": "'whether ~ or ~; be it ~ or ~'.",
+      "example": "トレンドの追加であれ、人口による重み付けであれ、ビール税の統制であれ、主要な推定値は概ね同様であった。",
+      "source": "passage",
+      "extra": "銀行の数であれ企業の売上高であれ、結果をどの尺度で測るかは分析設計の一部である。",
+      "extra_en": "Whether it is the number of banks or firms' sales, the scale on which the outcome is measured is part of the design."
+    },
+    {
+      "pattern": "〜をおいて（ほかに）ない",
+      "level": "N1",
+      "meaning_ja": "「〜以外には考えられない」。それが唯一のものだと強く言う。「〜をおいてほかにいない／ない」の形が多い。",
+      "meaning_en": "'there is nothing (no one) other than ~'.",
+      "example": "差の差法の信頼性を支えるものは、その比較の妥当性を論証することをおいてほかにない。",
+      "source": "passage",
+      "extra": "この問いに答えられる比較は、境界線の両側の地区を比べることをおいてほかにない。",
+      "extra_en": "The only comparison that can answer this question is one between the districts on either side of the border."
+    }
+  ],
+  "passage": {
+    "title": "変化と変化を比べる",
+    "text": "1930年、コールドウェル商会の破綻を機に、アメリカ南部では信用不安が広がった。銀行は預金の多くを融資に回しているため、資産に価値があっても、預金者が一斉に引き出しを求めれば支払いに応じられなくなる。これが流動性危機である。ミシシッピ州では、境界線の両側で異なる方針がとられた。アトランタ連銀の管轄する第6地区が危機に陥った銀行への融資に積極的であったのにひきかえ、セントルイス連銀の第8地区は融資を厳しく制限したのである。\n\nでは、緩和的な融資は銀行を救ったのか。アトランタ地区の銀行は1930年の135行から翌年には121行へと14行減り、セントルイス地区は165行から132行へと33行減った。前後を比べるだけなら、アトランタの政策も失敗に見えかねない。しかし、両地区とも同じ不況の中にあった。そこで、処置群の変化から対照群の変化を差し引く。マイナス14からマイナス33を引けば、プラス19となる。言い換えれば、アトランタがセントルイスと同じだけ銀行を失っていたなら102行になっていたはずが、実際には121行が残ったということだ。これが差の差法の推定値だ。\n\nもっとも、この差を政策の効果と読めるのは、処置がなければ両地区の銀行数が同じだけ変化していたはずだという仮定、すなわち平行トレンドが成り立つ場合に限られる。初期の水準が異なること自体は問題ではない。問題となるのは、政策と同時にアトランタ地区だけを襲った別の衝撃や、処置前の行動の変化、対照群への波及効果である。過去の動きが似ていることは裏付けにはなるが、証明にはならない。しかも地区のクラスターは二つしかなく、回帰分析による約21行という推定値も、大きな不確実性を伴う示唆的な結果として扱うべきである。\n\n飲酒年齢の研究は、州と年の固定効果を用いて、同じ論理を多数の州に広げたものである。51の地域を1970年から1983年まで観察した分析では、法的に飲酒が認められることが、18歳から20歳の死亡率の上昇と関連しており、その大部分は交通事故死であった。トレンドの追加であれ、人口による重み付けであれ、ビール税の統制であれ、主要な推定値は概ね同様であった。とはいえ、固定効果もクラスター化も、法改正と同時に特定の州だけで起きた出来事までは取り除けない。差の差法の信頼性を支えるものは、その比較の妥当性を論証することをおいてほかにない。"
+  },
+  "passage_questions": [
+    {
+      "question": "第1段落の「これ」とは何を指すか。",
+      "options": [
+        "コールドウェル商会が破綻したこと",
+        "銀行の資産の価値が負債を下回ること",
+        "資産に価値があっても、預金者が一斉に引き出しを求めると支払いに応じられなくなること",
+        "連邦準備銀行が地区ごとに異なる方針をとったこと"
+      ],
+      "answer": 2,
+      "explanation": "直前の文で、資産に価値があっても一斉に引き出しを求められれば支払いに応じられなくなる、と述べている。資産が負債を下回るのは債務超過で、流動性危機とは別である。"
+    },
+    {
+      "question": "アトランタ地区の銀行数が減ったにもかかわらず、筆者が政策の効果をプラスと推定しているのはなぜか。",
+      "options": [
+        "同じ不況の中で、セントルイス地区のほうがより多くの銀行を失ったから",
+        "アトランタ地区の銀行は、もともと経営基盤が強かったから",
+        "アトランタ地区は、初期の銀行数がセントルイス地区より少なかったから",
+        "アトランタ地区では、破綻した銀行がすべて翌年に復活したから"
+      ],
+      "answer": 0,
+      "explanation": "アトランタ地区の減少は14行、セントルイス地区は33行である。処置群の変化から対照群の変化を引くとプラス19になる、というのが第2段落の論理である。"
+    },
+    {
+      "question": "第3段落で、推定を脅かすものとして挙げられていないものはどれか。",
+      "options": [
+        "政策と同時にアトランタ地区だけを襲った別の衝撃",
+        "処置前の行動の変化",
+        "対照群への波及効果",
+        "両地区の初期の銀行数が異なること"
+      ],
+      "answer": 3,
+      "explanation": "筆者は「初期の水準が異なること自体は問題ではない」と述べている。ほかの三つは「問題となるのは」として挙げられている。"
+    },
+    {
+      "question": "約21行という推定値について、本文の内容と合うものはどれか。",
+      "options": [
+        "政策の効果を確実に証明した",
+        "大きな不確実性を伴う示唆的な結果として扱うべきだ",
+        "信頼区間なので、そのまま救われた銀行の数と言える",
+        "過去の動きが似ていたので、因果効果として確定した"
+      ],
+      "answer": 1,
+      "explanation": "ミシシッピ州には地区のクラスターが二つしかないため、「大きな不確実性を伴う示唆的な結果として扱うべきである」とある。"
+    },
+    {
+      "question": "本文全体を通して、筆者が最も言いたいことは何か。",
+      "options": [
+        "固定効果とクラスター化を使えば、交絡の問題はすべて解決する",
+        "初期の水準が異なるグループは、因果比較には使えない",
+        "差の差法の信頼性は、その比較が妥当であることを論証できるかどうかにかかっている",
+        "飲酒年齢の研究は、銀行の研究よりも優れている"
+      ],
+      "answer": 2,
+      "explanation": "最後の文で、信頼性を支えるのは比較の妥当性を論証することだけだ、と述べている。固定効果やクラスター化では取り除けない出来事があることも指摘している。"
+    }
+  ],
+  "comprehension": [
+    {
+      "type": "mc",
+      "question": "健全に見える銀行が破綻しうるのは、なぜだと説明されていますか。",
+      "options": [
+        "銀行がすべての資金を現金のまま保管しているから",
+        "融資は後になって返済されるのに、預金者は今日にでも引き出しを求められるから",
+        "中央銀行が預金の引き出しを禁止したから",
+        "借り手のほとんどが融資を返済しないから"
+      ],
+      "answer": 1,
+      "turns": [
+        "ch05-t008",
+        "ch05-t009"
+      ],
+      "explanation": "融資の返済は後になるのに、預金者は今日にでも現金を求められます。この返済期日のズレが脆弱性を生みます。"
+    },
+    {
+      "type": "mc",
+      "question": "第8地区（セントルイス連銀の管轄）は、危機に対してどのような方針をとりましたか。",
+      "options": [
+        "危機に陥った銀行への融資に積極的だった",
+        "すべての銀行を無作為に選んで救済した",
+        "真正手形学説に従い、融資を厳しく制限した",
+        "第6地区と同じ方針をとった"
+      ],
+      "answer": 2,
+      "turns": [
+        "ch05-t014"
+      ],
+      "explanation": "アトランタ（第6地区）は融資に積極的で、セントルイス（第8地区）は真正手形学説に従って融資を厳しく制限しました。"
+    },
+    {
+      "type": "short",
+      "question": "平行トレンドの仮定では、対照群から何を借りてきますか。",
+      "answer": "対照群の最終的な銀行数ではなく、その変化量を借りてきます。両方の地域が同じ銀行数で始まったと言っているわけではありません。",
+      "turns": [
+        "ch05-t019"
+      ]
+    },
+    {
+      "type": "mc",
+      "question": "アトランタ地区がセントルイス地区と同じだけ銀行を失っていたとしたら、銀行数はいくつになっていたはずですか。",
+      "options": [
+        "121行",
+        "132行",
+        "135行",
+        "102行"
+      ],
+      "answer": 3,
+      "turns": [
+        "ch05-t036",
+        "ch05-t037",
+        "ch05-t039"
+      ],
+      "explanation": "135行から33行を引くと102行です。実際には121行が残ったので、差は19行になります。"
+    },
+    {
+      "type": "mc",
+      "question": "「およそ19行から23行の銀行が救われた」という幅は、何を表していますか。",
+      "options": [
+        "危機前の同じ基準時点を用いた年ごとの推定値をまとめたもの",
+        "統計的な信頼区間",
+        "二つの地区の初期の銀行数の差",
+        "1934年に新しく開業した銀行の数"
+      ],
+      "answer": 0,
+      "turns": [
+        "ch05-t041",
+        "ch05-t042"
+      ],
+      "explanation": "経済学者は、これは年ごとの推定値をまとめたものであり、信頼区間ではないと答えています。"
+    },
+    {
+      "type": "mc",
+      "question": "銀行の事例で、信頼性の高い推論が難しいのはなぜですか。",
+      "options": [
+        "観察した年数が少なすぎるから",
+        "独立した地区のクラスターが2つしかないから",
+        "回帰分析の推定値がマイナスだったから",
+        "銀行数ではなくパーセントで測ったから"
+      ],
+      "answer": 1,
+      "turns": [
+        "ch05-t053",
+        "ch05-t054"
+      ],
+      "explanation": "ミシシッピ州のデータには2つの地区クラスターしかなく、年数を重ねても独立した地区は増えません。"
+    },
+    {
+      "type": "mc",
+      "question": "完全な法的権利の下で、若者100,000人あたりの追加的な死亡のうち、自動車事故が占めるのはおよそ何人ですか。",
+      "options": [
+        "約8人から12人",
+        "約11人",
+        "約7人から8人",
+        "約19人から23人"
+      ],
+      "answer": 2,
+      "turns": [
+        "ch05-t062",
+        "ch05-t064"
+      ],
+      "explanation": "追加的な死亡は全体で約8人から12人（基準は約11人）で、そのうち自動車事故が約7人から8人を占めます。"
+    },
+    {
+      "type": "short",
+      "question": "ある州で飲酒の権利が拡大されたのと同時に交通安全キャンペーンが始まった場合、州効果・年効果・クラスター頑健標準誤差で二つの効果を切り離せますか。",
+      "answer": "自動的には切り離せません。キャンペーンは処置を受けた州だけに起きた新たな影響なので、より適切な比較対象や追加の信頼できる変動、キャンペーンへの統制変数が必要です。",
+      "turns": [
+        "ch05-t103",
+        "ch05-t105",
+        "ch05-t106"
+      ]
+    }
+  ],
+  "dictation": [
+    {
+      "turn": "ch05-t035"
+    },
+    {
+      "turn": "ch05-t021"
+    }
+  ],
+  "speaking": [
+    {
+      "prompt_ja": "ミシシッピ州の銀行数を使って、差の差法の計算と、その結果が何を意味するかを説明してください。",
+      "prompt_en": "Using Mississippi's bank counts, explain the difference-in-differences calculation and what its result means.",
+      "expressions": [
+        {
+          "ja": "まず、〜から〜を引きます",
+          "en": "first, subtract ~ from ~"
+        },
+        {
+          "ja": "次に、〜",
+          "en": "next, ~"
+        },
+        {
+          "ja": "もし〜だったら、〜はずです",
+          "en": "if ~ had happened, ~ would have ~"
+        },
+        {
+          "ja": "〜という仮定の下で",
+          "en": "under the assumption that ~"
+        }
+      ],
+      "model_answer": "まず、それぞれの地区で変化を求めます。アトランタ地区は135行から121行へ14行減り、セントルイス地区は165行から132行へ33行減りました。次に、処置群の変化から対照群の変化を引くと、プラス19行になります。もしアトランタがセントルイスと同じだけ失っていたら、102行になっていたはずです。処置がなかった場合のトレンドが平行だったという仮定の下で、これが救済効果の推定値です。"
+    },
+    {
+      "prompt_ja": "平行トレンドの仮定とは何か、また初期の水準が違うことがなぜそれだけでは問題にならないのかを説明してください。",
+      "prompt_en": "Explain what the parallel-trends assumption is, and why different starting levels are not by themselves a problem.",
+      "expressions": [
+        {
+          "ja": "〜とは、〜という仮定です",
+          "en": "X is the assumption that Y"
+        },
+        {
+          "ja": "〜を混同しないことが大切です",
+          "en": "it is important not to confuse ~"
+        },
+        {
+          "ja": "〜によって相殺できます",
+          "en": "can be cancelled out by ~"
+        },
+        {
+          "ja": "むしろ問題なのは〜です",
+          "en": "what matters instead is ~"
+        }
+      ],
+      "model_answer": "平行トレンドとは、もし処置がなかったら、処置群と対照群の平均的な変化は一致していたはずだという仮定です。観察された軌跡が平行かどうかではなく、処置のない場合の別の可能性についての仮定です。水準と変化を混同しないことが大切です。安定した初期の差は、各グループを時間の経過に沿って自分自身と比べることで相殺できます。むしろ問題なのは、処置群だけに起きた別の変化です。"
+    },
+    {
+      "prompt_ja": "固定効果とクラスター頑健標準誤差は、それぞれ何をしてくれて、何をしてくれないのかを、飲酒年齢の研究を例に説明してください。",
+      "prompt_en": "Using the drinking-age study, explain what fixed effects and clustered standard errors do, and what they do not do.",
+      "expressions": [
+        {
+          "ja": "〜を吸収します",
+          "en": "absorbs ~"
+        },
+        {
+          "ja": "〜を変えるだけで、〜は変えません",
+          "en": "only changes ~, not ~"
+        },
+        {
+          "ja": "たとえば、〜とします",
+          "en": "suppose, for example, that ~"
+        },
+        {
+          "ja": "〜までは取り除けません",
+          "en": "cannot remove even ~"
+        }
+      ],
+      "model_answer": "州の固定効果は、地方の州で交通事故死が多いといった安定した差を吸収します。年の固定効果は、安全な車の普及のような全国共通の変化を吸収します。クラスター頑健標準誤差は、州の中で観察値が相関することを考慮して不確実性の計算を変えるだけで、推定された効果は変えません。たとえば、法改正と同時にその州だけで交通安全キャンペーンが始まったとします。その場合、これらの調整ではキャンペーンの影響までは取り除けません。"
+    }
+  ]
+}
