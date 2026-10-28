@@ -99,6 +99,9 @@ def verify(browser, base):
         assert player.locator('.podcast-passages button > span:last-child').all_text_contents() == [s['text'] for s in data['segments']]
         assert player.locator('.podcast-action-link').nth(1).get_attribute('href') == state['episodes'][slug]['public_url']
         assert slug in player.locator('source').get_attribute('src')
+        lesson = ROOT / f'mindmaps-podcast/ja/study/{slug}.html'
+        lesson_links = player.locator(f'.podcast-action-link[href="mindmaps-podcast/ja/study/{slug}.html"]')
+        assert lesson_links.count() == (1 if lesson.exists() else 0)
         assert player.locator('.podcast-now').inner_text() == '現在：オープニング'
         player.locator('.podcast-play').click()
         expect(player.locator('.podcast-play')).to_have_attribute('aria-label', '一時停止')

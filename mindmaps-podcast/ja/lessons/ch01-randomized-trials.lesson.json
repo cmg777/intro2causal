@@ -1,0 +1,576 @@
+{
+  "chapter": 1,
+  "script_sha256": "44def82f894a146e0e54d74f73c28428076d20a53229d00ac09dd4fc618c449d",
+  "goal_ja": "この課では、医療保険と健康を例に、選択バイアスと無作為割り当ての考え方を日本語で聞きます。シャドーイングで因果関係を説明する表現を身につけ、同じ内容をN1レベルの書き言葉で読み、最後に自分の言葉で説明します。",
+  "goal_en": "Hear selection bias and random assignment explained in Japanese through health insurance, shadow the explanations, read the same ideas in N1-level written Japanese, then explain them yourself.",
+  "vocab": [
+    {
+      "term": "困窮",
+      "reading": "こんきゅう",
+      "meaning": "hardship; financial distress",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t002",
+      "example": "また、家計を経済的な困窮から守る役割もあります。"
+    },
+    {
+      "term": "手厚さ",
+      "reading": "てあつさ",
+      "meaning": "generosity (of coverage)",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t002",
+      "example": "ランド健康保険実験では、異なる手厚さの保険が検証されました。"
+    },
+    {
+      "term": "混同",
+      "reading": "こんどう",
+      "meaning": "confusing one thing with another",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t003",
+      "example": "すでに保険を持っている人の有利な条件と保険そのものの効果を混同せずに、研究者がどう答えを出すのかを知りたいです。"
+    },
+    {
+      "term": "慢性",
+      "reading": "まんせい",
+      "meaning": "chronic",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t008",
+      "example": "保険があれば予防医療が促されたり、慢性の病気をうまく管理できたりするかもしれません。"
+    },
+    {
+      "term": "仮説",
+      "reading": "かせつ",
+      "meaning": "hypothesis",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t008",
+      "example": "ただし、もっともらしい仕組みは出発点の仮説にすぎません。"
+    },
+    {
+      "term": "切り分ける",
+      "reading": "きりわける",
+      "meaning": "to separate out; to isolate",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t008",
+      "example": "その効果を他の説明と切り分ける証拠がまだ必要です。"
+    },
+    {
+      "term": "歪める",
+      "reading": "ゆがめる",
+      "meaning": "to distort",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t010",
+      "example": "どちらの選択も比較を歪めてしまいます。",
+      "surface": "歪め"
+    },
+    {
+      "term": "尺度",
+      "reading": "しゃくど",
+      "meaning": "scale; yardstick",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t011",
+      "example": "どのような人たちが比較され、1から5の尺度で何が健康と見なされたのでしょうか。"
+    },
+    {
+      "term": "自己申告",
+      "reading": "じこしんこく",
+      "meaning": "self-report",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t012",
+      "example": "これは順序のある自己申告の指標です。"
+    },
+    {
+      "term": "有業率",
+      "reading": "ゆうぎょうりつ",
+      "meaning": "employment rate (share with work)",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch01-t016",
+      "example": "保険加入者の回答者は、平均して年齢が高く、学歴が高く、より裕福で、有業率も高いのです。"
+    },
+    {
+      "term": "架空",
+      "reading": "かくう",
+      "meaning": "fictional; imaginary",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t026",
+      "example": "本書に出てくる架空の学生、クズダールとマリアを考えてみてください。"
+    },
+    {
+      "term": "符号",
+      "reading": "ふごう",
+      "meaning": "sign (plus or minus)",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch01-t028",
+      "example": "これは、観察される比較の符号を反転させてしまうほど大きくなることがあります。"
+    },
+    {
+      "term": "体系的",
+      "reading": "たいけいてき",
+      "meaning": "systematic",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t030",
+      "example": "より健康な人や裕福な人が体系的に保険を選ぶなら、標本を大きくしても同じ偏りのパターンが繰り返されるだけです。"
+    },
+    {
+      "term": "偏り",
+      "reading": "かたより",
+      "meaning": "bias; lopsidedness",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t030",
+      "example": "より健康な人や裕福な人が体系的に保険を選ぶなら、標本を大きくしても同じ偏りのパターンが繰り返されるだけです。"
+    },
+    {
+      "term": "切片",
+      "reading": "せっぺん",
+      "meaning": "intercept",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch01-t038",
+      "example": "切片とは、この変数が0のときの予測値です。"
+    },
+    {
+      "term": "係数",
+      "reading": "けいすう",
+      "meaning": "coefficient",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch01-t038",
+      "example": "保険の係数は、加入者の平均から未加入者の平均を引いた値です。"
+    },
+    {
+      "term": "最小二乗法",
+      "reading": "さいしょうにじょうほう",
+      "meaning": "ordinary least squares",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch01-t038",
+      "example": "この切片と指標変数だけで、最小二乗法という通常の回帰計算をすると、グループの平均値がそのまま再現されます。"
+    },
+    {
+      "term": "抽出",
+      "reading": "ちゅうしゅつ",
+      "meaning": "sampling; drawing (a sample)",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t040",
+      "example": "これらは調査の抽出確率で重み付けされた平均値です。"
+    },
+    {
+      "term": "期待値",
+      "reading": "きたいち",
+      "meaning": "expected value",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch01-t046",
+      "example": "割り当てを繰り返すと、処置群と対照群は期待値として同じ構成の人々を持つことになります。"
+    },
+    {
+      "term": "免責額",
+      "reading": "めんせきがく",
+      "meaning": "deductible",
+      "level": "超N1",
+      "kind": "economics",
+      "turn": "ch01-t054",
+      "example": "高額な医療費だけを主に保障する保険、免責額プラン、共同保険プラン、そして無料医療です。"
+    },
+    {
+      "term": "自己負担",
+      "reading": "じこふたん",
+      "meaning": "out-of-pocket payment",
+      "level": "N1",
+      "kind": "economics",
+      "turn": "ch01-t054",
+      "example": "共同保険とは、患者が請求額の一定割合を自己負担することを意味します。"
+    },
+    {
+      "term": "脱落",
+      "reading": "だつらく",
+      "meaning": "dropping out; attrition",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t060",
+      "example": "ランド実験では多くの参加者が脱落し、その脱落率はプランによって異なっていました。"
+    },
+    {
+      "term": "損なう",
+      "reading": "そこなう",
+      "meaning": "to impair; to undermine",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t060",
+      "example": "原著の章でも、これによって妥当性が損なわれた可能性があると警告しています。",
+      "surface": "損なわ"
+    },
+    {
+      "term": "裁量",
+      "reading": "さいりょう",
+      "meaning": "discretion",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t062",
+      "example": "このパターンは、外来受診については患者の裁量が大きいのに対し、入院の決定は医師が行うことが多いという事実と一致しています。"
+    },
+    {
+      "term": "救急外来",
+      "reading": "きゅうきゅうがいらい",
+      "meaning": "emergency department",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t074",
+      "example": "オレゴン州では、当選によって救急外来の利用を含む医療サービスの利用が増加しました。"
+    },
+    {
+      "term": "反比例",
+      "reading": "はんぴれい",
+      "meaning": "inverse proportion",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t082",
+      "example": "独立した観察データの場合、平均値の標準誤差はサンプルサイズの平方根に反比例して小さくなります。"
+    },
+    {
+      "term": "正当化",
+      "reading": "せいとうか",
+      "meaning": "justification; to justify",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t092",
+      "example": "その表現のままでは、どちらも正当化されません。"
+    },
+    {
+      "term": "短絡的",
+      "reading": "たんらくてき",
+      "meaning": "simplistic; jumping to conclusions",
+      "level": "N1",
+      "kind": "general",
+      "turn": "ch01-t095",
+      "example": "私たちはすでに、そうした短絡的な見方を疑うことを学びました。"
+    }
+  ],
+  "grammar": [
+    {
+      "pattern": "〜にとどまらない",
+      "level": "N1",
+      "meaning_ja": "ある範囲だけで終わらず、もっと広い範囲に及ぶことを表す。「〜だけではない」の硬い言い方。",
+      "meaning_en": "'is not limited to ~; goes beyond ~'.",
+      "example": "つまり、単に受診するかどうかという話にとどまらない疑問ですね。",
+      "source": "ch01-t003",
+      "extra": "無作為割り当ての考え方は、医療の研究にとどまらず、教育や労働の政策評価にも広く使われている。",
+      "extra_en": "The idea of random assignment is not limited to medical research; it is widely used to evaluate education and labor policies too."
+    },
+    {
+      "pattern": "〜にすぎない",
+      "level": "N2",
+      "meaning_ja": "「ただ〜であるだけで、それ以上ではない」と、程度が小さいことを強調する。",
+      "meaning_en": "'is merely ~; is nothing more than ~'.",
+      "example": "ただし、もっともらしい仕組みは出発点の仮説にすぎません。",
+      "source": "ch01-t008",
+      "extra": "回帰で得られた係数は、それだけでは二つのグループの関連を示すにすぎない。",
+      "extra_en": "By itself, a coefficient from a regression merely shows an association between two groups."
+    },
+    {
+      "pattern": "〜をもって",
+      "level": "N1",
+      "meaning_ja": "判断や行動の根拠・手段を表す硬い言い方。「〜を根拠にして」「〜によって」。",
+      "meaning_en": "'on the basis of ~; by means of ~' (formal).",
+      "example": "後者は、特定の平均的な結果をもって、保険のあらゆる恩恵に関する判断にすり替えてしまっています。",
+      "source": "ch01-t092",
+      "extra": "一度の小さな実験の結果をもって、政策全体の効果を判断するのは早すぎる。",
+      "extra_en": "It is too early to judge the effect of a whole policy on the basis of one small experiment."
+    },
+    {
+      "pattern": "〜べくもない",
+      "level": "N1",
+      "meaning_ja": "「〜することは、とてもできない」「〜するはずがない」。望んでも実現しないことを表す書き言葉。「望むべくもない」「知るべくもない」の形が多い。",
+      "meaning_en": "'there is no way one could ~' (written).",
+      "example": "だが、一人の人間について両方の潜在的な結果を観察することは望むべくもない。",
+      "source": "passage",
+      "extra": "調査のデータだけでは、加入者が保険なしでどうなっていたかを知るべくもない。",
+      "extra_en": "From survey data alone, there is no way to know what would have happened to the insured without insurance."
+    },
+    {
+      "pattern": "〜いかんにかかわらず",
+      "level": "N1",
+      "meaning_ja": "「〜がどうであっても関係なく」。名詞＋（の）いかんにかかわらず の形で、書き言葉や公式の文で使う。",
+      "meaning_en": "'regardless of ~' (formal).",
+      "example": "偶然によって処置を決めれば、所得や学歴のいかんにかかわらず、対象者は誰もがあらかじめ決められた確率で処置を受ける。",
+      "source": "passage",
+      "extra": "くじの結果のいかんにかかわらず、申し込んだ人は全員、追跡調査の対象になる。",
+      "extra_en": "Regardless of the lottery result, everyone who applied is included in the follow-up survey."
+    },
+    {
+      "pattern": "〜に即して",
+      "level": "N1",
+      "meaning_ja": "「〜にぴったり合わせて」「〜から離れずに」。事実や規則、具体的な内容に基づいて考えるときに使う。",
+      "meaning_en": "'in line with ~; in accordance with (the actual) ~'.",
+      "example": "もっとも、こうした結果は、割り当てられた介入の中身に即して解釈しなければならない。",
+      "source": "passage",
+      "extra": "推計の結果は、実際に比べたグループに即して説明する必要がある。",
+      "extra_en": "Estimation results need to be explained in line with the groups actually compared."
+    }
+  ],
+  "passage": {
+    "title": "偶然が比較を公平にする",
+    "text": "保険に加入している人ほど、自分の健康状態が良好だと答える傾向がある。アメリカの全国健康聞き取り調査によれば、保険に加入している夫の健康スコアの平均は4.01であり、未加入の夫の3.70を0.31ポイント上回る。しかし、この差をそのまま保険の効果とみなすことはできない。加入者は平均して年齢も学歴も所得も高く、保険がなくても健康であった可能性があるからだ。観察される差は、保険の効果と、二つのグループのもともとの違い、すなわち選択バイアスとを足し合わせたものなのである。\n\n理想を言えば、同じ人が保険に入った場合と入らなかった場合の健康を比べたい。だが、一人の人間について両方の潜在的な結果を観察することは望むべくもない。実際には起きなかったほうの結果、つまり反実仮想は、ほかの人の結果で代用するしかないのである。問題は、その代役がどれほど信頼できるかにある。学歴をそろえて比べたとしても、所得や健康習慣、記録されない特徴まで等しくなる保証はない。標本を大きくすれば偶然のばらつきは小さくなるが、体系的な偏りは手つかずのまま残る。\n\nそこで登場するのが無作為割り当てである。偶然によって処置を決めれば、所得や学歴のいかんにかかわらず、対象者は誰もがあらかじめ決められた確率で処置を受ける。その結果、処置群と対照群は、測定されていない特徴も含めて、平均として同等になる。1974年から1982年まで約4,000人が参加したランド健康保険実験では、無料医療のグループで受診回数が約1.7回増え、総医療費は約45パーセント増加した。それにもかかわらず、測定された身体的健康には、平均してほとんど改善が見られなかった。\n\nもっとも、こうした結果は、割り当てられた介入の中身に即して解釈しなければならない。ランド実験の対照群は無保険ではなく、高額な医療費だけを主に保障する保険を持っていた。2008年のオレゴン州のくじ引きでは、当選によってメディケイドの受給率が約26パーセントポイント上がったが、当選者と落選者の比較から分かるのは、保険そのものではなく申請する機会の効果である。しかも、オレゴン州の事例は、医療関連の借金の減少を示し、メンタルヘルスの改善も示唆した。身体的健康だけを見て保険の価値を論じるのは、短絡的と言わざるを得ない。"
+  },
+  "passage_questions": [
+    {
+      "question": "筆者によると、調査で見られた0.31ポイントの差は何を表しているか。",
+      "options": [
+        "保険の効果だけ",
+        "保険の効果と選択バイアスを足し合わせたもの",
+        "選択バイアスだけ",
+        "調査の測定の誤り"
+      ],
+      "answer": 1,
+      "explanation": "第1段落の最後に、観察される差は「保険の効果と、二つのグループのもともとの違い、すなわち選択バイアスとを足し合わせたもの」だとある。"
+    },
+    {
+      "question": "「その代役」とは何を指すか。",
+      "options": [
+        "保険に加入した人自身の健康",
+        "学歴をそろえて比べる方法",
+        "観察されなかった結果の代わりに使う、ほかの人の結果",
+        "大きな標本"
+      ],
+      "answer": 2,
+      "explanation": "直前の文で、反実仮想は「ほかの人の結果で代用するしかない」と述べている。その代わりに使う結果が「代役」である。"
+    },
+    {
+      "question": "第2段落によると、標本を大きくしても解決しないのはどれか。",
+      "options": [
+        "体系的な偏り",
+        "偶然のばらつき",
+        "推計値の計算の手間",
+        "調査に答える人の数"
+      ],
+      "answer": 0,
+      "explanation": "「標本を大きくすれば偶然のばらつきは小さくなるが、体系的な偏りは手つかずのまま残る」とある。"
+    },
+    {
+      "question": "ランド健康保険実験について、本文の内容と合うものはどれか。",
+      "options": [
+        "対照群には保険がまったくなかった",
+        "無料医療によって、身体的健康が大きく改善した",
+        "受診回数は増えたが、総医療費は変わらなかった",
+        "医療の利用は増えたが、測定された身体的健康は平均してほとんど改善しなかった"
+      ],
+      "answer": 3,
+      "explanation": "第3段落で受診回数と総医療費の増加を述べたあと、「身体的健康には、平均してほとんど改善が見られなかった」としている。対照群は無保険ではない（第4段落）。"
+    },
+    {
+      "question": "最終段落で、筆者が最も言いたいことは何か。",
+      "options": [
+        "オレゴン州のくじ引きは、ランド実験よりも優れた実験である",
+        "結果は介入の中身に即して解釈し、身体的健康以外の結果にも目を向けるべきだ",
+        "くじ引きを使えば、保険そのものの効果がそのまま分かる",
+        "無作為割り当てを使えば、どんな問いにも答えられる"
+      ],
+      "answer": 1,
+      "explanation": "対照群の中身や「申請する機会」という処置の違いを確認し、借金やメンタルヘルスを見ずに保険の価値を論じるのは短絡的だ、と述べている。"
+    }
+  ],
+  "comprehension": [
+    {
+      "type": "mc",
+      "question": "夫の比較で、保険の加入者と未加入者の健康スコアの平均はいくつでしたか。",
+      "options": [
+        "4.01と3.70",
+        "4.02と3.62",
+        "3.70と4.01",
+        "4.01と3.62"
+      ],
+      "answer": 0,
+      "turns": [
+        "ch01-t014"
+      ],
+      "explanation": "夫は加入者4.01、未加入者3.70です。4.02と3.62は妻の比較で、別々に扱う必要があります。"
+    },
+    {
+      "type": "mc",
+      "question": "クズダールとマリアの架空の例は、何を示していますか。",
+      "options": [
+        "保険がクズダールの健康を悪くしたこと",
+        "選択バイアスが大きいと、観察される比較の符号が反転することがあること",
+        "マリアは保険に入ったので健康だったこと",
+        "大きな標本では選択バイアスが消えること"
+      ],
+      "answer": 1,
+      "turns": [
+        "ch01-t026",
+        "ch01-t028"
+      ],
+      "explanation": "保険はクズダールを助けているのに、もともとの不利な条件のせいで、観察される比較では保険が害であるかのように見えることがあります。"
+    },
+    {
+      "type": "short",
+      "question": "保険のダミー変数だけで回帰したとき、切片と保険の係数はそれぞれ何を表しますか。",
+      "answer": "切片は未加入グループの平均健康度で、保険の係数は加入者の平均から未加入者の平均を引いた値です。",
+      "turns": [
+        "ch01-t038"
+      ]
+    },
+    {
+      "type": "mc",
+      "question": "無作為割り当てがもたらすものとして、正しいものはどれですか。",
+      "options": [
+        "一人ひとりの個人を同一にする",
+        "小さな標本でも、必ず同じグループを作る",
+        "測定されていない特徴も含めて、グループを平均として同等にする",
+        "研究の外にいる人たちにも、そのまま結果を当てはめられるようにする"
+      ],
+      "answer": 2,
+      "turns": [
+        "ch01-t046",
+        "ch01-t048"
+      ],
+      "explanation": "無作為割り当ては個人を同一にするのではなく、グループを平均として同等にします。小さな標本では偶然の不均衡も起こりえます。"
+    },
+    {
+      "type": "mc",
+      "question": "ランド実験で対照群になったのは、どのプランでしたか。",
+      "options": [
+        "保険がまったくない状態",
+        "免責額プラン",
+        "無料医療",
+        "高額な医療費だけを主に保障する保険"
+      ],
+      "answer": 3,
+      "turns": [
+        "ch01-t054"
+      ],
+      "explanation": "対照群は、高額な医療費だけを主に保障する保険でした。無保険ではなく、最低限の保障に近いものです。"
+    },
+    {
+      "type": "mc",
+      "question": "無料医療は、医療の利用をどう変えましたか。",
+      "options": [
+        "受診回数が約1.7回増え、総医療費が約45パーセント増えた",
+        "受診回数が約45回増えた",
+        "総医療費が約1.7倍になったが、受診回数は変わらなかった",
+        "入院のほうが外来よりも強く反応した"
+      ],
+      "answer": 0,
+      "turns": [
+        "ch01-t062"
+      ],
+      "explanation": "受診回数は約1.7回、総医療費は約45パーセント増えました。外来のほうが入院より強く反応しました。"
+    },
+    {
+      "type": "mc",
+      "question": "オレゴン州のくじ引きで、当選者のうちメディケイドを受給していたのは約何パーセントでしたか。",
+      "options": [
+        "約14パーセント",
+        "約25パーセント",
+        "約26パーセント",
+        "約40パーセント"
+      ],
+      "answer": 3,
+      "turns": [
+        "ch01-t069",
+        "ch01-t070"
+      ],
+      "explanation": "落選者の約14パーセントに、当選による約26パーセントポイントが加わり、約40パーセントになります。26は増えた分です。"
+    },
+    {
+      "type": "short",
+      "question": "「統計的に有意な効果がないなら、効果はない」という主張を、どう修正すればよいですか。",
+      "answer": "信頼区間がどれくらい広く、どのような大きさの効果がまだありうるかを問います。ゼロに近い推計値でも、ばらつきが大きければ言えることはずっと少ないからです。",
+      "turns": [
+        "ch01-t095",
+        "ch01-t096"
+      ]
+    }
+  ],
+  "dictation": [
+    {
+      "turn": "ch01-t021"
+    },
+    {
+      "turn": "ch01-t085"
+    }
+  ],
+  "speaking": [
+    {
+      "prompt_ja": "潜在的な結果と選択バイアスという言葉を使って、保険の加入者と未加入者を単純に比べても、保険の効果が分からない理由を説明してください。",
+      "prompt_en": "Using potential outcomes and selection bias, explain why simply comparing insured and uninsured people does not reveal the effect of insurance.",
+      "expressions": [
+        {
+          "ja": "〜とは、〜のことです",
+          "en": "X refers to Y"
+        },
+        {
+          "ja": "片方しか〜できません",
+          "en": "we can only ~ one of them"
+        },
+        {
+          "ja": "〜かもしれません",
+          "en": "it may be that ~"
+        },
+        {
+          "ja": "つまり、〜ということです",
+          "en": "in other words, ~"
+        }
+      ],
+      "model_answer": "潜在的な結果とは、同じ人が保険に入った場合と入らなかった場合の、それぞれの健康のことです。知りたいのはその差ですが、実際には片方しか観察できません。調査で加入者と未加入者を比べると、加入者は平均して学歴や所得が高く、保険がなくても健康だったかもしれません。この初めからの違いが選択バイアスです。つまり、観察された差には、保険の効果と選択バイアスが混ざっているということです。"
+    },
+    {
+      "prompt_ja": "無作為割り当てによって選択バイアスがなくなるのはなぜか、また標本が小さいときに何に注意すべきかを説明してください。",
+      "prompt_en": "Explain why random assignment removes selection bias, and what to watch for when the sample is small.",
+      "expressions": [
+        {
+          "ja": "〜を考えずに",
+          "en": "without taking ~ into account"
+        },
+        {
+          "ja": "そのため、〜",
+          "en": "therefore, ~"
+        },
+        {
+          "ja": "ただし、〜",
+          "en": "however, ~"
+        },
+        {
+          "ja": "〜ほど、〜",
+          "en": "the more ~, the more ~"
+        }
+      ],
+      "model_answer": "無作為割り当てでは、所得や学歴、隠れた健康の見込みを考えずに、偶然で処置を決めます。そのため、処置群と対照群は、測定されていない特徴も含めて、平均として同じ構成になります。ですから、処置を受けない場合の健康の期待値も等しくなり、体系的な選択バイアスはなくなります。ただし、標本が小さいと、偶然で健康な人が一方に偏ることがあります。グループが大きくなるほど、そうした偶然の差は重要ではなくなります。"
+    },
+    {
+      "prompt_ja": "オレゴン州のメディケイドくじで当選者と落選者を比べると何が分かるのか、ITT効果という言葉を使って説明してください。",
+      "prompt_en": "Using the term ITT effect, explain what comparing winners and losers of the Oregon Medicaid lottery tells us.",
+      "expressions": [
+        {
+          "ja": "〜ので、〜で選びました",
+          "en": "because ~, they chose by ~"
+        },
+        {
+          "ja": "〜ではなく、〜です",
+          "en": "it is not ~ but ~"
+        },
+        {
+          "ja": "〜が再び入り込んでしまいます",
+          "en": "~ creeps back in"
+        },
+        {
+          "ja": "〜によって〜が上がりました",
+          "en": "~ raised ~"
+        }
+      ],
+      "model_answer": "オレゴン州では、保険でカバーできる人数より多くの人が登録したので、くじ引きで保険に申請できる人を選びました。当選者と落選者を比べると、意図した処置の効果、つまりITT効果が分かります。これは保険そのものではなく、申請する機会の効果です。落選者の約14パーセントも別の経路でメディケイドを受けていて、当選によって受給率は約26パーセントポイント上がりました。実際に加入した人だけを比べると、本人の選択が再び入り込んでしまいます。"
+    }
+  ]
+}

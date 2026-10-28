@@ -77,14 +77,18 @@ def main():
         remote = state.get('episodes', {}).get(episode['id'], {}).get('public_url')
         spotify = f'<p><a href="{html.escape(remote,quote=True)}">Spotifyで聴く</a></p>' if remote else ''
         spelling_note = html.escape(data.get('english_term_spelling_note', ''))
+        # chapters with a language lesson (built by the local write-japanese-lesson skill) link to it
+        has_lesson = (DEST / 'study' / (episode['id'] + '.html')).exists()
+        lesson = f' · <a href="../study/{episode["id"]}.html">日本語レッスン（N2→N1）</a>' if has_lesson else ''
         body = ('<p class="note">独立した学習補助番組のオリジナル原稿に基づくAI音声です。'
                 '音声認識を使って原稿と照合しています。表示時刻は近似です。' + spelling_note + '</p>' + spotify +
                 f'<p><a href="{episode["id"]}.txt">日本語テキストを開く</a> · '
-                '<a href="../glossary.html">専門用語の日英対訳・読み方</a></p>' +
+                '<a href="../glossary.html">専門用語の日英対訳・読み方</a>' + lesson + '</p>' +
                 f'<nav aria-label="この章の目次"><ul>{contents}</ul></nav><article aria-label="文字起こし">' +
                 '\n'.join(passages) + '</article>')
         source.with_suffix('.html').write_text(page(episode['title'], body, depth=1))
-        items.append(f'<li><a href="transcripts/{episode["id"]}.html">{html.escape(episode["title"])}</a></li>')
+        lesson_item = f' · <a href="study/{episode["id"]}.html">日本語レッスン（N2→N1）</a>' if has_lesson else ''
+        items.append(f'<li><a href="transcripts/{episode["id"]}.html">{html.escape(episode["title"])}</a>{lesson_item}</li>')
     glossary_body = ['<p>専門用語の読み方、英語表現、やさしい日本語での説明です。</p>']
     for term in glossary:
         glossary_body.append(f'<section class="glossary-term"><h2>{html.escape(term["term"])}</h2>'

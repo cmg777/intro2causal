@@ -1,0 +1,895 @@
+{
+  "chapter": 1,
+  "slug": "ch01-randomized-trials",
+  "script_sha256": "44def82f894a146e0e54d74f73c28428076d20a53229d00ac09dd4fc618c449d",
+  "passages": [
+    {
+      "id": "ch01-t001",
+      "speaker": "HOST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "おかえりなさい。今回は、無作為割り当て実験と医療保険を扱います。保険に入っている人は、健康状態が良好だと答える傾向があります。これは保険の適用範囲を広げる強い根拠のように思えますね。しかし、その差は保険に入る前からすでに存在していたのではないでしょうか。",
+      "en": "Welcome back. Today we are on randomized trials and health insurance. People with insurance often report better health. That sounds like a strong argument for expanding coverage. But could the difference have existed before anyone bought a policy?"
+    },
+    {
+      "id": "ch01-t002",
+      "speaker": "ECONOMIST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "その問いはとても重要です。保険は病院での請求額を変えるだけではありません。医療を受けるときに支払う価格も変えます。また、家計を経済的な困窮から守る役割もあります。ランド健康保険実験では、異なる手厚さの保険が検証されました。無料の医療を提供された人は、より多く医療サービスを利用しました。それにもかかわらず、平均的な身体的健康の改善は驚くほど限られていました。その後、オレゴン州でもくじ引きを通じて保険を研究する別の機会がありました。",
+      "en": "That question matters because insurance changes more than a hospital bill. It changes the price people pay when they seek care. It can also protect a household from financial trouble. The RAND experiment tested different levels of coverage. People offered free care used more services. Yet the average physical health improvements were surprisingly limited. Oregon later offered another chance to study insurance through a lottery."
+    },
+    {
+      "id": "ch01-t003",
+      "speaker": "HOST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "つまり、単に受診するかどうかという話にとどまらない疑問ですね。医療保険は人をより健康にするのでしょうか。すでに保険を持っている人の有利な条件と保険そのものの効果を混同せずに、研究者がどう答えを出すのかを知りたいです。",
+      "en": "So the puzzle is bigger than whether people visit a doctor. Does health insurance make people healthier? I want to understand how researchers can answer that without confusing insurance with the advantages of people who already have it."
+    },
+    {
+      "id": "ch01-t004",
+      "speaker": "ECONOMIST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "このエピソードを聴き終わるころには、潜在的な結果を使って選択バイアスを説明できるようになっているはずです。また、なぜ無作為割り当てによって比較の信頼性が高まるのかも説明できるようになります。そして最後に、保険の実験を統計的な不確実性とあわせて解釈できるようになるでしょう。私たちはマインドマップに沿って、「問い」「検証」「結論」の順に進めていきます。図が手元になくても、推論の流れはしっかり追えますよ。",
+      "en": "By the end of this episode, you should be able to explain selection bias using potential outcomes. You should also explain why random assignment makes a comparison credible. Finally, you should interpret insurance experiments together with their statistical uncertainty. We will follow the mind map through The Question, The Investigation, and The Resolution. No diagram is needed to follow the reasoning."
+    },
+    {
+      "id": "ch01-t005",
+      "speaker": "HOST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "そして、その比較が実際に何を測っているのかを常に問い続けます。保険の提供を受けること、実際に保険に加入すること、医師の診察を受けること、そして健康になることは、関係があるように思えます。しかし、これらはすべて異なる事柄ですね。",
+      "en": "And we will keep asking what the comparison actually measures. An offer of insurance, receiving insurance, visiting a doctor, and becoming healthier sound related. They are still different things."
+    },
+    {
+      "id": "ch01-t006",
+      "speaker": "ECONOMIST",
+      "section_ja": "オープニング",
+      "section_en": "Opening",
+      "ja": "その通りです。それらの違いを明確に保つことこそが、私たちが実践する中心的な習慣です。まずは通常の調査による比較から始めましょう。その上で、因果関係の問いに答えられるように比較を組み立て直していきます。",
+      "en": "Exactly. Keeping those differences clear is the central habit we will practice. We will begin with an ordinary survey comparison. Then we will rebuild that comparison so that it can answer a causal question."
+    },
+    {
+      "id": "ch01-t007",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "それでは「問い」から始めましょう。中心となる課題は、医療保険と健康です。なぜ、保険に入っている人と入っていない人の比較が、魅力的な出発点になるのでしょうか。",
+      "en": "Let's start with The Question. The central challenge is health insurance and health. Why is a comparison between insured and uninsured people such an attractive starting point?"
+    },
+    {
+      "id": "ch01-t008",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "政策によって変えられる比較を求めたいからです。本書で描かれる米国の状況では、医療費が高額であるにもかかわらず、多くの人が無保険でした。保険があれば予防医療が促されたり、慢性の病気をうまく管理できたりするかもしれません。これらは健康改善を期待するもっともらしい理由です。ただし、もっともらしい仕組みは出発点の仮説にすぎません。その効果を他の説明と切り分ける証拠がまだ必要です。",
+      "en": "We want a comparison that policy can change. In the American setting described in the chapter, health spending was high, yet many people lacked coverage. Insurance might encourage preventive care or help people manage long illnesses. Those are plausible reasons to expect better health. But a plausible mechanism is a starting hypothesis. We still need evidence that separates its effect from other explanations."
+    },
+    {
+      "id": "ch01-t009",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "私の予想では、調査では保険に入っている人のほうが健康に見えると思います。医療費の支払いを助けてもらえるのですから、そうなりそうですね。それによって、少なくとも効果の方向性は確かめられるのでしょうか。",
+      "en": "My prediction is that insured people will look healthier in a survey. They have help paying for care, so that seems likely. Would that at least establish the direction of the effect?"
+    },
+    {
+      "id": "ch01-t010",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "調査では確かに、保険加入者のほうが主観的健康感が良いという結果が出ます。しかし、その傾向だけでは因果効果の方向性さえ確定できません。保険を持っている人は、最初から健康だったのかもしれません。あるいは逆に、費用のかかる病気にかかりそうな人が保険を求める場合もあります。どちらの選択も比較を歪めてしまいます。同じ人が異なる保険の条件のもとで何を経験したかを考える必要があります。",
+      "en": "The survey does show better reported health among the insured. But that pattern alone cannot establish even the direction of the causal effect. The people who have coverage might have started healthier. Alternatively, people expecting expensive illnesses might seek more insurance. Either kind of selection changes the comparison. We need to ask what the same people would have experienced under a different insurance arrangement."
+    },
+    {
+      "id": "ch01-t011",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "その単純な調査のデータについて正確に確認しましょう。どのような人たちが比較され、1から5の尺度で何が健康と見なされたのでしょうか。華々しい平均値を完全な健康診断のように扱うよりは、控えめな尺度でも正しく理解したいです。",
+      "en": "Let's be precise about the naive survey evidence. Which people were compared, and what counted as health on that 1 to 5 scale? I would rather understand a modest measure properly than treat an impressive average as a complete medical assessment."
+    },
+    {
+      "id": "ch01-t012",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "アメリカの全国健康聞き取り調査、NHISでは、一般的な健康状態を尋ねています。本書では、2009年の有配偶者の回答者で、年齢が26歳から59歳、かつ少なくとも夫婦のどちらか一方が働いている人を対象にしています。この尺度は、最低スコアの「健康状態が悪い」から最高スコアの「非常に優れている」まであります。したがって、スコアが高いほど報告された健康状態が良いことを意味します。これは順序のある自己申告の指標です。有用ではありますが、検査値や医師による診察とは異なります。",
+      "en": "The National Health Interview Survey, or NHIS, asks people to describe their general health. The chapter uses married respondents from 2009, aged 26 to 59, with at least one spouse working. The scale runs from poor health at its lowest score to excellent health at its highest. Higher scores therefore mean better reported health. This is an ordered self-report measure. It is useful, but it is different from a laboratory test or a doctor's examination."
+    },
+    {
+      "id": "ch01-t013",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "教科書の補助教材では、プラスの差分がまとめられています。そのまとめと、元の分析における厳密な比較を区別する必要はありますか。",
+      "en": "The chapter's companion materials summarize a positive gap. Do we need to distinguish that summary from the exact comparisons in the original analysis?"
+    },
+    {
+      "id": "ch01-t014",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "はい。元の分析では、夫と妻を別々に報告しています。夫の場合、加入者の平均は4.01で、未加入者の平均は3.70です。妻の場合、対応する平均は4.02と3.62です。これらは別々の比較です。あるグループの平均ともう一つのグループの平均を混ぜたり、別の要約値を同じ推計値として扱ったりしてはいけません。",
+      "en": "Yes. The original analysis reports husbands and wives separately. Among husbands, the insured mean is 4.01 and the uninsured mean is 3.70. Among wives, the corresponding means are 4.02 and 3.62. Those are separate comparisons. We should not combine a mean from one group with a mean from another, or treat a different summary as the same estimate."
+    },
+    {
+      "id": "ch01-t015",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "保険のおかげだと結論づける前に、それらのグループの間で他に何が違うのでしょうか。人は普通、コイントスで保険に入るわけではありません。雇用や家族の状況もおそらく関係してきますよね。",
+      "en": "Before I give insurance the credit, what else differs between those groups? People do not normally receive insurance through a coin toss. Their employment and family situations probably matter."
+    },
+    {
+      "id": "ch01-t016",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "まさにそこが難しい点です。保険加入者の回答者は、平均して年齢が高く、学歴が高く、より裕福で、有業率も高いのです。教育水準や所得は、保険の加入状況と健康の両方に影響を与え得ます。例えば、教育は雇用機会だけでなく健康習慣にも影響を与えるかもしれません。調査による比較には、こうした違いがすべて混ざり合っています。大規模な標本を使えば、その合算された差を正確に測ることはできますが、そのうちのどこまでが保険によるものかは教えてくれません。",
+      "en": "That is the difficulty. The insured respondents are older on average, more educated, richer, and more often employed. Education and income can influence both insurance coverage and health. For example, education may affect health habits as well as employment opportunities. The survey comparison contains all these differences together. A large sample can measure that combined gap precisely without telling us which part insurance caused."
+    },
+    {
+      "id": "ch01-t017",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "見つからない比較を表すために、いくつか用語を整理する必要がありますね。結果、処置、そして潜在的な結果とは正確には何ですか。この問題に対して、言葉が少し医学的すぎるようにも聞こえます。",
+      "en": "We need some vocabulary for the missing comparison. What exactly is an outcome, what is a treatment, and what is a potential outcome? The words sound more medical than the problem requires."
+    },
+    {
+      "id": "ch01-t018",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "結果とは、報告された健康状態のように、私たちが研究する対象のことです。処置とは、特定の保険プランなど、その効果を調べたい条件を指します。薬である必要はありません。潜在的な結果とは、ある特定の処置条件のもとで、その人に何が起きるかを表したものです。私たちの問いで言えば、他の条件が同じである場合に、保険があるときのその人の健康と、保険がないときのその人の健康を想像してみてください。",
+      "en": "An outcome is the result we study, such as reported health. A treatment is the condition whose effect we want, such as a specified insurance policy. It need not be a medicine. A potential outcome is what would happen to a person under a particular treatment condition. For our question, imagine that person's health with coverage and that person's health without coverage, in otherwise comparable circumstances."
+    },
+    {
+      "id": "ch01-t019",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "つまり処置効果とは、同じ人物における2つの起こりうる結果を比べるものなのですね。最初から異なる人たちを比べるわけではありません。しかし、実際に生じる一方の条件しか観察できません。",
+      "en": "So the treatment effect compares two possible outcomes for the same person. It does not begin by comparing different people. But we can observe only the condition that actually happens."
+    },
+    {
+      "id": "ch01-t020",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "その通りです。観察されないもう一方の可能性を反実仮想と呼びます。それは、その人が経験しなかった条件のもとでの結果です。選択バイアスは、処置を受ける人たちが、仮に処置を受けなかったとしても異なる結果になっていた場合に生じます。無作為割り当てとは、偶然を使って誰に処置を提供するかを決めることです。それが信頼できる対照群を作る上でどう役立つかを見ていきましょう。",
+      "en": "Right. The unobserved alternative is called the counterfactual. It is the outcome under the condition the person did not experience. Selection bias arises when the people receiving treatment would have had different outcomes even without it. Random assignment means using chance to decide who is offered a treatment. We will see how that helps create a credible comparison group."
+    },
+    {
+      "id": "ch01-t021",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "時間を置いて、同じ人を保険なしの状態で再び観察することはできませんか。そうすれば、別の人を必要とせずに、失われた結果を取り戻す方法になりそうですが。",
+      "en": "Could we just wait and observe the person again without insurance? That might look like a way to recover the missing outcome without needing another person at all."
+    },
+    {
+      "id": "ch01-t022",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "後から観察すると、時間も変化してしまいます。その人は年齢を重ねているかもしれませんし、仕事が変わっていたり、別の病気にかかったりしているかもしれません。処置とそれらの変化を切り分けるために、再び仮定が必要になります。潜在的な結果は、状況や期間を含めて明確な比較のために定義されます。たとえすべての答えを観察できなくても、問いを正確に立てるのに役立つのです。",
+      "en": "A later observation also changes time. The person may be older, have a different job, or face a different illness. We would again need assumptions to separate the treatment from those changes. Potential outcomes are defined for a clear comparison, including a setting and a time period. They help us state the question accurately, even when we cannot observe every answer."
+    },
+    {
+      "id": "ch01-t023",
+      "speaker": "HOST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "最初のまとめは、問いそのものについてです。健康の差は見えていますが、同じ人のもう一つの結果は観察できません。測定された平均値をいくら改善しても、その問題が自動的に解決するわけではありませんね。",
+      "en": "Our first recap is about the question itself. A health gap is visible, but the same person's alternative outcome is missing. Better measured averages do not automatically repair that problem."
+    },
+    {
+      "id": "ch01-t024",
+      "speaker": "ECONOMIST",
+      "section_ja": "第1部：問い",
+      "section_en": "Part 1: The Question",
+      "ja": "まさにその通りです。私たちは結果、処置、反実仮想を特定しました。調査による比較は、グループ間の違いについては有益な情報をもたらします。そうした違いを保険の効果として解釈するためには、保険に入った人が、もし入らなかったらどうなったか。その代わりとして、未加入者の健康状態を使ってよい理由が必要です。",
+      "en": "Exactly. We have identified an outcome, a treatment, and a counterfactual. The survey comparison is informative about differences between groups. To interpret those differences as insurance effects, we need a reason that the groups represent comparable alternatives."
+    },
+    {
+      "id": "ch01-t025",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ここからは「検証」に入ります。まずは選択バイアスの問題から始めましょう。誤解を招くような比較によって、有益な保険が効果を過大に見せるだけでなく、実際には有害であるかのように見えてしまうことさえあるのでしょうか。",
+      "en": "Now we enter The Investigation. Let's begin with the selection bias problem. Could a misleading comparison actually suggest that helpful insurance is harmful, rather than merely exaggerating its benefit?"
+    },
+    {
+      "id": "ch01-t026",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "あります。本書に出てくる架空の学生、クズダールとマリアを考えてみてください。彼らの仮想的な潜在的結果は教育用の道具であり、調査結果ではありません。クズダールは保険がないと健康状態が悪化するため、加入を選びます。マリアはどちらにしても良好な健康を見込んでおり、加入しないことを選びます。観察された彼らの健康状態を比べると、保険がクズダールを助けているにもかかわらず、マリアのほうが健康に見えることがあります。彼がもともと抱えていた不利な条件が、保険の恩恵を隠してしまうのです。",
+      "en": "Yes. Consider the chapter's deliberately hypothetical students, Khuzdar and Maria. Their imagined potential outcomes are a teaching device, not survey findings. Khuzdar would have poorer health without insurance and chooses coverage. Maria expects good health either way and chooses no coverage. If we compare their observed health, Maria can look healthier even though insurance helps Khuzdar. His underlying disadvantage hides the benefit."
+    },
+    {
+      "id": "ch01-t027",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "観察された結果を比べると、クズダールの健康状態が悪いことを保険のせいにしてしまうと予想します。その結論は、この仮想例で彼に起きていることと正反対になりますね。誤解を招く部分はどこから入り込むのでしょうか。",
+      "en": "I predict that comparing their observed outcomes would blame insurance for Khuzdar's worse health. That conclusion would reverse what the hypothetical example says happens to him. Where does the misleading part enter?"
+    },
+    {
+      "id": "ch01-t028",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その予想は正しいです。その比較は、処置効果と最初の違いを混ぜてしまっています。まず、保険によってクズダールの健康がどう変わるかを考えます。次に、保険がない場合の彼の健康が、保険がない場合のマリアの健康とどう違うかを考えます。それらの要素を足し合わせると、観察される差になります。2つ目の要素が選択バイアスです。これは、観察される比較の符号を反転させてしまうほど大きくなることがあります。",
+      "en": "Your prediction is correct. The comparison mixes a treatment effect with a starting difference. First ask how Khuzdar's health changes with insurance. Then ask how his health without insurance differs from Maria's health without insurance. Adding those components produces the observed gap. The second component is selection bias. It can be large enough to reverse the sign of the observed comparison."
+    },
+    {
+      "id": "ch01-t029",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "こうした仮想の学生ではなく、実在する多くの人々に置き換えても、その論理は成り立ちますか。大規模な標本があれば、保険の選択に影響する違いも含めて、個人の差は平均されて消えると思いがちですが。",
+      "en": "Does that logic survive when we replace these imagined students with many actual people? I might expect a big sample to average away personal differences, including the differences that affect insurance choices."
+    },
+    {
+      "id": "ch01-t030",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "私たちが望むように平均して消えるのは、ランダムな違いだけです。より健康な人や裕福な人が体系的に保険を選ぶなら、標本を大きくしても同じ偏りのパターンが繰り返されるだけです。大勢の人を比べる場合も、差を二つに分けます。一つは、実際に保険に入った人たちへの平均的な保険の効果です。もう一つは、もし両方のグループに保険がなかったとき、健康にどれだけ差があったかです。この二つを足すと、観察された健康の差になります。教科書では代数計算を簡単にするために、最初は効果を一定として扱っています。効果が人によって異なる場合でも、この根本的な問題は同様に存在します。",
+      "en": "Only random differences average away in the way we need. If healthier or richer people systematically select coverage, a larger sample repeats the same sorting pattern. For groups, the observed gap equals the average treatment effect among the treated plus their average untreated disadvantage or advantage. That last part compares untreated potential outcomes across groups. The chapter initially uses a constant effect to simplify the algebra. The basic problem also exists when effects differ across people."
+    },
+    {
+      "id": "ch01-t031",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "なぜ「処置群における平均効果」と言うのでしょうか。そうでないと、保険を選ばなかった人たちも含め、全員に対する平均効果という式のように聞こえてしまうかもしれません。",
+      "en": "Why say the average effect among the treated? I might otherwise hear the formula as the average effect for everyone, including people who did not choose insurance."
+    },
+    {
+      "id": "ch01-t032",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "なぜなら、実際に処置を受けた人たちの観察された結果から始めているからです。そのグループを固定したまま、彼らの保険を取り除いた状態を想像します。それが彼らの平均処置効果になります。次に、彼らの処置なしの潜在的な結果と、対照群の処置なしの結果を比較します。追加の仮定がなければ、この分解から母集団全体への効果を特定することはできません。無作為化によって、グループ間により強い結びつきが得られるようになります。",
+      "en": "Because we start with the observed outcomes of people who actually received treatment. We imagine removing their insurance while keeping that group fixed. That gives their average treatment effect. We then compare their untreated potential outcomes with the control group's untreated outcomes. Without additional assumptions, that decomposition does not identify the effect for the entire population. Randomization will give us a stronger connection between the groups."
+    },
+    {
+      "id": "ch01-t033",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "マップには交絡要因や裏道パスという言葉が出てきます。因果ダイアグラムを描かずに、それらの言葉を理解できますか。健康の差の背後にすでに隠れている別の説明を指しているのだと思いますが。",
+      "en": "The map mentions confounders and a back-door path. Can we understand those words without drawing a causal diagram? I suspect they describe the alternative explanations already hiding inside the health gap."
+    },
+    {
+      "id": "ch01-t034",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "交絡要因とは、処置と結果の両方を決定づける要因のことです。ここでは教育がその候補です。教育は雇用を通じて保険加入に影響し、行動や経済的資源を通じて健康に影響する可能性があります。これにより、保険と健康を結ぶ別の経路が生まれます。裏道パスとは、そうした経路に対する図の上での呼び名です。保険以外の何かがグループ間を異ならせているかどうかを問うことで、この問題を理解できます。",
+      "en": "A confounder is a factor that helps determine both treatment and outcome. Education is a candidate here. It may affect coverage through employment and affect health through behavior or resources. That creates an alternative route linking insurance and health. A back-door path is a diagram's name for such a route. We can understand the problem by asking whether something besides insurance makes the groups different."
+    },
+    {
+      "id": "ch01-t035",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "同じ学歴の人同士を比較すれば、その別の経路を塞いだことになりますか。それは医療保険の実験を行うよりも現実的に思えます。それでもなお懸念されるのはどのような点でしょうか。",
+      "en": "If we compare people with the same schooling, have we closed that alternative route? That seems more practical than running a health insurance experiment. What would still worry you?"
+    },
+    {
+      "id": "ch01-t036",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "学歴をそろえることで、その特定の観察された違いは取り除かれます。しかし、所得や健康習慣、将来の病気への見込みまで等しくなる保証はありません。重要な特徴のなかには記録されないものもあります。グループ間に目に見える多くの違いがあるということは、隠れた違いにも注意深くなるべきだという警告です。これが因果推論の根本問題です。個人について両方の潜在的な結果を観察することは決してできません。対照群が見つからない代替案の代役を務める必要があり、その信頼性には正当な根拠が求められます。",
+      "en": "Equal schooling removes that particular observed difference. It does not guarantee equal income, health habits, or expectations about future illness. Some important characteristics are unrecorded. Many visible group differences should also make us cautious about hidden differences. This is the fundamental problem of causal inference: we never observe both potential outcomes for an individual. A comparison group must stand in for the missing alternative, and its credibility needs a justification."
+    },
+    {
+      "id": "ch01-t037",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その問題を解決する前に、マップにある回帰分析のツールを理解しておきましょう。健康をダミー変数に回帰するとはどういう意味ですか。平均値の比較に対して、コンピューターが正確に何を追加しているのかを知りたいです。",
+      "en": "Before solving that problem, let's understand the map's regression tool. What does it mean to regress health on a dummy variable? I want to know exactly what the computer adds to a comparison of averages."
+    },
+    {
+      "id": "ch01-t038",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ダミー変数とは、グループへの所属を記録する変数です。ここでは、保険に加入していれば1、未加入なら0と記録します。切片とは、この変数が0のときの予測値です。この切片と指標変数だけで、最小二乗法という通常の回帰計算をすると、グループの平均値がそのまま再現されます。切片は未加入グループの平均健康度になります。保険の係数は、加入者の平均から未加入者の平均を引いた値です。推定された加入者の平均は、切片にその係数を足したものになります。この計算において、隠れた因果関係の調整が行われているわけではありません。",
+      "en": "A dummy variable records membership in a group. Here it records whether someone is insured. With an intercept and only that indicator, ordinary least squares regression reproduces the group means. The intercept is the uninsured group's average health. The insurance coefficient is the insured mean minus the uninsured mean. The fitted insured mean adds that coefficient to the intercept. No hidden causal adjustment occurs in this calculation."
+    },
+    {
+      "id": "ch01-t039",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "一貫した1つの標本を使って、夫の比較を実際に計算してみましょう。加入者の平均は4.01で、未加入者の平均は3.70です。加入者の平均から未加入者の平均を引きます。そうすると何が得られますか。",
+      "en": "Let's work through the husbands' comparison using a single consistent sample. The insured mean is 4.01 and the uninsured mean is 3.70. We subtract the uninsured mean from the insured mean. What does that give us?"
+    },
+    {
+      "id": "ch01-t040",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "引き算をすると、指標のスコアで0.31ポイントの差が得られます。これらは調査の抽出確率で重み付けされた平均値です。この差は、同じ重みを用いたダミー変数のみの回帰分析からも得られます。この係数は関連性を表しているにすぎません。これを効果と呼ぶには、選択バイアスを退ける確かな根拠が必要です。計算そのものがその根拠を提供してくれるわけではありません。調査の重みは、推計値が調査の代表する母集団を反映するように、人によって異なる重みを与えます。それらの重みとサンプルの定義を一貫して保つようにしてください。",
+      "en": "Subtracting gives a gap of 0.31 index points. These are survey-weighted means. The gap also comes from a dummy-only regression using the same survey weights. The coefficient describes an association. Calling it an effect would require a credible reason to dismiss selection bias. The arithmetic cannot supply that reason. Survey weights give people different influence so the estimate reflects the population represented by the survey. Keep those weights and the sample definition consistent."
+    },
+    {
+      "id": "ch01-t041",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "つまり回帰分析は同じ比較を整理でき、不確実性の計算はその比較がどれくらい安定しているかを教えてくれるわけですね。どちらの機能も、元の保険の選択を実験に変えてくれるわけではありません。係数の横にある標準誤差はどう読めばいいですか。",
+      "en": "So regression can organize the same comparison, while uncertainty calculations tell us how stable that comparison is. Neither feature turns the original insurance decision into an experiment. How do we read the standard error beside a coefficient?"
+    },
+    {
+      "id": "ch01-t042",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "標準誤差は、推計値の標本抽出に伴う不確実性を測る尺度です。この考え方は実験の後に詳しく説明します。ひとまず、推計された差をその標準誤差で割ってみてください。その結果がt統計量です。通常の大標本条件のもとでは、t統計量の絶対値が約2を超えていれば、母集団における差がゼロであることへの反証となります。これは大まかな統計的目安であり、選択バイアスが存在するかどうかを検証するものではありません。",
+      "en": "A standard error measures the sampling uncertainty of an estimate. We will develop that idea after the experiments. For now, divide the estimated difference by its standard error. The result is the t-statistic. Under usual large-sample conditions, an absolute t-statistic above about 2 is evidence against a zero population difference. This is a rough statistical rule, not a test of whether selection bias exists."
+    },
+    {
+      "id": "ch01-t043",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それはNHISの比較表を理解するのに役立ちます。学歴、所得、雇用の大きな違いは、グループが異なっているという警告になります。どれほど正確に測られた健康の差であっても、異質なグループ同士の正確な比較にすぎないわけですね。",
+      "en": "That helps with the NHIS comparison table. Large differences across education, income, and employment warn that the groups are different. A very precise health gap would still be a precise comparison of unlike groups."
+    },
+    {
+      "id": "ch01-t044",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その通りです。標準誤差は、推計値の周りのランダムな不確実性を表します。選択バイアスは、推計値が何を比較しているかという体系的な問題を指します。観測数を増やせば最初の問題は小さくできますが、2つ目の問題は手つかずのまま残ります。単にデータを増やすだけでなく、比較の設計そのものを変える必要があります。",
+      "en": "Exactly. A standard error describes random uncertainty around an estimate. Selection bias describes a systematic problem with what the estimate compares. More observations can shrink the first problem while leaving the second untouched. We need to change the design of the comparison, not merely add more observations to it."
+    },
+    {
+      "id": "ch01-t045",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "マップ上の解決策は、無作為割り当てです。研究者が資格のある人たちのグループ内で、偶然を使って保険を提供したとしましょう。それが、測定している特徴と測定できない特徴の両方にどのように対処するのでしょうか。",
+      "en": "The solution on the map is random assignment. Suppose researchers use chance to offer coverage within a group of eligible people. How does that address both the characteristics we measure and those we cannot measure?"
+    },
+    {
+      "id": "ch01-t046",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "割り当てのルールは、所得や学歴、隠れた健康への見込みを考慮しません。対象となる各人は、潜在的な結果とは無関係に、処置を受ける決められた確率を持ちます。割り当てを繰り返すと、処置群と対照群は期待値として同じ構成の人々を持つことになります。したがって、処置を受けない場合の健康の期待値は等しくなります。これにより、特定の実験で偶然の不均衡が生じることはあっても、割り当てから体系的な選択バイアスが排除されます。",
+      "en": "The assignment rule does not consult income, schooling, or hidden health expectations. Each eligible person has a specified chance of treatment independent of their potential outcomes. Across repeated assignments, treatment and control groups have the same expected mix of people. Their expected untreated health is therefore the same. This removes systematic selection bias from assignment, even though a particular experiment can have chance imbalances."
+    },
+    {
+      "id": "ch01-t047",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ごく少数の人で行うコイントスが、無作為であっても実際の比較としては不十分になり得るのはそのためですか。単なる偶然によって、異常に健康な人が一方のグループに偏ってしまうこともありますよね。",
+      "en": "Is that why a coin toss involving very few people would still be random, but might produce a poor practical comparison? It could place an unusually healthy person in one group just by chance."
+    },
+    {
+      "id": "ch01-t048",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "はい。無作為化は設計として偏りがないのであって、小規模な標本のすべてで観察されるグループが同一になることを約束するわけではありません。大数の法則によれば、独立した情報の量が増えるにつれて、平均値はより安定します。無作為化されたグループが大きくなれば、通常、偶然による差は重要ではなくなります。重要なのは、無作為割り当てが個人を同一にするのではないということです。それは、測定されていない特徴も含めて、グループを平均として同等にするのです。",
+      "en": "Yes. Randomization is unbiased by design; it does not promise identical observed groups in every small sample. The law of large numbers says that averages become more stable as the amount of independent information grows. With larger randomized groups, chance differences usually become less important. Importantly, random assignment does not make individuals identical. It makes the groups comparable on average, including in unmeasured characteristics."
+    },
+    {
+      "id": "ch01-t049",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "無作為割り当てと無作為抽出も区別しておきたいです。ある研究がボランティアを募集して、その後に無作為化を行った場合、研究内部での比較は強固かもしれません。しかし、ボランティアは研究の外にいる人たちとは異なっている可能性があります。",
+      "en": "I also want to separate random assignment from random sampling. If a study recruits volunteers and then randomizes them, its internal comparison can be strong. But volunteers might differ from people outside the study."
+    },
+    {
+      "id": "ch01-t050",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "正しい理解です。無作為抽出は、より広い母集団から誰が研究に参加するかに関わります。無作為割り当ては、研究の内部で誰がどの条件を受けるかに関わります。割り当ては、研究参加者についての因果比較を支えます。別の母集団へ一般化するには、参加資格、文脈、処置についてのさらなる論理的検討が必要です。優れた無作為化であっても、異なる母集団が自動的に同じ効果を経験するようにはできません。",
+      "en": "Correct. Random sampling concerns who enters the study from a wider population. Random assignment concerns who receives which condition inside it. Assignment supports a causal comparison for study participants. Generalizing to another population needs further reasoning about eligibility, context, and treatment. Even excellent randomization cannot make a different population experience the same effect automatically."
+    },
+    {
+      "id": "ch01-t051",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "マップにある歴史には、ジェームズ・リンド、パースとジャストロー、そしてフィッシャーが登場します。初期のすべての比較を無作為化比較対照試験として扱わずに、その歴史から何を覚えておくべきでしょうか。",
+      "en": "The history on the map includes James Lind, Peirce and Jastrow, and Fisher. What should we remember from that history without treating every early comparison as a randomized trial?"
+    },
+    {
+      "id": "ch01-t052",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "リンドは、互いに似通った条件の水夫を選んで壊血病の治療法を比較しました。これは対照群を置いた比較でしたが、処置を無作為に割り当てたわけではありませんでした。パースとジャストローは、1885年の感覚に関する研究で、偶然に基づいた割り当てを記述しました。フィッシャーは、1925年の統計学の著書などにおいて、無作為化実験計画の論理を発展させました。年代を暗記することよりも、この区別が重要です。似た人を選ぶことと、偶然によって処置を割り当てることは異なる手続きなのです。",
+      "en": "Lind compared scurvy remedies among sailors chosen to be similar. That was a controlled comparison, but it did not randomly allocate treatments. Peirce and Jastrow described chance-based allocation in their 1885 work on sensation. Fisher developed the logic of randomized experimental design in work including his 1925 statistics book. The distinction matters more than memorizing dates: choosing similar people and allocating treatment by chance are different procedures."
+    },
+    {
+      "id": "ch01-t053",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それでは、ランド健康保険実験の話に移りましょう。具体的に何が割り当てられ、対照条件は何だったのでしょうか。無料の医療対高額な医療費だけを主に保障する保険という対比を、保険がある状態と全く無保険の状態の比較だと誤解しないようにしたいです。",
+      "en": "That brings us to the RAND Health Insurance Experiment. What exactly was assigned, and what was the control condition? I want to avoid hearing free care versus catastrophic coverage as insurance versus absolutely no protection."
+    },
+    {
+      "id": "ch01-t054",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ランド実験は1974年から1982年まで実施され、およそ4,000人が参加しました。分析では、当初のプランを4つのタイプに分類しています。高額な医療費だけを主に保障する保険、免責額プラン、共同保険プラン、そして無料医療です。共同保険とは、患者が請求額の一定割合を自己負担することを意味します。免責額とは、一定の保険適用が始まる前に支払いが必要となる金額のことです。すべてのグループが、極めて高額な支出に対してはある程度の保護を受けていました。高額な医療費だけを主に保障する保険が対照群であり、これは保険がまったくない状態というよりは、最低限の保障に近いものでした。",
+      "en": "RAND ran from 1974 to 1982 and enrolled roughly 4,000 people. The analysis groups its original plans into four types: catastrophic coverage, a deductible plan, coinsurance plans, and free care. Coinsurance means patients pay a share of each bill. A deductible requires payment before specified coverage begins. All groups had some protection against very high expenses. Catastrophic coverage was the comparison group, an approximation to little coverage rather than complete absence of insurance."
+    },
+    {
+      "id": "ch01-t055",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "つまり、手厚さの違いによって、受診時に患者が直面する価格が変わったわけですね。無料医療は直接の自己負担をなくし、手厚くないプランでは上限に達するまでより多くの支払いを求めました。その後の結果を比較する前に、研究者は何を確認したのでしょうか。",
+      "en": "So generosity changed the price people faced when seeking care. Free care removed direct charges, while the less generous plans required more payment until a limit. Before comparing later outcomes, what did researchers check?"
+    },
+    {
+      "id": "ch01-t056",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "彼らはベースラインでのバランス、つまり処置の影響が出る前にグループ同士が似通っていたかどうかを確認しました。年齢、学歴、所得、初期の健康状態などの特徴を比較したのです。ほとんどの差は小さく、特定のグループを組織的に有利にする一貫したパターンはありませんでした。表に多くの比較が含まれていると、偶然によって少数の目立った差が生じることはあります。重要なのは設計と全体的なパターンです。バランスが取れていることは有用な証拠ですが、隠れたすべての差が完全にゼロであることの証明ではありません。",
+      "en": "They checked baseline balance: whether groups looked similar before treatment could affect them. They compared characteristics such as age, schooling, income, and initial health. Most differences were small, without a consistent pattern favoring one group. A few unusual differences can occur by chance when a table contains many comparisons. The design and the overall pattern matter; balance is useful evidence, not proof that every hidden difference is exactly zero."
+    },
+    {
+      "id": "ch01-t057",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "関連する分析では、標準誤差を家族単位でクラスター化しています。スプレッドシート上で一人ひとりに個別の行があるなら、なぜ不確実性を考える際に家族構成を気にする必要があるのでしょうか。そうでないと、それらの行をすべて独立した情報として数えてしまいそうです。",
+      "en": "The companion analysis clusters standard errors by family. Why should uncertainty care about family membership if the spreadsheet has a separate row for every person? I might otherwise count all those rows as independent information."
+    },
+    {
+      "id": "ch01-t058",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "家族は同じプランを割り当てられ、健康状態や行動を共有している可能性があります。彼らの観察データは必ずしも独立しているとは言えません。家族単位のクラスター化によって、推計誤差が家族内で相関することを許容できます。密接に関連した観察データを、あたかも互いに無関係な実験単位であるかのように扱うことを防ぐのです。標準誤差は、単にデータに何行あるかだけでなく、実験がどのように構成されたかを反映しなければなりません。",
+      "en": "Family members received the same assigned plan and may share health conditions and behavior. Their observations need not be independent. Family clustering allows estimation errors to be related within families. It avoids treating tightly connected observations as if they were unrelated experimental units. The standard error must respect how the experiment was organized, not simply how many rows the data contain."
+    },
+    {
+      "id": "ch01-t059",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "実験から離脱する人がいることで、その慎重な出発点が台無しになることはありますか。最初のグループのバランスが取れていれば、追跡調査で一部の参加者が見られなくなっても、その後の比較の公平さは保たれると考えがちですが。",
+      "en": "Could people leaving the experiment undo that careful beginning? If the original groups were balanced, I might assume the later comparison stays fair even when some participants disappear from follow-up."
+    },
+    {
+      "id": "ch01-t060",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その想定は危険です。ランド実験では多くの参加者が脱落し、その脱落率はプランによって異なっていました。無料医療では離脱者が少なかったのです。これは脱落率の差、いわゆる選択的脱落と呼ばれます。離脱が潜在的な健康や支出と関係している場合、観察が続いている人たち同士はもはや同等ではなくなっている可能性があります。最初の無作為割り当てがあっても、追跡調査の偏りまで自動的に修正されるわけではありません。原著の章でも、これによって妥当性が損なわれた可能性があると警告しています。報告された結果とともに、その懸念も心に留めておいてください。",
+      "en": "That assumption is unsafe. Many RAND participants dropped out, and dropout rates differed across plans. Fewer people left free care. This is called differential attrition. If leaving is related to potential health or spending, the people still observed may no longer be comparable. Initial random assignment does not automatically correct selective follow-up. The original chapter warns that this could have compromised validity. Keep that concern alongside the reported results."
+    },
+    {
+      "id": "ch01-t061",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "では、結果について見ていきましょう。無料の医療によって患者の支払額が下がるなら、受診回数は増えると予想します。実験では、わずかな反応が見られたのでしょうか、それとも大きな反応だったのでしょうか。",
+      "en": "Now for the results. If free care lowers what patients pay, I would expect more visits. Did the experiment find a modest response or a large one?"
+    },
+    {
+      "id": "ch01-t062",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "無料医療は、高額な医療費だけを主に保障する保険と比べて対面での受診回数を約1.7回増やしました。総医療費は約45パーセント増加しました。入院よりも外来診療のほうが強く反応しました。このパターンは、外来受診については患者の裁量が大きいのに対し、入院の決定は医師が行うことが多いという事実と一致しています。これらの比較は、割り当てられたプランに関するものです。これらは、医療への需要が患者の支払う価格に反応することを示しています。",
+      "en": "Free care raised face-to-face visits by about 1.7 relative to catastrophic coverage. Total medical spending increased by about 45 percent. Outpatient care responded more strongly than hospital admissions. That pattern is consistent with patients having more discretion over outpatient visits, while doctors often make admission decisions. These comparisons concern the assigned plans. They reveal that demand for care responds to what patients pay."
+    },
+    {
+      "id": "ch01-t063",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "経済学者はこれをモラルハザードと呼ぶことがありますね。この言葉は患者の悪い行動を非難しているのでしょうか。負担しやすくなった受診が医学的に有益な場合もあるので、このラベルだけで余分な医療が無駄だったかどうかは判断できませんよね。",
+      "en": "Economists sometimes call that moral hazard. Does the term accuse patients of bad behavior? A visit that becomes affordable could be medically useful, so the label alone cannot tell us whether the extra care was wasteful."
+    },
+    {
+      "id": "ch01-t064",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その通りです。ここでのモラルハザードとは、保険がインセンティブを変えることに対する反応を表しています。道徳的な判断でもなければ、無駄を直接測る指標でもありません。増えた医療を評価するには、結果と費用の両方が必要です。ランド実験では、全般的な健康状態、血圧、コレステロール値、メンタルヘルスを測定しました。研究期間中、より手厚い保険を提供しても、測定されたこれらの結果には平均してほとんど改善が見られませんでした。この推計値は、大幅な平均的改善の可能性をある程度否定しますが、あらゆる恩恵が完全にゼロであると証明するわけではありません。",
+      "en": "Exactly. Here moral hazard describes a response to insurance changing incentives. It is not a moral judgment or a direct measure of waste. To assess the extra care, we need outcomes and costs. RAND measured general health, blood pressure, cholesterol, and mental health. More generous coverage produced little average improvement on those measured outcomes over the study period. The estimates constrain some large average gains, but do not establish that every benefit is exactly zero."
+    },
+    {
+      "id": "ch01-t065",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "限界についても目を向けておく必要がありますね。平均的な結果の陰に、より貧しい患者やより重症の患者への恩恵が隠れていることはありますか。例外や他の環境について、確実に言えることは何でしょうか。",
+      "en": "We should also keep the limits visible. Could an average result hide benefits for poorer or sicker patients? What can we safely say about exceptions and other settings?"
+    },
+    {
+      "id": "ch01-t066",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "平均値は、個人ごとの異なる効果を覆い隠してしまうことがあります。本書では、無料医療グループにおいて視力の矯正状態がわずかに改善したことにも触れています。したがって、どんな結果も全く改善しなかったと言うのは避けるべきです。また、すべての無保険者にそのまま当てはめることもできません。ランド実験では一部の公的保険の対象者を除外していましたし、特定の家族を対象とし、対照群にさえ高額な医療費だけを主に保障する保険の保護を与えていました。それらの特徴が、この研究の問いを定義づけています。そしてそれが、別の実験を検討する動機にもなるのです。",
+      "en": "An average can hide differing individual effects. The chapter also notes slightly better corrected vision in the free-care group. We should therefore avoid saying that no outcome ever improved. Nor should we extrapolate directly to all uninsured people. RAND excluded some public insurance groups, studied particular families, and gave even controls catastrophic protection. Those features help define its question. They also motivate looking at a different experiment."
+    },
+    {
+      "id": "ch01-t067",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "次の事例は、2008年のオレゴン州のメディケイドくじです。メディケイドは、低所得の資格基準を満たす人々のための公的医療保険です。なぜこの環境は、保険を買う人と買わない人の通常の差ではなく、信頼できる比較を生み出すことができたのでしょうか。",
+      "en": "The next case is Oregon's Medicaid lottery in 2008. Medicaid is public insurance for eligible people with low incomes. Why did this setting create a credible comparison rather than another ordinary difference between buyers and nonbuyers?"
+    },
+    {
+      "id": "ch01-t068",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "オレゴン州がカバーできる人数よりも、多くの人が登録したからです。くじ引きによって、拡大された保険に申請できる人が無作為に選ばれました。当選しても、受給資格や書類の記入が保証されたわけではありません。したがって、明確な比較はくじの当選者と落選者の間で行われます。この段階での処置は「申請する機会」です。単に実際に保険に加入したことではなく、最終的に加入した人々は、当選者全員の中から無作為に選ばれたわけでもありませんでした。",
+      "en": "More people registered than Oregon could cover. A lottery randomly selected people who could apply for expanded coverage. Winning did not guarantee eligibility or completed paperwork. The clean comparison is therefore lottery winners versus lottery losers. The treatment at this stage is the opportunity to apply. It is not simply actual insurance enrollment, and the people who ultimately enrolled were not randomly selected from all winners."
+    },
+    {
+      "id": "ch01-t069",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "マップにある「約4分の1が加入した」という要約は、その区別を混乱させるかもしれません。当選者の実際の総加入率はわずか25パーセントだったのでしょうか。それとも、その数字は当選によって増えた加入分を表しているのですか。",
+      "en": "The map's shorthand about a quarter enrolling could confuse that distinction. Was the total enrollment rate among winners actually only 25 percent? Or is that number describing the extra coverage caused by winning?"
+    },
+    {
+      "id": "ch01-t070",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それは、おおよそ追加の加入分を表しています。州全体のデータでは、翌年にメディケイドを受給した落選者は約14パーセントでした。くじに当選したことで、その確率は約26パーセントポイント上昇しました。したがって、当選者の約40パーセントが保険に加入していたことになり、単に4分の1だけだったわけではありません。落選者の中にも、別の経路でメディケイドを取得した人がいました。因果関係における決定的な変化は、それらの加入率の差であり、当選者の加入率単体ではありません。",
+      "en": "It describes the extra coverage, approximately. In the statewide data, about 14 percent of losers had Medicaid during the following year. Winning raised that probability by about 26 percentage points. Thus roughly 40 percent of winners had coverage, rather than only a quarter. Some losers obtained Medicaid through other routes. The key causal change is the difference between those enrollment rates, not the winners' enrollment rate alone."
+    },
+    {
+      "id": "ch01-t071",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その区別は、その後の結果の解釈も変えてしまいますね。当選者と落選者を比較した場合、私たちはどのような因果効果を推計したことになるのでしょうか。そして、実際に加入した当選者と、無保険のままだった人を比較してはいけないのはなぜですか。",
+      "en": "That distinction also changes how we interpret later outcomes. If we compare winners and losers, what causal effect have we estimated? And why would we resist comparing enrolled winners with people who remained uninsured?"
+    },
+    {
+      "id": "ch01-t072",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "当選者と落選者の比較は、意図した処置の効果、よくITT効果と略されるものを推計しています。これは、保険の状況が変わらなかった人たちも含めた、機会の割り当てによる効果です。実際に加入した人と未加入の人を比べると、本人の選択や受給資格の違いが再び入り込んでしまいます。保険加入自体の効果を推計するために、その後の手法ではくじ引きによる加入状況の変化を利用します。追加の仮定のもとで、結果の差を加入率の差で割る調整を行うのです。",
+      "en": "The winner-loser comparison estimates the intention-to-treat effect, often shortened to ITT. That is the effect of assignment to the opportunity, including people whose coverage did not change. Comparing actual enrollees with nonenrollees reintroduces choices and eligibility differences. To estimate an effect of coverage itself, later methods use the lottery's change in coverage. The adjustment divides the outcome gap by the coverage gap, under additional assumptions."
+    },
+    {
+      "id": "ch01-t073",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "これは操作変数の予告になりますね。加入そのものが無作為であったと見せかけるのではなく、保険加入への外的な後押しを利用するわけです。当選が保険を通じて結果に影響し、かつ当選によって加入しにくくなる人はいないという仮定が必要になります。",
+      "en": "So this previews instrumental variables. We use an external push toward coverage instead of pretending enrollment itself was random. We will need assumptions that winning affects the outcome through coverage and does not make anyone less likely to enroll."
+    },
+    {
+      "id": "ch01-t074",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "はい、そして得られる効果は、その外的な後押しによって保険の受給状況が変わった人たちに関するものになります。すべての申請者に対する効果とは限りません。それらの考え方は後で詳しく展開します。今のところは、割り当てと実際の受給を分けて考えておいてください。オレゴン州では、当選によって救急外来の利用を含む医療サービスの利用が増加しました。保険によって救急利用がより安価な定期受診に単に置き換わるという期待は、観察されたパターンとは一致しませんでした。",
+      "en": "Yes, and the resulting effect concerns people whose coverage was changed by that push. It is not automatically the effect for every applicant. We will develop those ideas later. For now, keep assignment and receipt separate. In Oregon, winning increased health service use, including emergency department use. The hope that insurance would simply replace emergency care with cheaper routine care did not describe the observed pattern."
+    },
+    {
+      "id": "ch01-t075",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "医療の利用以外には何が起きたのでしょうか。血圧の検査結果があまり変わらなくても、恐ろしい請求書を避けること自体が保険の目的に含まれるはずです。ランド実験の平均的な身体的健康の結果が見落としかねない何かを、オレゴン州の事例は示したのでしょうか。",
+      "en": "And what happened beyond service use? The point of insurance might include avoiding a frightening bill, even when a blood pressure test changes little. Did Oregon show something that RAND's average physical health results could miss?"
+    },
+    {
+      "id": "ch01-t076",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "当選者は全般的な健康感の改善を報告しました。より詳細な聞き取り調査からは、メンタルヘルスの改善が示唆されましたが、測定された身体的健康には明確な改善はほとんど見られませんでした。また、医療関連の借金や、極めて高額な医療費を支払うリスクも減少しました。経済的な保護がメンタルヘルスの改善を説明するのに役立っている可能性がありますが、その経路はくじ引きの比較だけで個別に確定されたわけではありません。測定された身体的結果の変化が小さかったとしても、これらの恩恵は重要な意味を持ちます。",
+      "en": "Winners reported some improvement in general health. More detailed interviews suggested improvement in mental health, with little clear measured physical health improvement. Medical debt and the risk of very large medical expenses also fell. Financial protection may help explain the mental health gains, although that mechanism is not separately established by the lottery comparison. These benefits matter even when measured physical outcomes show limited change."
+    },
+    {
+      "id": "ch01-t077",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "ここには政策的な教訓がありますね。あるプログラムが支出を増やしたとしても、人々を経済的リスクから守ることはできます。しかし、その特定の結果が実際には増加していた以上、救急医療の費用を節約できると主張することはできません。",
+      "en": "There is a policy lesson here. A program can increase spending and still protect people from financial risk. But we cannot claim it saves emergency care costs when that particular outcome actually increased."
+    },
+    {
+      "id": "ch01-t078",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その通りです。政策評価には複数の結果と明確な比較が必要です。ランド実験は、主にある程度の保障を持つ人々の間で保険の手厚さを変化させました。オレゴン州では、低所得の申請者の間で保険を得る機会を拡大しました。受診行動や身体的健康における似たようなパターンは、これら2つの環境を通じて示唆に富んでいます。だからといって、それらの介入が同一であるとか、将来あり得るすべての保険拡大が同じ結果を生むということにはなりません。",
+      "en": "Right. Policy evaluation needs several outcomes and a clear comparison. RAND primarily varied insurance generosity among people with some protection. Oregon expanded the opportunity to obtain coverage among lower-income applicants. Similar patterns in use and physical health are informative across these settings. They do not make the interventions identical, or make every possible future expansion produce the same results."
+    },
+    {
+      "id": "ch01-t079",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "推論のツールを使って、検証のパートを締めくくりましょう。私たちは標準誤差や有意性という言葉を何度か使ってきました。リスナーに数式を延々と追わせることなく、それらの考え方を補論と結びつけてもらえますか。",
+      "en": "Let's finish the investigation with the inference toolkit. We have used standard errors and significance several times. Can you connect those ideas to the appendix without making listeners work through a page of equations?"
+    },
+    {
+      "id": "ch01-t080",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "まずは母集団と標本の違いから始めましょう。母平均とは、私たちが記述したい母集団の固定された特徴です。標本平均は、どの人がデータに入るかによって変化します。推計量とは、標本データを使って母集団の値を推計するためのルールのことです。不偏推計量は、標本抽出を繰り返したときの平均として、その母集団の値を正しく捉えます。ただし、特定の標本においては外れることもあります。",
+      "en": "Start with the difference between a population and a sample. The population mean is a fixed feature of the population we want to describe. A sample mean changes when different people enter our data. An estimator is a rule for using sample data to estimate a population quantity. An unbiased estimator gets that quantity right on average across repeated samples. It can still miss in a particular sample."
+    },
+    {
+      "id": "ch01-t081",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "それは大数の法則とは異なるように聞こえます。不偏性は手続きを繰り返したときの平均的な結果に関わります。大数の法則は、標本が大きくなるにつれて値に近づくことに関わります。どちらも、個別の推計値が完全であるとは言っていませんね。",
+      "en": "That sounds different from the law of large numbers. Unbiasedness is about the average result of repeating the procedure. The law of large numbers is about getting closer as a sample grows. Neither says an individual estimate is perfect."
+    },
+    {
+      "id": "ch01-t082",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "その通りです。また、標準偏差と標準誤差も区別してください。標準偏差は、個人間の結果のばらつきを表します。分散は、平均からの距離の2乗を使ってその広がりを表現します。標準誤差は、標本抽出を繰り返したときの推計値のばらつきを表します。独立した観察データの場合、平均値の標準誤差はサンプルサイズの平方根に反比例して小さくなります。家族グループなど、従属関係にある観察データには適切な調整が必要です。",
+      "en": "Exactly. Also distinguish standard deviation from standard error. Standard deviation describes variation between people's outcomes. Variance expresses that spread using squared distances from the mean. A standard error describes variation in an estimate across repeated samples. With independent observations, the standard error of a mean falls with the square root of sample size. Dependent observations, including family groups, require an appropriate adjustment."
+    },
+    {
+      "id": "ch01-t083",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "おなじみの大標本におけるt統計量が役立つのはなぜですか。個人の医療費支出は非常に偏っていることがあります。すべての人の結果がきれいな釣鐘型の分布に従うとは仮定したくありません。",
+      "en": "What makes the familiar large-sample t-statistic useful? Individual medical spending could be very uneven. I do not want to assume every person's outcome follows a neat bell-shaped distribution."
+    },
+    {
+      "id": "ch01-t084",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "中心極限定理は、個人の結果に関する約束ではなく、適切に標準化された平均値の分布に関するものです。十分な量の独立した情報と適切な条件があれば、その分布はおおよそ釣鐘型になります。これにより、設定された母集団の値のもとで、得られた推計値がどれほど珍しいかを評価できます。帰無仮説は通常、処置効果がゼロであると主張します。t統計量は、推計値と設定された値との距離を、その標準誤差と比較するものです。",
+      "en": "The central limit theorem concerns the distribution of appropriately standardized averages, not a promise about individual outcomes. With enough independent information and suitable conditions, that distribution becomes approximately bell-shaped. This lets us assess how surprising an estimate would be under a proposed population value. The null hypothesis usually says the treatment effect is zero. The t-statistic compares the estimate's distance from that proposed value with its standard error."
+    },
+    {
+      "id": "ch01-t085",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "95パーセント信頼区間を見ると、有意かどうかだけを見るより、何が分かるのでしょうか。基準を超えたかどうかに加えて、このデータでは、どのくらいの効果までありそうだと言えるのかを知りたいです。",
+      "en": "How does a 95 percent confidence interval improve on a simple significant-or-not label? I would like to hear what effects remain compatible with an estimate, rather than only whether a threshold was crossed."
+    },
+    {
+      "id": "ch01-t086",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "標本が十分に大きいとき、信頼区間は、推定値から上下におよそ2標準誤差の幅を取ります。95パーセントというのは、同じ方法で標本を取り直し、区間を何度も作ると、そのうち95パーセントが母集団の真の値を含む、という意味です。真の値は、標本を取り直しても変わりません。すでに計算した1つの区間に対して、真の値が入る確率を後から割り当てる、という意味ではありません。区間を見ると、データと矛盾しない効果の大きさを考えられます。ゼロを含む幅の広い区間には、大きな利益や害が生じる値も含まれることがあります。",
+      "en": "A large-sample interval extends roughly two standard errors below and above the estimate. A 95 percent confidence procedure covers the true population quantity in about that share of repeated samples. It does not assign a probability to a fixed parameter after we see one interval. The interval helps us assess possible effect sizes. A wide interval containing zero may also contain substantial benefits or harms."
+    },
+    {
+      "id": "ch01-t087",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "そして、ゼロの周りの狭い区間は、大きな効果の可能性をより強く排除します。しかし、統計的有意性だけでは、ある効果が経済的あるいは医学的に重要かどうかはわかりません。正確に測定されたごくわずかな変化は、実質的な価値をほとんど持たないこともあります。",
+      "en": "And a narrow interval around zero limits large effects more strongly. But statistical significance still cannot tell us whether an effect is economically or medically important. A precisely measured tiny change may have little practical value."
+    },
+    {
+      "id": "ch01-t088",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "正しい指摘です。独立した平均値の差の場合、不確実性は両方のグループから生じます。観察される人どうしが独立している場合は、まず、それぞれのグループで、結果の分散をそのグループの人数で割ります。その二つを足して、平方根を取ると、平均値の差の標準誤差になります。したがって、対照群が非常に小さいと、処置群にどれほど多くの人がいても精度が制限されてしまうことがあります。また、必要に応じてグループ間で結果のばらつきが異なることも考慮します。適切な推論とは、研究のデザイン、標本、そして立てられた問いを尊重するものなのです。",
+      "en": "Correct. For a difference between independent means, uncertainty comes from both groups. We combine their sampling variances before taking a square root to obtain the standard error. A very small control group can therefore limit precision even with many treated people. We also allow differing outcome variation where appropriate. Sound inference respects the design, the sample, and the question being asked."
+    },
+    {
+      "id": "ch01-t089",
+      "speaker": "HOST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "検証のパートをまとめると、選択バイアスは、調査による比較が因果関係の答えとして信頼できない理由を説明しています。無作為割り当ては、その割り当ての仕組みを修復します。そしてランド実験とオレゴン州の事例は、処置の定義と測定される結果がどれほど重要かを示していますね。",
+      "en": "To recap the investigation, selection bias explains why the survey comparison is unreliable as a causal answer. Random assignment repairs the assignment mechanism. RAND and Oregon then show how much the treatment definition and the measured outcome matter."
+    },
+    {
+      "id": "ch01-t090",
+      "speaker": "ECONOMIST",
+      "section_ja": "第2部：検証",
+      "section_en": "Part 2: The Investigation",
+      "ja": "そして、無作為化の後にも統計的な不確実性は残ります。精度を判断するには、標準誤差と信頼区間が必要です。優れた因果関係のデザインは、なぜその比較が信頼できるのかを答えてくれます。優れた推論は、その数値的な答えにどれほどの不確実性が残されているかを教えてくれるのです。",
+      "en": "And statistical uncertainty remains after randomization. We need standard errors and confidence intervals to judge precision. A good causal design answers why the comparison is credible; good inference tells us how much uncertainty remains in its numerical answer."
+    },
+    {
+      "id": "ch01-t091",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "「結論」に到達しました。少しあえて反対の立場をとってみましょう。「保険に入っている人はより健康だから、保険には効果がある」と言う人がいます。別の人は「実験では身体的な改善がほとんど見られなかったから、保険には価値がない」と言います。どちらの主張なら、根拠があると言えるのでしょうか。",
+      "en": "We have reached The Resolution. Let's play devil's advocate. Someone says, insured people are healthier, so insurance works. Another person says, the experiments found little physical improvement, so insurance is worthless. Which claim survives?"
+    },
+    {
+      "id": "ch01-t092",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "その表現のままでは、どちらも正当化されません。前者は相関関係を因果関係として扱い、選択バイアスを無視しています。後者は、特定の平均的な結果をもって、保険のあらゆる恩恵に関する判断にすり替えてしまっています。慎重な答えを出すには、どの人々を対象とし、どの保険を扱い、どのような比較を行い、どの結果を測定し、どの期間を対象にしたのかを問わなければなりません。実験は、そうした定義の範囲内で信頼できる答えを提供してくれます。私たちが何を知りたいのかを定義する必要性をなくしてくれるわけではないのです。",
+      "en": "Neither is justified as stated. The first treats association as causation and ignores selection bias. The second turns particular average outcomes into a judgment about every benefit of insurance. A careful answer asks which people, which coverage, which comparison, which outcomes, and which time period. The experiments provide credible answers within those definitions. They do not remove the need to define what we want to know."
+    },
+    {
+      "id": "ch01-t093",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "私の予想では、2つ目の主張に欠けている言葉は経済的保護です。測定された明確な身体的健康の向上がなくても、保険は借金や不安を減らすことができます。それは政策的な議論を一変させるはずです。",
+      "en": "My prediction is that the missing phrase in the second claim is financial protection. Even without a clear measured physical health gain, insurance could reduce debt and anxiety. That would change the policy discussion."
+    },
+    {
+      "id": "ch01-t094",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "それこそが重要な修正点です。オレゴン州の事例は、経済的な保護とメンタルヘルスの改善についての証拠を提供しています。これらは結果そのものであり、身体的健康を無視するための言い訳ではありません。同時に、それらの価値があるからといって、あらゆる保険の適用拡大がどれほど費用をかけても正当化されるという証明にはなりません。誰が得をして誰が費用を負担するのかを含め、特定の政策の便益と費用を比較する必要があります。",
+      "en": "That is the important correction. Oregon provides evidence of financial protection and improved mental health. Those are outcomes, not excuses for ignoring physical health. At the same time, their value does not prove that every coverage expansion is worth any cost. We must compare the benefits and costs of the particular policy, including who gains and who pays."
+    },
+    {
+      "id": "ch01-t095",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "3つ目の主張として、統計的に有意な効果がないことは効果がないことを意味する、というものがあります。私たちはすでに、そうした短絡的な見方を疑うことを学びました。これを1つの丁寧な説明で修正するとしたら、どうなりますか。",
+      "en": "A third claim says that no statistically significant effect means no effect. We have already learned to distrust that shortcut. How would you correct it in one careful explanation?"
+    },
+    {
+      "id": "ch01-t096",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "信頼区間がどれくらい広く、どのような効果の可能性がまだ残されているかを問うことです。ゼロに近い推計値でも、ばらつきが大きければ、精度高く推計されたものより言えることはずっと少なくなります。狭い区間であっても、すべての個人やすべての結果に対して完全にゼロであることを証明するわけではありません。ランド実験で測定された平均的な健康状態の変化は、医療支出の反応に比べると小さいものでした。これは有用な知見ですが、統計的な基準を普遍的な主張に変えてしまってはなりません。",
+      "en": "Ask how wide the confidence interval is and what effects it still allows. A noisy estimate near zero says much less than a tightly estimated one. Even a narrow interval does not prove exact zero for every individual or every outcome. RAND's measured average health changes were small relative to the spending response. That is a useful finding without turning a statistical threshold into a universal claim."
+    },
+    {
+      "id": "ch01-t097",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "今回、特に覚えておきたいことは何でしょうか。私ならまず、処置群と対照群が処置を受けなかったとしても異なっていたかどうかを問うことから始めます。複雑な統計手法から入るよりも、その問いのほうが価値があるように思えます。",
+      "en": "What are our main takeaways? I would begin by asking whether treatment groups would have differed even without treatment. That question seems more valuable than starting with a complicated statistical technique."
+    },
+    {
+      "id": "ch01-t098",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "そうですね。観察されたグループ間の差は、因果関係の要素と選択の要素が合わさったものです。効果が人によって異なる場合は、誰に対する平均効果を意味しているのかを明示してください。無作為割り当ては、期待値として、割り当てを潜在的な結果から独立させます。割り当てのプロセスとベースラインでのバランスを確認し、不確実性とともに観察された差を解釈してください。ダミー変数のみの回帰分析は平均値の差をまとめたものにすぎず、信頼できる対照群を作り出してくれるわけではありません。",
+      "en": "Yes. An observed group difference combines a causal component with a selection component. With differing effects, specify whose average effect you mean. Random assignment makes assignment independent of potential outcomes, in expectation. Check the allocation process and baseline balance, then interpret the observed differences with their uncertainty. A dummy-only regression packages a difference in means; it does not manufacture a credible control group."
+    },
+    {
+      "id": "ch01-t099",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "そして実証データからの持ち帰り事項は、保険が機能する、あるいは失敗するという単純な話よりもずっと具体的です。ランド実験では、手厚いプランのもとで利用が大幅に増えた一方で、測定された健康には明確で大幅な平均的改善は見られませんでした。また、脱落率の差があったことで、それらの比較をどれほど確信を持って解釈できるかには限界があります。一方、オレゴン州の事例は、経済面やメンタルヘルスにおける恩恵も示しています。",
+      "en": "And the evidence takeaway is more specific than saying insurance works or fails. RAND reports much greater use under more generous plans, without clear large average improvements in measured health. Its differential attrition limits how confidently we interpret those comparisons. Oregon also shows financial and mental health benefits."
+    },
+    {
+      "id": "ch01-t100",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "もう一つ習慣にしてほしいのは、対照条件の内容を言葉にして明確に定義することです。高額な医療費だけを主に保障する保険は、無保険とは異なります。申請する機会は、保険の受給そのものとは異なります。自己申告による健康スコアは、臨床的な測定値とは異なります。これらの違いが明確になれば、一見すると矛盾しているように見える知見も、異なる問いへの答えであることが理解できるようになります。これにより、研究を単一の単純化しすぎた結論に無理やり押し込めることなく、比較できるようになります。",
+      "en": "Keep one further habit: define the control condition out loud. Catastrophic coverage differs from no coverage. A chance to apply differs from receiving coverage. A self-reported health score differs from a clinical measure. Once those distinctions are clear, apparently conflicting findings can become answers to different questions. This helps us compare studies without forcing them into a single oversimplified verdict."
+    },
+    {
+      "id": "ch01-t101",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "そうすると、無作為割り当てがグループ間の比較を因果効果へと変える、というのが今回の主要な主張ですね。どんな実験にも当てはまる保証のように聞こえてしまわないよう、その文にはどのような条件を添えておくべきでしょうか。",
+      "en": "Then the thesis is that random assignment turns a comparison of groups into a causal effect. What qualification should travel with that sentence, so that it stays useful rather than sounding like a guarantee about any experiment?"
+    },
+    {
+      "id": "ch01-t102",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "無作為割り当てが、割り当てられた介入についての因果推計を支えるのは、実験が適切に実施され、結果が同等に測定されている場合です。有限の標本には依然として不確実性があります。処置の不遵守があると、直接的な比較の意味は割り当て自体の効果へと変わります。また、結果には対象となる母集団と文脈が存在します。この主張が強力なのは、あらゆる研究上の問題を取り除いてくれるからではなく、体系的な選択を既知の割り当てルールに置き換えてくれるからなのです。",
+      "en": "Random assignment supports a causal estimate of the assigned intervention when the experiment is properly implemented and outcomes are comparably measured. Finite samples still have uncertainty. Incomplete take-up changes the meaning of the direct comparison to an assignment effect. Results also have a population and a setting. The thesis is powerful because it replaces systematic selection with a known assignment rule, not because it removes every research problem."
+    },
+    {
+      "id": "ch01-t103",
+      "speaker": "HOST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "結論のまとめは、因果関係の問いと統計的な問いを分けて考えることですね。まずは、なぜ対照群が信頼できるのかを明らかにします。その上で、どの効果が推計され、それがどれくらい正確に測定されたのかを問うわけです。",
+      "en": "Our resolution recap is to keep the causal question and the statistical question separate. First establish why the control group is credible. Then ask which effect was estimated and how precisely it was measured."
+    },
+    {
+      "id": "ch01-t104",
+      "speaker": "ECONOMIST",
+      "section_ja": "第3部：結論",
+      "section_en": "Part 3: The Resolution",
+      "ja": "それこそが、ずっと使える教訓です。無作為割り当てによって、その比較から因果関係についての情報が得られるようになります。明確な定義、丁寧な測定、そして不確実性に真摯に向き合う姿勢が合わさることで、その因果関係の答えが役に立つものになるのです。",
+      "en": "That is the durable lesson. Random assignment makes the comparison informative about causation. Clear definitions, careful measurement, and honest uncertainty make that causal answer useful."
+    },
+    {
+      "id": "ch01-t105",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "学習目標を振り返ってみましょう。潜在的な結果を使って選択バイアスを説明でき、なぜ無作為割り当てが役立つのかを説明でき、不確実性を考慮して保険の実験を解釈できるようになりました。次のトピックに持っていくべき1つの文は何でしょうか。",
+      "en": "Let's return to our learning goals. We can explain selection bias with potential outcomes, explain why random assignment helps, and interpret the insurance experiments with uncertainty. What single sentence should we carry into the next topic?"
+    },
+    {
+      "id": "ch01-t106",
+      "speaker": "ECONOMIST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "心に留めておくべき主張はこれです。無作為割り当ては、実際に割り当てられた介入について、グループ間の比較を因果効果へと変える、ということです。それでも私たちはバランスを確認し、選択的な追跡不能を検証し、提供と実際の受給を区別し、信頼区間を検討します。ランド実験とオレゴン州の事例は、具体的な政策課題を通じてこれらの習慣を教えてくれます。医療利用の増加が自動的に身体的健康の改善を意味するわけではありませんし、身体的健康だけが重要な結果でもないのです。",
+      "en": "The thesis to remember is this: random assignment turns a comparison of groups into a causal effect, for the intervention actually assigned. We still check balance, examine selective loss to follow-up, distinguish offers from receipt, and examine confidence intervals. RAND and Oregon teach these habits through concrete policy questions. More use of care is not automatically better physical health, and physical health is not the only outcome that matters."
+    },
+    {
+      "id": "ch01-t107",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "最後に、応用問題を1つ出しましょう。新しい保険のくじ引きにおいて、当選者は落選者よりも医療を多く利用したとします。当選者の一部は加入せず、落選者の一部は別の方法で保険を手に入れました。この直接的な差は、全員にとって保険を受け取ったことの効果と言えるでしょうか。",
+      "en": "Here is a final application question. Suppose a new insurance lottery finds that winners use more care than losers. Some winners never enroll, and some losers obtain coverage another way. Is the direct difference the effect of receiving insurance for everyone?"
+    },
+    {
+      "id": "ch01-t108",
+      "speaker": "ECONOMIST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "音声を一度止めて考えてみてください。そして、くじ引きが何を割り当てたのかを考えてみましょう。推計された差が何を意味するのかを判断する前に、処置群、対照群、そして介入の内容を特定してみてください。",
+      "en": "Pause the episode and think about what the lottery assigned. Identify the treatment group, the comparison group, and the intervention before deciding what the estimated difference means."
+    },
+    {
+      "id": "ch01-t109",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "私の答えは、その直接的な差は「機会を得たこと」の効果を推計したものである、ということです。当選者と落選者を比較することで、無作為割り当ての構造を維持しています。その比較を、加入者と無保険者の比較に黙ってすり替えたりはしません。",
+      "en": "My answer is that the direct difference estimates the effect of winning the opportunity. We preserve random assignment by comparing winners and losers. We do not silently replace that comparison with enrollees versus people without coverage."
+    },
+    {
+      "id": "ch01-t110",
+      "speaker": "ECONOMIST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "その通りです。保険加入そのものの効果を推計するには、追加の手法とそのための仮定が必要になります。計算やバランスの確認を練習するには、コラボのノートブックと講義スライドを開いてみてください。それぞれの比較の定義を、結果の隣に常に置いておくようにしましょう。そうすれば、同じ回帰計算であっても、調査データでは記述的な解釈になり、信頼できる実験では因果関係の解釈になる理由がよくわかるはずです。",
+      "en": "Exactly. Estimating a coverage effect requires an additional method and its assumptions. To practice the calculations and balance checks, open the Colab notebook and the lecture slides. Keep the definition of each comparison beside its result. You can then see why the same regression calculation has a descriptive interpretation in the survey and a causal interpretation in a credible experiment."
+    },
+    {
+      "id": "ch01-t111",
+      "speaker": "HOST",
+      "section_ja": "まとめ",
+      "section_en": "Wrap-up",
+      "ja": "次回、第2章「回帰分析」では、名門私立大学には高い授業料に見合う価値があるのかどうかを考えます。無作為割り当てが使えない場合、観察された特徴が似ている人同士を比較したくなる誘惑に駆られます。その調整で何ができて、何ができないのかを問うていきます。お聴きいただきありがとうございました。それでは、また。",
+      "en": "Next, Chapter 2, Regression, asks whether an elite private college is worth the extra tuition. When random assignment is unavailable, comparing people with similar observed characteristics becomes especially tempting. We will ask what that adjustment can and cannot accomplish. Thanks for listening, and goodbye."
+    }
+  ]
+}
