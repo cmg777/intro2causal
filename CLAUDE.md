@@ -33,6 +33,7 @@ This is a **pedagogical causal inference project** built around *Mastering 'Metr
 | `.claude/skills/write-slides/` | Custom `/write-slides` skill for generating a chapter's slide deck. |
 | `quizzes/chNN.html` | **Chapter quizzes** (Practice + Exam, self-contained HTML) built by `/write-quiz`; committed and served at `cmg777.github.io/intro2causal/quizzes/chNN.html`. Never edit by hand. |
 | `.claude/skills/write-quiz/` | Custom `/write-quiz` skill (local, gitignored): engine, scripts, and the private banks, fact-checks and logs. |
+| `.claude/skills/write-ahaslides/` | Custom `/write-ahaslides` skill (local, gitignored): interactive AhaSlides version of each lecture deck (screenshots + native activities); private `decks/chNN/` (activities with answers, run-sheets) and logs. |
 
 ## Tech Stack
 
@@ -171,6 +172,25 @@ pushes. See `.claude/skills/write-quiz/SKILL.md`.
 ```text
 /write-quiz 1
 /write-quiz 2-6
+```
+
+### `/write-ahaslides <chapter-or-selection> [--force] | live N | selfpaced N`
+
+Builds the interactive AhaSlides version of a chapter's lecture deck for teaching online (90 min): every slide
+of `slides/chNN` is screenshotted and placed full-bleed in AhaSlides through the MCP (with its speaker notes),
+and about 25–35 native activities (predictions, scored quizzes, true/false on the tempting mistakes, match,
+guess-the-number, pin-on-figure, sketches, cold calls, leaderboards, a review race) are interleaved, tagged
+CORE/OPTIONAL. Validates deterministically, checks the live deck against the plan, writes a private run-sheet,
+then links the self-paced audience link from the chapter ("Open Interactive Slides" badge, synced to the
+notebook copies), the EN/ES/JA home cards ("Interactive") and the README, re-renders the book, commits and
+pushes. Needs the AhaSlides MCP and the write-quiz skill (shared helpers). See
+`.claude/skills/write-ahaslides/SKILL.md`.
+
+```text
+/write-ahaslides 4
+/write-ahaslides 1-3,5-6
+/write-ahaslides live 4        # before class: presenter-led
+/write-ahaslides selfpaced 4   # after class: self-paced review via the badge
 ```
 
 ### `/write-japanese-lesson <chapter-or-selection> [--force]`
