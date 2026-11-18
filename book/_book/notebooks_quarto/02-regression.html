@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>2. Regression – Mastering Causal Metrics</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,17 +72,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../notebooks_quarto/01-randomized-trials.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f1aadacce99040138bbb613f9330654f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0da87e08732b0aad79cc276a1be62fe2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c77ee8f8b07d41e0e364fbf0a2ddebb9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-f4c17c317be320abc46cb70a34c75ed3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-3f4f7322deb0fef096deb93f64cdd0fb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -116,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -1128,7 +1130,7 @@ Table&nbsp;2.1: Short regression: earnings on private school dummy only. The coe
 <div>
 
 
-<table class="dataframe do-not-create-environment cell caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe cell caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1195,7 +1197,7 @@ Table&nbsp;2.2: Long regression: earnings on private school dummy plus ability c
 <div>
 
 
-<table class="dataframe do-not-create-environment cell caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe cell caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1343,7 +1345,7 @@ Table&nbsp;2.3: Verifying the OVB formula: the product of the two components exa
 <div>
 
 
-<table class="dataframe do-not-create-environment cell caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe cell caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -2145,7 +2147,7 @@ Table&nbsp;2.4: With true effect = 0, the short regression still shows a positiv
 <div>
 
 
-<table class="dataframe do-not-create-environment cell caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe cell caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -2254,7 +2256,7 @@ Table&nbsp;2.5: Stronger confounder → larger OVB
 <div>
 
 
-<table class="dataframe do-not-create-environment cell caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe cell caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -2394,7 +2396,7 @@ Table&nbsp;2.6: Adding a second confounder: family income
 <div>
 
 
-<table class="dataframe do-not-create-environment cell caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe cell caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -2510,7 +2512,7 @@ Table&nbsp;2.7: Reversed confounder: higher ability reduces private school proba
 <div>
 
 
-<table class="dataframe do-not-create-environment cell caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe cell caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -2661,7 +2663,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <div>
 
 
-<table class="dataframe do-not-create-environment cell caption-top table table-sm table-striped small" data-border="1">
+<table class="dataframe cell caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -3269,7 +3271,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>    style C fill:<span class="co">#8e44ad,color:#fff</span></span>
 <span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>    style D fill:<span class="co">#e67e22,color:#fff</span></span>
 <span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>    style E fill:<span class="co">#2d8659,color:#fff</span></span>
-<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>    linkStyle <span class="kw">default</span> stroke:<span class="co">#64748b,stroke-width:2px</span></span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>    linkStyle <span class="cf">default</span> stroke:<span class="co">#64748b,stroke-width:2px</span></span>
 <span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a></span>
@@ -3786,7 +3788,7 @@ Table&nbsp;2.8: Coefficient stability across progressive control addition
 <span id="cb17-574"><a href="#cb17-574" aria-hidden="true" tabindex="-1"></a>    style OVB fill:<span class="co">#e67e22,color:#fff</span></span>
 <span id="cb17-575"><a href="#cb17-575" aria-hidden="true" tabindex="-1"></a>    style SENS fill:<span class="co">#2d8659,color:#fff</span></span>
 <span id="cb17-576"><a href="#cb17-576" aria-hidden="true" tabindex="-1"></a>    style BC fill:<span class="co">#c0392b,color:#fff</span></span>
-<span id="cb17-577"><a href="#cb17-577" aria-hidden="true" tabindex="-1"></a>    linkStyle <span class="kw">default</span> stroke:<span class="co">#64748b,stroke-width:2px</span></span>
+<span id="cb17-577"><a href="#cb17-577" aria-hidden="true" tabindex="-1"></a>    linkStyle <span class="cf">default</span> stroke:<span class="co">#64748b,stroke-width:2px</span></span>
 <span id="cb17-578"><a href="#cb17-578" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb17-579"><a href="#cb17-579" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-580"><a href="#cb17-580" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Regression approximates an experiment** by comparing treated and untreated observations that share the same values of control variables.</span>

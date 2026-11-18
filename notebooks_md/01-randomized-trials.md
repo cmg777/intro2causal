@@ -10,6 +10,7 @@
 
 
 [![View Slides](https://img.shields.io/badge/View-Lecture_Slides-8e44ad?logo=revealdotjs&logoColor=white)](https://cmg777.github.io/intro2causal/slides/ch01/)
+[![Take the Quiz](https://img.shields.io/badge/Take_the-Quiz-2d8659?logoColor=white)](https://cmg777.github.io/intro2causal/quizzes/ch01.html)
 
 
 > 💡 **Learning Objectives**

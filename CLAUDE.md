@@ -31,6 +31,8 @@ This is a **pedagogical causal inference project** built around *Mastering 'Metr
 | `.claude/skills/draw-mindmap/` | Custom `/draw-mindmap` skill: interview, illustrated image generation, content/geometry audit, standalone PNG/WebP exports. Reusable across topics; selectable book-dark preset. |
 | `slides/chNN/` | **Lecture slide decks** (Quarto reveal.js). `slides.qmd` source + rendered `index.html` + `slides_files/` — all committed; served at `cmg777.github.io/intro2causal/slides/chNN/`. |
 | `.claude/skills/write-slides/` | Custom `/write-slides` skill for generating a chapter's slide deck. |
+| `quizzes/chNN.html` | **Chapter quizzes** (Practice + Exam, self-contained HTML) built by `/write-quiz`; committed and served at `cmg777.github.io/intro2causal/quizzes/chNN.html`. Never edit by hand. |
+| `.claude/skills/write-quiz/` | Custom `/write-quiz` skill (local, gitignored): engine, scripts, and the private banks, fact-checks and logs. |
 
 ## Tech Stack
 
@@ -154,6 +156,21 @@ caches are ignored by git. No automatic commits, pushes, or website integration.
 /write-podcast-script4mindmaps 1
 /write-podcast-script4mindmaps 2-5
 /write-podcast-script4mindmaps audit ch03
+```
+
+### `/write-quiz <chapter-or-selection> [--force]`
+
+Writes a chapter's self-assessment quiz from its study guide: a Practice set and an Exam set (20 items
+each for ch01–05, 30 for ch06; 1.5 min per item; pass at 80%; certificate above it, key hidden below it).
+Covers concepts, small calculations, case-study findings and reading pyfixest output; every number is
+matched to the study guide or recomputed by a fact-check, and two adversarial reviews run. Builds
+`quizzes/chNN.html`, browser-tests it, adds a "Take the Quiz" badge (synced to the notebook copies), a
+Quiz button on the EN/ES/JA home cards and a README Quiz column, re-renders the book, commits and
+pushes. See `.claude/skills/write-quiz/SKILL.md`.
+
+```text
+/write-quiz 1
+/write-quiz 2-6
 ```
 
 ### `/write-japanese-lesson <chapter-or-selection> [--force]`

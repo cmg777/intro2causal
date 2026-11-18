@@ -761,6 +761,11 @@
    "ja": "</span>スライド</a>"
   },
   {
+   "en": "</span>Quiz</a>",
+   "es": "</span>Cuestionario</a>",
+   "ja": "</span>クイズ</a>"
+  },
+  {
    "en": "</span>Watch video</a>",
    "es": "</span>Ver video</a>",
    "ja": "</span>動画を見る</a>"
