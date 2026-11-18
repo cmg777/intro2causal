@@ -67,8 +67,9 @@ def strip_book_chrome(text: str) -> str:
     lines = text.split("\n")
     filtered = []
     for line in lines:
-        # Skip SVG image references
-        if re.match(r"!\[.*\]\(\.\./images/.*\.svg\)", line.strip()):
+        # Skip the book's visual-summary images (SVG concept cards, later WebP mind maps): their
+        # ../images/ path only resolves inside book/
+        if re.match(r"!\[.*\]\(\.\./images/.*\.(svg|webp|png)\)", line.strip()):
             continue
         # Skip badge lines
         if "[![Open In Colab]" in line or "[![Return to Book Website]" in line:

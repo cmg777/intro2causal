@@ -9,6 +9,8 @@
 ---
 
 
+[![View Slides](https://img.shields.io/badge/View-Lecture_Slides-8e44ad?logo=revealdotjs&logoColor=white)](https://cmg777.github.io/intro2causal/slides/ch03/)
+
 
 > 💡 **Learning Objectives**
 >
