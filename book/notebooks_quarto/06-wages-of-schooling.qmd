@@ -9,6 +9,7 @@ execute:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/intro2causal/blob/main/notebooks_colab/06-wages-of-schooling.ipynb)
 [![View Slides](https://img.shields.io/badge/View-Lecture_Slides-8e44ad?logo=revealdotjs&logoColor=white)](https://cmg777.github.io/intro2causal/slides/ch06/)
+[![Take the Quiz](https://img.shields.io/badge/Take_the-Quiz-2d8659?logoColor=white)](https://cmg777.github.io/intro2causal/quizzes/ch06.html)
 [![Return to Book Website](https://img.shields.io/badge/Return_to-Book_Website-38bdf8?logo=google-chrome&logoColor=white)](https://cmg777.github.io/intro2causal/)
 
 
