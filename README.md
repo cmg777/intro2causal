@@ -10,12 +10,12 @@ This project provides an interactive Quarto book with Python notebooks that walk
 
 | Chapter | Method | Case Studies | Quiz | Interactive |
 |:--------|:-------|:-------------|:----:|:----:|
-| [Ch 1: Randomized Trials](notebooks_quarto/01-randomized-trials.qmd) | RCTs, potential outcomes, selection bias | NHIS, RAND HIE, Oregon Health Plan | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch01.html) | – |
-| [Ch 2: Regression](notebooks_quarto/02-regression.qmd) | OLS, omitted variable bias, bad controls | Private college premium (simulated data), Dale & Krueger | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch02.html) | – |
-| [Ch 3: Instrumental Variables](notebooks_quarto/03-instrumental-variables.qmd) | IV/2SLS, LATE, complier types | MDVE, KIPP lotteries, family size | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch03.html) | – |
+| [Ch 1: Randomized Trials](notebooks_quarto/01-randomized-trials.qmd) | RCTs, potential outcomes, selection bias | NHIS, RAND HIE, Oregon Health Plan | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch01.html) | [Interactive](https://audience.ahaslides.com/593dqrqnuk) |
+| [Ch 2: Regression](notebooks_quarto/02-regression.qmd) | OLS, omitted variable bias, bad controls | Private college premium (simulated data), Dale & Krueger | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch02.html) | [Interactive](https://audience.ahaslides.com/ohc0wcs8qm) |
+| [Ch 3: Instrumental Variables](notebooks_quarto/03-instrumental-variables.qmd) | IV/2SLS, LATE, complier types | MDVE, KIPP lotteries, family size | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch03.html) | [Interactive](https://audience.ahaslides.com/2k3y6ie4l9) |
 | [Ch 4: Regression Discontinuity](notebooks_quarto/04-regression-discontinuity.qmd) | Sharp and fuzzy RD | MLDA and mortality, Boston exam schools | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch04.html) | [Interactive](https://audience.ahaslides.com/a8pqycq6ug) |
-| [Ch 5: Differences-in-Differences](notebooks_quarto/05-differences-in-differences.qmd) | DD with fixed effects, parallel trends | Great Depression banking, MLDA deaths | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch05.html) | – |
-| [Ch 6: The Wages of Schooling](notebooks_quarto/06-wages-of-schooling.qmd) | OLS, twin FE, IV, RD (synthesis) | Twins, quarter of birth, sheepskin effects | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch06.html) | – |
+| [Ch 5: Differences-in-Differences](notebooks_quarto/05-differences-in-differences.qmd) | DD with fixed effects, parallel trends | Great Depression banking, MLDA deaths | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch05.html) | [Interactive](https://audience.ahaslides.com/y4mdw27189) |
+| [Ch 6: The Wages of Schooling](notebooks_quarto/06-wages-of-schooling.qmd) | OLS, twin FE, IV, RD (synthesis) | Twins, quarter of birth, sheepskin effects | [Quiz](https://cmg777.github.io/intro2causal/quizzes/ch06.html) | [Interactive](https://audience.ahaslides.com/52ylz7vnh7) |
 
 Each guide includes:
 
